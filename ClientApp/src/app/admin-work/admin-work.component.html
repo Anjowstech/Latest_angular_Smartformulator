@@ -1,0 +1,1706 @@
+<div class="row" style="    background-color: #f6f5f1">
+  <div class="col-sm-12">
+    <div style="background-color: #f6f5f1">
+      <form class="form-inline" style="margin-left:200px;margin-bottom:20px;" >
+        <h2 style="   margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+        <h2 style="     margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+        <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Admin Work</h2>
+      </form>
+
+      <nav ngbNav #nav="ngbNav" class="nav-tabs ">
+        <ng-container ngbNavItem style=" background-color: #f6f5f1; margin-left: 20px;margin-top: 20px">
+          <a class="tabcolor tabbutto tabrowli " ngbNavLink>Default Settings</a>
+          <ng-template ngbNavContent>
+
+
+
+            <!--<nav ngbNav #nav="ngbNav" class="nav-tabs ">
+    <ng-container ngbNavItem style="    margin-left: 20px;margin-top: 20px">
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Company Info</a>
+      <ng-template  ngbNavContent>
+
+        </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem style="    margin-left: 20px;margin-top: 20px">
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Formulation</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Marketing Footer</a>
+      <ng-template ngbNavContent>
+
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Stability</a>
+      <ng-template ngbNavContent>
+
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Raw Materials</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Suppliers</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Customer</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Project</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>SampleMgmt</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Lab Batch Tkt</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Unit</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>21 CFR Approval</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Password Policy</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>Lab Inventory</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>System Maintenance</a>
+      <ng-template ngbNavContent>
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli " ngbNavLink>SF Modules</a>
+      <ng-template ngbNavContent>
+
+
+      </ng-template>
+    </ng-container>
+
+  </nav>
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:800px;margin-bottom:40px;margin-top:30px; height:40px;width:80px;">Save</button>-->
+
+
+
+
+
+
+            <nav ngbNav #nav="ngbNav" class="nav-tabs ">
+              <!--<ng-container ngbNavItem style="margin-left:20px">
+    <a class="tabcolor tabbutto tabrowli " ngbNavLink>Lock Formulations</a>
+    <ng-template ngbNavContent>
+      <p>data4</p>
+    </ng-template>
+  </ng-container>-->
+              <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+              <ng-template #innerTabset class="nav-tabs">
+                <ngb-tabset>
+                  <ngb-tab class="tabcolor tabbutto tabrowli " title="Company Info">
+                    <ng-template ngbTabContent >
+                      <div *ngFor="let itemdata of defaultdata">
+                      <form class="form-inline" style="background-color: #f6f5f1"  *ngFor="let itemdata of defaultdata">
+                        <label for="company" style="margin-left:25px;">Company Name</label>
+                        <input type="text" style="margin-left: 20px; margin-top: 10px;" class="form-control" placeholder="Enter Company Name" id="companyname" size="81" value={{itemdata.CompanyName}}>
+
+                      </form>
+                      <form class="form-inline">
+
+                        <label for="Address" style="margin-left:75px;">Address</label>
+                        <textarea value="{{itemdata.CompanyAddress}}" id="Address" style="    width: 700px;margin-left: 20px;margin-top: 10px;" class="form-control md-textarea" size="7" rows="3" ></textarea>
+
+                      </form>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="ph.no" style="margin-left: 25px;">Phone Number</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Phone Number" id="phoneno" size="30" value={{itemdata.CompanyNumber}}>
+                        <label for="fax" style="margin-left:85px;">Fax</label>
+
+                        <input type="text" style="margin-left:20px" class="form-control" id="fax" name="Fax" placeholder="Enter Fax Number" size="30"value={{itemdata.Fax}} />
+                      </form>
+
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="email" style="margin-left: 90px;">Email</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Email Id" id="email" size="30" value={{itemdata.CompanyEmail}} >
+                        <label for="webaddress" style="margin-left:20px;">Web Address</label>
+
+                        <input type="text" style="margin-left:20px" class="form-control" id="webaddress" name="web address" placeholder="Enter Web Address" size="30" value={{itemdata.CompanyWebAddress}}/>
+                      </form>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;margin-bottom: 40px">
+                        <label for="companylogo" style="margin-left: 25px;">Company Logo</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" id="companylogo" size="81" value={{itemdata.picturePath}}>
+
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Browse</button>
+
+                      </form>
+                        </div>
+                    </ng-template>
+                  </ngb-tab>
+
+
+
+                  <ngb-tab title="Formulation" >
+                    <ng-template ngbTabContent  >
+                      <div *ngFor="let itemdata of defaultdata">
+                        <h2 style=" text-align:center;   margin-top: 20px; font-family: Playfair Display;background-color: #f6f5f1;color:black"> Prefix - Formulation Lookup </h2>
+                        <div class="row" style="    background-color: #f6f5f1">
+                          <div class="col-sm-9">
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefix" style="margin-left: 145px;">Prefix</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Prefix"  size="20"  #abbform  value=""/>
+
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefixdescription" style="margin-left: 60px;">Prefix Description</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="prefixdescription" size="30" #abbdescriptionform value=""/>
+
+                              <button type="button" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;"  name="button" (click)="saveformformulationprefix(abbform.value,abbdescriptionform.value)">Add Prefix</button>
+                              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;" (click)="deleteprefix();">Delete Prefix</button>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="separator" style="margin-left: 115px;">Separator</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="30"value={{itemdata.SeperatorFormulationLookUp}}>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;">
+                              <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30"value={{itemdata.StartingNumberFormulationLookUp}}>
+                              <section class="example-section">
+                                <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                                <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                              </section>
+                            </form>
+                            <mat-radio-group style="margin-left: 120px;">
+                              <mat-radio-button value="1">Cosmetic</mat-radio-button>
+                              <mat-radio-button value="2">Nutrition</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="col-sm-3">
+                            <label for="listofallprefix">List of All Prefix</label>
+                            <div style="width: 15rem; overflow-y: auto; height: 10rem; background-color: white">
+                              <table class=" table-hover table-bordered" style="margin-left:10px;">
+                               
+                                <tbody>
+                                  <tr  *ngFor="let itemdata of datasaveabb;let i=index;"(click)="abbclickform(itemdata.abbreviation,itemdata.abbreviationdescription);ClickedRow(i)" [class.active]="i == HighlightRow">
+                                    <td style="width:15rem">{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</td>
+                                  
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!--<div class="card">
+    <div class="card-body" style="width: 30rem;height:10rem;overflow-y:auto;">
+      <ul *ngFor="let itemdata of datasaveabb;let i=index;">
+        <li>{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</li>
+
+      </ul>
+    </div>
+  </div>-->
+
+                          </div>
+                        </div>
+                        </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Marketing Footer">
+                    <ng-template ngbTabContent>
+                      <h2 style="    margin-top: 20px;
+    text-align: center;
+    font-family: Playfair Display;
+    background-color: #f6f5f1;
+    color: black">
+                        Marketing Footer
+                      </h2>
+                      <form class="form-inline" style="  margin-bottom: 30px;"  *ngFor=" let itemdata of defaultdata">
+
+                        <label for="footer" style="margin-left:75px;">Footer</label>
+                        <textarea id="footer" style="    width: 700px;margin-left: 20px;margin-top: 10px;" class="form-control md-textarea" size="7" rows="6"value={{itemdata.Footer}}></textarea>
+
+                      </form>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Stability">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                      <h2 style="    margin-top: 20px;
+    text-align: center;
+    font-family: Playfair Display;
+    background-color: #f6f5f1;
+    color: black">
+                        Prefix-Stability Test
+                      </h2>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="prefix" style="margin-left: 145px;">Prefix</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Prefix" id="prefix" size="20" value={{itemdata.StabPrefix}}>
+
+
+                      </form>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="separator" style="margin-left: 115px;">Separator</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="10" value={{itemdata.StabSeperator}}>
+                      </form>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30" value={{itemdata.StabStartingNumber}}>
+
+                      </form>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="nextstab" style="margin-left: 95px;">Next STAB#</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" id="nextstab" size="30">
+                      </form>
+                        </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Raw Materials">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style=" text-align: center; margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1; color: black"> Prefix - Raw Materials </h2>
+                        <div class="row">
+                          <div class="col-sm-9">
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefix" style="margin-left: 145px;">Prefix</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Prefix" id="prefix" #abbrawform size="20"  value=""/>
+
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefixdescription" style="margin-left: 60px;">Prefix Description</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="prefixdescription" #abbdescriptionrawform  size="30" value=""/>
+
+                              <button type="button" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px; " (click)="saverawprefix(abbrawform.value,abbdescriptionrawform.value)">Add Prefix</button>
+                              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;" (click)=" deleteprefix();">Delete Prefix</button>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="separator" style="margin-left: 115px;">Separator</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="30"  value={{itemdata.SeperatorRawMaterials}}>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;">
+                              <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30" value={{itemdata.StartingNumberRawMaterials}}>
+                              <section class="example-section">
+                                <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                                <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                              </section>
+                            </form>
+                            <mat-radio-group style="margin-left: 120px;">
+                              <mat-radio-button value="1">Cosmetic</mat-radio-button>
+                              <mat-radio-button value="2">Nutrition</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="col-sm-3">
+                            <label for="listofallprefix">List of All Prefix</label>
+                            <div style="width: 15rem; overflow-y: auto; height: 10rem; background-color: white">
+                              <table class=" table-hover table-bordered" style="margin-left:10px;">
+
+                                <tbody>
+                                  <tr  *ngFor="let itemdata of datasaveabbraw;let i=index;" (click)="abbclickform(itemdata.abbreviation,itemdata.abbreviationdescription);">
+                                    <td style="width:15rem">{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</td>
+
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!--<div class="card">
+    <div class="card-body" style="width: 40rem;">
+      <ul *ngFor="let itemdata of datasaveabbraw">
+        <li>{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</li>
+
+
+      </ul>
+    </div>
+  </div>-->
+                          </div>
+
+                        </div>
+                        <form class="form-inline" style="    background-color: #f6f5f1;">
+                          <label for="srmitem" style="margin-left: 75px;color:firebrick">RM item# Duplicate Check Validation </label>
+                          <mat-radio-group style="margin-left: 20px;">
+                            <mat-radio-button value="1">Yes</mat-radio-button>
+                            <mat-radio-button value="2">No</mat-radio-button>
+                          </mat-radio-group>
+                          <label for="srmitem" style="margin-left: 10px;color:red">(Same item # cannot be used for another INCI) </label>
+                        </form>
+                        </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Suppliers">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style=" text-align: center; margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1; color: black"> Prefix - Suppliers </h2>
+                        <div class="row">
+                          <div class="col-sm-9">
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefix" style="margin-left: 145px;">Prefix</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Prefix" id="prefix" size="20" #abbsuppl value=""/>
+
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefixdescription" style="margin-left: 60px;">Prefix Description</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="prefixdescription" size="30" #abbdescriptionsupp value=""/>
+
+                              <button type="button" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;" (click) ="savesuppliers(abbsuppl.value,abbdescriptionsupp.value)">Add Prefix</button>
+                              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;"(click)=" deleteprefix();">Delete Prefix</button>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="separator" style="margin-left: 115px;">Separator</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="30" value={{itemdata.SeperatorSuppliers}}>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;">
+                              <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30"value={{itemdata.StartingNumberSuppliers}}>
+                              <section class="example-section">
+                                <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                                <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                              </section>
+                            </form>
+
+                          </div>
+                          <div class="col-sm-3">
+                            <label for="listofallprefix">List of All Prefix</label>
+                            <div style="width: 15rem; overflow-y: auto; height: 10rem; background-color: white">
+                              <table class=" table-hover table-bordered" style="margin-left:10px;">
+
+                                <tbody>
+                                  <tr *ngFor="let itemdata of datasaveabbsup;let i=index;" (click)="abbclickform(itemdata.abbreviation,itemdata.abbreviationdescription);">
+                                    <td style="width:15rem">{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</td>
+
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!--<div class="card">
+    <div class="card-body" style="width: 40rem;">
+      <ul *ngFor="let itemdata of datasaveabbsup;">
+        <li>{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</li>
+
+
+      </ul>
+    </div>
+  </div>-->
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+
+                  </ngb-tab>
+
+                  <ngb-tab title="customer">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style=" text-align: center; margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1; color: black"> Prefix - Customer </h2>
+                        <div class="row">
+                          <div class="col-sm-9">
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefix" style="margin-left: 145px;">Prefix</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Prefix" id="prefix" size="20" #abbcust value=""/>
+
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="prefixdescription" style="margin-left: 60px;">Prefix Description</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="prefixdescription" size="30"#abbdescriptioncust value=""/>
+
+                              <button type="button" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;" (click)="savecustomer(abbcust.value,abbdescriptioncust.value)">Add Prefix</button>
+                              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;"(click)=" deleteprefix();">Delete Prefix</button>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="separator" style="margin-left: 115px;">Separator</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="30" value={{itemdata.SeperatorCustomer}}>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;">
+                              <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30"  value={{itemdata.StartingNumberCustomer}}>
+                              <section class="example-section">
+                                <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                                <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                              </section>
+                            </form>
+                            <mat-radio-group style="margin-left: 120px;">
+                              <mat-radio-button value="1">Cosmetic</mat-radio-button>
+                              <mat-radio-button value="2">Nutrition</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="col-sm-3">
+                            <label for="listofallprefix">List of All Prefix</label>
+                            <div style="width: 15rem; overflow-y: auto; height: 10rem; background-color: white">
+                              <table class=" table-hover table-bordered" style="margin-left:10px;">
+
+                                <tbody>
+                                  <tr *ngFor="let itemdata of datasaveabbcust;let i=index;" (click)="abbclickform(itemdata.abbreviation,itemdata.abbreviationdescription);">
+                                    <td style="width:15rem">{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</td>
+
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!--<div class="card">
+    <div class="card-body" style="width: 40rem;">
+      <ul *ngFor="let itemdata of datasaveabbcust">
+        <li>{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</li>
+
+
+      </ul>
+    </div>
+  </div>-->
+                          </div>
+                        </div>
+                        </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="Project">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style="text-align:center;    margin-top: 20px; font-family: Playfair Display;background-color: #f6f5f1;color:black"> Prefix - Project </h2>
+                        <div class="row">
+                          <div class="col-sm-9">
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="year" style="margin-left: 155px;">Year</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter Year" id="year" size="20" value={{currentYear}}>
+
+
+
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                              <label for="separator" style="margin-left: 115px;">Separator</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="30" value={{itemdata.SampleSep}}>
+                            </form>
+                            <form class="form-inline" style="    background-color: #f6f5f1;">
+                              <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                              <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30" value={{itemdata.SampleSep}}>
+                              <section class="example-section">
+                                <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                                <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                              </section>
+                            </form>
+                            <form class="form-inline" style="background-color: #f6f5f1;margin-top: 30px;margin-left:500px;">
+                            </form>
+                          </div>
+                        </div>
+                        </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="Sample Management">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style="    margin-top: 20px;text-align: center;font-family: Playfair Display;background-color: #f6f5f1; color: black">Prefix-Sample Management </h2>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="year" style="margin-left: 145px;">Year</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="year" size="20"value={{itemdata.SampleYear}}>
+
+
+                        </form>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="separator" style="margin-left: 115px;">Separator</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="10"value={{itemdata.SampleSep}}>
+                        </form>
+                        <form class="form-inline" style="    background-color: #f6f5f1;">
+                          <label for="numberingstartsfrom" style="margin-left: 15px;">Numbering Starts From</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="numberingstartsfrom" size="30" value={{itemdata.SampleNo}}>
+                          <section class="example-section">
+                            <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                            <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                          </section>
+                        </form>
+                        <form class="form-inline" style="    background-color: #f6f5f1;">
+                          <label for="numberingstartsfrom" style="margin-left: 15px;color:firebrick">Do you want all raw materialsin formula to be approved while sampling? </label>
+
+                          <section class="example-section" style="color:firebrick">
+                            <mat-checkbox class="example-margin">Yes </mat-checkbox>
+                            <mat-checkbox class="example-margin">No</mat-checkbox>
+                          </section>
+                        </form>
+                        </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="Lab Batch Ticket">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style="    margin-top: 20px;text-align: center;
+    font-family: Playfair Display;background-color: #f6f5f1;color: black">
+                          Prefix-Lab Batch Ticket
+                        </h2>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 145px;">Prefix</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="year" size="20"value={{itemdata.PrefixLabBatch}}>
+
+
+                        </form>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="separator" style="margin-left: 115px;">Separator</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="separator" size="10" value={{itemdata.SeperatorLabBatch}}>
+                        </form>
+                        <section class="example-section" style="margin-left:300px">
+                          <mat-checkbox class="example-margin">Auto Generate</mat-checkbox>
+                          <mat-checkbox class="example-margin">Custom</mat-checkbox>
+                        </section>
+                        </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="Unit">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style="    margin-top: 20px;
+    text-align: center;
+    font-family: Playfair Display;
+    background-color: #f6f5f1;
+    color: black">
+                          Unit Of Maintenance Settings
+                        </h2>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;margin-left:60px">
+                          <label for="Assigned_to">Default Unit</label>
+                          <select id="Assigned_to" class="form-control" style="width:200px;margin-left:20px"value={{itemdata.DefaultUnit}}>
+                            <option selected>{{itemdata.DefaultUnit}}</option>
+
+                          </select>
+                        </form>
+                        </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="21 CFR Approval">
+                    <ng-template ngbTabContent>
+                      <h2 style="    margin-top: 20px;
+    text-align: center;
+    font-family: Playfair Display;
+    background-color: #f6f5f1;
+    color: black">
+                        21 CFR  part 11 Approval
+                      </h2>
+                      <form class="form-inline" style="    background-color: #f6f5f1;">
+                        <label for="numberingstartsfrom" style="margin-left: 55px;">Display re-verification w/password window </label>
+
+                        <section class="example-section">
+                          <mat-checkbox class="example-margin">Yes </mat-checkbox>
+                          <mat-checkbox class="example-margin">No</mat-checkbox>
+                        </section>
+                      </form>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="Password Policy">
+                    <ng-template ngbTabContent>
+                      <h2 style=" margin-left:200px;   margin-top: 20px; font-family: Playfair Display;background-color: #f6f5f1;color:red"> SYSTEM PASSWORD REQUIREMENTS </h2>
+                      <div class="col-sm-12">
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 5px;">1. Minimum Password Length</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="prefix" size="2" value="8">
+                          <label for="prefix" style="margin-left: 10px;color: #bb2205">
+                            Passwords shall have a minimum of 8 characters with a mix of alphanumeric and
+                            special characters.
+                          </label>
+                        </form>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 5px;">2. Password Expiry Period</label>
+                          <input type="text" style="margin-left: 48px;" class="form-control" id="prefix" size="2" value="180">
+                          <label for="prefix" style="margin-left: 10px; color: #bb2205">
+                            Days (Example: 90, 120, 180 days. Default set to 180 days.)
+                          </label>
+                        </form>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 5px;margin-top: 30px">3. Password Complexity </label>
+                          <div class="card" style="margin-left: 62px;width: 40rem;">
+                            <div class="card-body">
+                              <p class="card-text">
+                                Include one UPPERCASE and one special character (!, %, @, #, and so on)
+                              </p>
+                              <p class="card-text">
+                                * UPPERCASE and lowercase letter (A, z)
+                              </p>
+                              <p class="card-text">
+                                * Numeric character (0-9)
+                              </p>
+                              <p class="card-text">
+                                * Special character (!, %, @, #, and so on)
+                              </p>
+                            </div>
+                          </div>
+                        </form>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 5px;">4. Password History</label>
+                          <div class="card" style="margin-left: 88px;">
+                            <div class="card-body" style="width: 40rem;">
+                              Users will be prohibited from re-using the last 5 previously used passwords.
+                            </div>
+                          </div>
+                        </form>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 5px;">5. Password Restriction </label>
+                          <div class="card" style="margin-left: 65px;">
+                            <div class="card-body" style="width: 40rem;">
+                              Password cannot be the same as username.
+                            </div>
+                          </div>
+                        </form>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="prefix" style="margin-left: 5px;">6. Account lockout threshold  </label>
+                          <div class="card" style="margin-left: 30px;">
+                            <div class="card-body" style="width: 40rem;">
+                              5 Strikes – 5 wrong failed logins & user account is locked. Admin has to reset.
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:20px;height:50px;width:120px;">Save Policy</button>
+                        </form>
+
+
+
+
+                      </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="Lab Inventory">
+                    <ng-template ngbTabContent>
+                      <div *ngFor=" let itemdata of defaultdata">
+                        <h2 style="    margin-top: 20px;
+    text-align: center;
+    font-family: Playfair Display;
+    background-color: #f6f5f1;
+    color: red">
+                          USER DEFINED FIELDS IN LAB INVENTORY
+                        </h2>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="field1" style="margin-left: 115px;">Field1</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="field1" size="30" value={{itemdata.LabInvCustom1}}>
+                          <label for="field2" style="margin-left: 100px;">Field2</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="field2" size="30"value={{itemdata.LabInvCustom2}}>
+
+                        </form>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="field3" style="margin-left: 115px;">Field3</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="field3" size="30">
+                          <label for="field4" style="margin-left: 100px;">Field4</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="field4" size="30">
+
+                        </form>
+                        <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                          <label for="field5" style="margin-left: 115px;">Field5</label>
+                          <input type="text" style="margin-left: 20px;" class="form-control" id="field5" size="30">
+
+
+                        </form>
+                        </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="System Maintenance">
+                    <ng-template ngbTabContent>
+                      <h5 style=" margin-left:250px;margin-top: 90px; font-family: Playfair Display;background-color: #f6f5f1;color:Highlight"> Enter Password to access System Maintenance </h5>
+                      <div class="col-sm-12">
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <input type="text" style="margin-left: 290px;" class="form-control" id="prefix" size="25">
+                        </form>
+                        <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:310px;height:40px;width:100px;">Login</button>
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:100px;">Cancel</button>
+                        </form>
+
+                      </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                  <ngb-tab title="SF Modules">
+                    <ng-template ngbTabContent>
+                      <div class="card" style="width:850px;height:250px;margin-left:90px;margin-top:40px;">
+                        <div class="card-body">
+                          <form>
+                            <div style="margin-left:80px; margin-top:20px;">
+                              <mat-checkbox class="example-margin">Cosmetics/Personal care</mat-checkbox><br />
+                              <mat-checkbox class="example-margin">Nutrition/Supplements</mat-checkbox><br />
+                              <mat-checkbox class="example-margin">Paints & Coatings</mat-checkbox><br />
+                              <mat-checkbox class="example-margin" disabled>Food & Beverages</mat-checkbox>
+                              <span style="margin-left:10px;color:red;">(This feature is not yet available)</span>
+                            </div>
+                          </form>
+                          <form>
+                            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:180px;height:40px;width:120px;margin-top:20px;">Save</button>
+                          </form>
+                        </div>
+                      </div>
+                    </ng-template>
+
+                  </ngb-tab>
+                </ngb-tabset>
+              </ng-template>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:600px;margin-bottom:40px;margin-top:10px; height:40px;width:80px;">Save</button>
+            </nav>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+            
+
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Regulatory</a>
+          <ng-template ngbNavContent>
+
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Formulations</a>
+          <ng-template ngbNavContent>
+            <nav ngbNav #nav="ngbNav" class="nav-tabs ">
+              <!--<ng-container ngbNavItem style="margin-left:20px">
+                <a class="tabcolor tabbutto tabrowli " ngbNavLink>Lock Formulations</a>
+                <ng-template ngbNavContent>
+                  <p>data4</p>
+                </ng-template>
+              </ng-container>-->
+              <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+              <ng-template #innerTabset class="nav-tabs">
+                <ngb-tabset>
+                  <ngb-tab class="tabcolor tabbutto tabrowli " title="Lock Formulations">
+                    <ng-template ngbTabContent>
+                      <p style="margin-left:10px; margin-top:10px;"><b> These are the Formula's you can lock as an Administrator </b></p>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="formulacode" style="margin-left:25px;">Formula Code</label>
+                        <input type="text"  [(ngModel)]="selectedUserfalse.FormulaCode "  style="margin-left: 37px; margin-top: 10px;" class="form-control" placeholder="Formula Code" id="formulacode" size="65" #formulacode name="formulacode"value="">
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="formulaname" style="margin-left:25px;">Formula Name</label>
+                        <input type="text"  [(ngModel)]="selectedUserfalse.Description"   style="margin-left: 30px; margin-top: 10px;" class="form-control" placeholder="Formula Name" id="formulaname" size="65"  #formulaname name="filterName2" value="">
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="projectname" style="margin-left:25px;">Project Name</label>
+                        <input type="text"  [(ngModel)]="selectedUserfalse.ProjectName"  style="margin-left: 40px; margin-top: 10px;" class="form-control" placeholder="Project Name" id="projectname" size="65" #projectname name="filterName" value="">
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="username" style="margin-left:25px;">User Name</label>
+                        <input type="text" [(ngModel)]="selectedUserfalse.UserName" style="margin-left: 55px; margin-top: 10px;" class="form-control" placeholder="User Name" id="username" size="65" #username name="username"value="">
+                        <button  class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;" (click)="formulacode.value = '';formulaname.value='';projectname.value='';username.value=''">Clear</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;"(click)=" Datalockclick(formulacode.value,formulaname.value,projectname.value,username.value)">Lock</button>
+                      </form>
+                      <div>
+                        <p style="margin-left:10px; margin-top:10px;"><b>Double Click and Select a Formula From the grid below to Lock a Formula</b></p>
+                      </div>
+                    
+                      <div style="   overflow-y: auto; height: 310px;background-color:white">
+                        <table class=" table-hover table-bordered" style="margin-left:10px;"id="table">
+                          <thead>
+                            <tr>
+
+                              <th scope="col">Formula Code</th>
+                              <th scope="col">Formula Name</th>
+                              <th scope="col">Project Name</th>
+                              <th scope="col">User Name</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let itemfalse of datafalse; let i=index;" (click)="  RowSelectedfalse(itemfalse); ">
+                              <td>{{ itemfalse.FormulaCode }}</td>
+                              <td>{{ itemfalse.Description}}</td>
+                              <td>{{ itemfalse.ProjectName }}</td>
+                              <td>{{ itemfalse.UserName}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
+                      </div>
+                        <div style="margin-left:520px;">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Back</button>
+                        </div>
+                    </ng-template>
+                  </ngb-tab>
+
+
+
+                  <ngb-tab title="Unlock Formula(s)">
+                    <ng-template ngbTabContent>
+                      <p style="margin-left:10px; margin-top:10px;"><b> These are the Formula's you can Unlock as an Administrator </b></p>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="company" style="margin-left:25px;">Formula Code</label>
+                        <input type="text" [(ngModel)]="selectedUsertrue.FormulaCode"   style="margin-left: 37px; margin-top: 10px;" class="form-control" placeholder="Formula Code" id="FormulaCode" size="65" #formulacodeun name="formulacodeun">
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="company" style="margin-left:25px;">Formula Name</label>
+                        <input type="text" [(ngModel)]="selectedUsertrue.Description"  style="margin-left: 30px; margin-top: 10px;" class="form-control" placeholder="Formula Name" id="companyname" size="65"#formulanameun name="formulanameun">
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="company" style="margin-left:25px;">Project Name</label>
+                        <input type="text" [(ngModel)]="selectedUsertrue.ProjectName"  style="margin-left: 40px; margin-top: 10px;" class="form-control" placeholder="Project Name" id="companyname" size="65"#projectnameun name="projectnameun">
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1">
+                        <label for="company" style="margin-left:25px;">User Name</label>
+                        <input type="text" [(ngModel)]="selectedUsertrue.UserName"  style="margin-left: 55px; margin-top: 10px;" class="form-control" placeholder="User Name" id="companyname" size="65"#usernameun name="username">
+                        <button  class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;"(click)="formulacodeun.value='';formulanameun.value='';projectnameun .value='';selectedUsertrue.UserName=''">Clear</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">UnLock</button>
+                      </form>
+                      <div>
+                        <p style="margin-left:10px; margin-top:10px;"><b>Double Click and Select a Formula From the grid below to UnLock a Formula</b></p>
+                      </div>
+                      <div style="   overflow-y: auto; height: 310px;background-color:white">
+                        <table class=" table-hover table-bordered" style="margin-left:10px;">
+                          <thead>
+                            <tr>
+
+                              <th scope="col">Formula Code</th>
+                              <th scope="col">Formula Name</th>
+                              <th scope="col">Project Name</th>
+                              <th scope="col">User Name</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let itemtrue of datatrue; let i=index;" (click)="RowSelectedtrue(itemtrue); ">
+                              <td>{{ itemtrue.FormulaCode }}</td>
+                              <td>{{ itemtrue.Description}}</td>
+                              <td>{{ itemtrue.ProjectName }}</td>
+                              <td>{{ itemtrue.UserName}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div style="margin-left:520px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Back</button>
+                      </div>
+
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Unlock Record(s)">
+                    <ng-template ngbTabContent>
+                      <div style="margin-top:30px;">
+                        <p><b>Select a Row and Click on the UnLock Record(These Formulas are being viewed bu another User</b></p>
+                      </div>
+                      <div  style="   overflow-y: auto; height: 310px;background-color:white">
+                        <table class="table table-hover table-bordered" style="margin-left:80px;">
+                          <thead>
+                            <tr>
+                             
+                              <th scope="col">UserName</th>
+                              <th scope="col">Project Name</th>
+                              <th scope="col">PDRNo</th>
+                              <th scope="col">TaskID</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item1 of data1">
+                             
+                              <td>{{item1.UserName}}</td>
+                              <td>{{item1.ProjectName}}</td>
+                              <td>{{item1.PDRNo}}</td>
+                              <td>{{item1.Taskid}}</td>
+                            </tr>
+                           
+                          </tbody>
+                        </table>
+                      </div>
+                      <div style="margin-left:700px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:140px;">UnLock All</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:150px;">UnLock Record</button>
+                      </div>
+                      <div style="margin-left:510px;margin-top:40px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Back</button>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Delete product(s)">
+                    <ng-template ngbTabContent>
+                      <div style="margin-top: 30px;margin-left: 20px;">
+                        <p><b>These are the products you can DELETE as an administrator</b></p>
+                      </div>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="ph.no" style="margin-left: 25px;">Product</label>
+                        <input type="text" style="margin-left: 60px;" class="form-control" placeholder="Product" id="phoneno" size="30" #productdel name="productde">
+                        <label for="fax" style="margin-left:85px;">Product Name</label>
+                        <input type="text" style="margin-left:20px" class="form-control" id="fax" placeholder="Product Name" size="30" #productnamedel name="productnamede" />
+                      </form>
+                      <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="email" style="margin-left: 24px;">Formula Code</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Formula Code" id="phoneno" size="30" #formulacodedel name="formulacodede">
+                        <label for="webaddress" style="margin-left:82px;">Formula Name</label>
+                        <input type="text" style="margin-left:20px" class="form-control" id="webaddress" name="formulanamedel" placeholder="Formula Name" size="30" #formulanamedel  />
+                      </form>
+                      <div style="margin-left:300px;margin-top:30px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:140px;">Delete</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:150px;"(click)="productdel.value='';productnamedel.value='';formulacodedel.value='';formulanamedel.value=''">Clear</button>
+                      </div>
+                      <div style="margin-top:15px;margin-left:20px;">
+                        <p><b>Double click and select a product from the grid below to DELETE a product</b></p>
+                      </div>
+                      <div class="center" style="overflow-x:auto;">
+                        <table class="table table-hover table-bordered" style="margin-left:50px;">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Product #</th>
+                              <th scope="col">Product Name</th>
+                              <th scope="col">Product Date</th>
+                              <th scope="col">Sample #</th>
+                              <th scope="col">Formula # </th>
+                              <th scope="col">Formuala Name</th>
+                              <th scope="col">PDR #</th>
+                              <th scope="col">Project Name</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+                              <td>Gly-Vak</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>05115</td>
+                              <td>Charlie Brown</td>
+                              <td>05/16/13</td>
+                              <td>2013-2035</td>
+                              <td>CC-6034</td>
+                              <td>CC Fall-Dirty Blue</td>
+                              <td>6034</td>
+                              <td>CC Fall-Dirty Blue</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+                              <td>Gly-Vak</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">4</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+                              <td>Gly-Vak</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">5</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+                              <td>Gly-Vak</td>
+                            </tr>
+
+
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div style="margin-left:510px;margin-top:40px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Back</button>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Delete Sample(s)">
+                    <ng-template ngbTabContent>
+                      <div style="margin-top: 30px;margin-left: 20px;">
+                        <p><b>These are the samples you can DELETE as an administrator</b></p>
+                      </div>
+                      <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="ph.no" style="margin-left: 25px;">Sample Submission #</label>
+                        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Sample Submission #" id="phoneno" size="30" #samplesub>
+                        <label for="fax" style="margin-left:75px;">Customer Name</label>
+                        <input type="text" style="margin-left:20px" class="form-control" id="fax" name="Fax" placeholder="Customer Name" size="30" #customername />
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="email" style="margin-left: 24px;">Formula Code</label>
+                        <input type="text" style="margin-left: 75px;" class="form-control" placeholder="Formula Code" id="phoneno" size="30" #formulaco>
+                        <label for="webaddress" style="margin-left:77px;">Formula Name</label>
+                        <input type="text" style="margin-left:30px" class="form-control" id="webaddress" name="web address" placeholder="Formula Name" size="30" #formulanam/>
+                      </form>
+                      <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                        <label for="email" style="margin-left: 130px;">PDR #</label>
+                        <input type="text" style="margin-left: 28px;" class="form-control" placeholder="PDR #" id="phoneno" size="30" #pdr>
+                        <label for="webaddress" style="margin-left:75px;">Project Name</label>
+                        <input type="text" style="margin-left:40px" class="form-control" id="webaddress" name="web address" placeholder="Project Name" size="30" #projname/>
+                      </form>
+                      <div style="margin-left:300px;margin-top:30px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:140px;">Delete</button>
+                        <button  class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:150px;"(click)="samplesub.value='';customername.value='';formulaco.value='';formulanam.value='';pdr.value='';projname.value=''">Clear</button>
+                      </div>
+                      <div style="margin-top:15px;margin-left:20px;">
+                        <p><b>Double click and select a product from the grid below to DELETE a product</b></p>
+                      </div>
+                      <div class="center" style="overflow-x:auto;">
+                        <table class="table table-hover table-bordered" style="margin-left:60px;">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Sample #</th>
+                              <th scope="col">Sample Date</th>
+                              <th scope="col">Formula Code</th>
+                              <th scope="col">Formula Name </th>
+                              <th scope="col">PDR # </th>
+                              <th scope="col">Project Name</th>
+                              <th scope="col">Customer Name</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>05115</td>
+                              <td>Charlie Brown</td>
+                              <td>05/16/13</td>
+                              <td>2013-2035</td>
+                              <td>CC-6034</td>
+                              <td>CC Fall-Dirty Blue</td>
+                              <td>6034</td>
+
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+
+                            </tr>
+                            <tr>
+                              <th scope="row">4</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+
+                            </tr>
+                            <tr>
+                              <th scope="row">5</th>
+                              <td>0370000081340</td>
+                              <td>Celeste Gly-VAK</td>
+                              <td>09/24/11</td>
+                              <td>S2003</td>
+                              <td>Gly-Vak-1122</td>
+                              <td>Gly-Vak.Ver 02</td>
+                              <td>2011-1122</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div style="margin-left:510px;margin-top:40px;">
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Back</button>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                </ngb-tabset>
+              </ng-template>
+            </nav>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Assign Users</a>
+          <ng-template ngbNavContent style="    background-color: #fffefc">
+            <div class="row">
+              <div class="col-sm-6">
+                <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+                  <label for="projectname" style="margin-left: 15px;">Project Name</label>
+                  <select id="Assigned_to" class="form-control" style="width: 400px;margin-left: 20px;">
+
+                    <option selected>Choose...</option>
+
+                    <option *ngFor="let itemtrue of datatrue">{{itemtrue.ProjectName}}</option>
+                    <!--<option *ngFor="let itemfalse of datafalse">{{itemfalse.ProjectName}}</option>-->
+
+                  </select>
+                </form>
+                <label style="margin-left:40px" for="Username">User Name</label>
+
+                <div class="card" style="margin-left: 30px;">
+                  <div class="card-body" style="width: 40rem;">
+                    <input type="checkbox" id="user1" name="user1" value="User1">
+                    <label for="user1">&nbsp; User1</label><br>
+                    <input type="checkbox" id="user2" name="user2" value="User2">
+                    <label for="user2">&nbsp; User2</label><br>
+                    <input type="checkbox" id="user3" name="user3" value="User3">
+                    <label for="user3">&nbsp; User3</label><br><br>
+
+                  </div>
+                </div>
+
+                <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:100px;">Select All </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Deselect All </button>
+                </form>
+              </div>
+              <div class="col-sm-6">
+                <label for="workflow" style="color:firebrick">Workflow tasks for this project</label><br>
+                <div style="    overflow-x: auto;overflow-y: auto; height: 510px;">
+                  <table class="table table-hover table-bordered" style="margin-left:10px;">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="width: 1%;">Assign</th>
+                        <th scope="col" style="width: 1%;">no</th>
+                        <th scope="col" style="width: 94%;">Task</th>
+                        <th scope="col" style="width: 4%;">Email Alert</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="background-color:aqua">
+                        <th scope="row"> <input type="checkbox" id="pdrcreation" name="pdrcreation" value="Pdrcreation"></th>
+
+                        <td>1</td>
+                        <td>PDR Creation</td>
+                        <td><input type="checkbox" id="pdr_creation"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="pdrapproval" name="pdrapproval" value="Pdrapproval"></th>
+                        <td>2</td>
+                        <td>PDR Approval</td>
+                        <td><input type="checkbox" id="pdr_approval"></td>
+
+
+                      </tr>
+                      <tr style="background-color:aqua">
+                        <th scope="row"><input type="checkbox" id="formulacreation" name="formulacreation" value="Formulacreation"></th>
+                        <td>3</td>
+                        <td>Formula Creation</td>
+                        <td><input type="checkbox" id="Formula_creation"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="qctestapprovals" name="qctestapprovals" value="Qctestapprovals"></th>
+                        <td>4</td>
+                        <td>QC Test Approvals</td>
+                        <td><input type="checkbox" id="qctestapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="producttestingapprovals" name="producttestingapprovals" value="Producttestingapprovals"></th>
+                        <td>5</td>
+                        <td>Product Testing Approvals</td>
+                        <td><input type="checkbox" id="product_testing_approvals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="stabilitytestapprovals" name="stabilitytestapprovals" value="Stabilitytestapprovals"></th>
+                        <td>6</td>
+                        <td>Stability Test Approvals</td>
+                        <td><input type="checkbox" id="stabilitytestapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="coaapprovals" name="coaapprovals" value="Coaapprovals"></th>
+                        <td>7</td>
+                        <td>COA Approvals</td>
+                        <td><input type="checkbox" id="coaapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="regulatoryapprej" name="regulatoryapprej" value="Regulatoryapprej"></th>
+                        <td>8</td>
+                        <td>Regulatory Approvals/Rejection</td>
+                        <td><input type="checkbox" id="regulatoryapprej"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="ilapproval" name="ilapproval" value="Ilapproval"></th>
+                        <td>9</td>
+                        <td>IL (Label) Approval</td>
+                        <td><input type="checkbox" id="ilapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="formprocedapproval" name="formprocedapproval" value="Formprocedapproval"></th>
+                        <td>10</td>
+                        <td>Formula Procedure Approval</td>
+                        <td><input type="checkbox" id="formprocedapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="formapprej" name="formapprej" value="Formapprej"></th>
+                        <td>11</td>
+                        <td>Formula Arrpoval/Rejection</td>
+                        <td><input type="checkbox" id="formapprej"></td>
+
+
+                      </tr>
+                      <tr style="background-color:aqua">
+                        <th scope="row"><input type="checkbox" id="samplecreation" name="samplecreation" value="Samplecreation"></th>
+                        <td>12</td>
+                        <td>Sample Creation</td>
+                        <td><input type="checkbox" id="samplecreation"></td>
+
+
+                      </tr>
+
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="sampapprej" name="sampapprej" value="sampapprej"></th>
+                        <td>13</td>
+                        <td>Sample Approval/Rejection</td>
+                        <td><input type="checkbox" id="sampapprej"></td>
+
+
+                      </tr>
+                      <tr style="background-color:aqua">
+                        <th scope="row"><input type="checkbox" id="productization" name="productization" value="Productization"></th>
+                        <td>14</td>
+                        <td>Productization(to scale up & manufacture)</td>
+                        <td><input type="checkbox" id="qctestapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="pccapproval" name="pccapproval" value="Pccapproval"></th>
+                        <td>15</td>
+                        <td>PCC Approval</td>
+                        <td><input type="checkbox" id="pccapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="pifapproval" name="pifapproval" value="Pifapproval"></th>
+                        <td>16</td>
+                        <td>PIF Approval</td>
+                        <td><input type="checkbox" id="pifapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="productapproval" name="productapproval" value="Productapproval"></th>
+                        <td>6</td>
+                        <td>Product Approval</td>
+                        <td><input type="checkbox" id="product_approval"></td>
+
+
+                      </tr>
+
+
+
+                    </tbody>
+                  </table>
+                </div>
+                <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:100px;">Select All </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Deselect All </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:70px;">Save </button>
+
+
+                </form>
+
+              </div>
+
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Assign Projects</a>
+          <ng-template ngbNavContent>
+            <div class="row">
+              <div class="col-sm-6">
+                <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+                  <label for="username" style="margin-left: 15px;">User Name</label>
+                  <select id="Assigned_to" class="form-control" style="width: 400px;margin-left: 20px;">
+                    <option selected>Choose...</option>
+                    <option>user name1</option>
+                    <option>user name2</option>
+                    <option>user name3</option>
+                    <option>user name4</option>
+                    <option>user name5</option>
+                  </select>
+                </form>
+                <label style="margin-left:40px" for="Projectname">Project Name</label>
+
+                <div   class="card" style="margin-left: 30px;">
+                  <div class="card-body" style="width: 50rem;height:30rem;overflow-y:auto">
+                   <div *ngFor="let item of data ">
+                    <input type="checkbox" id="project1" name="project1" value="Project1">
+                    <label for="project1">&nbsp;{{item.ProjectName}}</label><br>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+                <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:100px;">Select All </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Deselect All </button>
+                </form>
+              </div>
+              <div class="col-sm-6">
+                <label for="workflow" style="color:firebrick">Workflow tasks for this project</label><br>
+                <div style="    overflow-x: auto;overflow-y: auto; height: 510px;">
+                  <table class="table table-hover table-bordered" style="margin-left:10px;">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="width: 1%;">Assign</th>
+                        <th scope="col" style="width: 1%;">no</th>
+                        <th scope="col" style="width: 94%;">Task</th>
+                        <th scope="col" style="width: 4%;">Email Alert</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="background-color:aqua">
+                        <th scope="row"> <input type="checkbox" id="pdrcreation" name="pdrcreation" value="Pdrcreation"></th>
+
+                        <td>1</td>
+                        <td>PDR Creation</td>
+                        <td><input type="checkbox" id="pdr_creation"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="pdrapproval" name="pdrapproval" value="Pdrapproval"></th>
+                        <td>2</td>
+                        <td>PDR Approval</td>
+                        <td><input type="checkbox" id="pdr_approval"></td>
+
+
+                      </tr>
+                      <tr style="background-color:aqua">
+                        <th scope="row"><input type="checkbox" id="formulacreation" name="formulacreation" value="Formulacreation"></th>
+                        <td>3</td>
+                        <td>Formula Creation</td>
+                        <td><input type="checkbox" id="Formula_creation"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="qctestapprovals" name="qctestapprovals" value="Qctestapprovals"></th>
+                        <td>4</td>
+                        <td>QC Test Approvals</td>
+                        <td><input type="checkbox" id="qctestapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="producttestingapprovals" name="producttestingapprovals" value="Producttestingapprovals"></th>
+                        <td>5</td>
+                        <td>Product Testing Approvals</td>
+                        <td><input type="checkbox" id="product_testing_approvals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="stabilitytestapprovals" name="stabilitytestapprovals" value="Stabilitytestapprovals"></th>
+                        <td>6</td>
+                        <td>Stability Test Approvals</td>
+                        <td><input type="checkbox" id="stabilitytestapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="coaapprovals" name="coaapprovals" value="Coaapprovals"></th>
+                        <td>7</td>
+                        <td>COA Approvals</td>
+                        <td><input type="checkbox" id="coaapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="regulatoryapprej" name="regulatoryapprej" value="Regulatoryapprej"></th>
+                        <td>8</td>
+                        <td>Regulatory Approvals/Rejection</td>
+                        <td><input type="checkbox" id="regulatoryapprej"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="ilapproval" name="ilapproval" value="Ilapproval"></th>
+                        <td>9</td>
+                        <td>IL (Label) Approval</td>
+                        <td><input type="checkbox" id="ilapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="formprocedapproval" name="formprocedapproval" value="Formprocedapproval"></th>
+                        <td>10</td>
+                        <td>Formula Procedure Approval</td>
+                        <td><input type="checkbox" id="formprocedapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="formapprej" name="formapprej" value="Formapprej"></th>
+                        <td>11</td>
+                        <td>Formula Arrpoval/Rejection</td>
+                        <td><input type="checkbox" id="formapprej"></td>
+
+
+                      </tr>
+                      <tr style="background-color:aqua">
+                        <th scope="row"><input type="checkbox" id="samplecreation" name="samplecreation" value="Samplecreation"></th>
+                        <td>12</td>
+                        <td>Sample Creation</td>
+                        <td><input type="checkbox" id="samplecreation"></td>
+
+
+                      </tr>
+
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="sampapprej" name="sampapprej" value="sampapprej"></th>
+                        <td>13</td>
+                        <td>Sample Approval/Rejection</td>
+                        <td><input type="checkbox" id="sampapprej"></td>
+
+
+                      </tr>
+                      <tr style="background-color:aqua">
+                        <th scope="row"><input type="checkbox" id="productization" name="productization" value="Productization"></th>
+                        <td>14</td>
+                        <td>Productization(to scale up & manufacture)</td>
+                        <td><input type="checkbox" id="qctestapprovals"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="pccapproval" name="pccapproval" value="Pccapproval"></th>
+                        <td>15</td>
+                        <td>PCC Approval</td>
+                        <td><input type="checkbox" id="pccapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="pifapproval" name="pifapproval" value="Pifapproval"></th>
+                        <td>16</td>
+                        <td>PIF Approval</td>
+                        <td><input type="checkbox" id="pifapproval"></td>
+
+
+                      </tr>
+                      <tr>
+                        <th scope="row"><input type="checkbox" id="productapproval" name="productapproval" value="Productapproval"></th>
+                        <td>6</td>
+                        <td>Product Approval</td>
+                        <td><input type="checkbox" id="product_approval"></td>
+
+
+                      </tr>
+
+
+
+                    </tbody>
+                  </table>
+                </div>
+                <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:100px;">Select All </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Deselect All </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:70px;">Save </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:130px;">Print Preview </button>
+                </form>
+
+              </div>
+
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Sr.Mgmt Approvers</a>
+          <ng-template ngbNavContent>
+            <label for="manageapplist " style="margin-left:20px">Select those who are in the Senior Management Approver List</label><br>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="card" style="margin-left: 30px;">
+                  <div class="card-body" style="width: 40rem;height:30rem;overflow-y:auto">
+                    <div *ngFor="let item1 of globalapplistval ">
+                      <input type="checkbox" id="user1" name="user1" value="User1">
+                      <a for="user1">&nbsp;{{item1.UserName}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" style="position: absolute; left: 50%;bottom: 1%; ">
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Select All </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:130px;">Deselect All </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:70px;">save</button>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Default Report</a>
+          <ng-template ngbNavContent>
+            <div style="height:300px">
+              <h4 style="text-align:center;margin-top:40px;margin-left:30px;"><b>Default Formula Format Settings</b></h4>
+              <form class="form-inline" style=" background-color: #f6f5f1;margin-top: 40px;">
+                <label for="companylogo" style="margin-left: 295px;">Default Formula Print Preview Format (1-16)</label>
+                <input type="text" style="margin-left: 40px;" class="form-control" id="PDR" size="10" value="11"><br />
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:40px;width:80px;">Save</button>
+              </form>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Mail Setup</a>
+          <ng-template ngbNavContent>
+            <label class="form-check-label" for="invalidCheck" style="margin-left:20px;margin-top:10px;">
+              Configure SMTP Server Settings
+            </label>
+            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required style="    margin-left: 30px;margin-top: 16px;">
+            <p style="color: red;margin-top: 10px;margin-left: 20px;">(For Email notification upon approvals)</p>
+            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+              <label for="companylogo" style="margin-left: 25px;">Outgoing Mail Server</label>
+              <input type="text" style="margin-left: 40px;" class="form-control" id="PDR" size="50" #mailser>
+              <button  class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;"(click)="mailser.value=''">Clear</button>
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+              <label for="companylogo" style="margin-left: 25px;">Outgoing Email Address</label>
+              <input type="text" style="margin-left: 20px;" class="form-control" id="PDR" size="50">
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+              <label for="companylogo" style="margin-left: 25px;">Password</label>
+              <input type="text" style="margin-left: 120px;" class="form-control" id="PDR" size="50">
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+              <label for="companylogo" style="margin-left: 25px;">SMTP Server port</label>
+              <input type="text" style="margin-left: 68px;" class="form-control" id="PDR" size="50">
+            </form>
+            <form class="form-inline" style="background-color: #f6f5f1;margin-top: 30px;">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:250px;height:40px;width:120px;">Test Settings</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Save</button>
+            </form>
+            <form class="form-inline" style="background-color: #f6f5f1;margin-top: 30px;">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:990px;height:40px;width:80px;">Back</button>
+            </form>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Active Users</a>
+          <ng-template ngbNavContent>
+            <div style="height:500px">
+              <p><b>Select a Row to Force Log Out</b></p>
+              <table class="table table-hover table-bordered fixed">
+                <thead>
+                  <tr>
+                    <th scope="col">Logout User</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">User Group</th>
+                    <th scope="col">System Name</th>
+                    <th scope="col">MAC Address</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Logged In Time</th>
+                    <th scope="col">SF Front End Version</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <button type="button" class="btn btn-primary">Logout</button>
+                    </th>
+                    <td>Lalu</td>
+                    <td>Lalu</td>
+                    <td>Administrator</td>
+                    <td>SFUS1</td>
+                    <td>00-24-E8-57-2F-68</td>
+                    <td>24.187.220.62</td>
+                    <td>Jan 5 2021 4:22 PM</td>
+                    <td>SMARTFormulator Ver 8.0.12.05.20</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+
+                <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+                  <!--<label for="prefixdescription" style="margin-left: 60px;">Current Active User: 1</label>-->
+                  <h6><b>Current Active User: 1</b></h6>
+
+
+
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:680px;height:40px;width:120px;">Refresh</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:120px;">Logout</button>
+                </form>
+
+
+
+
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+
+      </nav>
+
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+    </div>
+  </div>
+</div>
+<div class="card" style="margin-top:25px;">
+  <div class="card-body" style="color:blue;text-align:center">
+    SMARTFormulator LLC, Copyright &#169; 2009-2020. All Rights Reserved
+  </div>
+</div>
+
