@@ -33,6 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\src\app\raw-material\search-supplier\search-supplier.component.spec.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\raw-material\search-supplier\search-supplier.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -1,0 +1,112 @@
+<div style="background-color: #f6f5f1">
+  <div class="row">
+    <div class="col-md-6 offset-md-4">
+      <form class="form-inline" style="margin-left:5%;margin-bottom:20px;">
+        <h3 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h3>
+        <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h3>
+        <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Category Maintenance</h3>
+      </form>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="form-group row">
+        <label for="inputCategory Name" class="col-sm-2 col-form-label">Category Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputCategory Name" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputDescription" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row" style="margin-left:30%">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+          <label class="form-check-label" for="inlineRadio1">For Formula</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+          <label class="form-check-label" for="inlineRadio2">For Raw Materials</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+          <label class="form-check-label" for="inlineRadio3">Both</label>
+        </div>
+      </div>
+      <div>
+        <p>
+          Category can be set either for RM or Formula or Both. Depending on classification it will show under raw material and formula catergory. By default both will be selected and that category will show under RM and Formula category drop down.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:1%">
+    <h5>Double Click to Edit the Value in Grid</h5>
+  </div>
+  <div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Category Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">For Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Water</td>
+          <td>Water</td>
+          <td>Both</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Additive</td>
+          <td>Additive</td>
+          <td>Formula</td>
+        </tr>
+        <tr>
+          <th scope="row"> 3</th>
+          <td>Additive</td>
+          <td>Additive</td>
+          <td>Formula</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--<div style="margin-top:6%">
+    <form>
+      <div class="form-row">
+        <div class="col-md-12 form-inline">
+          <mat-dialog-actions>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:6%;height:60px;width:35%;">Delete Category</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;">New</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;">Save</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;">Update</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;" matDialogClose>Close</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </form>
+  </div>-->
+  <div class="form-row" style=" margin-bottom:80%;position:fixed">
+    <div style="margin-left:20px;margin-top:20px" class="form-group ">
+      <div class="form-inline">
+        <mat-dialog-actions>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:230px;height:50px;width:120px;">Delete Category </button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">New</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Save</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Update</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;" matDialogClose>Close</button>
+        </mat-dialog-actions>
+
+      </div>
+    </div>
+  </div>
+</div>
+

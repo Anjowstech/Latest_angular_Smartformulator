@@ -1,0 +1,164 @@
+<!--<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 offset-md-3">
+          <div style="background-color: #f6f5f1">
+            <form class="form-inline text-center" style="margin-bottom:20px;">
+              <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485;margin-right:10px;">SMART</h2>
+              <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+              <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Search Raw Materials</h2>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <fieldset class="border p-2">
+        <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
+        <form class="">
+          <div class="form-row">
+            <div class="col-md-6 form-inline">
+              <label for="validationCustom03">City</label>
+              <input type="text" class="form-control" id="validationCustom03" placeholder="City" style="width:350px;margin-left:20px;">
+            </div>
+            <div class="col-md-3 form-inline">
+              <label for="validationCustom04">State</label>
+              <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
+              <div class="invalid-feedback">
+                Please provide a valid state.
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="validationCustom05">Zip</label>
+              <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
+              <div class="invalid-feedback">
+                Please provide a valid zip.
+              </div>
+            </div>
+          </div>
+        </form>
+      </fieldset>
+    </div>
+  </div>
+</div>-->
+<div style="    background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:75vh;">
+
+    <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align: center;">Search Raw Materials</h2>
+    <fieldset class="border p-2">
+      <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
+      <div class="form-row" style="margin-top:5px;">
+        <div class="form-group col-md-5">
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:10px">Supplier Status</label>
+
+            <select id="PRD" class="form-control" style="width:50%;margin-left: 10px;" #supp_status name="supp_status" value="">
+          
+              <option>Preferred & Approved</option>
+              <option>Approved</option>
+              <option>Unapproved</option>
+              <option selected>All</option>
+            </select>
+          </div>
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:10px;margin-top:10px;">Inci Name</label>
+            <input style="width:50%;margin-left:7.5%" type="text" class="form-control"[(ngModel)]="inci" #inciname name="inciname" value=""  id="Project Name">
+            </div>
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:10px;margin-top:10px;">Function</label>
+            <select id="PRD" class="form-control" style="width:50%;margin-left: 9%; " >
+              <option selected>Choose...</option>
+              <option *ngFor="let funcval of dataloadfuncsearch">{{funcval.function}}</option>
+             
+            </select>
+          </div>
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:10px;margin-top:10px;">Item #</label>
+            <input style="width:50%;margin-left:11.5%" type="text" class="form-control" id="Project Name" #itemcode name="itemcode" value="">
+            </div>
+          </div>
+        <div class="form-group col-md-7">
+
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:10px">Supplier</label>
+
+            <input style="width: 60%;margin-left:4.5%;" type="text" class="form-control" id="PDR #" #supplier name="supplier" value="">
+          </div>
+          
+          
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:10px;margin-top:10px;">Trade Name</label>
+            <input style="width:30%;margin-left:10px" type="text" class="form-control" id="Project Name" #tradename name="tradename" value="">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 15%;width: 120px;" (click)="quicksaveval(supp_status.value,inciname.value,itemcode.value,supplier.value,tradename.value);">Quick Save </button>
+          </div>
+          
+          <div class="form-inline">
+            <label for="PDR #" style="margin-left:5%;margin-top:10px;">CAS No</label>
+            <input style="width:30%;margin-left:10px" type="text" class="form-control" id="Project Name">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 15%;width: 120px;">Clear </button>
+          </div>
+          </div>
+          <div class="form-group col-md-4">
+
+
+          </div>
+        </div>
+
+    </fieldset>
+    <div class="form-inline">
+      <p style="color:maroon;margin-top: 10px;">Make your selection by double clicking on your choice</p>
+      <span style="font-weight:bold">
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button value="true" checked="checked" (click)="setradio('1')">Approved</mat-radio-button>
+          <mat-radio-button value="false" style="margin-left:10px;" (click)="setradio('0')">Unapproved</mat-radio-button>
+          <mat-radio-button value="false" style="margin-left:10px;" (click)="setradio('0')">Both</mat-radio-button>
+        </mat-radio-group>
+      </span>
+    </div>
+    <div class=" form-row">
+      <div class="form-group col-md-12">
+        <div style="margin-left:1%;margin-top:1%; height:340px; overflow-y: auto;">
+          <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th scope="col">INCI Name</th>
+                <th scope="col">Item #</th>
+                <th scope="col">Trade Name</th>
+                <th scope="col">CAS No</th>
+                <th scope="col">Function</th>
+                <th scope="col">Supplier Name</th>
+                <th scope="col">P#</th>
+                <th scope="col">$ Cost</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Lead Team</th>
+
+
+
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let raw_cate_search of datarawmaterialssearch; let i=index;" (dblclick)="setvalues(raw_cate_search);close();">
+                <td>{{ raw_cate_search.INCIName}}</td>
+                <td>{{ raw_cate_search.Item }}</td>
+                <td>{{raw_cate_search.TradeName }}</td>
+                <td>{{ raw_cate_search.CASNo}}</td>
+                <td>{{ raw_cate_search.Function}}</td>
+                <td>{{raw_cate_search.SupplierName}}</td>
+                <td>{{ raw_cate_search.P }}</td>
+                <td>{{raw_cate_search.Cost }}</td>
+                <td>{{ raw_cate_search.Unit}}</td>
+                <td>{{ raw_cate_search.LeadTime}}</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+        </div>
+
+      </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary buttoncolor" style="margin-right:10px;height:50px;float:right;width: 120px;" matDialogClose>Back </button>
+</div>

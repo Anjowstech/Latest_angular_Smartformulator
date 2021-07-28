@@ -1,0 +1,67 @@
+p.test {
+  padding: 20px;
+  text-align: left;
+  font-family: Haettenschweiler
+}
+
+h1.design {
+  text-align: center;
+  font: 20px;
+  font-family: 'Arial Rounded MT';
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.textalign1 {
+}
+
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+
+.tabcolor {
+  color: #bb2205;
+}
+
+.tabbutto:hover {
+  background-color: whitesmoke;
+  color: dimgray;
+}
+
+.buttoncolor {
+  border-color: #214252;
+  background-color: #214252;
+}
+
+.tab-close {
+  color: lightseagreen;
+  text-align: right;
+  cursor: pointer;
+}
+
+.tabrowli {
+  text-align: center;
+  margin: 2px;
+  padding: 10px;
+  border: 1px solid #AAA;
+  background: #ECECEC;
+  display: inline-block;
+}
+
+.button {
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.example-container {
+  height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}

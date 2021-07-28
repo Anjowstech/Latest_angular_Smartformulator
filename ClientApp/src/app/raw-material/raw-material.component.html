@@ -1,0 +1,856 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <h2 style="   font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Raw Materials Maintenance</h2>
+    <form style="background-color: #f6f5f1">
+      <div class="form-row">
+        <div class="form-group col-md-7">
+          <div class=" form-inline">
+            <label for="PRD" style="margin-left: 7px;margin-right:10px" size="20">Ingredient Code</label>
+            <select id="PRD" class="form-control" style="width:50.11%;">
+              <option selected>Custom</option>
+              <option *ngFor="let item of datasaveabbraw">{{item.abbreviation}} - {{item.abbreviationdescription}}</option>
+             
+            </select>
+            <input type="text" style="margin-left:10px; width:20%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="incicode" #incredcode name="incredcode" value="" />
+          </div>
+          <div class="form-inline">
+            <label for="INCI Name" style="margin-left: 43px;margin-top: 10px;">INCI Name</label>
+            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="INCI Name"[(ngModel)]="inciname" #incname name="incname" value="">
+          </div>
+          <div class="form-inline">
+            <label for="RM item" style="margin-left: 57px;">RM item</label>
+            <input type="text" style="margin-left:10px;width:71%" class="form-control" placeholder="" id="project_name" [(ngModel)]="itemli" name="rmitem" #rmitem value="">
+          </div>
+          <div class="form-inline">
+
+            <label for="project_name" style="margin-left: 25px;margin-top: 10px;">Supplier Key</label>
+            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:28%" class="form-control" placeholder="" id="project_name">
+            <button type="button" class="btn btn-outline-dark" [routerLink]="'/AddSupplier'">::</button>
+        
+            <label for="project_name" style="margin-left: 10px;margin-top: 10px;">Supplier Name</label>
+            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:26.5%" class="form-control" placeholder="" id="project_name" [(ngModel)]="supp_name" #suppname name="suppname" value="">
+          </div>
+        </div>
+        <div class="form-group col-md-5" >
+
+          <diV class="form-inline" style="margin-top:3px" >
+            <button type="submit" class="btn btn-primary buttoncolor " style="width:18%; margin-left:10px" (click)="opensearchinciname()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; width: 19%;" (click)="AddPrefixPopUp()">Add Prefix</button>
+          </diV>
+
+          <div class="form-inline" style="margin-top:15px">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:39%;" (click)="opensearchinciname()">Search INCI Name</button>
+          </div>
+
+          <div class="form-inline">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:39%;margin-top:15px">New / Clear</button>
+          </div>
+          <div class="form-inline" style="margin-top:15px">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Searchsupplierpopup()">Search Supplier</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" [routerLink]="'/AddSupplier'">Add  Supplier</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
+      <ng-container ngbNavItem style="margin-left:20px">
+
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>General</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-row" style=" ">
+              <div class="form-group col-md-8">
+                <div class="form-inline">
+                  <label for="inputcust" style="margin-right:10px;margin-left:20px">Trade Name</label>
+                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="tradn" #tradenameval name="tradenameval" value="" >
+                  <label style="margin-left:15px">P#</label>
+                  
+                  <select id="PRD" class="form-control" style="width:31%;margin-left:10px">
+                    <option selected>N/A</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    
+                  </select>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style="margin-top:10px;margin-left: 25px;margin-right:10px">Drug Name</label>
+                  <input style="width: 35%;" type="text" class="form-control">
+                  <label for="inputcust" style="padding-top: 10px;margin-left:10px">Ph.Eur.Name</label>
+                  <input style="width: 35%;" type="text" class="form-control">
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style=" padding-top: 10px;margin-left: 7px;margin-right:10px">Manufacturer</label>
+                  <input style="width: 35%;" type="text" class="form-control">
+                  <label for="inputcust" style="padding-top: 10px;margin-left:63px">EBS#</label>
+                  <input style="width: 35%;" type="text" class="form-control">
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style=" padding-top: 10px;margin-left: 12px;margin-right:10px">Re Order Qty</label>
+                  <input style="width: 23%;" type="text" class="form-control":placeholder="0.00">
+                  <select id="PRD" class="form-control" style="width:10%;">
+                    <option selected>Kg</option>
+                    <option>Lb</option>
+                    <option>Gal</option>
+                    <option>Ltr</option>
+                    <option>g</option>
+                  </select>
+                  <label for="inputcust" style="padding-top: 10px;margin-left:26px">Min Order Qty</label>
+                  <input style="width: 25%;" type="text" class="form-control"placeholder="0.00">
+                  <select id="PRD" class="form-control" style="width:10%;">
+                    <option selected>Kg</option>
+                    <option>Lb</option>
+                    <option>Gal</option>
+                    <option>Ltr</option>
+                    <option>g</option>
+                  </select>
+
+
+                </div>
+                <div class="form-inline" style="margin-top:5px">
+                  <label for="inputcust" style=" padding-top: 10px;margin-left: 42px;margin-right:10px">Category</label>
+
+                  <select id="PRD" class="form-control" style="width:50%;">
+                    <option selected >Water</option>
+                    <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
+
+                  </select>
+                  <button type="submit" class="btn btn-primary buttoncolor "style="margin-left:10px" (click)="OpenCategory()">...</button>
+                    <label for="inputcust" style="margin-left:58px;margin-right:10px">GMO</label>
+                    <input type="radio" id="Yes" name="Yes" value="Yes">
+                    <label for="Yes">Yes</label><br>
+                    <input type="radio" id="No" name="No" value="No">
+                    <label for="No">No</label><br>
+
+</div>
+                <div class="form-inline" style="margin-top:10px">
+                  <label for="inputcust" style=" padding-top: 10px;margin-left: 8px;">Sub-Category</label>
+
+                  <select id="PRD" class="form-control" style="width:50%;margin-left:10px">
+                    <option selected>Choose...</option>
+                   
+                  </select>
+                  <button type="submit" class="btn btn-primary buttoncolor "style="margin-left:10px" (click)="OpenSubCategory()">...</button>
+                  <label for="inputcust" style="margin-left:50px;margin-right:10px">Gluten</label>
+                  <input type="radio" id="Yes" name="Yes" value="Yes">
+                  <label for="Yes">Yes</label><br>
+                  <input type="radio" id="No" name="No" value="No">
+                  <label for="No">No</label><br>
+
+                </div>
+                <div class="form-inline" style="margin-top:5px">
+                  <label for="inputcust" style="padding-top: 10px;margin-right:10px;margin-left:46px">Status</label>
+                  <select id="PRD" class="form-control" style="width:35%;margin-left:10px">
+                    <option selected>Active</option>
+                    <option>Experiment</option>
+                    <option>Hold</option>
+                    <option>Obsolete</option>
+                    <option>Completed</option>
+                    <option>DWS</option>
+                  </select>
+                  <label for="inputcust" style="padding-top: 10px;">*</label>
+                  <input typeof="button" style="width: 10%;" type="text" class="form-control">
+                  <label for="inputcust" style="margin-left:89px;margin-right:10px">NPA Certified</label>
+
+                  <input type="radio" id="Yes" name="Yes" value="Yes">
+                  <label for="male">Yes</label><br>
+                  <input type="radio" id="No" name="No" value="No">
+                  <label for="male">No</label><br>
+
+                </div>
+                <div class="form-inline" style="margin-top:5px">
+                  <label for="inputcust" style="padding-top: 10px;margin-left:11px">Default UOM</label>
+                  <select id="PRD" class="form-control" style="width:40%;margin-left:10px">
+                    <option selected>Kg</option>
+                    <option>g</option>
+                    <option>cc</option>
+                    <option>Ltr</option>
+                    <option>Gal</option>
+                    <option>Lb</option>
+                    <option>Qt</option>
+                    <option>mg</option>
+                    <option>5 Gal</option>
+                    <option>oz</option>
+                    <option>PT</option>
+                    <option>mcg</option>
+                    <option>1/48</option>
+                    <option>fl oz</option>
+                    <option>tsp</option>
+                    <option>Tbsp</option>
+                  </select>
+                  <label for="inputcust" style="margin-left:31px;margin-right:10px">Kosher</label>
+                  <input style="margin-left:5px" type="radio" id="Yes" name="Yes" value="Yes">
+                  <label for="male">Yes</label><br>
+                  <input style="margin-left:5px" type="radio" id="No" name="No" value="No">
+                  <label for="male">No</label><br>
+                  <label for="inputcust" style="margin-left:36px;margin-right:10px">Halal</label>
+                  <input style="margin-left:5px" type="radio" id="Yes" name="Yes" value="Yes">
+                  <label for="male">Yes</label><br>
+                  <input style="margin-left:5px" type="radio" id="No" name="No" value="No">
+                  <label for="male">No</label><br>
+                </div>
+
+                <div class="form-inline" style="margin-top:5px">
+                  <label for="inputcust" style="padding-top: 10px;">Last PO Price$</label>
+                  <input style="width: 20%;" type="text" class="form-control">
+                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">Per</label>
+                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                    <option selected>Kg</option>
+                    <option>g</option>
+                    <option>cc</option>
+                    <option>Ltr</option>
+                    <option>Gal</option>
+                    <option>Lb</option>
+                    <option>Qt</option>
+                    <option>mg</option>
+                    <option>5 Gal</option>
+                    <option>oz</option>
+                    <option>PT</option>
+                    <option>mcg</option>
+                    <option>1/48</option>
+                    <option>fl oz</option>
+                    <option>tsp</option>
+                    <option>Tbsp</option>
+                  </select>
+                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">as of</label>
+                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                    <option selected>Kg</option>
+                    <option>g</option>
+                    <option>cc</option>
+                    <option>Ltr</option>
+                    <option>Gal</option>
+                    <option>Lb</option>
+                    <option>Qt</option>
+                    <option>mg</option>
+                    <option>5 Gal</option>
+                    <option>oz</option>
+                    <option>PT</option>
+                    <option>mcg</option>
+                    <option>1/48</option>
+                    <option>fl oz</option>
+                    <option>tsp</option>
+                    <option>Tbsp</option>
+                  </select>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style="padding-top: 10px;margin-left:18px;margin-right:10px">Std Price $</label>
+                  <input style="width: 20%;" type="text" class="form-control">
+                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">Per</label>
+                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                    <option selected>Choose...</option>
+                    <option>Custom</option>
+                    <option>RAWS-RAWS</option>
+                    <option>RM-Raw Mat</option>
+                  </select>
+                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">as of</label>
+                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                    <option selected>Choose...</option>
+                    <option>Custom</option>
+                    <option>RAWS-RAWS</option>
+                    <option>RM-Raw Mat</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">vp</button>
+                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">Previous Price $</label>
+                  <input style="width: 10%;" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="form-inline">
+                  <label>RM Source</label>
+                  <input style="width: 20%;margin-left:5px" type="text" class="form-control">
+                  <input style="margin-left:30px" class="form-check-input" type="checkbox">
+                  <label style="margin-left: 5px">Approve RM</label><br>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style="margin-right:10px">Incidental Ingredient</label>
+
+                  <input type="radio"  id="Yes" name="Yes" value="Yes">
+
+                  <label for="male">Yes</label><br>
+
+                  <input type="radio" id="No" name="No" value="No">
+
+                  <label for="male">No</label><br>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style="margin-left:63px;margin-right:10px">Monograph</label>
+                  <input type="radio" id="Yes" name="Yes" value="Yes">
+
+                  <label for="Yes">Yes</label><br>
+
+                  <input type="radio" id="No" name="No" value="No">
+
+                  <label for="No">No</label><br>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" style="margin-right:10px;margin-left:2px">Exempt or Not (voc)</label>
+
+                  <input type="radio" id="Yes" name="Yes" value="Yes">
+
+                  <label for="Yes">Yes</label><br>
+
+                  <input type="radio" id="No" name="No" value="No">
+
+                  <label for="No">No</label><br>
+                </div>
+                <fieldset class="border p-2" style="margin-top:20px">
+                  <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
+                  <div class="form-inline">
+                    <label style="margin-left:5px">Pre Processing</label>
+                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                  </div>
+                  <div class="form-inline">
+                    <label style="margin-left:35px">Processing</label>
+                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                  </div>
+                  <div class="form-inline">
+                    <label>Post Processing</label>
+                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                  </div>
+                  <div class="form-inline">
+                    <label>CUM Lead Time</label>
+                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+            <div class="form-inline">
+              <label for="inputcust" style="padding-top: 10px;margin-left:8px">Orgin Source</label>
+              <input style="width: 30%;margin-left:10px" type="text" class="form-control">
+              <label for="inputcust" style="padding-top: 10px;margin-left:30px">SKU #</label>
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control">
+              <label for="inputcust" style="padding-top: 10px;margin-left:30px">Chemist</label>
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="inputclass" placeholder="Admin">
+              <label for="inputcust" style="padding-top: 10px;margin-left:30px">Concentration %</label>
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control">
+            </div>
+            <div class="form-inline">
+              <label for="inputcust" style="padding-top: 10px;margin-right:10px;margin-left:52px">Notes</label>
+              <input style="width: 30%;" type="text" class="form-control">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; ">...</button>
+              <label for="inputcust" style="padding-top: 10px;margin-left:20px">RM Assay Value</label>
+              <input style="width: 19%;margin-left:10px" type="text" class="form-control">
+            </div>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Properties</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline">
+            <div class="form-group">
+              <label for="inputAddress2">Gravity</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" value="" [(ngModel)]="lb_gal"  #gravi name="gravi"  (blur)="blurEvent($event)" required>
+              <label for="inputAddress2">Lb/Gal</label>
+              <input type="text" class="form-control" id="inputAddress2" (blur)="blurEvent2($event)" [(ngModel)]="gravity"  #lbgal name="lbgal" value="" placeholder=""  required>
+              <label for="inputAddress2">Kg/m3</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder=""   value=""  [(ngModel)]="kgm3" #kg_m3  name="kg_m3"  required>
+              <label for="inputAddress2" style="margin-left:20px;">VOC Contributor</label>
+              <div class="custom-control custom-radio custom-control-inline" style="margin-left:30px;">
+                <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline1">Yes</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline2">No</label>
+              </div>
+            </div>
+          </form>
+          <div class="card  w-95">
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                  
+                    <th scope="col">Property</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let load_raw_prop of datarawpropertyload; let i=index;">
+                    <td> {{load_raw_prop.propname}}</td>
+                    <td> {{load_raw_prop.propvalue}}</td>
+                  </tr>
+                 
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-3 offset-md-3"></div>
+            <div class="col-md-3 offset-md-3" style="margin-top:20px;">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:150px;height:50px;width:180px;" (click)="openloadproperty()">Load Property</button>
+            </div>
+          </div>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Blend</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+          <ng-template #innerTabset class="nav-tabs">
+            <ngb-tabset>
+              <ngb-tab class="" title="Blend Composition">
+                <ng-template ngbTabContent>
+                  <!--<form>
+                  <div class="form-row">
+                    <div class="col-md-12 form-inline">
+                      <div class="form-inline">
+                        <label for="inputcust" style="margin-left:10px">Trade Name</label>
+                        <input style="width: 95%;" type="text" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-md-3 form-inline">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:150px;height:50px;width:180px;">Incredient Search</button>
+                    </div>
+
+                  </div>
+                </form>-->
+                  <form>
+                    <div class="form-row">
+                      <div class="col">
+                        <label for="inputEmail4">INCI Name</label>
+                        <input type="text" class="form-control" id="inputINCI Name" placeholder="INCI Name" style="width:110%">
+                        <label for="inputPercentage">Percentage</label>
+                        <input type="text" class="form-control" id="inputEmail4" placeholder="INCI Name" style="width:70%">
+
+                      </div>
+                      <div class="col">
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:20%;height:50px;width:180px;margin-top:3%;" (click)="OpenIngredientSearch()">Incredient Search</button>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                      </div>
+                      <div class="col form-inline">
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30px;height:50px;width:90px;">Save</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Clear</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;">Delete Incredient</button>
+                      </div>
+                    </div>
+                  </form>
+                  <table class="table table-bordered" style="margin-top:20px;">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Percentage(%)</th>
+                        <th scope="col">Incidental</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <form>
+                    <div class="row">
+                      <div class="col form-inline">
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30px;height:50px;width:90px;">Preview</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:150px;">Print Preview</button>
+                      </div>
+                      <div class="col form-inline">
+                        <label for="PRD" style="margin-left:80px;">Balance (%)</label>
+                        <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="Supplier Key" size="10"><br />
+                        <label for="PRD" style="margin-left:20px;">Total (%)</label>
+                        <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="Supplier Key" size="10"><br />
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:65px;">Next</button>
+                      </div>
+                    </div>
+                  </form>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Blend Mixing Procedure">
+                <ng-template ngbTabContent>
+                  <form>
+                    <div class="form-group">
+                      <label for="exampleFormControlTextarea1" style="margin-top:10px;">Blend Mixing Procedure:</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:900px;height:400px;margin-left:10%;"></textarea>
+                    </div>
+                  </form>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:80px;">Previous</button>
+                    </div>
+                    <div class="form-group col-md-4">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:65px;">Next</button>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>CAS</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Chem/IUPAC Name</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Restriction</label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            </div>
+          </form>
+          <div>
+            <h4>CAS Information</h4>
+            <div class="card" style="width:1800px">
+              <div class="card-body">
+                <table class="table table-bordered" style="margin-top:20px;">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">CAS No </th>
+                      <th scope="col">Description</th>
+                      <th scope="col">EINECES/ELINCS No</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <form>
+                <div class="form-row" style="margin-top:10px;">
+                  <div class="col form-inline">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:95px;">Previous</button>
+                  </div>
+                  <div class="col form-inline">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;width:165px;">Delete CAS Details</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:165px;" (click)="OpenAddCASDetails()">Add CAS Details</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:65px;">Next</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Regulatory</a>
+        <ng-template ngbNavContent>
+          <p>data5</p>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>EU Standards</a>
+        <ng-template ngbNavContent>
+          <form>
+            <label for="data_requirements">Risk Phrases</label>
+            <div class="form-inline">
+              <!--<div *ngFor="let itemlist of risklist">
+              <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="itemlist.title" >
+              
+
+</textarea>
+              </div>-->
+              <div style="width:70%;height:250px;background-color:white">
+                <ul *ngFor="let itemlist of  risklistdata">
+                  <li>
+                    {{itemlist.title}}
+                  </li>
+                </ul>
+              </div>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 3%;" (click)="OpenRiskPhrases();">Select Risk Phrases</button>
+             
+            </div>
+            <label for="data_results" style="margin-top: 20px;">Safety Phrases</label>
+            <div class="form-inline">
+              <textarea id="data_results" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
+              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 3%;" (click)="OpenSafteyPhrases()">Select Safety Phrases</button>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6" style="margin-top: 3%;">
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Previous</button>
+              </div>
+              <div class="form-group col-md-6" style="margin-top: 3%;">
+                <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px">Next</button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Alert</a>
+        <ng-template ngbNavContent>
+          <div style="margin-left: 10px;">
+            <label for="data_requirements" style="margin-top: 3%;">Remarks</label>
+            <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Supplier</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-9">
+                <label for="inputEmail4">Address</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" style="width: 1050px; margin-left: 10px;"></textarea>
+              </div>
+              <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:50px;width:150px;margin-top:40px;" disabled>Approve Supplier</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress">Phone Number</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="" style="width: 1050px">
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Fax</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width:1050px;">
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Email</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Distributor</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12 form-inline">
+                <label for="inputAddress2">Contact Person</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 450px;">
+
+                <label for="inputAddress2">Contact #</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 410px;">
+              </div>
+              <!--<div class="form-group col-md-4">
+
+            </div>-->
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-9">
+                <label for="inputCity">Web Address</label>
+                <input type="text" class="form-control" id="inputCity" style="width: 1050px;">
+              </div>
+
+              <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-right:50px;height:57px;width:113px; margin-top:20px;">Go Online</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Previous Supplier</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Supplier RM#</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
+            </div>
+          </form>
+          <div>
+            <form>
+              <div class="form-row">
+                <div class="col-md-8">
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:57px;width:113px;">Previous</button>
+                </div>
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:113px;">Next</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Functions</a>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col-md-8">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label for="inputPassword6">Function Name</label>
+                  <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" style="width:950px;">
+                </div>
+              </form>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:200px;" (click)="opensearchfunction()" >Function Search</button>
+            </div>
+          </div>
+          <div class="row">
+      
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:200px;margin-top:10px;">Function Clear</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-bordered" style="height:5%;width:90%">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Function Name</th>
+                    <th scope="col">Function Description</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                  </tr>
+                  <tr>
+                  </tr>
+                  <tr>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <form>
+              <div class="form-row">
+                <div class="col">
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:50px;width:90px;">Previous</button>
+                </div>
+                <div class="col">
+
+                </div>
+                <div class="col-7 form-inline">
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:140px;height:50px;width:140px;">Delete Function</button>
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:50px;width:140px;" (click)="openAddfunction()">Add Function</button>
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:50px;width:90px;">Next</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Web Page</a>
+        <ng-template ngbNavContent>
+          <h5 class="text-center">Web Browser</h5>
+          <div>
+            <form>
+              <div class="form-row">
+                <div class="col form-inline">
+                  <label for="staticEmail">Web Address</label>
+                  <input type="text" class="form-control" placeholder="Enter the Web Address Here.." style="width:80%">
+                </div>
+                <div class="col-md-4 form-inline">
+                  <button type="submit" class="btn btn-primary  buttoncolor">Go</button>
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:1%">Save</button>
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:1%">Close</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem style="margin-bottom:50px;">
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit</a>
+        <ng-template ngbNavContent>
+
+          <div class="col-1">
+
+          </div>
+          <div class="center" style="overflow-x:auto;">
+
+            <table class="table table-hover table-bordered" style="margin-left:4%; width:90%">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Task</th>
+                  <th scope="col">User Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:3%;height:6%;width:10%;">Previous</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right; height:6%;width:10%;margin-right:5%">Print preview</button>
+          </div>
+
+        </ng-template>
+      </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <div class="form-row" style=" margin-bottom:80%;position:fixed">
+    <div style="margin-left:20px;margin-top:20px" class="form-group ">
+      <div class="form-inline">
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:50px;height:50px;width:120px;">Save As</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:230px;height:50px;width:120px;">RM Cost Import </button>
+       
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Delete RM</button>
+      
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">New</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Save</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Back</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+

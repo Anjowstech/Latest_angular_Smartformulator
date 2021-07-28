@@ -1,0 +1,128 @@
+.button {
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.buttoncolor {
+  border-color: #214252;
+  background-color: #214252;
+}
+
+.ratings {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  padding: 0;
+}
+.vl {
+  float: right;
+  margin-right: 12.5%;
+  border-right: 10px solid #BCC162;
+  height: 66px;
+}
+.v2 {
+  margin-left: 9.8%;
+  border-left: 10px solid green;
+  height: 100px;
+}
+span.marker-text {
+  color: black;
+  font-size: 15px;
+  line-height: 16px;
+  width: 200px;
+  display: block;
+  margin-left: -37px;
+  margin-top: 35px;
+ 
+  font-family: Arial;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+ /* .ratings:before {
+    content: " ";
+    width: calc(100% - 100px);
+    height: 10px;
+    background: lightblue;
+    position: absolute;
+    top: .9em;
+    left: 50%;
+    transform: translateX(-50%);
+  }*/
+/* ______________________________________*/
+li {
+  width: 4em;
+  height: 4em;
+  text-align: center;
+  line-height: 2em;
+  border-radius: 2em;
+  background: green;
+  margin: 0 6em;
+  display: inline-block;
+  color: white;
+  position: relative;
+}
+
+ li::before {
+  content: '';
+  position: absolute;
+  top: 1.5em;
+  left: -12em;
+  width: 12em;
+  height: 10px;
+  background: green;
+  z-index: 0;
+}
+
+
+  li:first-child::before {
+    display: none;
+  }
+
+.active {
+  background: green;
+}
+
+  .active ~ li {
+    background: #BCC162;
+  }
+
+    .active ~ li::before {
+      background: #BCC162;
+    }
+/*____________________________________
+*/
+  .ratings li {
+    width: 3em;
+    height: 3em;
+    text-align: center;
+    line-height: 2em;
+    border-radius:50%;
+    background: #DADF6E;
+    margin: 0 1em;
+    display: inline-block;
+    
+    color: maroon;
+    position: relative;
+  }
+
+
+    .ratings li.active {
+      background: green;
+      color: white;
+    }
+
+.active ~ ratings::before {
+  background: lightblue;
+}
+
+

@@ -1,0 +1,31 @@
+<div class="row" style="    background-color: #f6f5f1">
+  <div class="col-sm-12">
+    <div style="background-color: #f6f5f1">
+      <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+        <h5 style="  margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h5>
+        <h5 style="   margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h5>
+        <h5 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Change User Group</h5>
+      </form>
+      <div>
+        <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+          <label for="projectname" style="margin-left: 15px;">Select a Group</label>
+          <select id="Assigned_to" class="form-control" style="width: 400px;margin-left: 20px;" (change)="selectChangeHandler($event)">
+            <option selected>Choose...</option>
+            <option *ngFor="let itemtrue of dropdowndata1">{{itemtrue.GroupName}}</option>
+          </select>
+
+        </form>
+      </div>
+      <div>
+        <form class="form-inline" style="margin-top:20px;margin-left:30px;margin-bottom:40px;">
+          <mat-dialog-actions>
+            <!--<button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;" (click)="ClickedDropdownRowdata(itemtrue.GroupName);changedropdown()">Change</button>-->
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;" (click)="changedropdown();closemodel()">Change</button>
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;" matDialogClose>Cancel</button>
+          </mat-dialog-actions>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  

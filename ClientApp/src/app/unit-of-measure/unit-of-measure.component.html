@@ -1,0 +1,70 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-4">
+        <form class="form-inline" style="margin-left:5%;margin-bottom:20px;">
+          <h3 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h3>
+          <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h3>
+          <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Unit Of Measure </h3>
+        </form>
+      </div>
+    </div>
+
+    <div style="margin-top:1%">
+      <h5>The Values Are Read Only</h5>
+    </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:3%; height:550px ; ">
+      <table class="table table-hover table-bordered fixed" style=" background-color: white" id="table" width="80%">
+        <thead>
+          <tr>
+
+            <th class="header" scope="col">Unit Name </th>
+            <th  class="header"scope="col">Description</th>
+            <th class="header" scope="col">Basis</th>
+            <th  class="header"scope="col">Conversion Factor</th>
+            
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor=" let unitofmeasr of dataunitmeasure;">
+            <td>{{unitofmeasr.UnitName}}</td>
+            <td>{{unitofmeasr.Description}}</td>
+            <td>{{unitofmeasr.Basis}}</td>
+            <td>{{unitofmeasr.ConvFactor}}</td>
+           
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+    <!--<div style="margin-top:6%">
+    <form>
+      <div class="form-row">
+        <div class="col-md-12 form-inline">
+          <mat-dialog-actions>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:6%;height:60px;width:35%;">Delete Category</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;">New</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;">Save</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;">Update</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;" matDialogClose>Close</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </form>
+  </div>-->
+  </div>
+</div>
+<div style="margin-top:2%;">
+  <div class="form-inline" style="float:right">
+    <mat-dialog-actions>
+      
+      <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:5px;height:50px;width:100px;" (click)="OpenunitmeasureMaintenace()">Add Unit</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;margin-right:20px; height:50px;width:100px;" matDialogClose>Back</button>
+    </mat-dialog-actions>
+  </div>
+</div>
+
+
+

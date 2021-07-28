@@ -1,0 +1,295 @@
+<div style="    background-color: #f6f5f1">
+ 
+    <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center" >Formula Listing</h2>
+
+
+
+  <nav ngbNav #nav="ngbNav" class="nav-tabs">
+    <ng-container ngbNavItem style="margin-left:20px">
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>All</a>
+      <ng-template ngbNavContent>
+        <div style="    background-color: #eeeeee;">
+          <!--<label for="search" style="margin-left: 100px;">search</label>-->
+          <form class="form-inline" style="    background-color: #eeeeee;">
+
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
+          </form>
+
+          <form class="form-inline">
+
+            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
+
+
+
+            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
+              <option selected>Select Project Name</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+          <form class="form-inline">
+
+
+            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
+              <option selected>Status</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+
+
+            <select id="Created_by" class="form-control" style="width:370px;margin-left:70px;margin-top:15px">
+              <option selected>Created By</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+
+
+          <div class="example-container mat-elevation-z8" style="margin-top:20px">
+            
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>My Formula</a>
+      <ng-template ngbNavContent>
+        <div style="    background-color: #eeeeee;">
+          <!--<label for="search" style="margin-left: 100px;">search</label>-->
+          <form class="form-inline" style="    background-color: #eeeeee;">
+
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
+          </form>
+
+          <form class="form-inline">
+
+            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
+
+
+
+            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
+              <option selected>Select Project Name</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+          <form class="form-inline">
+
+
+            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
+              <option selected>Status</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+
+
+
+
+          </form>
+
+
+          <div class="example-container mat-elevation-z8" style="margin-top:20px">
+           
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Products</a>
+      <ng-template ngbNavContent>
+
+
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Company Owned</a>
+      <ng-template ngbNavContent>
+        <div style="    background-color: #eeeeee;">
+          <!--<label for="search" style="margin-left: 100px;">search</label>-->
+          <form class="form-inline" style="    background-color: #eeeeee;">
+
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
+
+          </form>
+
+          <form class="form-inline">
+
+            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
+
+
+
+            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
+              <option selected>Select Project Name</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+          <form class="form-inline">
+
+
+            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
+              <option selected>Status</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+
+
+            <select id="Created_by" class="form-control" style="width:370px;margin-left:70px;margin-top:15px">
+              <option selected>Created By</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+
+
+          <div class="example-container mat-elevation-z8" style="margin-top:20px">
+           
+          </div>
+        </div>
+      </ng-template>
+
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Customer Owned</a>
+      <ng-template ngbNavContent>
+        <p>data5</p>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Generic</a>
+      <ng-template ngbNavContent>
+        <div style="    background-color: #eeeeee;">
+          <!--<label for="search" style="margin-left: 100px;">search</label>-->
+          <form class="form-inline" style="    background-color: #eeeeee;">
+
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
+            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
+          </form>
+
+          <form class="form-inline">
+
+            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
+
+
+
+            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
+              <option selected>Select Project Name</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+          <form class="form-inline">
+
+
+            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
+              <option selected>Status</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+
+
+            <select id="Created_by" class="form-control" style="width:370px;margin-left:70px;margin-top:15px">
+              <option selected>Created By</option>
+              <option>Admin</option>
+              <option>Admin1</option>
+              <option>Admin2</option>
+              <option>Admin3</option>
+              <option>Admin4</option>
+            </select>
+
+          </form>
+
+
+          <div class="example-container mat-elevation-z8" style="margin-top:20px">
+           
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>LabNotebook</a>
+      <ng-template ngbNavContent>
+        <form>
+        </form>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Customer</a>
+      <ng-template ngbNavContent>
+        <p>data8</p>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Stability</a>
+      <ng-template ngbNavContent>
+        <p>data2</p>
+      </ng-template>
+    </ng-container>
+
+  </nav>
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  <div class="form-row" style="    background-color: #eeeeee;">
+    <div style="margin-left:20px;margin-top:20px" class="form-group ">
+      <div class="form-inline">
+
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">New</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:130px;">Create Report</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Back</button>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

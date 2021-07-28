@@ -1,14 +1,12 @@
 <div class="row" style="    background-color: #f6f5f1">
   <div class="col-sm-12">
     <div style="background-color: #f6f5f1">
-      <form class="form-inline" style="margin-left:200px;margin-bottom:20px;" >
-        <h2 style="   margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
-        <h2 style="     margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
-        <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Admin Work</h2>
+      <form class="form-inline" style="margin-left:300px;margin-bottom:5px;" >
+        <h2 style="    margin-top: 5px;font-family: Playfair Display;background-color: #f6f5f1;color: black">Admin Work</h2>
       </form>
 
       <nav ngbNav #nav="ngbNav" class="nav-tabs ">
-        <ng-container ngbNavItem style=" background-color: #f6f5f1; margin-left: 20px;margin-top: 20px">
+        <ng-container ngbNavItem style=" background-color: #f6f5f1; margin-left: 20px;margin-top: 10px">
           <a class="tabcolor tabbutto tabrowli " ngbNavLink>Default Settings</a>
           <ng-template ngbNavContent>
 
@@ -778,7 +776,7 @@
         <ng-container ngbNavItem>
           <a class="tabcolor tabbutto tabrowli" ngbNavLink>Formulations</a>
           <ng-template ngbNavContent>
-            <nav ngbNav #nav="ngbNav" class="nav-tabs ">
+            <!--<nav ngbNav #nav="ngbNav" class="nav-tabs ">-->
               <!--<ng-container ngbNavItem style="margin-left:20px">
                 <a class="tabcolor tabbutto tabrowli " ngbNavLink>Lock Formulations</a>
                 <ng-template ngbNavContent>
@@ -788,7 +786,7 @@
               <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
               <ng-template #innerTabset class="nav-tabs">
                 <ngb-tabset>
-                  <ngb-tab class="tabcolor tabbutto tabrowli " title="Lock Formulations">
+                  <ngb-tab  title="Lock Formulations">
                     <ng-template ngbTabContent>
                       <p style="margin-left:10px; margin-top:10px;"><b> These are the Formula's you can lock as an Administrator </b></p>
                       <form class="form-inline" style="background-color: #f6f5f1">
@@ -813,8 +811,8 @@
                         <p style="margin-left:10px; margin-top:10px;"><b>Double Click and Select a Formula From the grid below to Lock a Formula</b></p>
                       </div>
                     
-                      <div style="   overflow-y: auto; height: 310px;background-color:white">
-                        <table class=" table-hover table-bordered" style="margin-left:10px;"id="table">
+                      <div style="   overflow-y: auto; height: 310px;">
+                        <table class=" table-hover table-bordered" style="margin-left: 10px; background-color: white"id="table" width="90%">
                           <thead>
                             <tr>
 
@@ -868,8 +866,8 @@
                       <div>
                         <p style="margin-left:10px; margin-top:10px;"><b>Double Click and Select a Formula From the grid below to UnLock a Formula</b></p>
                       </div>
-                      <div style="   overflow-y: auto; height: 310px;background-color:white">
-                        <table class=" table-hover table-bordered" style="margin-left:10px;">
+                      <div style="   overflow-y: auto; height: 310px;">
+                        <table class=" table-hover table-bordered" style="    margin-left: 10px;    background-color: white" width="90%">
                           <thead>
                             <tr>
 
@@ -891,8 +889,8 @@
                       </div>
 
                       <div style="margin-left:520px;">
-                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
-                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Back</button>
+                        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-top:5px;height:40px;width:400px;" disabled>Encrypt all formulas and MRP batch tickets</button>
+                      
                       </div>
 
                     </ng-template>
@@ -1152,7 +1150,7 @@
                   </ngb-tab>
                 </ngb-tabset>
               </ng-template>
-            </nav>
+            <!--</nav>-->
           </ng-template>
         </ng-container>
         <ng-container ngbNavItem>

@@ -1,0 +1,122 @@
+<div style="background-color: #f6f5f1;width:900px;">
+
+  <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+
+    <h2 style="   margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+
+    <h2 style="     margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+
+    <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-User Creation</h2>
+
+  </form>
+
+  <div>
+    <form class="form-inline" style=" background-color: #f6f5f1;margin-top: 10px;">
+     <label for="companylogo" style="margin-left:60px;">Name</label>
+     <input type="text" style="margin-left: 65px;" class="form-control" id="PDR" size="45" #name value="">
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+     <label for="companylogo" style="margin-left: 60px;">Address</label>
+     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-left:50px;width:405px;" #Address value="" ></textarea>
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+     <label for="companylogo" style="margin-left: 60px;">Phone</label>
+     <input type="text" style="margin-left: 62px;" class="form-control" id="PDR" size="45" #Phone value="" >
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+     <label for="companylogo" style="margin-left: 60px;">E-Mail</label>
+     <input type="text" style="margin-left: 62px;" class="form-control" id="PDR" size="45" #Email value="" >
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+     <label for="companylogo" style="margin-left: 60px;">Username</label>
+
+      <input type="text" style="margin-left: 35px;" class="form-control" id="PDR" size="45" #Username value="" >
+
+    </form>
+
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+
+      <label for="companylogo" style="margin-left: 60px;">Password</label>
+
+      <input type="text" style="margin-left: 35px;" class="form-control" id="PDR" size="45" #Password value="" >
+
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" style="margin-left:20px;" (click)="ResetPasswordDialog()">
+
+      <label class="form-check-label" for="exampleCheck1">Reset Password</label>
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+      <label for="companylogo" style="margin-left: 58px;" >Department</label>
+      <select id="Assigned_to" class="form-control" style="width: 410px;margin-left: 25px;" #Dept value="">
+        <option selected>Choose...</option>
+        <option *ngFor="let itemtrue of dropdowndept">{{itemtrue.Department}}</option>
+      </select>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:25px;height:60px;width:140px;" (click)="AddDepartmentDialog()">Add Department </button>
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+      <label for="companylogo" style="margin-left: 58px;">User Group</label>
+
+      <select id="Assigned_to" class="form-control" style="width: 410px;margin-left: 28px;" #usergroup value="">
+        <option selected>Choose...</option>
+        <option *ngFor="let itemtrue1 of deptdroptdown">{{itemtrue1.GroupName}}</option>   
+      </select>
+     
+    </form>
+
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+      <label for="companylogo" style="margin-left: 60px;">Notes</label>
+     <input type="text" style="margin-left: 65px;" class="form-control" id="PDR" size="45" #Notes value="">
+    </form>
+
+    <!--<form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+
+      <label for="companylogo" style="margin-left: 60px;">User Cues</label>
+
+      <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" style="margin-left:40px;" [(ngModel)]="ucue" required>
+
+      <label class="form-check-label" for="gridRadios2">
+
+        Yes
+
+      </label>
+
+      <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" style="margin-left:20px;" [(ngModel)]="ucue1" required>
+
+      <label class="form-check-label" for="gridRadios2">
+
+        No
+
+      </label>
+
+      <span style="margin-left:10px;">(Yellow Blinking)</span>
+
+    </form>-->
+
+  </div>
+
+  <div>
+
+    <form class="form-inline" style="margin-top:20px;margin-left:180px;">
+
+      <mat-dialog-actions>
+
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;" (click)="save(name.value, Address.value, Phone.value, Email.value, Username.value, Password.value, Dept.value, usergroup.value, Notes.value)">Save</button>
+
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;" matDialogClose>Cancel</button>
+
+      </mat-dialog-actions>
+
+    </form>
+
+  </div>
+
+  <div class="card" style="margin-top:25px;">
+
+    <div class="card-body" style="color:blue;text-align:center">
+
+      SMARTFormulator LLC, Copyright &#169; 2009-2020. All Rights Reserved
+
+    </div>
+
+  </div>
+
+</div> 

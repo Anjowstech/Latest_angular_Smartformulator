@@ -1,0 +1,345 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <!--<div class="col-sm-12">
+    <div style="background-color: #f6f5f1">
+      <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+        <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Add Supplier</h2>
+      </form>
+    </div>
+  </div>-->
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+          <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+          <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+          <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Add Supplier</h2>
+        </form>
+      </div>
+    </div>
+    <div>
+      <form class="form-inline" style="background-color: #f6f5f1;">
+        <label for="PRD" style="margin-left:80px;">Supplier Key</label>
+        <input type="text" style="margin-left: 25px;" class="form-control" placeholder="Enter Supplier Key" id="Supplier Key" #supplierkey name="supplierkey" value="" size="60"><br />
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:50px;width:210px;" (click)="Searchsupplierpopup()">Search Supplier</button><br />
+      </form>
+      <form class="form-inline" style="background-color: #f6f5f1">
+        <label for="PRD" style="margin-left:80px;">Supplier Name</label>
+        <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter Supplier Name" id="Supplier Key" size="60" #suppliername name="suppliername" value=""><br />
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;">Clear</button>
+      </form>
+    </div>
+    <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
+      <ng-container ngbNavItem style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Contact Details</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="Address">Address</label>
+                <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" size="40" style="width:650px;" #supplieraddress name="supplieraddress" value=""></textarea>
+                <label for="inputPassword4">Country</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4">Phone Number</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4">Fax</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4">Contact Person</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4">Web Address</label>
+                <div class="form-inline">
+                  <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;">Go</button>
+                </div>
+                <label for="inputPassword4">FOB</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputState">Ship Via</label>
+                <select id="inputState" class="form-control" style="width:650px;">
+                  <option selected>Choose...</option>
+                  <option>DHL</option>
+                  <option>Federal Express</option>
+                </select>
+                <label for="inputState">Status</label>
+                <select id="inputState" class="form-control" style="width:650px;">
+                  <option selected>Choose...</option>
+                  <option>Activate</option>
+                  <option>Inactivate</option>
+                </select>
+                <label for="inputEmail4">Ship To</label>
+                <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" style="width:650px;"></textarea>
+                <div class="form-inline">
+                  <input class="form-check-input" type="checkbox" id="gridCheck1">
+                  <label class="form-check-label" for="gridCheck1">
+                    Approve Supplier
+                  </label>
+                  <input class="form-check-input" type="checkbox" id="gridCheck1" disabled style="margin-left:10px;">
+                  <label class="form-check-label" for="gridCheck1">
+                    Preferred Supplier
+                  </label>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4" style="margin-top: 10px;">City</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4" style="margin-top: 10px;">State</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4" style="margin-top: 10px;">Zip Code</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4" style="margin-top: 10px;">Distributor</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4" style="margin-top: 10px;">Email</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4" style="margin-top: 10px;">Contact #</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputPassword4" style="margin-top: 10px;">Terms</label>
+                <div class="form-inline">
+                  <select id="inputState" class="form-control" style="width:650px;">
+                    <option selected>Choose...</option>
+                    <option>No Terms</option>
+                    <option>Credit Card</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;" (click)="OpenTermsMaster()">...</button>
+                </div>
+                <label for="inputPassword4" style="margin-top: 10px;">Expanse Account</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="" style="width:650px;">
+                <label for="inputEmail4" style="margin-top:10px;">Notes</label>
+                <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" size="" style="width:650px;"></textarea>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Raw Material(s)</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+          <ng-template #innerTabset class="nav-tabs">
+            <ngb-tabset>
+              <ngb-tab class="" title="All Raw Material(s)">
+                <ng-template ngbTabContent>
+                  <h4>Double Click to Select a Raw Material</h4>
+                  <table class="table table-hover" style="height:250px;background-color:white">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item # </th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Supplier RM #</th>
+                        <th scope="col">Cost $</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Approved</th>
+                        <th scope="col">Approved Code</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="form-row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 400px; height: 50px; width: 190px;margin-top:10px;" disabled>Select All</button>
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 190px;margin-top:10px;" disabled>Delect All</button>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Approved Raw Material(s)">
+                <ng-template ngbTabContent>
+                  <h4>Double Click to Select a Raw Material</h4>
+                  <table class="table table-hover" style="height:250px;background-color:white">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item # </th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Supplier RM #</th>
+                        <th scope="col">Cost $</th>
+                        <th scope="col">Unit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title=" Unapproved Raw Materials">
+                <ng-template ngbTabContent>
+                  <h4>Double Click to Select a Raw Material</h4>
+                  <table class="table table-hover" style="height:250px;background-color:white">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item # </th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Supplier RM #</th>
+                        <th scope="col">Cost $</th>
+                        <th scope="col">Unit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Formula Details">
+                <ng-template ngbTabContent>
+                  <h4>Double Click to Select a Raw Material</h4>
+                  <table class="table table-hover" style="height:250px;background-color:white">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR # </th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula Code</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Customer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Component(s)</a>
+        <ng-template ngbNavContent>
+          <h4>Double Click to Select a Raw Material</h4>
+          <table class="table table-hover" style="height:250px;background-color:white">
+            <thead>
+              <tr>
+                <th scope="col">Component Item # </th>
+                <th scope="col">Component Name</th>
+                <th scope="col">Cost $</th>
+                <th scope="col">File Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Finished Product(s)</a>
+        <ng-template ngbNavContent>
+          <h4>Double Click to Select a Raw Material</h4>
+          <table class="table table-hover" style="height:250px;background-color:white">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Finished Product</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>*</td>
+                <td><input type="checkbox" /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-row">
+            <div class="col">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 190px;margin-top:10px;">Delete Row</button>
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 450px; height: 50px; width: 290px;margin-top:10px;">Save Finished Products</button>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem style="margin-left:20px">
+
+        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Audit Trail</a>
+        <ng-template ngbNavContent>
+          <table class="table table-hover" style="height:250px;">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Task</th>
+                <th scope="col">UserName</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+            </tbody>
+          </table>
+
+        </ng-template>
+      </ng-container>
+
+    </nav>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <div>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <div class="form-inline">
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 220px;margin-top:10px;">Print Preview</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 220px;margin-top:10px;">Export to Excel</button>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="form-inline">
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 140px; height: 50px; width: 220px;margin-top:10px;">Delete Supplier</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;">New</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;">Save</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;" (click)="updatesupplier(supplierkey.value,suppliername.value,supplieraddress.value);">Update</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;margin-top:10px;" [routerLink]="'/RawMaterial'">Back</button>
+        </div>
+      </div>     
+    </div>
+  </div>
+  </div>

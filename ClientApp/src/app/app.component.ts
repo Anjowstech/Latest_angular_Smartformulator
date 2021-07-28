@@ -15,72 +15,62 @@ export class AppComponent implements OnInit {
     {
 
       displayName: 'Projects/PDR',
-      iconName: 'close',
+     
       children: [
         {
           displayName: 'General',
-          iconName: 'speaker_notes',
-          route: 'counter'
+         
+          route: 'PDRManagement'
 
         },
         {
-          displayName: 'Requirements',
-          iconName: 'speaker_notes',
+          displayName: 'Requirements'
+          
 
         },
         {
           displayName: 'Product Dev.Brief',
-          iconName: 'speaker_notes',
+        
           route: 'feedback'
         },
         {
           displayName: 'Assigning Users',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: '21 CFR Part 11 Approvers List',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Stage Gate Settings',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Documents',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Assigned Formulas',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Products',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Change Requests',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Customer Communications',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Specifications',
-          iconName: 'speaker_notes',
           route: 'feedback'
         },
         {
           displayName: 'Audit Tracking',
-          iconName: 'speaker_notes',
           route: 'feedback'
         }
 
@@ -88,175 +78,148 @@ export class AppComponent implements OnInit {
     },
     {
       displayName: ' Formulation',
-      iconName: 'close',
       children: [
         {
           displayName: 'Formula Listing',
-          iconName: 'speaker_notes',
-          children: [
-            {
-              displayName: 'All Listing',
-              iconName: 'speaker_notes',
+          route:'Formulalisting'
+          //children: [
+          //  {
+          //    displayName: 'All Listing',
 
-            },
-            {
-              displayName: 'My Formulas',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'My Formulas',
 
-            },
-            {
-              displayName: 'Products',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Products',
 
-            },
-            {
-              displayName: 'Company Owned',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Company Owned',
 
-            },
-            {
-              displayName: 'Customer Owned',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Customer Owned',
 
-            },
-            {
-              displayName: 'Generic',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Generic',
 
-            },
-            {
-              displayName: 'LabNoteBook',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'LabNoteBook',
 
-            },
-            {
-              displayName: 'By Customer',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'By Customer',
 
-            },
-            {
-              displayName: 'Stability',
-              iconName: 'speaker_notes',
-              children: [
-                {
-                  displayName: 'Stab Listing',
-                  iconName: 'speaker_notes',
-                },
-                {
-                  displayName: 'Daily Testing Schedule',
-                  iconName: 'speaker_notes',
-                }
+          //  },
+          //  {
+          //    displayName: 'Stability',
+          //    children: [
+          //      {
+          //        displayName: 'Stab Listing',
+          //      },
+          //      {
+          //        displayName: 'Daily Testing Schedule',
+          //      }
 
 
 
-              ]
-            }
+          //    ]
+          //  }
 
-          ]
+          //]
 
         },
         {
           displayName: 'Formula Lookup',
-          iconName: 'speaker_notes',
-          children: [
-            {
-              displayName: 'General',
-              iconName: 'speaker_notes',
+          route: 'Formulalookup'
+
+          //children: [
+          //  {
+          //    displayName: 'General',
 
 
-            },
-            {
-              displayName: 'Formula',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Formula',
 
 
-            },
-            {
-              displayName: 'Scalability Factor',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Scalability Factor',
 
 
-            },
-            {
-              displayName: 'QC',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'QC',
 
 
-            },
-            {
-              displayName: 'Phy.Stability',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Phy.Stability',
 
 
-            },
-            {
-              displayName: 'Product Testing',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Product Testing',
 
 
-            },
+          //  },
 
-            {
-              displayName: 'Regulatory',
-              iconName: 'speaker_notes',
-
-
-            },
-            {
-              displayName: 'IL/QIL',
-              iconName: 'speaker_notes',
+          //  {
+          //    displayName: 'Regulatory',
 
 
-            },
-            {
-              displayName: 'Formula Specs',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'IL/QIL',
 
 
-            },
-            {
-              displayName: 'Marketing Artifects',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Formula Specs',
 
 
-            },
-            {
-              displayName: 'Formula Notes',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Marketing Artifects',
 
 
-            },
-            {
-              displayName: ' /Lab Batches',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Formula Notes',
 
 
-            },
-            {
-              displayName: 'COA',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: ' /Lab Batches',
 
 
-            },
-            {
-              displayName: 'Workflow',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'COA',
 
 
-            },
-            {
-              displayName: 'Product(s)',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Workflow',
 
 
-            },
-            {
-              displayName: 'Audit Tracking',
-              iconName: 'speaker_notes',
+          //  },
+          //  {
+          //    displayName: 'Product(s)',
 
 
-            },
-          ]
+          //  },
+          //  {
+          //    displayName: 'Audit Tracking',
+
+
+          //  },
+          //]
         },
 
       ]
@@ -265,46 +228,37 @@ export class AppComponent implements OnInit {
 
     {
       displayName: 'Sample Management',
-      iconName: 'close',
       children: [
         {
           displayName: 'Sample Management',
-          iconName: 'speaker_notes',
 
         },
         {
           displayName: 'Customer Details',
-          iconName: 'speaker_notes',
 
         },
         {
           displayName: 'PDR Listing',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'PDR Listing by Date',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Disclaimers',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Documents',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Document Audit Tracking',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Audit Tracking',
-          iconName: 'speaker_notes',
           route: ''
         }
       ]
@@ -313,78 +267,97 @@ export class AppComponent implements OnInit {
     {
       displayName: 'Productization',
 
-      iconName: 'close',
       children: [
         {
           displayName: 'Product',
-          iconName: 'speaker_notes',
 
         },
         {
           displayName: 'Label',
-          iconName: 'speaker_notes',
 
         },
         {
           displayName: 'Packaging',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'ArtWork',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Bulk/',
-          iconName: 'speaker_notes',
           route: ''
         },
 
         {
           displayName: 'Prod.Regn Approvals',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Prod.Technical Data Specs',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Commerialization Checklist',
-          iconName: 'speaker_notes',
+          
           route: ''
         },
         {
           displayName: 'PIF',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'CMO',
-          iconName: 'speaker_notes',
           route: ''
         },
         {
           displayName: 'Audit',
-          iconName: 'speaker_notes',
           route: ''
         }
 
       ]
     },
     {
-      displayName: 'Miscellaneous',
+      displayName: 'Raw Materials',
 
-      iconName: 'close',
       children: [
         {
           displayName: 'Raw Materials',
-          iconName: 'speaker_notes',
+          route:'RawMaterial'
 
         }
         ]
+    },
+  
+    {
+      displayName: 'Suppliers',
+
+      children: [
+        {
+          displayName: 'Suppliers',
+
+        }
+      ]
+    },
+    {
+      displayName: 'Product Portfolio',
+
+      children: [
+        {
+          displayName: 'Product Portfolio',
+
+        }
+      ]
+    }, {
+      displayName: 'Miscellaneous',
+
+      children: [
+        
+        {
+          displayName: 'Unit Of Measure',
+          route: 'Unitofmeasure'
+        },
+      ]
     }
     
    
@@ -392,6 +365,12 @@ export class AppComponent implements OnInit {
   ];
   @ViewChild(MatMenuTrigger, { static: false }) trigger: MatMenuTrigger;
   recheckIfInMenu: boolean;
+  isShowing: boolean=true;
+
+  toggleSidenav() {
+    this.isShowing = !this.isShowing;
+  }
+
   ngOnInit() {
     this.postData.getPosts().subscribe((result) => { 
       console.warn("result", result)
@@ -411,11 +390,6 @@ export class AppComponent implements OnInit {
     }, 175);
   }
  
-  isExpanded = false;
-  collapse() {
-    this.isExpanded = false;
-  }
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
+   
+
 }

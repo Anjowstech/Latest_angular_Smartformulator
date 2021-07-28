@@ -1,0 +1,156 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <!--<div class="col-sm-12">
+    <div class="text-center" style="background-color: #f6f5f1">
+      <form class="form-inline text-center" style="margin-bottom:20px;">
+        <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485" text-center>SMART</h2>
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Default Settings</h2>
+      </form>
+    </div>
+  </div>-->
+    <!--<div class="row">
+    <div class="col-md-6 offset-md-3">
+      <form class="form-inline text-center" style="margin-bottom:20px;">
+        <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485" text-center>SMART</h2>
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Default Settings</h2>
+      </form>
+    </div>
+  </div>-->
+    <div class="card text-center">
+      <div class="card-header">
+        <!--<form class="form-inline">
+  <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485;margin-left:1%">SMART</h2>
+  <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator</h2>
+  </form>-->
+        <span style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485;margin-left:1%;font-size:30px">SMART</span>
+        <span style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205;font-size:30px;">Formulator</span>
+        <span style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;font-size:30px;">-Default Settings</span>
+      </div>
+    </div>
+    <div>
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-7">
+            <div *ngFor="let itemdata of defaultdataprefix">
+              <label for="inputCompany Name">Company Name</label>
+              <input type="text" class="form-control" id="inputCompany Name" placeholder="Company Name" value={{itemdata.CompanyName}}>
+              <label for="validationTextarea">Address</label>
+              <textarea value="{{itemdata.CompanyAddress}}" class="form-control" id="validationTextarea" placeholder="Address"></textarea>
+              <label for="Phone Number" style="margin-top:5px">Phone Number</label>
+              <input type="text" class="form-control" id="inputPhone Number" placeholder="Phone Number" value={{itemdata.CompanyNumber}}>
+              <label for="Phone Number">Fax</label>
+              <input value={{itemdata.Fax}} type="text" class="form-control" id="inputFax" placeholder="Fax">
+              <label for="Email">Email</label>
+              <input type="text" class="form-control" id="inputEmail" placeholder="Email" value={{itemdata.CompanyEmail}}>
+              <label for="WebAddress">Web Address</label>
+              <input type="text" class="form-control" id="inputWebAddress" placeholder="WebAddress" value={{itemdata.CompanyWebAddress}}>
+              <div class="custom-file" style="margin-top:30px">
+                <input value={{itemdata.picturePath}} type="file" class="custom-file-input" id="validatedCustomFile" required>
+                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                <div class="invalid-feedback">Example invalid custom file feedback</div>
+              </div>
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="text-center" style="margin-top:130px;">
+                <img src="../../../../assets/confidential red round stamp.jpg" class="rounded">
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+    <div class="card">
+      <div class="card-body" style="background-color:#f6f5f1">
+        <h5 style="text-align:center">Prefix Raw-Materials</h5>
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+             
+                <label for="inputPrefix">Prefix</label>
+                <div class="form-inline">
+                  <input type="text" class="form-control" id="inputPrefix" placeholder="Prefix" style="width:70%" #abbrawform>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;"(click)="saverawprefix(abbrawform.value,abbdescriptionrawform.value)">Add Prefix</button>
+                </div>
+                <label for="inputPrefix">Prefix Description</label>
+                <input type="text" class="form-control" id="inputPrefix" placeholder="Prefix Description" style="width:80%"#abbdescriptionrawform >
+                <label for="inputSeperator">Seperator</label>
+                <input type="text" class="form-control" id="inputPrefix" placeholder=":" style="width:80%">
+                <label for="inputPrefix">Numbering Starts From</label>
+                <input type="text" class="form-control" id="inputPrefix" placeholder="1234567" style="width:80%">
+              </div>
+              
+              <div class="form-group col-md-4">
+                <div style="margin-left:10%">
+                  <label for="listofallprefix">List of All Prefix</label>
+                  <div style="width: 15rem; overflow-y: auto; height: 10rem; background-color: white">
+                    <table class=" table-hover table-bordered" style="margin-left:10px;">
+
+                      <tbody>
+                        <tr *ngFor="let itemdata of datasaveabbraw;let i=index;" (click)="abbclickform(itemdata.abbreviation,itemdata.abbreviationdescription);ClickedRow(i)" [class.active]="i == HighlightRow">
+                          <td style="width:15rem">{{itemdata.abbreviation}} - {{itemdata.abbreviationdescription}}</td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                
+              </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  
+
+      <!--<div class="form-row">
+  <div class="col">-->
+      <!--<input type="text" class="form-control" placeholder="State">-->
+      <!--</div>
+  <div class="col">-->
+      <!--<input type="text" class="form-control" placeholder="Zip">-->
+      <!--</div>
+    <div class="col-6">
+      <form class="form-inline">
+        <mat-dialog-actions>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:180px;height:50px;width:80px;float:right">Save</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:80px;" matDialogClose>Back</button>
+        </mat-dialog-actions>
+      </form>
+    </div>
+
+  </div>-->
+      <!--<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 offset-md-4">
+      <form class="form-inline">
+        <mat-dialog-actions>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10%;width: 120px;">Clear </button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:2%;height:50px;width:40px;">Save</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;height:50px;width:40px;" matDialogClose>Back</button>
+        </mat-dialog-actions>
+      </form>
+    </div>
+  </div>-->
+      <!--<div class="container">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-8 form-inline" >
+        <mat-dialog-actions>
+          <button type="submit" class="btn btn-primary buttoncolor" style="width: 80px;margin-left:30%">Save</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="width: 80px;margin-left:2%" matDialogClose>Back</button>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>-->
+  </div>
+<div class="card">
+  <div class="card-body">
+    <button type="submit" class="btn btn-primary buttoncolor" style="margin-right:10px;height:50px;float:right;width: 120px;" matDialogClose>Back </button>
+    <button type="submit" class="btn btn-primary buttoncolor" style="margin-right:10px;height:50px;float:right;width: 120px;" matDialogClose>Save </button>
+  </div>
+</div>
+    

@@ -1,0 +1,47 @@
+<h4 class="text-center">Unit Of Measure Maintenance </h4>
+<form>
+  <div class="form-group">
+    <div class="form-inline">
+      <label for="PDR #" style="margin-left:10px">Unit Name</label>
+      <input style="width: 60%;margin-left:12%" type="text" class="form-control" id="CasNo" #unitname name="unitname" value="">
+
+    </div>
+
+
+
+  </div>
+  <div class="form-group">
+    <div class="form-inline">
+      <label for="PDR #" style="margin-left:10px">Description</label>
+      <input style="width: 60%;margin-left:11%" type="text" class="form-control" id="Description"   #moudescription name="moudescription" value="" >
+
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-inline">
+      <label for="PDR #" style="margin-left:10px">Basis</label>
+      <select id="PRD" class="form-control" style="width:60.11%;margin-left:15.5%" #basis name="basis" value="">
+        <option selected>g</option>
+        <option >cc</option>
+
+
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-inline">
+      <label for="PDR #" style="margin-left:10px">Conversion Factor</label>
+      <input style="width: 60%;margin-left:5.5%" type="text" class="form-control" #convfactor name="convfactor" value="">
+    </div>
+  </div>
+</form>
+<div style="margin-top:3%;">
+  <div class="form-inline" style="float:right">
+    <mat-dialog-actions>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" >New</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="saveunitofmeasure(unitname.value,moudescription.value,basis.value,convfactor.value);"matDialogClose>Save</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
+    </mat-dialog-actions>
+  </div>
+</div>
+

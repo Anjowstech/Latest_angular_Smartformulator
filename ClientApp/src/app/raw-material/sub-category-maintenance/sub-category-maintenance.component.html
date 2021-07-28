@@ -1,0 +1,106 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-4">
+        <form class="form-inline" style="margin-left:5%;margin-bottom:20px;">
+          <h3 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h3>
+          <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h3>
+          <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Sub Category Maintenance</h3>
+        </form>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <form>
+            <div class="form-row">
+              <div class="col-7 form-inline">
+                <label>Category Name</label>
+
+                <input type="text" [(ngModel)]="categorynam" #categoryname name="categoryname" value="" list="catename" class="form-control" style="margin-left:6%;" size="60">
+                <input type="hidden" [(ngModel)]="categoryidval " #categoryid name="categoryid" value="" list="catename" class="form-control" style="margin-left:6%;" size="60">
+              
+
+
+
+              </div>
+              <div class="col-5 form-inline">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:15%;"(click)=" OpensearchCategory()"matDialogClose>Search</button>
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:60px;width:20%;" (click)="OpenCategory()"matDialogClose>Add Category</button>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-7 form-inline">
+                <label>Sub Category Name</label>
+                <input type="text" [(ngModel)]="subcategorynam" class="form-control" size="60" style="margin-left:2%" #subcategoryname name="subcategoryname" value="" list="catename">
+               
+              </div>
+              <div class="col-5 form-inline">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-7 form-inline" style="margin-top:5px;margin-left:3px">
+                <label>Description</label>
+                <input type="text" [(ngModel)]="descript" class="form-control" size="60" style="margin-left:9%" name="description" #description value="">
+
+              </div>
+              <input type="hidden" [(ngModel)]="selectedrow.SubCategoryId" class="form-control" size="60" style="margin-left:9%" name="subcategoryid" #subcategoryid value="">
+            
+
+              <div class="col-5 form-inline">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div style="margin-left:1%;margin-top:1%">
+      <h6>Click to Edit the value in Grid</h6>
+    </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:3%; height:350px ; ">
+      <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
+        <thead>
+          <tr>
+
+            <th class="header" scope="col">Category Name</th>
+            <th class="header" scope="col">Sub Category Name</th>
+            <th class="header" scope="col">Description</th>
+            <th class="header" hidden scope="col">SubID</th>
+            <th class="header" hidden scope="col">CateID</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tbody>
+          <tr *ngFor="let raw_supp of dataraw_sup; let i=index;" (click)="selectitem( raw_supp); changetext();">
+            <td>{{ raw_supp.CategoryName }}</td>
+            <td>{{ raw_supp.SubCategoryName}}</td>
+            <td>{{ raw_supp.Description }}</td>
+            <td hidden>{{raw_supp.SubCategoryId}}</td>
+            <td hidden>{{raw_supp.CategoryId}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+      <button (click)="addRow(row)">Add</button>
+    </div>
+  </div>
+  </div>
+  <div class="form-row" style=" margin-bottom:80%;position:fixed">
+    <div style="margin-left:20px;" class="form-group ">
+
+      <div class="form-inline">
+        <mat-dialog-actions>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:230px;height:50px;"(click)=" deletedata(subcategoryname.value,description.value,subcategoryid.value,categoryid.value);">Delete Category </button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;"(click)="categoryname.value='';subcategoryname.value='';description.value='';subcategoryid.value='';categoryidm.value=''">New</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;"(click)=" savedata(subcategoryname.value,description.value,subcategoryid.value,categoryid.value);cleandata();" matDialogClose>Save</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;"(click)="updatedata(subcategoryname.value,description.value,subcategoryid.value,categoryid.value);"matDialogClose>Update</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;" (click)="cleandata();" matDialogClose>Close</button>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+
+
+
+
+

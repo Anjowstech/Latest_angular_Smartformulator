@@ -1,0 +1,194 @@
+
+  <div class="row" style="background-color: #f6f5f1">
+    <div class="col-sm-12">
+      <div style="background-color: #f6f5f1">
+        <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+          <h2 style="   margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+          <h2 style="     margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+          <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-User Security</h2>
+        </form>
+        <nav ngbNav #nav="ngbNav" class="nav-tabs ">
+          <ng-container ngbNavItem>
+            <a class="tabcolor tabbutto tabrowli" ngbNavLink>Group</a>
+            <ng-template ngbNavContent>
+
+              <!--<label class="form-check-label" for="invalidCheck" style="margin-left:20px;margin-top:10px;">
+                Select A Group and Click on Change Permission Button
+              </label>-->
+              <div>
+                <h4 style="margin-left:600px">Select A Group and Click on Change Permission Button</h4>
+              </div>
+              <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height:500px">
+                
+                <table class="table table-hover table-bordered fixed" style="margin-left:190px;margin-top:20px;background-color:white">
+                  <thead>
+                    <tr>
+                      <th class="header" scope="col">Group Name</th>
+                      <th class="header" scope="col">Group Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let getgrouplist of data2">
+                      <td mat-raised-button (click)="openGroupDialog()">{{getgrouplist.GroupName}}</td>
+                      <td mat-raised-button (click)="openGroupDialog()">{{getgrouplist.GroupDescription}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div>
+                </div>
+                <!--<form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:950px;height:40px;width:120px;">Add Group</button>
+    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:990px;height:40px;width:150px;">Change Permission</button>
+    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:990px;height:40px;width:80px;">Back</button>
+
+  </form>-->
+              </div>
+                <form class="form-inline" style="   margin-top: 40px;margin-bottom:40px;">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1050px;height:50px;width:150px;" (click)="openDialog()">Add Group </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;" (click)="openGroupChangePerDialog()">Change Permission </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Back </button>
+
+                </form>
+
+</ng-template>
+          </ng-container>
+          <!--------------------------------------------------User Tab-------------------------------------------->
+          <ng-container ngbNavItem>
+            <a class="tabcolor tabbutto tabrowli" ngbNavLink>User</a>
+            <ng-template ngbNavContent>
+
+              <!--<label class="form-check-label" for="invalidCheck" style="margin-left:20px;margin-top:10px;">
+                Select A Group and Click on Change Permission Button
+              </label>-->
+
+              <div style="height:500px">
+                <span style="    margin-left: 550px;font-size: 25px;font-weight: bold">
+                  Select A Group and Click on Change Permission Button
+                </span>
+                <span style="font-weight:bold">
+                  <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedStatus">
+                    <mat-radio-button value="true" checked="checked" (click)="setradio('active')">Active</mat-radio-button>
+                    <mat-radio-button value="false" style="margin-left:10px;" (click)="setradio('InActive')">InActive(De-Activated)</mat-radio-button>
+                  </mat-radio-group>
+                </span>
+                <div *ngIf="isSelected('Active')" style="visibility:hidden">
+                  <input type="text" />Active radio button selected
+                </div>
+
+                <div *ngIf="isSelected('InActive')" style="visibility:hidden">
+                  <input type="text" /> InActive radio button selected
+                </div>
+                <!--<div>radio group ngModel: {{ selectedStatus }}</div>-->
+                <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 510px">
+                  <table class="table table-hover table-bordered fixed " style="margin-left:60px;margin-top:20px;overflow-y:scroll;background-color:white">
+                    <thead>
+                      <tr>
+                        <th class="header" scope="col">UserName</th>
+                        <th class="header" scope="col">Full Name</th>
+                        <th class="header" scope="col">Group Name</th>
+                        <th class="header" scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let getuserlist of data3,let i=index" (click)="ClickedRow(getuserlist.userName,getuserlist.GroupName,getuserlist.emailId,getuserlist.Password,getuserlist.Phone,getuserlist.Notes,getuserlist.Department,getuserlist.Address,getuserlist.UserGroupID);setClickedRow(i)" [class.active]="i == HighlightRow">
+
+                        <td>{{getuserlist.userName}}</td>
+                        <td>{{getuserlist.FirstName}}</td>
+                        <td>{{getuserlist.GroupName}}</td>
+                        <td>{{getuserlist.isEnable}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <h4 style="margin-left:60px;">Count:{{getuserlist}}</h4>
+                <div>
+                </div>
+
+                <form class="form-inline" style="   margin-top: 10px;margin-bottom:190px;">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 700px; height: 50px;width: 220px;" [routerLink]="'/AddSupplier'">Changing Licenced User </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;" (click)="openEditUserDialog()">Edit User</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;" (click)="openAddUserDialog()">Add User</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:150px;" (click)="openUserChangeGroupDialog()">Change Group</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Delete</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Back</button>
+                </form>
+              </div>
+            </ng-template>
+          </ng-container>
+          <!------------------------------------------------------------------------userSettings------------------------------------------------------------------------------------>
+          <ng-container ngbNavItem>
+            <a class="tabcolor tabbutto tabrowli" ngbNavLink>UserSettings</a>
+            <ng-template ngbNavContent>
+              <div style="margin-top: 30px;margin-left: 20px;">
+                <h3 style="text-align:center;">Edit your User Settings</h3>
+              </div>
+              <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                <label for="ph.no" style="margin-left: 190px;">Blinking Yellow User Cues</label>
+                <mat-radio-group aria-label="Select an option" style="margin-left:30px;">
+                  <mat-radio-button value="1">Yes</mat-radio-button>
+                  <mat-radio-button value="2" style="margin-left:10px;">No</mat-radio-button>
+                </mat-radio-group>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:40px;height:40px;width:100px;">Update</button>
+              </form>
+              <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                <label for="ph.no" style="margin-left: 190px;margin-top:20px;">Maximize ERP Screen</label>
+                <mat-radio-group aria-label="Select an option" style="    margin-top: 30px;margin-left: 60px;">
+                  <mat-radio-button value="1">Yes</mat-radio-button>
+                  <mat-radio-button value="2" style="margin-left:10px;">No</mat-radio-button>
+                </mat-radio-group>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 40px;height: 40px;width: 100px; margin-top: 30px;">Update</button>
+              </form>
+              <p style="font-weight: bold;color: red;margin-left: 40px; margin-top: 30px">(This will EXPAND SMART-ERP screen to maximize mode depending on user screen resolutions)</p>
+              <div style="height:500px">
+                <!--<form class="form-inline" style="   margin-top: 220px;margin-bottom:220px;">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;">Back</button>
+                </form>-->
+              </div>
+            </ng-template>
+          </ng-container>
+          <!-------------------------------------------------------------------------------Audit Tracking -------------------------------------------------------------------->
+          <ng-container ngbNavItem>
+            <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit Tracking</a>
+            <ng-template ngbNavContent>
+
+              <!--<label class="form-check-label" for="invalidCheck" style="margin-left:20px;margin-top:10px;">
+                Select A Group and Click on Change Permission Button
+              </label>-->
+
+              <div class="table-wrapper-scroll-y my-custom-scrollbar"style="height: 510px;margin-left:260px;">
+                <table class="table table-hover table-bordered fixed center " style="margin-left:60px;margin-top:20px;overflow-y:scroll;background-color:white">
+                  <thead>
+                    <tr>
+                      <th class="header" scope="col" style="column-width:40px;">Date</th>
+                      <th class="header" scope="col" style="column-width:290px;">Task</th>
+                      <th class="header" scope="col" style="column-width:180px;">UserName</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let auditlist of data1">
+                      <td>{{auditlist.date}}</td>
+                      <td>{{auditlist.task}}</td>
+                      <td>{{auditlist.username}}</td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+
+              </div>
+              <div>
+                <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 640px;height: 40px;width: 150px; margin-top: 30px;">Print Preview</button>
+                </form>
+              </div>
+            </ng-template>
+          </ng-container>
+        </nav>
+      </div>
+
+
+    </div>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+

@@ -1,0 +1,199 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <h2 style="   font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Stability Test Details</h2>
+    <div class="form-row">
+      <div class="form-group col-md-9">
+        <div class="form-inline" style="margin-top:5px">
+          <label for="PDR" style="margin-left: 5%;">STAB #</label>
+          <input style="    width: 20%;margin-left: 10px;" type="text" class="form-control">
+          <label for="PDR" style="margin-left: 5%;">Formula</label>
+          <input style="    width: 20%;margin-left: 10px;" type="text" class="form-control">
+          <label for="PDR" style="margin-left: 5%;">Formula</label>
+          <input style="    width: 20%;margin-left: 10px;" type="text" class="form-control">
+        </div>
+        <div class="form-inline" style="margin-top:5px">
+          <label for="PDR" style="margin-left: 5%;">Storage</label>
+          <input style="    width: 20%;margin-left: 10px;" type="text" class="form-control">
+          <label for="PDR" style="margin-left: 3.5%;">Fragrance</label>
+          <input style="    width: 20%;margin-left: 10px;" type="text" class="form-control">
+          <label for="PDR" style="margin-left: 6%;">Vendor</label>
+          <input style="    width: 20%;margin-left: 10px;" type="text" class="form-control">
+        </div>
+        <div class="form-inline" style="margin-top:5px">
+          <label for="inputcust" style=" margin-left:4%;">Start Dt</label>
+          <input type="date" id="date" class="form-control" name="date" style="width:15%;margin-left:10px">
+
+          <label for="inputcust" style="margin-left: 4%;">End Dt</label>
+          <input type="date" id="date" class="form-control" name="date" style="width:15%;margin-left:10px">
+          <label for="PRD" style="margin-left:1.6%; color:red"> * </label>
+          <label for="inputcust" style="margin-left: 3%;">Set Alert</label>
+          <input class="form-control" id="form-0-quantity" min="0" name="quantity" value="1" type="number" style="width:8%;margin-left:10px">
+          <label for="inputcust" style="margin-left: 1%;">Days(S)</label>
+        </div>
+        <div class="form-inline" style="margin-top:5px">
+          <label for="PDR" style="margin-left: 3%;">Ref #</label>
+          <input style=" width: 20%;margin-left: 10px;" type="text" class="form-control">
+          <label for="PDR" style="margin-left: 3%;">Package Size</label>
+          <input style=" width: 20%;margin-left: 10px;" type="text" class="form-control">
+          <label for="PDR" style="margin-left: 3%;">Lot #</label>
+          <input style=" width: 20%;margin-left: 10px;" type="text" class="form-control">
+        </div>
+        <div class="form-inline" style="margin-top:5px">
+          <label for="PDR" style="margin-left: 3%;">Add File</label>
+          <input style=" width: 50%;margin-left: 10px;" type="text" class="form-control">
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 6%; height: 40px; width: 150px;">...</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">Open</button>
+        </div>
+      </div>
+      <div class="form-group col-md-3">
+        <fieldset class="border p-2" style="margin-top:20px">
+          <legend class="w-auto" style="font-size:15px;color:maroon">Ranges(Specs from PDR)</legend>
+          <div class="form-inline" style="margin-top:5px">
+            <label for="PDR" style="margin-left: 8.5%;">pH:</label>
+            <label for="PDR" style="margin-left: 8.5%;">Spg:</label>
+          </div>
+          <label for="PDR" style="margin-left: 8.5%;">Visc:</label>
+
+          <fieldset class="border p-2" style="margin-top:20px">
+            <legend class="w-auto" style="font-size:15px;color:maroon;margin-left:-8px;">Viscometer Specs</legend>
+            <label for="PDR" style="margin-left: 8.5%;">Visc Method LVT</label>
+            <div class="form-inline" style="margin-top:5px">
+              <label for="PDR" style="margin-left: 8.5%;">Factor</label>
+              <label for="PDR" style="margin-left: 8.5%;">Speed</label>
+            </div>
+            <div class="form-inline" style="margin-top:5px">
+              <label for="PDR" style="margin-left: 8.5%;">Spindle</label>
+              <label for="PDR" style="margin-left: 8.5%;">Time</label>
+            </div>
+            <div class="form-inline" style="margin-top:5px">
+              <label for="PDR" style="margin-left: 8.5%;">Helipat</label>
+              <input type="radio" id="Yes" name="Yes" value="Yes">
+              <label for="Yes" style="color:maroon;font:bold">Yes</label><br>
+              <input type="radio" id="No" name="No" value="No">
+              <label for="No" style="color:maroon;font:bold">No</label><br>
+            </div>
+          </fieldset>
+        </fieldset>
+      </div>
+    </div>
+    <label for="PDR" style="margin-left: 8.5%;">Click to Type the Details. First Column is Read Only</label>
+    <table class="table table-bordered" style="background-color:white;">
+      <thead>
+        <tr>
+          <th scope="col">Testing </th>
+          <th scope="col">Initial</th>
+          <th scope="col">Duration 1</th>
+          <th scope="col">Duration 2</th>
+          <th scope="col">Duration 3</th>
+          <th scope="col">Duration 4</th>
+          <th scope="col">Duration 6</th>
+          <th scope="col">Duration 7</th>
+          <th scope="col">Duration 8</th>
+          <th scope="col">Duration 9</th>
+          <th scope="col">Duration 10</th>
+          <th scope="col">Other</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+    </table>
+    <div class="form-inline" style="margin-top:10px">
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;">Insert Row</button>
+      <label for="PDR" style="margin-left: 10%;">Freeze/Thaw(-15C to 25C) </label>
+    </div>
+    <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
+      <thead>
+        <tr>
+          <th scope="col">Testing </th>
+          <th scope="col">Initial Results</th>
+          <th scope="col">1ST CYCLE</th>
+          <th scope="col">2ND CYCLE</th>
+          <th scope="col">3RD CYCLE</th>
+          <th scope="col">4TH CYCLE</th>
+          <th scope="col">5TH CYCLE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+    </table>
+
+  </div>
+</div>
+<div class="form-inline" style="margin-top:10px">
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:150px;">Print Preview</button>
+  <input style="margin-left:1%" class="form-check-input" type="checkbox">
+  <label style="margin-left: 1% ">Approve Stability Test</label><br>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;height:40px;width:150px;">Create Label</button>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:120px;">New</button>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:120px;">Save</button>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:120px;">Delete</button>
+  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:2%;height:40px;float:right;width: 120px;" matDialogClose>Back </button>
+</div>
