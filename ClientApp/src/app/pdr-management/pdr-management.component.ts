@@ -147,6 +147,23 @@ export class PdrManagementComponent implements OnInit {
       width: '95%', height: '95%', disableClose: true
     });
   }
+  Pdr_Save(Pdrno: string, Pjctname: string) {
+
+    this.Pdrdetails = [Pdrno, Pjctname]
+
+    this.Pdr_savedata(this.Pdrdetails).subscribe((Pdr_savepdr) => {
+      console.warn("Pdr_savepdr", Pdr_savepdr)
+      this.Pdr_save_data = Pdr_savepdr
+    })
+  }
+
+
+  Pdr_savedata(Pdrdetails) {
+    var operat: string = "Save";
+    var usernam: string = "admin";
+    let params1 = new HttpParams().set('PDRDetail', Pdrdetails).set('operation', operat).set('username', usernam);
+    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/Save_Update_PDR", { params: params1 })
+  }
   ngOnInit() {
     //this.myForm = new FormGroup({
     //  'presentDate': new FormControl((new Date()).toISOString().substring(0, 10)),

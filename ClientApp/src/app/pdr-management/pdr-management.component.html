@@ -7,10 +7,11 @@
       <label for="PRD">PDR</label>
       <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="">
       <label for="PDR Date" style="margin-left:10px;">PDR Date</label>
-      <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date" [(ngModel)]="currentDate"    value="" [disabled]="datecheck">
-     
+      <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date" [(ngModel)]="currentDate" value="" [disabled]="datecheck">
+
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchprojectpdr()">Search</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)=" ClearData()">Clear</button>
+      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="custcode" size="10" [(ngModel)]="cuscode" name="custocode" value="" #pdrn>
     </form>
     <form class="form-inline">
       <label for="project_name" >Project Name</label>
