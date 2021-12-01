@@ -13,11 +13,15 @@
     background-color: #EDBB99;
     color: white;
   }
+  .mat-elevation-z5 {
+    position: relative;
+    z-index: 3;
+  }
 </style>
 <div>
-  <div class="basic-container"style="border:solid .1px darkgrey">
-    <div style=" background-color: black;" class="menu-bar mat-elevation-z1 ">
-      <mat-toolbar style="    background-color: #F7EFE5;
+  <div class="basic-container">
+    <div style=" background-color: black;" class="menu-bar mat-elevation-z5 ">
+      <mat-toolbar class="mat-elevation-z5" style="    background-color: #F7EFE5;
     height: 70px;
     color: white">
         <mat-toolbar-row style="margin-top:10px">
@@ -25,8 +29,8 @@
             <mat-icon style="color: #214252" (click)="sidenav.toggle()">menu</mat-icon>
           </button>
           <img src="../assets/SMARTFORMULATOR.jpg " height="30" width="30" />
-          <h1 style="font-family: Playfair Display; font-size:21px;color:  #150485">SMART </h1>
-          <h1 style="margin-right:30px;  font-family: Playfair Display;font-size:21px; color: firebrick"> Formulator</h1>
+          <h1 style="font-family: Playfair Display; font-size:25px;color:  #150485">SMART </h1>
+          <h1 style="margin-right:30px;  font-family: Playfair Display;font-size:25px; color: firebrick"> Formulator</h1>
 
 
 
@@ -47,7 +51,7 @@
                 <!-- Leaf node buttons here -->
                 <span *ngIf="!item.children || item.children.length === 0">
 
-                  <button mat-button [routerLink]="item.route"   style="font-size:medium">
+                  <button mat-button [routerLink]="item.route"   style="font-size:Large;color:black">
                     {{item.displayName}}
                   </button>
 
@@ -99,35 +103,35 @@
 
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title >
                   <a style="margin-left:0px;font-size:larger">Projects/PDR </a>
                 </mat-panel-title>
 
               </mat-expansion-panel-header>
               <mat-list>
 
-                <a mat-list-item [routerLink]="'/PDRManagement'">General </a>
-                <a mat-list-item [routerLink]="'/PDRManagement'"> Requirements </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
+                <a mat-list-item  [routerLink]="'/PDRManagement'">General </a>
+                <a mat-list-item   [routerLink]="'/PDRManagement'"> Requirements </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'">Assigning Users</a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'">Stage Gate Settings </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Documents </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Assigned Formulas </a>
+                <a mat-list-item  [routerLink]="'/fetch-data'"> Products </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Change Request </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Customer Communications </a>
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Specifications </a>
+                <a mat-list-item   [routerLink]="'/fetch-data'"> Audit Tracking</a>
 
               </mat-list>
             </mat-expansion-panel>
 
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Formulation</a>
@@ -137,26 +141,16 @@
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
-
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+                <a mat-list-item [routerLink]="'/Formulalisting'"> Formula Listing </a>
+                <a mat-list-item [routerLink]="'/Formulalookup'"> Formula Lookup </a>
+               
 
               </mat-list>
             </mat-expansion-panel>
 
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Sample Management </a>
@@ -166,18 +160,14 @@
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Sample Management</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Details </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">PDR Listing</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> PDR Listing by Date </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Disclaimers </a>
                 <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
-
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Document Audit </a>
+               
                 <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
 
               </mat-list>
@@ -185,7 +175,7 @@
 
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Productization  </a>
@@ -195,26 +185,26 @@
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Product </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Label</a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Packaging</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> ArtWork </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Bulk </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Prod.Regn Approvals </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Prod.Technical Data Specs </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Commerialization Checklist </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">PIF </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">CMO </a>
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Audit </a>
+                
 
               </mat-list>
             </mat-expansion-panel>
 
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a  style="margin-left:0px;font-size:larger" >Raw Materials</a>
@@ -224,25 +214,13 @@
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
-
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
-
+                <a mat-list-item [routerLink]="'/fetch-data'"> Raw Materials </a>
+                
               </mat-list>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Suppliers</a>
@@ -252,53 +230,31 @@
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
-
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Suppliers </a>
+             
 
               </mat-list>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
-                  <a style="margin-left:0px;font-size:larger">Customer</a>
+                  <a style="margin-left:0px;font-size:larger">Customers</a>
                 </mat-panel-title>
 
               </mat-expansion-panel-header>
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
-
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Customers </a>
+               
 
               </mat-list>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Product Portfolio</a>
@@ -308,25 +264,13 @@
               <mat-list>
 
 
-                <a mat-list-item [routerLink]="'/fetch-data'"> Requirments </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Product Dev.Brief </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
-                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
-
-                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
-                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
-
+                <a mat-list-item [routerLink]="'/fetch-data'"> Product Portfolio </a>
+               
               </mat-list>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header  class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Miscellaneous</a>

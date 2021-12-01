@@ -331,13 +331,14 @@ export class AppComponent implements OnInit {
   
     {
       displayName: 'Suppliers',
+      route: 'AddSupplier'
 
-      children: [
-        {
-          displayName: 'Suppliers',
-
-        }
-      ]
+     
+    },
+    {
+      displayName: 'Customers',
+      route: 'CustomerDetails'
+      
     },
     {
       displayName: 'Product Portfolio',

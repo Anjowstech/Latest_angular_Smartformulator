@@ -18,6 +18,7 @@ export interface FormulaList1 {
 
 
 }
+
 const ELEMENT_DATA: FormulaList[] = [
   { position: 'Formula 1002', name: '3-in-1 Ethnic shampoo', weight: '2011-1112', symbol: '3-in-1 Ethnic shampoo', status: 'productized', createdby: 'Admin', date: '7/26/2011' },
   { position: 'Formula 1002.Ver 01', name: '3-in-1 Ethnic shampoo', weight: '2011-1112', symbol: '3-in-1 Ethnic shampoo', status: 'productized', createdby: 'Admin', date: '7/26/2011' },
@@ -50,7 +51,9 @@ export class FormulaListingComponent implements OnInit {
 
     }
   constructor() { }
-
+  helloWorld() {
+    alert('Hello world!');
+  }
   ngOnInit() {
   }
 

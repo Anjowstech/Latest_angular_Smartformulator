@@ -1,122 +1,89 @@
 <div style="    background-color: #f6f5f1">
-  <div style="overflow-y:auto;overflow-x:hidden; height:84vh;width:100%">
+  <div style="overflow-y:auto;overflow-x:hidden; height:88vh;width:100%">
     <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formulation Lookup</h2>
 
     <form class="form-inline" style="    background-color: #f6f5f1">
-      <label for="PDR" style="margin-left:82px">PDR</label>
-      <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter PDR" id="PDR" size="20">
+      <label for="PDR" style="margin-left:82px;font-size: medium;
+  font-family: Verdana;">PDR</label>
+      <input type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter PDR" id="PDR" size="20" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="">
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;">Assign PDR</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)="searchpdr()">Search PDR</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; ">Add PDR/Project</button>
       <label for="Formulacode" style="margin-left: 1%;">Formula Code</label>
-      <select id="formulacode" class="form-control" style="width:13%;margin-left:10px">
-        <option selected>Select Formula Code</option>
+      <select disabled id="formulacode" class="form-control" style="width:13%;margin-left:10px">
+        <option selected>CUSTOM</option>
         <option>Admin</option>
         <option>Admin1</option>
         <option>Admin2</option>
         <option>Admin3</option>
         <option>Admin4</option>
       </select>
-      <input type="text" style="margin-left:30px;" class="form-control" id="formula_pdr" size="15">
+      <input type="text" style="margin-left:30px;width:25%" class="form-control" id="formula_pdr"  [(ngModel)]="formulacode" #formulacod name="formulacode" value="">
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px;" (click)="AddPrefixPopUp()">Add Prefix</button>
     </form>
     <form class="form-inline">
     </form>
     <form class="form-inline" style="margin-bottom: 10px; background-color: #f6f5f1">
-      <label for="formulaname" style="margin-left: 1%;margin-top:10px">Formula Name</label>
-      <input type="text" style="margin-left: 10px ;margin-top:10px" class="form-control" placeholder="Enter Formula Name" id="formulaname" size="125">
+      <label for="formulaname" style="margin-left: 1%;margin-top:10px; font-size: medium;
+  font-family: Verdana;">Formula Name</label>
+      <input type="text" style="margin-left: 10px ;margin-top:10px" class="form-control" placeholder="Enter Formula Name" id="formulaname" size="125"[(ngModel)]="formulaname" #formulanam name="formulaname" value="" >
 
-      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-top:10px; height:40px;width:90px;" (click)=" searchformula()">Search</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-top:10px; height:40px;" (click)=" searchformula();changeTab()">Search Formula</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="    margin-left: 10px;margin-top: 10px; height: 40px;width: 90px;">Clear</button>
     </form>
-    <nav ngbNav #nav="ngbNav" class="nav-tabs ">
-      <ng-container ngbNavItem style="margin-left:20px">
-        <a class="tabcolor tabbutto tabrowli " ngbNavLink>General</a>
+    <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>General</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row" style=" ">
               <div class="form-group col-md-9">
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-right:10px;margin-left:7%">Main Classification</label>
-                  <select id="PRD" class="form-control" style="width:45%">
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Main Classification</label>
+                  <select id="PRD" class="form-control" style="width:45%;margin-left:5px">
                     <option selected>Cosmetics</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option>Nutrition</option>
+                    <option>Paints</option>
+                    <option>Food</option>
+
                   </select>
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-top:10px;margin-left: 12%;margin-right:10px;">Category</label>
-                  <select id="PRD" class="form-control" style="width:45%;margin-left:0.5%;margin-top:1%">
-                    <option selected>Cosmetics</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Category</label>
+                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="Class" #Clas name="Cla" value="">
 
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:15px;padding-top: 10px;width:170px;height:46px" (click)="OpenCategoryformula()">Add Category</button>
 
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style=" margin-left: 9%;margin-right:10px">Sub Category</label>
-                  <select id="PRD" class="form-control" style="width:45%;margin-left:1%;margin-top:1%">
-                    <option selected>Acrylic</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Sub Category</label>
+                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="SubClass" #SubClas name="SubCla" value="">
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px; width: 170px; height: 46px" (click)="OpenSubCategoryformula()">Add Sub Category</button>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px; width: 170px; height: 46px"   (click)="PropellantsvocCalculaton()">Propellants in VOC</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px; width: 170px; height: 46px" (click)="PropellantsvocCalculaton()">Propellants in VOC</button>
 
 
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-left:12%;margin-right:10px">Status</label>
-                  <select id="PRD" class="form-control" style="width:45%;margin-left:1.8%;margin-top:1%">
-                    <option selected>A-Active</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                  <select id="PRD" class="form-control" style="width:20%;height:50%;margin-left:10px;margin-top:1%">
-                    <option selected>Kg</option>
-                    <option>company-owned</option>
-                    <option>Gal</option>
-                    <option>Ltr</option>
-                    <option>g</option>
-                  </select>
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Status</label>
+                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="Status" #Stat name="Statu" value="">
+                  <input style="width: 20%;margin-left:5px" type="text" class="form-control" [(ngModel)]="companyowned" #companyown name="companyow" value="">
 
                 </div>
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style=" margin-left: 10.5%;margin-right:10px">Customer</label>
-                  <input style="width: 45%;margin-left:1.5%" type="text" class="form-control">
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Customer</label>
+                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="customername" #customernam name="customername" value="">
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="Opencustomer()">...</button>
 
                 </div>
-                <div class="form-inline" style="margin-top:10px">
-                  <label for="inputcust" style=" margin-left: 8%;">Project Name</label>
-                  <input style="width: 45%;margin-left:2.5%" type="text" class="form-control">
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Project Name</label>
+                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="ProjectName" #ProjectNam name="Projectname" value="">
 
                 </div>
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style="margin-right:10px;margin-left:11%">Chemist</label>
-                  <select id="PRD" class="form-control" style="width:35%;margin-left:20px">
-                    <option selected>Active</option>
-                    <option>Experiment</option>
-                    <option>Hold</option>
-                    <option>Obsolete</option>
-                    <option>Completed</option>
-                    <option>DWS</option>
-                  </select>
-                  <label for="inputcust" style="margin-left:1.2%">On</label>
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Chemist</label>
+                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="SupercededBy" #Superceded name="Superced" value="">
+                  <label for="inputcust" style="margin-left:1.5%">On</label>
                   <select id="PRD" class="form-control" style="width:20%;margin-left:10px">
                     <option selected>06/18/2021</option>
                     <option>g</option>
@@ -124,9 +91,9 @@
                   </select>
 
                 </div>
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style="margin-left:9%">Approved By</label>
-                  <input style="width: 35%;margin-left:2%" type="text" class="form-control">
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Approved By</label>
+                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="ApprovedBy" #approvedb name="approvedby" value="">
                   <label for="inputcust" style="margin-left:1%">On</label>
                   <select id="PRD" class="form-control" style="width:20%;margin-left:10px">
                     <option selected>06/18/2021</option>
@@ -136,7 +103,7 @@
 
                 </div>
 
-                <div class="form-inline" style="margin-top:5px">
+                <div class="form-inline" style="padding-top:1%;">
                   <input style="margin-left:17%" type="checkbox" id="Yes" name="Yes" value="Yes">
                   <label for="male">Ok to Pilot</label><br>
                   <input style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="Yes">
@@ -145,9 +112,9 @@
                   <label for="male">Approve Formula</label><br>
 
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-left:8%;margin-right:1%">Max Pilot Qty</label>
-                  <input style="width: 35%;margin-left:1.5%" type="text" class="form-control">
+                <div class="form-inline" style="padding-top:1%;">
+                  <label class="label1" for="inputcust">Max Pilot Qty</label>
+                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="MaxPilotQty" #maxpiloqty name="maxpilotqty" value="">
                   <label for="inputcust" style="margin-left:30px">Unit Name</label>
                   <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
                     <option selected>Choose...</option>
@@ -161,145 +128,197 @@
               <div class="form-group col-md-3">
 
                 <div class="form-inline">
-                  <label style="margin-top:33%;margin-left:2%">Trade Name</label>
-                  <input style="width: 50%;margin-left:15px;margin-top:33%;margin-left:12%" type="text" class="form-control">
+                  <label style="margin-top:33%;font-size: medium;
+  font-family: Verdana;">Trade Name</label>
+                  <input style="width: 60%;margin-left:15px;margin-top:33%;margin-left:12%" type="text" class="form-control" [(ngModel)]="TradeName" #Tradename name="tradenam" value="">
                 </div>
                 <div class="form-inline">
-                  <label style="margin-top:2%">Lab Notebook #-page</label>
-                  <input style="width: 50%;margin-top:5%" type="text" class="form-control">
+                  <label style="margin-top:2%;font-size: medium;
+  font-family: Verdana;">Lab Notebook #-page</label>
+                  <input style="width: 50%;margin-top:5%" type="text" class="form-control" [(ngModel)]="LabRefNo" #Labrefno name="labRef" value="">
                 </div>
 
               </div>
             </div>
             <div class="form-inline">
-              <label for="inputcust" style="margin-left:4.8%">Specific Gravity</label>
-              <input style="width: 6%;margin-left:2%" type="text" class="form-control">
+              <label class="label1" for="inputcust">Specific Gravity</label>
+              <input style="width: 6%;" type="text" class="form-control" [(ngModel)]="ManualSG" #ManualS name="Manual" value="">
               <label for="inputcust" style="margin-left:30px">_</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control">
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control" value="0.00">
               <label for="inputcust" style="margin-left:30px">Lb/Gal</label>
               <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="inputclass">
             </div>
             <div class="form-inline">
-              <label for="inputcust" style="margin-right:10px;margin-left:7%">Shelf Life</label>
-              <input style="width:35%;margin-left:1.5%" type="text" class="form-control">
+              <label class="label1" for="inputcust">Shelf Life</label>
+              <input style="width:35%" type="text" class="form-control" [(ngModel)]="ShelfLife" #shelflife name="ShelfLifedata" value="">
+              <input style="width:10%" type="text" class="form-control" [(ngModel)]="ShelfLifeUnit" #ShelfLifeUni name="ShelfLifeU" value="">
 
             </div>
           </form>
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Formulation</a>
+      <ng-container ngbNavItem="2">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Formulation</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
-          <ng-template #innerTabset class="nav-tabs">
+          <ng-template #innerTabset class="nav-tabs ">
             <ngb-tabset>
-              <ngb-tab class="" title="Formula Details">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Formula Details</span></ng-template>
+                <!--<ngb-tab id="tab-1" class="textsize" title="Formula Details">-->
                 <ng-template ngbTabContent>
                   <div class=" form-inline">
-                    <label style="margin-left:3%; color:maroon" for="batchsize&formulaunit">Enter the Lab Batch Size and Default Formula Unit:</label>
-                    <input type="text" style="margin-left:10px;width:15%" class="form-control" placeholder="">
-                    <select id="batchsize&formulaunitdrop" class="form-control" style="width:10%;margin-left:10px;margin-right:10px">
-                      <option selected></option>
-                      <option></option>
-                      <option></option>
-                      <option></option>
-                      <option></option>
-                      <option></option>
+                    <label style="margin-left:3%; color:maroon" for="batchsize&formulaunit" class="textsize">Enter the Lab Batch Size and Default Formula Unit:</label>
+                    <input type="text" style="margin-left:10px;width:10%;text-align:right" class="form-control" placeholder=""value=" "[(ngModel)]="labbatch"   #labbatchh name="labbatc"  (blur)="blurEvent($event)" required>
+                    <select id="batchsize&formulaunitdrop" class="form-control" [(ngModel)]="selectedunit" style="width:5%;margin-left:10px;margin-right:10px" (blur)="blurEventunit($event)">
+                      <option selected>g</option>
+                      <option *ngFor="let itemunit of unitdatalo_data" (change)="setunitdata(unitdatalo_data)">{{itemunit.UnitName}}</option>
+                      
 
                     </select>
-                    <input type="radio" id="Yes" name="Yes" value="Yes">
-                    <label for="Yes">%</label><br>
-                    <input style="margin-left:2%" type="radio" id="No" name="No" value="No">
-                    <label for="No">Qty</label><br>
-                     <button type="submit" class="btn btn-primary  " style="margin-left:38%;background-color:transparent;border-color:maroon;color:maroon"(click)="openmaxformula()">Maximize</button>
+                    <mat-radio-group aria-label="Select an option"   >
+                      <mat-radio-button [value]="1"  [checked]="true" (change)="radioChange($event)">%</mat-radio-button>
+                      <mat-radio-button [value]="2"  style="margin-left:20px"  (change)="radioChange($event)">QTY</mat-radio-button>
+                    </mat-radio-group>
+
                   </div>
-                 
+
                   <form>
 
                     <div class="col-1">
 
                     </div>
-                    <ag-grid-angular style="width: 100%; height: 400px;font-family:Verdana;font-style:normal"
-                                     class="ag-theme-alpine "
+                    <ag-grid-angular style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                                     class="ag-theme-alpine"
                                      [rowHeight]="rowHeight"
                                      [columnDefs]="columnDefs"
+                                     [rowClassRules]="rowClassRules"
                                      (columnResized)="onColumnResized($event)"
                                      (columnVisible)="onColumnVisible($event)"
-                                     [immutableData]="true"
+                                     [immutableData]="false"
                                      [rowDragManaged]="true"
                                      #agGrid
-                                      (rowClicked)="onRowClick($event)"
+                                    
+                                      [applyColumnDefOrder]="true"
+                                     [getRowStyle]="getRowStyle"
                                      [rowStyle]="rowStyle"
                                      [getRowNodeId]="getRowNodeId"
                                      [rowSelection]="rowSelection"
-                                      [singleClickEdit]="true"
-                                    (contextmenu)=" rowRightClicked($event)"
-                                      (rowDoubleClicked)="rowDoubleClicked($event)"
+                                     [singleClickEdit]="true"
+                                     (contextmenu)=" rowRightClicked($event)"
+                                     (rowClicked)="rowClicked($event)"
+                                     (rowDoubleClicked)="rowDoubleClicked($event)"
                                      [enableRangeSelection]="true"
-                                     (gridReady)="onGridReady($event)"
-                                     [rowData]="rowData"
-                                       
-                                   
+                                    [gridOptions]="gridOptions"
                                      [defaultColDef]="defaultColDef"
+                                     [rowData]="rowData"
+                                       (gridReady)="onGridReady($event)"
+                                    
+                                    
+                                    >
 
-                                     >
                     </ag-grid-angular>
-                    <fieldset class="border p-0" >
+                    <!--<dx-data-grid id="gridContainer "style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                      [height]="440"
+                      (onRowPrepared)="onRowPrepared($event)"
+                      [allowColumnReordering]="true"
+                      [allowColumnResizing]="true"
+                      [columnAutoWidth]="true"
+                      [dataSource]="rowData"
+                      [wordWrapEnabled]="true"
+                      [showColumnLines]="true"
+
+                      [showRowLines]="true"
+                      [showBorders]="true">
+          <dxo-row-dragging [allowReordering]="true"
+                            [showDragIcons]="showDragIcons"></dxo-row-dragging>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-sorting mode="none"></dxo-sorting>
+          <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+          <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+          <dxi-column dataField="Step" [fixed]="true" style="color:black"></dxi-column>
+          <dxi-column caption="INCI Name" style="color:black"
+                      dataField="INCIName"
+
+                      [fixed]="true"></dxi-column>
+          <dxi-column dataField="TradeName" style="background-color:bisque"></dxi-column>
+          <dxi-column dataField="SupplierName" style="color:black"></dxi-column>
+          <dxi-column dataField="GeneralItemcode" alignment="right" style="color:black"></dxi-column>
+          <dxi-column dataField="Qtyinpercentage" alignment="right" style="color:black"></dxi-column>
+          <dxi-column dataField="Quantity" alignment="right" style="color:black"></dxi-column>
+          <dxi-column dataField="UnitName" style="color:black"></dxi-column>
+          <dxi-column dataField="UnitCost" alignment="right" style="color:black"></dxi-column>
+          <dxi-column dataField="Cost" alignment="right" style="color:black"></dxi-column>
+
+        </dx-data-grid>-->
+                    <fieldset class="border p-0">
                       <legend class="w-auto" style="font-size:15px;color:black">QUANTITY & COST</legend>
                       <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-5">
                           <div class="form-inline">
-                            <label style="margin-left:3%;" for="Cost$/Kg">Cost $/Kg</label>
-                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
-                            <label style="margin-left:3%; " for="Total%">Total %</label>
-                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+                            <label style="margin-left:5%;" for="Cost$/Kg">Cost $/Kg</label>
+                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="" [(ngModel)]="TotalCostInkg" #TotalCostInKG name="TotalCostInk" value="">
+
                           </div>
                           <div class="form-inline">
-                            <label style="margin-top:0.5%;margin-left:3%;" for="Cost$/Lb">Cost $/Lb</label>
-                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
-                            <label style="margin-top:0.5%;margin-left:3%; " for="Yield%">Yield %</label>
-                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+                            <label style="margin-top:0.5%;margin-left:5%;" for="Cost$/Lb">Cost $/Lb</label>
+                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="" [(ngModel)]="TotalCostInLB" #TotalCostlb name="TotalCostlb" value="">
+
                           </div>
                         </div>
-                        <div class="form-group col-md-8">
-                          <div class="form-inline">
-                            <label style="margin-left:3%;" for="Cost$/Kg">Total Quantity</label>
-                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
-                            <select id="gra" class="form-control" style="width:10%;margin-left:1%">
-                              <option selected>N/A</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                        <div class="form-group col-md-7">
 
-                            </select>
-                            <label style="margin-left:3%; " for="Cost%">Total Cost $</label>
-                            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+                          <div >
+
+
+
+
+
+
+
+
+                            <input type="text" style="float: right; margin-right: 60px;width:9%" class="form-control" placeholder="" [(ngModel)]="TotalUnitCost" #TotalunitCost name="TotalunitCos" value="">
+                            <input type="text" style="float: right; margin-right: 10px; width:10%" class="form-control" placeholder="" [(ngModel)]="formulaCost" #formulaCo name="formulaCos" value="">
+                            <input type="text" disabled id="gra" class="form-control" [(ngModel)]="selectedunit" name="uni" value="" style=" float: right; margin-right: 10px; width: 6%">
+                            <input type="text" style=" float:right;margin-right:10px;width:10.5%" class="form-control" placeholder="" [(ngModel)]="labbatch" #FormulaTotalQT name="FormulaTotalQ" value="">
+                            <input type="text" style="float:right;margin-right:10px;width:10%" class="form-control" placeholder="" [(ngModel)]="TotalPercentage" #TotalPer name="TotalPerce" value="">
                           </div>
-                          <div class="form-inline">
-                            <label style="margin-top:0.5%;margin-left:3%;" for="NetQuantity">Net Quantity</label>
-                            <input type="text" style="margin-left:19px;width:25%" class="form-control" placeholder="">
-                            <label style="margin-top:0.5%;margin-left:14.5%;color:red " for="TotalQuantity">Unit Cost $</label>
-                            <input type="text" style="margin-left:10px;width:25%;color:red" class="form-control" placeholder="">
+                          <div class="form-inline" style="margin-top:5%">
+                            <label style="margin-left:45.5%" for="total%">Total %</label>
+                            <label style="margin-left:6% " for="totalquantity">Total Quantity</label>
+                            <label style="margin-left:12% " for="Unitcost">Unit Cost$</label>
+                            <label style="margin-left: 6% " for="Unitcost">Total Cost$</label>
+
+                          </div>
+                          <div class="form-inline" style="margin-top:0.5%">
+
+                            <input type="text" style="margin-left:43.8%;width:10%" class="form-control" placeholder="" [(ngModel)]="Yield" #Yie name="Yiel" value="">
+                            <input type="text" style="width:10%" class="form-control" placeholder="" [(ngModel)]="labbatch" #formulaNetQ name="formulaNetQt" value="">
+
+
+                          </div>
+                          <div class="form-inline" style="margin-top:0.5%">
+                            <label style="margin-left:47.5%" for="NetQuantity">Yield %</label>
+                            <label style="margin-left:5%" for="NetQuantity">Net Quantity</label>
+
                           </div>
                         </div>
                       </div>
 
 
                     </fieldset>
-                    <div class="form-inline" >
+                    <div class="form-inline">
 
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="addRow()">Insert Row</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;">Delete Row</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)=" Pricing()">Pricing</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="HlbCalculation()">HLB Calculation</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;">Check Restriction</button>
+                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formularestriction()">Check Restriction</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="ScalabilityFactor()">Scalability Factor</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;">Cost Update</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;">Compare Formulas</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulaproperty()">Property</button>
+                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulaproperty();loadprop(formulacod.value)">Property</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="FormulaGraph()">Formula Graph</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulainstruction()">Formula Instruction</button>
 
@@ -308,32 +327,35 @@
                   </form>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="Formula Procedure-Text">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Formula Procedure-Text</span></ng-template>
+                <!--<ngb-tab id="tab-2" title="Formula Procedure-Text" class="textsize">-->
                 <ng-template ngbTabContent>
                   <label style="margin-top:1%" for="formula_procedure">Formula Procedure:</label>
                   <form>
                     <div class="form-inline">
 
-                      <div style="width:85%;height:250px;background-color:white;overflow-y:auto">
-                        <ul>
-                        </ul>
+                      <div style="width:95%;height:500px;background-color:white;overflow-y:auto">
+                        <textarea class="form-control" id="Restrictions" rows="3" style="width:100%; height: 99%; margin-left: 1%;margin-top:1%;">{{proceduretextlist}}</textarea>
                       </div>
 
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-6" style="margin-top: 2%;">
-                        <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Previous</button>
+
                       </div>
                       <div class="form-group col-md-6" style="margin-top: 2%;">
 
-                        <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px">Next</button>
+
                         <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px">Print Preview</button>
                       </div>
                     </div>
                   </form>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="Mfg. Procedure-Grid">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Mfg. Procedure-Grid</span></ng-template>
+                <!--<ngb-tab id="tab-3" title="Mfg. Procedure-Grid">-->
                 <ng-template ngbTabContent>
                   <label style="margin-top:1%;color:maroon" for="Manufacturing_Procedure">Manufacturing Procedure:</label>
 
@@ -342,41 +364,81 @@
                     <div class="col-1">
 
                     </div>
-                    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-                      <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
-                        <thead>
-                          <tr>
-                            <th scope="col">Phase</th>
-                            <th scope="col">Task</th>
-                            <th scope="col">SOP #</th>
-                            <th scope="col">Action</th>
-                            <th scope="col">Duration</th>
-                            <th scope="col">Start Time</th>
-                            <th scope="col">End Time</th>
-                            <th scope="col">Start Temp</th>
-                            <th scope="col">End Temp</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
+                    <!--<div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
+          <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white;" id="table" width="98%" height="500px">
+            <thead>
+              <tr>
+                <th scope="col">Phase</th>
+                <th scope="col">Task</th>
+                <th scope="col">SOP #</th>
+                <th scope="col">Action</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Start Temp</th>
+                <th scope="col">End Temp</th>
+                <th scope="col">Init I</th>
+                <th scope="col">Init II</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor=" let procgrid of procedgrid">
+                <td>{{ procgrid.Phase }}</td>
+                <td>{{ procgrid.Task}}</td>
+                <td>{{ procgrid.SOPNo }}</td>
+                <td>{{ procgrid.Action}}</td>
+                <td>{{ procgrid.Duration}}</td>
+                <td>{{ procgrid.StartTime}}</td>
+                <td>{{ procgrid.EndTime}}</td>
+                <td>{{ procgrid.StartTemp}}</td>
+                <td>{{ procgrid.EndTemp}}</td>
+                <td>{{ procgrid.Init1}}</td>
+                <td>{{ procgrid.Init2}}</td>
+              </tr>
+
+            </tbody>
+          </table>
 
 
-                            <td>1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
+        </div>-->
+                    ta
+                    <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                                  [height]="440"
+                                  (onRowPrepared)="onRowPrepared($event)"
+                                  [allowColumnReordering]="true"
+                                  [allowColumnResizing]="true"
+                                  [columnAutoWidth]="true"
+                                  [dataSource]="procedgrid"
+                                  [wordWrapEnabled]="true"
+                                  [showColumnLines]="true"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                  (rowprepared)="rowprepared">
+                      <dxo-editing mode="row"
+                                   [allowUpdating]="true"
+                                   [allowDeleting]="true"
+                                   [allowAdding]="true">
+                      </dxo-editing>
+                      <dxo-row-dragging [allowReordering]="true"
+                                        [showDragIcons]="showDragIcons"></dxo-row-dragging>
+                      <dxo-scrolling mode="virtual"></dxo-scrolling>
+                      <dxo-sorting mode="none"></dxo-sorting>
+                      <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                      <dxi-column dataField="Phase" [width]="100"></dxi-column>
+                      <dxi-column dataField="Task"></dxi-column>
+                      <dxi-column dataField="SOPNo" [width]="230"></dxi-column>
+                      <dxi-column dataField="Action" [width]="230"></dxi-column>
+                      <dxi-column dataField="Duration" [width]="100"></dxi-column>
+                      <dxi-column dataField="StartTime" [width]="100"></dxi-column>
+                      <dxi-column dataField="EndTime" [width]="100"></dxi-column>
+                      <dxi-column dataField="StartTemp" [width]="100"></dxi-column>
+                      <dxi-column dataField="EndTemp" [width]="100"></dxi-column>
+                      <dxi-column dataField="Init1" [width]="100"></dxi-column>
+                      <dxi-column dataField="Init2" [width]="100"></dxi-column>
 
-                        </tbody>
-                      </table>
-
-
-                    </div>
-
+                    </dx-data-grid>
 
 
                     <div style="margin-top: 2%;">
@@ -392,7 +454,9 @@
                   </form>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="Manufacturing Procedure Review">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Manufacturing Procedure Review</span></ng-template>
+                <!--<ngb-tab id="tab-4" title="Manufacturing Procedure Review">-->
                 <ng-template ngbTabContent>
                   <label style="margin-top:1%;color:maroon" for="Manufacturing_Procedure">Formula Manufacturing Procedure Review (Minimum 3 User Review Required)</label>
                   <form>
@@ -413,25 +477,22 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-
-
-                            <td>1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                          <tr *ngFor="let datas of manuprocreviewdata">
+                            <td>{{ datas.itemno }}</td>
+                            <td>{{ datas.information}}</td>
+                            <td> <input type="checkbox" style="margin-left:20%;color:black" [checked]="datas.checkoff == 'True'" /> </td>
+                            <td>{{ datas.username }}</td>
+                            <td>{{ datas.ReviewDate }}</td>
 
                           </tr>
-
                         </tbody>
                       </table>
 
 
                     </div>
                     <div class="form-inline">
-                      <input type="checkbox" style="margin-left:20%;color:maroon">
-                      <label style="color:maroon"> Manufacturing Procedure Approval </label>
+                      <input class="form-check-input" type="checkbox" style="margin-left:5%;color:maroon">
+                      <label class="workflow"> Manufacturing Procedure Approval </label>
                     </div>
 
 
@@ -443,8 +504,8 @@
           </ng-template>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Scalability Factor</a>
+      <ng-container ngbNavItem="3">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Scalability Factor</a>
         <ng-template ngbNavContent>
           <form>
 
@@ -452,56 +513,109 @@
 
             </div>
             <!--<div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-              <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white;height:20%" id="table" width="98%">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col">step</th>
-                    <th scope="col">INCI Name</th>
-                    <th scope="col">%</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Unit</th>
-                    <th scope="col">Unit Cost $</th>
-                    <th scope="col">Cost $</th>
+          <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white;height:20%" id="table" width="98%">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">step</th>
+                <th scope="col">INCI Name</th>
+                <th scope="col">%</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Unit Cost $</th>
+                <th scope="col">Cost $</th>
 
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-
-
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
 
 
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
 
-                  </tr>
 
-                </tbody>
-              </table>
 
-            </div>-->
-            <ag-grid-angular style="width: 95%; height: 400px"
-                             class="ag-theme-alpine"
-                             [rowStyle]="rowStyle"
-                             [rowHeight]="rowHeight"
-                             [columnDefs]="columnDefs"
-                             (columnResized)="onColumnResized($event)"
-                             (columnVisible)="onColumnVisible($event)"
-                             [immutableData]="true"
-                             [getRowNodeId]="getRowNodeId"
-                             [rowSelection]="multiple"
-                             [enableRangeSelection]="true"
-                             (gridReady)="onGridReady($event)"
-                             [rowData]="rowData"
-                             [defaultColDef]="defaultColDef">
-            </ag-grid-angular>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>-->
+            <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                          [height]="440"
+                          (onRowPrepared)="onRowPrepared($event)"
+                          (onCellPrepared)="onCellPrepared($event)"
+                          [allowColumnReordering]="true"
+                          [allowColumnResizing]="true"
+                          [columnAutoWidth]="true"
+                          [dataSource]="rowData"
+                          [wordWrapEnabled]="true"
+                          [showColumnLines]="true"
+                          [showRowLines]="true"
+                          [showBorders]="true">
+
+              <dxo-editing mode="row"
+                           [allowUpdating]="true"
+                           [allowDeleting]="true"
+                           [allowAdding]="true">
+              </dxo-editing>
+              <dxo-row-dragging [allowReordering]="true"
+                                [showDragIcons]="showDragIcons"></dxo-row-dragging>
+              <dxo-scrolling mode="virtual"></dxo-scrolling>
+              <dxo-sorting mode="none"></dxo-sorting>
+              <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+              <dxi-column dataField="Step" [fixed]="true" headerCellTemplate="addressHeaderTemplatestep"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplatestep'">
+                <b style="color: black">Step</b>
+              </div>
+              <dxi-column style="color:black"
+                          dataField="INCIName"
+                          [fixed]="true" headerCellTemplate="addressHeaderTemplateinci"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplateinci'">
+                <b style="color: black">INCI Name</b>
+              </div>
+              <dxi-column dataField="TradeName" headerCellTemplate="addressHeaderTemplatetrade"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplatetrade'">
+                <b style="color: black">Trade Name</b>
+              </div>
+              <dxi-column dataField="SupplierName" style="color:black" headerCellTemplate="addressHeaderTemplatesupplier"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplatesupplier'">
+                <b style="color: black">Supplier Name</b>
+              </div>
+              <dxi-column dataField="GeneralItemcode" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplategeneral"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplategeneral'">
+                <b style="color: black">General Item Code</b>
+              </div>
+              <dxi-column dataField="Qtyinpercentage" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplategeneralQty"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplategeneralQty'">
+                <b style="color: black">Qtyinpercentage</b>
+              </div>
+              <dxi-column dataField="Quantity" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplateQty"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplateQty'">
+                <b style="color: black">Quantity</b>
+              </div>
+              <dxi-column dataField="UnitName" style="color:black" headerCellTemplate="addressHeaderTemplateunit"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplateunit'">
+                <b style="color: black">Unit Name</b>
+              </div>
+              <dxi-column dataField="UnitCost" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplateUnitCost"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplateUnitCost'">
+                <b style="color: black">Unit Cost</b>
+              </div>
+              <dxi-column dataField="Cost" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplateCost"></dxi-column>
+              <div *dxTemplate="let info of 'addressHeaderTemplateCost'">
+                <b style="color: black">Cost</b>
+              </div>
+            
+            </dx-data-grid>
 
 
             <div class="form-inline">
@@ -514,7 +628,7 @@
               <input type="text" style="margin-left:10px;width:10%" class="form-control" placeholder="">
             </div>
             <div class="form-inline">
-              <label style="margin-left:33%; " for="TotalQuantity">Scalability Factor</label>
+              <label style="margin-left:32%; " for="TotalQuantity">Scalability Factor</label>
               <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
               <label style="margin-left:13%;color:red" for="TotalQuantity">Unit Cost $</label>
               <input type="text" style="margin-left:10px;width:10%;color:red" class="form-control" placeholder="">
@@ -526,8 +640,8 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>QC</a>
+      <ng-container ngbNavItem="4">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>QC</a>
         <ng-template ngbNavContent>
           <label style="margin-left:1%;margin-top:10px">Quality Control Test Results (Click Grid to Edit) :</label>
           <table class="table table-bordered" style="background-color:white;">
@@ -596,247 +710,13 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Phy. Stability</a>
-        <ng-template ngbNavContent>
-          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
-          <ng-template #innerTabset class="nav-tabs">
-            <ngb-tabset>
-              <ngb-tab class="" title="Phy.Stability Details">
-                <ng-template ngbTabContent>
-                  <table class="table table-bordered" style="margin-top:20px;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Storage Condition</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Approved (Y/N)</th>
-                        <th scope="col">Approved By</th>
-                        <th scope="col">SOP Doc</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </table>
-
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px">
-                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 1</legend>
-                        <div class="form-inline">
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-inline">
-                          <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <fieldset class="border p-1" style="width:100%; margin-left: 5px">
-                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 2</legend>
-                        <div class="form-inline">
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-inline">
-                          <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
-                        </div>
-                      </fieldset>
-                    </div>
-                  </div>
-
-                  <div class="form-inline" style="margin-top: 5px;">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;height:50px;width:120px;">Previous</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:27%;height:50px;width:120px;">Graph View</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:200px;">Final Stability Report</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:200px;" (click)="AddphystabilityTest()">Add Phy.Stability Tests </button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:120px;">Next</button>
-
-                  </div>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab title="Component Compatibility">
-                <ng-template ngbTabContent>
-                  <table class="table table-bordered" style="margin-top:20px;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Storage Condition</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Approved (Y/N)</th>
-                        <th scope="col">Approved By</th>
-                        <th scope="col">SOP Doc</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </table>
-
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px">
-                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 1</legend>
-                        <div class="form-inline">
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-inline">
-                          <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <fieldset class="border p-1" style="width:100%; margin-left: 5px">
-                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 2</legend>
-                        <div class="form-inline">
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-inline">
-                          <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
-                        </div>
-                      </fieldset>
-                    </div>
-                  </div>
-
-
-
-                  <div class="form-row" style="margin-top: 5px;">
-                    <div class="form-group col-md-6">
-                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;">Final Compatibility Report</button>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;">Add Component Compatibility Tests </button>
-                    </div>
-                  </div>
-
-
-
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab title="Phy.Stability Docs">
-                <ng-template ngbTabContent>
-
-                </ng-template>
-              </ngb-tab>
-
-            </ngb-tabset>
-          </ng-template>
-
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Product Testing</a>
+      <ng-container ngbNavItem="6">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Product Testing</a>
         <ng-template ngbNavContent>
           <ngb-tabset>
-            <ngb-tab class="" title="Test Details">
+            <ngb-tab>
+              <ng-template ngbTabTitle><span class="textsize">Test Details</span></ng-template>
+              <!--<ngb-tab class="" title="Test Details">-->
               <ng-template ngbTabContent>
                 <label style="margin-left:1%;margin-top:1%">Double Click to View Details :</label>
                 <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
@@ -892,10 +772,12 @@
                       <td></td>
                     </tr>
                 </table>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;" (click)="AddproductTesting()">Add Product Testing</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="AddproductTesting()">Add Product Testing</button>
               </ng-template>
             </ngb-tab>
-            <ngb-tab class="" title="Test Documents">
+            <ngb-tab>
+              <ng-template ngbTabTitle><span class="textsize">Test Documents</span></ng-template>
+              <!--<ngb-tab class="" title="Test Documents">-->
               <ng-template ngbTabContent>
 
                 <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
@@ -1202,14 +1084,14 @@
           </ngb-tabset>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Regulatory</a>
+      <ng-container ngbNavItem="7">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Regulatory</a>
         <ng-template ngbNavContent>
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>IL/QIL</a>
+      <ng-container ngbNavItem="8">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>IL/QIL</a>
         <ng-template ngbNavContent>
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -1363,97 +1245,99 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Formula Specs</a>
+      <ng-container ngbNavItem="9">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Formula Specs</a>
         <ng-template ngbNavContent>
           <fieldset class="border p-2" style="margin-top:20px">
             <legend class="w-auto" style="font-size:15px;color:maroon">SPECIFICATIONS</legend>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <div class="form-inline">
-                  <label style="margin-left:10%">Appearance</label>
-                  <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                  <label class="label1">Appearance</label>
+                  <input style="width: 50%;" type="text" class="form-control"[(ngModel)]="appearence" #appearenc name="appearenc" value="">
                 </div>
                 <div class="form-inline">
-                  <label style="margin-left:10%">Viscocity</label>
-                  <input style="width: 50%;margin-left:4%" type="text" class="form-control">
+                  <label class="label1">Viscocity</label>
+                  <input style="width: 50%;" type="text" class="form-control"[(ngModel)]="viscosity" #viscosit name="viscosi" value="">
                 </div>
 
               </div>
               <div class="form-group col-md-6">
                 <div class="form-inline">
 
-                  <label style="margin-left:10px">pH</label>
-                  <input style="width: 50%;margin-left:25px" type="text" class="form-control">
+                  <label class="label1" >pH</label>
+                  <input style="width: 50%;" type="text" class="form-control"[(ngModel)]="ph" #phdata name="phda" value="">
                 </div>
                 <div class="form-inline">
-                  <label style="margin-left:10px">Odor</label>
-                  <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                  <label class="label1" >Odor</label>
+                  <input style="width: 50%" type="text" class="form-control"[(ngModel)]="odor" #odorda name="odordata" value="">
 
                 </div>
               </div>
             </div>
 
-            <div class="form-inline">
-              <label style="margin-left:7.5%">Specification Notes</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:71%; height: 70px; margin-left: 0.5%;"></textarea>
+            <div class="form-inline" >
+              <label class="label1"  >Specification Notes</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:71%; height: 70px;"[(ngModel)]="FormulaSpecsNotes" #FormulaSpecsNot name="FormulaSpecsNo" value=""></textarea>
             </div>
           </fieldset>
           <div class="form-inline">
-            <label style="margin-left:110px">About the Formulation</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px; margin-left: 0.5%;"></textarea>
+            <label class="label2" >About the Formulation</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px;" [(ngModel)]="AboutFormulation" #AboutFormulatio name="AboutFormulat" value=""></textarea>
           </div>
           <div class="form-inline">
-            <label style="margin-left:70px">How to Use the Formulation</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px; margin-left: 0.5%;"></textarea>
+            <label class="label2" >How to Use the Formulation</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px;" [(ngModel)]="useFormulation" #useFormulatio name="useFormulat" value=""></textarea>
           </div>
           <div class="form-inline">
-            <label style="margin-left:35px">Who Should Use the Formulation</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px; margin-left: 0.5%;"></textarea>
+            <label class="label2" >Who Should Use the Formulation</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px; " [(ngModel)]="WhoUse" #WhoUs name="WhoU" value=""></textarea>
           </div>
           <div class="form-inline">
-            <label style="margin-left:50px">What Does the Formulation Do</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px; margin-left: 0.5%;"></textarea>
+            <label class="label2" >What Does the Formulation Do</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-top: 10px;width:71%; height: 70px;"[(ngModel)]="formulationDoes" #formulationDo name="formulationD" value=""></textarea>
           </div>
           <div class="form-inline" style="margin-top: 20px;">
             <div class="form-group col-md-6">
-              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10%;height:50px;width:120px;">Previous</button>
+            
 
-              <input style="margin-left:30px" class="form-check-input" type="checkbox">
-              <label style="margin-left: 5px">Approve Specifications</label><br>
+              <input style="margin-left:30px;"  class="form-check-input" type="checkbox">
+              <label style="margin-left: 5px " class="workflow">Approve Specifications</label><br>
             </div>
             <div class="form-group col-md-6">
-              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:72%;height:50px;width:120px;">Next</button>
+             
             </div>
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Marketing Artifacts</a>
+      <ng-container ngbNavItem="10">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Marketing Artifacts</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
           <ng-template #innerTabset class="nav-tabs">
             <ngb-tabset>
-              <ngb-tab class="" title="Marketing Brief">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Marketing Brief</span></ng-template>
+                <!--<ngb-tab class="" title="Marketing Brief">-->
                 <ng-template ngbTabContent>
 
 
 
-                  <div class="form-inline" style="margin-top:2%">
+                  <div class="form-inline">
 
                     <label for="inputPassword6">Market Indicator</label>
-                    <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" style="width:60%">
+                    <select id="batchsize&formulaunitdrop" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" style="width:60%">
+                      <option *ngFor="let datas of market_indi_data">{{ datas.MarketingIndicator}}</option>
+
+                    </select>
+
                     <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:20px;height:40px;" (click)="MarketIndicator()">Add Market Indicator</button>
 
                   </div>
 
 
-
-
-
-
                   <div style="margin-top:1%">
-                    <table class="table table-bordered" style="height:5%;width:100%;background-color:white">
+                    <table class="table table-bordered" style="height:300px;width:100%;background-color:white">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -1464,49 +1348,30 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                        <tr *ngFor="let datas of formulamarketingdata">
+                          <td class="tabledatasize">{{ datas.No }}</td>
+                          <td class="tabledatasize">{{ datas.IngredientTradeName}}</td>
+                          <td class="tabledatasize">{{datas.INCIName}}</td>
+                          <td class="tabledatasize">{{ datas.Benefits }}</td>
+                          <td class="tabledatasize">{{ datas.Country }}</td>
+
                         </tr>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
+
                       </tbody>
                     </table>
                   </div>
-                  <form>
-                    <div class="form-row">
-                      <div class="col">
-                        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:40px;">Insert Row</button>
-                        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:70px;height:40px;">Delete Row</button>
-                      </div>
 
-                    </div>
-                  </form>
                   <form>
-                    <div class="form-row">
-                      <div class="col-md-8">
-                        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:40px;margin-top:2%">Previous</button>
-                        <input style="margin-left:7%;margin-top:2.3%" type="checkbox" id="Yes" name="Yes" value="Yes">
-                        <label for="male" style="margin-top:2.3%">Approve Marketing Information</label>
-                      </div>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:2%;height:50px" (click)="marketingcallouts()">Marketing Call-outs</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:2%;height:50px">Marketing Report</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:2%;height:50px">Next</button>
+                    <div class="form-inline">
+
+                      <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:1%;height:40px;">Insert Row</button>
+                      <input class="form-check-input" style="margin-left:3%;" type="checkbox" id="Yes" name="Yes" value="Yes">
+                      <label class="workflow" for="male">Approve Marketing Information</label>
+
+                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:30%;height:40px" (click)="marketingcallouts()">Marketing Call-outs</button>
+                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 1%; height: 40px">Marketing Report</button>
+
+                      <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left: 1%; height: 40px">Delete Row</button>
                     </div>
                   </form>
 
@@ -1514,12 +1379,16 @@
 
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="Marketing Docs">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Marketing Docs </span></ng-template>
+                <!--<ngb-tab title="Marketing Docs">-->
                 <ng-template ngbTabContent>
                   <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
                   <ng-template #innerTabset class="nav-tabs">
                     <ngb-tabset>
-                      <ngb-tab class="" title="Word Document">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Word Documents</span></ng-template>
+                        <!--<ngb-tab class="" title="Word Document">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -1582,7 +1451,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="Excel File">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Excel File</span></ng-template>
+                        <!--<ngb-tab title="Excel File">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -1645,7 +1516,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="PDF File">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">PDF File</span></ng-template>
+                        <!--<ngb-tab title="PDF File">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -1708,7 +1581,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="Picture File">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Picture File</span></ng-template>
+                        <!--<ngb-tab title="Picture File">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -1771,7 +1646,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="Documents Audit">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Document Audit</span></ng-template>
+                        <!--<ngb-tab title="Documents Audit">-->
                         <ng-template ngbTabContent>
                           <div class="col-1">
 
@@ -1819,34 +1696,38 @@
           </ng-template>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Formula Notes</a>
+      <ng-container ngbNavItem="11">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Formula Notes</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
           <ng-template #innerTabset class="nav-tabs">
             <ngb-tabset>
-              <ngb-tab class="" title="Formula Notes">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Formula Notes</span></ng-template>
+                <!--<ngb-tab class="" title="Formula Notes">-->
                 <ng-template ngbTabContent>
                   <form>
 
                     <div class="form-inline">
-                      <label for="Formula Notes" style="margin-left: 50px;">Formula Notes:</label>
-                      <textarea id="data_results" style="width:70%;margin-left:2%;margin-top:3px" class="form-control md-textarea" size="7" rows="8"></textarea>
+                      <label for="Formula Notes" style="font-size: medium; font-family: Verdana;">Formula Notes:</label>
+                      <textarea id="data_results" style="width:71%;height:500px;margin-top:3px;margin-left:2.5%" class="form-control md-textarea" [(ngModel)]="FormulaNotes" #FormulaNote name="FormulaNot" value=""></textarea>
                     </div>
                     <div class="form-inline">
-                      <label for="Change Request" style="margin-left: 50px;">Change Request#</label>
-                      <input type="text" style="margin-left:1%;width:71%" class="form-control" placeholder="" id="Change Reques" name="Change Reques" #Change Reques="">
+                      <label class="label1" for="Change Request">Change Request#</label>
+                      <input type="text" style="width:71%" class="form-control" placeholder="" id="Change Reques" name="Change Reques" #Change Reques="">
                     </div>
                     <div class="form-inline">
-                      <label for="Reason For Change" style="margin-left: 2.5%;">Reason For Change</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:71%;height:100px;margin-left:0.5%;"></textarea>
+                      <label class="label1" for="Reason For Change" style="">Reason For Change</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:71%;height:100px;"></textarea>
                     </div>
                   </form>
 
 
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="Formula Worksheet Docs">
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Formula Worksheet Docs</span></ng-template>
+                <!--<ngb-tab title="Formula Worksheet Docs">-->
                 <ng-template ngbTabContent>
                   <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
                   <ng-template #innerTabset class="nav-tabs">
@@ -1914,7 +1795,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="Excel File">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Excel File</span></ng-template>
+                        <!--<ngb-tab title="Excel File">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -1977,7 +1860,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="PDF File">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">PDF File</span></ng-template>
+                        <!--<ngb-tab title="PDF File">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -2040,7 +1925,9 @@
                           </form>
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="Picture File">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Picture File</span></ng-template>
+                        <!--<ngb-tab title="Picture File">-->
                         <ng-template ngbTabContent>
                           <form>
                             <div class="form-row">
@@ -2104,7 +1991,9 @@
 
                         </ng-template>
                       </ngb-tab>
-                      <ngb-tab title="Documents Audit">
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span class="textsize">Document Audit</span></ng-template>
+                        <!--<ngb-tab title="Documents Audit">-->
                         <ng-template ngbTabContent>
                           <div class="col-1">
 
@@ -2152,18 +2041,11 @@
               </ngb-tab>
             </ngb-tabset>
           </ng-template>
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="form-inline">
-                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; margin-top:3%">Previous </button>
-                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 83%; margin-top:3%">Next </button>
-              </div>
-            </div>
-          </div>
+         
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Pilot/Lab Batch Ticket</a>
+      <ng-container ngbNavItem="12">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Pilot/Lab Batch Ticket</a>
         <ng-template ngbNavContent>
           <label style="margin-left:1%;margin-top:10px">Double Click to View Lab Batch Tkt Details.Right Click to view COA Information.</label>
           <table class="table table-bordered" style="background-color:white;">
@@ -2191,220 +2073,583 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>COA</a>
+      <ng-container ngbNavItem="5">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Phy. Stability</a>
         <ng-template ngbNavContent>
-          <div class="form-row">
-            <div class="form-group col-md-8">
-              <div class="form-inline" style="margin-top:10px">
-                <label for="inputcust" style=" padding-top: 10px;margin-left: 3.3%;">Storage Condition</label>
-                <select id="PRD" class="form-control" style="width:60%;margin-left:10px">
-                  <option selected>N/A</option>
-                </select>
-              </div>
-              <div class="form-inline" style="margin-top:10px">
-                <label for="PDR" style="margin-left: 11%;">Lab Lot #</label>
-                <input style="width: 60%;" type="text" class="form-control">
-              </div>
-              <div class="form-inline" style="margin-top:10px">
-                <label for="inputcust" style=" padding-top: 10px;margin-left:6%;">Analysis Date</label>
-                <input type="date" id="date" class="form-control" name="date" style="width:20%;margin-left:10px">
+          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+          <ng-template #innerTabset class="nav-tabs">
+            <ngb-tabset>
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Phy.Stability Details</span></ng-template>
+                <!--<ngb-tab class="" title="Phy.Stability Details">-->
+                <ng-template ngbTabContent>
+                  <table class="table table-bordered" style="margin-top:20px;background-color:white;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Storage Condition</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Approved (Y/N)</th>
+                        <th scope="col">Approved By</th>
+                        <th scope="col">SOP Doc</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                  </table>
 
-                <label for="inputcust" style=" padding-top: 10px;margin-left: 4%;">Certification Date</label>
-                <input type="date" id="date" class="form-control" name="date" style="width:20%;margin-left:10px">
-              </div>
-            </div>
-            <div class="form-group col-md-4">
-              <div class="form-inline" style="margin-top:10px">
-                <label for="inputcust" style=" padding-top: 10px;margin-left: 7%;">Trial #</label>
-                <select id="PRD" class="form-control" style="width:50%;margin-left:10px">
-                  <option selected>Trial 1</option>
-                </select>
-              </div>
-              <div class="form-inline" style="margin-top:10px">
-                <label for="PDR" style="margin-left: 3.5%;">Customer</label>
-                <input style="width: 50%;" type="text" class="form-control">
-              </div>
-              <div class="form-inline" style="margin-top:10px">
-                <label for="inputcust" style=" padding-top: 10px;margin-left: 1%;">Expiry Date</label>
-                <input type="date" id="date" class="form-control" name="date" style="width:50%;margin-left:10px">
-              </div>
-            </div>
-          </div>
-          <ngb-tabset>
-            <ngb-tab class="" title="COA Chemistry">
-              <ng-template ngbTabContent>
-                <div class="form-inline" style="margin-top:10px">
-                  <label for="inputcust" style=" padding-top: 10px;background-color:cornsilk; color:maroon;">TEST RESULTS - C H E M I S T R Y </label>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 10%; color:darkblue">Only Results can be edited (Tests Params come from PDR Page)</label>
-                </div>
-                <table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
-                  <thead>
-                    <tr>
-                      <th scope="col">Claim</th>
-                      <th scope="col">Limits</th>
-                      <th scope="col">Result</th>
-                      <th scope="col">Method</th>
-                      <th scope="col">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">A</th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">B</th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">C</th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px">
+                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 1</legend>
+                        <div class="form-inline">
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:12px">Status</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:1px">By</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-inline">
+                          <label style="margin-left:1px">Comments</label>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <fieldset class="border p-1" style="width:100%; margin-left: 5px">
+                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 2</legend>
+                        <div class="form-inline">
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:12px">Status</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:1px">By</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-inline">
+                          <label style="margin-left:1px">Comments</label>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
 
-                </table>
-                <div class="form-inline" style="margin-top:10px">
-                  <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">Created By</label>
-                  <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
-                    <option selected>FullName</option>
-                  </select>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">{{curDate | date:'MM/dd/yyyy'}}</label>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Verified By</label>
-                  <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
-                    <option selected>Select</option>
-                  </select>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Approved By</label>
-                  <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
-                    <option selected>Select</option>
-                  </select>
-                </div>
-              </ng-template>
-            </ngb-tab>
-            <ngb-tab class="" title="COA Microbiology">
-              <ng-template ngbTabContent>
-                <div class="form-inline" style="margin-top:10px">
+                  <div class="form-inline" style="margin-top: 5px;">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;height:50px;width:120px;">Previous</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:27%;height:50px;width:120px;">Graph View</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:200px;">Final Stability Report</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:200px;" (click)="AddphystabilityTest()">Add Phy.Stability Tests </button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:120px;">Next</button>
 
-                  <label for="inputcust" style=" padding-top: 10px;background-color:cornsilk; color:maroon;">TEST RESULTS -M  I  C  R  O  B  I  O  L  O  G  Y   </label>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 10%; color:darkblue">Only Results can be edited (Tests Params come from PDR Page)</label>
-                </div>
-                <table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
-                  <thead>
-                    <tr>
-                      <th scope="col">Claim</th>
-                      <th scope="col">Limits</th>
-                      <th scope="col">Result</th>
-                      <th scope="col">Method</th>
-                      <th scope="col">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">A</th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">B</th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">C</th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Component Compatibility</span></ng-template>
+                <!--<ngb-tab title="Component Compatibility">-->
+                <ng-template ngbTabContent>
+                  <table class="table table-bordered" style="margin-top:20px;background-color:white;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Storage Condition</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Approved (Y/N)</th>
+                        <th scope="col">Approved By</th>
+                        <th scope="col">SOP Doc</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                  </table>
 
-                </table>
-                <div class="form-inline" style="margin-top:10px">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px">
+                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 1</legend>
+                        <div class="form-inline">
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:12px">Status</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:1px">By</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-inline">
+                          <label style="margin-left:1px">Comments</label>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <fieldset class="border p-1" style="width:100%; margin-left: 5px">
+                        <legend class="w-auto" style="font-size:15px;color:maroon">Review 2</legend>
+                        <div class="form-inline">
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:12px">Status</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label style="margin-left:1px">By</label>
+                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-inline">
+                          <label style="margin-left:1px">Comments</label>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
 
-                  <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">Created By</label>
-                  <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
-                    <option selected>FullName</option>
-                  </select>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">{{curDate | date:'MM/dd/yyyy'}}</label>
 
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Verified By</label>
-                  <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
-                    <option selected>Select</option>
-                  </select>
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Approved By</label>
-                  <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
-                    <option selected>Select</option>
-                  </select>
-                </div>
 
-              </ng-template>
-            </ngb-tab>
-            <ngb-tab class="" title="Audit Tracking">
-              <ng-template ngbTabContent>
-                <div class="form-inline">
-                  <input type="radio" id="Yes" name="Yes" value="Yes">
-                  <label for="IngredientList" style="color:maroon">Show Allergens >All Audit (Includes Chemistry and Microbiology)</label><br>
-                  <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%">
-                  <label for="IngredientList" style="color:maroon">Show Allergens >Only Chemistry Audit</label><br>
-                  <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%">
-                  <label for="IngredientList" style="color:maroon">Only Microbiology Audit</label><br>
-                </div>
-                <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
-                  <thead>
-                    <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">Task</th>
-                      <th scope="col">User Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">A</th>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">B</th>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">C</th>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                  <div class="form-row" style="margin-top: 5px;">
+                    <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;">Final Compatibility Report</button>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;">Add Component Compatibility Tests </button>
+                    </div>
+                  </div>
 
-                </table>
-              </ng-template>
-            </ngb-tab>
-          </ngb-tabset>
-          <div class="form-inline" style="margin-top:10px">
-            <input style="margin-left:30px" class="form-check-input" type="checkbox">
-            <label style="margin-left: 5px">Approve COA</label><br>
-            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:25%;height:40px;width:150px;">Delete</button>
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;" (click)="CoaCompare()">COA Compare</button>
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">COA Report</button>
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">COA Save</button>
-          </div>
+
+
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle><span class="textsize">Phy.Stability Docs</span></ng-template>
+                <!--<ngb-tab title="Phy.Stability Docs">-->
+                <ng-template ngbTabContent>
+
+                </ng-template>
+              </ngb-tab>
+
+            </ngb-tabset>
+          </ng-template>
+
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>WorkFlow</a>
+
+      <ng-container ngbNavItem="13">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>COA</a>
+        <ng-template ngbNavContent>
+          <div *ngIf="Isformat1; else format2">
+
+            <div class="form-inline">
+              <label for="labbatch#" style="margin-left:1%;color:maroon;font-size:larger">Lab Batch #</label>
+              <select id="labbatch#" class="form-control" style="width:25%;margin-left:1%">
+                <option selected>N/A </option>
+              </select>
+              <label for="storecond" style=" margin-left:5%;color:maroon;font-size:larger">Storage Condition</label>
+              <select id="storecnd" class="form-control" style="width:10%;margin-left:1%">
+                <option selected>N/A </option>
+              </select>
+              <label for="storecond" style=" margin-left:5%;color:maroon;font-size:larger">Trial #</label>
+              <select id="storecnd" class="form-control" style="width:5%;margin-left:1%">
+                <option selected> Trial 1</option>
+                <option> Trial 2</option>
+                <option> Trial 3</option>
+                <option> Trial 4</option>
+                <option> Trial 5</option>
+                <option> Trial 6</option>
+                <option> Trial 7</option>
+                <option> Trial 8</option>
+                <option> Trial 9</option>
+                <option> Trial 10</option>
+              </select>
+              <label for="storecond" style="margin-left:5%;color:maroon;background-color:yellow;font-size:larger">5C Trial 1 </label>
+            </div>
+            <div class="form-inline" style="margin-top:.5%">
+              <label for="customer" style="margin-left:2%;font-size:larger">Customer</label>
+              <input style="margin-left: 1%; width: 25%;" type="text" class="form-control">
+              <label for="analysisdate" style=" margin-left:5%;font-size:larger">Analysis Date</label>
+              <input style="width: 10%;" type="date" class="form-control">
+              <label for="certifidate" style=" margin-left:5%;font-size:larger">Certification Date</label>
+              <input style="width: 10%;" type="date" class="form-control">
+              <label for="expirydate" style=" margin-left:3%;font-size:larger">Expiry Date</label>
+              <input style="width: 10%;" type="date" class="form-control">
+            </div>
+            <div class="form-inline">
+              <a style="margin-left:1%;margin-top:5px;font-size:large;font-weight:400">Enter Cerificate of Analysis Values into Grid</a>
+            </div>
+            <div class="form-inline" style="margin-top:5px">
+              <a style="margin-left:40%;font-size:larger;color:maroon">Create Lab Batch first,then Stability(For various TEMPS)& Create COAs </a>
+            </div>
+            <ngb-tabset>
+              <ngb-tab class="" title="COA Chemistry">
+                <ng-template ngbTabContent>
+                  <div class="form-inline" style="margin-top:10px">
+                    <label for="inputcust" style=" padding-top: 10px;background-color:cornsilk; color:maroon;">TEST RESULTS - C H E M I S T R Y </label>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left: 10%; color:darkblue">Only Results can be edited (Tests Params come from PDR Page)</label>
+                  </div>
+                  <table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Claim</th>
+                        <th scope="col">Limits</th>
+                        <th scope="col">Result</th>
+                        <th scope="col">Method</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">A</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">B</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">C</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  <div class="form-inline" style="margin-top:10px">
+                    <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">Created By</label>
+                    <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
+                      <option selected>FullName</option>
+                    </select>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">{{curDate | date:'MM/dd/yyyy'}}</label>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Verified By</label>
+                    <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
+                      <option selected>Select</option>
+                    </select>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Approved By</label>
+                    <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
+                      <option selected>Select</option>
+                    </select>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab class="" title="COA Microbiology">
+                <ng-template ngbTabContent>
+                  <div class="form-inline" style="margin-top:10px">
+
+                    <label for="inputcust" style=" padding-top: 10px;background-color:cornsilk; color:maroon;">TEST RESULTS -M  I  C  R  O  B  I  O  L  O  G  Y   </label>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left: 10%; color:darkblue">Only Results can be edited (Tests Params come from PDR Page)</label>
+                  </div>
+                  <table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Claim</th>
+                        <th scope="col">Limits</th>
+                        <th scope="col">Result</th>
+                        <th scope="col">Method</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">A</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">B</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">C</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+
+                  </table>
+                  <div class="form-inline" style="margin-top:10px">
+
+                    <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">Created By</label>
+                    <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
+                      <option selected>FullName</option>
+                    </select>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">{{curDate | date:'MM/dd/yyyy'}}</label>
+
+                    <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Verified By</label>
+                    <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
+                      <option selected>Select</option>
+                    </select>
+                    <label for="inputcust" style=" padding-top: 10px;margin-left: 5%;color:maroon">Approved By</label>
+                    <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
+                      <option selected>Select</option>
+                    </select>
+                  </div>
+
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab class="" title="Audit Tracking">
+                <ng-template ngbTabContent>
+                  <div class="form-inline">
+                    <input type="radio" id="Yes" name="Yes" value="Yes">
+                    <label for="IngredientList" style="color:maroon">Show Allergens >All Audit (Includes Chemistry and Microbiology)</label><br>
+                    <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%">
+                    <label for="IngredientList" style="color:maroon">Show Allergens >Only Chemistry Audit</label><br>
+                    <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%">
+                    <label for="IngredientList" style="color:maroon">Only Microbiology Audit</label><br>
+                  </div>
+                  <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Task</th>
+                        <th scope="col">User Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">A</th>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">B</th>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">C</th>
+                        <td></td>
+                        <td></td>
+                      </tr>
+
+                  </table>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+            <div class="form-inline" style="margin-top:10px">
+              <input style="margin-left:30px" class="form-check-input" type="checkbox">
+              <label  class="workflow" style="margin-left: 5px">Approve COA</label><br>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:25%;height:40px;width:150px;">Delete</button>
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;" (click)="CoaCompare()">COA Compare</button>
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">COA Report</button>
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">COA Save</button>
+            </div>
+          </div>
+          <ng-template #format2>
+            <form>
+              <div class="form-inline">
+                <label for="labbatch#" style="margin-left:1%;color:maroon;font-size:larger">Lab Batch #</label>
+                <select id="labbatch#" class="form-control" style="width:25%;margin-left:1%">
+                  <option selected>N/A </option>
+                </select>
+                <label for="storecond" style=" margin-left:5%;color:maroon;font-size:larger">Storage Condition</label>
+                <select id="storecnd" class="form-control" style="width:10%;margin-left:1%">
+                  <option selected>N/A </option>
+                </select>
+                <label for="storecond" style=" margin-left:5%;color:maroon;font-size:larger">Trial #</label>
+                <select id="storecnd" class="form-control" style="width:5%;margin-left:1%">
+                  <option selected> Trial 1</option>
+                  <option> Trial 2</option>
+                  <option> Trial 3</option>
+                  <option> Trial 4</option>
+                  <option> Trial 5</option>
+                  <option> Trial 6</option>
+                  <option> Trial 7</option>
+                  <option> Trial 8</option>
+                  <option> Trial 9</option>
+                  <option> Trial 10</option>
+                </select>
+                <label for="storecond" style="margin-left:5%;color:maroon;background-color:yellow;font-size:larger">5C Trial 1 </label>
+              </div>
+              <div class="form-inline" style="margin-top:.5%">
+                <label for="customer" style="margin-left:2%;font-size:larger">Customer</label>
+                <input style="margin-left: 1%; width: 25%;" type="text" class="form-control">
+                <label for="analysisdate" style=" margin-left:5%;font-size:larger">Analysis Date</label>
+                <input style="width: 10%;" type="date" class="form-control">
+                <label for="certifidate" style=" margin-left:5%;font-size:larger">Certification Date</label>
+                <input style="width: 10%;" type="date" class="form-control">
+                <label for="expirydate" style=" margin-left:3%;font-size:larger">Expiry Date</label>
+                <input style="width: 10%;" type="date" class="form-control">
+              </div>
+              <div class="form-inline">
+                <a style="margin-left:1%;margin-top:5px;font-size:large;font-weight:400">Enter Cerificate of Analysis Values intyo Grid</a>
+              </div>
+              <div class="form-inline" style="margin-top:5px">
+                <a style="margin-left:40%;font-size:larger;color:maroon">Create Lab Batch first,then Stability(For various TEMPS)& Create COAs </a>
+              </div>
+              <dx-data-grid id="gridContainer " style="width: 100%;margin-top:1%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                            [height]="440"
+                            (onRowPrepared)="onRowPrepared($event)"
+                            (onCellPrepared)="onCellPrepared($event)"
+                            [allowColumnReordering]="true"
+                            [allowColumnResizing]="true"
+                            [columnAutoWidth]="true"
+                            [dataSource]=""
+                            [wordWrapEnabled]="true"
+                            [showColumnLines]="true"
+                            [showRowLines]="true"
+                            [showBorders]="true">
+
+                <dxo-editing mode="row"
+                             [allowUpdating]="true"
+                             [allowDeleting]="true"
+                             [allowAdding]="true">
+                </dxo-editing>
+                <dxo-row-dragging [allowReordering]="true"
+                                  [showDragIcons]="showDragIcons"></dxo-row-dragging>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-sorting mode="none"></dxo-sorting>
+                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+                <dxi-column dataField="Property" headerCellTemplate="addressHeaderTemplatetrade"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplatetrade'">
+                  <b style="color: black">Property</b>
+                </div>
+                <dxi-column dataField="SupplierName" style="color:black" headerCellTemplate="addressHeaderTemplatesupplier"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplatesupplier'">
+                  <b style="color: black">Project Specification(Acceptable range)</b>
+                </div>
+                <dxi-column dataField="Value" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplategeneral"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplategeneral'">
+                  <b style="color: black">Value</b>
+                </div>
+                <dxi-column dataField="Method" alignment="left" style="color:black" headerCellTemplate="addressHeaderTemplategeneralQty"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplategeneralQty'">
+                  <b style="color: black">Unit / Method</b>
+                </div>
+                <dxi-column dataField="Min" alignment="left" style="color:black" headerCellTemplate="addressHeaderTemplateQty"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateQty'">
+                  <b style="color: black">Min</b>
+                </div>
+                <dxi-column dataField="Max" style="color:black" headerCellTemplate="addressHeaderTemplateunit"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateunit'">
+                  <b style="color: black">Max</b>
+                </div>
+
+
+              </dx-data-grid>
+              <div class="form-inline" style="margin-top:5px;">
+                <input style="margin-left:30px" class="form-check-input" type="checkbox">
+                <label  class="workflow" style="margin-left: 5px">Approve COA</label><br>
+                <label for="Approved" style="font-size:larger;margin-left:50%">Approved By</label>
+                <input style="width: 15%;" type="text" class="form-control">
+                <label for="customer" style="font-size:larger">Designation</label>
+                <input style="width: 15%;" type="text" class="form-control">
+              </div>
+              <div class="form-inline" style="margin-top:10px;margin-left:40%">
+
+                <button type="submit" class="btn btn-primary buttoncolor " style="height:40px;width:150px;">Delete</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;" (click)="CoaCompare()">COA Compare</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">COA Report</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">COA Save</button>
+              </div>
+            </form>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="14">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>WorkFlow</a>
         <ng-template ngbNavContent>
           <div>
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:35%;margin-top:2%;width:20%
-"(click)="openformulastatus()"> Formula Status<br>(Approval Grid View) </button>
+" (click)="openformulastatus()">
+              Formula Status<br>(Approval Grid View)
+            </button>
           </div>
           <div>
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:35%;margin-top:3%;width:20%">Project Status Tracking<br>(Flow Chart Representation)</button>
@@ -2418,140 +2663,170 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Product</a>
+      <ng-container ngbNavItem="15">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Product</a>
         <ng-template ngbNavContent>
-          <div style="margin-left:40%">
+          <div >
             <div class="form-inline">
-              <div style="background-color:white;border:solid 0.1px black;height:10%;width:20%;margin-top:3%">
-                <label style="margin-left:35%;color:red">Formula</label>
+              <div style="background-color: white;border-width:thin;border-style:solid; border-radius:5px; height:60px; width: 20%; margin-top: 3%">
+                <label style="text-align:center;color:darkgreen;font-size: medium;margin-top:10px;font-weight:500">Formula</label>
 
-                <label style="margin-left: 35%; color: red">(Formula)</label>
-
+                <label style="text-align:center;color:darkgreen;font-size: medium;font-weight:500">(Formula Name)</label>
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:18%;margin-top:5%;">Approve Formula</button>
 
               </div>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:18%;margin-top:3%">Approve Formula</button>
-            </div>
-            <div class="vl"></div>
-            <div class="form-inline">
-              <div style="background-color:white;border:solid 0.1px black;height:10%;width:22%;margin-top:3%;margin-left:-11%;">
-                <label style="margin-left:35%;color:red">Sample</label>
-                <label style="margin-left:30%;color:red">(Submission #)</label>
+              <hr style="height:7px; width:20%;float:right;margin-top:3.5%; border-width:0; color:steelblue; background-color:steelblue">
+              <div style="background-color: white;border-radius:5px;border-width:thin; height: 60px; width: 20%; margin-top: 3%;margin-left:0;border-style:solid">
+                <label style="text-align: center; color:darkred;font-size: medium;margin-top:10px;font-weight:500">Sample</label>
+                <label style="text-align: center; color: darkred;font-size: medium; font-weight:500">(Submission #)</label>
 
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5%;margin-top:5%;">Single Click Submission & Approval</button>
               </div>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:20%;margin-top:3%">Single Click Submission & Approval</button>
-            </div>
-            <div class="vl"></div>
-            <div class="form-inline">
-              <div style="background-color:white;border:solid 0.1px black;height:12%;width:22%;margin-top:3%;margin-left:-11%;">
-                <label style="margin-left:30%;color:red">PRODUCTS</label>
-
+              <hr style="height:7px; width:20%;float:right; margin-top:3.5%; border-width:0; color:steelblue; background-color:steelblue">
+              <div style="background-color: white;border-radius:5px;border-width:thin; height: 60px; width: 20%; margin-top: 3%;margin-left:0;border-style:solid">
+                <label style="text-align:center;color:darkred;font-size: medium;margin-top:20px;font-weight:500">PRODUCTS</label>
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;margin-top:8%">Go to Productization</button>
               </div>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:20%;margin-top:3%">Go to Productization</button>
+
+
+
             </div>
-              <div class="vl"></div>
-            </div>
-            <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
-              <thead>
-                <tr>
-                  <th scope="col">Image</th>
-                  <th scope="col">Product #</th>
-                  <th scope="col">Product Name</th>
-
-                  <th scope="col">Fill Size</th>
-                  <th scope="col">Product Date</th>
-                  <th scope="col">Customer</th>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Active</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">A</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">B</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">C</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-
-            </table>
-</ng-template>
-  </ng-container>
-  <ng-container ngbNavItem>
-    <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit Tracking</a>
-    <ng-template ngbNavContent>
-      <form>
-
-        <div class="col-1">
-
-        </div>
-        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-          <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            
+          </div>
+          <table class="table table-bordered" style="margin-top:5%;background-color:white;">
             <thead>
               <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Task</th>
-                <th scope="col">Username</th>
+                <th scope="col">Image</th>
+                <th scope="col">Product #</th>
+                <th scope="col">Product Name</th>
 
+                <th scope="col">Fill Size</th>
+                <th scope="col">Product Date</th>
+                <th scope="col">Customer</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Active</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-
-
+                <th scope="row">A</th>
                 <td></td>
                 <td></td>
                 <td></td>
 
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">B</th>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">C</th>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">D</th>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">E</th>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">F</th>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
 
-            </tbody>
-          </table>
+</table>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="16">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Tracking</a>
+        <ng-template ngbNavContent>
+          <form>
+
+            <div class="col-1">
+
+            </div>
+            <div  style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+              <table  class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Username</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr  *ngFor=" let values of AudittrackData;">
 
 
-        </div>
-        <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px">Print Preview</button>
-      </form>
+                    <td width="15%" class="tabledatasize">{{values.date}}</td>
+                    <td class="tabledatasize">{{values.Task}}</td>
+                    <td width="15%" class="tabledatasize"> {{values.UserName}}</td>
 
-    </ng-template>
-  </ng-container>
-  </nav>
+                  </tr>
+
+                </tbody>
+              </table>
+
+
+            </div>
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px">Print Preview</button>
+          </form>
+
+        </ng-template>
+      </ng-container>
+    </nav>
 
   <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>
     <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
      
           
-          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:1%">Save As</button>
-          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:1%">Print Preview</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:1%">New</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:1%">Save</button>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%">Save As</button>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:.5%">Print Preview</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%">New</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%">Save</button>
        
     </div>
   </div>

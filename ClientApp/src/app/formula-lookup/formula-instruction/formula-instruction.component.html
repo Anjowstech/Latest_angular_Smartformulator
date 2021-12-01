@@ -12,8 +12,8 @@
     <div style="color: #bb2205">
       <p class="font-weight-bold">Double Click to Edit the Value</p>
     </div>
-    <div>
-      <table class="table table-bordered">
+    <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
+      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
 
         <thead>
           <tr>
@@ -24,11 +24,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-          </tr>
-          <tr>
-          </tr>
-          <tr>
+          <tr *ngFor="let raw_formula of dataraw_formulainstruction; let i=index;"(dblclick)="setvalues( raw_formula);newinstruction();"(click)="setvalues2( raw_formula);close();" >
+            <td>{{ raw_formula.InstrCode }}</td>
+            <td>{{ raw_formula.InstrText}}</td>  
           </tr>
         </tbody>
       </table>
@@ -41,8 +39,8 @@
 
 <mat-dialog-actions>
   
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-right:10px" matDialogClose>Close</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-right:10px" matDialogClose >Close</button>
 
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-right:10px" (click)="newinstruction()">New Instruction</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-right:10px" (click)="  newinstruction1();newinstruction()">New Instruction</button>
 </mat-dialog-actions>
 

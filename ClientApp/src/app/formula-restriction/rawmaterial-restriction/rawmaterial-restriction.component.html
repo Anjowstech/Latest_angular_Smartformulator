@@ -1,0 +1,75 @@
+<div style="    background-color: #f6f5f1">
+
+  <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Raw Material Restriction {{restrictioncountryname}}</h2>
+
+  <div class="form-inline" style="padding-top:1%;">
+    <label class="label1" for="inputcust" style="color:maroon">INCI NAME</label>
+    <input style="margin-left: 1%; width: 60%; color:maroon" [(ngModel)]="INCINamedata" type="text" class="form-control">
+  </div>
+
+  
+
+
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Field of Application and use</label>
+      <input style="margin-left: 1%; width: 45%;" type="text" class="form-control" [(ngModel)]="FieldofApplndata">
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Maximum authorized Concentration <br /> in the Finished Cosmetic Product</label>
+      <textarea style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control" [(ngModel)]="Maximumdata"></textarea>
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Maximum Percentage</label>
+      <input style="margin-left: 1%; width: 15%;" type="text" class="form-control" [(ngModel)]="maxpercentagedata">%
+
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Our Limitaions and Requirements</label>
+      <textarea style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control" [(ngModel)]="OtherLimitationsdata"></textarea>
+
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Conditions of use and warnings<br />which must be printed on the label</label>
+      <textarea style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control"[(ngModel)]="Conditionsdata"></textarea>
+
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Source of Info</label>
+      <input style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control"[(ngModel)]="Sourceinfodata">
+
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Journal Citation</label>
+      <input style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control">
+
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Source Regulation Doc Link</label>
+      <input style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control">
+
+    </div>
+    <div class="form-inline" style="padding-top:1%;">
+      <label>Internal Reg.Notes</label>
+      <textarea style="margin-left:1%; width: 45%;" type="text" rows="2" class="form-control"></textarea>
+
+    </div>
+
+  <style>
+
+    label {
+      display: inline-block;
+      width: 30%;
+      text-align: right;
+    }
+  </style>
+
+
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px" matDialogClose>Close</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px">New</button>
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-top:1%;margin-left:10px">Save / Update</button>
+
+  </div>
+</div>

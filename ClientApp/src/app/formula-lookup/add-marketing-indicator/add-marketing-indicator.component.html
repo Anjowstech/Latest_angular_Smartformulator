@@ -14,7 +14,7 @@
           <div class="form-group col-md-12">
             <div class="form-inline">
               <label style="margin-left:4%">Market Indicator</label>
-              <input style="width: 50%;margin-left:25px" type="text" class="form-control">
+              <input style="width: 50%;margin-left:25px" type="text" class="form-control" [(ngModel)]="marketingindicator" #marketingindica name="marketingindicato" value="">
             </div>
           </div>
         </div>
@@ -23,41 +23,27 @@
     <div style="color: #bb2205">
       <p class="font-weight-bold" style="margin-top:1%;margin-left:1%">Click To Edit the value in Grid</p>
     </div>
-    <div>
-      <table class="table table-bordered">
-
-
-
+    <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
+      <table class="table-hover table-bordered" style="height:auto;width:100%;background-color:white">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Market Indictor</th>
+            <th scope="col">Market Indicator</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
+          <tr *ngFor="let datas of market_indi_data; let i=index; " (click)="setvalues(datas);">
+            <td class ="tabledatasize">{{ datas.MarketingIndicator}}</td>
           </tr>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-          </tr>
-
-
-
         </tbody>
       </table>
     </div>
-    <div>
-    </div>
+
   </div>
 
 </div>
 <div style="margin-top:0.5%">
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;" matDialogClose>Close</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Save</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Save / Update</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">New</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Delete</button>
 </div>

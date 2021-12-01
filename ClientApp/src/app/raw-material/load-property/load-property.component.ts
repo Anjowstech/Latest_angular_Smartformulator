@@ -67,8 +67,8 @@ export class LoadPropertyComponent implements OnInit {
     this.selecteduserProperty = propertyloading;
     //this.finalproperty = this.selecteduserProperty[0];
   }
-  public highlightRow(propertyloading) {
-    this.finalproperty = this.selectedproperty = propertyloading.Description;
+  public highlightRow(propertyloadingraw) {
+    this.finalproperty = this.selectedproperty = propertyloadingraw.propname;
   }
   opennewproperty(): void {
     const dialogRef = this.dialog.open(NewPropertyComponent, {

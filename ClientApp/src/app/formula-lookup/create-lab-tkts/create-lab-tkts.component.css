@@ -170,3 +170,19 @@ label {
   display: inline-block;
   text-align: right;
 }
+.label1 {
+  text-align: right;
+  padding-right: 15px;
+  display: inline-block;
+  min-width: 150px;
+}
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+.workflow {
+  font-size: larger;
+  color: maroon
+}

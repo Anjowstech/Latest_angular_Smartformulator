@@ -47,6 +47,14 @@ h2.design {
   padding-top: 40px;
   padding-bottom: 30px;
 }
+.center {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+}
 
 .textalign1 {
 }

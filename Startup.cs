@@ -32,7 +32,7 @@ namespace Redesign
                     });
             });
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
         
         services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

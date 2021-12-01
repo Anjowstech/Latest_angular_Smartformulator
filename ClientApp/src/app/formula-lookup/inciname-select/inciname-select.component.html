@@ -1,0 +1,67 @@
+<div style="background-color: #f6f5f1" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div style="overflow-y:auto;overflow-x:hidden; height:30vh;width:100%">
+    <div class="col-sm-12">
+     
+    </div>
+    <div>
+      <fieldset class="border p-2">
+        <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
+        <form>
+          <div class="form-group row">
+
+            <div class="col-sm-12">
+              <div class="form-inline">
+                <label class="label1" for="inputcust">{{getlabels}}</label>
+                <input type="text" style="width:70%" class="form-control" id="inputformulacode" placeholder="" [(ngModel)]="getgriddata" #getgriddat name="getgrid" value="">
+              </div>
+            </div>
+           
+          </div>
+
+        </form>
+      </fieldset>
+    </div>
+    <div style="color: #bb2205">
+      <p class="font-weight-bold">Make your selection by double clicking on your choice</p>
+    </div>
+    <div style="margin-left:1%;margin-top:1%; height:200px; overflow-y: scroll" (scroll)="onScroll($event)">
+      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="100%">
+        <thead>
+          <tr>
+            <th scope="col">INCIName</th>
+            <th scope="col" style="width:15%">Item #</th>
+            <th scope="col">TradeName</th>
+            <th scope="col">P #</th>
+            <th scope="col">Supplier</th>
+            <th scope="col">Unitcost</th>
+            <th scope="col">Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let inci_search of getrawtable|filter:getgriddat.value| slice:pageStart:pageEnd; let i=index;" (click)="setvalues(inci_search);close();">
+            <td class="tabledatasize">{{inci_search.INCIName}}</td>
+            <td class="tabledatasize" style="width:15%">{{inci_search.ItemNo}}</td>
+            <td class="tabledatasize">{{inci_search.TradeName}}</td>
+            <td class="tabledatasize" style="width:3%">{{inci_search.P}}</td>
+            <td class="tabledatasize" style="width:15%">{{inci_search.supplier}}</td>
+            <td class="tabledatasize" style="width:10%">{{inci_search.Unitcost}}</td>
+            <td class="tabledatasize" style="width:5%">{{inci_search.Unit}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+    </div>
+  </div>
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+
+
+  </div>
+</div>
+
+
+

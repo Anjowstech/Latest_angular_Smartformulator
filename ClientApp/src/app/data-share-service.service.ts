@@ -25,9 +25,47 @@ export class DataShareServiceService {
   itemlist1: string = "";
   itemcate: string = '';
   itemcateid: string = '';
+  formco: string = "";
+  gridinciname: string = "";
+  formcodeinstruction: string = '';
+  formcodeinstructiondata: string = '';
   itemrisklist = [];
+  formuladetails = [];
+  backtoformul = [];
+  restrictdetails = [];
+  rawtable: any;
+  labelvalues: string;
 
+  sendlabel(incilabel:string) {
+    this.labelvalues = incilabel
+  }
+  sendrestrictiondetails(formularestrictiondetails: string[]) {
+    this.restrictdetails = formularestrictiondetails
+  }
 
+  backtoformuladetails(backtoform: string[]) {
+    this.backtoformul = backtoform
+  }
+  sendformuladetails(formuladetailsvalues: string[]) {
+    this.formuladetails = formuladetailsvalues
+  }
+  sendforminstruction(formulacodeinstruction: string) {
+    this.formcodeinstruction = formulacodeinstruction
+
+  }
+  sendgridinciname(inciname:string) {
+    this.gridinciname = inciname
+  }
+  sendforminstdata(formuladatainstr:string) {
+    this.formcodeinstructiondata = formuladatainstr
+  }
+  sendrawtable(rawgrid: string) {
+    this.rawtable = rawgrid;
+  }
+
+  sendformcode(formcode: string) {
+    this.formco = formcode;
+  }
   searchItemname(item1: string) {
     this.itemcate = item1;
    
@@ -68,6 +106,34 @@ export class DataShareServiceService {
   DatashareTempPass(): any {
     var itemlist1: [string] = [this.itemlist1]
     return itemlist1;
+  }
+  getlabel():string {
+    return this.labelvalues;
+  }
+  getrestrictiondetails(): any {
+    return this.restrictdetails ;
+  }
+  getbackformdetails(): any {
+    return this.backtoformul;
+  }
+  getformuladetails(): any {
+    return this.formuladetails;
+  }
+  getsendforminstruction(): string {
+    return this.formcodeinstruction;
+  }
+  getrawtable(): string {
+    return this.rawtable;
+  }
+  getsendforminstdata():string {
+    return this.formcodeinstructiondata;
+  }
+  getformcode(): string{
+  return this.formco;
+  }
+
+  getgridinciname(): string {
+    return this.gridinciname;
   }
 
   getcate(): string {

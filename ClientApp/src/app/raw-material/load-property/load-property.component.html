@@ -31,7 +31,7 @@
     </thead>
     <tbody>
      
-      <tr *ngFor="let propertyloadingraw of datarawpropertyloadrprop  let i=index " (click)="setClickedRow(i);selecteduserdet(propertyloading);highlightRow(propertyloading)" [class.active]="i == HighlightRow" >
+      <tr *ngFor="let propertyloadingraw of datarawpropertyloadrprop  let i=index " (click)="setClickedRow(i);selecteduserdet(propertyloading);highlightRow(propertyloadingraw)" [class.active]="i == HighlightRow" >
 
         <td style="width:5%">{{propertyloadingraw.propname}}</td>
 

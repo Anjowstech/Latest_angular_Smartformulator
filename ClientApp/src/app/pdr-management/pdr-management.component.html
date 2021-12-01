@@ -1,104 +1,100 @@
 <div style="    background-color: #f6f5f1">
-  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+  <div style="overflow-y:auto;overflow-x:hidden; height:86vh;width:100%">
 
-    <h2 style="    margin-bottom: 5px; margin-top: 5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; margin-left:300px">Project/PDR</h2>
+    <h2 style="    margin-bottom: 5px; margin-top: 5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center ">Project/PDR</h2>
 
     <form class="form-inline" style="    background-color: #f6f5f1">
-      <label for="PRD" style="margin-left: 80px;">PDR</label>
-      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PDR" size="40">
+      <label for="PRD">PDR</label>
+      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="">
       <label for="PDR Date" style="margin-left:10px;">PDR Date</label>
-      <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date">
-      <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date" placeholder="Enter PDR date" />
-      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:50px;width:90px;" (click)="opensearchprojectpdr()">Search</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
+      <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date" [(ngModel)]="currentDate"    value="" [disabled]="datecheck">
+     
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchprojectpdr()">Search</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)=" ClearData()">Clear</button>
     </form>
     <form class="form-inline">
-      <label for="project_name" style="margin-left: 25px;margin-top: 10px;">Project Name</label>
-      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="project_name" size="96">
+      <label for="project_name" >Project Name</label>
+      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="project_name" size="96" [(ngModel)]="projectname" name="pro_name" value="">
 
     </form>
 
-    new design
+   
 
     <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
       <ng-container ngbNavItem style="margin-left:20px">
 
-        <a class="tabcolor tabbutto tabrowli " ngbNavLink>General</a>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>General</a>
         <ng-template ngbNavContent>
           <form>
 
-            <div class="form-row">
-              <div style="margin-left:100px" class="form-group col-md-12">
-                <label for="inputcust" style="padding-top: 10px;">Customer</label>
-                <div class="form-inline">
-                  <input style="width: 600px;" type="text" class="form-control" id="inputcust" placeholder="Customer Name">
-                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;" (click)="opencustomersearchpdr()">Search</button>
 
-                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:150px;" [routerLink]="'/addcustomer'">Add Customer</button>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="inputcust">Customer</label>
 
-                </div>
-              </div>
-              <div style="margin-left:100px" class="form-group col-md-6">
-                <label for="inputclass">Class</label>
-                <input style="width:600px;" type="text" class="form-control" id="inputclass" placeholder="Class">
-              </div>
-            </div>
-            <div class="form-row" style="  ">
-              <div class="form-group col-md-6" style="margin-left:100px">
-                <label for="Assigned_to">Assigned to</label>
-                <select id="Assigned_to" class="form-control" style="width:600px;">
-                  <option selected>Choose...</option>
-                  <option>Admin</option>
-                  <option>Admin1</option>
-                  <option>Admin2</option>
-                  <option>Admin3</option>
-                  <option>Admin4</option>
-                </select>
-              </div>
-              <div class="form-group col-md-6" style="margin-left:100px">
-                <label for="inputStatus">Status</label>
-                <select id="inputStatus" class="form-control" style="width:600px;">
-                  <option selected>Choose...</option>
-                  <option>WIP-Initiated</option>
-                  <option>WIP-Under Development</option>
-                  <option>WIP-Primary Testing</option>
-                  <option>WIP-Secondary Testing</option>
-                </select>
-              </div>
-              <div class="form-group col-md-6" style="margin-left:100px">
-                <label for="PDR startDate">Start Date</label>
-                <input type="date" style="width:600px;" class="form-control" id="PDR startDate" name="PDR Date">
-              </div>
-              <div class="form-group col-md-6" style="margin-left:100px">
-                <label for="PDR endDate">End Date</label>
-                <input type="date" class="form-control" style="width:600px;" id="PDR endDate" name="PDR Date">
-              </div>
-              <div class="form-group col-md-6" style="margin-left:100px">
-                <label for="details">Details</label>
-                <textarea id="details" style="width:600px;" class="form-control md-textarea" size="7" rows="3"></textarea>
-              </div>
-              <div style="margin-left:100px" class="form-group col-md-6">
-                <label for="revenue_potential">Revenue Potential Productized $</label>
-                <input style="width:600px;" type="text" class="form-control" id="revenue_potential" placeholder="Revenue Potential Productized">
-              </div>
-              <div class="form-group col-md-6" style="margin-left:100px">
-                <label for="inputpriority">Priority</label>
-                <select id="inputpriority" class="form-control" style="width:600px;">
-                  <option selected>Choose...</option>
-                  <option>Low</option>
-                  <option>Medium</option>
-                  <option>High</option>
-                  <option>Very High</option>
-                </select>
-              </div>
+              <input style="width: 40%;" type="text" class="form-control" id="inputcust" placeholder="Customer Name" [(ngModel)]="customername" name="cust_name" value="">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;" (click)="opencustomersearchpdr()">Search Customer</button>
+
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;"(click)="Opencustomer()">Add Customer</button>
 
             </div>
+
+            <div class="form-inline" style="margin-top:1%">
+              <label for="inputclass">Class</label>
+              <input style="width:40%;" type="text" class="form-control" id="inputclass" placeholder="" [(ngModel)]="Class" name="clas" value="">
+            </div>
+
+
+            <div class="form-inline" style="margin-top:1%">
+              <label for="Assigned_to">Assigned to</label>
+              <select id="Assigned_to" class="form-control" style="width:40%" [(ngModel)]="AssignedTo" name="ass_to" value="">
+                <option selected>Choose...</option>
+                <option  *ngFor="let pdrdata of assigneddatalo_data">{{pdrdata.UserName}}</option>
+                
+              </select>
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="inputStatus">Status</label>
+              <select id="inputStatus" class="form-control" style="width:40%" [(ngModel)]="Status" name="stat" value="">
+               
+                <option selected>WIP-Initiated</option>
+                <option>WIP-Under Development</option>
+                <option>WIP-Primary Testing</option>
+                <option>WIP-Secondary Testing</option>
+              </select>
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="PDR startDate">Start Date</label>
+              <input type="date" style="width:40%" class="form-control" id="PDR startDate" name="PDR Date"  [(ngModel)]="currentstartDate"    value="">
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="PDR endDate">End Date</label>
+              <input type="date" class="form-control" style="width:40%" id="PDR endDate" name="PDR Date" [(ngModel)]="currentendDate"    value="">
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="details">Details</label>
+              <textarea id="details" style="width:40%" class="form-control md-textarea" size="7" rows="6" [(ngModel)]="ProjDetails" name="details" value="" ></textarea>
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="revenue_potential">Revenue Potential Productized $</label>
+              <input style="width:15% ;text-align:right" type="text" class="form-control" id="revenue_potential" placeholder=""   [(ngModel)]="Revenue" name="reven" value="" >
+              <label for="inputpriority" style="margin-left:1%">Priority</label>
+              <select id="inputpriority" class="form-control" style="width:15%" [(ngModel)]="Priority" name="prior" value="" >
+                <option selected>Choose...</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Very High</option>
+              </select>
+            </div>
+          
+
+
 
           </form>
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Req's & Results</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Req's & Results</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row" style=" ">
@@ -115,7 +111,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Product Dev Brief</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Product Dev Brief</a>
         <ng-template ngbNavContent>
 
 
@@ -430,7 +426,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Assigning Users</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Assigning Users</a>
         <ng-template ngbNavContent>
           <div class="row" style="margin-bottom:10px">
             <div class="col-sm-6">
@@ -482,13 +478,13 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>21CFR Part-11 Approver List</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>21CFR Part-11 Approver List</a>
         <ng-template ngbNavContent>
           <p>data5</p>
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Stage-Gate Settings</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Stage-Gate Settings</a>
         <ng-template ngbNavContent>
           <div style="margin-top:15px;">
             <p><b>Overall Project Timeline.Begin:4/9/2021 End:7/7/2021 Duration:90 days</b></p>
@@ -703,7 +699,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Documents</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Documents</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row">
@@ -768,7 +764,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Assigned Formulations</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Assigned Formulations</a>
         <ng-template ngbNavContent>
           <p style="font-weight:bold">List of Formulations Assigned ( Double Click to Go for More Details</p>
           <table class="table table-hover table-striped" style="height:300px;background-color:white">
@@ -816,7 +812,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>products</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>products</a>
         <ng-template ngbNavContent>
           <label class="fw-bold" style="font-weight:bold">List of Products ( Double Click to Go for More Details )</label>
           <table class="table table-hover" style="height:300px;background-color:white">
@@ -847,7 +843,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Change Request</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Change Request</a>
         <ng-template ngbNavContent>
           <label style="font-weight:bold">List of Changed Request ( Double Click to Go for More Details )</label>
           <table class="table table-hover" style="height:300px;background-color:white">
@@ -878,7 +874,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Customer Communications</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer Communications</a>
         <ng-template ngbNavContent>
 
 
@@ -992,7 +988,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Specifications</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Specifications</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row">
@@ -1095,7 +1091,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit Tracking</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Tracking</a>
         <ng-template ngbNavContent>
           <table class="table table-hover" style="height:300px;background-color:white">
             <thead>
@@ -1123,7 +1119,7 @@
 
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>
-  <div class="form-row" style=" margin-bottom:80%;position:fixed">
+  <!--<div class="form-row" style=" margin-bottom:80%;position:fixed">
     <div style="margin-left:20px;margin-top:20px" class="form-group ">
       <div class="form-inline">
         <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:50px;height:50px;width:120px;">Print Preview</button>
@@ -1141,6 +1137,25 @@
 
       </div>
     </div>
-  </div>
-</div>
+  </div>-->
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Back</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)="savepdr()">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)=" ClearData()">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% ">Delete PDR</button>
+
+
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;margin-left:25%;height:50px;margin-top:.5%">Print Preview</button>
+    <div>
+      <label class="form-check-label" for="gridCheck1" style="color:maroon;font-size:larger;float:left;margin-left:5%;height:50px;margin-top:1%">
+        Approve Project
+      </label>
+      <input  class="form-check-input" type="checkbox" style="float:left;margin-top:.2%;height:50px;" id="gridCheck1" placeholder="" name="apprv" value=""  [disabled]="projectapprovalcheck">
+      
+  </div>
+
+    </div>
+  </div>

@@ -24,9 +24,9 @@ import { UserChangeusergroupComponent } from './user-security/user-changeusergro
 import { AddDepartmentComponent } from './user-security/user-creation/add-department/add-department.component';
 import { ResetPasswordComponent } from './user-security/user-creation/reset-password/reset-password.component';
 import { AgGridModule } from 'ag-grid-angular';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -39,11 +39,14 @@ import {
   MatSidenavModule,
   MatFormFieldModule,
   MatInputModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
   MatTooltipModule,
   MatToolbarModule,
   MatRadioModule,
   MatCheckboxModule,
-  MatDialogModule
+  MatDialogModule,
+
 
 } from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -106,7 +109,16 @@ import { CoaCompareComponent } from './formula-lookup/coa-compare/coa-compare.co
 import { FormulaGraphComponent } from './formula-lookup/formula-graph/formula-graph.component';
 import { PropellantsvocCalculationComponent } from './formula-lookup/propellantsvoc-calculation/propellantsvoc-calculation.component';
 import { AddproductTestingComponent } from './formula-lookup/addproduct-testing/addproduct-testing.component';
-
+import { FrmNewPropertyComponent } from './formula-lookup/formula-property/select-property/frm-new-property/frm-new-property.component';
+import { FormulaRestrictionComponent } from './formula-restriction/formula-restriction.component';
+import { CheckRestrictionComponent } from './formula-lookup/check-restriction/check-restriction.component';
+import { RawmaterialRestrictionComponent } from './formula-restriction/rawmaterial-restriction/rawmaterial-restriction.component';
+import { RawmaterialRestrictionUsComponent } from './formula-restriction/rawmaterial-restriction-us/rawmaterial-restriction-us.component';
+import { RawmaterialRestrictionProp65Component } from './formula-restriction/rawmaterial-restriction-prop65/rawmaterial-restriction-prop65.component';
+import { DxButtonModule } from 'devextreme-angular';
+import { DxDataGridModule } from 'devextreme-angular';
+import { IncinameSelectComponent } from './formula-lookup/inciname-select/inciname-select.component';
+import { SearchCustomerComponent } from './formula-lookup/customer-details/search-customer/search-customer.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +137,7 @@ import { AddproductTestingComponent } from './formula-lookup/addproduct-testing/
     CancelComponent ,
     NavMenuComponent,
     HomeComponent,
-   
+    
     CounterComponent,
     FetchDataComponent,
     MenuItemComponent,
@@ -187,12 +199,23 @@ import { AddproductTestingComponent } from './formula-lookup/addproduct-testing/
     FormulaGraphComponent,
     PropellantsvocCalculationComponent,
     AddproductTestingComponent,
+    FrmNewPropertyComponent,
+    FormulaRestrictionComponent,
+    CheckRestrictionComponent,
+    RawmaterialRestrictionComponent,
+    RawmaterialRestrictionUsComponent,
+    RawmaterialRestrictionProp65Component,
+    IncinameSelectComponent,
+    SearchCustomerComponent,
     
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    AgGridModule.withComponents(null),
+    AgGridModule.withComponents([]),
     DragDropModule,
+    DxDataGridModule,
+    ReactiveFormsModule,
+    DxButtonModule,
     MatGridListModule,
     HttpClientModule,
     FormsModule,
@@ -200,6 +223,9 @@ import { AddproductTestingComponent } from './formula-lookup/addproduct-testing/
     MatMenuModule,
     NgbModule,
     MatDialogModule,
+    MatProgressBarModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
     MatExpansionModule,
     MatListModule,
     MatCheckboxModule,
@@ -209,6 +235,7 @@ import { AddproductTestingComponent } from './formula-lookup/addproduct-testing/
     MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,
+    Ng2SearchPipeModule,
     MatTooltipModule,
     MatToolbarModule,
     RouterModule.forRoot([
@@ -272,12 +299,21 @@ import { AddproductTestingComponent } from './formula-lookup/addproduct-testing/
       { path: 'CoaCompare', component: CoaCompareComponent },
       { path: 'FormulaGraph', component: FormulaGraphComponent },
       { path: 'PropellantsvocCalculation', component: PropellantsvocCalculationComponent },
-      { path: 'AddproductTesting', component: AddproductTestingComponent }
+      { path: 'AddproductTesting', component: AddproductTestingComponent },
+      { path: 'fmnewproperty', component: FrmNewPropertyComponent },
+      { path: 'formularestriction', component: FormulaRestrictionComponent },
+      { path: 'Checkrestriction', component: CheckRestrictionComponent },
+      { path: 'Rawmaterial_restriction', component: RawmaterialRestrictionComponent },
+      { path: 'Rawmaterial_restrictionUS', component: RawmaterialRestrictionUsComponent },
+      { path: 'Rawmaterial_restrictionProp65', component: RawmaterialRestrictionProp65Component },
+      { path: 'incinameselect', component: IncinameSelectComponent },
+      { path: 'SearchCustomer', component: SearchCustomerComponent }
+      
     ]),
     BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
+  entryComponents: [RawmaterialRestrictionComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
 })
 export class AppModule { }

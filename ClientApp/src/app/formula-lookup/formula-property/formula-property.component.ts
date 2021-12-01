@@ -11,7 +11,7 @@ export class FormulaPropertyComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
   selectproperty(): void {
     const dialogRef = this.dialog.open(SelectPropertyComponent, {
-      width: '40%', height: '50%', disableClose: true
+      width: '80%', height: '65%', disableClose: true
     });
   }
   ngOnInit() {
