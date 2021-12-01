@@ -33,7 +33,9 @@ export class PdrManagementComponent implements OnInit {
   PDRDate: string;
   Class: string;
   pdrData: any;
-  pdrautogenerate_data:any
+  pdrautogenerate_data: any
+  Pdrdetails: any = [];
+  Pdr_save_data: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient) {
   }
