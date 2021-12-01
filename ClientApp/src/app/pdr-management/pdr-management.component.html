@@ -5,7 +5,7 @@
 
     <form class="form-inline" style="    background-color: #f6f5f1">
       <label for="PRD">PDR</label>
-      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="">
+      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="" #pdrn>
       <label for="PDR Date" style="margin-left:10px;">PDR Date</label>
       <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date" [(ngModel)]="currentDate"    value="" [disabled]="datecheck">
      
@@ -14,7 +14,7 @@
     </form>
     <form class="form-inline">
       <label for="project_name" >Project Name</label>
-      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="project_name" size="96" [(ngModel)]="projectname" name="pro_name" value="">
+      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="project_name" size="96" [(ngModel)]="projectname" name="pro_name" value="" #proj_nam>
 
     </form>
 
@@ -1141,10 +1141,10 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()">Back</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)="savepdr()">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="Pdr_Save(pdrn.value,proj_nam.value);">Save</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Update</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)=" ClearData()">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% "(click)="delete90">Delete PDR</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)=" ClearData()">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% " (click)="delete90">Delete PDR</button>
 
 
 
@@ -1153,9 +1153,9 @@
       <label class="form-check-label" for="gridCheck1" style="color:maroon;font-size:larger;float:left;margin-left:5%;height:50px;margin-top:1%">
         Approve Project
       </label>
-      <input  class="form-check-input" type="checkbox" style="float:left;margin-top:.2%;height:50px;" id="gridCheck1" placeholder="" name="apprv" value=""  [disabled]="projectapprovalcheck">
-      
-  </div>
+      <input class="form-check-input" type="checkbox" style="float:left;margin-top:.2%;height:50px;" id="gridCheck1" placeholder="" name="apprv" value="" [disabled]="projectapprovalcheck">
 
     </div>
+
+  </div>
   </div>

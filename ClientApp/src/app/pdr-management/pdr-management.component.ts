@@ -5,6 +5,8 @@ import { SearchProjectPdrComponent } from 'src/app/pdr-management/search-project
 import { SearchCustomerPdrComponent } from 'src/app/pdr-management/search-customer-pdr/search-customer-pdr.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomerDetailsComponent } from 'src/app//formula-lookup/customer-details/customer-details.component';
+
+
 @Component({
   selector: 'app-pdr-management',
   templateUrl: './pdr-management.component.html',
@@ -33,7 +35,10 @@ export class PdrManagementComponent implements OnInit {
   PDRDate: string;
   Class: string;
   pdrData: any;
-  pdrautogenerate_data:any
+  pdrautogenerate_data: any
+  Pdrdetails: any = [];
+  Pdr_save_data: any;
+
 
   constructor(public dialog: MatDialog, private http: HttpClient) {
   }
@@ -146,6 +151,23 @@ export class PdrManagementComponent implements OnInit {
     const dialogRef = this.dialog.open(CustomerDetailsComponent, {
       width: '95%', height: '95%', disableClose: true
     });
+  }
+  Pdr_Save(Pdrno: string, Pjctname: string) {
+
+    this.Pdrdetails = [Pdrno, Pjctname]
+
+    this.Pdr_savedata(this.Pdrdetails).subscribe((Pdr_savepdr) => {
+      console.warn("Pdr_savepdr", Pdr_savepdr)
+      this.Pdr_save_data = Pdr_savepdr
+    })
+  }
+
+
+  Pdr_savedata(Pdrdetails) {
+    var operat: string = "Save";
+    var usernam: string = "admin";
+    let params1 = new HttpParams().set('PDRDetail', Pdrdetails).set('operation', operat).set('username', usernam);
+    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/Save_Update_PDR", { params: params1 })
   }
   ngOnInit() {
     //this.myForm = new FormGroup({
