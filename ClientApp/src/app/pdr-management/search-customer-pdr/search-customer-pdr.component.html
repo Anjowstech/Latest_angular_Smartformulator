@@ -8,41 +8,37 @@
         <div class="row-col-sm-12 " style="margin-left: 20px">
           <div class="form-inline">
             <label for="customer Key" style="margin-left:10px">Customer key</label>
-            <input style="width:500px;margin-left:30px" type="text" class="form-control" id="PDR #">
+            <input style="width:500px;margin-left:30px" type="text" class="form-control" id="custn#" [(ngModel)]="customerkey" name="customkey" value="">
           </div>
           <div class="form-inline" style="margin-top:10px">
             <label for="Customer name" style="margin-left:10px">Customer Name</label>
-            <input style="width:500px;margin-left:10px" type="text" class="form-control" id="Project Name">
+            <input style="width:500px;margin-left:10px" type="text" class="form-control" id="custoname" [(ngModel)]="customername" name="customname" value="">
           </div>
         </div>
       </div>
     </fieldset>
     <p style="color:maroon">Make your selection by double clicking on your choice</p>
     <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;">
-      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="serach_project" width="98%">
+      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
         <thead>
           <tr>
             <th scope="col">Customer Key</th>
-
             <th scope="col">Customer Name</th>
-
-
-
-
+            <!--<th scope="col">Customer Code</th>-->
           </tr>
         </thead>
         <tbody>
-          <tr>
-          </tr>
-          <tr>
-          </tr>
-          <tr>
+          <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                mode="indeterminate">
+          </mat-progress-spinner>
+          <tr *ngFor="let customer_search_pdr of search_cust_pdr_data" (click)="setvalues( customer_search_pdr);close();" #conten>
+            <td class="tabledatasize">{{ customer_search_pdr.CustomerKey }}</td>
+            <td class="tabledatasize">{{ customer_search_pdr.CustomerName}}</td>
+            <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
           </tr>
         </tbody>
       </table>
-
     </div>
-
   </div>
 
 

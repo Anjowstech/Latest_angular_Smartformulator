@@ -40,7 +40,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
       .set('FieldOfAppln', field)
       .set('INCIName', inci)
       .set('operation', operat);
-    return this.http.get("https://formularestrictionwebservice2.azurewebsites.net/RestrictionDoubleClick", { params: params1})
+    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/RestrictionDoubleClick", { params: params1})
   }
   restrictiondata(restrictdata: any) {
 

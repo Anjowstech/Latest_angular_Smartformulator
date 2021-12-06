@@ -2,20 +2,27 @@
   <div style="overflow-y:auto;overflow-x:hidden; height:86vh;width:100%">
 
     <h2 style="    margin-bottom: 5px; margin-top: 5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center ">Project/PDR</h2>
-
+    <
     <form class="form-inline" style="    background-color: #f6f5f1">
       <label for="PRD">PDR</label>
-      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="">
+      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="" #pdrn [readonly]="true">
       <label for="PDR Date" style="margin-left:10px;">PDR Date</label>
-      <input type="date" style="margin-left:10px" class="form-control" id="PDR Date" name="PDR Date" [(ngModel)]="currentDate" value="" [disabled]="datecheck">
+      <input type="date" [min]="currentDate"  style="margin-left:10px" class="form-control" id="pdrdate" name="pddate" [(ngModel)]="currentDate"  #currdate value="" [disabled]="datecheck" (change)="changecurrentdate($event)">
 
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchprojectpdr()">Search</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)=" ClearData()">Clear</button>
-      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="custcode" size="10" [(ngModel)]="cuscode" name="custocode" value="" #pdrn>
+      <input hidden type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="custcode" size="10" [(ngModel)]="customercode" name="custocode" value="" #custcod>
+      <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible">
+        Saved Successfully!!
+      </div>
+      <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible2">
+        Updated Successfully!!
+      </div>
     </form>
-    <form class="form-inline">
-      <label for="project_name" >Project Name</label>
-      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="project_name" size="96" [(ngModel)]="projectname" name="pro_name" value="">
+    <form class="form-row form-inline" [formGroup]="login_formpdr">
+      <label for="project_name">Project Name</label>
+      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="projectnam" size="96" [(ngModel)]="projectname" name="proname" value="" #projn formControlName="projname">
+      <span class="text-danger" style="margin-left:0.1%;font-size:xx-large" *ngIf="login_formpdr.controls['projname'].hasError('required') && (login_formpdr.controls['projname'].dirty || login_formpdr.controls['projname'].touched)">*</span>
 
     </form>
 
@@ -32,7 +39,7 @@
             <div class="form-inline" style="margin-top:1%">
               <label for="inputcust">Customer</label>
 
-              <input style="width: 40%;" type="text" class="form-control" id="inputcust" placeholder="Customer Name" [(ngModel)]="customername" name="cust_name" value="">
+              <input style="width: 40%;" type="text" class="form-control" id="inputcust" placeholder="Customer Name" [(ngModel)]="customername" name="cust_name" value="" [readonly]="true">
               <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;" (click)="opencustomersearchpdr()">Search Customer</button>
 
               <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;"(click)="Opencustomer()">Add Customer</button>
@@ -47,15 +54,15 @@
 
             <div class="form-inline" style="margin-top:1%">
               <label for="Assigned_to">Assigned to</label>
-              <select id="Assigned_to" class="form-control" style="width:40%" [(ngModel)]="AssignedTo" name="ass_to" value="">
-                <option selected>Choose...</option>
+              <select id="Assigned_to" class="form-control" style="width:40%" [(ngModel)]="AssignedTo"  (change)="changeassigned($event)" name="ass_to" value="">
+               <option selected >admin</option>
                 <option  *ngFor="let pdrdata of assigneddatalo_data">{{pdrdata.UserName}}</option>
                 
               </select>
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="inputStatus">Status</label>
-              <select id="inputStatus" class="form-control" style="width:40%" [(ngModel)]="Status" name="stat" value="">
+              <select id="inputStatus" class="form-control" style="width:40%" [(ngModel)]="Status"   (change)="changestatus($event)" name="stat" value="">
                
                 <option selected>WIP-Initiated</option>
                 <option>WIP-Under Development</option>
@@ -65,11 +72,11 @@
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="PDR startDate">Start Date</label>
-              <input type="date" style="width:40%" class="form-control" id="PDR startDate" name="PDR Date"  [(ngModel)]="currentstartDate"    value="">
+              <input type="date" style="width:40%" class="form-control" id="startdate" name="strdate"  [(ngModel)]="currentstartDate" [min]="currentDate"  #curstartdate   value="" (change)="changestartdate($event)">
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="PDR endDate">End Date</label>
-              <input type="date" class="form-control" style="width:40%" id="PDR endDate" name="PDR Date" [(ngModel)]="currentendDate"    value="">
+              <input type="date" class="form-control" style="width:40%" id="enddate" name="endate" [(ngModel)]="currentendDate" [min]="currentDate"     #curenddate  value="" (change)="changeenddate($event)">
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="details">Details</label>
@@ -79,7 +86,7 @@
               <label for="revenue_potential">Revenue Potential Productized $</label>
               <input style="width:15% ;text-align:right" type="text" class="form-control" id="revenue_potential" placeholder=""   [(ngModel)]="Revenue" name="reven" value="" >
               <label for="inputpriority" style="margin-left:1%">Priority</label>
-              <select id="inputpriority" class="form-control" style="width:15%" [(ngModel)]="Priority" name="prior" value="" >
+              <select id="inputpriority" class="form-control" style="width:15%" [(ngModel)]="Priority"  (change)="changepriority($event)" name="prior" value="" >
                 <option selected>Choose...</option>
                 <option>Low</option>
                 <option>Medium</option>
@@ -1142,8 +1149,8 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()">Back</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)="savepdr()">Save</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="Pdr_Save(pdrn.value,projn.value)">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="Pdr_Update(pdrn.value,projn.value)">Update</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)=" ClearData()">New</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% ">Delete PDR</button>
 
@@ -1151,10 +1158,10 @@
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;margin-left:25%;height:50px;margin-top:.5%">Print Preview</button>
     <div>
-      <label class="form-check-label" for="gridCheck1" style="color:maroon;font-size:larger;float:left;margin-left:5%;height:50px;margin-top:1%">
+      <label class="form-check-label" for="gridCheck1" style="color:maroon;font-size:larger;float:left;margin-left:5%;height:50px;margin-top:1%"  >
         Approve Project
       </label>
-      <input  class="form-check-input" type="checkbox" style="float:left;margin-top:.2%;height:50px;" id="gridCheck1" placeholder="" name="apprv" value=""  [disabled]="projectapprovalcheck">
+      <input  class="form-check-input" type="checkbox" style="float:left;margin-top:.2%;height:50px;" id="gridCheck1" placeholder="" name="apprv" value=""  [disabled]="projectapprovalcheck" [(ngModel)]="Approv"  (change)="approvedprojectChange($event)">
       
   </div>
 
