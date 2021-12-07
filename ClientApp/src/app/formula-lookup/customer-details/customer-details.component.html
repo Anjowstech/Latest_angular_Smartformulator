@@ -201,36 +201,70 @@
                     <div class="col-1">
                     </div>
                     <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-                      <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
-                        <thead>
-                          <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col">Item #</th>
-                            <th scope="col">INCI Name</th>
-                            <th scope="col">Usage %</th>
-                            <th scope="col">Field of Application</th>
-                            <th scope="col">Comments</th>
-                            <th scope="col">Banned</th>
+                      <!--<table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">Item #</th>
+        <th scope="col">INCI Name</th>
+        <th scope="col">Usage %</th>
+        <th scope="col">Field of Application</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Banned</th>
 
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>*</td>
-                            <td> <input type="checkbox"></td>
-                            <td> <input type="button"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td> <input type="checkbox"></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>*</td>
+        <td> <input type="checkbox"></td>
+        <td> <input type="button"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td> <input type="checkbox"></td>
 
-                          </tr>
-                        </tbody>
-                      </table>
+      </tr>
+    </tbody>
+  </table>-->
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                                    [height]="440"
+                                    (onRowPrepared)="onRowPrepared($event)"
+                                    [allowColumnReordering]="true"
+                                    [allowColumnResizing]="true"
+                                    [columnAutoWidth]="true"
+                                    [dataSource]="procedgrid"
+                                    [wordWrapEnabled]="true"
+                                    [showColumnLines]="true"
+                                    [showRowLines]="true"
+                                    [showBorders]="true"
+                                    (rowprepared)="rowprepared">
+                        <!--<dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [allowDeleting]="true"
+                                     [allowAdding]="true">
+                        </dxo-editing>-->
+                        <dxo-row-dragging [allowReordering]="true"
+                                          [showDragIcons]="showDragIcons"></dxo-row-dragging>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+                        <dxo-sorting mode="none"></dxo-sorting>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                        <dxi-column dataField="" [width]="30"></dxi-column>
+                        <dxi-column dataField="" [width]="30"></dxi-column>
+                        <dxi-column dataField="" [width]="30"></dxi-column>
+                        <dxi-column dataField="Item # " [width]="230"></dxi-column>
+                        <dxi-column dataField="INCI Name" [width]="100"></dxi-column>
+                        <dxi-column dataField="Usage %" [width]="100"></dxi-column>
+                        <dxi-column dataField="Field of Application" [width]="100"></dxi-column>
+                        <dxi-column dataField="Comments" [width]="100"></dxi-column>
+                        <dxi-column dataField="Banned" [width]="100"></dxi-column>
+                       
+                      </dx-data-grid>
                     </div>
                     <div style="margin-top: 2%;">
                       <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Insert Row</button>
@@ -245,17 +279,17 @@
                   <form>
 
                     <div class="form-inline" style="margin-top:2%">
-                      <label for="Formula Notes" style="margin-left: 50px;">Filling/Packing Instructions:</label>
+                      <label for="Formula Notes" >Filling/Packing Instructions:</label>
                       <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="12"></textarea>
                     </div>
                     <div class="form-inline" style="margin-top:10px">
-                      <label for="browse" style="margin-left:11%">Browse:</label>
+                      <label for="browse" >Browse:</label>
                       <input type="text" class="form-control" id="data6" style="width:60%">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                     </div>
                     <div class="form-inline" style="margin-top:10px">
-                      <label for="browse" style="margin-left:11%">Browse:</label>
+                      <label for="browse" >Browse:</label>
                       <input type="text" class="form-control" id="data6" style="width:60%">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
@@ -268,12 +302,12 @@
                   <form>
 
                     <div class="form-inline" style="margin-top:2%">
-                      <label for="Formula Notes" style="margin-left: 50px;">Labeling Instructions:</label>
+                      <label for="Formula Notes" >Labeling Instructions:</label>
                       <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="12"></textarea>
                     </div>
 
                     <div class="form-inline" style="margin-top:10px">
-                      <label for="browse" style="margin-left:8.5%">Browse:</label>
+                      <label for="browse" >Browse:</label>
                       <input type="text" class="form-control" id="data6" style="width:60%">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
@@ -286,12 +320,12 @@
                   <form>
 
                     <div class="form-inline" style="margin-top:2%">
-                      <label for="Formula Notes" style="margin-left: 50px;">Special Instructions:</label>
+                      <label for="Formula Notes" >Special Instructions:</label>
                       <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="12"></textarea>
                     </div>
 
                     <div class="form-inline" style="margin-top:10px">
-                      <label for="browse" style="margin-left:8%">Browse:</label>
+                      <label for="browse" >Browse:</label>
                       <input type="text" class="form-control" id="data6" style="width:60%">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
@@ -373,7 +407,7 @@
           <div style="color: black">
             <p class="font-weight-bold"> Double  Click For more Details</p>
           </div>
-          <div>
+          <div style="background-color:white">
             <table class="table table-bordered">
 
 
@@ -435,7 +469,7 @@
               </div>
               <div class="form-inline">
                 <label >Address</label>
-                <textarea style="width: 50%;" type="text" class="form-control" rows="3"></textarea>
+                <textarea style="width: 50%;margin-left:5px" type="text" class="form-control" rows="3"></textarea>
               </div>
               <div class="form-inline">
                 <label >Telephone</label>
