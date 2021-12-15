@@ -1,34 +1,34 @@
 <div style="background-color: #f6f5f1">
-  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+  <div style="overflow-y:auto;overflow-x:hidden; height:86vh;width:100%">
     <h2 style="   font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Raw Materials Maintenance</h2>
     <form style="background-color: #f6f5f1">
       <div class="form-row">
         <div class="form-group col-md-7">
           <div class=" form-inline">
-            <label for="PRD" style="margin-left: 7px;margin-right:10px" size="20">Ingredient Code</label>
-            <select id="PRD" class="form-control" style="width:50.11%;">
+            <label for="PRD" >Ingredient Code</label>
+            <select id="PRD" class="form-control" style=" margin-left:3px;width:50.11%;">
               <option selected>Custom</option>
               <option *ngFor="let item of datasaveabbraw">{{item.abbreviation}} - {{item.abbreviationdescription}}</option>
              
             </select>
-            <input type="text" style="margin-left:10px; width:20%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="incicode" #incredcode name="incredcode" value="" />
+            <input type="text" style=" width:20%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="incicode" #incredcode name="incredcode" value="" />
           </div>
           <div class="form-inline">
-            <label for="INCI Name" style="margin-left: 43px;margin-top: 10px;">INCI Name</label>
-            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="INCI Name"[(ngModel)]="inciname" #incname name="incname" value="">
+            <label for="INCI Name" >INCI Name</label>
+            <input type="text" style="width:71%;" class="form-control" placeholder="" id="INCI Name"[(ngModel)]="inciname" #incname name="incname" value="">
           </div>
           <div class="form-inline">
-            <label for="RM item" style="margin-left: 57px;">RM item</label>
-            <input type="text" style="margin-left:10px;width:71%" class="form-control" placeholder="" id="project_name" [(ngModel)]="itemli" name="rmitem" #rmitem value="">
+            <label for="RM item">RM item</label>
+            <input type="text" style="width:71%" class="form-control" placeholder="" id="project_name" [(ngModel)]="itemli" name="rmitem" #rmitem value="">
           </div>
           <div class="form-inline">
 
-            <label for="project_name" style="margin-left: 25px;margin-top: 10px;">Supplier Key</label>
-            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:28%" class="form-control" placeholder="" id="project_name">
+            <label for="project_name" style="margin-top: 10px;">Supplier Key</label>
+            <input type="text" style="width:15%" class="form-control" placeholder="" id="project_name">
             <button type="button" class="btn btn-outline-dark" [routerLink]="'/AddSupplier'">::</button>
         
-            <label for="project_name" style="margin-left: 10px;margin-top: 10px;">Supplier Name</label>
-            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:26.5%" class="form-control" placeholder="" id="project_name" [(ngModel)]="supp_name" #suppname name="suppname" value="">
+            <label for="project_name" >Supplier Name</label>
+            <input type="text" style="width:41%" class="form-control" placeholder="" id="project_name" [(ngModel)]="supp_name" #suppname name="suppname" value="">
           </div>
         </div>
         <div class="form-group col-md-5" >
@@ -53,7 +53,7 @@
       </div>
     </form>
     <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem style="">
 
         <a class="tabcolor tabbutto tabrowli " ngbNavLink>General</a>
         <ng-template ngbNavContent>
@@ -61,11 +61,11 @@
             <div class="form-row" style=" ">
               <div class="form-group col-md-8">
                 <div class="form-inline">
-                  <label for="inputcust" style="margin-right:10px;margin-left:20px">Trade Name</label>
-                  <input style="width: 45%;" type="text" class="form-control" [(ngModel)]="tradn" #tradenameval name="tradenameval" value="" >
-                  <label style="margin-left:15px">P#</label>
+                  <label for="inputcust">Trade Name</label>
+                  <input style="width: 35%;" type="text" class="form-control" id="trade_name" [(ngModel)]="tradn" name="tradenameval" value="">
+                  <label>P#</label>
                   
-                  <select id="PRD" class="form-control" style="width:31%;margin-left:10px">
+                  <select id="PRD" class="form-control" style="width:31%;">
                     <option selected>N/A</option>
                     <option>1</option>
                     <option>2</option>
@@ -76,28 +76,28 @@
                   </select>
                 </div>
                 <div class="form-inline">
-                  <label for="inputcust" style="margin-top:10px;margin-left: 25px;margin-right:10px">Drug Name</label>
+                  <label for="inputcust">Drug Name</label>
                   <input style="width: 35%;" type="text" class="form-control">
-                  <label for="inputcust" style="padding-top: 10px;margin-left:10px">Ph.Eur.Name</label>
-                  <input style="width: 35%;" type="text" class="form-control">
-                </div>
-                <div class="form-inline">
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 7px;margin-right:10px">Manufacturer</label>
-                  <input style="width: 35%;" type="text" class="form-control">
-                  <label for="inputcust" style="padding-top: 10px;margin-left:63px">EBS#</label>
+                  <label for="inputcust" >Ph.Eur.Name</label>
                   <input style="width: 35%;" type="text" class="form-control">
                 </div>
                 <div class="form-inline">
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 12px;margin-right:10px">Re Order Qty</label>
+                  <label for="inputcust" >Manufacturer</label>
+                  <input style="width: 35%;" type="text" class="form-control">
+                  <label for="inputcust" >EBS#</label>
+                  <input style="width: 35%;" type="text" class="form-control">
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust" >Re Order Qty</label>
                   <input style="width: 23%;" type="text" class="form-control":placeholder="0.00">
-                  <select id="PRD" class="form-control" style="width:10%;">
+                  <select id="PRD" class="form-control" style="width:11.5%;">
                     <option selected>Kg</option>
                     <option>Lb</option>
                     <option>Gal</option>
                     <option>Ltr</option>
                     <option>g</option>
                   </select>
-                  <label for="inputcust" style="padding-top: 10px;margin-left:26px">Min Order Qty</label>
+                  <label for="inputcust" >Min Order Qty</label>
                   <input style="width: 25%;" type="text" class="form-control"placeholder="0.00">
                   <select id="PRD" class="form-control" style="width:10%;">
                     <option selected>Kg</option>
@@ -110,39 +110,39 @@
 
                 </div>
                 <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 42px;margin-right:10px">Category</label>
+                  <label for="inputcust">Category</label>
 
                   <select id="PRD" class="form-control" style="width:50%;">
-                    <option selected >Water</option>
+                    <option selected>Water</option>
                     <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
 
                   </select>
-                  <button type="submit" class="btn btn-primary buttoncolor "style="margin-left:10px" (click)="OpenCategory()">...</button>
-                    <label for="inputcust" style="margin-left:58px;margin-right:10px">GMO</label>
-                    <input type="radio" id="Yes" name="Yes" value="Yes">
-                    <label for="Yes">Yes</label><br>
-                    <input type="radio" id="No" name="No" value="No">
-                    <label for="No">No</label><br>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenCategory()">...</button>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:1%">
+                    <mat-radio-button [value]="1"  (change)="radioChange($event)">GMO</mat-radio-button>
+                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
 
-</div>
+                </div>
                 <div class="form-inline" style="margin-top:10px">
-                  <label for="inputcust" style=" padding-top: 10px;margin-left: 8px;">Sub-Category</label>
+                  <label for="inputcust">Sub-Category</label>
 
-                  <select id="PRD" class="form-control" style="width:50%;margin-left:10px">
+                  <select id="PRD" class="form-control" style="width:50%;">
                     <option selected>Choose...</option>
-                   
+
                   </select>
-                  <button type="submit" class="btn btn-primary buttoncolor "style="margin-left:10px" (click)="OpenSubCategory()">...</button>
-                  <label for="inputcust" style="margin-left:50px;margin-right:10px">Gluten</label>
-                  <input type="radio" id="Yes" name="Yes" value="Yes">
-                  <label for="Yes">Yes</label><br>
-                  <input type="radio" id="No" name="No" value="No">
-                  <label for="No">No</label><br>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenSubCategory()">...</button>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:1%">
+                    <mat-radio-button [value]="1"  (change)="radioChange($event)">Gluten</mat-radio-button>
+                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
 
                 </div>
                 <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style="padding-top: 10px;margin-right:10px;margin-left:46px">Status</label>
-                  <select id="PRD" class="form-control" style="width:35%;margin-left:10px">
+                  <label for="inputcust">Status</label>
+                  <select id="PRD" class="form-control" style="width:30%">
                     <option selected>Active</option>
                     <option>Experiment</option>
                     <option>Hold</option>
@@ -150,53 +150,39 @@
                     <option>Completed</option>
                     <option>DWS</option>
                   </select>
-                  <label for="inputcust" style="padding-top: 10px;">*</label>
+                  <label for="inputcust">*</label>
                   <input typeof="button" style="width: 10%;" type="text" class="form-control">
-                  <label for="inputcust" style="margin-left:89px;margin-right:10px">NPA Certified</label>
-
-                  <input type="radio" id="Yes" name="Yes" value="Yes">
-                  <label for="male">Yes</label><br>
-                  <input type="radio" id="No" name="No" value="No">
-                  <label for="male">No</label><br>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:1%">
+                    <mat-radio-button [value]="1"  (change)="radioChange($event)">NPA Certified</mat-radio-button>
+                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
 
                 </div>
                 <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style="padding-top: 10px;margin-left:11px">Default UOM</label>
-                  <select id="PRD" class="form-control" style="width:40%;margin-left:10px">
-                    <option selected>Kg</option>
-                    <option>g</option>
-                    <option>cc</option>
-                    <option>Ltr</option>
-                    <option>Gal</option>
-                    <option>Lb</option>
-                    <option>Qt</option>
-                    <option>mg</option>
-                    <option>5 Gal</option>
-                    <option>oz</option>
-                    <option>PT</option>
-                    <option>mcg</option>
-                    <option>1/48</option>
-                    <option>fl oz</option>
-                    <option>tsp</option>
-                    <option>Tbsp</option>
-                  </select>
-                  <label for="inputcust" style="margin-left:31px;margin-right:10px">Kosher</label>
-                  <input style="margin-left:5px" type="radio" id="Yes" name="Yes" value="Yes">
-                  <label for="male">Yes</label><br>
-                  <input style="margin-left:5px" type="radio" id="No" name="No" value="No">
-                  <label for="male">No</label><br>
-                  <label for="inputcust" style="margin-left:36px;margin-right:10px">Halal</label>
-                  <input style="margin-left:5px" type="radio" id="Yes" name="Yes" value="Yes">
-                  <label for="male">Yes</label><br>
-                  <input style="margin-left:5px" type="radio" id="No" name="No" value="No">
-                  <label for="male">No</label><br>
-                </div>
+                  <label for="inputcust">Default UOM</label>
+                  <select id="PRD" class="form-control" style="width:10%;">
+                    <option selected>Choose...</option>
+                    <option *ngFor="let defaultUOM of defaultUOMload_data">{{defaultUOM.Unitname}}</option>
+                    </select>
+
+                    <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                      <mat-radio-button [value]="1" (change)="radioChange($event)">Kosher</mat-radio-button>
+                      <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                      <mat-radio-button [value]="1" (change)="radioChange($event)">Halal</mat-radio-button>
+                      <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+</div>
 
                 <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust" style="padding-top: 10px;">Last PO Price$</label>
-                  <input style="width: 20%;" type="text" class="form-control">
-                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">Per</label>
-                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                  <label for="inputcust">Last PO Price$</label>
+                  <input style="width: 15%;" type="text" class="form-control">
+                  <label for="inputcust">Per</label>
+                  <select id="PRD" class="form-control" style="width:10%;">
                     <option selected>Kg</option>
                     <option>g</option>
                     <option>cc</option>
@@ -214,124 +200,90 @@
                     <option>tsp</option>
                     <option>Tbsp</option>
                   </select>
-                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">as of</label>
-                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
-                    <option selected>Kg</option>
-                    <option>g</option>
-                    <option>cc</option>
-                    <option>Ltr</option>
-                    <option>Gal</option>
-                    <option>Lb</option>
-                    <option>Qt</option>
-                    <option>mg</option>
-                    <option>5 Gal</option>
-                    <option>oz</option>
-                    <option>PT</option>
-                    <option>mcg</option>
-                    <option>1/48</option>
-                    <option>fl oz</option>
-                    <option>tsp</option>
-                    <option>Tbsp</option>
-                  </select>
+                  <label for="inputcust">as of</label>
+                  <input style="width: 15%;" type="date" class="form-control">
                 </div>
                 <div class="form-inline">
-                  <label for="inputcust" style="padding-top: 10px;margin-left:18px;margin-right:10px">Std Price $</label>
-                  <input style="width: 20%;" type="text" class="form-control">
-                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">Per</label>
-                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                  <label for="inputcust">Std Price $</label>
+                  <input style="width: 15%;" type="text" class="form-control">
+                  <label >Per</label>
+                  <select id="PRD" class="form-control" style="width:10%;">
                     <option selected>Choose...</option>
-                    <option>Custom</option>
-                    <option>RAWS-RAWS</option>
-                    <option>RM-Raw Mat</option>
+                    <option *ngFor="let defaultUOM of defaultUOMload_data">{{defaultUOM.Unitname}}</option>
                   </select>
-                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">as of</label>
-                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px">
-                    <option selected>Choose...</option>
-                    <option>Custom</option>
-                    <option>RAWS-RAWS</option>
-                    <option>RM-Raw Mat</option>
-                  </select>
+                  <label for="inputcust">as of</label>
+                  <input style="width: 15%;" type="date" class="form-control">
                   <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">vp</button>
-                  <label for="inputcust" style="padding-top: 10px;margin-left:30px">Previous Price $</label>
+                  <label for="inputcust" style="margin-left:1%">Previous Price $</label>
                   <input style="width: 10%;" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group col-md-4">
                 <div class="form-inline">
                   <label>RM Source</label>
-                  <input style="width: 20%;margin-left:5px" type="text" class="form-control">
-                  <input style="margin-left:30px" class="form-check-input" type="checkbox">
-                  <label style="margin-left: 5px">Approve RM</label><br>
+                  <input style="width: 20%;" type="text" class="form-control">
+
+                  <label>Approve RM</label><br>
+                  <input style="" class="form-check-input" type="checkbox">
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-right:10px">Incidental Ingredient</label>
-
-                  <input type="radio"  id="Yes" name="Yes" value="Yes">
-
-                  <label for="male">Yes</label><br>
-
-                  <input type="radio" id="No" name="No" value="No">
-
-                  <label for="male">No</label><br>
+                <div class="form-inline" style="margin-top:1%">
+                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                    <mat-radio-button [value]="1"  (change)="radioChange($event)">Incidental Ingredient</mat-radio-button>
+                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-left:63px;margin-right:10px">Monograph</label>
-                  <input type="radio" id="Yes" name="Yes" value="Yes">
-
-                  <label for="Yes">Yes</label><br>
-
-                  <input type="radio" id="No" name="No" value="No">
-
-                  <label for="No">No</label><br>
+                <div class="form-inline" style="margin-top:1%">
+                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                    <mat-radio-button [value]="1"  (change)="radioChange($event)">Monograph</mat-radio-button>
+                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust" style="margin-right:10px;margin-left:2px">Exempt or Not (voc)</label>
-
-                  <input type="radio" id="Yes" name="Yes" value="Yes">
-
-                  <label for="Yes">Yes</label><br>
-
-                  <input type="radio" id="No" name="No" value="No">
-
-                  <label for="No">No</label><br>
+                <div class="form-inline" style="margin-top:1%">
+                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                    <mat-radio-button [value]="1"  (change)="radioChange($event)">Exempt or Not(voc)</mat-radio-button>
+                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
                 </div>
                 <fieldset class="border p-2" style="margin-top:20px">
                   <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
                   <div class="form-inline">
-                    <label style="margin-left:5px">Pre Processing</label>
-                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                    <label>Pre Processing</label>
+                    <input style="width: 50%;" type="text" class="form-control">
                   </div>
                   <div class="form-inline">
-                    <label style="margin-left:35px">Processing</label>
-                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                    <label >Processing</label>
+                    <input style="width: 50%;" type="text" class="form-control">
                   </div>
                   <div class="form-inline">
                     <label>Post Processing</label>
-                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                    <input style="width: 50%;" type="text" class="form-control">
                   </div>
                   <div class="form-inline">
                     <label>CUM Lead Time</label>
-                    <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                    <input style="width: 50%;" type="text" class="form-control">
                   </div>
                 </fieldset>
               </div>
+              </div>
+            <div class="form-inline">
+              <label for="inputcust" >Orgin Source</label>
+              <input style="width: 20%;" type="text" class="form-control">
+              <label for="inputcust" >SKU #</label>
+              <input style="width: 10%;" type="text" class="form-control">
+              <label for="inputcust" >Chemist</label>
+              <input style="width: 10%" type="text" class="form-control" id="inputclass" placeholder="Admin">
+              <label for="inputcust" style="margin-left:1%" >Concentration %</label>
+              <input style="width: 5%" type="text" class="form-control">
             </div>
             <div class="form-inline">
-              <label for="inputcust" style="padding-top: 10px;margin-left:8px">Orgin Source</label>
-              <input style="width: 30%;margin-left:10px" type="text" class="form-control">
-              <label for="inputcust" style="padding-top: 10px;margin-left:30px">SKU #</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control">
-              <label for="inputcust" style="padding-top: 10px;margin-left:30px">Chemist</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="inputclass" placeholder="Admin">
-              <label for="inputcust" style="padding-top: 10px;margin-left:30px">Concentration %</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control">
-            </div>
-            <div class="form-inline">
-              <label for="inputcust" style="padding-top: 10px;margin-right:10px;margin-left:52px">Notes</label>
+              <label for="inputcust" >Notes</label>
               <input style="width: 30%;" type="text" class="form-control">
               <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; ">...</button>
-              <label for="inputcust" style="padding-top: 10px;margin-left:20px">RM Assay Value</label>
-              <input style="width: 19%;margin-left:10px" type="text" class="form-control">
+              <label for="inputcust" style="margin-left:1%">RM Assay Value</label>
+              <input style="width: 19%" type="text" class="form-control">
             </div>
           </form>
         </ng-template>
@@ -840,14 +792,15 @@
   <div class="form-row" style=" margin-bottom:80%;position:fixed">
     <div style="margin-left:20px;margin-top:20px" class="form-group ">
       <div class="form-inline">
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:50px;height:50px;width:120px;">Save As</button>
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:230px;height:50px;width:120px;">RM Cost Import </button>
-       
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Delete RM</button>
-      
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">New</button>
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Save</button>
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;"  matDialogClose >Back</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:50px;height:40px;">Save As</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:230px;height:40px;">RM Cost Import </button>
+
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:40px;">Delete RM</button>
+
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:40px;">New</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:40px;" (click)="Rawmaterial_Update();">Update</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:40px;" (click)="Rawmaterial_Save(incredcode.value,incname.value,tradenameval.value);">Save</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:40px;" matDialogClose>Back</button>
 
       </div>
     </div>

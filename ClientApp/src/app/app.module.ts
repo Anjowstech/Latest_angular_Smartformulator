@@ -115,10 +115,17 @@ import { CheckRestrictionComponent } from './formula-lookup/check-restriction/ch
 import { RawmaterialRestrictionComponent } from './formula-restriction/rawmaterial-restriction/rawmaterial-restriction.component';
 import { RawmaterialRestrictionUsComponent } from './formula-restriction/rawmaterial-restriction-us/rawmaterial-restriction-us.component';
 import { RawmaterialRestrictionProp65Component } from './formula-restriction/rawmaterial-restriction-prop65/rawmaterial-restriction-prop65.component';
-import { DxButtonModule } from 'devextreme-angular';
-import { DxDataGridModule } from 'devextreme-angular';
+
 import { IncinameSelectComponent } from './formula-lookup/inciname-select/inciname-select.component';
 import { SearchCustomerComponent } from './formula-lookup/customer-details/search-customer/search-customer.component';
+import { AddClientLocationComponent } from './formula-lookup/customer-details/add-client-location/add-client-location.component';
+import {
+  DxDataGridModule,
+  
+  DxTemplateModule,
+  DxSelectBoxModule,
+  DxButtonModule,
+} from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -207,15 +214,21 @@ import { SearchCustomerComponent } from './formula-lookup/customer-details/searc
     RawmaterialRestrictionProp65Component,
     IncinameSelectComponent,
     SearchCustomerComponent,
+    AddClientLocationComponent,
     
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     AgGridModule.withComponents([]),
-    DragDropModule,
     DxDataGridModule,
-    ReactiveFormsModule,
+ 
+    DxTemplateModule,
+    DxSelectBoxModule,
     DxButtonModule,
+    DragDropModule,
+ 
+    ReactiveFormsModule,
+   
     MatGridListModule,
     HttpClientModule,
     FormsModule,

@@ -81,3 +81,25 @@ h2.design {
   display: inline-block;
   font-size: 16px;
 }
+
+input {
+  margin: 5px;
+}
+
+mat-radio-button {
+  margin: 5px;
+}
+
+label {
+    font-size:15px;
+    font-family:Verdana;
+  text-align: right;
+  padding-right: 20px;
+  display: inline-block;
+  min-width: 150px;
+}
+.tabledatasize {
+  font-size: larger;
+}
+
+

@@ -82,17 +82,18 @@ export class AddSupplierComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-      this.Supplierkey = result[0];
-      this.Suppliername = result[1];
-      this.SupplierCode = result[2];
+      if (result != "") {
+        this.Supplierkey = result[0];
+        this.Suppliername = result[1];
+        this.SupplierCode = result[2];
 
-      this.supplierload(this.SupplierCode).subscribe((supplierload) => {
-        console.warn("supplierload", supplierload)
-        this.supData = supplierload
-        this.Supplierdata(this.supData)
-      })
+        this.supplierload(this.SupplierCode).subscribe((supplierload) => {
+          console.warn("supplierload", supplierload)
+          this.supData = supplierload
+          this.Supplierdata(this.supData)
+        })
 
-
+      }
 
     });
   }

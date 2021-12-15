@@ -15,6 +15,7 @@ export class SearchINCINameComponent implements OnInit {
   dataresultquicksave: any;
   dataloadfuncsearch: any;
   rmapprove: string = '';
+  hazard: string = 'No';
   inci: string = '';
   itemli: string = '';
   supplier_name: string = '';
@@ -22,19 +23,40 @@ export class SearchINCINameComponent implements OnInit {
   incicode: string = '';
   searchitems: any = [];
 
+  pageStart: number = 0;
+  pageEnd: number = 100;
+  pageHeight: number = 30;
+  pageBuffer: number = 100;
+
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchINCINameComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
-  searchRawMaterials(approve: string){
-  
+
+
+  searchRawMaterials(approve: string) {
+
     this.rmapprove = approve;
     var approved: string = approve;
-    let params1 = new HttpParams().set('approved', approved);
-    return this.http.get("http://localhost/raw_sup_webservice/bindgridallgrid", { params: params1 });
+    var hazardus = this.hazard
+    let params1 = new HttpParams().set('Hazardous', hazardus).set('approved', approved);
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/bindgridallgrid", { params: params1 });
+
+
 
   }
+  onScroll(event, doc) {
+    const scrollTop = event.target.scrollTop;
+    const scrollHeight = event.target.scrollHeight;
+    const offsetHeight = event.target.offsetHeight;
+    const scrollPosition = scrollTop + offsetHeight;
+    const scrollTreshold = scrollHeight - this.pageHeight;
+    if (scrollPosition > scrollTreshold) {
+      this.pageEnd += this.pageBuffer;
+    }
+  }
   setvalues(raw_cate_search) {
-   
+
+
 
     this.incicode = raw_cate_search.ingredientcode;
     this.inci = raw_cate_search.INCIName;
@@ -42,14 +64,18 @@ export class SearchINCINameComponent implements OnInit {
     this.traden = raw_cate_search.TradeName;
     this.supplier_name = raw_cate_search.SupplierName;
 
-    this.searchitems = [this.inci, this.itemli, this.traden, this.supplier_name  ];
-      // declare variable in component.
-   
+
+
+    this.searchitems = [this.inci, this.itemli, this.traden, this.supplier_name];
+    // declare variable in component.
+
   }
   close() {
-    this.searchitems = [this.inci, this.itemli, this.traden, this.supplier_name, this.incicode  ];
+    this.searchitems = [this.inci, this.itemli, this.traden, this.supplier_name, this.incicode];
     //var selectedfunctionListdata: [string, string] = [finalcode, finalname];
     this.dialogRef.close(this.searchitems);
+
+
 
 
 
@@ -58,24 +84,27 @@ export class SearchINCINameComponent implements OnInit {
   loadfunction() {
 
 
-  
-    return this.http.get("http://localhost/raw_sup_webservice/functionload");
+
+
+
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/functionload");
+
+
 
   }
   quicksaveraw(supp_statusdata: string, inciname: string, itemcode: string, supplier: string, tradename: string) {
-   
+
+
+
     var supp_stat: string = supp_statusdata;
     var incin: string = inciname;
     var itemc: string = itemcode;
     var supp: string = supplier;
     var traden: string = tradename;
-    let params1 = new HttpParams().set('supplierstatus', supp_stat)
-      .set('rmapproved', "1")
-      .set('descriptionvalue', incin)
-      .set('suppliername', supp)
-      .set('tradename', traden)
-      .set('strItemCode', itemc);
-    return this.http.get("http://localhost/raw_sup_webservice/quicksave",{ params: params1 });
+    let params1 = new HttpParams().set('supplierstatus', supp_stat).set('rmapproved', "1").set('descriptionvalue', incin).set('suppliername', supp).set('tradename', traden).set('strItemCode', itemc);
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/quicksave", { params: params1 });
+
+
 
   }
   quicksaveval(supp_status, inciname, itemcode, supplier, tradename) {
@@ -84,19 +113,19 @@ export class SearchINCINameComponent implements OnInit {
       this.dataresultquicksave = resultquicksave
     })
   }
-  setradio(e:string): void {
+  setradio(e: string): void {
     this.searchRawMaterials(e).subscribe((rawmaterialssearch) => {
       console.warn("rawmaterialssearch", rawmaterialssearch)
       this.datarawmaterialssearch = rawmaterialssearch
     })
   }
-  
+
   ngOnInit() {
     this.searchRawMaterials("1").subscribe((rawmaterialssearch) => {
       console.warn("rawmaterialssearch", rawmaterialssearch)
       this.datarawmaterialssearch = rawmaterialssearch
     })
-    
+
     this.loadfunction().subscribe((loadfuncsearch) => {
       console.warn("loadfuncsearch", loadfuncsearch)
       this.dataloadfuncsearch = loadfuncsearch

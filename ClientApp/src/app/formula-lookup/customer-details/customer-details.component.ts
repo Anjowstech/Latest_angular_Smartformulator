@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchCustomerComponent } from 'src/app/formula-lookup/customer-details/search-customer/search-customer.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
+import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
@@ -11,12 +11,15 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
   styleUrls: ['./customer-details.component.css']
 })
 export class CustomerDetailsComponent implements OnInit {
- 
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+  
   customerkey: string;
   custmrcode: string;
   customername: string;
   customercode: string;
   cusData: any;
+  custgrid: any
+  
   /* custkey: string;*/
   custname: string;
   fax: string;
@@ -67,8 +70,13 @@ export class CustomerDetailsComponent implements OnInit {
   salesrepdatalo_data: any;
   Customer_save_data: any;
   cstmerdata: any = [];
+  selectedRowIndex = -1;
   login_form: FormGroup;
-  
+  rowData: any = [];
+  i: number;
+  j: number;
+  dataList: string[][] = [];
+  Customer_pref_data: any;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder) {
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
@@ -81,12 +89,14 @@ export class CustomerDetailsComponent implements OnInit {
       width: '60%', height: '70%', disableClose: true
     });
 
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-      this.customerkey = result[0];
-      this.customername = result[1];
-      this.customercode = result[2];
-
+      if (result != "") {
+        this.customerkey = result[0];
+        this.customername = result[1];
+        this.customercode = result[2];
+      }
       this.customerload(this.customercode).subscribe((customrload) => {
         console.warn("customerload", customrload)
         this.cusData = customrload
@@ -98,6 +108,7 @@ export class CustomerDetailsComponent implements OnInit {
     });
 
   }
+
   customerdata(cstmrdata: any) {
     for (let item of cstmrdata) {
       this.customerkey = item.CustomerKey;
@@ -154,6 +165,36 @@ export class CustomerDetailsComponent implements OnInit {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/displaydetails", { params: params1, })
 
   }
+  setvalues2(customer_searchdata2: any) {
+    this.i = 0;
+    this.j = 0;
+    
+    for (let search of customer_searchdata2) {
+    
+      this.dataList[this.i] = ([
+        "sam:100",
+        search.item,
+        search.INCIName,
+        search.usage,
+        search.foa,
+        search.comments,
+        search.banned,
+      ]);
+      this.i++;
+
+    }
+    
+  }
+  addRow() {
+    this.dataGrid.instance.addRow();
+  }
+  deleteRow() {
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    this.dataGrid.instance.deselectAll();
+  }
+  selectedChanged(e) {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
   countrydataload() {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/loadcountries");
   }
@@ -170,7 +211,8 @@ export class CustomerDetailsComponent implements OnInit {
     // for (let v in this.login_form.controls) {
     //   this.login_form.controls[v].markAsTouched();
     // }
-    
+    this.dataList = [];
+   this.setvalues2(this.rowData);
     this.markFormTouched(this.login_form);
     if (this.login_form.valid) {
       // You will get form value if your form is valid
@@ -179,24 +221,33 @@ export class CustomerDetailsComponent implements OnInit {
       var operation: string = "Save";
       /*this.customercode = "";*/
       /*this.cstmerdata = [custkey, custnam, this.customercode]*/
-      this.Customer_saveup(custcode, custnam, custkey,operation).subscribe((Customer_save) => {
-        console.warn("Customer_save", Customer_save)
-        this.Customer_save_data = Customer_save
+      //this.Customer_saveup( custcode, custnam, custkey,operation).subscribe((Customer_save) => {
+      //  console.warn("Customer_save", Customer_save)
+      //  this.Customer_save_data = Customer_save
+      //})
+      this.Customer_preferences(custcode, custnam).subscribe((Customer_pref) => {
+        console.warn("Customer_pref", Customer_pref)
+        this.Customer_pref_data = Customer_pref
       })
-
 
     } else {
       this.login_form.controls['terms'].setValue(false);
     }
   };
   Customer_Update(custkey: string, custnam: string) {
+    this.dataList = [];
+    this.setvalues2(this.rowData);
     this.markFormTouched(this.login_form);
     if (this.login_form.valid) {
       var cuscode: string = this.customercode;
       var operation: string = "Update";
-      this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
-        console.warn("Customer_update", Customer_update)
-        this.Customer_save_data = Customer_update
+      //this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
+      //  console.warn("Customer_update", Customer_update)
+      //  this.Customer_save_data = Customer_update
+      //})
+      this.Customer_preferences(cuscode, custnam).subscribe((Customer_pref) => {
+        console.warn("Customer_pref", Customer_pref)
+        this.Customer_pref_data = Customer_pref
       })
     }
     else {
@@ -210,15 +261,32 @@ export class CustomerDetailsComponent implements OnInit {
       else { control.markAsTouched(); };
     });
   };
+  Customer_preferences(custcode, custnam) {
+    var username: string = "admin";
+    var cstmrcode: string = custcode;
+  //  var cstmrkey: string = custkey;
+    var cstmrname: string = custnam;
+    //  var oper: string = operation;
+    var datalistdata: any = this.dataList;
+    /* var custcode: string = custCode;*
+    /* var cstmrdetail: any = cstmerdata;*/
+    let params1 = new HttpParams()
+
+      .set('customerpreference', JSON.stringify(this.dataList))
+      .set('code', cstmrcode).set('name', cstmrname).set('username', username);
+    return this.http.get("https://smartformulatorcustomerwebservice2.azurewebsites.net/insertcustomerpreferences", { params: params1 })
+  }
   Customer_saveup(custcode, custnam, custkey,  operation) {
 
     var cstmrcode: string = custcode;
     var cstmrkey: string = custkey;
     var cstmrname: string = custnam;
     var oper: string = operation;
+
+    var datalistdata: any = this.dataList;
     /* var custcode: string = custCode;*/
     /* var cstmrdetail: any = cstmerdata;*/
-    let params1 = new HttpParams().set('CusCode', cstmrcode).set('CusName', cstmrname).set('CustomerKey', cstmrkey).set('operation', oper);
+    let params1 = new HttpParams().set('customerpreference', datalistdata).set('CusCode', cstmrcode).set('CusName', cstmrname).set('CustomerKey', cstmrkey).set('operation', oper);
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/update_save_customer", { params: params1 })
   }
 ClearData()
@@ -271,7 +339,10 @@ ClearData()
   termChange(event) {
     this.terms = event.target.value;
 }
+  custtextgrid() {
 
+    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/displayformulation.json");
+  }
   ngOnInit() {
 
    
@@ -288,6 +359,16 @@ ClearData()
       console.warn("statedatalo", statedatalo)
       this.statedatalo_data = statedatalo
     })
+    this.custtextgrid().subscribe((custtextgrid) => {
+      console.warn("custtextgrid", custtextgrid)
+      this.custgrid = custtextgrid
+    })
 
   }
+}
+export class Data {
+  cust1: string;
+  custname1: string;
+
+
 }

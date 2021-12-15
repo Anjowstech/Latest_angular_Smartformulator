@@ -15,12 +15,13 @@ export class SearchProjectPdrComponent implements OnInit {
   projectname: string;
   customername: string;
   searchitems: any = [];
+
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchProjectPdrComponent>) { }
   PDR_search(user: string) {
     var usernam = user;
    // var operate = this.Case;
     let params1 = new HttpParams().set('username', usernam);
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/SearchPDR", { params: params1, })
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/SearchPDR", { params: params1, })
 
 
 

@@ -7,6 +7,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   templateUrl: './search-customer.component.html',
   styleUrls: ['./search-customer.component.css']
 })
+
 export class SearchCustomerComponent implements OnInit {
 
   customer_searchdata: any;
@@ -16,6 +17,8 @@ export class SearchCustomerComponent implements OnInit {
   customername: string;
   customercode: string;
   Customer_quicksave_data: any;
+  private dataList: Data[] = [];
+ 
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchCustomerComponent>) { }
   Customer_search() {
 
@@ -26,6 +29,17 @@ export class SearchCustomerComponent implements OnInit {
     this.customername = customer_search.CustomerName;
     this.customercode = customer_search.CustomerCode;
     this.searchitems = [this.customerkey, this.customername, this.customercode];
+  }
+  setvalues2(customer_searchdata2:any) {
+    for (let search of customer_searchdata2) {
+      this.dataList.push({
+        cust1 : search.customerkey,
+        custname1: search.CustomerName,
+       
+      
+      });
+    }
+   // this.searchitems = [this.customerkey, this.customername, this.customercode];
   }
   close() {
 
@@ -63,7 +77,14 @@ export class SearchCustomerComponent implements OnInit {
     this.Customer_search().subscribe((cus_search) => {
       console.warn("cus_search", cus_search)
       this.customer_searchdata = cus_search
+      this.setvalues2(this.customer_searchdata);
     })
-
+   
   }
+}
+export class Data {
+  cust1: string;
+  custname1: string;
+
+
 }

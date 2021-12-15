@@ -15,6 +15,7 @@ import { FunctionSearchComponent } from './function-search/function-search.compo
 import { AddFunctionComponent } from './add-function/add-function.component';
 import { AddSupplierComponent } from './add-supplier/add-supplier.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { SearchSupplierComponent } from './add-supplier/search-supplier/search-supplier.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 export interface DialogData {
@@ -44,13 +45,16 @@ export class RawMaterialComponent implements OnInit {
   kgm3: any;
   lb_gal: any;
   risklistdata = [];
-  inciname:string;
+  inciname: string;
   itemli: string;
   supp_name: string;
-  tradn:string;
+  tradn: string;
   val2: any;
   incicode: string;
   datarawpropertyload: any;
+  Rawmaterialdetails: any = [];
+  rawmaterial_update_data: any;
+  defaultUOMload_data: any;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService) { }
   AddPrefixPopUp(): void {
 
@@ -80,8 +84,9 @@ export class RawMaterialComponent implements OnInit {
  
   Searchsupplierpopup(): void {
 
-    const dialogRef = this.dialog.open(RawSearchSupplierComponent, {
-      width: '80%', height: '90%', disableClose: true
+    const dialogRef = this.dialog.open(SearchSupplierComponent, {
+      width: '60%', height: '70%', disableClose: true
+    
     });
   }
   //SearchINCIpopup(): void {
@@ -193,7 +198,10 @@ export class RawMaterialComponent implements OnInit {
   }
   rawcategoryload() {
     return this.http.get("http://localhost/raw-sup-webservice2/loadrawcategory")
-    }
+  }
+  defaultUOMload() {
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/UnitTableLoad")
+  }
   rawpropertyload(rawpropertyload: string) {
     var rawprop: string = rawpropertyload;
      
@@ -201,7 +209,39 @@ export class RawMaterialComponent implements OnInit {
        
     return this.http.get("http://localhost/raw-sup-webservice2/loadrawproperty2", { params: params1 });
 
-    }
+  }
+  Rawmaterial_Update() {
+    alert(this.tradn);
+
+    var operation: string = "Update";
+    var username: string = "admin";
+   // var tredname: string = tradenameval
+  //  this.Rawmaterialdetails = [incredcode, incname, "admin", "11/26/2021 8:00:00 AM", "3", "5.00", "3", "11/26/2021", "1.00", "SC:12", "SC:12", "Aceto Corporation", "SC:12", "Tradnewupdate", "Item15"]
+    this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((Pdr_update) => {
+      console.warn("Pdr_update", Pdr_update)
+      this.rawmaterial_update_data = Pdr_update
+    })
+  }
+  Rawmaterial_Save(incredcode: string, incname: string) {
+    var operation: string = "Save";
+    var username: string = "admin";
+    this.Rawmaterialdetails = [incredcode, incname, "admin", "11/26/2021 8:00:00 AM", "3", "5.00", "3", "11/26/2021 8:00:00 AM", "1.00", "SC:12", "SC:12", "Corporation", "SC:12", "Tradnewupdate", "Itemnew"]
+    this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((Pdr_update) => {
+      console.warn("Pdr_update", Pdr_update)
+      this.rawmaterial_update_data = Pdr_update
+    })
+  }
+
+
+
+  Rawmaterial_saveupdateup(Rawmaterialdetails, operation, username) {
+
+
+
+    var Rawdetails: any = Rawmaterialdetails;
+    let params1 = new HttpParams().set('rawmaterialdetail', Rawdetails).set('operation', operation).set('username', username);
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/Save_Update_Rawmaterial", { params: params1, responseType: 'text' })
+  }
   ngOnInit() {
     this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
       console.warn("resultsaveraw", result6)
@@ -212,7 +252,10 @@ export class RawMaterialComponent implements OnInit {
       console.warn("rawcategoryload", rawcategoryload)
       this.datarawcategoryload = rawcategoryload
     })
-  
+    this.defaultUOMload().subscribe((defaultUOMload) => {
+      console.warn("defaultUOMload", defaultUOMload)
+      this.defaultUOMload_data = defaultUOMload
+    })
   }
 
 }

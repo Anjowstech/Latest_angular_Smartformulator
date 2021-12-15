@@ -234,41 +234,61 @@
                       <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
                                     [height]="440"
                                     (onRowPrepared)="onRowPrepared($event)"
-                                    [allowColumnReordering]="true"
-                                    [allowColumnResizing]="true"
+                                    (onSelectionChanged)="selectedChanged($event)"
                                     [columnAutoWidth]="true"
-                                    [dataSource]="procedgrid"
+                                    [dataSource]="rowData"
                                     [wordWrapEnabled]="true"
                                     [showColumnLines]="true"
                                     [showRowLines]="true"
                                     [showBorders]="true"
                                     (rowprepared)="rowprepared">
-                        <!--<dxo-editing mode="row"
+                        <dxo-editing mode="row"
                                      [allowUpdating]="true"
-                                     [allowDeleting]="true"
-                                     [allowAdding]="true">
+                                     [useIcons]="true">
                         </dxo-editing>-->
-                        <dxo-row-dragging [allowReordering]="true"
-                                          [showDragIcons]="showDragIcons"></dxo-row-dragging>
+                        <dxo-column-chooser [enabled]="false">
+                          <!-- or "select" -->
+                        </dxo-column-chooser>
+                        <dxo-selection mode="single"></dxo-selection>
                         <dxo-scrolling mode="virtual"></dxo-scrolling>
-                        <dxo-sorting mode="none"></dxo-sorting>
-                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+                        <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                         <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-                        <dxi-column dataField="" [width]="30"></dxi-column>
-                        <dxi-column dataField="" [width]="30"></dxi-column>
-                        <dxi-column dataField="" [width]="30"></dxi-column>
-                        <dxi-column dataField="Item # " [width]="230"></dxi-column>
-                        <dxi-column dataField="INCI Name" [width]="100"></dxi-column>
-                        <dxi-column dataField="Usage %" [width]="100"></dxi-column>
-                        <dxi-column dataField="Field of Application" [width]="100"></dxi-column>
-                        <dxi-column dataField="Comments" [width]="100"></dxi-column>
-                        <dxi-column dataField="Banned" [width]="100"></dxi-column>
-                       
+                        <dxi-column dataField=""></dxi-column>
+                        <dxi-column dataField=""></dxi-column>
+                        <dxi-column type="buttons" [width]="110">
+                          <dxi-button name="edit"></dxi-button>
+                          <dxi-button name="delete"></dxi-button>
+                        </dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                          <b style="color: black">item #</b>
+                        </div>
+                        <dxi-column dataField="INCIName" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+                          <b style="color: black">INCI Name</b>
+                        </div>
+                        <dxi-column dataField="usage" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
+                          <b style="color: black">Usage %</b>
+                        </div>
+                        <dxi-column dataField="foa" headerCellTemplate="addressHeaderTemplatefoa"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
+                          <b style="color: black">Field Of Application</b>
+                        </div>
+                        <dxi-column dataField="comments" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+                          <b style="color: black">Comments</b>
+                        </div>
+                        <dxi-column dataField="banned" headerCellTemplate="addressHeaderTemplatebanned" dataType="boolean"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatebanned'">
+                          <b style="color: black">Banned</b>
+                        </div>
                       </dx-data-grid>
                     </div>
                     <div style="margin-top: 2%;">
-                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Insert Row</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Delete Row</button>
+                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px"(click)="addRow();">Insert Row</button>
+                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px"(click)="deleteRow();">Delete Row</button>
 
                     </div>
                   </form>
@@ -530,38 +550,75 @@
             <div class="col-1">
             </div>
             <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-              <table class="table table-hover table-bordered fixed" style="margin-left: 1%; background-color: white" id="table" width="98%">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col">Product Code</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Formula Code</th>
-                    <th scope="col">Formula Name</th>
-                    <th scope="col">COA Expiry Date Format</th>
+              <!--<table class="table table-hover table-bordered fixed" style="margin-left: 1%; background-color: white" id="table" width="98%">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">Product Code</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Formula Code</th>
+        <th scope="col">Formula Name</th>
+        <th scope="col">COA Expiry Date Format</th>
 
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>*</td>
-                    <td> <input type="checkbox"></td>
-                    <td> <input type="button"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                      </select>
-                    </td>
-                  </tr>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>*</td>
+        <td> <input type="checkbox"></td>
+        <td> <input type="button"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <select id="inputState" class="form-control">
+            <option selected>Choose...</option>
+          </select>
+        </td>
+      </tr>
 
-                </tbody>
-              </table>
+    </tbody>
+  </table>-->
+              <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                            [height]="440"
+                            (onRowPrepared)="onRowPrepared($event)"
+                            (onSelectionChanged)="selectedChanged($event)"
+                            [columnAutoWidth]="true"
+                            [dataSource]="rowData"
+                            [wordWrapEnabled]="true"
+                            [showColumnLines]="true"
+                            [showRowLines]="true"
+                            [showBorders]="true"
+                            (rowprepared)="rowprepared">
+                <dxo-editing mode="row"
+                             [allowUpdating]="true"
+                             [useIcons]="true">
+                </dxo-editing>-->
+                <dxo-column-chooser [enabled]="false">
+                  <!-- or "select" -->
+                </dxo-column-chooser>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                <dxi-column dataField=""></dxi-column>
+                <dxi-column dataField=""></dxi-column>
+                <dxi-column type="buttons" [width]="110">
+                  <dxi-button name="edit"></dxi-button>
+                  <dxi-button name="delete"></dxi-button>
+                </dxi-column>
+                <dxi-column dataField="Product Code"></dxi-column>
+                <dxi-column dataField="Product Name"></dxi-column>
+                <dxi-column dataField="Formula Code"></dxi-column>
+                <dxi-column dataField="Formula Name"></dxi-column>
+                <dxi-column dataField="COA Expiy Date Format"></dxi-column>
+                
+
+              </dx-data-grid>
             </div>
             <div style="margin-top: 2%;">
               <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Insert Row</button>
@@ -584,42 +641,80 @@
                     <div class="col-1">
                     </div>
                     <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-                      <table class="table table-hover table-bordered fixed" style="margin-left: 1%; background-color: white" id="table" width="98%">
-                        <thead>
-                          <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col">Product #</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Unit Size</th>
-                            <th scope="col">Unit</th>
-                            <th scope="col">Retail $ Price/Unit</th>
-                            <th scope="col">Distributor $ Price/Unit</th>
-                            <th scope="col">Sole Distributor $ Price/Unit</th>
-                            <th scope="col">Wholesale $ Price/Unit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>*</td>
-                            <td> <input type="checkbox"></td>
-                            <td> <input type="button"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                              <select id="inputState" class="form-control">
-                                <option selected>Choose...</option>
-                              </select>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <!--<table class="table table-hover table-bordered fixed" style="margin-left: 1%; background-color: white" id="table" width="98%">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">Product #</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Unit Size</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Retail $ Price/Unit</th>
+        <th scope="col">Distributor $ Price/Unit</th>
+        <th scope="col">Sole Distributor $ Price/Unit</th>
+        <th scope="col">Wholesale $ Price/Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>*</td>
+        <td> <input type="checkbox"></td>
+        <td> <input type="button"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <select id="inputState" class="form-control">
+            <option selected>Choose...</option>
+          </select>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>-->
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                                    [height]="440"
+                                    (onRowPrepared)="onRowPrepared($event)"
+                                    (onSelectionChanged)="selectedChanged($event)"
+                                    [columnAutoWidth]="true"
+                                    [dataSource]="rowData"
+                                    [wordWrapEnabled]="true"
+                                    [showColumnLines]="true"
+                                    [showRowLines]="true"
+                                    [showBorders]="true"
+                                    (rowprepared)="rowprepared">
+                        <dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [useIcons]="true">
+                        </dxo-editing>-->
+                        <dxo-column-chooser [enabled]="false">
+                          <!-- or "select" -->
+                        </dxo-column-chooser>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                        <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                        <dxi-column dataField=""></dxi-column>
+                        <dxi-column dataField=""></dxi-column>
+                        <dxi-column type="buttons" [width]="110">
+                          
+                        </dxi-column>
+                        <dxi-column dataField="Product #"></dxi-column>
+                        <dxi-column dataField="Product Name"></dxi-column>
+                        <dxi-column dataField="Unit Size"></dxi-column>
+                        <dxi-column dataField="Unit"></dxi-column>
+                        <dxi-column dataField="Retail $ Price/Unit"></dxi-column>
+                        <dxi-column dataField="Distributor $ Price/Unit"></dxi-column>
+                        <dxi-column dataField=" Sole Distributor $ Price/Unit"></dxi-column>
+                        <dxi-column dataField="Wholesale $ Price/Unit"></dxi-column>
+
+                      </dx-data-grid>
                     </div>
                     <div style="margin-top: 2%;">
                       <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Insert Row</button>
@@ -809,36 +904,72 @@
             <div class="col-1">
             </div>
             <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-              <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col">Product #</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Validated Batch Size</th>
-                    <th scope="col">Unit</th>
+              <!--<table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">Product #</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Validated Batch Size</th>
+        <th scope="col">Unit</th>
 
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>*</td>
-                    <td> <input type="checkbox"></td>
-                    <td> <input type="button"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                      </select>
-                    </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>*</td>
+        <td> <input type="checkbox"></td>
+        <td> <input type="button"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <select id="inputState" class="form-control">
+            <option selected>Choose...</option>
+          </select>
+        </td>
 
-                  </tr>
-                </tbody>
-              </table>
+      </tr>
+    </tbody>
+  </table>-->
+              <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                            [height]="440"
+                            (onRowPrepared)="onRowPrepared($event)"
+                            (onSelectionChanged)="selectedChanged($event)"
+                            [columnAutoWidth]="true"
+                            [dataSource]="rowData"
+                            [wordWrapEnabled]="true"
+                            [showColumnLines]="true"
+                            [showRowLines]="true"
+                            [showBorders]="true"
+                            (rowprepared)="rowprepared">
+                <dxo-editing mode="row"
+                             [allowUpdating]="true"
+                             [useIcons]="true">
+                </dxo-editing>-->
+                <dxo-column-chooser [enabled]="false">
+                  <!-- or "select" -->
+                </dxo-column-chooser>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                <dxi-column dataField=""></dxi-column>
+                <dxi-column dataField=""></dxi-column>
+                <dxi-column type="buttons" [width]="110">
+                  <dxi-button name="edit"></dxi-button>
+                  <dxi-button name="delete"></dxi-button>
+                </dxi-column>
+                <dxi-column dataField="Product #"></dxi-column>
+                <dxi-column dataField="Product Name"></dxi-column>
+                <dxi-column dataField="Validated Batch Size"></dxi-column>
+                <dxi-column dataField="Unit"></dxi-column>
+               
+
+              </dx-data-grid>
             </div>
             <div style="margin-top: 2%;">
               <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Insert Row</button>

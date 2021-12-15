@@ -16,6 +16,7 @@ import { formatDate } from '@angular/common';
 export class PdrManagementComponent implements OnInit {
   public isVisible: boolean = false;
   public isVisible2: boolean = false;
+  public isVisible3: boolean = false;
   projectapprovalcheck: boolean;
   datecheck: boolean;
   pdrno: string;
@@ -63,12 +64,14 @@ export class PdrManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-      this.pdrno = result[0];
-      this.projectname = result[1];
-      this.customername = result[2];
-      if (this.projectname != null) {
-        this.projectapprovalcheck = false;
-        this.datecheck = true;
+      if (result != "") {
+        this.pdrno = result[0];
+        this.projectname = result[1];
+        this.customername = result[2];
+        if (this.projectname != null) {
+          this.projectapprovalcheck = false;
+          this.datecheck = true;
+        }
       }
       if (result == "") {
         this.pdrauto().subscribe((pdrautogenerate) => {
@@ -98,6 +101,14 @@ export class PdrManagementComponent implements OnInit {
     }
     this.isVisible2 = true;
     setTimeout(() => this.isVisible2 = false, 5000)
+
+  }
+  showAlert3(): void {
+    if (this.isVisible3) {
+      return;
+    }
+    this.isVisible3 = true;
+    setTimeout(() => this.isVisible3 = false, 5000)
   }
   PDRdata(pdrdatas: any) {
     for (let item of pdrdatas) {
@@ -136,7 +147,7 @@ export class PdrManagementComponent implements OnInit {
   PDRdataload(pdrnumber: string) {
     var pdrnum = pdrnumber;
     let params1 = new HttpParams().set('PDRNo', pdrnum);
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/displaydetails", { params: params1 })
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/displaydetails", { params: params1 })
   }
 
 
@@ -196,10 +207,10 @@ export class PdrManagementComponent implements OnInit {
   //  this.dialog.open(SearchProjectPdrComponent, dialogConfig);
   //}
   assignedtodataload() {
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/LoadAssignedTo");
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/LoadAssignedTo");
   }
   pdrauto() {
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/Auto_Gemerate_PDRNo", { responseType: 'text' });
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/Auto_Gemerate_PDRNo", { responseType: 'text' });
   }
   Opencustomer(): void {
     const dialogRef = this.dialog.open(CustomerDetailsComponent, {
@@ -220,6 +231,7 @@ export class PdrManagementComponent implements OnInit {
   }
   changestartdate(event) {
     this.currentstartDate = event.target.value
+    this.currentendDate = this.currentstartDate 
   }
   changeenddate(event) {
     this.currentendDate = event.target.value
@@ -234,13 +246,16 @@ export class PdrManagementComponent implements OnInit {
         console.warn("Pdr_savepdr", Pdr_savepdr)
         this.Pdr_save_data = Pdr_savepdr
       })
-      if (this.Pdr_save_data == "Inserted")
-      {
+      if (this.Pdr_save_data == "Inserted") {
         this.showAlert();
+      }
+      else {
+        this.showAlert3();
       }
      
     }
     else {
+      this.showAlert3();
       this.login_formpdr.controls['terms'].setValue(false);
     }
   }
@@ -250,7 +265,7 @@ export class PdrManagementComponent implements OnInit {
     var operat: string = "Save";
     var usernam: string = "admin";
     let params1 = new HttpParams().set('PDRDetail', Pdrdetails).set('operation', operat).set('username', usernam);
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/Save_Update_PDR", { params: params1, responseType: 'text' })
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
   }
   Pdr_Update(pdrn: string, projn: string) {
     this.markFormTouched(this.login_formpdr);
@@ -286,7 +301,7 @@ export class PdrManagementComponent implements OnInit {
     var pdrdetails: any = Pdrdetails;
     this.projectapprovalcheck = false;
     let params1 = new HttpParams().set('PDRDetail', pdrdetails).set('operation', operat).set('username', usernam);
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/Save_Update_PDR", { params: params1, responseType: 'text' })
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
 
   }
   approvedprojectChange(event) {
@@ -313,7 +328,7 @@ export class PdrManagementComponent implements OnInit {
     var usernam: string = "admin";
    
     let params1 = new HttpParams().set('PDRNo', pdrdata).set('ProjectName', proname).set('username', usernam).set('chkprojectapproval1', approver);
-    return this.http.get("http://24.187.220.60/Smartformulator_PDR_Webservice/ProjectApproval", { params: params1 })
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/ProjectApproval", { params: params1 })
   }
 
   ngOnInit() {

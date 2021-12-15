@@ -2,12 +2,12 @@
   <div style="overflow-y:auto;overflow-x:hidden; height:86vh;width:100%">
 
     <h2 style="    margin-bottom: 5px; margin-top: 5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center ">Project/PDR</h2>
-    <
+    
     <form class="form-inline" style="    background-color: #f6f5f1">
-      <label for="PRD">PDR</label>
+      <label for="PRD">PDR #</label>
       <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="" #pdrn [readonly]="true">
       <label for="PDR Date" style="margin-left:10px;">PDR Date</label>
-      <input type="date" [min]="currentDate"  style="margin-left:10px" class="form-control" id="pdrdate" name="pddate" [(ngModel)]="currentDate"  #currdate value="" [disabled]="datecheck" (change)="changecurrentdate($event)">
+      <input type="date" [min]="currentDate" style="margin-left:10px" class="form-control" id="pdrdate" name="pddate" [(ngModel)]="currentDate" #currdate value="" [disabled]="datecheck" (change)="changecurrentdate($event)">
 
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchprojectpdr()">Search</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)=" ClearData()">Clear</button>
@@ -17,6 +17,9 @@
       </div>
       <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible2">
         Updated Successfully!!
+      </div>
+      <div class="alert2" style="font-weight:700;font-size:larger" [class.visible]="isVisible3">
+       Error !!
       </div>
     </form>
     <form class="form-row form-inline" [formGroup]="login_formpdr">
@@ -76,7 +79,7 @@
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="PDR endDate">End Date</label>
-              <input type="date" class="form-control" style="width:40%" id="enddate" name="endate" [(ngModel)]="currentendDate" [min]="currentDate"     #curenddate  value="" (change)="changeenddate($event)">
+              <input type="date" class="form-control" style="width:40%" id="enddate" name="endate" [(ngModel)]="currentendDate" [min]="currentstartDate"     #curenddate  value="" (change)="changeenddate($event)">
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="details">Details</label>
@@ -1156,7 +1159,7 @@
 
 
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;margin-left:25%;height:50px;margin-top:.5%">Print Preview</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% ">Print Preview</button>
     <div>
       <label class="form-check-label" for="gridCheck1" style="color:maroon;font-size:larger;float:left;margin-left:5%;height:50px;margin-top:1%"  >
         Approve Project
