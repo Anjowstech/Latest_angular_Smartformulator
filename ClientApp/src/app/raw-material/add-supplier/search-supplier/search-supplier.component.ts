@@ -36,7 +36,7 @@ export class SearchSupplierComponent implements OnInit {
   }
 
   close() {
-
+    this.searchitems = [this.SupplierKey, this.SupplierName, this.SupplierCode];
     this.dialogRef.close(this.searchitems);
 
   }

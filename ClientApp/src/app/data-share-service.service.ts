@@ -35,12 +35,16 @@ export class DataShareServiceService {
   restrictdetails = [];
   rawtable: any;
   labelvalues: string;
+  datashareclientlocation: any = [];
 
   sendlabel(incilabel:string) {
     this.labelvalues = incilabel
   }
   sendrestrictiondetails(formularestrictiondetails: string[]) {
     this.restrictdetails = formularestrictiondetails
+  }
+  sendaddlocation(searchlocation: string[]) {
+    this.datashareclientlocation = searchlocation
   }
 
   backtoformuladetails(backtoform: string[]) {
@@ -106,6 +110,9 @@ export class DataShareServiceService {
   DatashareTempPass(): any {
     var itemlist1: [string] = [this.itemlist1]
     return itemlist1;
+  }
+  getclientlocation(): string[] {
+    return this.datashareclientlocation;
   }
   getlabel():string {
     return this.labelvalues;

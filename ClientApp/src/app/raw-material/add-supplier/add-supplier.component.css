@@ -11,7 +11,9 @@ p.test {
   padding-top: 10px;
   margin: 20px;
 }
-
+.tabledatasize {
+  font-size: larger;
+}
 input {
   margin: 5px;
 }
@@ -53,6 +55,9 @@ h2.design {
 .tabcolor {
   color: #bb2205;
 }
+/*table{
+ font-size:large;
+}*/
 
 .tabbutto:hover {
   background-color: whitesmoke;

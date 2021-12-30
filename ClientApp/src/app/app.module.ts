@@ -126,6 +126,7 @@ import {
   DxSelectBoxModule,
   DxButtonModule,
 } from 'devextreme-angular';
+import { SamplemoduleComponent } from './samplemodule/samplemodule.component';
 
 @NgModule({
   declarations: [
@@ -215,6 +216,7 @@ import {
     IncinameSelectComponent,
     SearchCustomerComponent,
     AddClientLocationComponent,
+    SamplemoduleComponent,
     
   ],
   imports: [
@@ -327,6 +329,6 @@ import {
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [RawmaterialRestrictionComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
+  entryComponents: [RawmaterialRestrictionComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
 })
 export class AppModule { }

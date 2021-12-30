@@ -241,6 +241,7 @@
                                     [showColumnLines]="true"
                                     [showRowLines]="true"
                                     [showBorders]="true"
+                                    (onCellClick)="openrawmaterialserach($event)"
                                     (rowprepared)="rowprepared">
                         <dxo-editing mode="row"
                                      [allowUpdating]="true"
@@ -255,11 +256,13 @@
                         <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                         <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
                         <dxi-column dataField=""></dxi-column>
-                        <dxi-column dataField=""></dxi-column>
-                        <dxi-column type="buttons" [width]="110">
-                          <dxi-button name="edit"></dxi-button>
-                          <dxi-button name="delete"></dxi-button>
-                        </dxi-column>
+                        
+                        <dxi-column dataField="check" headerCellTemplate="addressHeaderTemplatecheck" dataType="boolean" value="false"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
+                          <b style="color: black"></b>
+                        </div>
+                        <dxi-column dataField="incicode"
+                                    [visible]="false"></dxi-column>
                         <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black">item #</b>
@@ -287,7 +290,7 @@
                       </dx-data-grid>
                     </div>
                     <div style="margin-top: 2%;">
-                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px"(click)="addRow();">Insert Row</button>
+                      <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px"(click)="addRow(); ">Insert Row</button>
                       <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px"(click)="deleteRow();">Delete Row</button>
 
                     </div>
@@ -424,13 +427,11 @@
       <ng-container ngbNavItem style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli " ngbNavLink>Shipping Locations</a>
         <ng-template ngbNavContent>
-          <div style="color: black">
-            <p class="font-weight-bold"> Double  Click For more Details</p>
+          <div style="color: #bb2205">
+            <p class="font-weight-bold"> Double click for more details</p>
           </div>
-          <div style="background-color:white">
-            <table class="table table-bordered">
-
-
+          <div style="margin-left:1%;margin-top:1%; height:300px; background-color:white">
+            <table class="table-hover table-bordered" style="margin-left: 10px;width:100%;background-color:white" width="96%">
 
               <thead>
                 <tr>
@@ -445,97 +446,77 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent" mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let shippingdata_search of shippingdata " (click)="setvalues3(shippingdata_search)" (dblclick)="setvalues(shippingdata_search);">
 
-
-
+                  <td class="tabledatasize"></td>
+                  <td class="tabledatasize">{{ shippingdata_search.LocationName}}</td>
+                  <td class="tabledatasize">{{ shippingdata_search.Address}}</td>
+                  <td class="tabledatasize">{{ shippingdata_search.City}}</td>
+                  <td class="tabledatasize">{{ shippingdata_search.State}}</td>
+                  <td class="tabledatasize">{{ shippingdata_search.Country}}</td>
+                  <td class="tabledatasize">{{ shippingdata_search.ZipCode}}</td>
+                  <td class="tabledatasize"> <input type="checkbox" [checked]="shippingdata_search.DefaultLocation=='True'"></td>
+                </tr>
               </tbody>
             </table>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <div class="form-inline">
-                <label >Location</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>Location</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="locationname" value="" name="locate">
               </div>
               <div class="form-inline">
-                <label >Address</label>
-                <textarea style="width: 50%;margin-left:5px" type="text" class="form-control" rows="3"></textarea>
+                <label>Address</label>
+                <textarea style="width: 50%;" type="text" class="form-control" rows="3" [(ngModel)]="Address" value="" name="add"></textarea>
               </div>
               <div class="form-inline">
-                <label >Telephone</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>Telephone</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="telepho" value="" name="tele">
               </div>
               <div class="form-inline">
-                <label >Fax</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>Fax</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Fax" value="" name="fa">
               </div>
               <div class="form-inline">
-                <label >Contact Person</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>Contact Person</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactperson" value="" name="cp">
               </div>
             </div>
             <div class="form-group col-md-6">
               <div class="form-inline">
-                <label >City</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>City</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="City" value="" name="cit">
               </div>
               <div class="form-inline">
-                <label >State</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>State</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="State" value="" name="sta">
               </div>
               <div class="form-inline">
                 <label>Zip Code</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="zipcode" value="" name="zip">
               </div>
               <div class="form-inline">
-                <label >Country</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>Country</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Country" value="" name="coun">
               </div>
               <div class="form-inline">
-                <label >E-Mail</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>E-Mail</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Email" value="" name="email">
               </div>
               <div class="form-inline">
-                <label >Contact #</label>
-                <input style="width: 50%;" type="text" class="form-control">
+                <label>Contact #</label>
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactno" value="" name="cno">
               </div>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="form-inline">
-                <button type="submit" class="btn btn-primary buttoncolor " style="float:left;margin-left:1%">Delete Client Location</button>
-                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:60%">Add Client Locations</button>
+                <button type="submit" class="btn btn-primary buttoncolor " style="float:left;margin-left:1%" (click)="DeleteClient_location();">Delete Client Location</button>
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:60%" (click)=" OpenAddClientLocation();">Add Client Location</button>
               </div>
             </div>
           </div>
@@ -551,43 +532,47 @@
             </div>
             <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
               <!--<table class="table table-hover table-bordered fixed" style="margin-left: 1%; background-color: white" id="table" width="98%">
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col">Product Code</th>
-        <th scope="col">Product Name</th>
-        <th scope="col">Formula Code</th>
-        <th scope="col">Formula Name</th>
-        <th scope="col">COA Expiry Date Format</th>
+  <thead>
+  <tr>
+  <th scope="col"></th>
+  <th scope="col"></th>
+  <th scope="col"></th>
+  <th scope="col">Product Code</th>
+  <th scope="col">Product Name</th>
+  <th scope="col">Formula Code</th>
+  <th scope="col">Formula Name</th>
+  <th scope="col">COA Expiry Date Format</th>
 
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>*</td>
-        <td> <input type="checkbox"></td>
-        <td> <input type="button"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-          </select>
-        </td>
-      </tr>
 
-    </tbody>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>*</td>
+  <td> <input type="checkbox"></td>
+  <td> <input type="button"></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>
+  <select id="inputState" class="form-control">
+  <option selected>Choose...</option>
+  </select>
+  </td>
+  </tr>
+
+
+
+  </tbody>
   </table>-->
               <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
                             [height]="440"
                             (onRowPrepared)="onRowPrepared($event)"
                             (onSelectionChanged)="selectedChanged($event)"
                             [columnAutoWidth]="true"
-                            [dataSource]="rowData"
+                            [dataSource]="rowData6"
                             [wordWrapEnabled]="true"
                             [showColumnLines]="true"
                             [showRowLines]="true"
@@ -603,6 +588,8 @@
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-scrolling mode="virtual"></dxo-scrolling>
 
+
+
                 <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                 <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
                 <dxi-column dataField=""></dxi-column>
@@ -611,12 +598,13 @@
                   <dxi-button name="edit"></dxi-button>
                   <dxi-button name="delete"></dxi-button>
                 </dxi-column>
-                <dxi-column dataField="Product Code"></dxi-column>
-                <dxi-column dataField="Product Name"></dxi-column>
-                <dxi-column dataField="Formula Code"></dxi-column>
-                <dxi-column dataField="Formula Name"></dxi-column>
-                <dxi-column dataField="COA Expiy Date Format"></dxi-column>
-                
+                <dxi-column dataField="ProductCode"></dxi-column>
+                <dxi-column dataField="ProductName"></dxi-column>
+                <dxi-column dataField="FormulaCode"></dxi-column>
+                <dxi-column dataField="FormulaName"></dxi-column>
+                <dxi-column dataField="COADTFORMAT"></dxi-column>
+
+
 
               </dx-data-grid>
             </div>
@@ -904,42 +892,13 @@
             <div class="col-1">
             </div>
             <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-              <!--<table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col">Product #</th>
-        <th scope="col">Product Name</th>
-        <th scope="col">Validated Batch Size</th>
-        <th scope="col">Unit</th>
 
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>*</td>
-        <td> <input type="checkbox"></td>
-        <td> <input type="button"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-          </select>
-        </td>
-
-      </tr>
-    </tbody>
-  </table>-->
               <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
                             [height]="440"
                             (onRowPrepared)="onRowPrepared($event)"
                             (onSelectionChanged)="selectedChanged($event)"
                             [columnAutoWidth]="true"
-                            [dataSource]="rowData"
+                            [dataSource]="rowData4"
                             [wordWrapEnabled]="true"
                             [showColumnLines]="true"
                             [showRowLines]="true"
@@ -955,6 +914,8 @@
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-scrolling mode="virtual"></dxo-scrolling>
 
+
+
                 <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                 <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
                 <dxi-column dataField=""></dxi-column>
@@ -963,17 +924,30 @@
                   <dxi-button name="edit"></dxi-button>
                   <dxi-button name="delete"></dxi-button>
                 </dxi-column>
-                <dxi-column dataField="Product #"></dxi-column>
-                <dxi-column dataField="Product Name"></dxi-column>
-                <dxi-column dataField="Validated Batch Size"></dxi-column>
-                <dxi-column dataField="Unit"></dxi-column>
-               
+                <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodnumber"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateprodnumber'">
+                  <b style="color: black">Product #</b>
+                </div>
+                <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
+                  <b style="color: black">Product Name</b>
+                </div>
+                <dxi-column dataField="ValidatedSize" headerCellTemplate="addressHeaderTemplateValidated"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateValidated'">
+                  <b style="color: black">Validated Batch Size</b>
+                </div>
+                <dxi-column dataField="Unit" headerCellTemplate="addressHeaderTemplateUnit"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateUnit'">
+                  <b style="color: black">Unit</b>
+                </div>
+
+
 
               </dx-data-grid>
             </div>
             <div style="margin-top: 2%;">
-              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Insert Row</button>
-              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Delete Row</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px"(click)="insertrowvalidatedbatch();">Insert Row</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px" (click)="deleterowvalidatedbatch();">Delete Row</button>
               <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Print Preview</button>
             </div>
           </form>
@@ -982,7 +956,43 @@
       <ng-container ngbNavItem>
         <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit Trail</a>
         <ng-template ngbNavContent>
+          <form>
 
+            <div style="color: black">
+              <p class="font-weight-bold"> Double Click For more Details</p>
+            </div>
+            <div style="margin-left:1%;margin-top:1%; height:550px; overflow-y: auto;">
+              <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+
+
+
+
+
+                <thead>
+                  <tr>
+                    <th hidden style="width:7%"  scope="col">AuditID</th>
+                    <th hidden style="width:7%"scope="col">CusCode</th>
+                    <th hidden style="width:15%" scope="col">CusName</th>
+                    <th scope="col"style="width:10%">Date</th>
+                    <th scope="col" >Task</th>
+                    <th scope="col" style="width:7%">username</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let audit_customer of dataloadaudittrialcustomer; let i=index;">
+                    <td hidden>{{ audit_customer.AuditID}}</td>
+                    <td hidden>{{ audit_customer.CusCode}}</td>
+                    <td hidden>{{ audit_customer.CusName}}</td>
+                    <td>{{ audit_customer.Date}}</td>
+                    <td>{{ audit_customer.Task}}</td>
+                    <td>{{ audit_customer.username}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+           
+          </form>
         </ng-template>
       </ng-container>
 

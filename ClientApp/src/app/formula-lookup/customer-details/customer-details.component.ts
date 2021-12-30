@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchCustomerComponent } from 'src/app/formula-lookup/customer-details/search-customer/search-customer.component';
+import { SearchINCINameComponent } from 'src/app/raw-material/search-inci-name/search-inci-name.component';
+import { AddClientLocationComponent } from 'src/app/formula-lookup/customer-details/add-client-location/add-client-location.component';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
@@ -19,7 +22,7 @@ export class CustomerDetailsComponent implements OnInit {
   customercode: string;
   cusData: any;
   custgrid: any
-  
+  dataloadaudittrialcustomer: any;
   /* custkey: string;*/
   custname: string;
   fax: string;
@@ -42,6 +45,7 @@ export class CustomerDetailsComponent implements OnInit {
   cc1: string;
   cc2: string;
   cc3: string;
+ 
   fillinginstruction: string;
   specialinstruction: string;
   attachment: string;
@@ -63,21 +67,50 @@ export class CustomerDetailsComponent implements OnInit {
   saddress: string;
   semail: string;
   notes: string;
+  custocode: string;
+  item: string;
+  Inciname: string;
   countrydatalo_data: any;
   termsdatalo_data: any;
   statedatalo_data: any;
   creditcarddatalo_data: any;
   salesrepdatalo_data: any;
   Customer_save_data: any;
+  loadbatchszizes: any;
+  rowData4: any = [];
   cstmerdata: any = [];
   selectedRowIndex = -1;
+  selectedRowIndexvali=-1;
   login_form: FormGroup;
   rowData: any = [];
+  rowData1: any = [];
   i: number;
   j: number;
-  dataList: string[][] = [];
+  dataList: Data[][] = [];
+  searchitems: any = [];
+  shippingdata: any;
   Customer_pref_data: any;
-  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder) {
+  locationname: string;
+  Address: string;
+  City: string;
+  clientid: string;
+  customcode: string;
+  State: string;
+  Country: string;
+  zipcode: string;
+  contactno: string;
+  contactperson: string;
+  Email: string;
+  Fax: string;
+  locationnote: string;
+  telepho: string;
+  delclient_loc_data: any;
+  default: string;
+  salespersondatalo_data: any;
+  erpproductscoa: any;
+  rowData6: any = [];
+
+  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
       'custoname': ['', Validators.required],
@@ -103,10 +136,42 @@ export class CustomerDetailsComponent implements OnInit {
         this.customerdata(this.cusData)
 
       })
+      this.loadvalidatedotcbatchsizes(this.customercode).subscribe((finishedpdctload) => {
+        console.warn("finishedpdctload", finishedpdctload)
+        this.loadbatchszizes = finishedpdctload
+        this.rowData4 = this.loadbatchszizes
+      })
+      this.shippinglocationload(this.customercode).subscribe((shippingload) => {
+        console.warn("shippingload", shippingload)
+        this.shippingdata = shippingload
+        this.shipdata(this.shippingdata)
+
+      })
+      this.loaderpproductscoaexpirydate(this.customercode).subscribe((erpproducts) => {
+        console.warn("erpproductcoaexpiry", erpproducts)
+        this.erpproductscoa = erpproducts
+        this.rowData6 = this.loadbatchszizes
+      })
 
 
     });
 
+  }
+  DeleteClient_location() {
+    this.DeleteClient_locationdlt().subscribe((DeleteClient_Loc) => {
+      console.warn("SaveClient_Loc", DeleteClient_Loc)
+      this.delclient_loc_data = DeleteClient_Loc
+    })
+    this.shippinglocationload(this.customercode).subscribe((shippingload) => {
+      console.warn("shippingload", shippingload)
+      this.shippingdata = shippingload
+    })
+
+  }
+  DeleteClient_locationdlt() {
+    var clid = this.clientid;
+    let params1 = new HttpParams().set('CLId', clid);
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/deleteclientlocation", { params: params1 })
   }
 
   customerdata(cstmrdata: any) {
@@ -165,28 +230,135 @@ export class CustomerDetailsComponent implements OnInit {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/displaydetails", { params: params1, })
 
   }
+  setvalues(shippingdata_search) {
+    this.clientid = shippingdata_search.CLId;
+    this.customcode = shippingdata_search.CusCode;
+    this.locationname = shippingdata_search.LocationName;
+    this.Address = shippingdata_search.Address;
+    this.City = shippingdata_search.City;
+    this.State = shippingdata_search.State;
+    this.Country = shippingdata_search.Country;
+    this.zipcode = shippingdata_search.ZipCode;
+    this.contactno = shippingdata_search.Contactno;
+    this.contactperson = shippingdata_search.Contactperson;
+    this.Email = shippingdata_search.Emailid;
+    this.Fax = shippingdata_search.Fax;
+    this.locationnote = shippingdata_search.LocationNotes;
+    this.telepho = shippingdata_search.Telephone;
+    this.searchitems = [this.locationname, this.Address, this.City, this.State, this.Country, this.zipcode, this.clientid, this.customcode, this.contactno, this.contactperson, this.Email, this.Fax, this.locationnote, this.telepho];
+    this.datashare.sendaddlocation(this.searchitems);
+    this.OpenAddClientLocation();
+  }
+ 
+
   setvalues2(customer_searchdata2: any) {
     this.i = 0;
     this.j = 0;
     
     for (let search of customer_searchdata2) {
     
-      this.dataList[this.i] = ([
-        "sam:100",
-        search.item,
-        search.INCIName,
-        search.usage,
-        search.foa,
-        search.comments,
-        search.banned,
-      ]);
+      this.dataList[this.i] = ([{
+        cuscodedata: search.incicode,
+        itemdata: search.item,
+        incinamedata: search.INCIName,
+        usagedata: search.usage,
+        foadata: search.foa,
+        commentsdata: search.comments,
+        banneddata: search.banned,
+      }]);
       this.i++;
 
     }
     
   }
+  setvalues3(shippingdata_search) {
+    this.clientid = shippingdata_search.CLId;
+    this.customcode = shippingdata_search.CusCode;
+    this.locationname = shippingdata_search.LocationName;
+    this.Address = shippingdata_search.Address;
+    this.City = shippingdata_search.City;
+    this.State = shippingdata_search.State;
+    this.Country = shippingdata_search.Country;
+    this.zipcode = shippingdata_search.ZipCode;
+    this.contactno = shippingdata_search.Contactno;
+    this.contactperson = shippingdata_search.Contactperson;
+    this.Email = shippingdata_search.Emailid;
+    this.Fax = shippingdata_search.Fax;
+    this.locationnote = shippingdata_search.LocationNotes;
+    this.telepho = shippingdata_search.Telephone;
+  }
+  shipdata(shipdetails: any) {
+    for (let item of shipdetails) {
+      if (item.DefaultLocation == "True") {
+        this.default = item.DefaultLocation;
+        this.locationname = item.LocationName;
+        this.Address = item.Address;
+        this.City = item.City;
+        this.State = item.State;
+        this.Country = item.Country;
+        this.zipcode = item.ZipCode;
+        this.contactno = item.Contactno;
+        this.contactperson = item.Contactperson;
+        this.Email = item.Emailid;
+        this.Fax = item.Fax;
+        this.locationnote = item.LocationNotes;
+        this.telepho = item.Telephone;
+      }
+      else {
+
+
+
+      }
+    }
+  }
   addRow() {
     this.dataGrid.instance.addRow();
+    this.dataGrid.instance.saveEditData();  
+   
+    this.dataGrid.instance.saveEditData();
+    this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
+  }
+  updateCell(rowIndex, dataField, value) {
+        this.dataGrid.instance.cellValue(rowIndex, dataField, value);
+        this.dataGrid.instance.saveEditData();
+    }
+  openrawmaterialserach(e): void {
+    if (e.column.dataField === "INCIName") {
+      const dialogRef = this.dialog.open(SearchINCINameComponent, {
+        width: '70%', height: '80%', disableClose: true
+      });
+
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        if (result != "") {
+
+          this.custocode = result[4];
+          this.Inciname = result[0];
+          this.customercode = result[2];
+          this.item = result[1];
+          this.selectedRowIndex = e.rowIndex;
+          this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
+          this.dataGrid.instance.cellValue(this.selectedRowIndex, "incicode", this.custocode);
+          this.dataGrid.instance.cellValue(this.selectedRowIndex, "INCIName", this.Inciname);
+          this.dataGrid.instance.cellValue(this.selectedRowIndex, "item", this.item);
+          this.dataGrid.instance.cellValue(this.selectedRowIndex, "usage", "0.00000");
+          this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
+          this.dataGrid.instance.saveEditData();
+
+          
+        }
+        //  this.customerload(this.customercode).subscribe((customrload) => {
+        //    console.warn("customerload", customrload)
+        //    this.cusData = customrload
+        //    this.customerdata(this.cusData)
+
+        //  })
+       
+
+      });
+    }
+
   }
   deleteRow() {
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
@@ -204,7 +376,7 @@ export class CustomerDetailsComponent implements OnInit {
   statedataload() {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/loadstates");
   }
-
+ 
 
   
   Customer_saveupdate(custkey: string, custnam: string) {
@@ -221,10 +393,10 @@ export class CustomerDetailsComponent implements OnInit {
       var operation: string = "Save";
       /*this.customercode = "";*/
       /*this.cstmerdata = [custkey, custnam, this.customercode]*/
-      //this.Customer_saveup( custcode, custnam, custkey,operation).subscribe((Customer_save) => {
-      //  console.warn("Customer_save", Customer_save)
-      //  this.Customer_save_data = Customer_save
-      //})
+      this.Customer_saveup( custcode, custnam, custkey,operation).subscribe((Customer_save) => {
+        console.warn("Customer_save", Customer_save)
+        this.Customer_save_data = Customer_save
+      })
       this.Customer_preferences(custcode, custnam).subscribe((Customer_pref) => {
         console.warn("Customer_pref", Customer_pref)
         this.Customer_pref_data = Customer_pref
@@ -241,10 +413,10 @@ export class CustomerDetailsComponent implements OnInit {
     if (this.login_form.valid) {
       var cuscode: string = this.customercode;
       var operation: string = "Update";
-      //this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
-      //  console.warn("Customer_update", Customer_update)
-      //  this.Customer_save_data = Customer_update
-      //})
+      this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
+        console.warn("Customer_update", Customer_update)
+        this.Customer_save_data = Customer_update
+      })
       this.Customer_preferences(cuscode, custnam).subscribe((Customer_pref) => {
         console.warn("Customer_pref", Customer_pref)
         this.Customer_pref_data = Customer_pref
@@ -288,6 +460,17 @@ export class CustomerDetailsComponent implements OnInit {
     /* var cstmrdetail: any = cstmerdata;*/
     let params1 = new HttpParams().set('customerpreference', datalistdata).set('CusCode', cstmrcode).set('CusName', cstmrname).set('CustomerKey', cstmrkey).set('operation', oper);
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/update_save_customer", { params: params1 })
+  }
+  insertrowvalidatedbatch() {
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.saveEditData();
+  }
+  deleterowvalidatedbatch() {
+    this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
+    this.dataGrid.instance.deselectAll();
+  }
+  selectedChangedvalid(e) {
+    this.selectedRowIndexvali = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
 ClearData()
 {
@@ -343,6 +526,51 @@ ClearData()
 
     return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/displayformulation.json");
   }
+  loadvalidatedotcbatchsizes(SupplierCode: string) {
+    var splrcode = SupplierCode;
+    let params1 = new HttpParams().set('cuscode', splrcode);
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/otcvalidatedbatchesbind", { params: params1, })
+  }
+  audittrialloadfunction() {
+
+
+
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/loadAuditcustomeraudit");
+
+
+
+  }
+  OpenAddClientLocation(): void {
+    const dialogRef = this.dialog.open(AddClientLocationComponent, {
+      width: '60%', height: '70%', disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.shippinglocationload(this.customercode).subscribe((shippingload) => {
+        console.warn("shippingload", shippingload)
+        this.shippingdata = shippingload
+
+      })
+
+
+    });
+
+  }
+  shippinglocationload(customercode: string) {
+    var custcode = customercode;
+
+    let params1 = new HttpParams().set('CustCode', custcode);
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/loctabledataload", { params: params1, })
+
+  }
+  loaderpproductscoaexpirydate(SupplierCode: string) {
+    var splrcode = SupplierCode;
+    let params1 = new HttpParams().set('cuscode', splrcode);
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/customerproducts", { params: params1, })
+  }
+ 
   ngOnInit() {
 
    
@@ -363,12 +591,19 @@ ClearData()
       console.warn("custtextgrid", custtextgrid)
       this.custgrid = custtextgrid
     })
-
+    this.audittrialloadfunction().subscribe((loadcustomeraudittrial) => {
+      console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+      this.dataloadaudittrialcustomer = loadcustomeraudittrial
+    })
   }
 }
 export class Data {
-  cust1: string;
-  custname1: string;
-
+  cuscodedata: string;
+  itemdata: string;
+  incinamedata: string;
+  usagedata: string;
+  foadata: string;
+  commentsdata: string;
+  banneddata: string;
 
 }

@@ -36,51 +36,52 @@
 
 
 
-              <span *ngFor="let item of navItems">
-                <!-- Handle branch node buttons here -->
-                <span *ngIf="item.children && item.children.length > 0">
+          <span *ngFor="let item of navItems">
+            <!-- Handle branch node buttons here -->
+            <span *ngIf="item.children && item.children.length > 0">
 
-                  <button mat-button #menuTrigger="matMenuTrigger"
-                          [matMenuTriggerFor]="menu.childMenu"
-                          [disabled]="item.disabled" style="color:black; overflow-wrap:break-word;font-size:large;" (click)="toggleSidenav() ">
-                    {{item.displayName}}
-                  </button>
-                  <app-menu-item #menu [items]="item.children"></app-menu-item>
-                </span>
+              <button mat-button #menuTrigger="matMenuTrigger"
+                      [matMenuTriggerFor]="menu.childMenu"
+                      [disabled]="item.disabled" style="color:black; overflow-wrap:break-word;font-size:large;" (click)="toggleSidenav() ">
+                {{item.displayName}}
+              </button>
+              <app-menu-item #menu [items]="item.children"></app-menu-item>
+            </span>
 
-                <!-- Leaf node buttons here -->
-                <span *ngIf="!item.children || item.children.length === 0">
+            <!-- Leaf node buttons here -->
+            <span *ngIf="!item.children || item.children.length === 0">
 
-                  <button mat-button [routerLink]="item.route"   style="font-size:Large;color:black">
-                    {{item.displayName}}
-                  </button>
+              <button mat-button [routerLink]="item.route" style="font-size:Large;color:black">
+                {{item.displayName}}
+              </button>
 
-                </span>
+            </span>
 
-              </span>
-            
-            
-              <span style="flex: 1 1 auto;"></span>
-              <div class="icon" style="float:right;margin-right:5px">
-                <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu" style=" float: right; margin-right: 10px; color: #214252; height: 40px; width: 50px ">settings</mat-icon>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item [routerLink]="'/AdminWork'">Admin Work</button>
-                  <button mat-menu-item [routerLink]="'/UserSecurity'">User Security</button>
-                  <button mat-menu-item>Lab Inventory</button>
-                  <button mat-menu-item [routerLink]="'/RawMaterial'">Raw Material</button>
-                </mat-menu>
-              </div>
-              <div class="icon" style="float:right;margin-right:5px">
-                <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu1" style="color: #214252;">account_circle</mat-icon>
+          </span>
 
-                <mat-menu #menu1="matMenu">
-                  <button mat-menu-item>My Task List</button>
-                  <button mat-menu-item>Change Password</button>
-                  <button mat-menu-item>Logout</button>
-                </mat-menu>
-              
-            </div>
-</mat-toolbar-row>
+
+          <span style="flex: 1 1 auto;"></span>
+         
+          <div class="icon" style="float:right;margin-right:5px">
+            <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu" style=" float: right; margin-right: 10px; color: #214252; height: 40px; width: 50px ">settings</mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item [routerLink]="'/AdminWork'">Admin Work</button>
+              <button mat-menu-item [routerLink]="'/UserSecurity'">User Security</button>
+              <button mat-menu-item>Lab Inventory</button>
+              <button mat-menu-item [routerLink]="'/RawMaterial'">Raw Material</button>
+            </mat-menu>
+          </div>
+          <div class="icon" style="float:right;margin-right:5px">
+            <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu1" style="color: #214252;">account_circle</mat-icon>
+
+            <mat-menu #menu1="matMenu">
+              <button mat-menu-item>My Task List</button>
+              <button mat-menu-item>Change Password</button>
+              <button mat-menu-item>Logout</button>
+            </mat-menu>
+
+          </div>
+        </mat-toolbar-row>
 
         <style>
           .icon {

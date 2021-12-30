@@ -17,6 +17,8 @@ import { AddSupplierComponent } from './add-supplier/add-supplier.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SearchSupplierComponent } from './add-supplier/search-supplier/search-supplier.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 export interface DialogData {
   itemlist: string;
@@ -55,7 +57,62 @@ export class RawMaterialComponent implements OnInit {
   Rawmaterialdetails: any = [];
   rawmaterial_update_data: any;
   defaultUOMload_data: any;
-  constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService) { }
+  Rawdata: any;
+  itemcode: string;
+  generalitemcod: string;
+  description: string;
+  ingredienttradeName: string;
+  categoryId: string;
+  subCategoryId: string;
+  statusId: string;
+  supercededBy: string;
+  unitCost: string;
+  costUnit: string;
+  costDt: string;
+  notes: string;
+  vendorcode: string;
+  hMISHealth: string;
+  hMISFlammability: string;
+  hMISPhysical: string;
+  hMISPersonal: string;
+  nFPAHealth: string;
+  nFPAFlammability: string;
+  supercededDate: string;
+  rmAssayValue: string;
+  ebsNumber: string;
+  lastPOCost: string;
+  drugName: string;
+  sku: string;
+  defaultUnit: string;
+  reorderQty: string;
+  origin: string;
+  concentration: string;
+  RMSource: string;
+  proleadtime: string;
+  preloadtime: string;
+  postleadtime: string;
+  sg: string;
+  costdate: string;
+  date: string;
+  suppliername: string;
+  supplierkey: string;
+  suppliercode: string;
+  supp_code: string;
+  suppkey: string;
+  login_form: FormGroup;
+
+  constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
+  {
+    this.login_form = fb.group({
+      'ingricode': ['', Validators.required],
+      'incinam': ['', Validators.required],
+      'rmitem': ['', Validators.required],
+      'supkey': ['', Validators.required],
+      'supname': ['', Validators.required],
+
+      'terms': [false]
+    });
+  }
   AddPrefixPopUp(): void {
 
     const dialogRef = this.dialog.open(AddPrefixComponent, {
@@ -88,6 +145,14 @@ export class RawMaterialComponent implements OnInit {
       width: '60%', height: '70%', disableClose: true
     
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.suppkey = result[0];
+      this.supp_name = result[1];
+      this.supp_code = result[2];
+
+    });
   }
   //SearchINCIpopup(): void {
 
@@ -114,13 +179,70 @@ export class RawMaterialComponent implements OnInit {
       this.itemli = result[1];
       this.tradn = result[2];
       this.supp_name = result[3];
-      this.incicode = result[4]
+      this.incicode = result[4];
+      this.suppkey = result[5];
       this.loadrawproperty(this.incicode);
 
-
+      this.Rawmaterialload(this.incicode).subscribe((rawmaterialload) => {
+        console.warn("rawmaterialload", rawmaterialload)
+        this.Rawdata = rawmaterialload
+        this.Rawmaterialdataload(this.Rawdata)
+      })
 
     });
   }
+
+  Rawmaterialdataload(rawdatas: any) {
+    for (let item of rawdatas) {
+      this.incicode = item.ItemCode;
+      this.generalitemcod = item.GeneralItemCode;
+      this.inciname = item.Description;
+      this.tradn = item.IngredientTradeName;
+      this.ebsNumber = item.EBSNumber;
+      this.lastPOCost = item.LastPOCost;
+      this.drugName = item.DrugName;
+      this.notes = item.Notes;
+      this.sku = item.SKU;
+      this.rmAssayValue = item.RMAssayValue;
+      this.supercededBy = item.SupercededBy;
+      this.supercededDate = item.SupercededDate;
+      this.defaultUnit = item.DefaultUnit;
+      this.reorderQty = item.ReOrderQty;
+      this.origin = item.Origin;
+      this.concentration = item.RMConcentration;
+      this.RMSource = item.RawMatSource;
+      this.proleadtime = item.ProcessLeadTime;
+      this.preloadtime = item.PreprocessLeadTime;
+      this.postleadtime = item.PostprocessLeadTime;
+      this.sg = item.SG;
+      this.vendorcode = item.VendorCode
+
+      this.categoryId = item.CategoryId;
+      this.subCategoryId = item.SubCategoryId;
+      this.statusId = item.StatusId;
+      this.unitCost = item.UnitCost;
+      this.costUnit = item.CostUnit;
+      this.costDt = formatDate(new Date(item.CostDt), 'yyyy-MM-dd', 'en-US');
+
+      this.hMISHealth = item.HMIS_Health;
+      this.hMISFlammability = item.HMIS_Flammability;
+      this.hMISPhysical = item.HMIS_Physical;
+      this.hMISPersonal = item.HMIS_Personal;
+      this.nFPAHealth = item.NFPA_Health;
+      this.nFPAFlammability = item.NFPA_Flammability;
+
+      //this.nFPAReactivity = item.NFPA_Reactivity;
+      //this.flashPtCelsious = item.FlashPtCelsious;
+      //this.nFPASpecial = item.NFPA_Special;
+      //this.flashPtFlammable = item.FlashPtFlammable;
+      //this.flashPtGTLT = item.FlashPtGTLT;
+      //this.flashPtOverride = item.FlashPtOverride;
+      //this.flashPtMethod = item.FlashPtMethod;
+
+
+    }
+  }
+
   loadrawproperty(ingcode: string) {
     this.rawpropertyload(ingcode).subscribe((rawpropertyload) => {
       console.warn("rawpropertyload", rawpropertyload)
@@ -199,6 +321,17 @@ export class RawMaterialComponent implements OnInit {
   rawcategoryload() {
     return this.http.get("http://localhost/raw-sup-webservice2/loadrawcategory")
   }
+
+  Rawmaterialload(itemcode: string) {
+    var itemcode = itemcode;
+    let params1 = new HttpParams().set('ItemCode', itemcode);
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/displayRawmaterialdetails", { params: params1, })
+
+  }
+  dateChange(event) {
+    this.costDt = event.target.value;
+   
+  }
   defaultUOMload() {
     return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/UnitTableLoad")
   }
@@ -210,38 +343,65 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("http://localhost/raw-sup-webservice2/loadrawproperty2", { params: params1 });
 
   }
-  Rawmaterial_Update() {
-    alert(this.tradn);
 
-    var operation: string = "Update";
-    var username: string = "admin";
-   // var tredname: string = tradenameval
-  //  this.Rawmaterialdetails = [incredcode, incname, "admin", "11/26/2021 8:00:00 AM", "3", "5.00", "3", "11/26/2021", "1.00", "SC:12", "SC:12", "Aceto Corporation", "SC:12", "Tradnewupdate", "Item15"]
-    this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((Pdr_update) => {
-      console.warn("Pdr_update", Pdr_update)
-      this.rawmaterial_update_data = Pdr_update
-    })
-  }
-  Rawmaterial_Save(incredcode: string, incname: string) {
-    var operation: string = "Save";
-    var username: string = "admin";
-    this.Rawmaterialdetails = [incredcode, incname, "admin", "11/26/2021 8:00:00 AM", "3", "5.00", "3", "11/26/2021 8:00:00 AM", "1.00", "SC:12", "SC:12", "Corporation", "SC:12", "Tradnewupdate", "Itemnew"]
-    this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((Pdr_update) => {
-      console.warn("Pdr_update", Pdr_update)
-      this.rawmaterial_update_data = Pdr_update
-    })
-  }
+  Rawmaterial_Update(incredcode: string, incname: string, suppliername: string, supplierkey: string, rmitem: string) {
 
+    this.markFormTouched(this.login_form);
+    if (this.login_form.valid) {
+      var operation: string = "Update";
+      var username: string = "admin";
+      var suppliercode = this.supp_code;
+      var sg = this.lb_gal;
+      var tradename: string = this.tradn;
+      var chemist: string = this.supercededBy;
+      var unitid = this.defaultUnit;
+      var unitcost = this.unitCost;
+      this.Rawmaterialdetails = [incredcode, incname, chemist, "11/26/2021 8:00:00 AM", unitid, unitcost, unitid, this.costDt, sg, this.vendorcode, this.vendorcode, suppliername, supplierkey, tradename, rmitem]
+      this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((rawmaterial_update) => {
+        console.warn("rawmaterial_update", rawmaterial_update)
+        this.rawmaterial_update_data = rawmaterial_update
+      })
+    } else {
+      this.login_form.controls['terms'].setValue(false);
+    }
+  };
+  Rawmaterial_Save(incredcode: string, incname: string, suppliername: string, supplierkey: string, rmitem: string) {
 
+    this.markFormTouched(this.login_form);
+    if (this.login_form.valid) {
+      var operation: string = "Save";
+      var username: string = "admin";
+      var suppliercode = this.supp_code;
+      var sg = this.lb_gal;
+      var tradename: string = this.tradn;
+      var chemist: string = this.supercededBy;
+      var unitid = this.defaultUnit;
+      var unitcost = this.unitCost;
+      this.Rawmaterialdetails = [incredcode, incname, chemist, "11/26/2021 8:00:00 AM", unitid, unitcost, unitid, this.costDt, sg, suppliercode, suppliercode, suppliername, supplierkey, tradename, rmitem]
+      this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((rawmaterial_save) => {
+        console.warn("rawmaterial_save", rawmaterial_save)
+        this.rawmaterial_update_data = rawmaterial_save
+      })
+    } else {
+      this.login_form.controls['terms'].setValue(false);
+    }
+  };
+
+  markFormTouched(group: FormGroup | FormArray) {
+    Object.keys(group.controls).forEach((key: string) => {
+      const control = group.controls[key];
+      if (control instanceof FormGroup || control instanceof FormArray) { control.markAsTouched(); this.markFormTouched(control); }
+      else { control.markAsTouched(); };
+    });
+  };
 
   Rawmaterial_saveupdateup(Rawmaterialdetails, operation, username) {
-
-
 
     var Rawdetails: any = Rawmaterialdetails;
     let params1 = new HttpParams().set('rawmaterialdetail', Rawdetails).set('operation', operation).set('username', username);
     return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/Save_Update_Rawmaterial", { params: params1, responseType: 'text' })
   }
+
   ngOnInit() {
     this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
       console.warn("resultsaveraw", result6)

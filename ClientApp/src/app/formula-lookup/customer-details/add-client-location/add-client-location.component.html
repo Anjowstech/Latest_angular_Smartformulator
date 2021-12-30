@@ -1,1 +1,83 @@
-<p>add-client-location works!</p>
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
+    <div class="col-sm-12">
+      <div style="background-color: #f6f5f1">
+
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Add Shipping/Client Location</h2>
+
+      </div>
+    </div>
+
+
+    <form>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="form-inline">
+            <label>Location</label>
+            <input style="width: 70%; margin-top: 3% " type="text" class="form-control" [(ngModel)]="location" value="" name="locate">
+          </div>
+          <div class="form-inline">
+            <label>Address</label>
+            <textarea style="width: 70%;margin-top:3%" type="text" class="form-control" rows="3" [(ngModel)]="address" value="" name="add"></textarea>
+          </div>
+          <div class="form-inline">
+            <label>Telephone</label>
+            <input style="width: 70%; margin-top: 3%" type="text" class="form-control" [(ngModel)]="telephone" value="" name="tele">
+          </div>
+          <div class="form-inline">
+            <label>Email</label>
+            <input style="width: 70%; margin-top: 3%" type="text" class="form-control" [(ngModel)]="email" value="" name="emilid">
+          </div>
+          <div class="form-inline">
+            <label>Contact Person</label>
+            <input style="width: 70%; margin-top: 3%" type="text" class="form-control" [(ngModel)]="contactperson" value="" name="cp">
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <div class="form-inline">
+            <label>City</label>
+            <input style="width: 70%; margin-top: 5%" type="text" class="form-control" [(ngModel)]="city" value="" name="cityyy">
+          </div>
+          <div class="form-inline">
+            <label>State</label>
+            <input style="width: 70%; margin-top: 2%" type="text" class="form-control" [(ngModel)]="state" value="" name="sta">
+          </div>
+          <div class="form-inline">
+            <label>Zip</label>
+            <input style="width: 70%; margin-top: 2%" type="text" class="form-control" [(ngModel)]="zipcode" value="" name="zip">
+          </div>
+          <div class="form-inline">
+            <label>Country</label>
+            <input style="width: 70%; margin-top: 2%" type="text" class="form-control" [(ngModel)]="country" value="" name="ctry">
+          </div>
+          <div class="form-inline">
+            <label>Fax</label>
+            <input style="width: 70%; margin-top: 2%" type="text" class="form-control" [(ngModel)]="fax" value="" name="ctry">
+          </div>
+          <div class="form-inline">
+            <label>Contact #</label>
+            <input style="width: 70%; margin-top: 2%" type="text" class="form-control" [(ngModel)]="contactno" value="" name="cno">
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="form-inline">
+      <label>Notes</label>
+      <textarea style="width: 80%;margin-top:2%" type="text" class="form-control" rows="3" [(ngModel)]="notes" value="" name="not"></textarea>
+    </div>
+
+    <div>
+    </div>
+  </div>
+</div>
+<div class="form-row" style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+  <div class="form-group col-md-12">
+    <div class="form-inline">
+      <button type="submit" class="btn btn-primary buttoncolor " style="height: 5%; width: 18%; margin-left: 1% ;margin-top:1%" (click)="ClearData();">Clear/Add New Location</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 24%; height: 5%; width: 18%; margin-top: 1%" (click)="Client_Locationsave();" matDialogClose>Save Client Locations</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 1%; height: 5%; width: 18%; margin-top: 1%" (click)="Client_Locationupdate();" matDialogClose>Update Client Locations</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left: 1%; height: 5%; width: 10%; margin-top: 1%" matDialogClose>Close</button>
+    </div>
+  </div>
+</div>

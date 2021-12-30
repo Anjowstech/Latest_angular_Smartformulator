@@ -162,7 +162,9 @@ h2.design {
 input {
   margin: 5px;
 }
-
+span {
+  font-size: 25px;
+}
 label {
   
   text-align: right;
