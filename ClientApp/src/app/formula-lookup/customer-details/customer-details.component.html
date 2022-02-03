@@ -6,13 +6,13 @@
         <div class="form-group col-md-7">
           <div class=" form-inline">
             <label for="PRD" style="margin-left: 2%;">Customer Key</label>
-            <input type="text" style="margin-left:10px; width:71%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="customerkey" #custkey  value="" formControlName="custokey" />
+            <input type="text" style="margin-left:10px; width:71%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="customerkey" #custkey  value="" formControlName="custokey" name="custkeyname" />
             <span class="text-danger" style="margin-left:20%;margin-top:-0.5%"  *ngIf="login_form.controls['custokey'].hasError('required') && (login_form.controls['custokey'].dirty || login_form.controls['custokey'].touched)">This field is required</span>
 
           </div>
           <div class="form-inline">
             <label for="PRD" style="margin-left: 2%">Customer Name</label>
-            <input type="text" style="margin-left:10px; width:71%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="customername" #custnam  value="" formControlName="custoname" />
+            <input type="text" style="margin-left:10px; width:71%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="customername" #custnam  value="" formControlName="custoname" name="cusnamevalue" />
             <span class="text-danger" style="margin-left:20%;margin-top:-0.5%"*ngIf="login_form.controls['custoname'].hasError('required') && (login_form.controls['custoname'].dirty || login_form.controls['custoname'].touched)">This field is required</span>
           </div>
 
@@ -35,7 +35,7 @@
     </form>
     <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
       <ng-container ngbNavItem style="margin-left:20px">
-        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Details</a>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Details</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row">
@@ -45,11 +45,13 @@
                   <textarea class="form-control rounded-0" id="Address" rows="4" style="width:60%; margin-left:1%" #Add name="address" [(ngModel)]="address" value=""></textarea>
                 </div>
                 <div class=" form-inline" style="padding-top:2%;">
-                  <label for="Customer Type">Customer Type</label>
-                  <select id="Customer Type" class="form-control" style="width:60%;margin-left:1%">
-                    <option selected>Choose...</option>
-                    <option>1</option>
-                    <option>2</option>
+                  <label for="CustomerTyp">Customer Type</label>
+                  <select id="CustomerTyp" class="form-control" style="width:60%;margin-left:1%" [(ngModel)]="customertype" name="custtyp" value="">
+                    <option>Retail</option>
+                    <option>Distributor</option>
+                    <option>Sole Distributor</option>
+                    <option>Wholesale</option>
+                    <option>Tiered</option>
                   </select>
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
@@ -80,7 +82,7 @@
                     <!--<option>DHL</option>
               <option>Federal Express</option>-->
                   </select>
-                  <button type="button" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 4%; ">...</button>
+                  <button type="button" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 4%; "(click)="OpenTermsMaster()">...</button>
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="FOB">FOB</label>
@@ -88,20 +90,23 @@
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Credit Card Type">Credit Card Type</label>
-                  <select id="Credit Card Type" class="form-control" style="width:60%;">
-                    <option selected>Choose...</option>
-                    <option>Activate</option>
-                    <option>Inactivate</option>
+                  <select id="Credit Card Type" class="form-control" style="width:60%;" [(ngModel)]="creditcardtype" value="" name="credittype">
+                    <option >American Express</option>
+                    <option>Discover</option>
+                    <option>Mastercard</option>
+                    <option>Visa</option>
+                    <option>Debit Card</option>
+                    <option>Gift Card</option>
+                    <option>E-Check</option>
                   </select>
                 </div>
                 <div class=" form-inline" style="padding-top:2%;">
                   <label for="Sales Rep Name">Sales Rep Name</label>
-                  <select id="Sales Rep Name" class="form-control" style="width:60%;">
-                    <option selected>Choose...</option>
-                    <option>Activate</option>
-                    <option>Inactivate</option>
+                  <select id="Sales Rep Name" class="form-control" style="width:60%;" [(ngModel)]="salesperson" name="sp" value="">
+                    <option selected>N/A</option>
+                    <option *ngFor="let itemunitSales of salespersondatalo_data">{{itemunitSales.FirstName}}</option>
                   </select>
-                  <button type="button" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 4%; ">...</button>
+                  <button type="button" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 4%; "(click)="Opensalesperson()">...</button>
                 </div>
               </div>
               <div class="form-group col-md-6">
@@ -144,7 +149,7 @@
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 2">E-Mail 2</label>
-                  <input type="text" class="form-control" id="E-Mail 2" style="width:60%;" name="zipcode" [(ngModel)]="zip" value="">
+                  <input type="text" class="form-control" id="E-Mail 2" style="width:60%;" name="email2" [(ngModel)]="contactsmail" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 3">E-Mail 3 </label>
@@ -156,21 +161,22 @@
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Ship Via">Ship Via</label>
-                  <select id="Ship Via" class="form-control" style="width:60%;">
-                    <option selected>Choose...</option>
+                  <select id="Ship Via" class="form-control" style="width:60%;" name="shipv" [(ngModel)]="shipvia" value="">
+                   
                     <option>DHL</option>
                     <option>Federal Express</option>
+                    <option>UPS</option>
+                    <option>UPS (Expedited)</option>
+                    <option>UPS (Ground)</option>
+                    <option>US Mail</option>
+                    <option>Other</option>
                   </select>
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Card No">Card No</label>
                   <input type="text" class="form-control" id="Card No" style="width:25%;">
                   <label for="Expiry Date " style="margin-left:1%">Expiry Date </label>
-                  <select id="Expiry Date " class="form-control" style="width:25%;">
-                    <option selected>Choose...</option>
-                    <option>Activate</option>
-                    <option>Inactivate</option>
-                  </select>
+                  <input style="width: 20%;" type="date" class="form-control">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Sales Rep Initials ">Sales Rep Initials </label>
@@ -183,14 +189,14 @@
           </form>
           <div class=" form-inline" style="padding-top:1%;">
             <label for="Notes">Notes</label>
-            <textarea class="form-control rounded-0" id="Notes" rows="3" size="40" style="width:80%;margin-bottom:1%; margin-left:.5%" name="Notes" value=""></textarea>
+            <textarea class="form-control rounded-0" id="Notes" rows="3" size="40" style="width:80%;margin-bottom:1%; margin-left:.5%" name="Notes" value="" [(ngModel)]="notes" ></textarea>
           </div>
 
         </ng-template>
       </ng-container>
 
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Customer Preferences</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer Preferences</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
           <ng-template #innerTabset class="nav-tabs">
@@ -231,9 +237,9 @@
       </tr>
     </tbody>
   </table>-->
-                      <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
-                                    [height]="440"
-                                    (onRowPrepared)="onRowPrepared($event)"
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                    
+                                   
                                     (onSelectionChanged)="selectedChanged($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="rowData"
@@ -303,7 +309,7 @@
 
                     <div class="form-inline" style="margin-top:2%">
                       <label for="Formula Notes" >Filling/Packing Instructions:</label>
-                      <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="12"></textarea>
+                      <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="21" [(ngModel)]="fillinginstruction" value="" name="fillinstruct" ></textarea>
                     </div>
                     <div class="form-inline" style="margin-top:10px">
                       <label for="browse" >Browse:</label>
@@ -326,7 +332,7 @@
 
                     <div class="form-inline" style="margin-top:2%">
                       <label for="Formula Notes" >Labeling Instructions:</label>
-                      <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="12"></textarea>
+                      <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="23" [(ngModel)]="labelinginstruction" value="" name="locate"></textarea>
                     </div>
 
                     <div class="form-inline" style="margin-top:10px">
@@ -344,7 +350,7 @@
 
                     <div class="form-inline" style="margin-top:2%">
                       <label for="Formula Notes" >Special Instructions:</label>
-                      <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="12"></textarea>
+                      <textarea id="data_results" style="width:70%;margin-top:3px" class="form-control md-textarea" size="7" rows="23" [(ngModel)]="specialinstruction" value="" name="locate"></textarea>
                     </div>
 
                     <div class="form-inline" style="margin-top:10px">
@@ -364,52 +370,52 @@
                       <div class="form-group col-md-12">
                         <fieldset class="border p-2">
                           <div class="form-inline">
-                            <input style="width: 87%;" type="text" class="form-control" id="data1">
+                            <input style="width: 87%;" type="text" class="form-control" id="data1" [(ngModel)]="Document1" name="doc1" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px" >
+                            <input style="width: 87%;" type="text" class="form-control" id="data2" [(ngModel)]="Document2" name="doc2" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data2">
+                            <input style="width: 87%;" type="text" class="form-control" id="data3" [(ngModel)]="Document3" name="doc3" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data3">
+                            <input style="width: 87%;" type="text" class="form-control" id="data4" [(ngModel)]="Document4" name="doc4" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data4">
+                            <input style="width: 87%;" type="text" class="form-control" id="data5" [(ngModel)]="Document5" name="doc5" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data5">
+                            <input style="width: 87%;" type="text" class="form-control" id="data6" [(ngModel)]="Document6" name="doc6" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data6">
+                            <input style="width: 87%;" type="text" class="form-control" id="data7" [(ngModel)]="Document7" name="doc7" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data7">
+                            <input style="width: 87%;" type="text" class="form-control" id="data8" [(ngModel)]="Document8" name="doc8" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data8">
+                            <input style="width: 87%;" type="text" class="form-control" id="data9" [(ngModel)]="Document9" name="doc9" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data9">
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
-                          </div>
-                          <div class="form-inline" style="margin-top:10px">
-                            <input style="width: 87%;" type="text" class="form-control" id="data10">
+                            <input style="width: 87%;" type="text" class="form-control" id="data10" [(ngModel)]="Document10" name="doc10" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
@@ -425,7 +431,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem style="margin-left:20px">
-        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Shipping Locations</a>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Shipping Locations</a>
         <ng-template ngbNavContent>
           <div style="color: #bb2205">
             <p class="font-weight-bold"> Double click for more details</p>
@@ -525,7 +531,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>ERP Products/COA Expiry Dates</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>ERP Products/COA Expiry Dates</a>
         <ng-template ngbNavContent>
           <form>
             <div class="col-1">
@@ -567,9 +573,8 @@
 
   </tbody>
   </table>-->
-              <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
-                            [height]="440"
-                            (onRowPrepared)="onRowPrepared($event)"
+              <dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
+                            
                             (onSelectionChanged)="selectedChanged($event)"
                             [columnAutoWidth]="true"
                             [dataSource]="rowData6"
@@ -598,12 +603,27 @@
                   <dxi-button name="edit"></dxi-button>
                   <dxi-button name="delete"></dxi-button>
                 </dxi-column>
-                <dxi-column dataField="ProductCode"></dxi-column>
-                <dxi-column dataField="ProductName"></dxi-column>
-                <dxi-column dataField="FormulaCode"></dxi-column>
-                <dxi-column dataField="FormulaName"></dxi-column>
-                <dxi-column dataField="COADTFORMAT"></dxi-column>
-
+                <dxi-column  [visible]="false" dataField="ProductCode"></dxi-column>
+                <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodcode"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateprodcode'">
+                  <b style="color: black">Product Code</b>
+                </div>
+                <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
+                  <b style="color: black">Product Name</b>
+                </div>
+                <dxi-column dataField="FormulaCode" headerCellTemplate="addressHeaderTemplateformcode"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateformcode'">
+                  <b style="color: black">Formula Code</b>
+                </div>
+                <dxi-column dataField="FormulaName" headerCellTemplate="addressHeaderTemplateformname"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateformname'">
+                  <b style="color: black">Formula Name</b>
+                </div>
+                <dxi-column dataField="COADTFORMAT" headerCellTemplate="addressHeaderTemplateCOADTFORMAT"></dxi-column>
+                <div *dxTemplate="let info of 'addressHeaderTemplateCOADTFORMAT'">
+                  <b style="color: black">COA Expiry Date Format</b>
+                </div>
 
 
               </dx-data-grid>
@@ -617,7 +637,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Pricing </a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Pricing </a>
         <ng-template ngbNavContent>
 
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
@@ -630,47 +650,47 @@
                     </div>
                     <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
                       <!--<table class="table table-hover table-bordered fixed" style="margin-left: 1%; background-color: white" id="table" width="98%">
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col">Product #</th>
-        <th scope="col">Product Name</th>
-        <th scope="col">Unit Size</th>
-        <th scope="col">Unit</th>
-        <th scope="col">Retail $ Price/Unit</th>
-        <th scope="col">Distributor $ Price/Unit</th>
-        <th scope="col">Sole Distributor $ Price/Unit</th>
-        <th scope="col">Wholesale $ Price/Unit</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>*</td>
-        <td> <input type="checkbox"></td>
-        <td> <input type="button"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-          </select>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>-->
-                      <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
-                                    [height]="440"
-                                    (onRowPrepared)="onRowPrepared($event)"
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col">Product #</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Unit Size</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Retail $ Price/Unit</th>
+          <th scope="col">Distributor $ Price/Unit</th>
+          <th scope="col">Sole Distributor $ Price/Unit</th>
+          <th scope="col">Wholesale $ Price/Unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>*</td>
+          <td> <input type="checkbox"></td>
+          <td> <input type="button"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <select id="inputState" class="form-control">
+              <option selected>Choose...</option>
+            </select>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>-->
+                      <dx-data-grid id="gridContainer " style="width: 98%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                    
+                                    (onRowPrepared)="onRowPrepared2($event)"
                                     (onSelectionChanged)="selectedChanged($event)"
                                     [columnAutoWidth]="true"
-                                    [dataSource]="rowData"
+                                    [dataSource]="retail_wholesale_rowdata"
                                     [wordWrapEnabled]="true"
                                     [showColumnLines]="true"
                                     [showRowLines]="true"
@@ -680,33 +700,66 @@
                                      [allowUpdating]="true"
                                      [useIcons]="true">
                         </dxo-editing>-->
-                        <dxo-column-chooser [enabled]="false">
-                          <!-- or "select" -->
-                        </dxo-column-chooser>
-                        <dxo-selection mode="single"></dxo-selection>
+
+                        <dxo-selection [selectAllMode]="allMode"
+                                       [showCheckBoxesMode]="checkBoxesMode"
+                                       mode="multiple"></dxo-selection>
+                        <dxo-row-dragging [allowReordering]="true"
+                                          [showDragIcons]="showDragIcons"></dxo-row-dragging>
                         <dxo-scrolling mode="virtual"></dxo-scrolling>
+                        <dxo-sorting mode="none"></dxo-sorting>
 
                         <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                         <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-                        <dxi-column dataField=""></dxi-column>
-                        <dxi-column dataField=""></dxi-column>
-                        <dxi-column type="buttons" [width]="110">
-                          
-                        </dxi-column>
-                        <dxi-column dataField="Product #"></dxi-column>
-                        <dxi-column dataField="Product Name"></dxi-column>
-                        <dxi-column dataField="Unit Size"></dxi-column>
-                        <dxi-column dataField="Unit"></dxi-column>
-                        <dxi-column dataField="Retail $ Price/Unit"></dxi-column>
-                        <dxi-column dataField="Distributor $ Price/Unit"></dxi-column>
-                        <dxi-column dataField=" Sole Distributor $ Price/Unit"></dxi-column>
-                        <dxi-column dataField="Wholesale $ Price/Unit"></dxi-column>
 
+                        <dxi-column type="buttons" [width]="50">
+                        </dxi-column>
+
+                        <dxi-column dataField="" [width]="50"></dxi-column>
+
+                        <dxi-column dataField="ProductNumber" [width]="150" headerCellTemplate="addressHeaderTemplateprodno"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateprodno'">
+                          <b style="color: black">Product #</b>
+                        </div>
+                        <dxi-column dataField="ProductName" [width]="200" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
+                          <b style="color: black">Product Name</b>
+                        </div>
+                        <dxi-column dataField="UnitSize" [width]="100" headerCellTemplate="addressHeaderTemplateunitsize"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateunitsize'">
+                          <b style="color: black">Unit Size</b>
+                        </div>
+                        <dxi-column dataField="Unit" [width]="100" headerCellTemplate="addressHeaderTemplateunit">
+                          <dxo-lookup [dataSource]="erpunitload_data"
+                                      valueExpr="UnitName"
+                                      displayExpr="UnitName">
+                          </dxo-lookup>
+                        </dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateunit'">
+                          <b style="color: black">Unit</b>
+                        </div>
+                        <dxi-column dataField="RetailCost" [width]="250" headerCellTemplate="addressHeaderTemplateRetailPriceUnit"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateRetailPriceUnit'">
+                          <b style="color: black">Retail $ Price/Unit</b>
+                        </div>
+                        <dxi-column dataField="DistributorCost" [width]="250" headerCellTemplate="addressHeaderTemplateDistributorPriceUnit"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateDistributorPriceUnit'">
+                          <b style="color: black">Distributor $ Price/Unit</b>
+                        </div>
+                        <dxi-column dataField="SoleDistributorCost" [width]="250" headerCellTemplate="addressHeaderTemplateSoleDistributorPriceUnit"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateSoleDistributorPriceUnit'">
+                          <b style="color: black">Sole Distributor $Price/Unit</b>
+                        </div>
+                        <dxi-column dataField="WholesaleCost" [width]="250" headerCellTemplate="addressHeaderTemplateWholesalePriceUnit"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateWholesalePriceUnit'">
+                          <b style="color: black">Wholesale $ Price/Unit</b>
+                        </div>
                       </dx-data-grid>
+
                     </div>
                     <div style="margin-top: 2%;">
-                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Insert Row</button>
-                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Delete Row</button>
+                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="addRow();">Insert Row</button>
+                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="deleteRow();">Delete Row</button>
                       <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Print Preview</button>
                     </div>
                   </form>
@@ -715,163 +768,213 @@
               <ngb-tab title="Tiered Volume Pricing Entry">
                 <ng-template ngbTabContent>
                   <div class="form-inline">
-                    <label for="inputcust" style="padding-top: 10px;margin-left: 10px">Enter No of Units </label>
-                    <label for="inputcust" style="    padding-top: 10px;margin-left:50PX;">Tier 1</label>
-                    <input typeof="button" style="width: 150px;margin-left:10px" type="text" class="form-control">
-                    <label for="inputcust" style="    padding-top: 10px;margin-left:30PX">Tier 2</label>
-                    <input typeof="button" style="width: 150px;margin-left:10px" type="text" class="form-control">
-                    <label for="inputcust" style="    padding-top: 10px;margin-left:30PX">Tier 3</label>
-                    <input typeof="button" style="width: 150px;margin-left:10px" type="text" class="form-control">
-                    <label for="inputcust" style="    padding-top: 10px;margin-left:30PX">Tier 4</label>
-                    <input typeof="button" style="width: 150px;margin-left:10px" type="text" class="form-control">
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:100px;">Ok</button>
+                    <label for="inputcust" style="margin-left: 2%">Enter No of Units </label>
+                    <label for="inputcust" style="margin-left:2%" >Tier 1</label>
+                    <input style="width: 7%; margin-left: 2%" type="text" class="form-control" [(ngModel)]="Tier1" name="t1" value="">
+                    <label for="inputcust" style="margin-left:2%">Tier 2</label>
+                    <input style="width: 7%; margin-left: 2%" type="text" class="form-control" [(ngModel)]="Tier2" name="t2" value="">
+                    <label for="inputcust" style="margin-left:2%">Tier 3</label>
+                    <input  style="width:7%; margin-left: 2%" type="text" class="form-control" [(ngModel)]="Tier3" name="t3" value="" (focusout)="insert_tier4()">
+                    <label for="inputcust" style="margin-left:2%">Tier 4</label>
+                    <input disabled  style="width: 7%;margin-left:2%" type="text" class="form-control"  [(ngModel)]="Tier4" name="t4" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:100px;"(click)="insert_tiers();">Ok</button>
                   </div>
-                  <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Tier 1</th>
-                        <th scope="col">Tier 2</th>
-                        <th scope="col">Tier 3</th>
-                        <th scope="col">Tier 4</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">*</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                  <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
 
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <dx-data-grid id="gridContainer " style="width: 100%; height: 15rem;font-family:Verdana;font-style:normal;background-color:white"
+                                
+                                  (onSelectionChanged)="selectedChangedtier($event)"
+                                  [columnAutoWidth]="true"
+                                  [dataSource]="pricentryrowdata"
+                                     
+                                  [wordWrapEnabled]="true"
+                                  [showColumnLines]="true"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                  (rowprepared)="rowprepared">
+                      <dxo-editing mode="row"
+                                   [allowUpdating]="true"
+                                   [useIcons]="true">
+                      </dxo-editing>-->
+                      <dxo-column-chooser [enabled]="false">
+                        <!-- or "select" -->
+                      </dxo-column-chooser>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-scrolling mode="virtual"></dxo-scrolling>
 
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
 
-                      </tr>
-                  </table>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:200px;">Delete Tier Range</button>
-                  <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Product #</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Unit Size</th>
-                        <th scope="col">Unit</th>
-                        <th scope="col">Tier 1</th>
-                        <th scope="col">Tier 2</th>
-                        <th scope="col">Tier 3</th>
-                        <th scope="col">Tier 4</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">*</th>
-                        <td><input type="checkbox"></td>
-                        <td><input type="button" style="width:30px;"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <select id="PRD" class="form-control" style="width:200px;">
-                            <option selected>Select</option>
-                            <option></option>
-                          </select>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </table>
-                  <div class="form-inline">
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:150px;margin-bottom:1%">Insert Row</button>
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:150px;margin-bottom:1%">Delete Row</button>
+                      <dxi-column [visible]="false" dataField="TieredProduct_id"></dxi-column>
+                      <dxi-column type="buttons" [width]="110">
+
+                      </dxi-column>
+                      <dxi-column dataField="Tier1Range" headerCellTemplate="addressHeaderTemplatetier1"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatetier1'">
+                        <b style="color: black">Tier 1</b>
+                      </div>
+                      <dxi-column dataField="Tier2Range" headerCellTemplate="addressHeaderTemplatetier2"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatetier2'">
+                        <b style="color: black">Tier 2</b>
+                      </div>
+                      <dxi-column dataField="Tier3Range" headerCellTemplate="addressHeaderTemplatetier3"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatetier3'">
+                        <b style="color: black">Tier 3</b>
+                      </div>
+                      <dxi-column dataField="Tier4Range" headerCellTemplate="addressHeaderTemplatetier4"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatetier4'">
+                        <b style="color: black">Tier 4</b>
+                      </div>
+
+
+                    </dx-data-grid>
+                  </div>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-top:1%;margin-left:1%;height:40px;width:200px;">Delete Tier Range</button>
+                  <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
+
+                    <dx-data-grid id="gridContainer " style="width: 100%; height: 12rem;font-family:Verdana;font-style:normal;background-color:white"
+                                 
+                                  (onSelectionChanged)="selectedRowIndexListinggridData($event)"
+                                  [columnAutoWidth]="true"
+                                  [dataSource]="pricedetailgrid_data"
+                                  [wordWrapEnabled]="true"
+                                  [showColumnLines]="true"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                   (onRowPrepared)="onRowPreparedtierlist($event)" >
+                      <dxo-editing mode="row"
+                                   [allowAdding]="true"
+                                   [allowUpdating]="true"
+                                   [useIcons]="true">
+                      </dxo-editing>-->
+                      <dxo-column-chooser [enabled]="false">
+                        <!-- or "select" -->
+                      </dxo-column-chooser>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                      <dxi-column dataField=""></dxi-column>
+                      <dxi-column dataField=""></dxi-column>
+                      <dxi-column type="buttons" [width]="110">
+
+                      </dxi-column>
+                      <dxi-column [width]="200"  dataField="ProductNumber" headerCellTemplate="addressHeaderTemplate2Product"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2Product'">
+                        <b style="color: black">Product #</b>
+                      </div>
+                      <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplate2productname"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2productname'">
+                        <b style="color: black">Product Name</b>
+                      </div>
+                      <dxi-column [width]="85" dataField="UnitSize" headerCellTemplate="addressHeaderTemplate2unitsize"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2unitsize'">
+                        <b style="color: black">Unit Size</b>
+                      </div>
+                      <dxi-column [width]="85" dataField="Unit" headerCellTemplate="addressHeaderTemplate2unit"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2unit'">
+                        <b style="color: black">Unit</b>
+                      </div>
+                
+                      <dxi-column [width]="200" dataField="Tier1Value" headerCellTemplate="addressHeaderTemplate2tier1"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2tier1'">
+                        <b style="color: black"> {{this.selectedtier1}} </b>
+                      </div>
+                      <dxi-column [width]="200" dataField="Tier2Value" headerCellTemplate="addressHeaderTemplate2tier2"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2tier2'">
+                        <b style="color: black;"> {{this.selectedtier2}} </b>
+                      </div>
+                      <dxi-column [width]="200" dataField="Tier3Value" headerCellTemplate="addressHeaderTemplate2tier3"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2tier3'">
+                        <b style="color: black"> {{this.selectedtier3}} </b>
+                      </div>
+                      <dxi-column [width]="200" dataField="Tier4Value" headerCellTemplate="addressHeaderTemplate2tier4"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate2tier4'">
+                        <b style="color: black">  {{this.selectedtier4}} </b>
+                      </div>
+
+
+                    </dx-data-grid>
+                  </div>
+                  <div class="form-inline " style="margin-top:2%">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;margin-bottom:1%">Insert Row</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;margin-bottom:1%">Delete Row</button>
                   </div>
                 </ng-template>
               </ngb-tab>
               <ngb-tab title="Tiered Volume Pricing Listing">
                 <ng-template ngbTabContent>
-                  <table class="table table-bordered" style="margin-top:2%;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Tier 1</th>
-                        <th scope="col">Tier 2</th>
-                        <th scope="col">Tier 3</th>
-                        <th scope="col">Tier 4</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">*</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                  <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
 
+                    <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                  (onSelectionChanged)="selectedChanged($event)"
+                                  [columnAutoWidth]="true"
+                                   keyExpr="TieredProduct_id"
+                                  [masterDetail]="{ enabled: true, template: 'detail' }"
+                                 
+                                  [dataSource]="pricentryrowdata"
+                                  [wordWrapEnabled]="true"
+                                  [showColumnLines]="true"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                  (rowprepared)="rowprepared">
+                      <dxo-editing mode="row"
+                                   [allowUpdating]="true"
+                                   [useIcons]="true">
+                      </dxo-editing>-->
+                      <dxo-column-chooser [enabled]="false">
+                        <!-- or "select" -->
+                      </dxo-column-chooser>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-scrolling mode="virtual"></dxo-scrolling>
 
+                      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
 
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                      <dxi-column dataField=""></dxi-column>
+                      <dxi-column type="buttons" [width]="110">
 
+                      </dxi-column>
+                      <dxi-column dataField="Tier1Range" headerCellTemplate="addressHeaderTemplate3tier1"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate3tier1'">
+                        <b style="color: black">Tier 1</b>
+                      </div>
+                      <dxi-column dataField="Tier2Range" headerCellTemplate="addressHeaderTemplate3tier2"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate3tier2'">
+                        <b style="color: black">Tier 2</b>
+                      </div>
+                      <dxi-column dataField="Tier3Range" headerCellTemplate="addressHeaderTemplate3tier3"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate3tier3'">
+                        <b style="color: black">Tier 3</b>
+                      </div>
+                      <dxi-column dataField="Tier4Range" headerCellTemplate="addressHeaderTemplate3tier4"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplate3tier4'">
+                        <b style="color: black">Tier 4</b>
+                      </div>
+                      
+                      <div *dxTemplate="let employee of 'detail'">
+                      
+                      
+                        <dx-data-grid [dataSource]="volumePricingloadlistdetails_data"
+                                      [showBorders]="true"
+                                      [columnAutoWidth]="true">
 
+                          <dxi-column dataField="ProductNumber"></dxi-column>
+                          <dxi-column dataField="ProductName"></dxi-column>
+                          <dxi-column dataField="UnitSize"></dxi-column>
+                          <dxi-column dataField="Unit"></dxi-column>
+                          <dxi-column dataField="Tier1Value"></dxi-column>
+                          <dxi-column dataField="Tier2Value"></dxi-column>
+                          <dxi-column dataField="Tier3Value"></dxi-column>
+                          <dxi-column dataField="Tier4Value"></dxi-column>
 
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </table>
+                        </dx-data-grid>
+                      </div>
+
+                    </dx-data-grid>
+                  </div>
                   <div class="form-inline">
                     <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:150px;margin-bottom:1%">Expand All</button>
                     <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:150px;margin-bottom:1%">Collapse All</button>
@@ -885,7 +988,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Validated OTC Batch Sizes</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Validated OTC Batch Sizes</a>
         <ng-template ngbNavContent>
           <form>
             <p style="color:maroon">Validation Batches are commercial scale batches that are manufactured consecutivelyin order to validate a process according to a validation protocol that  was developed and authorized</p>
@@ -893,9 +996,9 @@
             </div>
             <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
 
-              <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
-                            [height]="440"
-                            (onRowPrepared)="onRowPrepared($event)"
+              <dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
+                            
+                            (onRowPrepared)="onRowPrepared3($event)"
                             (onSelectionChanged)="selectedChanged($event)"
                             [columnAutoWidth]="true"
                             [dataSource]="rowData4"
@@ -954,15 +1057,15 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit Trail</a>
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Trail</a>
         <ng-template ngbNavContent>
           <form>
 
             <div style="color: black">
               <p class="font-weight-bold"> Double Click For more Details</p>
             </div>
-            <div style="margin-left:1%;margin-top:1%; height:550px; overflow-y: auto;">
-              <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <div style="margin-left:1%;margin-top:1%; height:40rem; overflow-y: auto; background-color:white">
+              <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
 
 
 

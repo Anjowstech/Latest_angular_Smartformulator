@@ -1050,7 +1050,7 @@ export class FormulaLookupComponent implements OnInit {
     let params1 = new HttpParams().set('Formulacode', formulcod)
       .set('labbatch', labbac)
       .set('unitname', unival);
-    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/displayformulation.json", { params: params1 })
+    return this.http.get("https://formulalookupwebservice1.azurewebsites.net/displayformulation.json", { params: params1 })
   }
   proceduretext(formulcode: string) {
     var formulcod: string = formulcode;

@@ -121,7 +121,7 @@ export class SearchINCINameComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchRawMaterials("1").subscribe((rawmaterialssearch) => {
+    this.searchRawMaterials("2").subscribe((rawmaterialssearch) => {
       console.warn("rawmaterialssearch", rawmaterialssearch)
       this.datarawmaterialssearch = rawmaterialssearch
     })

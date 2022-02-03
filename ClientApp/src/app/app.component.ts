@@ -350,6 +350,16 @@ export class AppComponent implements OnInit {
         }
       ]
     }, {
+      displayName: 'Global Search',
+
+      children: [
+        {
+          displayName: 'Global Search',
+
+        }
+      ]
+    },
+    {
       displayName: 'Miscellaneous',
 
       children: [

@@ -127,6 +127,12 @@ import {
   DxButtonModule,
 } from 'devextreme-angular';
 import { SamplemoduleComponent } from './samplemodule/samplemodule.component';
+import { LoadspecificationParameterComponent } from './pdr-management/loadspecification-parameter/loadspecification-parameter.component';
+import { AddnewParamComponent } from './pdr-management/loadspecification-parameter/addnew-param/addnew-param.component';
+import { ProjectRequirementsComponent } from './pdr-management/project-requirements/project-requirements.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DatagridcomponentComponent } from './formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
+import { SalesRepNameComponent } from './formula-lookup/customer-details/sales-rep-name/sales-rep-name.component';
 
 @NgModule({
   declarations: [
@@ -217,6 +223,11 @@ import { SamplemoduleComponent } from './samplemodule/samplemodule.component';
     SearchCustomerComponent,
     AddClientLocationComponent,
     SamplemoduleComponent,
+    LoadspecificationParameterComponent,
+    AddnewParamComponent,
+    ProjectRequirementsComponent,
+    DatagridcomponentComponent,
+    SalesRepNameComponent,
     
   ],
   imports: [
@@ -230,7 +241,7 @@ import { SamplemoduleComponent } from './samplemodule/samplemodule.component';
     DragDropModule,
  
     ReactiveFormsModule,
-   
+    MatDatepickerModule,
     MatGridListModule,
     HttpClientModule,
     FormsModule,
@@ -329,6 +340,6 @@ import { SamplemoduleComponent } from './samplemodule/samplemodule.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [RawmaterialRestrictionComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
+  entryComponents: [SalesRepNameComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
 })
 export class AppModule { }

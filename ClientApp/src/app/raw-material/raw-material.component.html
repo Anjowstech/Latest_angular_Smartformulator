@@ -4,7 +4,7 @@
     <form style="background-color: #f6f5f1">
       <div class="form-row" [formGroup]="login_form">
         <div class="form-group col-md-7">
-          <div class=" form-inline">
+          <!--<div class=" form-inline">
             <label for="PRD" style="margin-right:10px" size="20">Ingredient Code</label>
             <select id="PRD" class="form-control" style="width:50.11%;">
               <option selected>Custom</option>
@@ -14,14 +14,14 @@
             <input type="text" style=" width:20%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="incicode" #incredcode name="incredcode" value="" formControlName="ingricode" />
             <span class="text-danger" style=" width:15%" *ngIf="login_form.controls['ingricode'].hasError('required') && (login_form.controls['ingricode'].dirty || login_form.controls['ingricode'].touched)">*</span>
 
-          </div>
+          </div>-->
           <div class="form-inline">
             <label for="INCI Name" style="margin-top: 10px;">INCI Name</label>
             <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="INCI Name" [(ngModel)]="inciname" #incname name="incname" value="" formControlName="incinam" />
             <span class="text-danger" style=" width:15%" *ngIf="login_form.controls['incinam'].hasError('required') && (login_form.controls['incinam'].dirty || login_form.controls['incinam'].touched)">*</span>
           </div>
           <div class="form-inline">
-            <label for="RM item">RM item</label>
+            <label for="RM item">RM item #</label>
             <input type="text" style="margin-left:10px;width:71%" class="form-control" placeholder="" id="project_name" [(ngModel)]="itemli" name="rmitem" #rmitem value="" formControlName="rmitem" />
             <span class="text-danger" style=" width:15%" *ngIf="login_form.controls['rmitem'].hasError('required') && (login_form.controls['rmitem'].dirty || login_form.controls['rmitem'].touched)">*</span>
           </div>
@@ -36,7 +36,7 @@
             <button type="button" style="margin-left:1%" class="btn btn-outline-dark" [routerLink]="'/AddSupplier'">::</button>
           </div>
           <div class="form-inline">
-            <label for="project_name" style="margin-left: 10px;margin-top: 10px;">Supplier Name</label>
+            <label for="project_name" style="margin-top: 10px;">Supplier Name</label>
             <input disabled type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="supplier_name" [(ngModel)]="supp_name" #suppliername name="suppname" value="" formControlName="supname">
             <span class="text-danger" *ngIf="login_form.controls['supname'].hasError('required') && (login_form.controls['supname'].dirty || login_form.controls['supname'].touched)">*</span>
 
@@ -60,7 +60,7 @@
           <div class="form-inline" style="margin-top:15px">
             <!--<button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Searchsupplierpopup()">Search Supplier</button>-->
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Searchsupplierpopup()">Search Supplier</button>
-            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" [routerLink]="'/AddSupplier'">Add  Supplier</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width: 19.5%;" [routerLink]="'/AddSupplier'">Add  Supplier</button>
           </div>
         </div>
       </div>
@@ -68,16 +68,19 @@
     <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
       <ng-container ngbNavItem style="">
 
-        <a class="tabcolor tabbutto tabrowli " ngbNavLink>General</a>
+        <a class="tabcolor tabbutto tabrowli textsize  " ngbNavLink>General</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row" style=" ">
               <div class="form-group col-md-8">
                 <div class="form-inline">
                   <label for="inputcust">Trade Name</label>
-                  <input type="text" style="margin-top:10px;margin-bottom:10px;width:35%" class="form-control" placeholder="" id="Trade Name" [(ngModel)]="tradn" name="tradenameval" value="">
+                  <input type="text" style="margin-top:10px;margin-bottom:10px;width:60%" class="form-control" placeholder="" id="Trade Name" [(ngModel)]="tradn" name="tradenameval" value="">
+                 
+                </div>
+                <div class="form-inline">
                   <label>P#</label>
-                  <select id="PRD" class="form-control" style="width:31%;">
+                  <select id="PRD" class="form-control" style="width:50%;">
                     <option selected>N/A</option>
                     <option>1</option>
                     <option>2</option>
@@ -87,206 +90,259 @@
 
                   </select>
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust">Drug Name</label>
-                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="drugName" #Drug name="drugnameval" value="">
-                  <label for="inputcust">Ph.Eur.Name</label>
-                  <input style="width: 35%;" type="text" class="form-control">
+                  <div class="form-inline">
+                    <label for="inputcust">Drug Name</label>
+                    <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="drugName" #Drug name="drugnameval" value="">
+                    <label for="inputcust">Ph.Eur.Name</label>
+                    <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="PhEurName" #PhEurn name="PhEur" value="">
+                    <Label>GMO</Label>
+                    <mat-radio-group aria-label="Select an option" style="margin-left:0.3%" (change)="radioChange($event)">
+
+                      <mat-radio-button [value]="1"  [checked]="GMOYesOrNo == 'True' ? true : false" style="margin-left:10px">Yes</mat-radio-button>
+                      <mat-radio-button [value]="2"  [checked]="GMOYesOrNo== 'False' ? true : false" style="margin-left:20px" >No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="form-inline">
+                    <label for="inputcust">Manufacturer</label>
+                    <input style="width: 25%;" type="text" class="form-control">
+                    <label for="inputcust">EBS#</label>
+                    <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="ebsNumber" #ebs name="EBSnameval" value="">
+                    <label>Gluten</label>
+                    <mat-radio-group aria-label="Select an option" style="margin-left:0.3%"(change)="radioChange($event)">
+
+                      <mat-radio-button [value]="2" [checked]="GlutenYesOrNo== 'True' ? true : false" style="margin-left:10px" >Yes</mat-radio-button>
+                      <mat-radio-button [value]="3" [checked]="GlutenYesOrNo== 'False' ? true : false" style="margin-left:20px">No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="form-inline">
+                    <label for="inputcust">Re Order Qty</label>
+                    <input style="width: 13%;" type="text" class="form-control" :placeholder="0.00" [(ngModel)]="reorderQty" #orderqty name="reorderqtyval" value="">
+                    <select id="PRD" class="form-control" style="width:11.5%;">
+                      <option selected>Kg</option>
+                      <option>Lb</option>
+                      <option>Gal</option>
+                      <option>Ltr</option>
+                      <option>g</option>
+                    </select>
+                    <label for="inputcust">Min Order Qty</label>
+                    <input style="width: 15%;" type="text" class="form-control" placeholder="0.00"[(ngModel)]="MOQ" #Minorder name="minodrq" value="">
+                    <select id="PRD" class="form-control" style="width:10%;">
+                      <option selected>Kg</option>
+                      <option>Lb</option>
+                      <option>Gal</option>
+                      <option>Ltr</option>
+                      <option>g</option>
+                    </select>
+                    <Label>NPA Certified</Label>
+                    <mat-radio-group aria-label="Select an option" style="margin-left:0.3%">
+
+                      <mat-radio-button [value]="1"   [checked]="NPACertified == 'Y' ? true : false"   style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="2"  [checked]="NPACertified == 'N' ? true : false"   style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+
+                  </div>
+                  <div class="form-inline" style="margin-top:5px">
+                    <label for="inputcust">Category</label>
+
+                    <select id="PRD" class="form-control" style="width:57%;">
+                      <option selected>Water</option>
+                      <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
+
+                    </select>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenCategory()">...</button>
+                    <Label>Kosher</Label>
+                    <mat-radio-group aria-label="Select an option" style="margin-left:3%">
+
+                      <mat-radio-button [value]="2" [checked]="Kosher == 'Yes' ? true : false"  style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="3" [checked]="Kosher == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <label for="inputcust">Sub-Category</label>
+
+                    <select id="PRD" class="form-control" style="width:57%;">
+                      <option selected>Choose...</option>
+
+                    </select>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenSubCategory()">...</button>
+                    <label>Halal</label>
+                    <mat-radio-group aria-label="Select an option" style="margin-left:3%">
+
+                      <mat-radio-button [value]="2"  [checked]="Halal == 'Yes' ? true : false" style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="3" [checked]="Halal == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+
+                  </div>
+                  <div class="form-inline" style="margin-top:5px">
+                    <label for="inputcust">Status</label>
+                    <select id="PRD" class="form-control" style="width:25%">
+                      <option selected>Active</option>
+                      <option>Experiment</option>
+                      <option>Hold</option>
+                      <option>Obsolete</option>
+                      <option>Completed</option>
+                      <option>DWS</option>
+                    </select>
+                    <h5 for="inputcust" style="color:red">*</h5>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:0.3%; ">...</button>
+                    <label for="inputcust"> Supplier SKU #</label>
+                    <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="sku" #skvalue name="skuname" value="">
+
+                  </div>
+
+
+
                 </div>
-                <div class="form-inline">
-                  <label for="inputcust">Manufacturer</label>
-                  <input style="width: 35%;" type="text" class="form-control">
-                  <label for="inputcust">EBS#</label>
-                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="ebsNumber" #ebs name="EBSnameval" value="">
-                </div>
-                <div class="form-inline">
-                  <label for="inputcust">Re Order Qty</label>
-                  <input style="width: 23%;" type="text" class="form-control" :placeholder="0.00" [(ngModel)]="reorderQty" #orderqty name="reorderqtyval" value="">
-                  <select id="PRD" class="form-control" style="width:11.5%;">
-                    <option selected>Kg</option>
-                    <option>Lb</option>
-                    <option>Gal</option>
-                    <option>Ltr</option>
-                    <option>g</option>
-                  </select>
-                  <label for="inputcust">Min Order Qty</label>
-                  <input style="width: 25%;" type="text" class="form-control" placeholder="0.00">
-                  <select id="PRD" class="form-control" style="width:10%;">
-                    <option selected>Kg</option>
-                    <option>Lb</option>
-                    <option>Gal</option>
-                    <option>Ltr</option>
-                    <option>g</option>
-                  </select>
+                <div class="form-group col-md-4">
+                  <div class="form-inline">
+                    <label>RM Source</label>
+                    <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="RMSource" #Rawmatsource name="rmsourcename" value="">
 
-
-                </div>
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust">Category</label>
-
-                  <select id="PRD" class="form-control" style="width:50%;">
-                    <option selected>Water</option>
-                    <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
-
-                  </select>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenCategory()">...</button>
-                  <mat-radio-group aria-label="Select an option" style="margin-left:1%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">GMO</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-
-                </div>
-                <div class="form-inline" style="margin-top:10px">
-                  <label for="inputcust">Sub-Category</label>
-
-                  <select id="PRD" class="form-control" style="width:50%;">
-                    <option selected>Choose...</option>
-
-                  </select>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenSubCategory()">...</button>
-                  <mat-radio-group aria-label="Select an option" style="margin-left:1%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">Gluten</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-
-                </div>
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust">Status</label>
-                  <select id="PRD" class="form-control" style="width:30%">
-                    <option selected>Active</option>
-                    <option>Experiment</option>
-                    <option>Hold</option>
-                    <option>Obsolete</option>
-                    <option>Completed</option>
-                    <option>DWS</option>
-                  </select>
-                  <label for="inputcust">*</label>
-                  <input typeof="button" style="width: 10%;" type="text" class="form-control">
-                  <mat-radio-group aria-label="Select an option" style="margin-left:1%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">NPA Certified</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-
-                </div>
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust">Default UOM</label>
-                  <select id="PRD" class="form-control" style="width:10%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
-                    <option selected>{{changeunit}}</option>
-                    <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
-                  </select>
-
-                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">Kosher</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">Halal</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-
-                <div class="form-inline" style="margin-top:5px">
-                  <label for="inputcust">Last PO Price$</label>
-                  <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" value="">
-                  <label for="inputcust">Per</label>
-                  <select id="PRD" class="form-control" style="width:10%;" name="uomnameval" value="">
-                    <option selected>{{changeunit}}</option>
-                    <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
-                  </select>
-                  <label for="inputcust">as of</label>
-                  <input style="width: 15%;" type="date" class="form-control">
-                </div>
-                <div class="form-inline">
-                  <label for="inputcust">Std Price $</label>
-                  <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="unitCost" #stdprize name="stdprizval" value="">
-                  <label>Per</label>
-                  <select id="PRD" class="form-control" style="width:10%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
-                    <option selected>{{changeunit}}</option>
-                    <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
-                  </select>
-                  <label for="inputcust">as of</label>
-                  <input style="width: 15%;" type="date" id="costdate" class="form-control" [(ngModel)]="costDt" (change)="dateChange($event)" name="costdate" value="">
-                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">vp</button>
-                  <label for="inputcust" style="margin-left:1%">Previous Price $</label>
-                  <input style="width: 10%;" type="text" class="form-control">
+                    <label>Approve RM</label><br>
+                    <input style="" class="form-check-input" type="checkbox"  [checked]="Approved == 'True' ? true : false" >
+                  </div>
+                  <div class="form-inline" style="margin-top:1%">
+                    <mat-radio-group aria-label="Select an option" style="margin-left:4%">
+                      <Label >Incidental Ingredient</Label>
+                      <mat-radio-button [value]="2"  [checked]="IncidIngredient == 'Yes' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="3"  [checked]="IncidIngredient == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="form-inline" style="margin-top:1%">
+                    <mat-radio-group aria-label="Select an option" style="margin-left:8%">
+                      <Label >Monograph</Label>
+                      <mat-radio-button [value]="1" [checked]="monograph == 'Yes' ? true : false"   style="margin-left:20px">Yes</mat-radio-button>
+                      <mat-radio-button [value]="2" [checked]="monograph == 'No' ? true : false"   style="margin-left:20px" >No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="form-inline" style="margin-top:1%">
+                    <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                      <Label>Exempt or Not(voc)</Label>
+                      <mat-radio-button [value]="2"  [checked]="Exemptornot == 'Yes' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="3"  [checked]="Exemptornot == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <fieldset class="border p-2" style="margin-top:20px">
+                    <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
+                    <div class="form-inline">
+                      <label placeholder="0" >Pre Processing</label>
+                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="preloadtime"  name="prepro" value="">
+                    </div>
+                    <div class="form-inline">
+                      <label placeholder="0" >Processing</label>
+                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="proleadtime" name="propro" value="">
+                    </div>
+                    <div class="form-inline">
+                      <label placeholder="0">Post Processing</label>
+                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="postleadtime" name="postlead" value="">
+                    </div>
+                    <div class="form-inline">
+                      <label style="color:maroon" placeholder="0">CUM Lead Time</label>
+                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="rmleadtime" #Rawmatsource name="rmlead" value="">
+                    </div>
+                  </fieldset>
                 </div>
               </div>
-              <div class="form-group col-md-4">
-                <div class="form-inline">
-                  <label>RM Source</label>
-                  <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="RMSource" #Rawmatsource name="rmsourcename" value="">
-
-                  <label>Approve RM</label><br>
-                  <input style="" class="form-check-input" type="checkbox">
-                </div>
-                <div class="form-inline" style="margin-top:1%">
-                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">Incidental Ingredient</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-                <div class="form-inline" style="margin-top:1%">
-                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">Monograph</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-                <div class="form-inline" style="margin-top:1%">
-                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
-                    <mat-radio-button [value]="1" (change)="radioChange($event)">Exempt or Not(voc)</mat-radio-button>
-                    <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                    <mat-radio-button [value]="3" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-                <fieldset class="border p-2" style="margin-top:20px">
-                  <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
-                  <div class="form-inline">
-                    <label>Pre Processing</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="preloadtime" #preprocessing name="rmsourcename" value="">
-                  </div>
-                  <div class="form-inline">
-                    <label>Processing</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="proleadtime" #processing name="rmsourcename" value="">
-                  </div>
-                  <div class="form-inline">
-                    <label>Post Processing</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="postleadtime" #postprocessing name="rmsourcename" value="">
-                  </div>
-                  <div class="form-inline">
-                    <label>CUM Lead Time</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="RMSource" #Rawmatsource name="rmsourcename" value="">
-                  </div>
-                </fieldset>
-              </div>
-            </div>
-            <div class="form-inline">
+            <div class="form-inline" style="margin-top:5px">
+              <label for="inputcust" style="color:darkblue;font-weight:700">Last PO Price$</label>
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
+              <h5 for="inputcust" style="color:red">*</h5>
+              <label for="inputcust">Per</label>
+              <select id="PRD" class="form-control" style="width:5%;" name="uomnameval" value="">
+                <option selected>{{changeunit}}</option>
+                <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
+              </select>
+              <label for="inputcust">as of</label>
+              <input style="width: 15%;" type="date" class="form-control">
               <label for="inputcust">Orgin Source</label>
-              <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="origin" #originsource name="originsourcename" value="">
-              <label for="inputcust">SKU #</label>
-              <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="sku" #skvalue name="skuname" value="">
-              <label for="inputcust">Chemist</label>
-              <input style="width: 10%" type="text" class="form-control" id="superced_name" [(ngModel)]="supercededBy" name="sprscdbyname" value="">
-              <label for="inputcust" style="margin-left:1%">Concentration %</label>
-              <input style="width: 5%" type="text" class="form-control" [(ngModel)]="concentration" #concentra name="Concvalue" value="">
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="origin" #originsource name="originsourcename" value="">
             </div>
             <div class="form-inline">
-              <label for="inputcust">Notes</label>
-              <input style="width: 30%;" type="text" class="form-control" [(ngModel)]="notes" #not name="notesnam" value="">
+              <label for="inputcust" style="color:forestgreen;font-weight:700">Standard Price$</label>
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="unitCost" placeholder="0.000" #stdprize name="stdprizval" value="">
+              <h5 for="inputcust" style="color:red">*</h5>
+              <label>Per</label>
+              <select id="PRD" class="form-control" style="width:5%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
+                <option selected>{{changeunit}}</option>
+                <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
+              </select>
+              <label for="inputcust">as of</label>
+              <input style="width: 15%;" type="date" id="costdate" class="form-control" [(ngModel)]="costDt" (change)="dateChange($event)" name="costdate" value="">
+              <label for="inputcust">Chemist</label>
+              <input style="width: 15%" type="text" class="form-control" id="superced_name" placeholder="admin" [(ngModel)]="supercededBy" name="sprscdbyname" value="">
+            </div>
+
+            <div class="form-inline" style="margin-top:5px">
+              <label for="inputcust" style="color:forestgreen;font-weight:700" >Shipping Cost$</label>
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
+              <h5 for="inputcust" style="color:red">*</h5>
+              <label for="inputcust">Per</label>
+              <select id="PRD" class="form-control" style="width:5%;" name="uomnameval" value="">
+                <option selected>{{changeunit}}</option>
+                <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
+              </select>
+              <label for="inputcust">as of</label>
+              <input style="width: 15%;" type="date" class="form-control">
+
+
+              <label for="inputcust">Default UOM</label>
+              <select id="PRD" class="form-control" style="width:5%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
+                <option selected>{{changeunit}}</option>
+                <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
+              </select>
+
+              <label for="inputcust" style="color:forestgreen;margin-left:1%;">Previous Price $</label>
+              <input style="width: 10%;" type="text" class="form-control"  [(ngModel)]="PreviousCost" name="PreviousCos" value="">
+            </div>
+            <div class="form-inline" style="margin-top:5px">
+              <label for="inputcust" style="color:maroon;font-weight:700">Delivered Price$</label>
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
+              <h5 for="inputcust" style="color:red">*</h5>
+              <label for="inputcust">Per</label>
+              <select id="PRD" class="form-control" style="width:5%;" name="uomnameval" value="">
+                <option selected>{{changeunit}}</option>
+                <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
+              </select>
+              <label for="inputcust">as of</label>
+              <input style="width: 15%;" type="date" class="form-control">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">Volume Pricing</button>
+              <label for="inputcust" style="margin-left:1%" placeholder="0.00">Concentration %</label>
+              <input style="width: 10%" type="text" class="form-control" [(ngModel)]="concentration"  name="Concvalue" value="">
+            </div>
+
+            <div class="form-inline">
+              <label for="inputcust">RM Notes</label>
+              <input style="width: 60%;" type="text" class="form-control" [(ngModel)]="notes" #not name="notesnam" value="">
               <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; ">...</button>
-              <label for="inputcust" style="margin-left:1%">RM Assay Value</label>
-              <input style="width: 19%" type="text" class="form-control" [(ngModel)]="rmAssayValue" #rmvalue name="rmname" value="">
+              <label for="inputcust" style="margin-left:1%" placeholder="0.00">RM Assay Value</label>
+              <input style="width: 10%" type="text" class="form-control" [(ngModel)]="rmAssayValue" #rmvalue name="rmname" value="">
             </div>
           </form>
-          <div class="card  w-95">
-            <div class="card-body">
-              <table class="table table-bordered">
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli textsize  " ngbNavLink>Property</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="inputcust">Specific Gravity</label>
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="drugName" #Drug name="drugnameval" value="">
+              <h5 for="inputcust" style="color:red">*</h5>
+              <label for="inputcust">Lb/Gal</label>
+              <input style="width: 10%;" type="text" class="form-control">
+              <label for="inputcust">Kg/m3</label>
+              <input style="width: 10%;" type="text" class="form-control">
+              <label style="margin-left:3%">VOC Contributor</label>
+              <mat-radio-group aria-label="Select an option" >
+                <!--<mat-radio-button [value]="1" (change)="radioChange($event)">VOC Contributor</mat-radio-button>-->
+                <mat-radio-button [value]="2"  [checked]="VOCContributor == 'Yes' ? true : false"   style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                <mat-radio-button [value]="3"  [checked]="VOCContributor == 'No' ? true : false"   style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+              </mat-radio-group>
+
+            </div>
+            <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+              <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white;width:99%" id="rawmaterial table">
                 <thead>
                   <tr>
 
@@ -302,22 +358,20 @@
 
                 </tbody>
               </table>
-
             </div>
 
-          </div>
-
-          <div class="row">
-            <div class="col-md-3 offset-md-3"></div>
-            <div class="col-md-3 offset-md-3" style="margin-top:20px;">
-              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:150px;height:50px;width:180px;" (click)="openloadproperty()">Load Property</button>
+            <div class="row">
+              <div class="col-md-3 offset-md-3"></div>
+              <div class="col-md-3 offset-md-3" style="margin-top:20px;">
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:150px;height:50px;width:180px;" (click)="openloadproperty()">Load Property</button>
+              </div>
             </div>
-          </div>
-
+          </form>
         </ng-template>
       </ng-container>
+
       <ng-container ngbNavItem style="margin-left:20px">
-        <a class="tabcolor tabbutto tabrowli " ngbNavLink>Blend</a>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Blend</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
           <ng-template #innerTabset class="nav-tabs">
@@ -339,7 +393,17 @@
                     </div>
                   </form>-->
                   <form>
-                    <div class="form-row">
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">INCI Name</label>
+                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:180px" (click)="OpenIngredientSearch()">Incredient Search</button>
+                    </div>
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">Percentage</label>
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+
+                    </div>
+                    <!--<div class="form-row">
                       <div class="col">
                         <label for="inputEmail4">INCI Name</label>
                         <input type="text" class="form-control" id="inputINCI Name" placeholder="INCI Name" style="width:110%">
@@ -350,47 +414,48 @@
                       <div class="col">
                         <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:20%;height:50px;width:180px;margin-top:3%;" (click)="OpenIngredientSearch()">Incredient Search</button>
                       </div>
-                    </div>
-                    <div class="form-row">
+                    </div>-->
+                    <div class="form-row" style="margin-top:0.5%">
                       <div class="col">
                       </div>
                       <div class="col form-inline">
-                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30px;height:50px;width:90px;">Save</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:90px;height:50px;width:90px;">Save</button>
                         <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Clear</button>
-                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;">Delete Incredient</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:180px;">Delete Ingredient</button>
                       </div>
                     </div>
                   </form>
-                  <table class="table table-bordered" style="margin-top:20px;">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">INCI Name</th>
-                        <th scope="col">Percentage(%)</th>
-                        <th scope="col">Incidental</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                      </tr>
-                      <tr>
-                      </tr>
-                      <tr>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                    <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="rawmaterial table" width="98%">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">INCI Name</th>
+                          <th scope="col">Percentage(%)</th>
+                          <th scope="col">Incidental</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <form>
-                    <div class="row">
+                    <div class="row" style="margin-top:1%">
                       <div class="col form-inline">
-                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30px;height:50px;width:90px;">Preview</button>
-                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:150px;">Print Preview</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:20px;height:50px;width:150px;">Print Preview</button>
                       </div>
                       <div class="col form-inline">
                         <label for="PRD" style="margin-left:80px;">Balance (%)</label>
                         <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="Supplier Key" size="10"><br />
                         <label for="PRD" style="margin-left:20px;">Total (%)</label>
                         <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="Supplier Key" size="10"><br />
-                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:65px;">Next</button>
+
                       </div>
                     </div>
                   </form>
@@ -401,10 +466,10 @@
                   <form>
                     <div class="form-group">
                       <label for="exampleFormControlTextarea1" style="margin-top:10px;">Blend Mixing Procedure:</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:900px;height:400px;margin-left:10%;"></textarea>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:80%;height:400px;margin-left:10%;"></textarea>
                     </div>
                   </form>
-                  <div class="form-row">
+                  <!--<div class="form-row">
                     <div class="form-group col-md-6">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:80px;">Previous</button>
                     </div>
@@ -413,7 +478,7 @@
                     <div class="form-group col-md-2">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:65px;">Next</button>
                     </div>
-                  </div>
+                  </div>-->
                 </ng-template>
               </ngb-tab>
             </ngb-tabset>
@@ -421,221 +486,28 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>CAS</a>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>CAS</a>
         <ng-template ngbNavContent>
           <form>
-            <div class="form-group">
+            <div class="form-inline" style="margin-top:1%;margin-left:1%">
               <label for="exampleFormControlTextarea1">Chem/IUPAC Name</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:60%"></textarea>
             </div>
-            <div class="form-group">
+            <div class="form-inline" style="margin-top: 1%; margin-left: 1%">
               <label for="exampleFormControlInput1">Restriction</label>
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" style="width:60%">
             </div>
           </form>
           <div>
-            <h4>CAS Information</h4>
-            <div class="card" style="width:1800px">
-              <div class="card-body">
-                <table class="table table-bordered" style="margin-top:20px;">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">CAS No </th>
-                      <th scope="col">Description</th>
-                      <th scope="col">EINECES/ELINCS No</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div>
-              <form>
-                <div class="form-row" style="margin-top:10px;">
-                  <div class="col form-inline">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:95px;">Previous</button>
-                  </div>
-                  <div class="col form-inline">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;width:165px;">Delete CAS Details</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:165px;" (click)="OpenAddCASDetails()">Add CAS Details</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:65px;">Next</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Regulatory</a>
-        <ng-template ngbNavContent>
-          <p>data5</p>
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>EU Standards</a>
-        <ng-template ngbNavContent>
-          <form>
-            <label for="data_requirements">Risk Phrases</label>
-            <div class="form-inline">
-              <!--<div *ngFor="let itemlist of risklist">
-                            <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="itemlist.title" >
-
-
-              </textarea>
-                            </div>-->
-              <div style="width:70%;height:250px;background-color:white">
-                <ul *ngFor="let itemlist of  risklistdata">
-                  <li>
-                    {{itemlist.title}}
-                  </li>
-                </ul>
-              </div>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 3%;" (click)="OpenRiskPhrases();">Select Risk Phrases</button>
-
-            </div>
-            <label for="data_results" style="margin-top: 20px;">Safety Phrases</label>
-            <div class="form-inline">
-              <textarea id="data_results" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
-              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 3%;" (click)="OpenSafteyPhrases()">Select Safety Phrases</button>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6" style="margin-top: 3%;">
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Previous</button>
-              </div>
-              <div class="form-group col-md-6" style="margin-top: 3%;">
-                <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px">Next</button>
-              </div>
-            </div>
-          </form>
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Alert</a>
-        <ng-template ngbNavContent>
-          <div style="margin-left: 10px;">
-            <label for="data_requirements" style="margin-top: 3%;">Remarks</label>
-            <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
-          </div>
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Supplier</a>
-        <ng-template ngbNavContent>
-          <form>
-            <div class="form-row">
-              <div class="form-group col-md-9">
-                <label for="inputEmail4">Address</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" style="width: 1050px; margin-left: 10px;"></textarea>
-              </div>
-              <div class="form-group col-md-3">
-                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:50px;width:150px;margin-top:40px;" disabled>Approve Supplier</button>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputAddress">Phone Number</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="" style="width: 1050px">
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Fax</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width:1050px;">
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Email</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Distributor</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-12 form-inline">
-                <label for="inputAddress2">Contact Person</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 450px;">
-
-                <label for="inputAddress2">Contact #</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 410px;">
-              </div>
-              <!--<div class="form-group col-md-4">
-
-              </div>-->
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-9">
-                <label for="inputCity">Web Address</label>
-                <input type="text" class="form-control" id="inputCity" style="width: 1050px;">
-              </div>
-
-              <div class="form-group col-md-3">
-                <button type="submit" class="btn btn-primary buttoncolor " style="margin-right:50px;height:57px;width:113px; margin-top:20px;">Go Online</button>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Previous Supplier</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Supplier RM#</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 1050px;">
-            </div>
-          </form>
-          <div>
-            <form>
-              <div class="form-row">
-                <div class="col-md-8">
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:57px;width:113px;">Previous</button>
-                </div>
-                <div class="col-md-4">
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:113px;">Next</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Functions</a>
-        <ng-template ngbNavContent>
-          <div class="row">
-            <div class="col-md-8">
-              <form class="form-inline">
-                <div class="form-group">
-                  <label for="inputPassword6">Function Name</label>
-                  <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" style="width:950px;">
-                </div>
-              </form>
-            </div>
-            <div class="col-md-4">
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:200px;" (click)="opensearchfunction()">Function Search</button>
-            </div>
-          </div>
-          <div class="row">
-
-            <div class="col-md-8">
-            </div>
-            <div class="col-md-4">
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:200px;margin-top:10px;">Function Clear</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <table class="table table-bordered" style="height:5%;width:90%">
+            <h4 style="font-weight:bold">CAS Information</h4>
+            <div style="margin-left: 1%; margin-top: 1%; height: 14rem; overflow-y: auto; background-color: white">
+              <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white;width:100%" id="rawmaterial table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Function Name</th>
-                    <th scope="col">Function Description</th>
-
+                    <th scope="col">CAS No </th>
+                    <th scope="col">Description</th>
+                    <th scope="col">EINECES/ELINCS No</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -649,26 +521,1083 @@
               </table>
             </div>
 
-            <form>
-              <div class="form-row">
-                <div class="col">
-                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:50px;width:90px;">Previous</button>
-                </div>
-                <div class="col">
+            <div>
+              <form>
+                <div class="form-row" style="margin-top:10px;">
 
+                  <div class="col form-inline">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:50px;width:165px;">Delete CAS Details</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:165px;" (click)="OpenAddCASDetails()">Add CAS Details</button>
+
+                  </div>
                 </div>
-                <div class="col-7 form-inline">
-                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:140px;height:50px;width:140px;">Delete Function</button>
-                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:50px;width:140px;" (click)="openAddfunction()">Add Function</button>
-                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:10px;height:50px;width:90px;">Next</button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </ng-template>
       </ng-container>
+
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Web Page</a>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Regulatory</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+          <ng-template #innerTabset class="nav-tabs">
+            <ngb-tabset>
+              <ngb-tab class="" title="Regulatory Restriction">
+                <ng-template ngbTabContent>
+                  <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                  <ng-template #innerTabset class="nav-tabs">
+                    <ngb-tabset>
+
+                      <ngb-tab class="" title="US">
+                        <ng-template ngbTabContent>
+                          <!--<div style="color: #bb2205">
+                            <p class="font-weight-bold"> Double click for more details</p>
+                          </div>-->
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class=" table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Maximun as used concentration for safe as used conclusion</th>
+                                  <th scope="col">%</th>
+                                  <th scope="col">Concentration/L</th>
+                                  <th scope="col">State</th>
+                                  <th scope="col">Safety concern leading to unsafe conclusion</th>
+                                  <th scope="col">Journal Citation</th>
+                                  <th scope="col">Source of Info</th>
+                                  <th scope="col">Internal Comments</th>
+                                  <th scope="col">Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+
+                      <ngb-tab class="" title="Canada">
+                        <ng-template ngbTabContent>
+                          <!--<div style="color: #bb2205">
+                            <p class="font-weight-bold"> Double click for more details</p>
+                          </div>-->
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Field of Application</th>
+                                  <th scope="col">Maximum Authorized Concentration</th>
+                                  <th scope="col">%</th>
+                                  <th scope="col">Limitations/Requirements</th>
+                                  <th scope="col">Usage and Warnings</th>
+                                  <th scope="col">Source of Info</th>
+                                  <th scope="col">Internal Comments</th>
+                                  <th scope="col">Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                          </div>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="EU">
+                        <ng-template ngbTabContent>
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Field of Application</th>
+                                  <th scope="col">Maximum Authorized Concentration</th>
+                                  <th scope="col">%</th>
+                                  <th scope="col">Limitations/Requirements</th>
+                                  <th scope="col">Usage and Warnings</th>
+                                  <th scope="col">Source of Info</th>
+                                  <th scope="col">Journal Citation</th>
+                                  <th scope="col">Internal Comments</th>
+                                  <th scope="col">Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                          </div>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="Japan">
+                        <ng-template ngbTabContent>
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Field of Application</th>
+                                  <th scope="col">Maximum Authorized Concentration</th>
+                                  <th scope="col">%</th>
+                                  <th scope="col">Limitations/Requirements</th>
+                                  <th scope="col">Usage and Warnings</th>
+                                  <th scope="col">Source of Info</th>
+                                  <th scope="col">Internal Comments</th>
+                                  <th scope="col">Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                          </div>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="Australia">
+                        <ng-template ngbTabContent>
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Field of Application</th>
+                                  <th scope="col">Maximum Authorized Concentration</th>
+                                  <th scope="col">%</th>
+                                  <th scope="col">Limitations/Requirements</th>
+                                  <th scope="col">Usage and Warnings</th>
+                                  <th scope="col">Source of Info</th>
+                                  <th scope="col">Internal Comments</th>
+                                  <th scope="col">Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                          </div>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="China">
+                        <ng-template ngbTabContent>
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Field of Application</th>
+                                  <th scope="col">Maximum Authorized Concentration</th>
+                                  <th scope="col">Min %</th>
+                                  <th scope="col">%</th>
+                                  <th scope="col">Limitations/Requirements</th>
+                                  <th scope="col">Usage and Warnings</th>
+                                  <th scope="col">Source of Info</th>
+                                  <th scope="col">Internal Comments</th>
+                                  <th scope="col">Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                          </div>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="CA PROP 65">
+
+                        <!--<label for="exampleFormControlInput1">This raw material is NOT BANNED in CA</label>-->
+                        <ng-template ngbTabContent>
+                          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                          <ng-template #innerTabset class="nav-tabs">
+                            <ngb-tabset>
+                              <ngb-tab class="" title="Direct">
+                                <ng-template ngbTabContent>
+                                  <div style="margin-left: 1%; margin-top: 1%; height: 17rem; overflow-y: auto; background-color: white">
+                                    <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">#</th>
+                                          <th scope="col">Type of Toxicity</th>
+                                          <th scope="col">Listing Mechanism</th>
+                                          <th scope="col">Date</th>
+                                          <th scope="col">NSRL or MADL (mg/day)</th>
+                                          <th scope="col">Source of Info</th>
+                                          <th scope="col">Internal Comments</th>
+                                          <th scope="col">Username</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div class="col form-inline" style="margin-top:1%">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                                  </div>
+                                </ng-template>
+
+                              </ngb-tab>
+                              <ngb-tab class="" title="Impurities">
+                                <ng-template ngbTabContent>
+                                  <form>
+                                    <div class="form-inline" style="margin-top:1%">
+                                      <label for="inputcust">INCI Name</label>
+                                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                      <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="OpenIngredientSearch()">Incredient Search</button>
+                                    </div>
+                                    <div class="form-inline" style="margin-top:1%">
+                                      <label for="inputcust">ppm</label>
+                                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                      <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="OpenIngredientSearch()">Clear</button>
+                                      <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="OpenIngredientSearch()">Save Impurities</button>
+                                      <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="OpenIngredientSearch()">Delete Ingredient</button>
+                                    </div>
+                                    <div style="margin-left: 1%; margin-top: 1%; height: 12rem; overflow-y: auto; background-color: white">
+                                      <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Inci Name</th>
+                                            <th scope="col">ppm</th>
+
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                          </tr>
+                                          <tr>
+                                          </tr>
+
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </form>
+                                </ng-template>
+
+                              </ngb-tab>
+                              <ngb-tab class="" title="Restriction">
+                                <ng-template ngbTabContent>
+                                  <div style="margin-left: 1%; margin-top: 1%; height: 17rem; overflow-y: auto; background-color: white">
+                                    <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">#</th>
+                                          <th scope="col">Field of Application</th>
+                                          <th scope="col">Maximum Authorized Concentration</th>
+                                          <th scope="col">%</th>
+                                          <th scope="col">Limitations/Requirements</th>
+                                          <th scope="col">Usage and Warnings</th>
+                                          <th scope="col">Source of Info</th>
+                                          <th scope="col">Journal Citation</th>
+                                          <th scope="col">Internal Comments</th>
+                                          <th scope="col">Username</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div class="col form-inline" style="margin-top:1%">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;">Add Restriction</button>
+
+                                  </div>
+                                </ng-template>
+
+                              </ngb-tab>
+                            </ngb-tabset>
+                          </ng-template>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="IFRA">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-inline" style="margin-top:1%">
+                              <label for="inputcust">Amandment</label>
+                              <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                              <label for="inputcust">Source of Info</label>
+                              <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                              <label for="inputcust">RIFMID</label>
+                              <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                              <label for="inputcust">FEMA #</label>
+                              <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                            </div>
+                            <div>
+                              <fieldset class="border p-2">
+
+                                <div class="form-inline">
+                                  <label for="inputcust">Category-1A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-3D</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-6</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-9B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                </div>
+                                <div class="form-inline">
+                                  <label for="inputcust">Category-1B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-4A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-7A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-9C</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                </div>
+                                <div class="form-inline">
+                                  <label for="inputcust">Category-2</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-4B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-7B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-10A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                </div>
+                                <div class="form-inline">
+                                  <label for="inputcust">Category-3A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-4C</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-8A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-10B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                </div>
+                                <div class="form-inline">
+                                  <label for="inputcust">Category-3B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-4D</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-8B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-11A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                </div>
+                                <div class="form-inline">
+                                  <label for="inputcust">Category-3C</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-5</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-9A</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                  <label for="inputcust">Category-11B</label>
+                                  <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                </div>
+                              </fieldset>
+                            </div>
+                            <div class="col form-inline" style="margin-top:1%">
+                              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            </div>
+                          </form>
+                        </ng-template>
+
+                      </ngb-tab>
+                      <ngb-tab class="" title="Regulatory Audit Tracking">
+                        <ng-template ngbTabContent>
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Date</th>
+                                  <th scope="col">Task</th>
+                                  <th scope="col">User Name</th>
+                                  <th scope="col">Country/Std</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col form-inline" style="margin-top:1%">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Create Report</button>
+                          </div>
+                        </ng-template>
+
+                      </ngb-tab>
+                    </ngb-tabset>
+
+                  </ng-template>
+                </ng-template>
+              </ngb-tab>
+
+              <ngb-tab class="" title="Regulatory Details">
+                <ng-template ngbTabContent>
+                  <form>
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">Web Address</label>
+                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:90px;">Open</button>
+                    </div>
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">SDS Path</label>
+                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:40px;">...</button>
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:20px; width:90px;">Open</button>
+                    </div>
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">COA File</label>
+                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:40px;">...</button>
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:20px; width:90px;">Open</button>
+                    </div>
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">Flash Point (C)</label>
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <label for="inputcust">Method</label>
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                    </div>
+                    <div class="form-inline" style="margin-top:1%">
+                      <label for="inputcust">Flash Point (F)</label>
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <label for="inputcust">Override</label>
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                    </div>
+                    <div style="margin-top:0.5%">
+                      <fieldset class="border p-2">
+                        <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Hazardous Material Identification System (HMIS)</legend>
+                        <div class="form-inline">
+                          <label>Hazardous</label><br>
+                          <input style="" class="form-check-input" type="checkbox">
+                          <label style="margin-left:3%">Flammability</label>
+                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <label style="margin-left:3%">Health Hazard</label>
+                          <select id="PRD" class="form-control" style="width:5%;">
+                            <option selected>*</option>
+                            <option>*</option>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                          </select>
+                          <label style="margin-left:3%">Physical Hazard</label>
+                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <label style="margin-left:3%">Personal Protection</label>
+                          <select id="PRD" class="form-control" style="width:6%;">
+                            <option selected>N/A</option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                            <option>E</option>
+                            <option>F</option>
+                            <option>G</option>
+                            <option>H</option>
+                          </select>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div style="margin-top:0.5%">
+                      <fieldset class="border p-2">
+                        <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">National Fire Protection Association (NFPA)</legend>
+                        <div class="form-inline">
+                          <label>Flammability</label>
+                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <label style="margin-left:3%">Reactivity</label>
+                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <label style="margin-left:3%">Health Hazard</label>
+                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <label style="margin-left:3%">Special Precautions</label>
+                          <select id="PRD" class="form-control" style="width:10%;">
+                            <option selected>N/A</option>
+                            <option>None</option>
+                            <option>Acid</option>
+                            <option>Base (Alkaline)</option>
+                            <option>Corrosive</option>
+                            <option>Oxidising Property</option>
+                            <option>Radio Active</option>
+                            <option>Unusual Reactivity With Water</option>
+                          </select>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </form>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab class="" title="Regulatory Notes">
+                <ng-template ngbTabContent>
+                  <div style="margin-left: 10px;">
+                    <label for="data_requirements" style="margin-top: 0.5%;">General regulatory Notes</label>
+                    <textarea id="data_requirements" style="width:90%;" class="form-control md-textarea" size="7" rows="15"></textarea>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab class="" title="Regulatory Docs">
+                <ng-template ngbTabContent>
+                  <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                  <ng-template #innerTabset class="nav-tabs">
+                    <ngb-tabset>
+                      <ngb-tab class="" title="Word File">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="Excel File">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="PDF File">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="Additional Docs">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="Document Audit">
+                        <ng-template ngbTabContent>
+                          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">DateTime</th>
+                                  <th scope="col">Task</th>
+                                  <th scope="col">User</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+                  </ng-template>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>EU Standards</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-inline" style="margin-top:1%">
+              <label for="data_requirements">Risk Phrases</label>
+              <textarea id="data_results" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
+              <!--<div *ngFor="let itemlist of risklist">
+              <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="itemlist.title" >
+              </textarea>
+              </div>-->
+              <!--<div style="width:70%;height:250px;background-color:white">
+                <ul *ngFor="let itemlist of  risklistdata">
+                  <li>
+                    {{itemlist.title}}
+                  </li>
+                </ul>
+              </div>-->
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 3%;" (click)="OpenRiskPhrases();">Select Risk Phrases</button>
+
+            </div>
+
+            <div class="form-inline" style="margin-top:1%">
+              <label for="data_results" style="margin-top: 20px;">Safety Phrases</label>
+              <textarea id="data_results" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
+              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 3%;" (click)="OpenSafteyPhrases()">Select Safety Phrases</button>
+            </div>
+
+            <!--<div class="form-row">
+              <div class="form-group col-md-6" style="margin-top: 3%;">
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Previous</button>
+              </div>
+              <div class="form-group col-md-6" style="margin-top: 3%;">
+                <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px">Next</button>
+              </div>
+            </div>-->
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Alert</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-inline">
+              <label for="data_requirements" style="margin-top: 2%;">Remarks</label>
+              <textarea id="data_requirements" style="width:80%;" class="form-control md-textarea" size="7" rows="20"></textarea>
+            </div>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Supplier</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputEmail4" >Address</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" style="width: 70%; margin-left: 10px;"></textarea>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;height:45px;margin-top:40px;" disabled>Approve Supplier</button>
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputAddress">Phone Number</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="" style="width:70%;">
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputAddress2"  >Fax</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width:70%;">
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputAddress2">Email</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputAddress2">Distributor</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;" >
+              <label for="inputAddress2">Contact Person</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 30%;">
+
+              <label for="inputAddress2">Contact #</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 35%;">
+            </div>
+
+            <div class="form-inline" style="margin-top:0.1%; ">
+
+              <label for="inputCity">Web Address</label>
+              <input type="text" class="form-control" id="inputCity" style="width: 70%;">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;height:45px;width:8%; margin-top:20px;">Go Online</button>
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputAddress2">Previous Supplier</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
+            </div>
+            <div class="form-inline" style="margin-top:0.1%;">
+              <label for="inputAddress2">Supplier RM#</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
+            </div>
+          </form>
+          <!--<div>
+            <form>
+              <div class="form-row">
+                <div class="col-md-8">
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:57px;width:113px;">Previous</button>
+                </div>
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:113px;">Next</button>
+                </div>
+              </div>
+            </form>
+          </div>-->
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Functions</a>
+        <ng-template ngbNavContent>
+          <div class="form-inline">
+            <label for="inputPassword6" style="margin-left:1%">Function Name</label>
+            <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" style="width:950px;">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="opensearchfunction()">Function Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="opensearchfunction()">Function Clear</button>
+          </div>
+
+          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white;width:99.5%" id="rawmaterial table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Function Name</th>
+                  <th scope="col">Function Description</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                </tr>
+                <tr>
+                </tr>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <form>
+            <div class="form-inline" style="margin-top:1%">
+              <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:70%;height:45px;width:140px;">Delete Function</button>
+              <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left: 3%; height: 45px; width: 140px;" (click)="openAddfunction()">Add Function</button>
+            </div>
+
+          </form>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Web Page</a>
         <ng-template ngbNavContent>
           <h5 class="text-center">Web Browser</h5>
           <div>
@@ -688,19 +1617,14 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-bottom:50px;">
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit</a>
+      <ng-container ngbNavItem style="margin-left: 20px">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Audit</a>
         <ng-template ngbNavContent>
-
-          <div class="col-1">
-
-          </div>
-          <div class="center" style="overflow-x:auto;">
-
-            <table class="table table-hover table-bordered" style="margin-left:4%; width:90%">
+          <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
+            <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white;width:99%" id="rawmaterial table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+
                   <th scope="col">Date</th>
                   <th scope="col">Task</th>
                   <th scope="col">User Name</th>
@@ -708,52 +1632,19 @@
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">1</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
                 </tr>
                 <tr>
-                  <th scope="row">2</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
                 </tr>
                 <tr>
-                  <th scope="row">3</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
                 </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">7</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+
               </tbody>
             </table>
-
-            <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:3%;height:6%;width:10%;">Previous</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right; height:6%;width:10%;margin-right:5%">Print preview</button>
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <div class="col">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 80%; height: 45px; width: 290px;margin-top:10px;">Print preview</button>
+            </div>
           </div>
 
         </ng-template>
@@ -781,4 +1672,3 @@
     </div>
   </div>
 </div>
-

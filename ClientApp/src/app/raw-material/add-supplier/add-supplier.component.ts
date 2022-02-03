@@ -513,7 +513,8 @@ export class AddSupplierComponent implements OnInit {
   };
   Supplier_saveup(operat) {
     var username = "admin";
-    var datalistdata: any = JSON.stringify(this.dataList);
+    var datalistdata: any = null;
+     datalistdata = JSON.stringify(this.dataList);
     var RMdatalistdata: any = JSON.stringify(this.RMdataList);
     let params1 = new HttpParams().set('SupplierDetailjson', datalistdata).set('username', username).set('RMListjson', RMdatalistdata).set('Operation', operat);
     return this.http.get("https://smartformulatorsupplierwebsevices2.azurewebsites.net/SupplierSaveorUpdate", { params: params1, responseType: 'text' })

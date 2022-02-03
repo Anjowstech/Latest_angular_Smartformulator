@@ -58,6 +58,9 @@ export class RawMaterialComponent implements OnInit {
   rawmaterial_update_data: any;
   defaultUOMload_data: any;
   Rawdata: any;
+  GMOYesOrNo: string;
+  GlutenYesOrNo: string;
+  Halal: string;
   itemcode: string;
   generalitemcod: string;
   description: string;
@@ -84,6 +87,7 @@ export class RawMaterialComponent implements OnInit {
   drugName: string;
   sku: string;
   defaultUnit: string;
+  LastPOUnit:string
   reorderQty: string;
   origin: string;
   concentration: string;
@@ -91,6 +95,7 @@ export class RawMaterialComponent implements OnInit {
   proleadtime: string;
   preloadtime: string;
   postleadtime: string;
+  rmleadtime: string;
   sg: string;
   costdate: string;
   date: string;
@@ -99,6 +104,16 @@ export class RawMaterialComponent implements OnInit {
   suppliercode: string;
   supp_code: string;
   suppkey: string;
+  NPACertified: string ;
+  monograph: string;
+  Kosher: string;
+  IncidIngredient: string;
+  Exemptornot: string;
+  PhEurName: string;
+  MOQ: string;
+  Approved: string;
+  VOCContributor: string;
+  PreviousCost:string
   login_form: FormGroup;
 
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
@@ -207,6 +222,7 @@ export class RawMaterialComponent implements OnInit {
       this.supercededBy = item.SupercededBy;
       this.supercededDate = item.SupercededDate;
       this.defaultUnit = item.DefaultUnit;
+      this.LastPOUnit = item.LastPOUnit;
       this.reorderQty = item.ReOrderQty;
       this.origin = item.Origin;
       this.concentration = item.RMConcentration;
@@ -214,9 +230,18 @@ export class RawMaterialComponent implements OnInit {
       this.proleadtime = item.ProcessLeadTime;
       this.preloadtime = item.PreprocessLeadTime;
       this.postleadtime = item.PostprocessLeadTime;
+      this.rmleadtime=item.RMLeadTime
       this.sg = item.SG;
       this.vendorcode = item.VendorCode
-
+      this.GMOYesOrNo = item.GMOYesOrNo
+      this.GlutenYesOrNo = item.GlutenYesOrNo;
+      this.Halal = item.Halal
+      //if (this.Halal == "Yes") {
+      //  this.Halal = "True";
+      //}
+      //else {
+      //  this.Halal = "False";
+      //}
       this.categoryId = item.CategoryId;
       this.subCategoryId = item.SubCategoryId;
       this.statusId = item.StatusId;
@@ -230,8 +255,17 @@ export class RawMaterialComponent implements OnInit {
       this.hMISPersonal = item.HMIS_Personal;
       this.nFPAHealth = item.NFPA_Health;
       this.nFPAFlammability = item.NFPA_Flammability;
-
-      //this.nFPAReactivity = item.NFPA_Reactivity;
+     this.NPACertified = item.NPACertified
+      this.monograph = item.Monograph;
+      this.Kosher = item.Kosher;
+      this.IncidIngredient = item.IncidIngredient;
+      this.Exemptornot = item.Exemptornot;
+      this.PhEurName = item.PhEurName;
+      this.MOQ = item.MOQ;
+      this.Approved = item.Approved;
+      this.VOCContributor = item.VOCContributor;
+      this.PreviousCost=item.PreviousCost
+     /* this.nFPAReactivity = item.NFPA_Reactivity*/;
       //this.flashPtCelsious = item.FlashPtCelsious;
       //this.nFPASpecial = item.NFPA_Special;
       //this.flashPtFlammable = item.FlashPtFlammable;
@@ -256,17 +290,17 @@ export class RawMaterialComponent implements OnInit {
   }
   openloadproperty(): void {
     const dialogRef = this.dialog.open(LoadPropertyComponent, {
-      width: '80%', height: '65%', disableClose: true
+      width: '50%', height: '50%', disableClose: true
     });
   }
   OpenIngredientSearch(): void {
     const dialogRef = this.dialog.open(IngredientSearchComponent, {
-      width: '80%', height: '90%', disableClose: true
+      width: '80%', height: '85%', disableClose: true
     });
   }
   OpenAddCASDetails(): void {
     const dialogRef = this.dialog.open(AddCASDetailsComponent, {
-      width: '50%', height: '35%', disableClose: true
+      width: '50%', height: '28%', disableClose: true
     });
   }
   OpenRiskPhrases(): void {

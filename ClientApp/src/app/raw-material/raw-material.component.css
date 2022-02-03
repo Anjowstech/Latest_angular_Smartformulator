@@ -48,7 +48,10 @@ h2.design {
   background-color: whitesmoke;
   color: dimgrey;
 }
-
+.form-check-input {
+  width: 20px;
+  height: 20px;
+}
 .tabrowli {
   text-align: center;
   margin: 2px;
@@ -58,7 +61,10 @@ h2.design {
   display: inline-block;
 }
 
-
+.textsize {
+  font-size: 15px;
+  font-family: Verdana;
+}
 .buttoncolor {
   border-color: #214252;
   background-color: #214252;
@@ -166,13 +172,19 @@ span {
   font-size: 25px;
 }
 label {
-  
+  font-size: 15px;
+  font-family: Verdana;
+
+ 
   text-align: right;
   padding-right: 20px;
   display: inline-block;
-  min-width: 120px;
+  min-width: 150px;
 }
 label2 {
+     font-size: 15px;
+  font-family: Verdana;
+
   text-align: right;
   padding-right: 10px;
   display: inline-block;

@@ -8,11 +8,11 @@
        
           <div class="form-inline">
             <label for="PDR #" >PDR #</label>
-            <input style="width:40%" type="text" class="form-control" id="PDR #" [(ngModel)]="pdrno">
+            <input style="width:50%" type="text" class="form-control" id="PDR #" [(ngModel)]="pdrno">
           </div>
           <div class="form-inline" style="margin-top:10px">
             <label for="Project Name" >Project Name</label>
-            <input style="width:50%;" type="text" class="form-control" id="Project Name" [(ngModel)]="pdrno">
+            <input style="width:50%;" type="text" class="form-control" id="Project Name" [(ngModel)]="projectname">
           </div>
         
       </div>
@@ -36,7 +36,7 @@
             <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                   mode="indeterminate">
             </mat-progress-spinner>
-            <tr *ngFor="let pdr_search of PDR_searchdata let i=index;" (click)="setvalues( pdr_search);close();" #conten>
+            <tr *ngFor="let pdr_search of PDR_searchdata|filter:projectname|filter:pdrno; let i=index;" (click)="setvalues( pdr_search);close();" #conten>
               <td class="tabledatasize">{{ pdr_search.PDRNo }}</td>
               <td class="tabledatasize">{{ pdr_search.ProjectName}}</td>
              

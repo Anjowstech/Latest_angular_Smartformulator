@@ -35,8 +35,11 @@ export class DataShareServiceService {
   restrictdetails = [];
   rawtable: any;
   labelvalues: string;
+  custocod
   datashareclientlocation: any = [];
-
+  sendcustomercode(ccode: string) {
+    this.custocod = ccode;
+  }
   sendlabel(incilabel:string) {
     this.labelvalues = incilabel
   }
@@ -107,6 +110,10 @@ export class DataShareServiceService {
   //DatashareTempPass(itempass: string) {
   //  this.Temppass = itempass
   //}
+
+  getcustocode(): string {
+    return this.custocod;
+  }
   DatashareTempPass(): any {
     var itemlist1: [string] = [this.itemlist1]
     return itemlist1;

@@ -74,9 +74,19 @@ export class LoadPropertyComponent implements OnInit {
     const dialogRef = this.dialog.open(NewPropertyComponent, {
       width: '30%', height: '30%', disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+     
+      this.rawpropertyloadrprp(this.ingcoderprop).subscribe((rawpropertyload) => {
+        console.warn("rawpropertyload", rawpropertyload)
+        this.datarawpropertyloadrprop = rawpropertyload
+      });
+
+
+    });
   }
   loadProperty() {
-    return this.http.get("http://localhost/raw-sup-webservice2/loadproperty");
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/loadproperty");
   }
   closedialog() {
     this.dialog.closeAll();
@@ -91,12 +101,12 @@ export class LoadPropertyComponent implements OnInit {
     this.WebvValue = WebValue1;
     var operation: string = "Insert";
     let parms = new HttpParams().set('PropertyName', this.finalproperty).set('PropertyValue', this.WebvValue).set('operation', operation);
-    return this.http.get("http://localhost/raw-sup-webservice2/update_save_Properties", { params: parms });
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/update_save_Properties", { params: parms });
   }
   PropertyDelete() {
     var RMVolPricingId1: string = this.finalproperty
     let param = new HttpParams().set('PropertyName', this.finalproperty).set('Description', this.finalproperty);
-    return this.http.get("http://localhost/RawMaterial1.2/deleteProperties", { params: param });
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/deleteProperties", { params: param });
   }
   deleteProperty() {
     this.PropertyDelete().subscribe((result10) => {
@@ -109,7 +119,7 @@ export class LoadPropertyComponent implements OnInit {
 
     let params1 = new HttpParams().set('itemcode', rawprop);
 
-    return this.http.get("http://localhost/raw-sup-webservice2/loadrawproperty", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/loadrawproperty", { params: params1 });
 
   }
   ngOnInit() {

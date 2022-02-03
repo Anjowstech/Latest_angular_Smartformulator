@@ -130,9 +130,9 @@ Please provide a valid zip.
       <p style="margin-top: 10px;margin-left:1%;margin-right:1%">Make your selection by double clicking on your choice</p>
       <span>
         <mat-radio-group aria-label="Select an option">
-          <mat-radio-button value="true" checked="checked" (click)="setradio('1')">Approved</mat-radio-button>
+          <mat-radio-button value="false" (click)="setradio('1')">Approved</mat-radio-button>
           <mat-radio-button value="false" style="margin-left:10px;" (click)="setradio('0')">Unapproved</mat-radio-button>
-          <mat-radio-button value="false" style="margin-left:10px;" (click)="setradio('2')">Both</mat-radio-button>
+          <mat-radio-button value="true"  checked="checked" style="margin-left:10px;" (click)="setradio('2')">All</mat-radio-button>
         </mat-radio-group>
       </span>
     </div>
@@ -142,16 +142,16 @@ Please provide a valid zip.
           <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="99%">
             <thead>
               <tr>
-                <th scope="col" style="width:10%">INCI Name</th>
-                <th scope="col" style="width:15%">Item #</th>
-                <th scope="col" style="width:17%">Trade Name</th>
-                <th scope="col" style="width:12%">CAS No</th>
-                <th scope="col" >Function</th>
-                <th scope="col" style="width:18%">Supplier Name</th>
-                <th scope="col" style="width:5%;text-align:right">P#</th>
-                <th scope="col" style="width:5%;text-align:right">$ Cost</th>
-                <th scope="col" style="width:3%">Unit</th>
-                <th scope="col" style="width:5%">Lead Team</th>
+                <th class="header" scope="col" style="width:30%" >INCI Name</th>
+                <th class="header" scope="col"style="width:12%"  >Item #</th>
+                <th class="header" scope="col" style="width:25%" >Trade Name</th>
+                <th class="header" scope="col" >CAS No</th>
+                <th class="header" scope="col" style="width:5%">Function</th>
+                <th class="header" scope="col" style="width:15%" >Supplier Name</th>
+                <th class="header" scope="col" style="text-align:right">P#</th>
+                <th class="header" scope="col" style=" text-align:right;width:5%">Cost $</th>
+                <th class="header" scope="col" >Unit</th>
+                <th class="header" scope="col"style=" text-align:right;width:8%" >Lead Team</th>
               </tr>
             </thead>
             <tbody>
@@ -166,7 +166,7 @@ Please provide a valid zip.
                 <td class="tabledatasize">{{ raw_cate_search.Item }}</td>
                 <td class="tabledatasize"> {{raw_cate_search.TradeName }}</td>
                 <td class="tabledatasize">{{ raw_cate_search.CASNo}}</td>
-                <td class="tabledatasize">{{ raw_cate_search.Function }}</td>
+                <td class="tabledatasize" >{{ raw_cate_search.Function }}</td>
                 <td class="tabledatasize">{{raw_cate_search.SupplierName}}</td>
                 <td class="tabledatasize" style="text-align:right">{{ raw_cate_search.P }}</td>
                 <td class="tabledatasize" style="text-align:right">{{raw_cate_search.Cost }}</td>

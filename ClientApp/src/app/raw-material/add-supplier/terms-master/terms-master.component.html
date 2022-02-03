@@ -2,9 +2,8 @@
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <form class="form-inline text-center" style="margin-bottom:20px;">
-        <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
-        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">ERP </h2>
-        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Terms Master</h2>
+       
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Terms Master</h2>
       </form>
     </div>
   </div>
@@ -14,13 +13,13 @@
         <div class="form-group row">
           <label for="inputTerm Code" class="col-sm-2 col-form-label">Term Code</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputTerm Code" placeholder="Term Code">
+            <input type="text" class="form-control" id="inputTerm Code" placeholder="Term Code" [(ngModel)]="TermCode" #termcode name="termscd" value="">
           </div>
         </div>
         <div class="form-group row">
           <label for="inputTerms" class="col-sm-2 col-form-label">Terms</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputTerms" placeholder="Terms">
+            <input type="text" class="form-control" id="inputTerms" placeholder="Terms" [(ngModel)]="Terms" #termsdata name="term" value="">
           </div>
         </div>
       </form>
@@ -29,33 +28,33 @@
   <div>
     <p style="margin-left:2%;">Click to Edit the Value in Grid</p>
   </div>
-  <div style="margin-top:2%;">
-    <table class="table table-bordered">
+  <div style="margin-left:1%;margin-top:1%; height:450px; overflow-y: auto;">
+    <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
       <thead>
         <tr>
-          <th scope="col">#</th>
+         
           <th scope="col">Term Code</th>
           <th scope="col">Terms</th>
-          
+
+
+
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row"></th>
-          <td>00</td>
-          <td>No Terms</td>
-          
-        </tr>
-        <tr>
-          <th scope="row"></th>
-          <td>01</td>
-          <td>Consignment</td>
-        
-        </tr>
-        <tr>
-          <th scope="row"></th>
-          <td>02</td>
-          <td>Credit Card</td>
+        <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                              mode="indeterminate">
+        </mat-progress-spinner>
+        <tr *ngFor="let Termmastersdata of Termsdata | filter:TermCode|filter:Terms; let i=index; " (click)="setvalues(Termmastersdata);" #conten>
+
+
+
+         
+          <td class="tabledatasize">{{ Termmastersdata.TermCode}}</td>
+          <td class="tabledatasize">{{ Termmastersdata.Terms }}</td>
+
+
+
+
         </tr>
       </tbody>
     </table>
@@ -65,15 +64,16 @@
       <div class="card-body">
         <form>
           <div class="form-row">
-            <div class="col-8">
+            <div class="col-7">
               <!--<input type="text" class="form-control" placeholder="First name">-->
             </div>
-            <div class="col-4">
+            <div class="col-5">
               <div class="form-inline">
                 <mat-dialog-actions style="float:right;">
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;">Delete</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmasterdelete(termsdata.value);">Delete</button>
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;">New</button>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;">Save</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmastersave(termcode.value,termsdata.value);">Save</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmasterupdate(termcode.value,termsdata.value);">Update</button>
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
                 </mat-dialog-actions>
               </div>

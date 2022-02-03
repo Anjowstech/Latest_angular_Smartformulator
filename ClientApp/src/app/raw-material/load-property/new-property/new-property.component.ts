@@ -16,17 +16,18 @@ export class NewPropertyComponent implements OnInit {
     this.PropertyCreation(PropertyName).subscribe((result7) => {
       console.warn("resultsavesProperty", result7)
       this.acceptPropertyvalue = result7
+      
     })
   }
   PropertyCreation(CPropertyName: string) {
     var SPropertyName: string = CPropertyName;
     var operation1: string = "property";
     let parms = new HttpParams().set('Description', SPropertyName).set('operation', operation1);
-    return this.http.get("http://localhost/RawMaterial1.2/new_properties", { params: parms });
-    this.loadProperty()
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/new_properties", { params: parms });
+   
   }
   loadProperty() {
-    return this.http.get("http://localhost/RawMaterial1.2/loadproperty");
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/loadproperty");
   }
   opennewproperty(): void {
     const dialogRef = this.dialog.open(NewPropertyComponent, {
