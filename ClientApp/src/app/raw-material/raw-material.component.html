@@ -28,7 +28,7 @@
           <div class="form-inline">
 
             <label for="project_name" style="margin-top: 10px;">Supplier Key</label>
-            <input disabled type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="project_name" [(ngModel)]="suppkey" #supplierkey name="supplierkeyname" value="" formControlName="supkey">
+            <input disabled type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="supp  name" [(ngModel)]="suppkey" name="supname" value="" formControlName="supkey">
 
 
 
@@ -76,7 +76,7 @@
                 <div class="form-inline">
                   <label for="inputcust">Trade Name</label>
                   <input type="text" style="margin-top:10px;margin-bottom:10px;width:60%" class="form-control" placeholder="" id="Trade Name" [(ngModel)]="tradn" name="tradenameval" value="">
-                 
+
                 </div>
                 <div class="form-inline">
                   <label>P#</label>
@@ -90,177 +90,177 @@
 
                   </select>
                 </div>
-                  <div class="form-inline">
-                    <label for="inputcust">Drug Name</label>
-                    <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="drugName" #Drug name="drugnameval" value="">
-                    <label for="inputcust">Ph.Eur.Name</label>
-                    <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="PhEurName" #PhEurn name="PhEur" value="">
-                    <Label>GMO</Label>
-                    <mat-radio-group aria-label="Select an option" style="margin-left:0.3%" (change)="radioChange($event)">
+                <div class="form-inline">
+                  <label for="inputcust">Drug Name</label>
+                  <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="drugName" #Drug name="drugnameval" value="">
+                  <label for="inputcust">Ph.Eur.Name</label>
+                  <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="PhEurName" #PhEurn name="PhEur" value="">
+                  <Label>GMO</Label>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:0.3%" (change)="radioChange($event)">
 
-                      <mat-radio-button [value]="1"  [checked]="GMOYesOrNo == 'True' ? true : false" style="margin-left:10px">Yes</mat-radio-button>
-                      <mat-radio-button [value]="2"  [checked]="GMOYesOrNo== 'False' ? true : false" style="margin-left:20px" >No</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                  <div class="form-inline">
-                    <label for="inputcust">Manufacturer</label>
-                    <input style="width: 25%;" type="text" class="form-control">
-                    <label for="inputcust">EBS#</label>
-                    <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="ebsNumber" #ebs name="EBSnameval" value="">
-                    <label>Gluten</label>
-                    <mat-radio-group aria-label="Select an option" style="margin-left:0.3%"(change)="radioChange($event)">
+                    <mat-radio-button [value]="1" [checked]="GMOYesOrNo == 'True' ? true : false" style="margin-left:10px">Yes</mat-radio-button>
+                    <mat-radio-button [value]="2" [checked]="GMOYesOrNo== 'False' ? true : false" style="margin-left:20px">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust">Manufacturer</label>
+                  <input style="width: 25%;" type="text" class="form-control">
+                  <label for="inputcust">EBS#</label>
+                  <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="ebsNumber" #ebs name="EBSnameval" value="">
+                  <label>Gluten</label>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:0.3%" (change)="radioChange($event)">
 
-                      <mat-radio-button [value]="2" [checked]="GlutenYesOrNo== 'True' ? true : false" style="margin-left:10px" >Yes</mat-radio-button>
-                      <mat-radio-button [value]="3" [checked]="GlutenYesOrNo== 'False' ? true : false" style="margin-left:20px">No</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                  <div class="form-inline">
-                    <label for="inputcust">Re Order Qty</label>
-                    <input style="width: 13%;" type="text" class="form-control" :placeholder="0.00" [(ngModel)]="reorderQty" #orderqty name="reorderqtyval" value="">
-                    <select id="PRD" class="form-control" style="width:11.5%;">
-                      <option selected>Kg</option>
-                      <option>Lb</option>
-                      <option>Gal</option>
-                      <option>Ltr</option>
-                      <option>g</option>
-                    </select>
-                    <label for="inputcust">Min Order Qty</label>
-                    <input style="width: 15%;" type="text" class="form-control" placeholder="0.00"[(ngModel)]="MOQ" #Minorder name="minodrq" value="">
-                    <select id="PRD" class="form-control" style="width:10%;">
-                      <option selected>Kg</option>
-                      <option>Lb</option>
-                      <option>Gal</option>
-                      <option>Ltr</option>
-                      <option>g</option>
-                    </select>
-                    <Label>NPA Certified</Label>
-                    <mat-radio-group aria-label="Select an option" style="margin-left:0.3%">
+                    <mat-radio-button [value]="2" [checked]="GlutenYesOrNo== 'True' ? true : false" style="margin-left:10px">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" [checked]="GlutenYesOrNo== 'False' ? true : false" style="margin-left:20px">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="form-inline">
+                  <label for="inputcust">Re Order Qty</label>
+                  <input style="width: 13%;" type="text" class="form-control" :placeholder="0.00" [(ngModel)]="reorderQty" #orderqty name="reorderqtyval" value="">
+                  <select id="PRD" class="form-control" style="width:11.5%;">
+                    <option selected>Kg</option>
+                    <option>Lb</option>
+                    <option>Gal</option>
+                    <option>Ltr</option>
+                    <option>g</option>
+                  </select>
+                  <label for="inputcust">Min Order Qty</label>
+                  <input style="width: 15%;" type="text" class="form-control" placeholder="0.00" [(ngModel)]="MOQ" #Minorder name="minodrq" value="">
+                  <select id="PRD" class="form-control" style="width:10%;">
+                    <option selected>Kg</option>
+                    <option>Lb</option>
+                    <option>Gal</option>
+                    <option>Ltr</option>
+                    <option>g</option>
+                  </select>
+                  <Label>NPA Certified</Label>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:0.3%">
 
-                      <mat-radio-button [value]="1"   [checked]="NPACertified == 'Y' ? true : false"   style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
-                      <mat-radio-button [value]="2"  [checked]="NPACertified == 'N' ? true : false"   style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                    </mat-radio-group>
-
-                  </div>
-                  <div class="form-inline" style="margin-top:5px">
-                    <label for="inputcust">Category</label>
-
-                    <select id="PRD" class="form-control" style="width:57%;">
-                      <option selected>Water</option>
-                      <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
-
-                    </select>
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenCategory()">...</button>
-                    <Label>Kosher</Label>
-                    <mat-radio-group aria-label="Select an option" style="margin-left:3%">
-
-                      <mat-radio-button [value]="2" [checked]="Kosher == 'Yes' ? true : false"  style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
-                      <mat-radio-button [value]="3" [checked]="Kosher == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                    </mat-radio-group>
-
-                  </div>
-                  <div class="form-inline" style="margin-top:10px">
-                    <label for="inputcust">Sub-Category</label>
-
-                    <select id="PRD" class="form-control" style="width:57%;">
-                      <option selected>Choose...</option>
-
-                    </select>
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenSubCategory()">...</button>
-                    <label>Halal</label>
-                    <mat-radio-group aria-label="Select an option" style="margin-left:3%">
-
-                      <mat-radio-button [value]="2"  [checked]="Halal == 'Yes' ? true : false" style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
-                      <mat-radio-button [value]="3" [checked]="Halal == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                    </mat-radio-group>
-
-                  </div>
-                  <div class="form-inline" style="margin-top:5px">
-                    <label for="inputcust">Status</label>
-                    <select id="PRD" class="form-control" style="width:25%">
-                      <option selected>Active</option>
-                      <option>Experiment</option>
-                      <option>Hold</option>
-                      <option>Obsolete</option>
-                      <option>Completed</option>
-                      <option>DWS</option>
-                    </select>
-                    <h5 for="inputcust" style="color:red">*</h5>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:0.3%; ">...</button>
-                    <label for="inputcust"> Supplier SKU #</label>
-                    <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="sku" #skvalue name="skuname" value="">
-
-                  </div>
-
-
+                    <mat-radio-button [value]="1" [checked]="NPACertified == 'Y' ? true : false" style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="2" [checked]="NPACertified == 'N' ? true : false" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
 
                 </div>
-                <div class="form-group col-md-4">
-                  <div class="form-inline">
-                    <label>RM Source</label>
-                    <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="RMSource" #Rawmatsource name="rmsourcename" value="">
+                <div class="form-inline" style="margin-top:5px">
+                  <label for="inputcust">Category</label>
 
-                    <label>Approve RM</label><br>
-                    <input style="" class="form-check-input" type="checkbox"  [checked]="Approved == 'True' ? true : false" >
-                  </div>
-                  <div class="form-inline" style="margin-top:1%">
-                    <mat-radio-group aria-label="Select an option" style="margin-left:4%">
-                      <Label >Incidental Ingredient</Label>
-                      <mat-radio-button [value]="2"  [checked]="IncidIngredient == 'Yes' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                      <mat-radio-button [value]="3"  [checked]="IncidIngredient == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                  <div class="form-inline" style="margin-top:1%">
-                    <mat-radio-group aria-label="Select an option" style="margin-left:8%">
-                      <Label >Monograph</Label>
-                      <mat-radio-button [value]="1" [checked]="monograph == 'Yes' ? true : false"   style="margin-left:20px">Yes</mat-radio-button>
-                      <mat-radio-button [value]="2" [checked]="monograph == 'No' ? true : false"   style="margin-left:20px" >No</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                  <div class="form-inline" style="margin-top:1%">
-                    <mat-radio-group aria-label="Select an option" style="margin-left:5%">
-                      <Label>Exempt or Not(voc)</Label>
-                      <mat-radio-button [value]="2"  [checked]="Exemptornot == 'Yes' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                      <mat-radio-button [value]="3"  [checked]="Exemptornot == 'No' ? true : false"  style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                  <fieldset class="border p-2" style="margin-top:20px">
-                    <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
-                    <div class="form-inline">
-                      <label placeholder="0" >Pre Processing</label>
-                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="preloadtime"  name="prepro" value="">
-                    </div>
-                    <div class="form-inline">
-                      <label placeholder="0" >Processing</label>
-                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="proleadtime" name="propro" value="">
-                    </div>
-                    <div class="form-inline">
-                      <label placeholder="0">Post Processing</label>
-                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="postleadtime" name="postlead" value="">
-                    </div>
-                    <div class="form-inline">
-                      <label style="color:maroon" placeholder="0">CUM Lead Time</label>
-                      <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="rmleadtime" #Rawmatsource name="rmlead" value="">
-                    </div>
-                  </fieldset>
+                  <select id="PRD" class="form-control" style="width:57%; " [(ngModel)]="CategoryName" name="categ" value="">
+
+                    <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
+
+                  </select>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenCategory()">...</button>
+                  <Label>Kosher</Label>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:3%">
+
+                    <mat-radio-button [value]="2" [checked]="Kosher == 'Yes' ? true : false" style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" [checked]="Kosher == 'No' ? true : false" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
+
                 </div>
+                <div class="form-inline" style="margin-top:10px">
+                  <label for="inputcust">Sub-Category</label>
+
+                  <select id="PRD" class="form-control" style="width:57%;" [(ngModel)]="SubCategoryName" name="subcateg" value="">
+                    <option>Choose...</option>
+
+                  </select>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px" (click)="OpenSubCategory()">...</button>
+                  <label>Halal</label>
+                  <mat-radio-group aria-label="Select an option" style="margin-left:3%">
+
+                    <mat-radio-button [value]="2" [checked]="Halal == 'Yes' ? true : false" style="margin-left:10px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" [checked]="Halal == 'No' ? true : false" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
+
+                </div>
+                <div class="form-inline" style="margin-top:5px">
+                  <label for="inputcust">Status</label>
+                  <select id="PRD" class="form-control" style="width:25%" [(ngModel)]="Status" name="Stat" value="">
+                    <option>Active</option>
+                    <option>Experiment</option>
+                    <option>Hold</option>
+                    <option>Obsolete</option>
+                    <option>Completed</option>
+                    <option>DWS</option>
+                  </select>
+                  <h5 for="inputcust" style="color:red">*</h5>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:0.3%; ">...</button>
+                  <label for="inputcust"> Supplier SKU #</label>
+                  <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="sku" #skvalue name="skuname" value="">
+
+                </div>
+
+
+
               </div>
+              <div class="form-group col-md-4">
+                <div class="form-inline">
+                  <label>RM Source</label>
+                  <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="RMSource" #Rawmatsource name="rmsourcename" value="">
+
+                  <label>Approve RM</label><br>
+                  <input style="" class="form-check-input" type="checkbox" [checked]="Approved == 'True' ? true : false">
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <mat-radio-group aria-label="Select an option" style="margin-left:4%">
+                    <Label>Incidental Ingredient</Label>
+                    <mat-radio-button [value]="2" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <mat-radio-group aria-label="Select an option" style="margin-left:8%">
+                    <Label>Monograph</Label>
+                    <mat-radio-button [value]="1" [checked]="monograph == 'Yes' ? true : false" style="margin-left:20px">Yes</mat-radio-button>
+                    <mat-radio-button [value]="2" [checked]="monograph == 'No' ? true : false" style="margin-left:20px">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <mat-radio-group aria-label="Select an option" style="margin-left:5%">
+                    <Label>Exempt or Not(voc)</Label>
+                    <mat-radio-button [value]="2" [checked]="Exemptornot == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                    <mat-radio-button [value]="3" [checked]="Exemptornot == 'No' ? true : false" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <fieldset class="border p-2" style="margin-top:20px">
+                  <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
+                  <div class="form-inline">
+                    <label placeholder="0">Pre Processing</label>
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="preloadtime" name="prepro" value="">
+                  </div>
+                  <div class="form-inline">
+                    <label placeholder="0">Processing</label>
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="proleadtime" name="propro" value="">
+                  </div>
+                  <div class="form-inline">
+                    <label placeholder="0">Post Processing</label>
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="postleadtime" name="postlead" value="">
+                  </div>
+                  <div class="form-inline">
+                    <label style="color:maroon" placeholder="0">CUM Lead Time</label>
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="rmleadtime" #Rawmatsource name="rmlead" value="">
+                  </div>
+                </fieldset>
+              </div>
+            </div>
             <div class="form-inline" style="margin-top:5px">
               <label for="inputcust" style="color:darkblue;font-weight:700">Last PO Price$</label>
-              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
+              <input style="width: 15%;margin-left:0.7%" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
               <h5 for="inputcust" style="color:red">*</h5>
               <label for="inputcust">Per</label>
-              <select id="PRD" class="form-control" style="width:5%;" name="uomnameval" value="">
+              <select id="PRD" class="form-control" style="width:5%;" name="uomnamevallastpo" [(ngModel)]="LastPOUnit" value="">
                 <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
               <label for="inputcust">as of</label>
-              <input style="width: 15%;" type="date" class="form-control">
+              <input style="width: 15%;" type="date" id="lastpo" class="form-control" [(ngModel)]="LastPODt" (change)="dateChange($event)" name="lastpodate" value="">
               <label for="inputcust">Orgin Source</label>
               <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="origin" #originsource name="originsourcename" value="">
             </div>
             <div class="form-inline">
               <label for="inputcust" style="color:forestgreen;font-weight:700">Standard Price$</label>
-              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="unitCost" placeholder="0.000" #stdprize name="stdprizval" value="">
+              <input style="width: 15%;margin-left:0.5%" type="text" class="form-control" [(ngModel)]="unitCost" placeholder="0.000" #stdprize name="stdprizval" value="">
               <h5 for="inputcust" style="color:red">*</h5>
               <label>Per</label>
               <select id="PRD" class="form-control" style="width:5%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
@@ -274,16 +274,16 @@
             </div>
 
             <div class="form-inline" style="margin-top:5px">
-              <label for="inputcust" style="color:forestgreen;font-weight:700" >Shipping Cost$</label>
-              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
+              <label for="inputcust" style="color:forestgreen;font-weight:700">Shipping Cost$</label>
+              <input style="width: 15%;margin-left:0.7%" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
               <h5 for="inputcust" style="color:red">*</h5>
               <label for="inputcust">Per</label>
-              <select id="PRD" class="form-control" style="width:5%;" name="uomnameval" value="">
+              <select id="PRD" class="form-control" style="width:5%;" name="shipco" value="" [(ngModel)]="costUnit">
                 <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
               <label for="inputcust">as of</label>
-              <input style="width: 15%;" type="date" class="form-control">
+              <input style="width: 15%;" type="date" id="shipdate" class="form-control" [(ngModel)]="costDt" (change)="dateChange($event)" name="shippdate" value="">
 
 
               <label for="inputcust">Default UOM</label>
@@ -293,22 +293,22 @@
               </select>
 
               <label for="inputcust" style="color:forestgreen;margin-left:1%;">Previous Price $</label>
-              <input style="width: 10%;" type="text" class="form-control"  [(ngModel)]="PreviousCost" name="PreviousCos" value="">
+              <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="PreviousCost" name="PreviousCos" value="">
             </div>
             <div class="form-inline" style="margin-top:5px">
               <label for="inputcust" style="color:maroon;font-weight:700">Delivered Price$</label>
               <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
               <h5 for="inputcust" style="color:red">*</h5>
               <label for="inputcust">Per</label>
-              <select id="PRD" class="form-control" style="width:5%;" name="uomnameval" value="">
+              <select id="PRD" class="form-control" style="width:5%;" name="deliverval" value="" [(ngModel)]="costUnit">
                 <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
               <label for="inputcust">as of</label>
-              <input style="width: 15%;" type="date" class="form-control">
+              <input style="width: 15%;" type="date" id="deliverdate" class="form-control" [(ngModel)]="costDt" (change)="dateChange($event)" name="deliverc" value="">
               <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">Volume Pricing</button>
               <label for="inputcust" style="margin-left:1%" placeholder="0.00">Concentration %</label>
-              <input style="width: 10%" type="text" class="form-control" [(ngModel)]="concentration"  name="Concvalue" value="">
+              <input style="width: 10%" type="text" class="form-control" [(ngModel)]="concentration" name="Concvalue" value="">
             </div>
 
             <div class="form-inline">
@@ -327,17 +327,17 @@
           <form>
             <div class="form-inline" style="margin-top:1%">
               <label for="inputcust">Specific Gravity</label>
-              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="drugName" #Drug name="drugnameval" value="">
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="sg" #sgdata name="sgval" value="">
               <h5 for="inputcust" style="color:red">*</h5>
               <label for="inputcust">Lb/Gal</label>
               <input style="width: 10%;" type="text" class="form-control">
               <label for="inputcust">Kg/m3</label>
               <input style="width: 10%;" type="text" class="form-control">
               <label style="margin-left:3%">VOC Contributor</label>
-              <mat-radio-group aria-label="Select an option" >
+              <mat-radio-group aria-label="Select an option">
                 <!--<mat-radio-button [value]="1" (change)="radioChange($event)">VOC Contributor</mat-radio-button>-->
-                <mat-radio-button [value]="2"  [checked]="VOCContributor == 'Yes' ? true : false"   style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
-                <mat-radio-button [value]="3"  [checked]="VOCContributor == 'No' ? true : false"   style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
+                <mat-radio-button [value]="2" [checked]="VOCContributor == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChange($event)">Yes</mat-radio-button>
+                <mat-radio-button [value]="3" [checked]="VOCContributor == 'No' ? true : false" style="margin-left:20px" (change)="radioChange($event)">No</mat-radio-button>
               </mat-radio-group>
 
             </div>
@@ -466,7 +466,7 @@
                   <form>
                     <div class="form-group">
                       <label for="exampleFormControlTextarea1" style="margin-top:10px;">Blend Mixing Procedure:</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:80%;height:400px;margin-left:10%;"></textarea>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:80%;height:400px;margin-left:10%;" [(ngModel)]="BlendProcedure" name="blendproc" value=""></textarea>
                     </div>
                   </form>
                   <!--<div class="form-row">
@@ -1125,39 +1125,39 @@
                     </div>
                     <div class="form-inline" style="margin-top:1%">
                       <label for="inputcust">SDS Path</label>
-                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="MSDSPath" name="msdspa" value="">
                       <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:40px;">...</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:20px; width:90px;">Open</button>
                     </div>
                     <div class="form-inline" style="margin-top:1%">
                       <label for="inputcust">COA File</label>
-                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="COAPath" name="coapath" value="">
                       <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:40px;">...</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:20px; width:90px;">Open</button>
                     </div>
                     <div class="form-inline" style="margin-top:1%">
                       <label for="inputcust">Flash Point (C)</label>
-                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtCelsious" name="flashc" value="">
                       <label for="inputcust">Method</label>
-                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtMethod" name="flashm" value="">
                     </div>
                     <div class="form-inline" style="margin-top:1%">
                       <label for="inputcust">Flash Point (F)</label>
-                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtFlammable" name="flashf" value="">
                       <label for="inputcust">Override</label>
-                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtOverride" name="flasho" value="">
                     </div>
                     <div style="margin-top:0.5%">
                       <fieldset class="border p-2">
                         <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Hazardous Material Identification System (HMIS)</legend>
                         <div class="form-inline">
                           <label>Hazardous</label><br>
-                          <input style="" class="form-check-input" type="checkbox">
+                          <input style="" class="form-check-input" type="checkbox" [(ngModel)]="flashPtOverride" name="flasho" value="">
                           <label style="margin-left:3%">Flammability</label>
-                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="hMISFlammability" name="himsflam" value="">
                           <label style="margin-left:3%">Health Hazard</label>
-                          <select id="PRD" class="form-control" style="width:5%;">
-                            <option selected>*</option>
+                          <select id="PRD" class="form-control" style="width:5%;" [(ngModel)]="hMISHealth" name="himshealth" value="">
+
                             <option>*</option>
                             <option>0</option>
                             <option>1</option>
@@ -1165,10 +1165,10 @@
                             <option>3</option>
                           </select>
                           <label style="margin-left:3%">Physical Hazard</label>
-                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="hMISPhysical" name="himsphys" value="">
                           <label style="margin-left:3%">Personal Protection</label>
-                          <select id="PRD" class="form-control" style="width:6%;">
-                            <option selected>N/A</option>
+                          <select id="PRD" class="form-control" style="width:6%;" [(ngModel)]="hMISPersonal" name="himspers" value="">
+                            <option>N/A</option>
                             <option>A</option>
                             <option>B</option>
                             <option>C</option>
@@ -1186,14 +1186,14 @@
                         <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">National Fire Protection Association (NFPA)</legend>
                         <div class="form-inline">
                           <label>Flammability</label>
-                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="NFPA_Flammability" name="npfaflam" value="">
                           <label style="margin-left:3%">Reactivity</label>
-                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="nFPAReactivity" name="reactnfp" value="">
                           <label style="margin-left:3%">Health Hazard</label>
-                          <input style="width:5%" class="form-control" type="number" placeholder="0">
+                          <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="NFPA_Health" name="npfahealth" value="">
                           <label style="margin-left:3%">Special Precautions</label>
-                          <select id="PRD" class="form-control" style="width:10%;">
-                            <option selected>N/A</option>
+                          <select id="PRD" class="form-control" style="width:10%;" [(ngModel)]="nFPASpecial" name="npfaspecial" value="">
+                            <option>N/A</option>
                             <option>None</option>
                             <option>Acid</option>
                             <option>Base (Alkaline)</option>
@@ -1449,7 +1449,7 @@
           <form>
             <div class="form-inline" style="margin-top:1%">
               <label for="data_requirements">Risk Phrases</label>
-              <textarea id="data_results" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
+              <textarea id="data_results" style="width:70%;font-size:larger" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="EURiskPhrases" name="eurisk" value=""></textarea>
               <!--<div *ngFor="let itemlist of risklist">
               <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="itemlist.title" >
               </textarea>
@@ -1467,7 +1467,7 @@
 
             <div class="form-inline" style="margin-top:1%">
               <label for="data_results" style="margin-top: 20px;">Safety Phrases</label>
-              <textarea id="data_results" style="width:70%;" class="form-control md-textarea" size="7" rows="8"></textarea>
+              <textarea id="data_results" style="width:70%;font-size:larger" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="EUSafetyPhrases" name="eusafety" value=""></textarea>
               <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 3%;" (click)="OpenSafteyPhrases()">Select Safety Phrases</button>
             </div>
 
@@ -1483,12 +1483,13 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem>
-        <a class="tabcolor tabbutto tabrowli" ngbNavLink>Alert</a>
+        <a class="tabcolor tabbutto tabrowli textsize
+           " ngbNavLink>Alert</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-inline">
               <label for="data_requirements" style="margin-top: 2%;">Remarks</label>
-              <textarea id="data_requirements" style="width:80%;" class="form-control md-textarea" size="7" rows="20"></textarea>
+              <textarea id="data_requirements" style="width:80%;font-size:larger" class="form-control md-textarea" size="7" rows="20" [(ngModel)]="AlertRemarks" name="alertre" value=""></textarea>
             </div>
           </form>
         </ng-template>
@@ -1498,7 +1499,7 @@
         <ng-template ngbNavContent>
           <form>
             <div class="form-inline" style="margin-top:0.1%;">
-              <label for="inputEmail4" >Address</label>
+              <label for="inputEmail4">Address</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" style="width: 70%; margin-left: 10px;"></textarea>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;height:45px;margin-top:40px;" disabled>Approve Supplier</button>
             </div>
@@ -1507,7 +1508,7 @@
               <input type="text" class="form-control" id="inputAddress" placeholder="" style="width:70%;">
             </div>
             <div class="form-inline" style="margin-top:0.1%;">
-              <label for="inputAddress2"  >Fax</label>
+              <label for="inputAddress2">Fax</label>
               <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width:70%;">
             </div>
             <div class="form-inline" style="margin-top:0.1%;">
@@ -1518,7 +1519,7 @@
               <label for="inputAddress2">Distributor</label>
               <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
             </div>
-            <div class="form-inline" style="margin-top:0.1%;" >
+            <div class="form-inline" style="margin-top:0.1%;">
               <label for="inputAddress2">Contact Person</label>
               <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 30%;">
 
@@ -1560,7 +1561,7 @@
         <ng-template ngbNavContent>
           <div class="form-inline">
             <label for="inputPassword6" style="margin-left:1%">Function Name</label>
-            <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" style="width:950px;">
+            <input type="text" id="functionname" class="form-control mx-sm-3" aria-describedby="fucntionname" style="width:60%" [(ngModel)]="FunctionCode" name="functioncode" value="">
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="opensearchfunction()">Function Search</button>
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="opensearchfunction()">Function Clear</button>
           </div>
@@ -1654,8 +1655,8 @@
 
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>
-  <div class="form-row" style=" margin-bottom:80%;position:fixed">
-    <div style="margin-left:20px;margin-top:20px" class="form-group ">
+  <!--<div class="form-row" style=" margin-bottom:80%;position:fixed">
+    <div style="margin-left:20px;margin-top:20px;" class="form-group ">
       <div class="form-inline">
         <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:50px;height:50px;width:120px;">Save As</button>
         <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:230px;height:50px;width:120px;">RM Cost Import </button>
@@ -1670,5 +1671,17 @@
 
       </div>
     </div>
+  </div>-->
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Back </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Update </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Save </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);" matDialogClose>Delete RM</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>RM Cost Import</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px">Save As</button>
+
+
   </div>
 </div>

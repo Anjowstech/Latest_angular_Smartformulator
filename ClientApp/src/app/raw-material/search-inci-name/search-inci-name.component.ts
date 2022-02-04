@@ -22,7 +22,7 @@ export class SearchINCINameComponent implements OnInit {
   traden: string = '';
   incicode: string = '';
   searchitems: any = [];
-
+  isLoading = true;
   pageStart: number = 0;
   pageEnd: number = 100;
   pageHeight: number = 30;
@@ -121,15 +121,20 @@ export class SearchINCINameComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.searchRawMaterials("2").subscribe((rawmaterialssearch) => {
       console.warn("rawmaterialssearch", rawmaterialssearch)
       this.datarawmaterialssearch = rawmaterialssearch
+      this.isLoading = false;
     })
-
+   
     this.loadfunction().subscribe((loadfuncsearch) => {
+  
       console.warn("loadfuncsearch", loadfuncsearch)
       this.dataloadfuncsearch = loadfuncsearch
+      
     })
+
   }
 
 }

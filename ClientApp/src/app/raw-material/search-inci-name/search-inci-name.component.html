@@ -161,7 +161,7 @@ Please provide a valid zip.
 
 
 
-              <tr *ngFor="let raw_cate_search of datarawmaterialssearch |slice:pageStart:pageEnd; let i=index;" (dblclick)="setvalues(raw_cate_search);close();">
+              <tr *ngFor="let raw_cate_search of datarawmaterialssearch |slice:pageStart:pageEnd; let i=index;" (dblclick)="setvalues(raw_cate_search);close();"#conten>
                 <td class="tabledatasize">{{ raw_cate_search.INCIName}}</td>
                 <td class="tabledatasize">{{ raw_cate_search.Item }}</td>
                 <td class="tabledatasize"> {{raw_cate_search.TradeName }}</td>

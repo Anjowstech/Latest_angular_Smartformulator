@@ -66,6 +66,10 @@ export class RawMaterialComponent implements OnInit {
   description: string;
   ingredienttradeName: string;
   categoryId: string;
+  CategoryName: string;
+  Status: string;
+  SupplierKey: string;
+  SubCategoryName: string;
   subCategoryId: string;
   statusId: string;
   supercededBy: string;
@@ -73,6 +77,8 @@ export class RawMaterialComponent implements OnInit {
   costUnit: string;
   costDt: string;
   notes: string;
+  AlertRemarks: string;
+  EURiskPhrases: string;
   vendorcode: string;
   hMISHealth: string;
   hMISFlammability: string;
@@ -86,6 +92,8 @@ export class RawMaterialComponent implements OnInit {
   lastPOCost: string;
   drugName: string;
   sku: string;
+  COAPath: string;
+  MSDSPath: string;
   defaultUnit: string;
   LastPOUnit:string
   reorderQty: string;
@@ -98,19 +106,31 @@ export class RawMaterialComponent implements OnInit {
   rmleadtime: string;
   sg: string;
   costdate: string;
+  LastPODt: string;
   date: string;
   suppliername: string;
   supplierkey: string;
   suppliercode: string;
   supp_code: string;
   suppkey: string;
-  NPACertified: string ;
+  flashPtCelsious: string;
+  NFPA_Health: string;
+  FunctionCode: string;
+  NFPA_Flammability: string;
+  nFPASpecial: string;
+  flashPtMethod: string;
+  flashPtOverride: string;
+  flashPtFlammable: string;
+  NPACertified: string;
+  nFPAReactivity:string
   monograph: string;
   Kosher: string;
   IncidIngredient: string;
   Exemptornot: string;
   PhEurName: string;
   MOQ: string;
+  BlendProcedure: string;
+  EUSafetyPhrases: string;
   Approved: string;
   VOCContributor: string;
   PreviousCost:string
@@ -195,7 +215,7 @@ export class RawMaterialComponent implements OnInit {
       this.tradn = result[2];
       this.supp_name = result[3];
       this.incicode = result[4];
-      this.suppkey = result[5];
+     // this.suppkey = result[5];
       this.loadrawproperty(this.incicode);
 
       this.Rawmaterialload(this.incicode).subscribe((rawmaterialload) => {
@@ -232,10 +252,21 @@ export class RawMaterialComponent implements OnInit {
       this.postleadtime = item.PostprocessLeadTime;
       this.rmleadtime=item.RMLeadTime
       this.sg = item.SG;
+      this.MSDSPath = item.MSDSPath
+      this.CategoryName = item.CategoryName;
+      this.SubCategoryName = item.SubCategoryName;
+      this.Status = item.Status;
+      this.suppkey = item.SupplierKey;
+      this.BlendProcedure = item.BlendProcedure;
+      this.COAPath = item.COAPath
+      this.SupplierKey = item.SupplierKey;
       this.vendorcode = item.VendorCode
       this.GMOYesOrNo = item.GMOYesOrNo
       this.GlutenYesOrNo = item.GlutenYesOrNo;
-      this.Halal = item.Halal
+      this.Halal = item.Halal;
+      this.AlertRemarks = item.AlertRemarks;
+      this.EURiskPhrases = item.EURiskPhrases;
+      this.EUSafetyPhrases = item.EUSafetyPhrases
       //if (this.Halal == "Yes") {
       //  this.Halal = "True";
       //}
@@ -248,7 +279,7 @@ export class RawMaterialComponent implements OnInit {
       this.unitCost = item.UnitCost;
       this.costUnit = item.CostUnit;
       this.costDt = formatDate(new Date(item.CostDt), 'yyyy-MM-dd', 'en-US');
-
+      this.LastPODt = formatDate(new Date(item.LastPODt), 'yyyy-MM-dd', 'en-US');
       this.hMISHealth = item.HMIS_Health;
       this.hMISFlammability = item.HMIS_Flammability;
       this.hMISPhysical = item.HMIS_Physical;
@@ -265,14 +296,16 @@ export class RawMaterialComponent implements OnInit {
       this.Approved = item.Approved;
       this.VOCContributor = item.VOCContributor;
       this.PreviousCost=item.PreviousCost
-     /* this.nFPAReactivity = item.NFPA_Reactivity*/;
-      //this.flashPtCelsious = item.FlashPtCelsious;
-      //this.nFPASpecial = item.NFPA_Special;
-      //this.flashPtFlammable = item.FlashPtFlammable;
+      this.nFPAReactivity = item.NFPA_Reactivity;
+      this.flashPtCelsious = item.FlashPtCelsious;
+      this.nFPASpecial = item.NFPA_Special;
+      this.NFPA_Health = item.NFPA_Health;
+      this.NFPA_Flammability = item.NFPA_Flammability;
+      this.flashPtFlammable = item.FlashPtFlammable;
       //this.flashPtGTLT = item.FlashPtGTLT;
-      //this.flashPtOverride = item.FlashPtOverride;
-      //this.flashPtMethod = item.FlashPtMethod;
-
+      this.flashPtOverride = item.FlashPtOverride;
+      this.flashPtMethod = item.FlashPtMethod;
+      this.FunctionCode = item.FunctionCode
 
     }
   }
@@ -353,7 +386,7 @@ export class RawMaterialComponent implements OnInit {
   
   }
   rawcategoryload() {
-    return this.http.get("http://localhost/raw-sup-webservice2/loadrawcategory")
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/loadrawcategory")
   }
 
   Rawmaterialload(itemcode: string) {
