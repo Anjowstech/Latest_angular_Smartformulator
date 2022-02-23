@@ -1296,7 +1296,7 @@ this.loadformulationsassign = loadformulations
     //this.stageendDate = formatDate(new Date(futureDateend), 'MM/dd/yyyy', 'en-US');
     this.projectapprovalcheck = true;
     this.datecheck = false;
-    this.isLoadingspec = false;
+    this.isLoadingspec = true;
   }
 }
 export class Data {
