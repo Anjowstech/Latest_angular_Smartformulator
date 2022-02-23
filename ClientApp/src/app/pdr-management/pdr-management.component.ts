@@ -11,6 +11,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomerDetailsComponent } from 'src/app//formula-lookup/customer-details/customer-details.component';
 import { formatDate } from '@angular/common';
 
+import { NewChemistryParamsComponent } from 'src/app/pdr-management/new-chemistry-params/new-chemistry-params.component';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
+import { NewMicrobiologyParamsComponent } from 'src/app/pdr-management/new-microbiology-params/new-microbiology-params.component';
 
 
 @Component({
@@ -146,7 +149,7 @@ export class PdrManagementComponent implements OnInit {
   myForm: FormGroup;
   customercode: string;
   AssignedTo: string = 'admin';
-  Status: string = 'WIP-Initiated';
+  Status: string = '';
   StartDate: string;
   CompletedDate: string;
   ProjDetails: string;
@@ -260,10 +263,13 @@ export class PdrManagementComponent implements OnInit {
   AssigineduserdataList: Data[][] = [];
   i: number;
   j: number;
+  datachem: any;
+  datamicro: any;
+  pdrnodata: string;
   assign_save_data: any;
   uservalue: string ="admin";
   login_formpdr: FormGroup;
-  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder) {
+  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.login_formpdr = fb.group({
       'projname': ['', Validators.required],
 
@@ -271,9 +277,19 @@ export class PdrManagementComponent implements OnInit {
       'terms': [false]
     });
   }
+  openloadnewmicrobiologyparams(): void {
+    const dialogRef = this.dialog.open(NewMicrobiologyParamsComponent, {
+      width: '60%', height: '60%', disableClose: true
+    });
+  }
   openloadspecificationparameter(): void {
     const dialogRef = this.dialog.open(LoadspecificationParameterComponent, {
       width: '65%', height: '75%', disableClose: true
+    });
+  }
+  openloadnewchemistryparams(): void {
+    const dialogRef = this.dialog.open(NewChemistryParamsComponent, {
+      width: '60%', height: '60%', disableClose: true
     });
   }
   //openProjectRequirements(): void {
@@ -373,8 +389,22 @@ this.loadformulationsassign = loadformulations
         this.listoutstagegate(this.loadstagegatedata);
       })
 
+      this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
+        console.warn("loadchemdata", loadchemdata)
+        this.datachem = loadchemdata
+        this.pdrnodata = this.pdrno;
+        this.datashare.sendpdrno(this.pdrnodata);
+      })
+      this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
+        console.warn("loadmicrobiologydata", loadmicrobiologydata)
+        this.datamicro = loadmicrobiologydata
+        this.pdrnodata = this.pdrno;
+        this.datashare.sendpdrno(this.pdrnodata);
+      })
+
     });
   }
+  
   showAlert(): void {
     if (this.isVisible) {
       return;
@@ -767,6 +797,16 @@ this.loadformulationsassign = loadformulations
     var pdr: string = Pdrno;
     let params1 = new HttpParams().set('PDRNo', pdr);
     return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/stagegatesettings", { params: params1})
+  }
+  loadchemistry(Pdrno) {
+    var pdr: string = Pdrno;
+    let params1 = new HttpParams().set('pdrno', pdr);
+    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/FillPDRCOAChemistry", { params: params1 })
+  }
+  loadmicrobiology(Pdrno) {
+    var pdr: string = Pdrno;
+    let params1 = new HttpParams().set('pdrno', pdr);
+    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/FillPDRCOAMicrobiology", { params: params1 })
   }
 
   Pdr_savedata(Pdrdetails) {

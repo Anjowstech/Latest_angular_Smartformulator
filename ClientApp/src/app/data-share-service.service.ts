@@ -34,11 +34,18 @@ export class DataShareServiceService {
   backtoformul = [];
   restrictdetails = [];
   rawtable: any;
+  datasharepdr: any;
   labelvalues: string;
+  itemcodeval: string;
+  datashareitemcode: any;
+  datasharecasdata: any;
   custocod
   datashareclientlocation: any = [];
   sendcustomercode(ccode: string) {
     this.custocod = ccode;
+  }
+  senditemcode(itemcode: string) {
+    this.itemcodeval = itemcode;
   }
   sendlabel(incilabel:string) {
     this.labelvalues = incilabel
@@ -48,6 +55,9 @@ export class DataShareServiceService {
   }
   sendaddlocation(searchlocation: string[]) {
     this.datashareclientlocation = searchlocation
+  }
+  sendItemcodeno(itemcode: string) {
+    this.datashareitemcode = itemcode
   }
 
   backtoformuladetails(backtoform: string[]) {
@@ -79,11 +89,17 @@ export class DataShareServiceService {
 
 
   }
+  sendpdrno(pdrno: string) {
+    this.datasharepdr = pdrno
+  }
   searchItemlist(item1: any) {
     this.itemrisklist = item1;
 
 
 
+  }
+  sendcasdata(searchcas: string[]) {
+    this.datasharecasdata = searchcas
   }
   searchItemid(item2: string) {
     this.itemcateid = item2;
@@ -110,7 +126,18 @@ export class DataShareServiceService {
   //DatashareTempPass(itempass: string) {
   //  this.Temppass = itempass
   //}
+  getitemcode(): string {
+    return this.itemcodeval;
+  }
 
+  getpdrno(): string {
+    return this.datasharepdr;
+  }
+
+
+  getitemcode1(): string {
+    return this.datashareitemcode;
+  }
   getcustocode(): string {
     return this.custocod;
   }
@@ -123,6 +150,9 @@ export class DataShareServiceService {
   }
   getlabel():string {
     return this.labelvalues;
+  }
+  getcasdata(): string[] {
+    return this.datasharecasdata;
   }
   getrestrictiondetails(): any {
     return this.restrictdetails ;

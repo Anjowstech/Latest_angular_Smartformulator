@@ -67,7 +67,8 @@
               <label for="inputStatus">Status</label>
               <select id="inputStatus" class="form-control" style="width:40%" [(ngModel)]="status" (change)="changestatus($event)" name="stat" value="">
 
-                <option selected>WIP-Initiated</option>
+                <option>WIP-Initiated</option>
+                <option>WIP-Approved</option>
                 <option>WIP-Under Development</option>
                 <option>WIP-Primary Testing</option>
                 <option>WIP-Secondary Testing</option>
@@ -1854,60 +1855,126 @@
                 <div class="form-group col-md-6">
                   <h4 style="color: maroon; text-align:center; background-color: lightyellow; font-style: oblique; font-size: xx-large; margin-left: 1%;">CHEMISTRY</h4>
                   <div style="margin-left: 1%; margin-top: 1%; height: 400px; overflow-y: auto; background-color: white ">
-                    <table class="table-hover table-bordered" style="width:98%; background-color:white">
-                      <thead>
-                        <tr>
-                          <th scope="col">Claim</th>
-                          <th scope="col">Method</th>
-                          <th scope="col">Limits</th>
-                          <th scope="col">User Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                  (onSelectionChanged)="selectedChanged($event)"
+                                  [columnAutoWidth]="true"
+                                  [dataSource]="datachem"
+                                  [wordWrapEnabled]="true"
+                                  [showColumnLines]="true"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                  (onCellClick)="openrawmaterialserach($event)"
+                                  (rowprepared)="rowprepared">
+                      <dxo-editing mode="row"
+                                   [allowUpdating]="true"
+                                   [useIcons]="true">
+                      </dxo-editing>
+                      <dxo-column-chooser [enabled]="false">
+                        or "select"
+                      </dxo-column-chooser>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                      <dxi-column dataField="ParamId"
+                                  [visible]="false"></dxi-column>
+                      <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                        <b style="color: black"></b>
+                      </div>
+                      <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+                        <b style="color: black">Claim</b>
+                      </div>
+                      <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
+                        <b style="color: black">Method</b>
+                      </div>
+                      <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplatefoa"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
+                        <b style="color: black;">Limits</b>
+                      </div>
+                      <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+                        <b style="color: black">Username</b>
+                      </div>
+
+
+
+                    </dx-data-grid>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
                   <h4 style="color: maroon; background-color: lightyellow; font-style: oblique; font-size: xx-large; margin-left: 1%; text-align:center; ">MICROBIOLOGY</h4>
                   <div style="margin-left: 1%; margin-top: 1%; height: 400px; overflow-y: auto; background-color: white">
-                    <table class="table-hover table-bordered" style="width:98%; background-color:white">
-                      <thead>
-                        <tr>
-                          <th scope="col">Test</th>
-                          <th scope="col">Method</th>
-                          <th scope="col">USP SPECS cfu/g</th>
-                          <th scope="col">User Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                  (onSelectionChanged)="selectedChanged($event)"
+                                  [columnAutoWidth]="true"
+                                  [dataSource]="datamicro"
+                                  [wordWrapEnabled]="true"
+                                  [showColumnLines]="true"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                  (onCellClick)="openrawmaterialserach($event)"
+                                  (rowprepared)="rowprepared">
+                      <dxo-editing mode="row"
+                                   [allowUpdating]="true"
+                                   [useIcons]="true">
+                      </dxo-editing>
+                      <dxo-column-chooser [enabled]="false">
+                        or "select"
+                      </dxo-column-chooser>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                      <dxi-column dataField="ParamId"
+                                  [visible]="false"></dxi-column>
+                      <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                        <b style="color: black"></b>
+                      </div>
+                      <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplatetest"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatetest'">
+                        <b style="color: black">Test</b>
+                      </div>
+                      <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplatemethod"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatemethod'">
+                        <b style="color: black">Method</b>
+                      </div>
+                      <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplatelimiy" cssClass="cell-highlighted"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplatelimiy'">
+                        <b style="color: black; ">Limits</b>
+                      </div>
+                      <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplateuser"></dxi-column>
+                      <div *dxTemplate="let info of 'addressHeaderTemplateuser'">
+                        <b style="color: black">Username</b>
+                      </div>
+
+
+
+                    </dx-data-grid>
                   </div>
                 </div>
               </div>
               <div class=" form-inline" style="margin-left:3%">
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;">New Chemistry params</button>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Save Chemistry params </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;"(click)="openloadnewchemistryparams();">New Chemistry params</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; "(click)="savechemistryparamlist();">Save Chemistry params </button>
                 <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px;">Print C&M Params </button>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Save micro Params </button>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px;">New Microbiology Params </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; "(click)="savemicrobioparamlist();">Save micro Params </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px;"(click)="openloadnewmicrobiologyparams()">New Microbiology Params </button>
               </div>
             </ng-template>
           </form>

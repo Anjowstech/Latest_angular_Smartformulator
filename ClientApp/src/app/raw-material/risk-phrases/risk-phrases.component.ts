@@ -9,11 +9,22 @@ import { DialogData } from 'src/app/raw-material/raw-material.component';
   styleUrls: ['./risk-phrases.component.css']
 })
 export class RiskPhrasesComponent implements OnInit {
-  list = [{
-    id: 'User1',
-    title: 'R1 Explosives when dry',
-    checked: false
-  },
+  titlename: string = '';
+  
+  SelectedItemList = [];
+  masterSelectedtrue: boolean = true;
+  masterSelectedfalse: boolean = false;
+  checklist: any;
+  checkedList: any;
+  list: any;
+  constructor(private Datashare: DataShareServiceService, public dialogRef: MatDialogRef<RiskPhrasesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    //this.masterSelected = false;
+    this.list = [{
+      id: 'User1',
+      title: 'R1 Explosives when dry',
+      checked: false
+    },
     {
       id: 'User2',
       title: 'R2 Risk of Explosion by shock, friction,fire, or other source of ignition',
@@ -34,17 +45,36 @@ export class RiskPhrasesComponent implements OnInit {
       title: 'R5 Heating may cause an explosion',
       checked: false
     }]
-  SelectedItemList = [];
-  constructor(private Datashare: DataShareServiceService, public dialogRef: MatDialogRef<RiskPhrasesComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    //this.getCheckedItemList();
+  }
 
   ngOnInit() {
     this.fetchSelectedItems()
     
    
   }
-   onNoClick(): void {
-    this.dialogRef.close();
+ 
+    isAllSelected() {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].checked = this.masterSelectedtrue;
+      }
+    
+   
+  }
+  isAllunSelected() {
+    for (var i = 0; i < this.list.length; i++) {
+      this.list[i].checked = this.masterSelectedfalse;
+    }
+
+
+  }
+
+  onNoClick(): void {
+    for (let item of this.SelectedItemList) {
+      this.titlename = this.titlename + '\n'+ item.title;
+    }
+      
+    this.dialogRef.close(this.titlename);
   }
   selectedcheckbox() {
     this.SelectedItemList;
@@ -52,7 +82,7 @@ export class RiskPhrasesComponent implements OnInit {
   }
   searchItemlist(itemlist:any) {
 
-    var catename: string = itemlist;
+    var catename: string = itemlist;  
 
     //    GroupName1: this.clickeddata1
 

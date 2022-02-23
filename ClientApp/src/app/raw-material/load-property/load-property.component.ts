@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { NgModule,Component, OnInit,} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NewPropertyComponent } from './new-property/new-property.component';
-
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-load-property',
@@ -43,10 +43,10 @@ export class LoadPropertyComponent implements OnInit {
   acceptdeleteproperty: any;
   val5: string = " ";
   valname: any = "";
-  ingcoderprop = "RM#0";
+  itemcod: string = '';
   pop = "% Wt Solids";
   datarawpropertyloadrprop: any;
-  constructor(public dialog: MatDialog, private http: HttpClient) {
+  constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService) {
    
   
 
@@ -69,6 +69,7 @@ export class LoadPropertyComponent implements OnInit {
   }
   public highlightRow(propertyloadingraw) {
     this.finalproperty = this.selectedproperty = propertyloadingraw.propname;
+    this.myusername = propertyloadingraw.propvalue;
   }
   opennewproperty(): void {
     const dialogRef = this.dialog.open(NewPropertyComponent, {
@@ -76,8 +77,8 @@ export class LoadPropertyComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-     
-      this.rawpropertyloadrprp(this.ingcoderprop).subscribe((rawpropertyload) => {
+      this.itemcod = this.Datashare.getitemcode();
+      this.rawpropertyloadrprp(this.itemcod).subscribe((rawpropertyload) => {
         console.warn("rawpropertyload", rawpropertyload)
         this.datarawpropertyloadrprop = rawpropertyload
       });
@@ -92,20 +93,21 @@ export class LoadPropertyComponent implements OnInit {
     this.dialog.closeAll();
   }
   SaveProperty() {
-    this.PropertySave(this.myusername).subscribe((result7) => {
+    var itemco = this.Datashare.getitemcode();
+    this.PropertySave(this.myusername, itemco).subscribe((result7) => {
       console.warn("resultsavesProperty", result7)
       this.acceptPropertyvalue = result7
     })
   }
-  PropertySave(WebValue1: string) {    
+  PropertySave(WebValue1: string,itemcode:string) {    
     this.WebvValue = WebValue1;
     var operation: string = "Insert";
-    let parms = new HttpParams().set('PropertyName', this.finalproperty).set('PropertyValue', this.WebvValue).set('operation', operation);
-    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/update_save_Properties", { params: parms });
+    let parms = new HttpParams().set('PropertyName', this.finalproperty).set('PropertyValue', this.WebvValue).set('itemcode', itemcode).set('operation', operation);
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/update_save_Properties", { params: parms, responseType: 'text' });
   }
   PropertyDelete() {
     var RMVolPricingId1: string = this.finalproperty
-    let param = new HttpParams().set('PropertyName', this.finalproperty).set('Description', this.finalproperty);
+    let param = new HttpParams().set('PropertyName', this.finalproperty).set('Description', this.myusername);
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/deleteProperties", { params: param });
   }
   deleteProperty() {
@@ -127,7 +129,8 @@ export class LoadPropertyComponent implements OnInit {
     //  console.warn("resultProperty", result)
     //  this.Propertyloaddata = result
     //})
-    this.rawpropertyloadrprp(this.ingcoderprop).subscribe((rawpropertyload) => {
+    this.itemcod = this.Datashare.getitemcode();
+    this.rawpropertyloadrprp(this.itemcod).subscribe((rawpropertyload) => {
       console.warn("rawpropertyload", rawpropertyload)
       this.datarawpropertyloadrprop = rawpropertyload
     });

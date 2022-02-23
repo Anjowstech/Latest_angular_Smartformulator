@@ -1,6 +1,10 @@
 <div style="background-color: #f6f5f1">
-  <div style="overflow-y:auto;overflow-x:hidden; height:50vh;width:100%">
-    <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align: center;">Function Search</h2>
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Search Function</h2>
+      </div>
+    </div>
     <fieldset class="border p-2">
       <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
       <div class="form-row" style="margin-top:5px;">
@@ -25,49 +29,44 @@
     <div>
       <p style="margin-left:3%;">Make your selection by Double clicking on your choice</p>
     </div>
-    <div style="margin-top:1%;background-color:white">
-      <table class="table table-bordered">
+    <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;">
+      <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
         <thead>
           <tr>
-            <th scope="col">#</th>
+
             <th scope="col">Function Name</th>
             <th scope="col">Function Description</th>
+
+
 
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>ABRASIVE</td>
-            <td>Removes materials from various body surfaces or aids mechanical tooth cleaning </td>
+          <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                mode="indeterminate">
+          </mat-progress-spinner>
+          <tr *ngFor="let functionsearch of function_searchdata" (click)="setvalues( functionsearch);close();" #conten>
+            <td class="tabledatasize">{{ functionsearch.FunctionCode }}</td>
+            <td class="tabledatasize">{{ functionsearch.FunctionName}}</td>
+          </tr>
 
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Accelerator</td>
-            <td>Removes materials from various body surfaces or aids mechanical tooth cleaning</td>
 
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>ACNE TREATMENT</td>
-            <td>ACNE TREATMENT</td>
-          </tr>
+
         </tbody>
       </table>
     </div>
-    
-  </div>
-  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
-
-
-
-    
- 
-
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Close</button>
-
-
   </div>
 </div>
-  <!--</div>-->
+<div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+
+
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+
+
+
+
+</div>
+
+<!--</div>-->

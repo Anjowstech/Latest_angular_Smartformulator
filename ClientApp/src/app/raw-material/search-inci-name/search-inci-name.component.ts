@@ -27,7 +27,11 @@ export class SearchINCINameComponent implements OnInit {
   pageEnd: number = 100;
   pageHeight: number = 30;
   pageBuffer: number = 100;
-
+  fun_name: string = "";
+  itemc: string = "";
+  supplierva: string = '';
+  tradenam: string = '';
+  casnum: string = '';
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchINCINameComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
@@ -117,6 +121,7 @@ export class SearchINCINameComponent implements OnInit {
     this.searchRawMaterials(e).subscribe((rawmaterialssearch) => {
       console.warn("rawmaterialssearch", rawmaterialssearch)
       this.datarawmaterialssearch = rawmaterialssearch
+      this.isLoading = false;
     })
   }
 

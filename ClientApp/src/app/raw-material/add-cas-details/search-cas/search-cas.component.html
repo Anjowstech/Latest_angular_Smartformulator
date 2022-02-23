@@ -1,27 +1,10 @@
 <div style="background-color: #f6f5f1">
-  <!--<div class="row">
-    <div class="col-md-6 offset-md-3">
-      <form class="form-inline text-center" style="margin-bottom:20px;">
-        <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485;margin-left:2%">SMART</h2>
-        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator</h2>
-      </form>
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Search Function</h2>
+      </div>
     </div>
-  </div>-->
-  <div class="card text-center">
-    <div class="card-header">
-      <!--<form class="form-inline">
-    <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485;margin-left:1%">SMART</h2>
-    <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator</h2>
-    </form>-->
-      <span style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485;margin-left:1%;font-size:30px">SMART</span>
-      <span style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205;font-size:30px;">Formulator</span>
-</div>
-  </div>
-  <div class="text-center">
-    <h5>Search CAS</h5>
-  </div>
-
-  <div>
     <fieldset class="border p-2">
       <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
       <form>
@@ -40,45 +23,45 @@
       </form>
     </fieldset>
 
-  </div>
+
+
+  
   <div style="margin-left:2%;margin-top:2%">
     Make your selection by Double on your choice
   </div>
-  <div style="margin-top:2%;">
-    <table class="table table-striped">
+  <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;">
+    <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
       <thead>
         <tr>
 
+
+
           <th scope="col">CAS No</th>
           <th scope="col">Description</th>
-
+          <th scope="col">EINECSNo</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-
-          <td>102-05-21</td>
-          <td>N-cresidine</td>
-
-        </tr>
-        <tr>
-
-          <td>102-05-22</td>
-          <td>Dimethicone</td>
-
-        </tr>
-        <tr>
-
-          <td>102-05-28</td>
-          <td>Dimethicone2</td>
-
+        <tr *ngFor="let cas_detail of cassearchdata; let i=index;" (click)="setcasdetails(cas_detail);">
+          <td>{{ cas_detail.CASNo}}</td>
+          <td style="width:12%">{{ cas_detail.Description}}</td>
+          <td style="width:12%">{{ cas_detail.EINECSNo}}</td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div>
-    <mat-dialog-actions style="float:right;">
-      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Close</button>
-    </mat-dialog-actions>
+ 
   </div>
+    </div>
+<div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+
+
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+
+
+
+
 </div>
+

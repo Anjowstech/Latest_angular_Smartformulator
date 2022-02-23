@@ -10,7 +10,7 @@
         <div class="card-body" style="width: 90%;height:700px;overflow-y:auto">
           <ul>
             <li *ngFor="let item of list">
-              <input type="checkbox" [(ngModel)]="item.checked" (change)="changeSelection()"> {{item.title}}
+              <input type="checkbox" [(ngModel)]="item.checked" > {{item.title}}
             </li>
 
           </ul>
@@ -24,11 +24,11 @@
 
 
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;height:40px;margin-top:1%" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Select All</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;height:40px;margin-top:1%;margin-left:10px">Deselect All</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;height:40px;margin-top:1%"(click)="isAllSelected();" >Select All</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;height:40px;margin-top:1%;margin-left:10px"(click)=" isAllunSelected();">Deselect All</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);" matDialogClose>Back</button>
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Select</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="changeSelection();onNoClick()">Select</button>
 
 
   </div>

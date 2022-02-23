@@ -45,10 +45,10 @@ export class SubCategoryMaintenanceComponent implements OnInit {
   Loadsubcategory() {
 
 
-    return this.http.get("http://localhost/raw_sup_webservice/subcatogory_load");
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/subcatogory_load");
   }
   categorysearch() {
-    return this.http.get("http://localhost/raw_sup_webservice/categorysearch");
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/categorysearch");
   }
   selectitem(raw_supp) {
     this.selectedrow = raw_supp;
@@ -80,7 +80,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', subcategoryidval).
       set('categoryid', categoryidval);
 
-    return this.http.get("http://localhost/raw_sup_webservice/delete_insert_new_subcatogory", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
 
   }
   savesubcategory(subcategoryname: string, description: string, subcategoryid: string, categoryid: string) {
@@ -94,7 +94,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', "0").
       set('categoryid', categoryidval );
 
-    return this.http.get("http://localhost/raw_sup_webservice/delete_insert_new_subcatogory", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
 
   }
   addRow(row: { name: string; items: string; items1: string; items2: string; items3: string;  }): void {
@@ -111,7 +111,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', subcategoryidval).
       set('categoryid', categoryidval);
 
-    return this.http.get("http://localhost/raw_sup_webservice/delete_insert_new_subcatogory", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
 
   }
   updatedata(subcategoryname, description, subcategoryid, categoryid) {

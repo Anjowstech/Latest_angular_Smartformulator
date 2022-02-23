@@ -32,11 +32,12 @@ export interface DialogData {
 })
 export class RawMaterialComponent implements OnInit {
   itemlist = [];
+  safetylistdata: string = '';
   datarawcategoryload: any;
   name: string;
   gmconverter: any = 3785.2286;
   ccconverter: any = 453.5924;
-  gravity: any = 1.000;
+  gravity: any ;
   abb: string = '';
   abbdescription: string = '';
   formname: string;
@@ -46,7 +47,7 @@ export class RawMaterialComponent implements OnInit {
   searchdata = [];
   kgm3: any;
   lb_gal: any;
-  risklistdata = [];
+  risklistdata: string = '';;
   inciname: string;
   itemli: string;
   supp_name: string;
@@ -119,7 +120,7 @@ export class RawMaterialComponent implements OnInit {
   NFPA_Flammability: string;
   nFPASpecial: string;
   flashPtMethod: string;
-  flashPtOverride: string;
+  flashPtOverride: string='false';
   flashPtFlammable: string;
   NPACertified: string;
   nFPAReactivity:string
@@ -133,9 +134,163 @@ export class RawMaterialComponent implements OnInit {
   EUSafetyPhrases: string;
   Approved: string;
   VOCContributor: string;
-  PreviousCost:string
+  PreviousCost: string;
+  auditdata: any;
+  Restriction: string;
+  supplierdata: any;
+  Code: string;
+  Name: string;
+  address: string;
+  Email: string;
+  phoneno: string;
+  Fax: string;
+  web: string;
+  sabbrev: string;
+  contactperson: string;
+  contactno: string;
+  distributor: string;
+  note: string;
+  approved: string;
+  city: string;
+  state: string;
+  country: string;
+  zip: string;
+  fob: string;
+  terms: string;
+  ifradata: any;
+  shipvia: string;
+  expaccount: string;
+  suppstatus: string;
+  prefered: string;
+  othershipvia: string;
+  rating: string;
+  IUPACName: string;
+  Shipto: string;
+  casdata: any;
+  INCIName: string;
+  itemli2: string;
+  tradn2: string;
+  supp_name2: string;
+  incicode2: string;
+  suppkey2: string;
+  Blenddata: any;
+  Blend_save_data: any;
+  percentvalue: number;
+  totalpercent: number = 0;
+  Balance: number = 100;
+  Blenddatadlt: any;
+  Percentage: string;
+  propertydata: any;
   login_form: FormGroup;
+ 
+  FunctionName: string;
+  functioncode: string = "";
+  Functiondata: any;
+  funcddlt: string;
+  funnamesdlt: string;
+  function1: string[];
+  itemcodevalue: any;
+  casdelete: any;
+ 
+  icode: string;
+  caasno: string;
+  descptn: string;
+  elinc: string;
+ 
+  savecapropimpu: string;
 
+  Sourceinfo: string;
+  cas: string;
+  amendment: string;
+  femaNo: string;
+  RFIMID: string;
+  Category1A: string;
+  Category1B: string;
+  Category2A: string;
+  Category3A: string;
+  Category3B: string;
+  Category3C: string;
+  Category3D: string;
+  Category4A: string;
+  Category4B: string;
+  Category4C: string;
+  Category4D: string;
+  Category5A: string;
+  Category6A: string;
+  Category7A: string;
+  Category7B: string;
+  Category8A: string;
+  Category8B: string;
+  Category9A: string;
+  Category9B: string;
+  Category9C: string;
+  Category10A: string;
+  Category10B: string;
+  Category11A: string;
+  Category11B: string;
+  isifrafilled: string;
+  isifraaudit: string;
+
+  regulatoryaudittrackingload: any;
+  canadadataload: any;
+  canadaLoad: any;
+  usload: any;
+  austriliaload: any;
+  euload: any;
+  japanload: any;
+  chinaload: any;
+  CAprop65load: any;
+  CAproprestrictionsload: any;
+  doc1: any;
+  subitemcode: any;
+  subinciname: any;
+  capropimpuritiestableload: any;
+  ppm: any;
+  delclientus_loaddata: any;
+  delclientcappro65_loaddata: any;
+  delclientchina_loaddata: any;
+  delclientjapan_loaddata: any;
+  delclienteu_loaddata: any;
+  delclientcanada_loaddata: any;
+  Inciid: any;
+  username1: any;
+  INCIName1: any;
+  Itemcode1: any;
+
+ 
+  AddedBy: string = '';
+  AddedDt: string = '';
+  ApprovalCode: string = '';
+  //AlertRemarks: string;
+  UpdatedBy: string = '';
+  UpdatedDt: string = '';
+  INNName: string = '';
+  RMAbbreviation: string = '';
+  MOQunit: string = '';
+  NPAExpiry: string = '';
+  PreviousVenderCode: string = '';
+  SupplierRMNo: string = '';
+  StatusReason: string = '';
+  CurrSupplierPriority: string = '';
+  PrevSupplierPriority: string = '';
+  // LastPODt: string;
+  IsBlend: string = '';
+  Hazardous: string = '';
+  ReOrderUnit: string = '';
+  flashPtGTLT: string = '';
+
+  
+  oldCost: string = '';
+  oldStdCost: string = '';
+
+
+  RMdataList: Datasave[][] = [];
+  dataList: RawmaterialData[][] = [];
+  DataListAudit: AuditData[][] = [];
+  DataListIFRA: IFRAdata[][] = [];
+  casdataList: Datacas[][] = [];
+  i: number;
+  j: number;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -155,22 +310,58 @@ export class RawMaterialComponent implements OnInit {
       disableClose: true,
     });
   }
+  radioChangeIncidIngredient(event) {
+    this.IncidIngredient = event.value;
+
+  }
+  radioChangemonograph(event) {
+    this.monograph = event.value;
+
+  }
+  radioChangeExemptornot(event) {
+    this.Exemptornot = event.value;
+
+  }
+  radioChangeGMOYesOrNo(event) {
+    this.GMOYesOrNo = event.value;
+
+  }
+  radioChangeGlutenYesOrNo(event) {
+    this.GlutenYesOrNo = event.value;
+
+  }
+  radioChangeNPACertified(event) {
+    this.NPACertified = event.value;
+
+  }
+  radioChangehalal(event) {
+    this.Halal= event.value;
+
+  }
+  radioChangekosher(event) {
+    this.Kosher = event.value;
+
+  }
+  hazardousChange(event) {
+    this.flashPtOverride = event.value;
+  }
   blurEvent(event: any) {
     this.gravity=0;
      this.gravity = event.target.value;
 
     
      var total = ((this.gravity) * this.gmconverter) / this.ccconverter;
-     this.gravity = total.toFixed(3);
+    this.lb_gal = total.toFixed(3);
      this.kgm3 = this.gravity * 1000;
   }
   blurEvent2(event: any) {
     this.lb_gal = 0;
     this.lb_gal = event.target.value;
-
+    this.gravity = 0;
 
     var total = ((this.lb_gal) * this.ccconverter) / this.gmconverter;
-    this.lb_gal = total.toFixed(3);
+    this.gravity = total.toFixed(3);
+    this.kgm3 = this.gravity;
    
   }
  
@@ -189,6 +380,7 @@ export class RawMaterialComponent implements OnInit {
 
     });
   }
+
   //SearchINCIpopup(): void {
 
   //  const dialogRef = this.dialog.open(SearchINCINameComponent, {
@@ -223,10 +415,329 @@ export class RawMaterialComponent implements OnInit {
         this.Rawdata = rawmaterialload
         this.Rawmaterialdataload(this.Rawdata)
       })
+      this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+        console.warn("auditload", auditload)
+        this.auditdata = auditload
+      })
+      this.rawmaterialsupplierload(this.incicode).subscribe((supplierload) => {
+        console.warn("supplierload", supplierload)
+        this.supplierdata = supplierload
+        this.supplierdataload(this.supplierdata)
+      })
+      if (this.incicode != null) {
+        this.CASload(this.incicode).subscribe((casload) => {
+          console.warn("casload", casload)
+          this.casdata = casload
+
+        })
+      }
+      this.canadadataaload(this.inciname).subscribe((loadrawmaterialcanada) => {
+        console.warn("loadcanada", loadrawmaterialcanada)
+        this.canadaLoad = loadrawmaterialcanada
+      })
+      this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
+        console.warn("loadrawmaterialus", loadrawmaterialus)
+        this.usload = loadrawmaterialus
+      })
+      this.AUSloaddata(this.inciname).subscribe((loadrawmaterialAUS) => {
+        console.warn("loadrawmaterialAUS", loadrawmaterialAUS)
+        this.austriliaload = loadrawmaterialAUS
+      })
+      this.EUloaddata(this.inciname).subscribe((loadrawmaterialEU) => {
+        console.warn("loadrawmaterialEU", loadrawmaterialEU)
+        this.euload = loadrawmaterialEU
+      })
+      this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
+        console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
+        this.japanload = loadrawmaterialjapan
+      })
+      this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
+        console.warn("loadrawmaterialChina", loadrawmaterialChina)
+        this.chinaload = loadrawmaterialChina
+      })
+      this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
+        console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
+        this.CAprop65load = loadrawmaterialCAPROP65
+      })
+      this.CAproprestrictionsloadloaddata(this.inciname).subscribe((loadrawmaterialCAproprestrictions) => {
+        console.warn("loadrawmaterialCAproprestrictions", loadrawmaterialCAproprestrictions)
+        this.CAproprestrictionsload = loadrawmaterialCAproprestrictions
+      })
+      this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+        console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+        this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
+      })
+      this.IFRAload(this.inciname, this.itemli).subscribe((ifraload) => {
+        console.warn("ifraload", ifraload)
+        this.ifradata = ifraload
+        this.ifradetails(this.ifradata)
+      })
+      this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
+        console.warn("Blenddetailslload", Blenddetailslload)
+        this.Blenddata = Blenddetailslload
+        this.Blenddataload(this.Blenddata)
+
+
+
+      })
+      this.propertydataload(this.incicode).subscribe((propertydataload) => {
+        console.warn("propertydataload", propertydataload)
+        this.propertydata = propertydataload
+
+      })
+      this.CASload(this.incicode).subscribe((casload) => {
+        console.warn("casload", casload)
+        this.casdata = casload
+        this.itemcodevalue = this.incicode;
+        this.Datashare.sendItemcodeno(this.itemcodevalue);
+      })
+    
+    });
+  }
+  Blenddataload(blenddetails: any) {
+    this.totalpercent = 0;
+    for (let Blenditem of blenddetails) {
+      this.percentvalue = Blenditem.Percentage;
+      this.totalpercent = + this.totalpercent + +this.percentvalue;
+      this.Balance = (100 - this.totalpercent);
+    }
+  }
+  Blenddelete() {
+    this.Blenddlt().subscribe((Blenddlte) => {
+      console.warn("Blenddlte", Blenddlte)
+      this.Blenddatadlt = Blenddlte
+    })
+
+    this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
+      console.warn("Blenddetailslload", Blenddetailslload)
+      this.Blenddata = Blenddetailslload
+      this.Blenddataload(this.Blenddata)
+    })
+  }
+  setvalues(blebddetails: any) {
+    this.INCIName = blebddetails.INCIName;
+    this.Percentage = blebddetails.Percentage;
+    this.incicode2 = blebddetails.IngredientCode;
+
+
+
+  }
+  Blenddlt() {
+    var blendcd = this.incicode;
+    var ingredientcode = this.incicode2;
+    var Usename = "admin";
+    var Percentage = this.Percentage;
+    var inciname = this.INCIName;
+    let params1 = new HttpParams().set('IngredientCode', ingredientcode).set('Itemcode', blendcd).set('username', Usename).set('Percentage', Percentage).set('inciname', inciname);
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/BlendDeleteIngredient", { params: params1, responseType:'text' })
+  }
+  Blendsaveupdate(prcntg: string) {
+    if (parseInt(prcntg) > 100) {
+      // this.showAlert4();
+    }
+    else if ((this.Balance - parseInt(prcntg)) < 0) {
+      //this.showAlert4();
+    }
+    else {
+      this.blendsaveup(prcntg).subscribe((Blenddatasaveup) => {
+        console.warn("Blenddatasaveup", Blenddatasaveup)
+        this.Blend_save_data = Blenddatasaveup
+      })
+
+      this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
+        console.warn("Blenddetailslload", Blenddetailslload)
+        this.Blenddata = Blenddetailslload
+        this.Blenddataload(this.Blenddata)
+      })
+    }
+  }
+  canadadataaload(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/CanadaBindLoad", { params: params1 });
+  }
+  usloaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/USBindLoad", { params: params1 });
+  }
+  AUSloaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/australiaBindLoad", { params: params1 });
+  }
+  EUloaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/EUBindLoad", { params: params1 });
+  }
+  japanloaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/japanBindLoad", { params: params1 });
+  }
+  Chinaloaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/ChinaBindLoad", { params: params1 });
+  }
+  CAPROP65loaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get(" https://smarformulatorrawmaterialwebservice5.azurewebsites.net/CAPROPDirect", { params: params1 });
+  }
+  CAproprestrictionsloadloaddata(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/CAPROPRestrictionsss", { params: params1 });
+  }
+  regulatoryaudittracking(INCIName: string) {
+    var inci = INCIName;
+    let params1 = new HttpParams().set('INCIName', inci)
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/loadaudittrackingregulatory", { params: params1 });
+  }
+
+
+  blendsaveup(Percentage: any) {
+    var Itemcode = this.incicode;
+    var Inciname = this.inciname;
+    var Blendcode = this.incicode2;
+    var Blendname = this.INCIName;
+    var percentage = Percentage;
+    let params1 = new HttpParams().set('itemcode', Itemcode).set('INCINAME', Inciname).set('Blencode', Blendcode).set('Blendname', Blendname).set('Percentage', percentage);
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/Update_insert_Blend", { params: params1, responseType: 'text' })
+  }
+  //showAlert4(): void {
+  //  this.isVisible4 = true;
+  //  setTimeout(() => this.isVisible4 = false, 5000)
+  //}
+  Blendload(itemcode: string) {
+    var itemcode = itemcode;
+    let params1 = new HttpParams().set('Itemcode', itemcode);
+    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/Loadblenddetails", { params: params1, })
+  }
+  propertydataload(itemcode: string) {
+    var itemcode = itemcode;
+    let params1 = new HttpParams().set('Itemcode', itemcode);
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/LoadPhysicalProperty", { params: params1, })
+  }
+  opensearchincinameforimpurities(): void {
+    const dialogRef = this.dialog.open(SearchINCINameComponent, {
+      width: '80%', height: '90%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.doc1 = result[0];
+      this.itemli = result[1];
+      this.supp_name = result[3];
+      this.subitemcode = result[4];
+      this.subinciname = result[0];
+
+
+
+      //this.capropimpuritiesload(this.itemli, this.doc1, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+      // console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+      // this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+      //})
+    });
+  }
+  
+  saveupimpurities(BlendCde, BName, ingrdient, INCINames, ppms, suupname) {
+    var BlendCode = BlendCde;
+    var Blendname = BName;
+    var IngredientCode = ingrdient;
+    var INCIName = INCINames;
+    var ppm = ppms;
+    var SupplierName = suupname;
+    var username = "admin";
+    var txtname = "";
+    var txtitemcode = "";
+    //var oldterms = this.oldTerms;
+    let params1 = new HttpParams().set('txtGenItemCode', BlendCode).set('txtdescription', Blendname).set('txtimicodesub', IngredientCode).set('txtiminciname', INCIName).set('txtname', SupplierName).set('txtppm', ppm).set('txtitemcode', txtitemcode).set('username', username);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/Saveingredientss", { params: params1, responseType: "text" })
+  }
+
+  capropimpuritiesload(itemli: string, INCIName: string, supp_name: string) {
+    var rmitem = itemli;
+    var inci = INCIName;
+    var suppliername = supp_name;
+    var olditmecode = itemli;
+    var oldinciname = INCIName;
+    var previoussuppliername = supp_name;
+    let params1 = new HttpParams().set('RMitemcode', rmitem).set('INCIName', inci).set('SupplierName', suppliername).set('oldItemCode', olditmecode).set('oldINCIName', oldinciname).set('previoussuppliername', previoussuppliername)
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/caprop65impuritiesload", { params: params1 });
+  }
+  opensearchinciname1(): void {
+    const dialogRef = this.dialog.open(SearchINCINameComponent, {
+      width: '80%', height: '90%', disableClose: true
+    });
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.INCIName = result[0];
+      this.itemli2 = result[1];
+      this.tradn2 = result[2];
+      this.supp_name2 = result[3];
+      this.incicode2 = result[4];
+      this.suppkey2 = result[5];
+
+
+
+
 
     });
   }
+  supplierdataload(suppdata: any) {
+    for (let item of suppdata) {
+      this.Code = item.code;
+      this.Name = item.name;
+      this.address = item.Address;
+      this.Email = item.email;
+      this.phoneno = item.phoneNumber;
+      this.Fax = item.fax;
+      this.web = item.website;
+      this.sabbrev = item.SAbbreviation;
+      this.contactperson = item.ContactPerson;
+      this.contactno = item.ContactNo;
+      this.distributor = item.Distributor;
+      this.note = item.Notes;
+      this.approved = item.Approved;
+      this.city = item.City;
+      this.state = item.State;
+      this.country = item.Country;
+      this.zip = item.Zip;
+      this.suppkey = item.SupplierKey;
+      this.fob = item.FOB;
+      this.terms = item.Terms;
+      this.shipvia = item.ShipVia;
+      this.expaccount = item.ExpenseAccount;
+      this.suppstatus = item.SupplierStatus;
+      this.prefered = item.Prefered;
+      this.othershipvia = item.OtherShipVia;
+      this.rating = item.Rating;
+      this.Shipto = item.shipto;
 
+
+
+    }
+  }
+  CASload(Itemcode: string) {
+    var itemcode: string = Itemcode;
+    let params1 = new HttpParams().set('Itemcode', itemcode);
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/loadCAS", { params: params1 });
+  }
+  rawmaterialsupplierload(Itemcode: string) {
+    var itemcode: string = Itemcode;
+    let params1 = new HttpParams().set('itemcode', itemcode);
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/loadrawmaterialsuppliers", { params: params1 });
+  }
+  rawmaterialauditload(Itemcode: string) {
+    var itemcode: string = Itemcode;
+    let params1 = new HttpParams().set('rawCode', itemcode);
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/auditloadrawmaterials", { params: params1 });
+  }
   Rawmaterialdataload(rawdatas: any) {
     for (let item of rawdatas) {
       this.incicode = item.ItemCode;
@@ -251,7 +762,9 @@ export class RawMaterialComponent implements OnInit {
       this.preloadtime = item.PreprocessLeadTime;
       this.postleadtime = item.PostprocessLeadTime;
       this.rmleadtime=item.RMLeadTime
-      this.sg = item.SG;
+      this.gravity = item.SG;
+      this.IUPACName = item.IUPACName;
+      this.Restriction = item.Restriction
       this.MSDSPath = item.MSDSPath
       this.CategoryName = item.CategoryName;
       this.SubCategoryName = item.SubCategoryName;
@@ -305,9 +818,41 @@ export class RawMaterialComponent implements OnInit {
       //this.flashPtGTLT = item.FlashPtGTLT;
       this.flashPtOverride = item.FlashPtOverride;
       this.flashPtMethod = item.FlashPtMethod;
-      this.FunctionCode = item.FunctionCode
+      this.FunctionCode = item.FunctionCode;
+      this.functioncode = this.FunctionCode + "/";
+
+      this.AddedBy = item.AddedBy
+      this.AddedDt = item.AddedDt
+      this.ApprovalCode = item.ApprovalCode
+      this.AlertRemarks = item.AlertRemarks
+      this.UpdatedBy = item.UpdatedBy
+      this.UpdatedDt = item.UpdatedDt
+      this.INNName = item.INNName
+      this.RMAbbreviation = item.RMAbbreviation
+      this.MOQunit = item.MOQunit
+      this.NPAExpiry = item.NPAExpiry
+      this.PreviousVenderCode = item.PreviousVenderCode
+      this.SupplierRMNo = item.SupplierRMNo
+      this.StatusReason = item.StatusReason
+      this.CurrSupplierPriority = item.CurrSupplierPriority
+      this.PrevSupplierPriority = item.PrevSupplierPriority
+      this.LastPODt = item.LastPODt
+      this.IsBlend = item.IsBlend
+      this.Hazardous = item.Hazardous
+      this.ReOrderUnit = item.ReOrderUnit
 
     }
+    this.oldCost = "$" + this.unitCost + " Per " + this.defaultUnit + " as of " + this.costDt;
+    this.oldStdCost = "$" + this.lastPOCost + " Per " + this.LastPOUnit + " as of " + this.LastPODt
+
+    
+    this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
+      console.warn("Functiondetailslload", Functiondetailslload)
+      this.Functiondata = Functiondetailslload
+
+
+
+    })
   }
 
   loadrawproperty(ingcode: string) {
@@ -322,8 +867,20 @@ export class RawMaterialComponent implements OnInit {
     });
   }
   openloadproperty(): void {
+    this.Datashare.senditemcode(this.incicode); 
     const dialogRef = this.dialog.open(LoadPropertyComponent, {
       width: '50%', height: '50%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      
+
+      this.propertydataload(this.incicode).subscribe((propertydataload) => {
+        console.warn("propertydataload", propertydataload)
+        this.propertydata = propertydataload
+
+      })
+
     });
   }
   OpenIngredientSearch(): void {
@@ -334,6 +891,15 @@ export class RawMaterialComponent implements OnInit {
   OpenAddCASDetails(): void {
     const dialogRef = this.dialog.open(AddCASDetailsComponent, {
       width: '50%', height: '28%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.CASload(this.incicode).subscribe((casload) => {
+        console.warn("casload", casload)
+        this.casdata = casload
+
+      })
     });
   }
   OpenRiskPhrases(): void {
@@ -350,6 +916,10 @@ export class RawMaterialComponent implements OnInit {
     const dialogRef = this.dialog.open(SaftyPhrasesComponent, {
       width: '80%', height: '90%', disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.safetylistdata = result;
+    });
   }
   OpenRMVP(): void {
     const dialogRef = this.dialog.open(RMVPComponent, {
@@ -363,8 +933,64 @@ export class RawMaterialComponent implements OnInit {
   }
   opensearchfunction(): void {
     const dialogRef = this.dialog.open(FunctionSearchComponent, {
-      width: '60%', height: '60%', disableClose: true
+      width: '60%', height: '70%', disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+
+
+      this.FunctionCode = result[0];
+      this.FunctionName = result[1];
+      this.functioncode = this.functioncode + this.FunctionCode + "/";
+
+
+
+      this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
+        console.warn("Functiondetailslload", Functiondetailslload)
+        this.Functiondata = Functiondetailslload
+
+
+
+      })
+    });
+
+
+  }
+  Functionload(funname: string) {
+    var Funname = funname;
+    let params1 = new HttpParams().set('funname', Funname);
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/loadFunctiontable", { params: params1, })
+
+  }
+  setvaluesfun(funddetails: any) {
+    this.funcddlt = funddetails.FunctionName;
+    this.funnamesdlt = funddetails.Functiondescription;
+
+
+
+  }
+  Deletefunction() {
+    if (this.funcddlt == "ACTIVES") {
+    }
+    else {
+      this.function1 = this.functioncode.split(this.funcddlt)
+      this.functioncode = this.function1[0] + this.function1[1]
+      this.functioncode = this.functioncode.replace("//", "/");
+
+
+
+      this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
+        console.warn("Functiondetailslload", Functiondetailslload)
+        this.Functiondata = Functiondetailslload
+
+
+
+      })
+
+
+
+    }
   }
   openAddfunction(): void {
     const dialogRef = this.dialog.open(AddFunctionComponent, {
@@ -410,49 +1036,49 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("http://localhost/raw-sup-webservice2/loadrawproperty2", { params: params1 });
 
   }
+  
+  //Rawmaterial_Update(incredcode: string, incname: string, suppliername: string, supplierkey: string, rmitem: string) {
 
-  Rawmaterial_Update(incredcode: string, incname: string, suppliername: string, supplierkey: string, rmitem: string) {
+  //  this.markFormTouched(this.login_form);
+  //  if (this.login_form.valid) {
+  //    var operation: string = "Update";
+  //    var username: string = "admin";
+  //    var suppliercode = this.supp_code;
+  //    var sg = this.lb_gal;
+  //    var tradename: string = this.tradn;
+  //    var chemist: string = this.supercededBy;
+  //    var unitid = this.defaultUnit;
+  //    var unitcost = this.unitCost;
+  //    this.Rawmaterialdetails = [incredcode, incname, chemist, "11/26/2021 8:00:00 AM", unitid, unitcost, unitid, this.costDt, sg, this.vendorcode, this.vendorcode, suppliername, supplierkey, tradename, rmitem]
+  //    this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((rawmaterial_update) => {
+  //      console.warn("rawmaterial_update", rawmaterial_update)
+  //      this.rawmaterial_update_data = rawmaterial_update
+  //    })
+  //  } else {
+  //    this.login_form.controls['terms'].setValue(false);
+  //  }
+  //};
+  //Rawmaterial_Save(incredcode: string, incname: string, suppliername: string, supplierkey: string, rmitem: string) {
 
-    this.markFormTouched(this.login_form);
-    if (this.login_form.valid) {
-      var operation: string = "Update";
-      var username: string = "admin";
-      var suppliercode = this.supp_code;
-      var sg = this.lb_gal;
-      var tradename: string = this.tradn;
-      var chemist: string = this.supercededBy;
-      var unitid = this.defaultUnit;
-      var unitcost = this.unitCost;
-      this.Rawmaterialdetails = [incredcode, incname, chemist, "11/26/2021 8:00:00 AM", unitid, unitcost, unitid, this.costDt, sg, this.vendorcode, this.vendorcode, suppliername, supplierkey, tradename, rmitem]
-      this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((rawmaterial_update) => {
-        console.warn("rawmaterial_update", rawmaterial_update)
-        this.rawmaterial_update_data = rawmaterial_update
-      })
-    } else {
-      this.login_form.controls['terms'].setValue(false);
-    }
-  };
-  Rawmaterial_Save(incredcode: string, incname: string, suppliername: string, supplierkey: string, rmitem: string) {
-
-    this.markFormTouched(this.login_form);
-    if (this.login_form.valid) {
-      var operation: string = "Save";
-      var username: string = "admin";
-      var suppliercode = this.supp_code;
-      var sg = this.lb_gal;
-      var tradename: string = this.tradn;
-      var chemist: string = this.supercededBy;
-      var unitid = this.defaultUnit;
-      var unitcost = this.unitCost;
-      this.Rawmaterialdetails = [incredcode, incname, chemist, "11/26/2021 8:00:00 AM", unitid, unitcost, unitid, this.costDt, sg, suppliercode, suppliercode, suppliername, supplierkey, tradename, rmitem]
-      this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((rawmaterial_save) => {
-        console.warn("rawmaterial_save", rawmaterial_save)
-        this.rawmaterial_update_data = rawmaterial_save
-      })
-    } else {
-      this.login_form.controls['terms'].setValue(false);
-    }
-  };
+  //  this.markFormTouched(this.login_form);
+  //  if (this.login_form.valid) {
+  //    var operation: string = "Save";
+  //    var username: string = "admin";
+  //    var suppliercode = this.supp_code;
+  //    var sg = this.lb_gal;
+  //    var tradename: string = this.tradn;
+  //    var chemist: string = this.supercededBy;
+  //    var unitid = this.defaultUnit;
+  //    var unitcost = this.unitCost;
+  //    this.Rawmaterialdetails = [incredcode, incname, chemist, "11/26/2021 8:00:00 AM", unitid, unitcost, unitid, this.costDt, sg, suppliercode, suppliercode, suppliername, supplierkey, tradename, rmitem]
+  //    this.Rawmaterial_saveupdateup(this.Rawmaterialdetails, operation, username).subscribe((rawmaterial_save) => {
+  //      console.warn("rawmaterial_save", rawmaterial_save)
+  //      this.rawmaterial_update_data = rawmaterial_save
+  //    })
+  //  } else {
+  //    this.login_form.controls['terms'].setValue(false);
+  //  }
+  //};
 
   markFormTouched(group: FormGroup | FormArray) {
     Object.keys(group.controls).forEach((key: string) => {
@@ -462,13 +1088,677 @@ export class RawMaterialComponent implements OnInit {
     });
   };
 
-  Rawmaterial_saveupdateup(Rawmaterialdetails, operation, username) {
+  
+  dltdata(cas_detail) {
+    this.icode = cas_detail.itemCode
+    this.elinc = cas_detail.EINECSNo
+    this.caasno = cas_detail.CASNo
+    this.descptn = cas_detail.Description
 
-    var Rawdetails: any = Rawmaterialdetails;
-    let params1 = new HttpParams().set('rawmaterialdetail', Rawdetails).set('operation', operation).set('username', username);
-    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/Save_Update_Rawmaterial", { params: params1, responseType: 'text' })
+  }
+  setcasdltdata(casdata: any) {
+    this.i = 0;
+    this.j = 0;
+
+
+
+    for (let search of casdata) {
+      this.casdataList[this.i] = ([{
+        description: search.Description,
+        EinecsNo: search.EINECSNo,
+        CasNo: search.CASNo,
+
+
+
+      }]);
+      this.i++;
+    }
+  }
+  Casdelete() {
+    this.casdataList = [];
+    this.setcasdltdata(this.casdata);
+    this.DeleteCasdata().subscribe((raw_deletecas) => {
+      console.warn("raw_deletecas", raw_deletecas)
+      this.casdelete = raw_deletecas
+    })
+   
+    this.CASload(this.incicode).subscribe((casload) => {
+      console.warn("casload", casload)
+      this.casdata = casload
+      //this.itemcodevalue = this.incicode;
+      //this.datashare.sendItemcodeno(this.itemcodevalue);
+    })
+
+
+  }
+  DeleteCasdata() {
+    var itemcode: string = this.incicode
+    // var inciname: string = this.inciname;
+    var datalistdata = JSON.stringify(this.casdataList);
+    var caasno: string = this.caasno;
+    var einecsno: string = this.elinc;
+    let params1 = new HttpParams().set('ItemCode', itemcode).set('casjson', datalistdata).set('dltcas', caasno).set('dlteincno', einecsno);
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/deletecas", { params: params1, responseType: 'text' })
+  }
+  settextboximpuries(impurities) {
+    this.doc1 = impurities.INCIName;
+    this.ppm = impurities.ppm;
+  }
+  capropsaveimpurities() {
+   
+    /* this.ppm = "Save";*/
+    //this.termcode1 = termcode;
+
+    this.saveupimpurities(this.itemli, this.inciname, this.subitemcode, this.subinciname, this.ppm, this.supp_name).subscribe((saveimpurities_Details) => {
+      console.warn("saveimpurities_Details", saveimpurities_Details)
+      this.savecapropimpu = saveimpurities_Details
+
+    })
+    //this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
+    // console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
+    // this.CAprop65load = loadrawmaterialCAPROP65
+    //})
+    this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+      console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
+      this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+    })
+  }
+  DeleteCAPROPimpuritiesdt() {
+    this.DeleteCAPROPimpuritiesweb().subscribe((DeleteCAPROPimpurities) => {
+      console.warn("DeleteCAPROPimpurities", DeleteCAPROPimpurities)
+      this.delclientus_loaddata = DeleteCAPROPimpurities
+      this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+        console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
+        this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+      })
+    })
+
+  }
+  
+  DeleteCAPROPimpuritiesweb() {
+    var IngredientCode = this.incicode;
+    var BlendCode = this.itemli;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var ppm = this.ppm;
+    var subinciname = this.doc1;
+    let params1 = new HttpParams().set('IngredientCode', IngredientCode).set('BlendCode', BlendCode).set('txtitemcode', IngredientCode).set('txtdescription', INCIName).set('username', username).set('inciname', subinciname).set('ppm', ppm);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/deleteingredientss", { params: params1, responseType: "text" })
+  }
+  eleteus_dt() {
+    this.Deleteusweb().subscribe((Deleteus) => {
+      console.warn("Deleteus", Deleteus)
+      this.delclientus_loaddata = Deleteus
+      this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
+        console.warn("loadrawmaterialus", loadrawmaterialus)
+        this.usload = loadrawmaterialus
+      })
+    })
+  }
+  Deletecanada_dt() {
+    this.Deletecanadaweb().subscribe((Deletecanada) => {
+      console.warn("Deletecanada", Deletecanada)
+      this.delclientcanada_loaddata = Deletecanada
+      this.canadadataload(this.inciname).subscribe((loadrawmaterialcanada) => {
+        console.warn("loadcanada", loadrawmaterialcanada)
+        this.canadaLoad = loadrawmaterialcanada
+      })
+    })
+  }
+  DeleteEU_dt() {
+    this.DeleteEUweb().subscribe((DeleteEU) => {
+      console.warn("DeleteEU", DeleteEU)
+      this.delclienteu_loaddata = DeleteEU
+      this.EUloaddata(this.inciname).subscribe((loadrawmaterialEU) => {
+        console.warn("loadrawmaterialEU", loadrawmaterialEU)
+        this.euload = loadrawmaterialEU
+      })
+    })
+  }
+  Deletejapan_dt() {
+    this.Deletejapanweb().subscribe((Deletejapan) => {
+      console.warn("Deletejapan", Deletejapan)
+      this.delclientjapan_loaddata = Deletejapan
+      this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
+        console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
+        this.japanload = loadrawmaterialjapan
+      })
+    })
+  }
+  DeleteChina_dt() {
+    this.Deletechinaweb().subscribe((DeleteChina) => {
+      console.warn("DeleteChina", DeleteChina)
+      this.delclientchina_loaddata = DeleteChina
+      this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
+        console.warn("loadrawmaterialChina", loadrawmaterialChina)
+        this.chinaload = loadrawmaterialChina
+      })
+    })
+  }
+  DeleteCAPROP65_dt() {
+    this.DeleteCAPROP65web().subscribe((DeleteCAPROP65) => {
+      console.warn("DeleteCAPROP65", DeleteCAPROP65)
+      this.delclientcappro65_loaddata = DeleteCAPROP65
+      this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
+        console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
+        this.CAprop65load = loadrawmaterialCAPROP65
+      })
+    })
+  }
+  setvalues3(usd) {
+    this.Inciid = usd.INCIId;
+    this.username1 = usd.username;
+    this.INCIName1 = usd.INCIName;
+    this.Itemcode1 = usd.Itemcode;
+  }
+  DeleteCAPROP65web() {
+    var clid = this.Inciid;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/CAPROPDELRESTRICTION", { params: params1 })
+  }
+  Deletechinaweb() {
+    var clid = this.Inciid;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/CHINADELRESTRICTION", { params: params1 })
+  }
+  Deletejapanweb() {
+    var clid = this.Inciid;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/JPNDELRESTRICTION", { params: params1 })
+  }
+  DeleteEUweb() {
+    var clid = this.Inciid;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/EUDELRESTRICTION", { params: params1 })
+  }
+  Deletecanadaweb() {
+    var clid = this.Inciid;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/CNDDELRESTRICTION", { params: params1 })
+  }
+  Deleteusweb() {
+    var clid = this.Inciid;
+    var username = "admin";
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/USDELRESTRICTION", { params: params1 })
+  }
+  deletermmain() {
+    this.deletermweb().subscribe((deletermmain) => {
+      console.warn("deletermmain", deletermmain)
+      this.delclientus_loaddata = deletermmain
+    })
+  }
+  deletermweb() {
+    var Itemcode1 = this.itemli;
+    let params1 = new HttpParams().set('ItemCode', Itemcode1);
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/deleterawmaterials", { params: params1 })
+  }
+  IFRAload(InciName: string, GenItemCode: string) {
+    var inciname: string = InciName;
+    var gitemcode: string = GenItemCode;
+    let params1 = new HttpParams().set('txtdescription', inciname).set('txtGenItemCode', gitemcode);
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/ShowIFRADetails", { params: params1 });
+  }
+  ifradetails(ifradata: any) {
+    for (let item of ifradata) {
+      this.Sourceinfo = item.sourceinfo;
+      this.cas = item.ifracas;
+      this.amendment = item.IFRAAmmendment;
+      this.femaNo = item.FemaNo;
+      this.RFIMID = item.rifmid;
+      this.Category1A = item.IFRAC1;
+      this.Category1B = item.IFRAC1B;
+      this.Category2A = item.IFRAC2;
+      this.Category3A = item.IFRAC3;
+      this.Category3B = item.IFRAC3B;
+      this.Category3C = item.IFRAC3C;
+      this.Category3D = item.IFRAC3D;
+      this.Category4A = item.IFRAC4;
+      this.Category4B = item.IFRAC4B;
+      this.Category4C = item.IFRAC4C;
+      this.Category4D = item.IFRAC4D;
+      this.Category5A = item.IFRAC5;
+      this.Category6A = item.IFRAC6;
+      this.Category7A = item.IFRAC7;
+      this.Category7B = item.IFRAC7B;
+      this.Category8A = item.IFRAC8;
+      this.Category8B = item.IFRAC8B;
+      this.Category9A = item.IFRAC9;
+      this.Category9B = item.IFRAC9B;
+      this.Category9C = item.IFRAC9C;
+      this.Category10A = item.IFRAC10;
+      this.Category10B = item.IFRAC10B;
+      this.Category11A = item.IFRAC11;
+      this.Category11B = item.IFRAC11B;
+    }
+  }
+  Rawmaterial_Update() {
+
+
+
+    //this.markFormTouched(this.login_form);
+    //if (this.login_form.valid) {
+    //var operation: string = "Update";
+    //var username: string = "admin";
+    //var suppliercode = this.supp_code;
+    //var sg = this.lb_gal;
+    //var tradename: string = this.tradn;
+    //var chemist: string = this.supercededBy;
+    //var unitid = this.defaultUnit;
+    //var unitcost = this.unitCost;
+    if (this.ifradata == "") {
+      this.isifrafilled = "false";
+      this.isifraaudit = "true";
+    }
+    else {
+      this.isifrafilled = "true";
+      this.isifraaudit = "false";
+    }
+    this.dataList[0] = ([{
+      ItemCode: this.incicode,
+      GeneralItemCode: this.itemli,
+      Description: this.inciname,
+      IngredientTradeName: this.tradn,
+      CategoryId: this.categoryId,
+      SubCategoryId: this.subCategoryId,
+      StatusId: this.statusId,
+      SupercededBy: this.supercededBy,
+      SupercededDate: '',
+      UnitCost: this.unitCost,
+      CostUnit: this.costUnit,
+      CostDt: this.costDt,
+      Notes: this.notes,
+      VendorCode: this.Code,
+      HMIS_Health: this.hMISHealth,
+      HMIS_Flammability: this.hMISFlammability,
+      HMIS_Physical: this.hMISPhysical,
+      HMIS_Personal: this.hMISPersonal,
+      NFPA_Health: this.NFPA_Health,
+      NFPA_Flammability: this.NFPA_Flammability,
+      NFPA_Reactivity: this.nFPAReactivity,
+      FlashPtCelsious: this.flashPtCelsious,
+      NFPA_Special: this.nFPASpecial,
+      FlashPtFlammable: this.flashPtFlammable,
+      FlashPtGTLT: this.flashPtGTLT,
+      FlashPtOverride: this.flashPtOverride,
+      FlashPtMethod: this.flashPtMethod,
+      MSDSPath: this.MSDSPath,
+      EURiskPhrases: this.risklistdata,
+      EUSafetyPhrases: this.safetylistdata,
+      AddedBy: this.AddedBy,
+      AddedDt: this.AddedDt,
+      UpdatedDt: this.UpdatedDt,
+      UpdatedBy: this.UpdatedBy,
+      INNName: this.INNName,
+      PhEurName: this.PhEurName,
+      IUPACName: this.IUPACName,
+      Restriction: this.Restriction,
+      FunctionCode: this.functioncode,
+      PreviousCost: this.PreviousCost,
+      DrugName: this.drugName,
+      SKU: this.sku,
+      RawMatSource: this.RMSource,
+      RMAbbreviation: 'CUSTOM',
+      ReOrderQty: this.reorderQty,
+      Exemptornot: this.Exemptornot,
+      RMLeadTime: this.rmleadtime,
+      Monograph: this.monograph,
+      IncidIngredient: this.IncidIngredient,
+      BlendProcedure: this.BlendProcedure,
+      VOCContributor: this.VOCContributor,
+      Approved: this.Approved,
+      COAPath: this.COAPath,
+      Origin: this.origin,
+      MOQ: this.MOQ,
+      MOQunit: this.MOQunit,
+      NPACertified: this.NPACertified,
+      NPAExpiry: this.NPAExpiry,
+      ApprovalCode: this.ApprovalCode,
+      PreviousVenderCode: this.PreviousVenderCode,
+      GMOYesOrNo: this.GMOYesOrNo,
+      GlutenYesOrNo: this.GlutenYesOrNo,
+      SupplierRMNo: this.SupplierRMNo,
+      ProcessLeadTime: this.proleadtime,
+      PreprocessLeadTime: this.preloadtime,
+      PostprocessLeadTime: this.postleadtime,
+      StatusReason: this.StatusReason,
+      Halal: this.Halal,
+      Kosher: this.Kosher,
+      AlertRemarks: this.AlertRemarks,
+      EBSNumber: this.ebsNumber,
+      CurrSupplierPriority: this.CurrSupplierPriority,
+      PrevSupplierPriority: this.PrevSupplierPriority,
+      LastPOCost: this.lastPOCost,
+      RMConcentration: this.concentration,
+      RMAssayValue: this.rmAssayValue,
+      IsBlend: 'false',
+      Hazardous: this.Hazardous,
+      ReOrderUnit: this.ReOrderUnit,
+      ContactPerson: this.contactperson,
+      ContactNo: this.contactno,
+      fax: this.Fax,
+      Address: this.address,
+      name: this.supp_name,
+      SG: this.gravity,
+      Distributor: this.distributor,
+      phoneNumber: this.phoneno,
+      website: this.web,
+      MOQUnit: this.MOQunit,
+      code: this.Code,
+      SupplierKey: this.suppkey,
+      email: this.Email,
+      lblusername: 'admin',
+      CmbStatus: this.Status,
+      DefaultUnit: this.defaultUnit,
+      cmbUOM1: this.defaultUnit,
+      cmbcostuom: this.defaultUnit,
+      cmbLastper: this.LastPOUnit,
+      LastPOUnit: this.LastPOUnit,
+      CmbCategory: this.CategoryName,
+      CmbSubCategory: this.SubCategoryName,
+      ifracas: '',
+
+
+
+      IsIFRAFilled: this.isifrafilled,
+      IsIFRAAudit: this.isifraaudit,
+      dtpLastCost: this.LastPODt,
+      LastPODt: this.LastPODt,
+      oldstdcost: this.oldStdCost,
+      oldcost: this.oldCost,
+    }]);
+
+    this.DataListAudit[0] = ([{
+      txtRegulatoryNotes: '',
+      txtWord1: '',
+      txtWord2: '',
+      txtWord3: '',
+      txtWord4: '',
+      txtWord5: '',
+      txtWord6: '',
+      txtExcel1: '',
+      txtExcel2: '',
+      txtExcel3: '',
+      txtExcel4: '',
+      txtExcel5: '',
+      txtExcel6: '',
+      txtpdf1: '',
+      txtpdf2: '',
+      txtpdf3: '',
+      txtpdf4: '',
+      txtpdf5: '',
+      txtpdf6: '',
+      txtpdf7: '',
+      txtAddtl1: '',
+      txtAddtl2: '',
+      txtAddtl3: '',
+      txtAddtl4: '',
+      txtAddtl5: '',
+      txtAddtl6: '',
+      txtAddtl7: '',
+
+
+
+    }]);
+    this.DataListIFRA[0] = ([{
+      txtSourceinfo: this.Sourceinfo,
+      txtIFRAAmmendment: this.amendment,
+      txtFEMA: this.femaNo,
+      txtRIFMD: this.RFIMID,
+      txtIFRACI: this.Category1A,
+      txtIFRACIB: this.Category1B,
+      txtIFRACII: this.Category2A,
+      txtClassThree: this.Category3A,
+      txtClassThreeB: this.Category3B,
+      txtClassThreeC: this.Category3C,
+      txtClassThreeD: this.Category3D,
+      txtIFRACIV: this.Category4A,
+      txtIFRACIVB: this.Category4B,
+      txtIFRACIVC: this.Category4C,
+      txtIFRACIVD: this.Category4D,
+      txtIFRACV: this.Category5A,
+      txtIFRACVI: this.Category6A,
+      txtIFRACVII: this.Category7A,
+      txtIFRACVIIB: this.Category7B,
+      txtIFRACVIII: this.Category8A,
+      txtIFRACVIIIB: this.Category8B,
+      txtIFRACIX: this.Category9A,
+      txtIFRACIXB: this.Category9B,
+      txtIFRACIXC: this.Category9C,
+      txtIFRACX: this.Category10A,
+      txtIFRACXB: this.Category10B,
+      txtIFRACXI: this.Category11A,
+      txtIFRACXIB: this.Category11B,
+    }]);
+    this.Rawmaterial_updateup().subscribe((rawmaterial_update) => {
+      console.warn("rawmaterial_update", rawmaterial_update)
+      this.rawmaterial_update_data = rawmaterial_update
+    })
+    //} else {
+    // this.login_form.controls['terms'].setValue(false);
+    //}
+  };
+  Rawmaterial_updateup() {
+    /* var Rawdetails: any = Rawmaterialdetails;*/
+    var datalistraw: any = JSON.stringify(this.dataList);
+    var datalistaudit: any = JSON.stringify(this.DataListAudit);
+    var datalistifra: any = JSON.stringify(this.DataListIFRA);
+    let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra);
+    return this.http.get("https://smarformulatorrawmaterialwebservice7.azurewebsites.net/Rawmaterialupdate", { params: params1, responseType: 'text' })
+  }
+  Rawmaterial_Save() {
+
+
+
+    this.RMdataList[0] = ([{
+
+
+
+      AddedBy: 'admin',
+      AddedDt: this.AddedDt,
+      Address: this.address,
+      AlertRemarks: this.AlertRemarks,
+      Approved: this.Approved,
+      BlendProcedure: this.BlendProcedure,
+      CategoryId: this.categoryId,
+      CmbCategory: this.CategoryName,
+      CmbSubCategory: this.SubCategoryName,
+      COAPath: this.COAPath,
+      code: this.Code,
+      ContactNo: this.contactno,
+      ContactPerson: this.contactperson,
+      CostDt: this.costDt,
+      CostUnit: this.costUnit,
+      DefaultUnit: this.defaultUnit,
+      Description: this.inciname,
+      Distributor: this.distributor,
+      DrugName: this.drugName,
+      EBSNumber: this.ebsNumber,
+      email: this.Email,
+      EURiskPhrases: this.risklistdata,
+      EUSafetyPhrases: this.safetylistdata,
+      Exemptornot: this.Exemptornot,
+      fax: this.Fax,
+      FlashPtCelsious: this.flashPtCelsious,
+      FlashPtFlammable: this.flashPtFlammable,
+      FlashPtGTLT: this.flashPtGTLT,
+      FlashPtMethod: this.flashPtMethod,
+      FlashPtOverride: this.flashPtOverride,
+      FunctionCode: this.functioncode,
+      GeneralItemCode: this.itemli,
+      GlutenYesOrNo: this.GlutenYesOrNo,
+      GMOYesOrNo: this.GMOYesOrNo,
+      Halal: this.Halal,
+      HMIS_Flammability: this.hMISFlammability,
+      HMIS_Health: this.hMISHealth,
+      HMIS_Personal: this.hMISPersonal,
+      HMIS_Physical: this.hMISPhysical,
+      IncidIngredient: this.IncidIngredient,
+      IngredientTradeName: this.tradn,
+      ItemCode: this.incicode,
+      IUPACName: this.IUPACName,
+      Kosher: this.Kosher,
+      LastPOCost: this.lastPOCost,
+      LastPODt: this.LastPODt,
+      LastPOUnit: this.LastPOUnit,
+      Monograph: this.monograph,
+      MOQ: this.MOQ,
+      MSDSPath: this.MSDSPath,
+      name: this.supp_name,
+      NFPA_Flammability: this.nFPAFlammability,
+      NFPA_Health: this.nFPAHealth,
+      NFPA_Reactivity: this.nFPAReactivity,
+      NFPA_Special: this.nFPASpecial,
+      Notes: this.notes,
+      NPACertified: this.NPACertified,
+      Origin: this.origin,
+      PhEurName: this.PhEurName,
+      phoneNumber: this.phoneno,
+      PostprocessLeadTime: this.postleadtime,
+      PreprocessLeadTime: this.preloadtime,
+      PreviousCost: this.PreviousCost,
+      ProcessLeadTim: this.proleadtime,
+      RawMatSource: this.RMSource,
+      ReOrderQty: this.reorderQty,
+      Restriction: this.Restriction,
+      RMAssayValue: this.rmAssayValue,
+      RMConcentration: this.concentration,
+      RMLeadTime: this.rmleadtime,
+      SG: this.gravity,
+      SKU: this.sku,
+      StatusId: this.statusId,
+      SubCategoryId: this.subCategoryId,
+      SupercededBy: 'admin',
+      SupercededDate: '',
+      SupplierKey: this.suppkey,
+      UnitCost: this.unitCost,
+      VendorCode: this.Code,
+      VOCContributor: this.VOCContributor,
+      website: this.web,
+      CmbStatus: this.Status,
+      chkHazard: this.Hazardous,
+      cmbcostuom: this.defaultUnit,
+      SupplierRMNo: this.SupplierRMNo,
+      ReorderUnit: this.ReOrderUnit,
+      PrevSupplierPriority: this.PrevSupplierPriority,
+      MOQUnit: this.MOQunit,
+      INNName: this.INNName,
+      IsBlend: this.IsBlend,
+      CurrSupplierPriority: this.CurrSupplierPriority,
+      cmbUOM1: this.defaultUnit,
+      lblusername: 'admin',
+      cmbLastper: this.LastPOUnit,
+      CmbPriorityno: this.CurrSupplierPriority,
+      NPAExpiry: this.NPAExpiry,
+      oldpriorityno: this.CurrSupplierPriority,
+      RMAbbreviation: 'CUSTOM',
+
+
+
+
+
+    }]);
+    this.DataListAudit[0] = ([{
+      txtRegulatoryNotes: '',
+      txtWord1: '',
+      txtWord2: '',
+      txtWord3: '',
+      txtWord4: '',
+      txtWord5: '',
+      txtWord6: '',
+      txtExcel1: '',
+      txtExcel2: '',
+      txtExcel3: '',
+      txtExcel4: '',
+      txtExcel5: '',
+      txtExcel6: '',
+      txtpdf1: '',
+      txtpdf2: '',
+      txtpdf3: '',
+      txtpdf4: '',
+      txtpdf5: '',
+      txtpdf6: '',
+      txtpdf7: '',
+      txtAddtl1: '',
+      txtAddtl2: '',
+      txtAddtl3: '',
+      txtAddtl4: '',
+      txtAddtl5: '',
+      txtAddtl6: '',
+      txtAddtl7: '',
+
+
+
+
+
+    }]);
+    this.DataListIFRA[0] = ([{
+      txtSourceinfo: this.Sourceinfo,
+      txtIFRAAmmendment: this.amendment,
+      txtFEMA: this.femaNo,
+      txtRIFMD: this.RFIMID,
+      txtIFRACI: this.Category1A,
+      txtIFRACIB: this.Category1B,
+      txtIFRACII: this.Category2A,
+      txtClassThree: this.Category3A,
+      txtClassThreeB: this.Category3B,
+      txtClassThreeC: this.Category3C,
+      txtClassThreeD: this.Category3D,
+      txtIFRACIV: this.Category4A,
+      txtIFRACIVB: this.Category4B,
+      txtIFRACIVC: this.Category4C,
+      txtIFRACIVD: this.Category4D,
+      txtIFRACV: this.Category5A,
+      txtIFRACVI: this.Category6A,
+      txtIFRACVII: this.Category7A,
+      txtIFRACVIIB: this.Category7B,
+      txtIFRACVIII: this.Category8A,
+      txtIFRACVIIIB: this.Category8B,
+      txtIFRACIX: this.Category9A,
+      txtIFRACIXB: this.Category9B,
+      txtIFRACIXC: this.Category9C,
+      txtIFRACX: this.Category10A,
+      txtIFRACXB: this.Category10B,
+      txtIFRACXI: this.Category11A,
+      txtIFRACXIB: this.Category11B,
+    }]);
+
+
+
+
+    this.Rawmaterial_saveupdateup().subscribe((rawmaterial_save) => {
+      console.warn("rawmaterial_save", rawmaterial_save)
+      this.rawmaterial_update_data = rawmaterial_save
+    })
   }
 
+
+
+  Rawmaterial_saveupdateup() {
+    /* var Rawdetails: any = Rawmaterialdetails;*/
+    var datalistraw: any = JSON.stringify(this.RMdataList);
+    var datalistaudit: any = JSON.stringify(this.DataListAudit);
+    var datalistifra: any = JSON.stringify(this.DataListIFRA);
+    let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra);
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
+  }
   ngOnInit() {
     this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
       console.warn("resultsaveraw", result6)
@@ -484,5 +1774,293 @@ export class RawMaterialComponent implements OnInit {
       this.defaultUOMload_data = defaultUOMload
     })
   }
+
+}
+export class Datacas {
+  description: string;
+  EinecsNo: string;
+  CasNo: string;
+}
+
+export class RawmaterialData {
+  ItemCode: string;
+  GeneralItemCode: string;
+  Description: string;
+  IngredientTradeName: string;
+  CategoryId: string;
+  SubCategoryId: string;
+  StatusId: string;
+  SupercededBy: string;
+  SupercededDate: string;
+  DefaultUnit: string;
+  UnitCost: string;
+  CostUnit: string;
+  CostDt: string;
+  Notes: string;
+  VendorCode: string;
+  HMIS_Health: string;
+  HMIS_Flammability: string;
+  HMIS_Physical: string;
+  HMIS_Personal: string;
+  NFPA_Health: string;
+  NFPA_Flammability: string;
+  NFPA_Reactivity: string;
+  FlashPtCelsious: string;
+  NFPA_Special: string;
+  FlashPtFlammable: string;
+  FlashPtGTLT: string;
+  FlashPtOverride: string;
+  FlashPtMethod: string;
+  MSDSPath: string;
+  EURiskPhrases: string;
+  EUSafetyPhrases: string;
+  AddedBy: string;
+  AddedDt: string;
+  UpdatedDt: string;
+  UpdatedBy: string;
+  INNName: string;
+  PhEurName: string;
+  IUPACName: string;
+  Restriction: string;
+  FunctionCode: string;
+  PreviousCost: string;
+  DrugName: string;
+  SKU: string;
+  RawMatSource: string;
+  RMAbbreviation: string;
+  ReOrderQty: string;
+  Exemptornot: string;
+  RMLeadTime: string;
+  Monograph: string;
+  IncidIngredient: string;
+  BlendProcedure: string;
+  VOCContributor: string;
+  Approved: string;
+  COAPath: string;
+  Origin: string;
+  MOQ: string;
+  MOQunit: string;
+  NPACertified: string;
+  NPAExpiry: string;
+  ApprovalCode: string;
+  PreviousVenderCode: string;
+  GMOYesOrNo: string;
+  GlutenYesOrNo: string;
+  SupplierRMNo: string;
+  ProcessLeadTime: string;
+  PreprocessLeadTime: string;
+  PostprocessLeadTime: string;
+  StatusReason: string;
+  Halal: string;
+  Kosher: string;
+  AlertRemarks: string;
+  EBSNumber: string;
+  CurrSupplierPriority: string;
+  PrevSupplierPriority: string;
+  LastPOCost: string;
+  LastPOUnit: string;
+  LastPODt: string;
+  RMConcentration: string;
+  RMAssayValue: string;
+  IsBlend: string;
+  Hazardous: string;
+  ReOrderUnit: string;
+  ContactPerson: string;
+  ContactNo: string;
+  fax: string;
+  Address: string;
+  name: string;
+  SG: string;
+  Distributor: string;
+  phoneNumber: string;
+  website: string;
+  MOQUnit: string;
+  code: string;
+  SupplierKey: string;
+  email: string;
+  lblusername: string;
+  CmbStatus: string;
+  cmbUOM1: string;
+  cmbcostuom: string;
+  cmbLastper: string;
+  CmbCategory: string;
+  CmbSubCategory: string;
+  ifracas: string;
+  IsIFRAFilled: string;
+  IsIFRAAudit: string;
+  dtpLastCost: string;
+  oldstdcost: string;
+  oldcost: string;
+
+
+
+
+
+}
+export class AuditData {
+  txtRegulatoryNotes: string;
+  txtWord1: string;
+  txtWord2: string;
+  txtWord3: string;
+  txtWord4: string;
+  txtWord5: string;
+  txtWord6: string;
+  txtExcel1: string;
+  txtExcel2: string;
+  txtExcel3: string;
+  txtExcel4: string;
+  txtExcel5: string;
+  txtExcel6: string;
+  txtpdf1: string;
+  txtpdf2: string;
+  txtpdf3: string;
+  txtpdf4: string;
+  txtpdf5: string;
+  txtpdf6: string;
+  txtpdf7: string;
+  txtAddtl1: string;
+  txtAddtl2: string;
+  txtAddtl3: string;
+  txtAddtl4: string;
+  txtAddtl5: string;
+  txtAddtl6: string;
+  txtAddtl7: string;
+
+
+
+
+}
+export class IFRAdata {
+  txtSourceinfo: string;
+  txtIFRAAmmendment: string;
+  txtFEMA: string;
+  txtRIFMD: string;
+  txtIFRACI: string;
+  txtIFRACIB: string;
+  txtIFRACII: string;
+  txtClassThree: string;
+  txtClassThreeB: string;
+  txtClassThreeC: string;
+  txtClassThreeD: string;
+  txtIFRACIV: string;
+  txtIFRACIVB: string;
+  txtIFRACIVC: string;
+  txtIFRACIVD: string;
+  txtIFRACV: string;
+  txtIFRACVI: string;
+  txtIFRACVII: string;
+  txtIFRACVIIB: string;
+  txtIFRACVIII: string;
+  txtIFRACVIIIB: string;
+  txtIFRACIX: string;
+  txtIFRACIXB: string;
+  txtIFRACIXC: string;
+  txtIFRACX: string;
+  txtIFRACXB: string;
+  txtIFRACXI: string;
+  txtIFRACXIB: string;
+}
+export class Datasave {
+  CmbStatus: string;
+  cmbUOM1: string;
+  cmbcostuom: string;
+  RMConcentration: string;
+  cmbLastper: string;
+  CmbCategory: string;
+  CmbSubCategory: string;
+  lblusername: string;
+  AddedDt: string;
+  CostUnit: string;
+  LastPOUnit: string;
+  DefaultUnit: string;
+  StatusId: string;
+  CategoryId: string;
+  SubCategoryId: string;
+  RMAbbreviation: string;
+  chkHazard: string;
+  CmbPriorityno: string;
+  CurrSupplierPriority: string;
+  oldpriorityno: string;
+  PrevSupplierPriority: string;
+  ItemCode: string;
+  SKU: string;
+  GeneralItemCode: string;
+  Description: string;
+  IngredientTradeName: string;
+  SupercededBy: string;
+  SupercededDate: string;
+  UnitCost: string;
+  LastPOCost: string;
+  CostDt: string;
+  LastPODt: string;
+  HMIS_Health: string;
+  HMIS_Flammability: string;
+  HMIS_Physical: string;
+  HMIS_Personal: string;
+  NFPA_Health: string;
+  NFPA_Flammability: string;
+  NFPA_Reactivity: string;
+  NFPA_Special: string;
+  FlashPtCelsious: string;
+  FlashPtFlammable: string;
+  FlashPtGTLT: string;
+  FlashPtMethod: string;
+  FlashPtOverride: string;
+  SG: string;
+  MSDSPath: string;
+  VendorCode: string;
+  EURiskPhrases: string;
+  EUSafetyPhrases: string;
+  INNName: string;
+  PhEurName: string;
+  IUPACName: string;
+  Restriction: string;
+  FunctionCode: string;
+  Notes: string;
+  code: string;
+  SupplierKey: string;
+  name: string;
+  Address: string;
+  email: string;
+  Distributor: string;
+  ContactPerson: string;
+  ContactNo: string;
+  phoneNumber: string;
+  fax: string;
+  website: string;
+  ReOrderQty: string;
+  ReorderUnit: string;
+  RawMatSource: string;
+  RMLeadTime: string;
+  MOQ: string;
+  MOQUnit: string;
+  PreviousCost: string;
+  AlertRemarks: string;
+  Approved: string;
+  Exemptornot: string;
+  Monograph: string;
+  DrugName: string;
+  IncidIngredient: string;
+  VOCContributor: string;
+  BlendProcedure: string;
+  COAPath: string;
+  Origin: string;
+  NPAExpiry: string;
+  NPACertified: string;
+  SupplierRMNo: string;
+  Kosher: string;
+  Halal: string;
+  RMAssayValue: string;
+  IsBlend: string;
+  GlutenYesOrNo: string;
+  GMOYesOrNo: string;
+  PreprocessLeadTime: string;
+  ProcessLeadTim: string;
+  PostprocessLeadTime: string;
+  EBSNumber: string;
+  AddedBy: string;
+
+
+
 
 }

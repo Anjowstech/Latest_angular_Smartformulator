@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -133,6 +133,93 @@ import { ProjectRequirementsComponent } from './pdr-management/project-requireme
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatagridcomponentComponent } from './formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
 import { SalesRepNameComponent } from './formula-lookup/customer-details/sales-rep-name/sales-rep-name.component';
+import { LoginComponent } from './login/login.component';
+import { LoginLayoutComponent } from './login-layout/login-layout.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { NewChemistryParamsComponent } from './pdr-management/new-chemistry-params/new-chemistry-params.component';
+import { AddChemistryComponent } from './pdr-management/new-chemistry-params/add-chemistry/add-chemistry.component';
+import { NewMicrobiologyParamsComponent } from './pdr-management/new-microbiology-params/new-microbiology-params.component';
+import { AddMicrobiologyComponent } from './pdr-management/new-microbiology-params/add-microbiology/add-microbiology.component';
+
+const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
+  {
+    path: 'Home', component: HomeComponent, children: [{ path: '', component: HomepageComponent, pathMatch: 'full' }, 
+      { path: 'counter', component: CounterComponent },
+      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'AdminWork', component: AdminWorkComponent },
+      { path: 'UserSecurity', component: UserSecurityComponent },
+      { path: 'GroupSetPermission', component: GroupSetPermissionComponent },
+      { path: 'UserSetPermission', component: UserSetPermissionComponent },
+      { path: 'AddGroup', component: AddGroupComponent },
+      { path: 'ChangePermission', component: ChangePermissionComponent },
+      { path: 'UserCreation', component: UserCreationComponent },
+      { path: 'UserChangeusergroup', component: UserChangeusergroupComponent },
+      { path: 'AddDepartment', component: AddDepartmentComponent },
+      { path: 'ResetPassword', component: ResetPasswordComponent },
+      { path: 'PDRManagement', component: PdrManagementComponent },
+      { path: 'addcustomer', component: AddCustomerComponent },
+      { path: 'RawMaterial', component: RawMaterialComponent },
+      { path: 'AddSupplier', component: AddSupplierComponent },
+      { path: 'SearchSupplier', component: SearchSupplierComponent },
+      { path: 'AddPrefix', component: AddPrefixComponent },
+      { path: 'SearchINCIName', component: SearchINCINameComponent },
+      { path: 'RawSearchSupplier', component: RawSearchSupplierComponent },
+      { path: 'CategoryMaintenance', component: CategoryMaintenanceComponent },
+      { path: 'SubCategoryMaintenance', component: SubCategoryMaintenanceComponent },
+      { path: 'AddCategory', component: AddCategoryComponent },
+      { path: 'LoadProperty', component: LoadPropertyComponent },
+      { path: 'NewProperty', component: NewPropertyComponent },
+      { path: 'IngredientSearch', component: IngredientSearchComponent },
+      { path: 'AddCASDetails', component: AddCASDetailsComponent },
+      { path: 'RiskPhrases', component: RiskPhrasesComponent },
+      { path: 'SaftyPhrases', component: SaftyPhrasesComponent },
+      { path: 'RMVP', component: RMVPComponent },
+      { path: 'FunctionSearch', component: FunctionSearchComponent },
+      { path: 'AddFunction', component: AddFunctionComponent },
+      { path: 'TermsMaster', component: TermsMasterComponent },
+      { path: 'SearchCAS', component: SearchCASComponent },
+      { path: 'Unitofmeasure', component: UnitOfMeasureComponent },
+      { path: 'Formulalookup', component: FormulaLookupComponent },
+      { path: 'Formulalisting', component: FormulaListingComponent },
+      { path: 'search_formula', component: SearchFormulaComponent },
+      { path: 'search_pdr', component: SearchPdrComponent },
+      { path: 'add_QC', component: AddQCComponent },
+      { path: 'formulaproperty', component: FormulaPropertyComponent },
+      { path: 'selectproperty', component: SelectPropertyComponent },
+      { path: 'formulainstruction', component: FormulaInstructionComponent },
+      { path: 'newinstruction', component: NewInstructionComponent },
+      { path: 'pdrtrackingstatus', component: PdrTrackStatusComponent },
+      { path: 'marketingcallouts', component: MarketingCalloutsComponent },
+      { path: 'createlabbatchtkt', component: CreateLabTktsComponent },
+      { path: 'AddMarketingIndicator', component: AddMarketingIndicatorComponent },
+      { path: 'CustomerDetails', component: CustomerDetailsComponent },
+      { path: 'AddphystabilityTest', component: AddphystabilityTestComponent },
+      { path: 'Addproducttesting', component: AddProducttestingComponent },
+      { path: 'Maxformula', component: MaxFormulaComponent },
+      { path: 'formulastatus', component: FormulaStatusComponent },
+      { path: 'HlbCalculation', component: HlbCalculationComponent },
+      { path: 'Pricing', component: PricingComponent },
+      { path: 'ScalabilityFactor', component: ScalabilityFactorComponent },
+      { path: 'CoaCompare', component: CoaCompareComponent },
+      { path: 'FormulaGraph', component: FormulaGraphComponent },
+      { path: 'PropellantsvocCalculation', component: PropellantsvocCalculationComponent },
+      { path: 'AddproductTesting', component: AddproductTestingComponent },
+      { path: 'fmnewproperty', component: FrmNewPropertyComponent },
+      { path: 'formularestriction', component: FormulaRestrictionComponent },
+      { path: 'Checkrestriction', component: CheckRestrictionComponent },
+      { path: 'Rawmaterial_restriction', component: RawmaterialRestrictionComponent },
+      { path: 'Rawmaterial_restrictionUS', component: RawmaterialRestrictionUsComponent },
+      { path: 'Rawmaterial_restrictionProp65', component: RawmaterialRestrictionProp65Component },
+      { path: 'incinameselect', component: IncinameSelectComponent },
+
+      { path: 'SearchCustomer', component: SearchCustomerComponent }
+
+    ]
+  }
+];
+
+
 
 @NgModule({
   declarations: [
@@ -228,6 +315,14 @@ import { SalesRepNameComponent } from './formula-lookup/customer-details/sales-r
     ProjectRequirementsComponent,
     DatagridcomponentComponent,
     SalesRepNameComponent,
+    LoginComponent,
+    LoginLayoutComponent,
+    ToolbarComponent,
+    HomepageComponent,
+    NewChemistryParamsComponent,
+    AddChemistryComponent,
+    NewMicrobiologyParamsComponent,
+    AddMicrobiologyComponent,
     
   ],
   imports: [
@@ -264,82 +359,12 @@ import { SalesRepNameComponent } from './formula-lookup/customer-details/sales-r
     Ng2SearchPipeModule,
     MatTooltipModule,
     MatToolbarModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full'},
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'AdminWork', component: AdminWorkComponent },
-      { path: 'UserSecurity', component: UserSecurityComponent },
-      { path: 'GroupSetPermission', component: GroupSetPermissionComponent },
-      { path: 'UserSetPermission', component: UserSetPermissionComponent },
-      { path: 'AddGroup', component: AddGroupComponent },
-      { path: 'ChangePermission', component: ChangePermissionComponent },
-      { path: 'UserCreation', component: UserCreationComponent },
-      { path: 'UserChangeusergroup', component: UserChangeusergroupComponent },
-      { path: 'AddDepartment', component: AddDepartmentComponent },
-      { path: 'ResetPassword', component: ResetPasswordComponent },
-      { path: 'PDRManagement', component: PdrManagementComponent },
-      { path: 'addcustomer', component: AddCustomerComponent },
-      { path: 'RawMaterial', component: RawMaterialComponent },
-      { path: 'AddSupplier', component: AddSupplierComponent }, 
-      { path: 'SearchSupplier', component: SearchSupplierComponent },
-      { path: 'AddPrefix', component: AddPrefixComponent },
-      { path: 'SearchINCIName', component: SearchINCINameComponent },
-      { path: 'RawSearchSupplier', component: RawSearchSupplierComponent }, 
-      { path: 'CategoryMaintenance', component: CategoryMaintenanceComponent },
-      { path: 'SubCategoryMaintenance', component: SubCategoryMaintenanceComponent },
-      { path: 'AddCategory', component: AddCategoryComponent }, 
-      { path: 'LoadProperty', component: LoadPropertyComponent }, 
-      { path: 'NewProperty', component: NewPropertyComponent }, 
-      { path: 'IngredientSearch', component: IngredientSearchComponent },
-      { path: 'AddCASDetails', component: AddCASDetailsComponent }, 
-      { path: 'RiskPhrases', component: RiskPhrasesComponent },
-      { path: 'SaftyPhrases', component: SaftyPhrasesComponent }, 
-      { path: 'RMVP', component: RMVPComponent },
-      { path: 'FunctionSearch', component: FunctionSearchComponent },
-      { path: 'AddFunction', component: AddFunctionComponent },
-      { path: 'TermsMaster', component: TermsMasterComponent }, 
-      { path: 'SearchCAS', component: SearchCASComponent },
-      { path: 'Unitofmeasure', component: UnitOfMeasureComponent },
-      { path: 'Formulalookup', component: FormulaLookupComponent },
-      { path: 'Formulalisting', component: FormulaListingComponent },
-      { path: 'search_formula', component: SearchFormulaComponent },
-      { path: 'search_pdr', component: SearchPdrComponent },
-      { path: 'add_QC', component: AddQCComponent },
-      { path: 'formulaproperty', component: FormulaPropertyComponent },
-      { path: 'selectproperty', component: SelectPropertyComponent },
-      { path: 'formulainstruction', component: FormulaInstructionComponent },
-      { path: 'newinstruction', component: NewInstructionComponent },
-      { path: 'pdrtrackingstatus', component: PdrTrackStatusComponent },
-      { path: 'marketingcallouts', component: MarketingCalloutsComponent },
-      { path: 'createlabbatchtkt', component: CreateLabTktsComponent },
-      { path: 'AddMarketingIndicator', component: AddMarketingIndicatorComponent },
-      { path: 'CustomerDetails', component: CustomerDetailsComponent },
-      { path: 'AddphystabilityTest', component: AddphystabilityTestComponent },
-      { path: 'Addproducttesting', component: AddProducttestingComponent },
-      { path: 'Maxformula', component: MaxFormulaComponent },
-       { path: 'formulastatus', component: FormulaStatusComponent },
-      { path: 'HlbCalculation', component: HlbCalculationComponent },
-      { path: 'Pricing', component: PricingComponent },
-      { path: 'ScalabilityFactor', component: ScalabilityFactorComponent },
-      { path: 'CoaCompare', component: CoaCompareComponent },
-      { path: 'FormulaGraph', component: FormulaGraphComponent },
-      { path: 'PropellantsvocCalculation', component: PropellantsvocCalculationComponent },
-      { path: 'AddproductTesting', component: AddproductTestingComponent },
-      { path: 'fmnewproperty', component: FrmNewPropertyComponent },
-      { path: 'formularestriction', component: FormulaRestrictionComponent },
-      { path: 'Checkrestriction', component: CheckRestrictionComponent },
-      { path: 'Rawmaterial_restriction', component: RawmaterialRestrictionComponent },
-      { path: 'Rawmaterial_restrictionUS', component: RawmaterialRestrictionUsComponent },
-      { path: 'Rawmaterial_restrictionProp65', component: RawmaterialRestrictionProp65Component },
-      { path: 'incinameselect', component: IncinameSelectComponent },
-      { path: 'SearchCustomer', component: SearchCustomerComponent }
-      
-    ]),
+    RouterModule.forRoot(appRoutes, { useHash: false }),
     BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SalesRepNameComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
+  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent,
+    AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
 })
 export class AppModule { }

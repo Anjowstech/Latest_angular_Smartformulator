@@ -34,7 +34,7 @@ export class CategoryMaintenanceComponent implements OnInit {
     let params1 = new HttpParams().set('Classificationtype', classifi_val);
 
 
-    return this.http.get("http://localhost/raw_sup_webservice/catogory_load", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/catogory_load", { params: params1 });
 
   }
   onSelectedChange() {
@@ -65,7 +65,7 @@ export class CategoryMaintenanceComponent implements OnInit {
       set('operation', "insertion").
       set('MainClassid', mainclassifyval);
 
-    return this.http.get("http://localhost/raw_sup_webservice/categorymain", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/categorymain", { params: params1 });
 
   }
   Updatecategory(mainclassify: string, categoryname: string, description: string, categorymainval:string) {
@@ -88,7 +88,7 @@ export class CategoryMaintenanceComponent implements OnInit {
       set('operation', "Update").
       set('MainClassid', mainclassifyval);
 
-    return this.http.get("http://localhost/raw_sup_webservice/categorymain", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/categorymain", { params: params1 });
 
   }
   addRow(row: { name: 'dsf'; items: 'sdf'; items1: 'sdf'; items2: 'sdf'; }): void {
@@ -114,7 +114,7 @@ export class CategoryMaintenanceComponent implements OnInit {
       set('operation', "delete").
       set('MainClassid', mainclassifyval);
 
-    return this.http.get("http://localhost/raw_sup_webservice/categorymain", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/categorymain", { params: params1 });
 
   }
 
