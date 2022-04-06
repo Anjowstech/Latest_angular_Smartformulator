@@ -1887,7 +1887,7 @@ export class FormulaLookupComponent implements OnInit {
          
       //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
         //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
-        else if (Number((sumvar).toFixed(5)) > 100) {
+        else if (Number((sumvar).toFixed(7)) > 100) {
 
             var dat: any = params.oldValue;
             var rowNode = this.gridApi.getRowNode(rowin);
@@ -1925,7 +1925,7 @@ export class FormulaLookupComponent implements OnInit {
           else {
             var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
           }
-
+          
           rowNode.setDataValue('costinlb', String(updtedcosinlb));
           rowNode.setDataValue('quantityinlb', String(enwda));
 
