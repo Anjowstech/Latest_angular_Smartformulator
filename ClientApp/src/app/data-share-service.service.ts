@@ -35,14 +35,22 @@ export class DataShareServiceService {
   restrictdetails = [];
   rawtable: any;
   datasharepdr: any;
+  selectddata: any;
+  itemcodetoraw: any;
   labelvalues: string;
   itemcodeval: string;
   datashareitemcode: any;
   datasharecasdata: any;
   custocod
   datashareclientlocation: any = [];
+  senditemtoraw(itemda: string) {
+    this.itemcodetoraw = itemda;
+  }
   sendcustomercode(ccode: string) {
     this.custocod = ccode;
+  }
+  sendpdrno(pdrno: string) {
+    this.datasharepdr = pdrno
   }
   senditemcode(itemcode: string) {
     this.itemcodeval = itemcode;
@@ -89,9 +97,7 @@ export class DataShareServiceService {
 
 
   }
-  sendpdrno(pdrno: string) {
-    this.datasharepdr = pdrno
-  }
+
   searchItemlist(item1: any) {
     this.itemrisklist = item1;
 
@@ -129,10 +135,11 @@ export class DataShareServiceService {
   getitemcode(): string {
     return this.itemcodeval;
   }
-
-  getpdrno(): string {
-    return this.datasharepdr;
+  getitemcoderaw(): string {
+    return this.itemcodetoraw;
   }
+
+ 
 
 
   getitemcode1(): string {
@@ -153,6 +160,9 @@ export class DataShareServiceService {
   }
   getcasdata(): string[] {
     return this.datasharecasdata;
+  }
+  getpdrno(): string {
+    return this.datasharepdr;
   }
   getrestrictiondetails(): any {
     return this.restrictdetails ;

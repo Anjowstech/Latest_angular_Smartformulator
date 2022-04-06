@@ -41,12 +41,12 @@
       <p class="font-weight-bold">Make your selection by double clicking on your choice</p>
     </div>
     <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
-      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+      <table class=" table table-hover table-bordered" style=" background-color: white" id="table" width="100%">
         <thead>
           <tr>
-            <th scope="col">Formula Code</th>
-            <th scope="col">Formula Name</th>
-            <th scope="col">Lab Notebook #</th>
+            <th class="header" scope="col">Formula Code</th>
+            <th class="header" scope="col">Formula Name</th>
+            <th class="header" scope="col">Lab Notebook #</th>
           </tr>
         </thead>
         <tbody>
@@ -54,9 +54,9 @@
                                 mode="indeterminate">
           </mat-progress-spinner>
           <tr *ngFor="let raw_search of dataraw_search | filter:formulanamedata|filter:formulacodedata|filter:lbnotedata; let i=index;" (click)="setvalues( raw_search);close();" #conten>
-            <td class="tabledatasize">{{ raw_search.FormulaCode }}</td>
-            <td class="tabledatasize">{{ raw_search.Description}}</td>
-            <td class="tabledatasize">{{ raw_search.LabRefNo }}</td>
+            <td class="tabledatasize  ">{{ raw_search.FormulaCode }}</td>
+            <td class="tabledatasize ">{{ raw_search.Description}}</td>
+            <td class="tabledatasize ">{{ raw_search.LabRefNo }}</td>
           </tr>
         </tbody>
       </table>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchCustomerComponent } from 'src/app/formula-lookup/customer-details/search-customer/search-customer.component';
 import { SearchINCINameComponent } from 'src/app/raw-material/search-inci-name/search-inci-name.component';
+import { SearchProductsComponent } from 'src/app/formula-lookup/customer-details/search-products/search-products.component';
 import { AddClientLocationComponent } from 'src/app/formula-lookup/customer-details/add-client-location/add-client-location.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { DatagridcomponentComponent } from './datagridcomponent/datagridcomponent.component';
@@ -11,6 +12,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-customer-details',
@@ -28,7 +30,12 @@ import { NgModule } from '@angular/core';
   })
 export class CustomerDetailsComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-
+  Dateforma:any = [
+  { dateform: "MM/dd/yyyy" },
+  { dateform: "MM/dd/yyy" },
+  { dateform: "MM/dd/y" },
+];
+ 
   tier1: string;
   tier2: string;
   tier3: string;
@@ -40,9 +47,12 @@ export class CustomerDetailsComponent implements OnInit {
   Tier4Range: string;
   customerkey: string;
   custmrcode: string;
+  ProductName: string;
+  FormulaCode: string;
   customername: string;
   customercode: string;
   customercodepref: string;
+  ProductCode: string;
   cusData: any;
   custgrid: any
   dataloadaudittrialcustomer: any;
@@ -51,47 +61,48 @@ export class CustomerDetailsComponent implements OnInit {
   fax: string;
   cuskey: string;
   /* custnam: string;*/
-  address: string;
+  address: string="";
   customertype: string;
-  phone: string;
-  email: string;
-  addeddt: string;
-  addedby: string;
-  updateddt: string;
-  updatedby: string;
-  caabrevation: string;
-  contactfperson: string;
-  contactsperson: string;
-  contacttperson: string;
-  contactfmail: string;
-  contactsmail: string;
-  contacttmail: string;
+  phone: string="";
+  emailref: string="";
+  addeddt: string="";
+  addedby: string="";
+  updateddt: string="";
+  updatedby: string="";
+  caabrevation: string="";
+  contactfperson: string="";
+  contactsperson: string="";
+  contacttperson: string="";
+  contactfmail: string="";
+  contactsmail: string="";
+  contacttmail: string="";
   cc1: string;
   cc2: string;
   cc3: string;
- 
-  fillinginstruction: string;
-  labelinginstruction: string;
-  specialinstruction: string;
-  attachment: string;
-  terms: string;
-  fob: string;
-  shipvia: string;
-  salesperson: string;
-  creditcardno: string;
-  creditcardtype: string;
-  expirydate: string;
-  creditlimit: string;
-  salesregion: string;
-  salesrepinitial: string;
-  city: string;
-  state: string;
-  country: string;
-  zip: string;
-  custmrkey: string;
-  saddress: string;
-  semail: string;
-  notes: string;
+  FormulaName: string;
+  ProductNumber: string;
+  fillinginstruction: string="";
+  labelinginstruction: string="";
+  specialinstruction: string="";
+  attachment: string="";
+  terms: string="";
+  fob: string="";
+  shipvia: string="";
+  salesperson: string="";
+  creditcardno: string="";
+  creditcardtype: string="";
+  expirydate: string="";
+  creditlimit: string='0';
+  salesregion: string="";
+  salesrepinitial: string="";
+  city: string="";
+  state: string="";
+  country: string="";
+  zip: string="";
+  custmrkey: string="";
+  saddress: string="";
+  semail: string="";
+  notes: string="";
   custocode: string;
   item: string;
   Inciname: string;
@@ -116,24 +127,26 @@ export class CustomerDetailsComponent implements OnInit {
   Datavalidatedbatches: validatedbatchesdata[][] = [];
   Datapricewhole: pricewholedata[][] = [];
   Datavolumepricing: volumepricingdata[][] = [];
+  Datamaincustomer: customerdatamain[][] = [];
   Customerdetail: any=[];
   searchitems: any = [];
   shippingdata: any;
   Customer_pref_data: any;
-  locationname: string;
-  Address: string;
-  City: string;
+  locationname: string="";
+  Address: string="";
+  City: string="";
   clientid: string;
   customcode: string;
-  State: string;
-  Country: string;
-  zipcode: string;
-  contactno: string;
-  contactperson: string;
-  Email: string;
-  Fax: string;
-  locationnote: string;
-  telepho: string;
+  State: string="";
+  Country: string="";
+  zipcode: string="";
+  contactno: string="";
+  contactperson: string="";
+  Email: string="";
+  Fax: string="";
+  locationnote: string="";
+  ValidatedSize: string="";
+  telepho: string="";
   delclient_loc_data: any;
   default: string;
   salespersondatalo_data: any;
@@ -153,52 +166,54 @@ export class CustomerDetailsComponent implements OnInit {
   selectedtier3: string = 'Tier3';
   selectedtier4: string = 'Tier4';
   VPdetailrowdata: any;
-  TieredProduct_Id: string;
+  TieredProduct_Id: string='0';
   volumePricingloadlistdetails_data: any;
-  FillingAttachment: string;
-  FillingAttachment2: string;
-  LabelAttachment: string;
-  SCity: string;
-  SContactNo: string;
-  SContactPerson: string;
-  SCountry: string;
-  SEmail: string;
-  SFax: string;
-  SPhoneNo: string;
-  SState: string;
-  SZip: string;
-  Shiptolocation: string;
-  Tier1: string;
-  Tier2: string;
-  Tier3: string;
-  Tier4: string;
-  Document1: string;
-  Document2: string;
-  Document3: string;
-  Document4: string;
-  Document5: string;
-  Document6: string;
-  Document7: string;
-  Document8: string;
-  Document9: string;
-  Document10: string;
-  Document11: string;
-  Document12: string;
-  Document13: string;
-  Document14: string;
-  Document15: string;
-  Document16: string;
-  Document17: string;
-  Document18: string;
-  Document19: string;
-  Document20: string;
+  FillingAttachment: string = "";
+  FillingAttachment2: string = "";
+  LabelAttachment: string = "";
+  SCity: string = "";
+  SContactNo: string = "";
+  SContactPerson: string = "";
+  SCountry: string = "";
+  SEmail: string = "";
+  SFax: string = "";
+  SPhoneNo: string = "";
+  SState: string = "";
+  SZip: string = "";
+  Shiptolocation: string = "";
+  Tier1: string = '0';
+  Tier2: string = '0';
+  Tier3: string = '0';
+  Tier4: string = '0';  
+  Document1: string = "";
+  Document2: string = "";
+  Document3: string = "";
+  Document4: string = "";
+  Document5: string = "";
+  Document6: string = "";
+  Document7: string = "";
+  Document8: string = "";
+  Document9: string = "";
+  Document10: string = "";
+  Document11: string = "";
+  Document12: string = "";
+  Document13: string = "";
+  Document14: string = "";
+  Document15: string = "";
+  Document16: string = "";
+  Document17: string = "";
+  Document18: string = "";
+  Document19: string = "";
+  Document20: string = "";
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
       'custoname': ['', Validators.required],
      
       'terms': [false]
-    }); }
+
+    });
+  }
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
       width: '60%', height: '70%', disableClose: true
@@ -277,6 +292,7 @@ export class CustomerDetailsComponent implements OnInit {
       console.warn("SaveClient_Loc", DeleteClient_Loc)
       this.delclient_loc_data = DeleteClient_Loc
     })
+    this.wait(3000);
     this.shippinglocationload(this.customercode).subscribe((shippingload) => {
       console.warn("shippingload", shippingload)
       this.shippingdata = shippingload
@@ -338,7 +354,7 @@ export class CustomerDetailsComponent implements OnInit {
       this.address = item.Address;
       this.customertype = item.CustomerType;
       this.phone = item.Phone;
-      this.email = item.Email;
+      this.emailref = item.Email;
       this.fax = item.FAX;
       this.contactfperson = item.ContactFPerson;
       this.contactsperson = item.ContactSPerson;
@@ -371,24 +387,24 @@ export class CustomerDetailsComponent implements OnInit {
       this.salesperson = item.SalesPerson;
       this.creditcardno = item.CreditCardNo;
       this.creditcardtype = item.CreditCardType;
-      this.expirydate = item.ExpiryDate;
+      this.expirydate = formatDate(new Date(item.ExpiryDate), 'yyyy-MM-dd', 'en-US');
       this.country = item.Country;
       this.custmrkey = item.CustomerKey;
       this.saddress = item.SAddress;
       this.semail = item.SEmail;
 
-      this.FillingAttachment=item.FillingAttachment;
+      this.FillingAttachment = item.FillingAttachment;
       this.FillingAttachment2 = item.FillingAttachment2;
-      this.LabelAttachment = item.LabelAttachment;  
-      this.SCity = item.SCity;
-      this.SContactNo = item.SContactNo;
-      this.SContactPerson = item.SContactPerson;
-      this.SCountry = item.SCountry;
-      this.SEmail = item.SEmail;
-      this.SFax = item.SFax;
-      this.SPhoneNo = item.SPhoneNo;
-      this.SState = item.SState;
-      this.SZip = item.SZip;
+      this.LabelAttachment = item.LabelAttachment;
+      this.City = item.SCity;
+      this.contactno = item.SContactNo;
+      this.contactperson = item.SContactPerson;
+      this.Country = item.SCountry;
+      this.Email = item.SEmail;
+      this.Fax = item.SFax;
+      this.telepho = item.SPhoneNo;
+      this.State = item.SState;
+      this.zipcode = item.SZip;
       this.Shiptolocation = item.Shiptolocation;
       this.Tier1 = item.Tier1;
       this.Tier2 = item.Tier2;
@@ -446,7 +462,8 @@ export class CustomerDetailsComponent implements OnInit {
   }
  
   insert_tier4() {
-    this.Tier4Range = 'Above ' + this.Tier3Range;
+    this.Tier4Range = 'Above ' + this.Tier3;
+    this.Tier4 = 'Above ' + this.Tier3;
   }
   setvalues2(customer_searchdata2: any) {
     this.i = 0;
@@ -481,7 +498,8 @@ export class CustomerDetailsComponent implements OnInit {
         formulacode: search.FormulaCode,
         formulaname: search.FormulaName,
         COADTFORMAT: search.COADTFORMAT,
-        DateFormatOld: search.DateFormatOld,
+        DateFormatOld: search.COADTFORMAT,
+       // DateFormatOld: search.DateFormatOld,
       }]);
       this.i++;
 
@@ -493,7 +511,9 @@ export class CustomerDetailsComponent implements OnInit {
     this.j = 0;
 
     for (let search of customer_pricewhole) {
-
+      if (search.CPP_Id == undefined || search.CPP_Id == null) {
+        search.CPP_Id = '0';
+      }
       this.Datapricewhole[this.i] = ([{
         productcode: search.ProductCode,
         productnumber: search.ProductNumber,
@@ -539,7 +559,8 @@ export class CustomerDetailsComponent implements OnInit {
     for (let search of customer_volumepricing) {
 
       this.Datavolumepricing[this.i] = ([{
-       
+        cpp_id: '0',
+        productcode: '0',
         productnumber: search.ProductNumber,
         productname: search.ProductName,
         unit: search.Unit,
@@ -608,7 +629,144 @@ export class CustomerDetailsComponent implements OnInit {
   updateCell(rowIndex, dataField, value) {
         this.dataGrid.instance.cellValue(rowIndex, dataField, value);
        // this.dataGrid.instance.saveEditData();
+  }
+  Opensearchproducts(e): void {
+    var indexdataprod: any = e.rowIndex;
+
+    const dialogRef = this.dialog.open(SearchProductsComponent, {
+      width: '70%', height: '80%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result != "") {
+
+
+
+        this.ProductCode = result[0];
+
+        this.ProductName = result[2];
+        this.FormulaCode = result[4];
+        this.FormulaName = result[5];
+       // this.COADTFORMAT = result[2];
+        this.item = result[1];
+        this.selectedRowIndex = indexdataprod;
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "COADTFORMAT", 'MM/dd/yyyy');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "RetailCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "DistributorCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "SoleDistributorCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "WholesaleCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
+        this.dataGrid.instance.saveEditData();
+      }
+    });
+
+
+
+
+  }
+  wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
     }
+  }
+  Opensearchproductspricing(e): void {
+    var indexdataprod: any = e.rowIndex;
+
+    const dialogRef = this.dialog.open(SearchProductsComponent, {
+      width: '70%', height: '80%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result != "") {
+
+
+
+        this.ProductCode = result[0];
+
+        this.ProductName = result[2];
+        this.FormulaCode = result[4];
+        this.FormulaName = result[5];
+        // this.COADTFORMAT = result[2];
+        this.item = result[1];
+        this.selectedRowIndex = indexdataprod;
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "COADTFORMAT", '');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "RetailCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "DistributorCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "SoleDistributorCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "WholesaleCost", '0.00000');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
+        this.dataGrid.instance.saveEditData();
+      }
+    });
+
+
+
+
+  }
+
+  Opensearchproductsforotcvalidate(e): void {
+    var indexdataprod: any = e.rowIndex;
+    
+    const dialogRef = this.dialog.open(SearchProductsComponent, {
+      width: '60%', height: '70%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result != "") {
+
+
+
+        this.ProductNumber = result[0];
+        this.ProductName = result[2];
+        this.ValidatedSize = result[3];
+        //this.FormulaCode = result[4];
+        //this.FormulaName = result[5];
+        //this.item = result[1];
+        this.item = result[1];
+        this.selectedRowIndex = indexdataprod;
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        this.dataGrid.instance.saveEditData();
+      }
+    });
+
+
+
+
+  }
+  addRowerp() {
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.saveEditData();
+
+
+    // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
+  }
+  deleteRowerp() {
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    this.dataGrid.instance.deselectAll();
+  }
+  selectedChangederp(e) {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
   openrawmaterialserach(e): void {
     if (e.column.dataField === "INCIName") {
       const dialogRef = this.dialog.open(SearchINCINameComponent, {
@@ -655,10 +813,10 @@ export class CustomerDetailsComponent implements OnInit {
   insert_tiers() {
     this.selectedRowIndex = 0;
     this.dataGrid.instance.addRow();
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Range", this.Tier1Range);
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Range", this.Tier2Range);
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Range", this.Tier3Range);
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Range", this.Tier4Range);
+    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Range", this.Tier1);
+    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Range", this.Tier2);
+    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Range", this.Tier3);
+    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Range", this.Tier4);
    
     this.dataGrid.instance.saveEditData();
 
@@ -733,19 +891,122 @@ export class CustomerDetailsComponent implements OnInit {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/loadstates");
   }
  
+  dateChangeexp(event) {
+    this.expirydate = event.target.value;
 
+  }
   
   Customer_saveupdate(custkey: string, custnam: string) {
     // for (let v in this.login_form.controls) {
-    //   this.login_form.controls[v].markAsTouched();
+    // this.login_form.controls[v].markAsTouched();
     // }
     this.dataList = [];
     this.setvalues2(this.rowData);
     this.setvalueserp(this.rowData6);
     this.setvaluesvalidatedbatches(this.rowData4);
     this.setvaluespricewhole(this.retail_wholesale_rowdata);
-    this.setvaluesvolupricing(this.volumePricingloadlistdetails_data);
-   // this.setvalueserp(this.rowData6);
+    //this.setvaluesvolupricing(this.volumePricingloadlistdetails_data);
+    // this.setvalueserp(this.rowData6);
+    this.Datavolumepricing[0] = ([{
+      cpp_id: '0',
+      productcode: '0',
+      productnumber: '0',
+      productname: '0',
+      unit: '0',
+      unitsize: '0',
+      tier1value: '0',
+      tier2value: '0',
+      tier3value: '0',
+      tier4value: '0',
+      TieredProduct_id: '0',
+      linenumber: '0',
+
+
+
+    }]);
+    this.Datamaincustomer[0] = ([{
+
+
+
+      AddedDT: this.addeddt,
+      AddedBy: 'admin',
+      CAbbreviation: this.caabrevation,
+      CusCode: this.customercode,
+      CusName: this.customername,
+      Address: this.address,
+      Phone: this.phone,
+      Email: this.emailref,
+      FAX: this.fax,
+      ContactFPerson: this.contactfperson,
+      ContactSPerson: this.contactsperson,
+      ContactTPerson: this.contacttperson,
+      ContactFEmail: this.contactfmail,
+      ContactSEmail: this.contactsmail,
+      ContactTEmail: this.contacttmail,
+      FillingInstruction: this.fillinginstruction,
+      LabelingInstruction: this.labelinginstruction,
+      SpecialInstruction: this.specialinstruction,
+      Attachment: this.attachment,
+      Terms: this.terms,
+      FOB: this.fob,
+      Shipvia: this.shipvia,
+      SalesPerson: this.salesperson,
+      CreditCardNo: this.creditcardno,
+      CreditCardType: this.creditcardtype,
+      ExpiryDate: this.expirydate,
+      CreditLimit: this.creditlimit,
+      SalesRegion: this.salesregion,
+      SalesRepInitial: this.salesrepinitial,
+      City: this.city,
+      State: this.state,
+      Country: this.country,
+      Zip: this.zip,
+      CustomerKey: this.customerkey,
+      SAddress: this.saddress,
+      SEmail: this.Email,
+      SPhoneNo: this.telepho,
+      SFax: this.Fax,
+      SCity: this.City,
+      SState: this.State,
+      SCountry: this.Country,
+      Szip: this.zipcode,
+      SContactNo: this.contactno,
+      SContactPerson: this.contactperson,
+      Notes: this.notes,
+      LabelAttachment: this.LabelAttachment,
+      FillingAttachment: this.FillingAttachment,
+      FillingAttachment2: this.FillingAttachment2,
+      ShiptoLocation: this.Shiptolocation,
+      CustomerType: this.customertype,
+      Tier1: this.Tier1,
+      Tier2: this.Tier2,
+      Tier3: this.Tier3,
+      Tier4: this.Tier4,
+      Document1: this.Document1,
+      Document2: this.Document2,
+      Document3: this.Document3,
+      Document4: this.Document4,
+      Document5: this.Document5,
+      Document6: this.Document6,
+      Document7: this.Document7,
+      Document8: this.Document8,
+      Document9: this.Document9,
+      Document10: this.Document10,
+      Document11: this.Document11,
+      Document12: this.Document12,
+      Document13: this.Document13,
+      Document14: this.Document14,
+      Document15: this.Document15,
+      Document16: this.Document16,
+      Document17: this.Document17,
+      Document18: this.Document18,
+      Document19: this.Document19,
+      Document20: this.Document20,
+      username: 'admin'
+    }])
+
+
+
     this.markFormTouched(this.login_form);
     if (this.login_form.valid) {
       // You will get form value if your form is valid
@@ -753,29 +1014,133 @@ export class CustomerDetailsComponent implements OnInit {
       var custcode: string = this.customercode;
       var operation: string = "Save";
       /*this.customercode = "";*/
-    /*this.cstmerdata = [custkey, custnam, this.customercode]*/
+      /*this.cstmerdata = [custkey, custnam, this.customercode]*/
+
+
 
       this.Customer_preferences(custcode, custnam).subscribe((Customer_pref) => {
         console.warn("Customer_pref", Customer_pref)
         this.Customer_pref_data = Customer_pref
       })
-      this.Customer_saveup( custcode, custnam, custkey,operation).subscribe((Customer_save) => {
+      this.Customer_saveup(custcode, custnam, custkey, operation).subscribe((Customer_save) => {
         console.warn("Customer_save", Customer_save)
         this.Customer_save_data = Customer_save
       })
-      
+
+
 
     } else {
       this.login_form.controls['terms'].setValue(false);
     }
   };
+
   Customer_Update(custkey: string, custnam: string) {
     this.dataList = [];
     this.setvalues2(this.rowData);
     this.setvalueserp(this.rowData6);
     this.setvaluesvalidatedbatches(this.rowData4);
     this.setvaluespricewhole(this.retail_wholesale_rowdata);
-    this.setvaluesvolupricing(this.volumePricingloadlistdetails_data);
+    //this.setvaluesvolupricing(this.volumePricingloadlistdetails_data);
+    this.Datavolumepricing[0] = ([{
+      cpp_id: '0',
+      productcode: '0',
+      productnumber: '0',
+      productname: '0',
+      unit: '0',
+      unitsize: '0',
+      tier1value: '0',
+      tier2value: '0',
+      tier3value: '0',
+      tier4value: '0',
+      TieredProduct_id: '0',
+      linenumber: '0',
+
+
+
+    }]);
+    this.Datamaincustomer[0] = ([{
+
+
+
+      AddedDT: this.addeddt,
+      AddedBy: 'admin',
+      CAbbreviation: this.caabrevation,
+      CusCode: this.customercode,
+      CusName: this.customername,
+      Address: this.address,
+      Phone: this.phone,
+      Email: this.emailref,
+      FAX: this.fax,
+      ContactFPerson: this.contactfperson,
+      ContactSPerson: this.contactsperson,
+      ContactTPerson: this.contacttperson,
+      ContactFEmail: this.contactfmail,
+      ContactSEmail: this.contactsmail,
+      ContactTEmail: this.contacttmail,
+      FillingInstruction: this.fillinginstruction,
+      LabelingInstruction: this.labelinginstruction,
+      SpecialInstruction: this.specialinstruction,
+      Attachment: this.attachment,
+      Terms: this.terms,
+      FOB: this.fob,
+      Shipvia: this.shipvia,
+      SalesPerson: this.salesperson,
+      CreditCardNo: this.creditcardno,
+      CreditCardType: this.creditcardtype,
+      ExpiryDate: this.expirydate,
+      CreditLimit: this.creditlimit,
+      SalesRegion: this.salesregion,
+      SalesRepInitial: this.salesrepinitial,
+      City: this.city,
+      State: this.state,
+      Country: this.country,
+      Zip: this.zip,
+      CustomerKey: this.customerkey,
+      SAddress: this.saddress,
+      SEmail: this.Email,
+      SPhoneNo: this.telepho,
+      SFax: this.Fax,
+      SCity: this.City,
+      SState: this.State,
+      SCountry: this.Country,
+      Szip: this.zipcode,
+      SContactNo: this.contactno,
+      SContactPerson: this.contactperson,
+      Notes: this.notes,
+      LabelAttachment: this.LabelAttachment,
+      FillingAttachment: this.FillingAttachment,
+      FillingAttachment2: this.FillingAttachment2,
+      ShiptoLocation: this.Shiptolocation,
+      CustomerType: this.customertype,
+      Tier1: this.Tier1,
+      Tier2: this.Tier2,
+      Tier3: this.Tier3,
+      Tier4: this.Tier4,
+      Document1: this.Document1,
+      Document2: this.Document2,
+      Document3: this.Document3,
+      Document4: this.Document4,
+      Document5: this.Document5,
+      Document6: this.Document6,
+      Document7: this.Document7,
+      Document8: this.Document8,
+      Document9: this.Document9,
+      Document10: this.Document10,
+      Document11: this.Document11,
+      Document12: this.Document12,
+      Document13: this.Document13,
+      Document14: this.Document14,
+      Document15: this.Document15,
+      Document16: this.Document16,
+      Document17: this.Document17,
+      Document18: this.Document18,
+      Document19: this.Document19,
+      Document20: this.Document20,
+      username: 'admin',
+    }])
+
+
+
     this.markFormTouched(this.login_form);
     if (this.login_form.valid) {
       var cuscode: string = this.customercode;
@@ -788,7 +1153,7 @@ export class CustomerDetailsComponent implements OnInit {
         console.warn("Customer_update", Customer_update)
         this.Customer_save_data = Customer_update
       })
-     
+
     }
     else {
       this.login_form.controls['terms'].setValue(false);
@@ -801,6 +1166,7 @@ export class CustomerDetailsComponent implements OnInit {
       else { control.markAsTouched(); };
     });
   };
+ 
   Customer_preferences(custcode, custnam) {
     var username: string = "admin";
     var cstmrcode: string = custcode;
@@ -817,108 +1183,27 @@ export class CustomerDetailsComponent implements OnInit {
 
       .set('customerpreference', datalistdata)
       .set('code', cstmrcode).set('name', cstmrname).set('username', username);
-    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/insertcustomerpreferences", { params: params1, responseType: 'text'})
+    return this.http.get("https://smartformulatorcustomerwebservice4.azurewebsites.net/insertcustomerpreferences", { params: params1, responseType: 'text'})
   }
-  Customer_saveup(custcode, custnam, custkey,  operation) {
-    //var customerdetail: string = [];
-    this.Customerdetail[0] = custkey;
-    this.Customerdetail[1] = custnam;
-    this.Customerdetail[2] = custcode;
-    this.Customerdetail[3] = this.address;
-    this.Customerdetail[4] = this.customertype;
-    this.Customerdetail[5] = this.phone;
-    this.Customerdetail[6] = this.fax;
-    this.Customerdetail[7] = this.caabrevation;
-    this.Customerdetail[8] = this.contactfperson;
-    this.Customerdetail[9] = this.contactsperson;
-    this.Customerdetail[10] = this.contacttperson;
-    this.Customerdetail[11] = this.terms;
-    this.Customerdetail[12] = this.fob;
-    this.Customerdetail[13] = this.creditcardtype;
-    this.Customerdetail[14] = this.salesperson;
-    this.Customerdetail[15] = this.notes;
-    this.Customerdetail[16] = this.city;
-    this.Customerdetail[17] = this.state;
-    this.Customerdetail[18] = this.zip;
-    this.Customerdetail[19] = this.country;
-    this.Customerdetail[20] = this.email;
-    this.Customerdetail[21] = this.contactfmail;
-    this.Customerdetail[22] = this.contactsmail;
-    this.Customerdetail[23] = this.contacttmail;
-    this.Customerdetail[24] = this.salesregion;
-    this.Customerdetail[25] = this.shipvia ;
-    this.Customerdetail[26] = this.creditcardno;
-    this.Customerdetail[27] = null;// ExpiryDate
-    this.Customerdetail[28] = this.salesrepinitial;
-    this. Customerdetail[29] = "1"; //CreditLimit
-    // Customerdetail[30] = ""; not found
-    this.Customerdetail[31] = "";// not found
-    this.Customerdetail[32] = ""; //not found
-    this.Customerdetail[33] = this.fillinginstruction;
-    this.Customerdetail[34] = this.labelinginstruction;
-    this.Customerdetail[35] = this.attachment;
-    this.Customerdetail[36] = this.Address;
-    this.Customerdetail[37] = this.Email;
-    this.Customerdetail[38] = this.telepho;
-    this.Customerdetail[39] = this.Fax;
-    this.Customerdetail[40] = this.City;
-    this.Customerdetail[41] = this.State;
-    this.Customerdetail[42] = this.Country;
-    this.Customerdetail[43] = this.zipcode;
-    this.Customerdetail[44] = this.contactno;
-    this.Customerdetail[45] = this.contactperson;
-    this.Customerdetail[46] = this.FillingAttachment;
-    this.Customerdetail[47] = ""; //Not Found
-    this.Customerdetail[48] = ""; //Not Found
-    this.Customerdetail[49] = this.Tier1; //Tier1
-    this.Customerdetail[50] = this.Tier2; //Tier2
-    this.Customerdetail[51] = this.Tier3; //Tier3
-    this.Customerdetail[52] = this.Tier4; //Tier4
-    this. Customerdetail[53] = this.Document1;
-    this.Customerdetail[54] = this.Document2;
-    this.Customerdetail[55] = this.Document3;
-    this.Customerdetail[56] = this.Document4;
-    this.Customerdetail[57] = this.Document5;
-    this.Customerdetail[58] = this.Document6;
-    this.Customerdetail[59] = this.Document7;
-    this.Customerdetail[60] = this.Document8;
-    this.Customerdetail[61] = this.Document9;
-    this.Customerdetail[62] = this.Document10;
-    this. Customerdetail[63] = "";
-    this.Customerdetail[64] = "";
-    this. Customerdetail[65] = "";
-    this. Customerdetail[66] = "";
-    this.Customerdetail[67] = "";
-    this. Customerdetail[68] = "";
-    this. Customerdetail[69] = "";
-    this. Customerdetail[70] = "";
-    this. Customerdetail[71] = "";
-    this. Customerdetail[72] = "";
-    this.Customerdetail[73] = ""; //Not found
-    this.Customerdetail[74] = this.labelinginstruction;
-    this.Customerdetail[75] = this.specialinstruction;
-    this.Customerdetail[76] = this.creditcardtype;
-    this.Customerdetail[77] = this.LabelAttachment ;
-    this.Customerdetail[78] = this.FillingAttachment2;
-    this.Customerdetail[79] = this.Shiptolocation;
-    this. Customerdetail[80] = ""; //username
-    this. Customerdetail[81] = "admin";
-    this. Customerdetail[82] = "";
-    //var erpproducts:string json
+  Customer_saveup(custcode, custnam, custkey, operation) {
+
     var cstmrcode: string = custcode;
     var cstmrkey: string = custkey;
     var cstmrname: string = custnam;
     var oper: string = operation;
     //string[] Customerdetail, string operation, string customerpreference, string erpproducts, string pricing, string validatedbatches, string volumepricingjson, string tier1, string tier2, string tier3, string tier4
+    var maindatacus: any = JSON.stringify(this.Datamaincustomer);
     var datalistdata: any = JSON.stringify(this.dataList);
     var datalisterpdata: any = JSON.stringify(this.DataListerp);
     var datavalidatedbatches: any = JSON.stringify(this.Datavalidatedbatches);
     var datapricewhole: any = JSON.stringify(this.Datapricewhole);
     var datavolumepricing: any = JSON.stringify(this.Datavolumepricing);
-    /* var custcode: string = custCode;*/
+
+
+
     var cstmrdetail: any = this.Customerdetail;
-    let params1 = new HttpParams().set('Customerdetail', cstmrdetail).set('operation', oper).set('customerpreference', datalistdata).set('erpproducts', datalisterpdata).set('pricing', datapricewhole).set('validatedbatches', datavalidatedbatches).set('pricingdetails', datavolumepricing).set('tier1', this.Tier1).set('tier2', this.Tier2).set('tier3', this.Tier3).set('tier4', this.Tier4);
-    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/update_save_customer", { params: params1 })
+    let params1 = new HttpParams().set('Customerdetailjson', maindatacus).set('operation', oper).set('customerpreference', datalistdata).set('erpproducts', datalisterpdata).set('pricing', datapricewhole).set('validatedbatches', datavalidatedbatches).set('volumepricingjson', datavolumepricing).set('tier1', this.Tier1).set('tier2', this.Tier2).set('tier3', this.Tier3).set('tier4', this.Tier4);
+    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/update_save_customer", { params: params1, responseType: 'text' })
   }
   //public string SaveUpdateCustomer(string[] Customerdetail, string operation, string customerpreference, string erpproducts, string pricing, string validatedbatches, string volumepricingjson, string tier1, string tier2, string tier3, string tier4) {
 
@@ -942,7 +1227,7 @@ ClearData()
   this.address = '';
   this.customertype ='';
   this.phone = '';
-  this.email = '';
+  this.emailref = '';
   this.fax = '';
   this.contactfperson = '';
   this.contactsperson = '';
@@ -1005,20 +1290,23 @@ ClearData()
 
   }
   OpenAddClientLocation(): void {
+    this.datashare.sendcustomercode(this.customercode);
     const dialogRef = this.dialog.open(AddClientLocationComponent, {
       width: '60%', height: '70%', disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-
+      this.wait(3000);
       this.shippinglocationload(this.customercode).subscribe((shippingload) => {
         console.warn("shippingload", shippingload)
         this.shippingdata = shippingload
 
       })
 
-
+      this.searchitems = ['', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+      this.datashare.sendaddlocation(this.searchitems);
+ 
     });
 
   }
@@ -1128,7 +1416,8 @@ export class pricewholedata {
 
 }
 export class volumepricingdata {
-  
+  cpp_id: string;
+  productcode: string;
   productnumber: string;
   productname: string;
   unit: string;
@@ -1140,6 +1429,84 @@ export class volumepricingdata {
   TieredProduct_id: string;
   linenumber: string;
 
+
+}
+export class customerdatamain {
+  AddedDT: string;
+  AddedBy: string;
+  CAbbreviation: string;
+  CusCode: string;
+  CusName: string;
+  Address: string;
+  Phone: string;
+  Email: string;
+  FAX: string;
+  ContactFPerson: string;
+  ContactSPerson: string;
+  ContactTPerson: string;
+  ContactFEmail: string;
+  ContactSEmail: string;
+  ContactTEmail: string;
+  FillingInstruction: string;
+  LabelingInstruction: string;
+  SpecialInstruction: string;
+  Attachment: string;
+  Terms: string;
+  FOB: string;
+  Shipvia: string;
+  SalesPerson: string;
+  CreditCardNo: string;
+  CreditCardType: string;
+  ExpiryDate: string;
+  CreditLimit: string;
+  SalesRegion: string;
+  SalesRepInitial: string;
+  City: string;
+  State: string;
+  Country: string;
+  Zip: string;
+  CustomerKey: string;
+  SAddress: string;
+  SEmail: string;
+  SPhoneNo: string;
+  SFax: string;
+  SCity: string;
+  SState: string;
+  SCountry: string;
+  Szip: string;
+  SContactNo: string;
+  SContactPerson: string;
+  Notes: string;
+  LabelAttachment: string;
+  FillingAttachment: string;
+  FillingAttachment2: string;
+  ShiptoLocation: string;
+  CustomerType: string;
+  Tier1: string;
+  Tier2: string;
+  Tier3: string;
+  Tier4: string;
+  Document1: string;
+  Document2: string;
+  Document3: string;
+  Document4: string;
+  Document5: string;
+  Document6: string;
+  Document7: string;
+  Document8: string;
+  Document9: string;
+  Document10: string;
+  Document11: string;
+  Document12: string;
+  Document13: string;
+  Document14: string;
+  Document15: string;
+  Document16: string;
+  Document17: string;
+  Document18: string;
+  Document19: string;
+  Document20: string;
+  username: string;
 
 }
 

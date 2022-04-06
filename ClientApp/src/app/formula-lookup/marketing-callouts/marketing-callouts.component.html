@@ -6,6 +6,8 @@
 
 
 
+
+
           <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;margin-left:47%">Marketing Call-Outs</h2>
         </form>
       </div>
@@ -13,33 +15,34 @@
     <div>
       <fieldset class="border p-2">
         <legend class="w-auto" style="font-size:15px;color:maroon"></legend>
-        <form class="form-inline" style="    background-color: #f6f5f1">
-          <label class="label1" for="TradeName" >Trade Name</label>
-          <input type="text" class="form-control" id="PDR" size="130" [(ngModel)]="IngredientTradeName" #IngredientTradeNam name="IngredientTradeNa" value="">
+        <form class="form-inline" style=" background-color: #f6f5f1">
+          <label for="TradeName" style="margin-left: 2%;">Trade Name</label>
+          <input type="text" style="margin-left: 5%" class="form-control" id="PDR" size="130" [(ngModel)]="IngredientTradeName" #IngredientTradeNam name="IngredientTradeNa" value="">
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:130px;">Search</button>
         </form>
         <form class="form-inline">
-          <label class="label1" for="IngredientName" >Ingredient Name</label>
-          <input  type="text" style="margin-top:10px;" class="form-control" id="formula_pdr" size="130" [(ngModel)]="INCIName" #INCINam name="INCIName" value="">
+          <label for="IngredientName" style="margin-left: 2.5%">Ingredient Name</label>
+          <input type="text" style="margin-top:10px;margin-left:45px;" class="form-control" id="formula_pdr" size="130" [(ngModel)]="INCIName" #INCINam name="INCIName" value="">
         </form>
         <form class="form-inline">
-          <label class="label1" for="Benifits">Benefits</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="width:74.1%;margin-top:0.5%" [(ngModel)]="Benefits" #Benefit name="Benefi" value=""></textarea>
+          <label for="Benifits" style="margin-left: 2%">Benefits</label>
+<textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="margin-left:6.8%;width:74.1%;margin-top:0.5%" [(ngModel)]="Benefits" #Benefit name="Benefi" value=""></textarea>
         </form>
         <form class="form-inline">
-          <label class="label1" for="CountryofOrigin" >Country of Origin</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="width:74.1%;margin-top:0.5%" [(ngModel)]="Country" #Countr name="Count" value=""></textarea>
+          <label for="CountryofOrigin" style="margin-left: 2%">Country of Origin</label>
+<textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="margin-left:2.8%;width:74.1%;margin-top:0.5%" [(ngModel)]="Country" #Countr name="Count" value=""></textarea>
         </form>
+<textarea hidden class="form-control" id="exampleFormControlTextarea1" rows="4" style="margin-left:2.8%;width:74.1%;margin-top:0.5%" [(ngModel)]="BenefitNo" #Benfitn name="Benfin" value=""></textarea>
       </fieldset>
     </div>
     <div style="background-color:#849eb0">
       <fieldset class="border p-2">
         <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
         <form class="form-inline">
-          <label class="textsize" for="TradeName" style="margin-left: 20px;">Trade Name</label>
+          <label for="TradeName" style="margin-left: 20px;">Trade Name</label>
           <input type="text" style="margin-top:10px;margin-left:30px;" class="form-control" id="Trade_Name" size="40" [(ngModel)]="IngredientTradeName1" #IngredientTradeNam1 name="IngredientTradeNa1" value="">
-          <label class="textsize" for="Formulacode" style="margin-left: 20px;">INCI Name</label>
-          <input  type="text" style="margin-top:10px;margin-left:30px;" class="form-control" id="INCI_Name" size="40" [(ngModel)]="INCIName1" #INCINam1 name="INCIName1" value="">
+          <label for="Formulacode" style="margin-left: 20px;">INCI Name</label>
+          <input type="text" style="margin-top:10px;margin-left:30px;" class="form-control" id="INCI_Name" size="40" [(ngModel)]="INCIName1" #INCINam1 name="INCIName1" value="">
           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px; height: 40px; width: 150px;">Search</button>
           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px; height: 40px; width: 150px;">Clear</button>
         </form>
@@ -49,10 +52,14 @@
       <p class="font-weight-bold"> Double click to Edit the value</p>
     </div>
     <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
-      <table class="table-hover table-bordered" style="height:auto;width:100%;background-color:white">
+      <table class=" table table-hover table-bordered" style="height:auto;width:100%;background-color:white">
+
+
 
         <thead>
           <tr>
+
+
 
             <th scope="col">No</th>
             <th scope="col">Trade Name</th>
@@ -62,13 +69,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let datas of Marketing_call_data  | filter:IngredientTradeName1|filter:INCIName1;  let i=index; " (click)="setvalues(datas);">
+          <tr *ngFor="let datas of Marketing_call_data | filter:IngredientTradeName1|filter:INCIName1; let i=index; " (click)="setvalues(datas);">
 
-            <td class="tabledatasize">{{ datas.BenefitNo}}</td>
-            <td class="tabledatasize">{{ datas.IngredientTradeName  }}</td>
-            <td class="tabledatasize">{{ datas.INCIName }}</td>
-            <td class="tabledatasize">{{ datas.Benefits }}</td>
-            <td class="tabledatasize">{{ datas.Country }}</td>
+
+
+            <td>{{ datas.BenefitNo}}</td>
+            <td>{{ datas.IngredientTradeName }}</td>
+            <td>{{ datas.INCIName }}</td>
+            <td>{{ datas.Benefits }}</td>
+            <td>{{ datas.Country }}</td>
+
+
 
 
 
@@ -81,9 +92,9 @@
   </div>
 </div>
 <div style="margin-top:0.5%">
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;" matDialogClose>Close</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px" (click)="Marketing_saveupdate(IngredientTradeNam.value,INCINam.value,Benefit.value,Countr.value);">Save / Update</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">New</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Delete</button>
+  <button type="submit" class="btn btn-primary buttoncolor" style="float:right;" matDialogClose>Close</button>
+  <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px" (click)="Marketing_saveupdate(Benfitn.value,IngredientTradeNam.value,INCINam.value,Benefit.value);">Save / Update</button>
+  <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px">New</button>
+  <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px" (click)="Marketing_delete(Benfitn.value)">Delete</button>
 </div>
 

@@ -141,6 +141,7 @@ import { NewChemistryParamsComponent } from './pdr-management/new-chemistry-para
 import { AddChemistryComponent } from './pdr-management/new-chemistry-params/add-chemistry/add-chemistry.component';
 import { NewMicrobiologyParamsComponent } from './pdr-management/new-microbiology-params/new-microbiology-params.component';
 import { AddMicrobiologyComponent } from './pdr-management/new-microbiology-params/add-microbiology/add-microbiology.component';
+import { SearchProductsComponent } from './formula-lookup/customer-details/search-products/search-products.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -213,7 +214,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'Rawmaterial_restrictionProp65', component: RawmaterialRestrictionProp65Component },
       { path: 'incinameselect', component: IncinameSelectComponent },
 
-      { path: 'SearchCustomer', component: SearchCustomerComponent }
+      { path: 'SearchCustomer', component: SearchCustomerComponent },
+      { path: 'SearchProducts', component: SearchProductsComponent }
 
     ]
   }
@@ -323,6 +325,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     AddChemistryComponent,
     NewMicrobiologyParamsComponent,
     AddMicrobiologyComponent,
+    SearchProductsComponent,
     
   ],
   imports: [
@@ -364,7 +367,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent,
+  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, SearchProductsComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
 })
 export class AppModule { }

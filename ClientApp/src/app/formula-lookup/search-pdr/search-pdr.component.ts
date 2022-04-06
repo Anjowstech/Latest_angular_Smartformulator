@@ -31,7 +31,7 @@ export class SearchPdrComponent implements OnInit {
   }
   Loadsearchpdr() {
 
-    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/PDRSearch");
+    return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/SearchPDR");
   }
   ngOnInit() {
     this.Loadsearchpdr().subscribe((resultsearchpdr) => {

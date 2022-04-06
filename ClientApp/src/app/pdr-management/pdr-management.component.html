@@ -24,7 +24,7 @@
     </form>
     <form class="form-row form-inline" [formGroup]="login_formpdr">
       <label for="project_name">Project Name</label>
-      <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="projectnam" size="96" [(ngModel)]="projectname" name="proname" value="" #projn formControlName="projname">
+      <input  [readonly] ="isprocheck" type="text" style="margin-top:10px;margin-left:10px;margin-bottom:20px" class="form-control" placeholder="Enter Project Name" id="projectnam" size="96" [(ngModel)]="projectname" name="proname" value="" #projn formControlName="projname">
       <span class="text-danger" style="margin-left:0.1%;font-size:xx-large" *ngIf="login_formpdr.controls['projname'].hasError('required') && (login_formpdr.controls['projname'].dirty || login_formpdr.controls['projname'].touched)">*</span>
 
     </form>
@@ -425,26 +425,73 @@
                       <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Safety Tests</legend>
                       <div class=" form-row">
                         <div class="form-group col-md-12">
-                          <table class="table table-hover table-striped" style="height:300px;background-color:white">
-                            <thead>
-                              <tr>
-                                <th scope="col">Test Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Comments</th>
+                          <div style="height:32rem;background-color:white">
+                            <!--<table class="table table-hover table-striped" style="height:300px;background-color:white">
+    <thead>
+      <tr>
+        <th scope="col">Test Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Comments</th>
 
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                              </tr>
-                              <tr>
-                              </tr>
-                              <tr>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;">Insert Row</button>
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;">Delete Row</button>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      </tr>
+      <tr>
+      </tr>
+      <tr>
+      </tr>
+    </tbody>
+  </table>-->
+                            <dx-data-grid id="gridContainer " style="width: 100%; height: 30rem;font-family:Verdana;font-style:normal;background-color:white"
+                                          (onRowPrepared)="onRowPrepared2($event)"
+                                          (onSelectionChanged)="selectedChanged($event)"
+                                          [columnAutoWidth]="true"
+                                          [dataSource]="safety_test_rowdata"
+                                          [wordWrapEnabled]="true"
+                                          [showColumnLines]="true"
+                                          [showRowLines]="true"
+                                          [showBorders]="true"
+                                          (rowprepared)="rowprepared">
+                              <dxo-editing mode="row"
+                                           [allowUpdating]="true"
+                                           [useIcons]="true">
+                              </dxo-editing>-->
+
+                              <dxo-selection [selectAllMode]="allMode"
+                                             [showCheckBoxesMode]="checkBoxesMode"
+                                             mode="multiple"></dxo-selection>
+                              <dxo-row-dragging [allowReordering]="true"
+                                                [showDragIcons]="showDragIcons"></dxo-row-dragging>
+                              <dxo-scrolling mode="virtual"></dxo-scrolling>
+                              <dxo-sorting mode="none"></dxo-sorting>
+
+                              <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                              <dxi-column type="buttons" [width]="50">
+                              </dxi-column>
+
+                              <dxi-column dataField="" [width]="50"></dxi-column>
+
+                              <dxi-column dataField="testname"  headerCellTemplate="addressHeaderTemplatetestnam"></dxi-column>
+                              <div *dxTemplate="let info of 'addressHeaderTemplatetestnam'">
+                                <b style="color: black">Test Name</b>
+                              </div>
+                              <dxi-column dataField="description"  headerCellTemplate="addressHeaderTemplatedescription"></dxi-column>
+                              <div *dxTemplate="let info of 'addressHeaderTemplatedescription'">
+                                <b style="color: black">Description</b>
+                              </div>
+                              <dxi-column dataField="Comments"  headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                              <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+                                <b style="color: black">Comments</b>
+                              </div>
+                              
+                            </dx-data-grid>
+                          </div>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;"  (click)="addRow();">Insert Row</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;"  (click)="deleteRow();">Delete Row</button>
                         </div>
 
                       </div>
@@ -471,12 +518,11 @@
                   <div class="card-body" style="width: 30rem;height:40rem;overflow-y:auto">
                     
                     <form>
-                      <div *ngFor="let loadassignedusers of loadassignedusersdata" style="font-size:larger">
-                        <div class="form-inline">
-                          <input class="form-check-input2" style="margin-top:1%;"  type="checkbox" id="user1" name="user1" value="User1" [checked]="loadassignedusers.UserCheck=='true'">
-                          <h5 (click)="selectvalue(loadassignedusers.UserName)" >  {{loadassignedusers.UserName}}</h5>
-                          
-                        </div>
+                      <div class="checkbox form-inline" *ngFor="let loadassignedusers of loadassignedusersdata" style="font-size:larger">
+                        <label>
+                          <input class="form-check-input2" style="margin-top:1%;" type="checkbox" id="user1" name="user1" value={{loadassignedusers.UserName}} [checked]="loadassignedusers.UserCheck=='true'" (change)="userdatacheck(loadassignedusers,$event)">
+                        </label>
+                        <h5 (click)="selectvalue(loadassignedusers.UserName)"> {{loadassignedusers.UserName}}</h5>
                       </div>
                     </form>
                     
@@ -484,8 +530,8 @@
                 </div>
               </div>
               <div>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;margin-top:2%; height:40px;">Select All </button>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 2%; margin-top: 2%; height: 40px; ">Deselect All </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;margin-top:2%; height:40px;" (click)="isAllSelected();">Select All </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 2%; margin-top: 2%; height: 40px; "(click)=" isAllunSelected();">Deselect All </button>
               </div>
             </div>
             <div class="form-group col-md-6">
@@ -506,17 +552,17 @@
                 <tbody>
                   <tr *ngFor="let workflow_pdr of loadformulationsassign; let i=index;" style="height:2rem" [ngStyle]="{'background-color':workflow_pdr.Task === 'PDR Creation'|| workflow_pdr.Task === 'Formula Creation'||workflow_pdr.Task === 'Sample Creation'||workflow_pdr.Task === 'Productization (to scale up & manufacture)' ? 'lightblue' : 'white' }">
 
-                    <td class="textsize2"> <input class="form-check-input2" [checked]=" workflow_pdr.Assign=='True'" type="checkbox"></td>
+                    <td class="textsize2"> <input class="form-check-input2" [checked]=" workflow_pdr.Assign=='True' ? true : false" type="checkbox" (change)="selectfavalue(workflow_pdr,$event)"></td>
                     <td class="textsize2">{{ workflow_pdr.TaskID}}</td>
                     <td class="textsize2">{{ workflow_pdr.Task}}</td>
-                    <td class="textsize2"> <input class="form-check-input2"[checked]="workflow_pdr.EmailAlert=='True'" type="checkbox"></td>
+                    <td class="textsize2"> <input class="form-check-input2" [checked]="workflow_pdr.EmailAlert=='True' ? true : false" type="checkbox"(change)="selectfavalue2(workflow_pdr,$event)"></td>
                   </tr>
-                 
+
                 </tbody>
               </table>
               <div>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:20%;margin-top:1%; height:40px;">Select All </button>
-                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1% ;margin-top:1%;height: 40px; ">Deselect All </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:20%;margin-top:1%; height:40px;"(click)=" isAllSelectedassigned();">Select All </button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1% ;margin-top:1%;height: 40px; "(click)="  isAllunSelectedassigned();">Deselect All </button>
                 <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:1%;height:40px;" (click)="saveassignuserlist();">Save </button>
               </div>
             </div>
@@ -557,7 +603,7 @@
                       </ng-container>
                       <ng-template #contencheck>
                         <div *ngFor="let loadFA of apprvData" style="font-size:larger">
-                          <input class="form-check-input2" type="checkbox" [checked]="loadFA.UserCheck=='true'"> {{loadFA.Userid}}
+                          <input id="checkapp1" class="form-check-input2" type="checkbox" [checked]="loadFA.UserCheck=='true'"> {{loadFA.Userid}}
                         </div>
                       </ng-template>
                     </form>
@@ -585,15 +631,15 @@
                 <div class="card-body" style="width: 40rem;height:40rem;overflow-y:auto">
                   <div>
                     <form>
-                      <ng-container *ngIf="isLoadingchek;else contencheck">
+                      <ng-container *ngIf="isLoadingchek2;else contencheck2">
                         <div *ngFor="let loademailalert_pdr of datamailalert" style="font-size:larger">
                           <input class="form-check-input2" type="checkbox"> {{loademailalert_pdr.username}}
                         </div>
                       </ng-container>
-                      <ng-template #contencheck>
+                      <ng-template #contencheck2>
                         <div *ngFor="let loademail of emailData" style="font-size:larger">
-                          <input class="form-check-input2" type="checkbox" [checked]="loademail.UserCheck=='true'"> {{loademail.userid}}
-                        </div>
+    <input  id="checkapp2" class="form-check-input2" type="checkbox" [checked]="loademail.UserCheck=='true'"> {{loademail.userid}}
+  </div>
                       </ng-template>
 
                     </form>
@@ -1671,7 +1717,7 @@
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;margin-top:1%;height:40px;" (click)="Followupnotesadd();">
                               Add FollowupNotes
                             </button>
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;margin-top:1%;height:40px;">Clear</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;margin-top:1%;height:40px;"(click)="clearcommuncations();">Clear</button>
                           </div>
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-top:15px; margin-left:10px;height:40px;" (click)="Followupnotesdelete();">Delete Note</button>
                         </div>
@@ -1679,8 +1725,6 @@
                     </form>
                 </ng-template>
               </ngb-tab>
-
-
 
               <ngb-tab title="Communication Notes">
                 <ng-template ngbTabContent>
@@ -1697,15 +1741,11 @@
                       <tbody>
                         <tr *ngFor="let Communicationnotesload of communicationData ; let i =index ;" (click)="setvalues2(Communicationnotesload)">
 
-
-
                           <td  style="width:10%"class="tabledatasize">{{ Communicationnotesload.StatusDate}}</td>
                           <td class="tabledatasize">{{ Communicationnotesload.Subject}}</td>
                           <td class="tabledatasize">{{ Communicationnotesload.Status}}</td>
                           <td class="tabledatasize">{{ Communicationnotesload.UserName}}</td>
                           <td hidden class="tabledatasize">{{ Communicationnotesload.LineNumber}}</td>
-
-
 
                         </tr>
                       </tbody>
@@ -1717,11 +1757,11 @@
                         <div class="form-group col-md-8">
                           <div class="form-inline">
                             <label for="inputbrowsefiles" style="padding-top: 10px;font-family: Playfair Display">Subject</label>
-                            <input style="width: 72%" type="text" class="form-control" id="data1">
+                            <input style="width: 72%" type="text" class="form-control" id="data1" [(ngModel)]="CommuSubject" name="COMMsub" value="">
                           </div>
                           <div class="form-inline" style="margin-top:10px">
                             <label for="inputbrowsefiles" style="padding-top: 10px;font-family: Playfair Display">Notes</label>
-<textarea style="width: 72%" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+<textarea style="width: 72%" class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="CommuStatus" name="COMMstas" value=""></textarea>
                           </div>
                         </div>
                         <div class="form-group col-md-4">
@@ -1730,7 +1770,7 @@
 
 
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;margin-top:1%;" (click)="Communotesadd();">Add CommunicationNotes</button>
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;margin-top:1%;">Clear</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:40px;margin-top:1%;"(click)="clearcommuncations();">Clear</button>
                           </div>
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-top:15px; margin-left:10px;height:40px;" (click)="Communotesdelete();">Delete Note</button>
                         </div>
@@ -1749,44 +1789,44 @@
           <form *ngIf="isLoadingspec;else contenspec">
 
             <div class="form-row">
-              <div style="margin-left:100px" class="form-group col-md-12">
+              <div class="form-group col-md-12">
 
 
 
-                <div class="form-inline" style="margin-left:85px;">
-                  <h5> pH </h5>
-                  <input style=" margin-left: 10px; width:80px" type="text" class="form-control" id="data1" [(ngModel)]="Lowph" name="lph" value="">
+                <div class="form-inline">
+                  <label> pH </label>
+                  <input style="width:7%" type="text" class="form-control" id="data1" [(ngModel)]="Lowph" name="lph" value="">
                   <h5 style=" margin-left: 10px;"> - </h5>
-                  <input style=" margin-left: 10px; width: 80px;" type="text" class="form-control" id="data1" [(ngModel)]="Highph" name="hph" value="">
-                  <h5 style="margin-left:45px;">Viscocity</h5>
-                  <input style=" margin-left: 10px; width: 80px;" type="text" class="form-control" id="data1" [(ngModel)]="Lowviscosity" name="lv" value="">
+                  <input style="  width: 7%;" type="text" class="form-control" id="data1" [(ngModel)]="Highph" name="hph" value="">
+                  <label>Viscocity</label>
+                  <input style=" width:7%;" type="text" class="form-control" id="data1" [(ngModel)]="Lowviscosity" name="lv" value="">
                   <h5 style=" margin-left: 10px;"> - </h5>
-                  <input style=" margin-left: 10px; width: 80px;" type="text" class="form-control" id="data1" [(ngModel)]="highviscosity" name="hv" value="">
-                  <input style=" margin-left: 10px; width: 85px;" type="text" class="form-control" id="data1" [(ngModel)]="Viscosityunit" name="vu" value="">
-                  <h5 style=" margin-left: 20px;">Specific Gravity </h5>
-                  <input style=" margin-left: 10px; width: 80px;" type="text" class="form-control" id="data1" [(ngModel)]="specificGravity" name="sg" value="">
+                  <input style="  width: 7%;" type="text" class="form-control" id="data1" [(ngModel)]="highviscosity" name="hv" value="">
+                  <input style="  width: 7%;" type="text" class="form-control" id="data1" [(ngModel)]="Viscosityunit" name="vu" value="">
+                  <label>Specific Gravity </label>
+                  <input style=" width: 7%;" type="text" class="form-control" id="data1" [(ngModel)]="specificGravity" name="sg" value="">
                   <h5 style=" margin-left: 10px;"> - </h5>
-                  <input style=" margin-left: 10px; width: 80px;" type="text" class="form-control" id="data1" [(ngModel)]="highSpecificGravity" name="hsg" value="">
+                  <input style=" width: 6%;" type="text" class="form-control" id="data1" [(ngModel)]="highSpecificGravity" name="hsg" value="">
                 </div>
-                <div class="form-inline" style="margin-top:10px; margin-left:70px;">
-                  <h5> Odor </h5>
-                  <input style=" margin-left: 10px; width:185px" type="text" class="form-control" id="data1" [(ngModel)]="Odor" name="od" value="">
-                  <h5 style=" margin-left: 30px;"> Apperence </h5>
-                  <input style=" margin-left: 10px; width: 282px;" type="text" class="form-control" id="data1" [(ngModel)]="Appearance" name="app" value="">
-                  <h5 style="margin-left:110px;">Color</h5>
-                  <input style=" margin-left: 10px; width: 190px;" type="text" class="form-control" id="data1" [(ngModel)]="Color" name="clr" value="">
+                <div class="form-inline" style="margin-top:10px; ">
+                  <label> Odor </label>
+                  <input style=" width:15%" type="text" class="form-control" id="data1" [(ngModel)]="Odor" name="od" value="">
+                  <label> Apperence </label>
+                  <input style=" width: 23%;" type="text" class="form-control" id="data1" [(ngModel)]="Appearance" name="app" value="">
+                  <label>Color</label>
+                  <input style="  width: 15%" type="text" class="form-control" id="data1" [(ngModel)]="Color" name="clr" value="">
                 </div>
                 <div class="form-inline" style="margin-top:10px">
-                  <h5> Visc.Method </h5>
-                  <input style=" margin-left: 10px; width:185px" type="text" class="form-control" id="data1" [(ngModel)]="viscosityMethod" name="vm" value="">
-                  <h5 style=" margin-left: 25px;"> Visc.Factor </h5>
-                  <input style=" margin-left: 10px; width: 120px;" type="text" class="form-control" id="data1" [(ngModel)]="viscosityFactor" name="vf" value="">
+                  <label> Visc.Method </label>
+                  <input style=" width:15%" type="text" class="form-control" id="data1" [(ngModel)]="viscosityMethod" name="vm" value="">
+                  <label> Visc.Factor </label>
+                  <input style=" width: 10%" type="text" class="form-control" id="data1" [(ngModel)]="viscosityFactor" name="vf" value="">
                   <h5 style=" margin-left: 10px;">Time</h5>
-                  <input style=" margin-left: 10px; width: 100px;" type="text" class="form-control" id="data1" [(ngModel)]="vTime" name="tim" value="">
+                  <input style="  width: 10%" type="text" class="form-control" id="data1" [(ngModel)]="vTime" name="tim" value="">
 
 
 
-                  <h5 style="margin-left:5%"> Helipath </h5>
+                  <label> Helipath </label>
                   <mat-radio-group aria-label="Select an option" style="margin-left:2%">
                     <mat-radio-button [value]="1" [checked]="helipath=='Yes'?true:false">Yes</mat-radio-button>
                     <mat-radio-button [value]="2" style="margin-left:20px" [checked]="helipath=='Yes'?false:true">No</mat-radio-button>
@@ -1795,19 +1835,18 @@
 
 
                 </div>
-                <div class="form-inline" style="margin-top:10px;margin-left:47px;">
-                  <h5> Spindle </h5>
-                  <input style=" margin-left: 10px; width:185px" type="text" class="form-control" id="data1" [(ngModel)]="spindle" name="spi" value="">
-                  <h5 style=" margin-left: 70px;"> Speed </h5>
-                  <input style=" margin-left: 10px; width: 120px;" type="text" class="form-control" id="data1" [(ngModel)]="speed" name="spe" value="">
+                <div class="form-inline" style="margin-top:10px;">
+                  <label> Spindle </label>
+                  <input style="  width:15%" type="text" class="form-control" id="data1" [(ngModel)]="spindle" name="spi" value="">
+                  <label> Speed </label>
+                  <input style="  width: 23%;" type="text" class="form-control" id="data1" [(ngModel)]="speed" name="spe" value="">
+                  <label> Texture </label>
+                  <input style=" width:15%" type="text" class="form-control" id="text" placeholder="" [(ngModel)]="texture" name="txt" value="">
                 </div>
-                <div class="form-inline" style="margin-top:10px;margin-left:47px;">
-                  <h5> Texture </h5>
-                  <input style=" margin-left: 10px; width:500px" type="text" class="form-control" id="text" placeholder="" [(ngModel)]="texture" name="txt" value="">
-                </div>
-                <div class="form-inline" style="margin-top:10px;margin-left:17px;">
-                  <h5> Comments </h5>
-<textarea style=" margin-left: 10px; height:40px; width:930px" type="text" class="form-control" id="data1" [(ngModel)]="Comments" name="cmt" value="">
+
+                <div class="form-inline" style="margin-top:10px;">
+                  <label> Comments </label>
+<textarea style="  width:70%" type="text" class="form-control" id="data1" size="2" rows="2" [(ngModel)]="Comments" name="cmt" value="">
 </textarea>
                 </div>
 
@@ -1821,32 +1860,35 @@
 
 
             </div>
-            <table class="table table-hover table-bordered" style="height:300px;background-color:white">
-              <thead>
-                <tr>
-                  <th scope="col"> #</th>
-                  <th scope="col"> Specification Param</th>
-                  <th scope="col"> Value</th>
+            <div style="margin-left:1%;margin-top:1%; height:19rem; overflow-y: auto;">
+              <table class="table table-hover table-bordered" style="height:300px;background-color:white">
+                <thead>
+                  <tr>
+
+                    <th scope="col"> Specification Param</th>
+                    <th scope="col"> Value</th>
 
 
 
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                </tr>
-                <tr>
-                </tr>
-                <tr>
-                </tr>
-              </tbody>
-            </table>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let loadspecdatadetails of loadspecdata ; let i =index ;" (click)="setvalues(loadspecdatadetails)">
 
 
 
-            <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:30px; height:40px;width:300px;" (click)="openloadspecificationparameter()">
-              Load Specification Parameter
-            </button>
+                    <td class="tabledatasize">{{ loadspecdatadetails.Specification}}</td>
+                    <td class="tabledatasize">{{ loadspecdatadetails.SpecificationValue}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+
+
+              <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:30px; height:40px;width:300px;" (click)="openloadspecificationparameter()">
+                Load Specification Parameter
+              </button>
 
           </form>
           <form>
@@ -2200,10 +2242,10 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()">Back</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="Pdr_Save(pdrn.value,projn.value)">Save</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="Pdr_Update(pdrn.value,projn.value)">Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="pdrsavemain()">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="pdrupdatemain()">Update</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)=" ClearData()">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% ">Delete PDR</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% " (click)="DeletePDR()">Delete PDR</button>
 
 
 

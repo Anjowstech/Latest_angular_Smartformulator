@@ -107,7 +107,8 @@ export class AddClientLocationComponent implements OnInit {
     this.country = this.addclientlocationload[4];
     this.zipcode = this.addclientlocationload[5];
     this.clid = this.addclientlocationload[6];
-    this.cuscode = this.addclientlocationload[7];
+    this.cuscode = this.datashare.getcustocode();
+   // this.cuscode = this.addclientlocationload[7];
     this.contactno = this.addclientlocationload[8];
     this.contactperson = this.addclientlocationload[9];
     this.email = this.addclientlocationload[10];

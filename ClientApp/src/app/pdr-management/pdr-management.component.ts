@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SearchProjectPdrComponent } from 'src/app/pdr-management/search-project-pdr/search-project-pdr.component';
@@ -14,38 +14,56 @@ import { formatDate } from '@angular/common';
 import { NewChemistryParamsComponent } from 'src/app/pdr-management/new-chemistry-params/new-chemistry-params.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { NewMicrobiologyParamsComponent } from 'src/app/pdr-management/new-microbiology-params/new-microbiology-params.component';
-
-
+import { DatagridcomponentComponent } from 'src/app/formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
+import { NgModule } from '@angular/core';
+import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 @Component({
   selector: 'app-pdr-management',
   templateUrl: './pdr-management.component.html',
   styleUrls: ['./pdr-management.component.css']
 })
+@NgModule({
+  imports: [
+
+    DxDataGridModule
+
+  ],
+  declarations: [DatagridcomponentComponent],
+
+})
 export class PdrManagementComponent implements OnInit {
-  requirement: string;
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+
+  requirement: string = '';
+  isprocheck: boolean = false;
   formulacreatedate:string
-  status: string;
+  status: string='';
   totalhr: string;
   totalcost: string;
-  result: string;
-  Lowph: string;
-  Highph: string;
-  Lowviscosity: string;
-  highviscosity: string;
-  Viscosityunit: string;
-  Appearance: string;
-  Color: string;
-  Odor: string;
-  Comments: string;
-  specificGravity: string;
-  texture: string;
-  highSpecificGravity: string;
-  helipath: string;
-  viscosityMethod: string;
-  viscosityFactor: string;
-  spindle: string;
-  speed: string;
-  vTime: string;
+  result: string='';
+  Lowph: string = '0';
+  Highph: string = '0';
+  Lowviscosity: string = '0';
+  highviscosity: string = '0';
+  Viscosityunit: string = '0';
+  Appearance: string='0';
+  appearance: string = '0';
+  Color: string = '0';
+  Odor: string = '0';
+  target: string = '';
+  Comments: string = '';
+  specificGravity: string = '0';
+  texture: string = '0';
+  Texture: string = '';
+  highSpecificGravity: string='0';
+  helipath: string='false';
+  viscosityMethod: string='';
+  viscosityFactor: string='';
+  spindle: string='';
+  speed: string='';
+  vTime: string = '';
+  Requirements: string = '';
+  ProjectResults: string = '';
   doc1: string;
   doc2: string;
   doc3: string;
@@ -66,7 +84,10 @@ export class PdrManagementComponent implements OnInit {
   doc18: string;
   doc19: string;
   doc20: string;
-
+  dataList: any = [];
+  dataList1: any = [];
+  pdrsavedatas: any;
+  oldlowph: any;
   pdrcreateuser: string;
   pdrapprovaluser:string
   formulacreationuser: string;
@@ -84,7 +105,7 @@ export class PdrManagementComponent implements OnInit {
   pccapprovaldatauser: string;
   pifapprovaldatauser: string;
   pdapprovaluser: string;
-
+  PDR_deletedata: any;
   pdrcreateuser1: string;
   pdrapprovaluser1: string
   formulacreationuser1: string;
@@ -103,7 +124,7 @@ export class PdrManagementComponent implements OnInit {
   pifapprovaldatauser1: string;
   pdapprovaluser1: string;
 
-
+  selectedRowIndex = -1;
   public isVisible: boolean = false;
   public isVisible2: boolean = false;
   public isVisible3: boolean = false;
@@ -147,17 +168,17 @@ export class PdrManagementComponent implements OnInit {
   assigneddatalo_data: any;
   dataloadaudittrackpdr: any;
   myForm: FormGroup;
-  customercode: string;
+  customercode: string='';
   AssignedTo: string = 'admin';
   Status: string = '';
   StartDate: string;
   CompletedDate: string;
-  ProjDetails: string;
+  ProjDetails: string='';
   Approvedproject: string;
-  Revenue: string;
+  Revenue: string='0';
   Priority: string = 'Low';
   PDRDate: string;
-  Class: string;
+  Class: string='';
   pdrData: any;
   pdrautogenerate_data: any
   Pdrdetails: any = [];
@@ -166,40 +187,40 @@ export class PdrManagementComponent implements OnInit {
   Approv: boolean;
   apprproj_data: any;
   datapdctdevbrief: any;
-  currentpdct: string;
-  intendedendmarket: string;
-  estimatedannualvolume: string;
-  pdctdistrbtedcountrs: string;
-  size1: string;
-  size2: string;
-  size3: string;
-  gallons: string;
-  bulkonly: string;
-  bottle: string;
-  jar: string;
-  tube: string;
-  packet: string;
-  wand: string;
-  stick: string;
-  productdescription: string;
-  packagingother: string;
-  specialnotes: string;
-  productconcept: string;
-  mustHaveIng: string;
-  ingredientrestriction: string;
-  desiredthirdParty: string;
-  marketingclaim: string;
-  color: string;
-  scent: string;
-  colorrestrictions: string;
-  brandsupplied: string;
-  txture: string;
-  benchmark: string;
-  competitive: string;
-  developmentnotes: string;
-  targetcost: string;
-  claim: string;
-  samplerequirement: string;
+  currentpdct: string = '';
+  intendedendmarket: string='';
+  estimatedannualvolume: string='';
+  pdctdistrbtedcountrs: string='';
+  size1: string='';
+  size2: string='';
+  size3: string='';
+  gallons: string='';
+  bulkonly: string='';
+  bottle: string='false';
+  jar: string='false';
+  tube: string='false';
+  packet: string='false';
+  wand: string='false';
+  stick: string='false';
+  productdescription: string='';
+  packagingother: string='';
+  specialnotes: string='';
+  productconcept: string='';
+  mustHaveIng: string='';
+  ingredientrestriction: string='';
+  desiredthirdParty: string='';
+  marketingclaim: string='';
+  color: string='0';
+  scent: string='';
+  colorrestrictions: string='';
+  brandsupplied: string='';
+  txture: string='0';
+  benchmark: string='';
+  competitive: string='';
+  developmentnotes: string='';
+  targetcost: string='';
+  claim: string='';
+  samplerequirement: string='';
   Botl: boolean;
   Jaar: boolean;
   Tub: boolean;
@@ -217,11 +238,11 @@ export class PdrManagementComponent implements OnInit {
   followupstatus: any;
   Fdelete: any;
   communistatus: any;
-  FollowupStatus: string;
-  FollowupSubject: string;
+  FollowupStatus: string='';
+  FollowupSubject: string = '';
   FollowupID: string;
-  CommuStatus: string;
-  CommuSubject: string;
+  CommuStatus: string = '';
+  CommuSubject: string = '';
   cdelete: string;
   CommuID: string;
   loadformulationsassign: any;
@@ -234,6 +255,7 @@ export class PdrManagementComponent implements OnInit {
   task: string;
   apprvData: any;
   isLoadingchek: boolean;
+  isLoadingchek2: boolean;
   coateatappro: string;
   coatestapproend: string;
   regulatoryappro: string;
@@ -249,6 +271,8 @@ export class PdrManagementComponent implements OnInit {
   sampleapproval: string;
   sampleapprovalend:string
   loadassignedusersdata: any;
+  checkedList: any;
+  checkedLists2: any;
   loadstagegatedata: any;
   emailData: any;
   productization: string;
@@ -260,15 +284,112 @@ export class PdrManagementComponent implements OnInit {
   pdapproval: string;
   pdapprovalend: string;
   loadformulationsassign2: any;
+  masterSelectedtrue: boolean = true;
+  masterSelectedfalse: boolean = false;
   AssigineduserdataList: Data[][] = [];
+  userdataList: Data2[][] = [];
+  safety_test_rowdata: any = [];
   i: number;
+
   j: number;
   datachem: any;
   datamicro: any;
   pdrnodata: string;
   assign_save_data: any;
-  uservalue: string ="admin";
+  uservalue: string = "admin";
+  loadspecdata: any;
+  pdrnosend: any;
   login_formpdr: FormGroup;
+  oldhighph: any;
+  oldLowviscosity: any;
+  oldhighviscosity: any;
+  oldColor: any;
+  oldodor: any;
+  oldsp: any;
+  oldAppearance: any;
+  oldtexture: any;
+
+  //saji
+  
+
+
+  //Botl: boolean;
+  //Jaar: boolean;
+  //Tub: boolean;
+  //Pckt: boolean;
+  //Wnd: boolean;
+  //Stck: boolean;
+  //datachangerequest: any;
+  //dataapprvrs: any;
+  //datamailalert: any;
+  //datamgmntapprvrs: any;
+  //productData: any;
+  //datatask: any;
+  //communicationData: any;
+  //Followupdata: any;
+  //followupstatus: any;
+  //Fdelete: any;
+  //communistatus: any;
+  //FollowupStatus: string;
+  //FollowupSubject: string;
+  //FollowupID: string;
+  //CommuStatus: string;
+  //CommuSubject: string;
+  //cdelete: string;
+  //CommuID: string;
+  //loadformulationsassign: any;
+  //loadformulationlabbatchticket: any;
+  //FormulaCode: any;
+  //protestapprend: string;
+  //stabilitytestapproval: string;
+  //stabilityapprovalend: string;
+  //taskid: string;
+  //task: string;
+  //apprvData: any;
+  //isLoadingchek: boolean;
+  //coateatappro: string;
+  //coatestapproend: string;
+  //regulatoryappro: string;
+  //regulatoryapproend: string;
+  //ilapprappr: string
+  //ilapprapprend: string;
+  //formprocedureappr: string;
+  //formprocedureapprend: string;
+  //formulaapprorejection: string;
+  //formulaapprorejectionend: string;
+  //samplecreation: string;
+  //samplecreationend: string;
+  //sampleapproval: string;
+  //sampleapprovalend: string
+  //loadassignedusersdata: any;
+  //loadstagegatedata: any;
+  //emailData: any;
+  //productization: string;
+  //productizationend: string;
+  //pccapprovaldata: string;
+  //pifapprovaldata: string;
+  //pifapprovalenddata: string
+  //pccapprovalenddata: string;
+  //pdapproval: string;
+  //oldlowph: any;
+  //oldhighph: any;
+  //oldLowviscosity: any;
+  //oldhighviscosity: any;
+  //oldColor: any;
+  //oldodor: any;
+  //oldsp: any;
+  //oldAppearance: any;
+  //oldtexture: any;
+  //pdrsavedatas: any;
+  //oldhighSpecificGravity: any;
+  //pdapprovalend: string;
+  //loadformulationsassign2: any;
+  //AssigineduserdataList: Data[][] = [];
+  //i: number;
+  //j: number;
+  //assign_save_data: any;
+  //uservalue: string = "admin";
+  //login_formpdr: FormGroup;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.login_formpdr = fb.group({
       'projname': ['', Validators.required],
@@ -284,7 +405,7 @@ export class PdrManagementComponent implements OnInit {
   }
   openloadspecificationparameter(): void {
     const dialogRef = this.dialog.open(LoadspecificationParameterComponent, {
-      width: '65%', height: '75%', disableClose: true
+      width: '60%', height: '70%', disableClose: true
     });
   }
   openloadnewchemistryparams(): void {
@@ -312,6 +433,8 @@ export class PdrManagementComponent implements OnInit {
           this.projectapprovalcheck = false;
           this.datecheck = true;
           this.isLoadingchek = true;
+          this.isLoadingchek2 = true;
+          this.isprocheck = true;
         }
       }
       if (result == "") {
@@ -401,8 +524,43 @@ this.loadformulationsassign = loadformulations
         this.pdrnodata = this.pdrno;
         this.datashare.sendpdrno(this.pdrnodata);
       })
+      this.loadspecification(this.pdrno).subscribe((loadspec) => {
+        console.warn("loadspec", loadspec)
+        this.loadspecdata = loadspec
+        this.pdrnosend = this.pdrno
+        this.datashare.sendpdrno(this.pdrnosend)
+      })
+
 
     });
+  }
+  isAllSelected() {
+    for (var i = 0; i < this.loadassignedusersdata.length; i++) {
+      this.loadassignedusersdata[i].UserCheck = 'true';
+    }
+
+
+  }
+  isAllunSelected() {
+    for (var i = 0; i < this.loadassignedusersdata.length; i++) {
+      this.loadassignedusersdata[i].UserCheck = 'false';
+    }
+
+
+  }
+  isAllSelectedassigned() {
+    for (var i = 0; i < this.loadformulationsassign.length; i++) {
+      this.loadformulationsassign[i].Assign = 'True';
+    }
+
+
+  }
+  isAllunSelectedassigned() {
+    for (var i = 0; i < this.loadformulationsassign.length; i++) {
+      this.loadformulationsassign[i].Assign = 'false';
+    }
+
+
   }
   
   showAlert(): void {
@@ -668,7 +826,11 @@ this.loadformulationsassign = loadformulations
 
     }
   }
-
+  loadspecification(pdrno: string) {
+    var pdrnum = pdrno;
+    let params1 = new HttpParams().set('PDRNo', pdrnum);
+    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/loadspecs", { params: params1 })
+  }
   PDRdataload(pdrnumber: string) {
     var pdrnum = pdrnumber;
     let params1 = new HttpParams().set('PDRNo', pdrnum);
@@ -693,8 +855,22 @@ this.loadformulationsassign = loadformulations
 
     });
   }
-  ClearData() {
+  addRow() {
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.saveEditData();
 
+
+    // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
+  }
+  deleteRow() {
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    this.dataGrid.instance.deselectAll();
+  }
+  selectedChanged(e) {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+  ClearData() {
+    this.isprocheck =false;
     this.pdrno = this.pdrautogenerate_data;
     this.Approv = false;
     // this.pdrno = '';
@@ -791,6 +967,243 @@ this.loadformulationsassign = loadformulations
       console.warn("loadformulalabbatch", loadformulationslab)
       this.loadformulationlabbatchticket = loadformulationslab
     })
+  }
+  DeletePDR() {
+    this.PDR_Delete().subscribe((PDR_dlt) => {
+      console.warn("PDR_deletedata", PDR_dlt)
+      this.PDR_deletedata = PDR_dlt
+      //this.showAlert4()
+    })
+  }
+  PDR_Delete() {
+    var PDRNo = this.pdrno;
+    var ProjectName = this.projectname;
+    let params1 = new HttpParams().set('PDRNo', PDRNo).set('ProjectName', ProjectName);
+    return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/deletepDR", { params: params1, responseType: 'text' })
+  }
+  pdrsavemain() {
+    this.dataList[0] = ([{
+      PDRNo: this.pdrno,
+      pdrdatetime: this.currentDate,
+      ProjectName: this.projectname,
+      CustomerCode: this.customercode,
+      AssignedTo: this.AssignedTo,
+      ProjDetails: this.ProjDetails,
+      Revenue: this.Revenue,
+      Class: this.Class,
+      StartDate: this.currentstartDate,
+      CompletedDate: this.currentendDate,
+      Requirements: this.requirement,
+      Status: this.status,
+      ProjectResults: this.result,
+      lowph: this.Lowph,
+      oldlowph: this.oldlowph,
+      highph: this.Highph,
+      lowviscosity: this.Lowviscosity,
+      highviscosity: this.highviscosity,
+      appearance: this.Appearance,
+      color: this.Color,
+      odor: this.Odor,
+      comments: this.Comments,
+      viscosityunit: this.Viscosityunit,
+      priority: this.Priority,
+      SpecificGravity: this.specificGravity,
+      Texture: this.txture,
+      HighSpecificGravity: this.highSpecificGravity,
+      ViscosityMethod: this.viscosityMethod,
+      ViscosityFactor: this.viscosityFactor,
+      Speed: this.speed,
+      Spindle: this.spindle,
+      VTime: this.vTime,
+      AddedDT: '',
+      AddedBy: 'Admin',
+      oldhighph: '0',
+      oldlowviscosity: '0',
+      oldhighvisc: '0',
+      oldlowsp: '0.00',
+      oldhighsp: '0',
+      oldappearance: '0',
+      oldcolor: '0',
+      oldodor: '0',
+      texture: '0',
+      oldtexture: '0',
+      Helipath: 'false',
+      currentpdct: this.currentpdct,
+      IntendedEnd: this.intendedendmarket,
+      Estimated: this.estimatedannualvolume,
+      Countries: this.pdctdistrbtedcountrs,
+      SpecialNotes: this.specialnotes,
+      size1: this.size1,
+      size2: this.size2,
+      size3: this.size3,
+      Other: this.packagingother,
+      duration: '',
+      strProductDevBrief: '',
+      chkBottle: this.Botl,
+      chkTube: this.Tub,
+      chkWand: this.Wnd,
+      chkStick: this.Stck,
+      chkJar: this.Jaar,
+      chkPacket: this.Pckt,
+      gallons: this.gallons,
+      bulkonly: this.bulkonly,
+      productdescription: this.productdescription,
+      ProductConcept: this.productconcept,
+      musthave: this.mustHaveIng,
+      ingredient: this.ingredientrestriction,
+      desired: this.desiredthirdParty,
+      marketing: this.marketingclaim,
+      Color2: '',
+      scent: this.scent,
+      anycolor: this.colorrestrictions,
+      brand: this.brandsupplied,
+      benchmark: this.benchmark,
+      compprdoduct: this.competitive,
+      developmentnotes: this.developmentnotes,
+      target: this.targetcost,
+      Claims: this.claim,
+      samplereq: this.samplerequirement,
+    }]);
+
+
+
+
+    this.pdr_saveup().subscribe((pdr_save) => {
+      console.warn("pdrsavemain", pdr_save)
+      this.pdrsavedatas = pdr_save
+    })
+    this.showAlert()
+
+
+  };
+  pdrupdatemain() {
+    this.dataList1[0] = ([{
+      PDRNo: this.pdrno,
+      pdrdatetime: this.currentDate,
+      ProjectName: this.projectname,
+      CustomerCode: this.customercode,
+      AssignedTo: this.AssignedTo,
+      ProjDetails: this.ProjDetails,
+      Revenue: this.Revenue,
+      Class: this.Class,
+      StartDate: this.currentstartDate,
+      CompletedDate: this.currentendDate,
+      Requirements: this.requirement,
+      Status: this.status,
+      ProjectResults: this.result,
+      lowph: this.Lowph,
+      oldlowph: this.oldlowph,
+      highph: this.Highph,
+      lowviscosity: this.Lowviscosity,
+      highviscosity: this.highviscosity,
+      appearance: this.Appearance,
+      color: this.Color,
+      odor: this.Odor,
+      comments: this.Comments,
+      viscosityunit: this.Viscosityunit,
+      priority: this.Priority,
+      SpecificGravity: this.specificGravity,
+      Texture: this.texture,
+      HighSpecificGravity: this.highSpecificGravity,
+      ViscosityMethod: this.viscosityMethod,
+      ViscosityFactor: this.viscosityFactor,
+      Speed: this.speed,
+      Spindle: this.spindle,
+      VTime: this.vTime,
+      AddedDT: '',
+      AddedBy: 'Admin',
+      oldhighph: '0',
+      oldlowviscosity: '0',
+      oldhighvisc: '0',
+      oldlowsp: '0',
+      oldhighsp: '0',
+      oldappearance: '0',
+      oldcolor: '0',
+      oldodor: '0',
+      texture: '0',
+      oldtexture: '0',
+      Helipath: 'false',
+      currentpdct: this.currentpdct,
+      IntendedEnd: this.intendedendmarket,
+      Estimated: this.estimatedannualvolume,
+      Countries: this.pdctdistrbtedcountrs,
+      SpecialNotes: this.specialnotes,
+      size1: this.size1,
+      size2: this.size2,
+      size3: this.size3,
+      Other: this.packagingother,
+      gallons: this.gallons,
+      bulkonly: this.bulkonly,
+      chkBottle: this.Botl,
+      chkTube: this.Tub,
+      chkWand: this.Wnd,
+      chkStick: this.Stck,
+      chkJar: this.Jaar,
+      chkPacket: this.Pckt,
+      ProductConcept: this.productconcept,
+      musthave: this.mustHaveIng,
+      ingredient: this.ingredientrestriction,
+      desired: this.desiredthirdParty,
+      marketing: this.marketingclaim,
+      Color2: this.color,
+      scent: this.scent,
+      anycolor: this.colorrestrictions,
+      brand: this.brandsupplied,
+      benchmark: this.benchmark,
+      compprdoduct: this.competitive,
+      target: this.targetcost,
+      developmentnotes: this.developmentnotes,
+      productdescription: this.productdescription,
+      Testure: this.txture,
+      Claims: this.claim,
+      samplereq: this.samplerequirement,
+      UpdatedBy: 'admin',
+      strProductDevBrief: 'Update',
+      /* Linenumber: this.Linenumber,*/
+      //TestName: this.TestName,
+      //psize: this.psize,
+      //pcomments: this.pcomments
+
+
+
+    }]);
+
+
+
+
+    this.pdr_updateup().subscribe((pdr_updatemain) => {
+      console.warn("pdrupdatemain", pdr_updatemain)
+      this.pdrsavedatas = pdr_updatemain
+    })
+    this.showAlert2()
+
+
+  };
+  pdr_updateup() {
+
+
+
+    var datalistraw: any = JSON.stringify(this.dataList1);
+    //var datalistaudit: any = JSON.stringify(this.DataListAudit);
+    //var datalistifra: any = JSON.stringify(this.DataListIFRA);
+    var operation = 'Update';
+    var username = 'admin';
+    var username2 = 'admin';
+    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2);
+    return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
+  }
+  pdr_saveup() {
+
+
+
+    var datalistraw: any = JSON.stringify(this.dataList);
+    //var datalistaudit: any = JSON.stringify(this.DataListAudit);
+    //var datalistifra: any = JSON.stringify(this.DataListIFRA);
+    var operation = 'Save';
+    var username = 'admin';
+    var username2 = 'admin';
+    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2);
+    return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
   }
   loadstagegatesettings(Pdrno) {
    
@@ -961,7 +1374,7 @@ this.loadformulationsassign = loadformulations
     var taskID = taskid;
     var PjctName = pjctname;
     let params1 = new HttpParams().set('PDRNo', Pdrno).set('Taskid', taskID).set('ProjectName', PjctName);
-    return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/loadcheckedemail", { params: params1 })
+    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/loadcheckedemail", { params: params1 })
   }
   Followupnotesadd() {
 
@@ -971,7 +1384,7 @@ this.loadformulationsassign = loadformulations
       console.warn("Pdr_addfollow", Pdr_addfollow)
       this.followupstatus = Pdr_addfollow
     })
-    
+    this.wait(2000);
     this.Loadfollowupnotes(this.pdrno).subscribe((Followupdetails) => {
       console.warn("Followupdetails", Followupdetails)
       this.Followupdata = Followupdetails
@@ -979,7 +1392,52 @@ this.loadformulationsassign = loadformulations
 
     })
 
+    this.FollowupSubject = "";
+    this.FollowupStatus = "";
+  }
+  selectfavalue(option, event) {
+    var eventval1: any = event.target.checked;
+    for (let laodformulaassign of this.loadformulationsassign) {
+      if (laodformulaassign.TaskID == option.TaskID) {
+        laodformulaassign.Assign = eventval1
+        laodformulaassign.Task = option.Task
+        laodformulaassign.EmailAlert = option.EmailAlert
+      }
 
+    }
+    var checkformulationusername: any = this.loadformulationsassign;
+
+    console.log(this.checkedList);
+  }
+  selectfavalue2(option, event) {
+    var eventval2: any = event.target.checked;
+  
+    for (let laodformulaassign of this.loadformulationsassign) {
+      if (laodformulaassign.TaskID == option.TaskID) {
+        laodformulaassign.Assign = option.Assign
+        laodformulaassign.Task = option.Task
+        laodformulaassign.EmailAlert = eventval2
+      }
+    }
+    var checkformulationusernames: any = this.loadformulationsassign;
+
+    console.log(this.checkedLists2);
+
+  }
+  userdatacheck(option, event) {
+    // this.loadassignedusersdata = loadassignedusers
+    var eventval: any = event.target.checked;
+    for (let laodassign of this.loadassignedusersdata) {
+      if (laodassign.UserName == option.UserName) {
+        laodassign.UserCheck = eventval
+      }
+      //if (this.checkedListcheck[i] == option.UserCheck) {
+      // this.checkedListcheck.splice(i, 1);
+      //}
+    }
+    var checkusername: any = this.loadassignedusersdata;
+    //var checkusercheck: any = this.checkedListcheck;
+    console.log(this.checkedList);
   }
   setvaluesassign(finished_searchdata: any) {
     this.i = 0;
@@ -996,9 +1454,25 @@ this.loadformulationsassign = loadformulations
       this.i++;
     }
   }
+  setvaluesassign2(USER_searchdata: any) {
+    this.i = 0;
+    this.j = 0;
+
+    for (let user of USER_searchdata) {
+
+
+
+      this.userdataList[this.i] = ([{
+        usercheck: user.UserCheck,
+        ClbUsers: user.UserName,
+      }]);
+      this.i++;
+    }
+  }
   saveassignuserlist() {
     this.AssigineduserdataList = [];
-    this.setvaluesassign(this.loadassignedusersdata);
+    this.setvaluesassign(this.loadformulationsassign);
+    this.setvaluesassign2(this.loadassignedusersdata);
     this.Assignuser_save().subscribe((assign_save) => {
       console.warn("assign_save", assign_save)
       this.assign_save_data = assign_save
@@ -1007,64 +1481,81 @@ this.loadformulationsassign = loadformulations
   Assignuser_save() {
     var PDRNO = this.pdrno;
     var Project = this.projectname;
-    var usercount = this.pdrno;
-    var usercheck = this.pdrno;
-    var userselect = this.pdrno;
+    var selecteduser = this.uservalue;
     var datalistdata: any = JSON.stringify(this.AssigineduserdataList);
-    let params1 = new HttpParams().set('Assignuserlistjson', datalistdata).set('PdrNo', PDRNO).set('ProjectName', Project).set('ClbUserscount', usercount).set('ClbUserCheckedItems',usercheck ).set('ClbUsersSelectedItem',userselect );
-    return this.http.get("https://smartformulatorsupplierwebsevices2.azurewebsites.net/SaveFinishedProduct", { params: params1, responseType: 'text' })
+    var datalistdata2: any = JSON.stringify(this.userdataList);
+    let params1 = new HttpParams().set('PDRNo', PDRNO).set('ProjectName', Project).set('assigndatajson', datalistdata).set('ClbUsersjson', datalistdata2).set('SelectedClbUsers', selecteduser);
+    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/assignusersSave", { params: params1, responseType: 'text' })
   }
   Pdraddfollowup() {
     var PDRNO: string = this.pdrno;
     var fstatus: string = this.FollowupStatus;
     var user: any = "admin";
     var fsubject: string = this.FollowupSubject;
+    if (this.FollowupID == '') {
+      var Operation = "Add"
+    }
+    else { var Operation = "update" }
+    var FollowupID = this.FollowupID;
 
-
-
-    let params1 = new HttpParams().set('PDRNo', PDRNO).set('status', fstatus).set('username', user).set('SubjectFollowup', fsubject);
+    let params1 = new HttpParams().set('PDRNo', PDRNO).set('status', fstatus).set('username', user).set('SubjectFollowup', fsubject).set('operation', Operation).set('Statusfollowlineno', FollowupID);
     return this.http.get("https://smartformulatorpdrwebservice2.azurewebsites.net/addfollowupnotes", { params: params1, responseType: 'text' })
 
-
-
   }
+ 
   Followupnotesdelete() {
-
-
 
     this.Deletefollowup().subscribe((Pdr_deletefollow) => {
       console.warn("Pdr_deletefollow", Pdr_deletefollow)
       this.Fdelete = Pdr_deletefollow
     })
+    this.wait(2000);
+    this.Loadfollowupnotes(this.pdrno).subscribe((Followupdetails) => {
+      console.warn("Followupdetails", Followupdetails)
+      this.Followupdata = Followupdetails
 
-  
+
+    })
+    this.FollowupID = '';
+    this.FollowupSubject = "";
+    this.FollowupStatus = "";
+  }
+  clearcommuncations() {
+    this.FollowupID = '';
+    this.FollowupSubject = "";
+    this.FollowupStatus = "";
+    this.CommuSubject = "";
+    this.CommuStatus = "";
+    this.CommuID = '';
 
   }
   Deletefollowup() {
     var StatusId: string = this.FollowupID;
 
-
-
     let params1 = new HttpParams().set('StatusFollowID', StatusId);
     return this.http.get("https://smartformulatorpdrwebservice2.azurewebsites.net/deletefollowupnotes", { params: params1, responseType: 'text' })
-
-
-
   }
+   wait(ms) {
+  var start = new Date().getTime();
+  var end = start;
+  while (end < start + ms) {
+    end = new Date().getTime();
+  }
+   }
   Communotesadd() {
-
-
 
     this.Pdraddcommunication().subscribe((Pdr_addcom) => {
       console.warn("Pdr_addcom", Pdr_addcom)
       this.communistatus = Pdr_addcom
     })
-
+    this.wait(3000);
     this.Loadcommnotes(this.pdrno).subscribe((CommunicationDetails) => {
       console.warn("CommunicationDetails", CommunicationDetails)
       this.communicationData = CommunicationDetails
     })
-
+    this.CommuSubject = "";
+    this.CommuStatus = "";
+    this.CommuID = '';
 
   }
   Pdraddcommunication() {
@@ -1072,43 +1563,41 @@ this.loadformulationsassign = loadformulations
     var cstatus: string = this.CommuStatus;
     var user: any = "admin";
     var csubject: string = this.CommuSubject;
-
-
-
-    let params1 = new HttpParams().set('PDRNo', PDRNO).set('status', cstatus).set('username', user).set('Subjectcommuid', csubject);
+    if (this.CommuID == '') {
+      var Operation = "Add"
+    }
+    else { var Operation = "update" }
+    var commulineno = this.CommuID;
+    let params1 = new HttpParams().set('PDRNo', PDRNO).set('status', cstatus).set('username', user).set('Subjectcommuid', csubject).set('operation', Operation).set('Statuscommulineno', commulineno);
     return this.http.get("https://smartformulatorpdrwebservice2.azurewebsites.net/addcommunicationnotes", { params: params1, responseType: 'text' })
-
-
 
   }
   Communotesdelete() {
-
-
 
     this.DeleteCommunication().subscribe((Pdr_deletecommu) => {
       console.warn("Pdr_deletecommu", Pdr_deletecommu)
       this.cdelete = Pdr_deletecommu
     })
+    this.wait(3000);
+    this.Loadcommnotes(this.pdrno).subscribe((CommunicationDetails) => {
+      console.warn("CommunicationDetails", CommunicationDetails)
+      this.communicationData = CommunicationDetails
+    })
 
-
-
+    this.CommuSubject = "";
+    this.CommuStatus = "";
+    this.CommuID = '';
   }
   DeleteCommunication() {
     var StatusId: string = this.CommuID;
-
-
-
-
     let params1 = new HttpParams().set('StatusCommID', StatusId);
     return this.http.get("https://smartformulatorpdrwebservice2.azurewebsites.net/deletecommunicationnotes", { params: params1, responseType: 'text' })
-
-
-
   }
   setvaluespdr(workflow_pdr) {
     this.taskid = workflow_pdr.Taskid;
     this.task = workflow_pdr.Task;
     this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
     this.checkapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approvercheckload) => {
       console.warn("approvercheckload", approvercheckload)
       this.apprvData = approvercheckload
@@ -1305,4 +1794,89 @@ export class Data {
   task: string;
   emailalerts: string;
 
+}
+export class PDRDetail1 {
+  pdrdatetime: string;
+  ProjectName: string;
+  CustomerCode: string;
+  AssignedTo: string;
+  ProjDetails: string;
+  Revenue: string;
+  Class: string;
+  StartDate: string;
+  CompletedDate: string;
+  Requirements: string;
+  Status: string;
+  ProjectResults: string;
+  lowph: string;
+  oldlowph: string;
+  highph: string;
+  lowviscosity: string;
+  highviscosity: string;
+  appearance: string;
+  color: string;
+  odor: string;
+  comments: string;
+  viscosityunit: string;
+  priority: string;
+  SpecificGravity: string;
+  Texture: string;
+  HighSpecificGravity: string;
+  ViscosityMethod: string;
+  ViscosityFactor: string;
+  Speed: string;
+  Spindle: string;
+  VTime: string;
+  AddedDT: string;
+  AddedBy: string;
+  oldhighph: string;
+  oldlowviscosity: string;
+  oldhighvisc: string;
+  oldlowsp: string;
+  oldhighsp: string;
+  oldappearance: string;
+  oldcolor: string;
+  oldodor: string;
+  texture: string;
+  oldtexture: string;
+  duration: string;
+  UpdatedBy: string;
+  chkBottle: string;
+  chkTube: string;
+  chkWand: string;
+  chkStick: string;
+  chkJar: string;
+  chkPacket: string;
+  currentpdct: string;
+  IntendedEnd: string;
+  Estimated: string;
+  Countries: string;
+  size1: string;
+  size2: string;
+  size3: string;
+  gallons: string;
+  bulkonly: string;
+  Other: string;
+  productdescription: string;
+  ProductConcept: string;
+  SpecialNotes: string;
+  musthave: string;
+  ingredient: string;
+  desired: string;
+  marketing: string;
+  Color2: string;
+  scent: string;
+  anycolor: string;
+  brand: string;
+  benchmark: string;
+  compprdoduct: string;
+  developmentnotes: string;
+  target: string;
+  Claims: string;
+  samplereq: string;
+  strProductDevBrief: string;
+}
+export class Data2 {
+  ClbUsers: string;
+  usercheck: string;
 }

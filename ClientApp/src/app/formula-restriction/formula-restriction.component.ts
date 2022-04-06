@@ -214,7 +214,7 @@ export class FormulaRestrictionComponent implements OnInit {
     var user: string = username;
     let params1 = new HttpParams().set('FormulaCode', formulcod)
       .set('username', user);
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/deletetempformulaprocess", { params: params1 })
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/deletetempformulaprocess", { params: params1 })
   }
   formulationrestrictionload(formulcode: string, operation: string, username: string,cuscode:string) {
     var formulcod: string = formulcode;
@@ -225,14 +225,14 @@ export class FormulaRestrictionComponent implements OnInit {
       .set('username', user)
       .set('Operation', operat)
       .set('CusCode', cus);
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/LoadFormulaRestrictions", { params: params1 })
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/LoadFormulaRestrictions", { params: params1 })
   }
   projectrestrictionload(formulcode: string) {
     var formulcod: string = formulcode;
    
     let params1 = new HttpParams().set('FormulaCode', formulcod);
     
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/Loadprojectdetailsinrestriction", { params: params1})
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/Loadprojectdetailsinrestriction", { params: params1})
   }
   
   formulationrestrictionloadcheck(formulcode: string, operation: string, username: string, cuscode: string) {
@@ -244,14 +244,14 @@ export class FormulaRestrictionComponent implements OnInit {
       .set('username', user)
       .set('Operation', operat)
       .set('CusCode', cus);
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/LoadFormulaRestrictionscheck", { params: params1, responseType: 'text'})
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/LoadFormulaRestrictionscheck", { params: params1, responseType: 'text'})
   }
  //simpleformulprocessload(formulacodevalue: string)
  //{
  //  var formulcod: string = formulacodevalue;
  // let params1 = new HttpParams().set('FormulaCode', formulcod);
   
- //  return this.http.get("http://24.187.220.60/Formularestriction_webservice2/loadsimpletempformulaprocess", { params: params1 })
+ //  return this.http.get("https://formularestrictionwebservice.azurewebsites.net/loadsimpletempformulaprocess", { params: params1 })
  //}
   Rawmaterialrestriction(foa:string,perallowed:string,inciname:string): void {
     this.formularestrictiondetails = [this.restcountryname, this.formulaname, foa, perallowed, inciname, this.operation];

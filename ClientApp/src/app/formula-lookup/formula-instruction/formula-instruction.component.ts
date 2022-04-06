@@ -18,7 +18,7 @@ export class FormulaInstructionComponent implements OnInit {
   constructor(public dialog: MatDialog, private http: HttpClient, public dialogRef: MatDialogRef<FormulaInstructionComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
 
   Loadformulainstruction() {
-    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/DisplayFormulainstruction");
+    return this.http.get("https://formulalookupwebservice1.azurewebsites.net/DisplayFormulainstruction");
   }
   setvalues(raw_formula)
   {

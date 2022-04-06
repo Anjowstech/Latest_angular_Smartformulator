@@ -6,7 +6,7 @@
     <div class="form-row">
       <div class="form-inline">
         <label style="margin-left:10px;">Specification Parameter</label>
-        <input type="text" class="form-control" size="12" style="margin-left:10px;" id="PropertyName" name="PropertyName" #PropertyName>
+        <input type="text" class="form-control" size="12" style="margin-left:10px;" id="PropertyName" [(ngModel)]="Specificationparam" name="spe" value="" #specsdata>
       </div>
       <div class="form-inline">
       </div>
@@ -24,7 +24,7 @@
           <div class="form-inline">
             <mat-dialog-actions>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:40px;">New</button>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="AddProperty(PropertyName.value);openloadproperty()" matDialogClose>Add</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="openaddspec(specsdata.value)" matDialogClose>Add</button>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
             </mat-dialog-actions>
           </div>

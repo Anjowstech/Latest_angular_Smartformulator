@@ -33,7 +33,7 @@ export class NavMenuComponent {
         {
           displayName: 'Product Dev.Brief',
 
-          route: 'feedback'
+          route: 'formularestriction'
         },
         {
           displayName: 'Assigning Users',

@@ -30,13 +30,13 @@ export class CheckRestrictionComponent implements OnInit {
 
     let params1 = new HttpParams().set('FormulaCode', formulcod);
 
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/Loadprojectdetailsinrestriction", { params: params1 })
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/Loadprojectdetailsinrestriction", { params: params1 })
   }
   simpleformulprocessload(formulacodevalue: string) {
     var formulcod: string = formulacodevalue;
     let params1 = new HttpParams().set('FormulaCode', formulcod);
 
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/loadsimpletempformulaprocess", { params: params1 })
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/loadsimpletempformulaprocess", { params: params1 })
   }
   custcomethod(cusval: any) {
 
@@ -54,7 +54,7 @@ export class CheckRestrictionComponent implements OnInit {
       .set('username', user)
       
       .set('Customername', cus);
-    return this.http.get("http://24.187.220.60/Formularestriction_webservice2/showRestricitonMsgNew", { params: params1, responseType: 'text' })
+    return this.http.get("https://formularestrictionwebservice.azurewebsites.net/showRestricitonMsgNew", { params: params1, responseType: 'text' })
   }
   ngOnInit() {
     this.formuldetails = this.Datashare.getformuladetails()

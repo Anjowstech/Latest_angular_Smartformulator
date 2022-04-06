@@ -122,7 +122,7 @@
                     <option selected>Select</option>
                     <option *ngFor="let itemunit of statedatalo_data">{{itemunit.StateAbbrev}}</option>
                     <!--<option>DHL</option>
-              <option>Federal Express</option>-->
+      <option>Federal Express</option>-->
                   </select>
                   <input type="text" class="form-control" id="input" style="width:30%;">
                 </div>
@@ -136,25 +136,81 @@
                     <option selected>select</option>
                     <option *ngFor="let itemunit of countrydatalo_data">{{itemunit.Country}}</option>
                     <!--<option>1</option>
-              <option>2 </option>-->
+      <option>2 </option>-->
                   </select>
                 </div>
-                <div class=" form-inline" style="padding-top:1%;">
+                <div class="form-inline" style="padding-top:1%;">
                   <label for="E-Mail">E-Mail </label>
-                  <input type="text" class="form-control" id="E-Mail " style="width:60%;" name="email" [(ngModel)]="email" value="">
+                  <input type="email" class="form-control" id="emailmai" style="width:60%;" name="emailmain" [(ngModel)]="emailref" value="">
                 </div>
+                <!--<div class="form-inline">
+
+    <label for="email">Email</label>
+    <input style="width:60%;" type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="emailmain" name="emailmai" ngModel="emailref" #emailref="ngModel" required value="">
+    <div class="md-errors-spacer" [hidden]="emailref.valid || emailref.untouched">
+      <div style="color:red;margin-left:5px" *ngIf="emailref.errors && emailref.errors.required">
+        Email is required
+      </div>
+      <div style="color: red; margin-left: 5px" *ngIf="emailref.errors && emailref.errors.pattern">
+        Email is invalid
+      </div>
+
+    </div>
+  </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 1 ">E-Mail 1 </label>
-                  <input type="text" class="form-control" id="E-Mail 1" style="width:60%;" name="email1" [(ngModel)]="contactfmail" value="">
+                  <input type="email" class="form-control" id="E-Mail 1" style="width:60%;" name="email1" [(ngModel)]="contactfmail" value="">
                 </div>
+                <!--<div class="form-inline">
+
+    <label for="email">Email 1</label>
+    <input style="width:60%;" type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="email1" name="email1" ngModel #emailref1="ngModel" required>
+    <div class="md-errors-spacer" [hidden]="emailref1.valid || emailref1.untouched">
+      <div style="color:red;margin-left:5px" *ngIf="emailref1.errors && emailref1.errors.required">
+        Email is required
+      </div>
+      <div style="color: red; margin-left: 5px" *ngIf="emailref1.errors && emailref1.errors.pattern">
+        Email is invalid
+      </div>
+
+    </div>
+  </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 2">E-Mail 2</label>
-                  <input type="text" class="form-control" id="E-Mail 2" style="width:60%;" name="email2" [(ngModel)]="contactsmail" value="">
+                  <input type="email" class="form-control" id="E-Mail 2" style="width:60%;" name="email2" [(ngModel)]="contactsmail" value="">
                 </div>
+                <!--<div class="form-inline">
+
+    <label for="email">Email 2</label>
+    <input style="width:60%;" type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="email2" name="email2" ngModel #emailref2="ngModel" required>
+    <div class="md-errors-spacer" [hidden]="emailref2.valid || emailref2.untouched">
+      <div style="color:red;margin-left:5px" *ngIf="emailref2.errors && emailref2.errors.required">
+        Email is required
+      </div>
+      <div style="color: red; margin-left: 5px" *ngIf="emailref2.errors && emailref2.errors.pattern">
+        Email is invalid
+      </div>
+
+    </div>
+  </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 3">E-Mail 3 </label>
-                  <input type="text" class="form-control" id="E-Mail 3 " style="width:60%;" name="email3" [(ngModel)]="contacttmail" value="">
+                  <input type="email" class="form-control" id="E-Mail 3 " style="width:60%;" name="email3" [(ngModel)]="contacttmail" value="">
                 </div>
+                <!--<div class="form-inline">
+
+    <label for="email">Email 3</label>
+    <input style="width:60%;" type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="email3" name="email3" ngModel #emailref3="ngModel" required>
+    <div class="md-errors-spacer" [hidden]="emailref3.valid || emailref3.untouched">
+      <div style="color:red;margin-left:5px" *ngIf="emailref3.errors && emailref3.errors.required">
+        Email is required
+      </div>
+      <div style="color: red; margin-left: 5px" *ngIf="emailref3.errors && emailref3.errors.pattern">
+        Email is invalid
+      </div>
+
+    </div>
+  </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Sales Region ">Sales Region </label>
                   <input type="text" class="form-control" id="Sales Region" style="width:60%;" name="salesregion" [(ngModel)]="salesregion" value="">
@@ -162,7 +218,7 @@
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Ship Via">Ship Via</label>
                   <select id="Ship Via" class="form-control" style="width:60%;" name="shipv" [(ngModel)]="shipvia" value="">
-                   
+
                     <option>DHL</option>
                     <option>Federal Express</option>
                     <option>UPS</option>
@@ -176,7 +232,7 @@
                   <label for="Card No">Card No</label>
                   <input type="text" class="form-control" id="Card No" style="width:25%;">
                   <label for="Expiry Date " style="margin-left:1%">Expiry Date </label>
-                  <input style="width: 20%;" type="date" class="form-control">
+                  <input style="width: 20%;" type="date" id="expdt" class="form-control" [(ngModel)]="expirydate" (change)="dateChangeexp($event)" name="dateexp" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Sales Rep Initials ">Sales Rep Initials </label>
@@ -313,13 +369,13 @@
                     </div>
                     <div class="form-inline" style="margin-top:10px">
                       <label for="browse" >Browse:</label>
-                      <input type="text" class="form-control" id="data6" style="width:60%">
+                      <input type="text" class="form-control" id="data6" style="width:60%" [(ngModel)]="FillingAttachment" value="" name="fillattnt">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                     </div>
                     <div class="form-inline" style="margin-top:10px">
                       <label for="browse" >Browse:</label>
-                      <input type="text" class="form-control" id="data6" style="width:60%">
+                      <input type="text" class="form-control" id="data6" style="width:60%" [(ngModel)]="FillingAttachment2" value="" name="fillattnt2">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                     </div>
@@ -336,8 +392,8 @@
                     </div>
 
                     <div class="form-inline" style="margin-top:10px">
-                      <label for="browse" >Browse:</label>
-                      <input type="text" class="form-control" id="data6" style="width:60%">
+                      <label for="browse">Browse:</label>
+                      <input type="text" class="form-control" id="data6" style="width:60%" [(ngModel)]="LabelAttachment" value="" name="lattmnt">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                     </div>
@@ -355,7 +411,7 @@
 
                     <div class="form-inline" style="margin-top:10px">
                       <label for="browse" >Browse:</label>
-                      <input type="text" class="form-control" id="data6" style="width:60%">
+                      <input type="text" class="form-control" id="data6" style="width:60%" [(ngModel)]="attachment" value="" name="atmnt">
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                     </div>
@@ -374,7 +430,7 @@
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
-                          <div class="form-inline" style="margin-top:10px" >
+                          <div class="form-inline" style="margin-top:10px">
                             <input style="width: 87%;" type="text" class="form-control" id="data2" [(ngModel)]="Document2" name="doc2" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
@@ -416,6 +472,56 @@
                           </div>
                           <div class="form-inline" style="margin-top:10px">
                             <input style="width: 87%;" type="text" class="form-control" id="data10" [(ngModel)]="Document10" name="doc10" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data11" [(ngModel)]="Document11" name="doc11" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data12" [(ngModel)]="Document12" name="doc12" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data13" [(ngModel)]="Document13" name="doc13" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data14" [(ngModel)]="Document14" name="doc14" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data15" [(ngModel)]="Document15" name="doc15" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data16" [(ngModel)]="Document16" name="doc16" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data17" [(ngModel)]="Document17" name="doc17" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data18" [(ngModel)]="Document18" name="doc18" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data19" [(ngModel)]="Document19" name="doc19" value="">
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                          </div>
+                          <div class="form-inline" style="margin-top:10px">
+                            <input style="width: 87%;" type="text" class="form-control" id="data20" [(ngModel)]="Document20" name="doc20" value="">
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
                           </div>
@@ -516,6 +622,10 @@
                 <label>Contact #</label>
                 <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactno" value="" name="cno">
               </div>
+              <div class="form-inline">
+                <label>Ship to location</label>
+                <input hidden style="width: 50%;" type="text" class="form-control" [(ngModel)]="Shiptolocation" value="" name="slo">
+              </div>
             </div>
           </div>
           <div class="form-row">
@@ -574,11 +684,11 @@
   </tbody>
   </table>-->
               <dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
-                            
-                            (onSelectionChanged)="selectedChanged($event)"
+                            (onSelectionChanged)="selectedChangederp($event)"
                             [columnAutoWidth]="true"
                             [dataSource]="rowData6"
                             [wordWrapEnabled]="true"
+                            (onCellDblClick)="Opensearchproducts($event)"
                             [showColumnLines]="true"
                             [showRowLines]="true"
                             [showBorders]="true"
@@ -587,26 +697,24 @@
                              [allowUpdating]="true"
                              [useIcons]="true">
                 </dxo-editing>-->
-                <dxo-column-chooser [enabled]="false">
-                  <!-- or "select" -->
-                </dxo-column-chooser>
-                <dxo-selection mode="single"></dxo-selection>
+
+                <dxo-selection [selectAllMode]="allMode"
+                               [showCheckBoxesMode]="checkBoxesMode"
+                               mode="multiple"></dxo-selection>
+                <dxo-row-dragging [allowReordering]="true"
+                                  [showDragIcons]="showDragIcons"></dxo-row-dragging>
                 <dxo-scrolling mode="virtual"></dxo-scrolling>
-
-
+                <dxo-sorting mode="none"></dxo-sorting>
 
                 <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                 <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-                <dxi-column dataField=""></dxi-column>
-                <dxi-column dataField=""></dxi-column>
-                <dxi-column type="buttons" [width]="110">
-                  <dxi-button name="edit"></dxi-button>
-                  <dxi-button name="delete"></dxi-button>
-                </dxi-column>
-                <dxi-column  [visible]="false" dataField="ProductCode"></dxi-column>
+
+
+
+                <dxi-column [visible]="false" dataField="ProductCode"></dxi-column>
                 <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodcode"></dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateprodcode'">
-                  <b style="color: black">Product Code</b>
+                  <b style="color: black">Product #</b>
                 </div>
                 <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
@@ -621,16 +729,21 @@
                   <b style="color: black">Formula Name</b>
                 </div>
                 <dxi-column dataField="COADTFORMAT" headerCellTemplate="addressHeaderTemplateCOADTFORMAT"></dxi-column>
+                <dxo-lookup [dataSource]="Dateforma"
+                            valueExpr="dateform"
+                            displayExpr="dateform">
+                </dxo-lookup>
                 <div *dxTemplate="let info of 'addressHeaderTemplateCOADTFORMAT'">
                   <b style="color: black">COA Expiry Date Format</b>
+
                 </div>
 
 
               </dx-data-grid>
             </div>
             <div style="margin-top: 2%;">
-              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Insert Row</button>
-              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Delete Row</button>
+              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="addRowerp(); ">Insert Row</button>
+              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="deleteRowerp();">Delete Row</button>
               <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Print Preview</button>
             </div>
           </form>
@@ -686,9 +799,9 @@
       </tbody>
     </table>-->
                       <dx-data-grid id="gridContainer " style="width: 98%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
-                                    
                                     (onRowPrepared)="onRowPrepared2($event)"
                                     (onSelectionChanged)="selectedChanged($event)"
+                                    (onCellDblClick)="Opensearchproductspricing($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="retail_wholesale_rowdata"
                                     [wordWrapEnabled]="true"
@@ -716,7 +829,7 @@
                         </dxi-column>
 
                         <dxi-column dataField="" [width]="50"></dxi-column>
-
+                        <dxi-column [visible]="false" dataField="ProductCode"></dxi-column>
                         <dxi-column dataField="ProductNumber" [width]="150" headerCellTemplate="addressHeaderTemplateprodno"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateprodno'">
                           <b style="color: black">Product #</b>
@@ -774,7 +887,7 @@
                     <label for="inputcust" style="margin-left:2%">Tier 2</label>
                     <input style="width: 7%; margin-left: 2%" type="text" class="form-control" [(ngModel)]="Tier2" name="t2" value="">
                     <label for="inputcust" style="margin-left:2%">Tier 3</label>
-                    <input  style="width:7%; margin-left: 2%" type="text" class="form-control" [(ngModel)]="Tier3" name="t3" value="" (focusout)="insert_tier4()">
+                    <input  style="width:7%; margin-left: 2%" type="text" class="form-control" [(ngModel)]="Tier3" name="t3" value="" (blur)="insert_tier4()">
                     <label for="inputcust" style="margin-left:2%">Tier 4</label>
                     <input disabled  style="width: 7%;margin-left:2%" type="text" class="form-control"  [(ngModel)]="Tier4" name="t4" value="">
                     <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:2%;height:40px;width:100px;"(click)="insert_tiers();">Ok</button>
@@ -997,12 +1110,13 @@
             <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
 
               <dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
-                            
                             (onRowPrepared)="onRowPrepared3($event)"
                             (onSelectionChanged)="selectedChanged($event)"
+                            (onCellDblClick)="Opensearchproductsforotcvalidate($event)"
                             [columnAutoWidth]="true"
                             [dataSource]="rowData4"
                             [wordWrapEnabled]="true"
+                            (onCellClick)="Opensearchproductsforotcvalidate($event)"
                             [showColumnLines]="true"
                             [showRowLines]="true"
                             [showBorders]="true"
@@ -1027,6 +1141,7 @@
                   <dxi-button name="edit"></dxi-button>
                   <dxi-button name="delete"></dxi-button>
                 </dxi-column>
+                <dxi-column [visible]="false" dataField="ProductCode"></dxi-column>
                 <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodnumber"></dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateprodnumber'">
                   <b style="color: black">Product #</b>

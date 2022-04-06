@@ -1,20 +1,20 @@
-<div style="background-color: #f6f5f1">
+<div style="background-color: #f6f5f1" >
   <div style="overflow-y:auto;overflow-x:hidden; height:86vh;width:100%">
     <h2 style="   font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Raw Materials Maintenance</h2>
     <form style="background-color: #f6f5f1">
       <div class="form-row" [formGroup]="login_form">
         <div class="form-group col-md-7">
           <!--<div class=" form-inline">
-            <label for="PRD" style="margin-right:10px" size="20">Ingredient Code</label>
-            <select id="PRD" class="form-control" style="width:50.11%;">
-              <option selected>Custom</option>
-              <option *ngFor="let item of datasaveabbraw">{{item.abbreviation}} - {{item.abbreviationdescription}}</option>
+          <label for="PRD" style="margin-right:10px" size="20">Ingredient Code</label>
+          <select id="PRD" class="form-control" style="width:50.11%;">
+            <option selected>Custom</option>
+            <option *ngFor="let item of datasaveabbraw">{{item.abbreviation}} - {{item.abbreviationdescription}}</option>
 
-            </select>
-            <input type="text" style=" width:20%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="incicode" #incredcode name="incredcode" value="" formControlName="ingricode" />
-            <span class="text-danger" style=" width:15%" *ngIf="login_form.controls['ingricode'].hasError('required') && (login_form.controls['ingricode'].dirty || login_form.controls['ingricode'].touched)">*</span>
+          </select>
+          <input type="text" style=" width:20%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="incicode" #incredcode name="incredcode" value="" formControlName="ingricode" />
+          <span class="text-danger" style=" width:15%" *ngIf="login_form.controls['ingricode'].hasError('required') && (login_form.controls['ingricode'].dirty || login_form.controls['ingricode'].touched)">*</span>
 
-          </div>-->
+        </div>-->
           <div class="form-inline">
             <label for="INCI Name" style="margin-top: 10px;">INCI Name</label>
             <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:71%" class="form-control" placeholder="" id="INCI Name" [(ngModel)]="inciname" #incname name="incname" value="" formControlName="incinam" />
@@ -39,22 +39,24 @@
             <span class="text-danger" *ngIf="login_form.controls['supname'].hasError('required') && (login_form.controls['supname'].dirty || login_form.controls['supname'].touched)">*</span>
           </div>
           <div class="form-inline">
-            
+
 
             <input hidden type="text" class="form-control" placeholder="" id="" [(ngModel)]="supp_code" #suppliercode name="supcode" value="">
+
+            <input hidden type="text" class="form-control" placeholder="" id="itemcodehid" [(ngModel)]="itemcodehidd" name="itemcodh" value="" />
           </div>
         </div>
         <div class="form-group col-md-5">
 
-         
 
-          <div class="form-inline" >
+
+          <div class="form-inline">
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="opensearchinciname()">Search INCI Name</button>
-            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:17%">New / Clear</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:17%" (click)="ClearData();changeTab();">New/Clear</button>
           </div>
 
           <div class="form-inline">
-            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:39%;margin-top:15px">New / Clear</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:39%;margin-top:15px" (click)="ClearData();changeTab();">New / Clear</button>
           </div>
           <div class="form-inline" style="margin-top:15px">
             <!--<button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Searchsupplierpopup()">Search Supplier</button>-->
@@ -64,8 +66,19 @@
         </div>
       </div>
     </form>
-    <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
-      <ng-container ngbNavItem style="">
+    <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible">
+      Updated Successfully!!
+    </div>
+    <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible3">
+      Saved Successfully!!
+    </div>
+  <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible2">
+    Deleted Successfully!!
+  </div>
+    <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="">
+
+       
 
         <a class="tabcolor tabbutto tabrowli textsize  " ngbNavLink>General</a>
         <ng-template ngbNavContent>
@@ -105,7 +118,7 @@
                 </div>
                 <div class="form-inline">
                   <label for="inputcust">Manufacturer</label>
-                  <input style="width: 25%;" type="text" class="form-control"  [(ngModel)]="INNName" #ebs name="EBSnameval" value="">
+                  <input style="width: 25%;" type="text" class="form-control" [(ngModel)]="INNName" #ebs name="EBSnameval" value="">
                   <label for="inputcust">EBS#</label>
                   <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="ebsNumber" #ebs name="EBSnameval" value="">
                   <mat-radio-group aria-label="Select an option" style="margin-left:0.9%">
@@ -144,7 +157,7 @@
                 <div class="form-inline" style="margin-top:5px">
                   <label for="inputcust">Category</label>
 
-                  <select id="PRD" class="form-control" style="width:25%; " [(ngModel)]="CategoryName" name="categ" value="">
+                  <select id="PRD" class="form-control" style="width:25%; " [(ngModel)]="CategoryName" name="categ" value="" (change)="rawsubcateload();">
                     <option selected>Chemical</option>
                     <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
 
@@ -153,12 +166,12 @@
                   <label for="inputcust">Sub-Category</label>
 
                   <select id="PRD" class="form-control" style="width:18%;" [(ngModel)]="SubCategoryName" name="subcateg" value="">
-                    <option>Choose...</option>
+                    <option *ngFor="let optionsub of datarawsubcategoryload ">{{optionsub.SubCategory}}</option>
 
                   </select>
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:8px" (click)="OpenSubCategory()">...</button>
                   <label style="margin-left:-1.5%;margin-right:1%">Gluten</label>
-                  <mat-radio-group aria-label="Select an option" >
+                  <mat-radio-group aria-label="Select an option">
 
                     <mat-radio-button value="true" [checked]="GlutenYesOrNo== 'True' ? true : false" style="margin-left:10px" (change)="radioChangeGlutenYesOrNo($event)">Yes</mat-radio-button>
                     <mat-radio-button value="false" [checked]="GlutenYesOrNo== 'False' ? true : false" style="margin-left:20px" (change)="radioChangeGlutenYesOrNo($event)">No</mat-radio-button>
@@ -192,14 +205,14 @@
                   <input style="width: 15%;margin-left:1.2%" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
                   <h5 for="inputcust" style="color:red">*</h5>
                   <label for="inputcust" style="margin-left:-5%">Per</label>
-                  <select id="PRD" class="form-control" style="width:7%;" name="uomnamevallastpo" [(ngModel)]="LastPOUnit" value="">
+                  <select disabled id="PRD" class="form-control" style="width:7%;" name="uomnamevallastpo" [(ngModel)]="LastPOUnit" value="">
                     <option selected>{{changeunit}}</option>
                     <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
                   </select>
                   <label for="inputcust" style="margin-left:-5%">as of</label>
-                  <input style="width: 15%;" type="date" id="lastpo" class="form-control" [(ngModel)]="LastPODt" (change)="dateChange($event)" name="lastpodate" value="">
+                  <input disabled style="width: 15%;" type="date" id="lastpo" class="form-control" [(ngModel)]="LastPODt" (change)="dateChange($event)" name="lastpodate" value="">
                   <label style="margin-left:7%">Halal</label>
-                  <mat-radio-group aria-label="Select an option" style="margin-left:0.5%" >
+                  <mat-radio-group aria-label="Select an option" style="margin-left:0.5%">
 
                     <mat-radio-button value="true" [checked]="Halal == 'Yes' ? true : false" style="margin-left:10px" (change)="radioChangehalal($event)">Yes</mat-radio-button>
                     <mat-radio-button value="false" [checked]="Halal == 'No' ? true : false" style="margin-left:20px" (change)="radioChangehalal($event)">No</mat-radio-button>
@@ -212,7 +225,7 @@
                   <input style="width: 15%;margin-left:0.8%" type="text" class="form-control" [(ngModel)]="unitCost" placeholder="0.000" #stdprize name="stdprizval" value="">
                   <h5 for="inputcust" style="color:red">*</h5>
                   <label style="margin-left:-5%">Per</label>
-                  <select id="PRD" class="form-control" style="width:7%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
+                  <select  id="PRD" class="form-control" style="width:7%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval" value="">
                     <option selected>{{changeunit}}</option>
                     <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
                   </select>
@@ -235,7 +248,7 @@
                     <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
                   </select>
                   <label for="inputcust" style="margin-left:-5%">as of</label>
-                  <input style="width: 15%;" type="date" id="shipdate" class="form-control" [(ngModel)]="costDt" (change)="dateChange($event)" name="shippdate" value="">
+                  <input style="width: 15%;" type="date" id="shipdate" class="form-control" (change)="dateChange($event)" name="shippdate" value="">
 
 
                   <label for="inputcust">Default UOM</label>
@@ -254,7 +267,7 @@
                   <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="RMSource" #Rawmatsource name="rmsourcename" value="">
 
                   <label>Approve RM</label><br>
-                  <input style="" class="form-check-input" type="checkbox" [checked]="Approved == 'True' ? true : false">
+                  <input style="" class="form-check-input" type="checkbox" [checked]="Approved == 'True' ? true : false" (change)="approvedChange($event)">
                 </div>
 
                 <div class="form-inline" style="margin-top:1%">
@@ -267,15 +280,15 @@
                   <legend class="w-auto" style="font-size:15px;color:maroon">RM Lead Time(Week(s))</legend>
                   <div class="form-inline">
                     <label placeholder="0">Pre Processing</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="preloadtime" name="prepro" value="">
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="preloadtime" name="prepro" value="" (blur)=" blurEventpreload($event);">
                   </div>
                   <div class="form-inline">
                     <label placeholder="0">Processing</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="proleadtime" name="propro" value="">
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="proleadtime" name="propro" value="" (blur)=" blurEventprolead($event);">
                   </div>
                   <div class="form-inline">
                     <label placeholder="0">Post Processing</label>
-                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="postleadtime" name="postlead" value="">
+                    <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="postleadtime" name="postlead" value="" (blur)=" blurEventpostlead($event);">
                   </div>
                   <div class="form-inline">
                     <label style="color:maroon" placeholder="0">CUM Lead Time</label>
@@ -292,7 +305,7 @@
                   <label for="inputcust">Chemist</label>
                   <input style="width: 50%" type="text" class="form-control" id="superced_name" placeholder="admin" [(ngModel)]="supercededBy" name="sprscdbyname" value="">
 
-                  
+
                 </div>
               </div>
             </div>
@@ -302,7 +315,7 @@
             <div class="form-inline" style="margin-top:-1%">
 
               <label for="inputcust" style="color:maroon;font-weight:700">Delivered Price$</label>
-              <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="">
+              <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="deliveredprice" name="delprice" placeholder="0.000" value="">
               <h5 for="inputcust" style="color:red">*</h5>
               <label for="inputcust" style="margin-left:-3.2%">Per</label>
               <select id="PRD" class="form-control" style="width:4.5%;" name="deliverval" value="" [(ngModel)]="costUnit">
@@ -310,7 +323,7 @@
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
               <label for="inputcust" style="margin-left:-3.2%">as of</label>
-              <input style="width: 10%;" type="date" id="deliverdate" class="form-control" [(ngModel)]="costDt" (change)="dateChange($event)" name="deliverc" value="">
+              <input style="width: 10%;" type="date" id="deliverdate" class="form-control" (change)="dateChange($event)" name="deliverc" value="">
               <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">Volume Pricing</button>
               <label for="inputcust" placeholder="0.00" style="margin-left:1%">Concentration %</label>
               <input style="width: 10%" type="text" class="form-control" [(ngModel)]="concentration" name="Concvalue" value="">
@@ -329,18 +342,18 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="2">
         <a class="tabcolor tabbutto tabrowli textsize  " ngbNavLink>Property</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-inline" style="margin-top:1%">
               <label for="inputcust">Specific Gravity</label>
-              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="gravity"  name="sgval" value="" (blur)=" blurEvent($event);">
+              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="gravity" name="sgval" value="" (blur)=" blurEvent($event);">
               <h5 for="inputcust" style="color:red">*</h5>
               <label for="inputcust">Lb/Gal</label>
-              <input style="width: 10%;" type="text" class="form-control"[(ngModel)]="lb_gal "  name="lbgal" value=""(blur)="  blurEvent2($event);">
+              <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="lb_gal " name="lbgal" value="" (blur)="  blurEvent2($event);">
               <label for="inputcust">Kg/m3</label>
-              <input style="width: 10%;" type="text" class="form-control"  [(ngModel)]="kgm3"  name="kgm" value="">
+              <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="kgm3" name="kgm" value="">
               <label style="margin-left:3%">VOC Contributor</label>
               <mat-radio-group aria-label="Select an option">
                 <!--<mat-radio-button [value]="1" (change)="radioChange($event)">VOC Contributor</mat-radio-button>-->
@@ -378,7 +391,7 @@
         </ng-template>
       </ng-container>
 
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem="3" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Blend</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
@@ -464,22 +477,22 @@
           </ng-template>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="4">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>CAS</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-inline" style="margin-top:1%;margin-left:1%">
               <label for="exampleFormControlTextarea1">Chem/IUPAC Name</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:60%"[(ngModel)]="IUPACName" name="iupac" value=""></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:60%" [(ngModel)]="IUPACName" name="iupac" value=""></textarea>
             </div>
             <div class="form-inline" style="margin-top: 1%; margin-left: 1%">
               <label for="exampleFormControlInput1">Restriction</label>
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" style="width:60%"[(ngModel)]="Restriction" name="restr" value="">
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" style="width:60%" [(ngModel)]="Restriction" name="restr" value="">
             </div>
           </form>
           <div>
             <h4 style="font-weight:bold">CAS Information</h4>
-            <div style="margin-left: 1%; margin-top: 1%; height: 23rem; overflow-y: auto; background-color: white;border:solid;border-width:0.1px" >
+            <div style="margin-left: 1%; margin-top: 1%; height: 23rem; overflow-y: auto; background-color: white;border:solid;border-width:0.1px">
               <table class="table table-hover table-bordered" style=" background-color: white;width:98%" id="rawmaterial table">
                 <thead>
                   <tr>
@@ -489,13 +502,13 @@
                     <th scope="col">EINECES/ELINCS No</th>
                   </tr>
                 </thead>
-               
+
                 <tbody>
                   <tr *ngFor="let cas_detail of casdata; let i=index;" (click)="dltdata(cas_detail);">
                     <td hidden style="width:10%">{{ cas_detail.itemCode}}</td>
                     <td style="width:20%">{{ cas_detail.CASNo}}</td>
-                    <td >{{ cas_detail.Description}}</td>
-                    <td >{{ cas_detail.EINECSNo}}</td>
+                    <td>{{ cas_detail.Description}}</td>
+                    <td>{{ cas_detail.EINECSNo}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -519,7 +532,7 @@
         </ng-template>
       </ng-container>
 
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="5">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Regulatory</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
@@ -534,8 +547,8 @@
                       <ngb-tab class="" title="US">
                         <ng-template ngbTabContent>
                           <!--<div style="color: #bb2205">
-                      <p class="font-weight-bold"> Double click for more details</p>
-                    </div>-->
+                          <p class="font-weight-bold"> Double click for more details</p>
+                        </div>-->
                           <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
                             <table class=" table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
 
@@ -580,8 +593,8 @@
                       <ngb-tab class="" title="Canada">
                         <ng-template ngbTabContent>
                           <!--<div style="color: #bb2205">
-                      <p class="font-weight-bold"> Double click for more details</p>
-                    </div>-->
+                          <p class="font-weight-bold"> Double click for more details</p>
+                        </div>-->
                           <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
                             <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
 
@@ -1079,7 +1092,7 @@
                       <label for="inputcust">Flash Point (F)</label>
                       <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtFlammable" name="flashf" value="">
                       <label for="inputcust">Override</label>
-                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtOverride" name="flasho" value="">
+                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="flashPtOverride" name="flashov" value="">
                     </div>
                     <div style="margin-top:0.5%">
                       <fieldset class="border p-2">
@@ -1377,7 +1390,7 @@
         </ng-template>
       </ng-container>
 
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="6">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>EU Standards</a>
         <ng-template ngbNavContent>
           <form>
@@ -1385,16 +1398,16 @@
               <label for="data_requirements">Risk Phrases</label>
               <textarea id="data_results" style="width:70%;font-size:larger" class="form-control md-textarea" size="7" rows="12" [(ngModel)]="risklistdata" name="eurisk" value=""></textarea>
               <!--<div *ngFor="let itemlist of risklist">
-              <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="itemlist.title" >
-              </textarea>
-              </div>-->
+            <textarea id="data_requirements" style="width:70%;" class="form-control md-textarea" size="7" rows="8" [(ngModel)]="itemlist.title" >
+            </textarea>
+            </div>-->
               <!--<div style="width:70%;height:250px;background-color:white">
-                <ul *ngFor="let itemlist of  risklistdata">
-                  <li>
-                    {{itemlist.title}}
-                  </li>
-                </ul>
-              </div>-->
+              <ul *ngFor="let itemlist of  risklistdata">
+                <li>
+                  {{itemlist.title}}
+                </li>
+              </ul>
+            </div>-->
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 3%;" (click)="OpenRiskPhrases();">Select Risk Phrases</button>
 
             </div>
@@ -1406,17 +1419,17 @@
             </div>
 
             <!--<div class="form-row">
-              <div class="form-group col-md-6" style="margin-top: 3%;">
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Previous</button>
-              </div>
-              <div class="form-group col-md-6" style="margin-top: 3%;">
-                <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px">Next</button>
-              </div>
-            </div>-->
+            <div class="form-group col-md-6" style="margin-top: 3%;">
+              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 10px">Previous</button>
+            </div>
+            <div class="form-group col-md-6" style="margin-top: 3%;">
+              <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px">Next</button>
+            </div>
+          </div>-->
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="7">
         <a class="tabcolor tabbutto tabrowli textsize
            " ngbNavLink>Alert</a>
         <ng-template ngbNavContent>
@@ -1428,7 +1441,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="8">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Supplier</a>
         <ng-template ngbNavContent>
           <form>
@@ -1479,24 +1492,24 @@
             </div>
             <div class="form-inline" style="margin-top:0.1%;">
               <label for="inputAddress2">Supplier RM#</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;"[(ngModel)]="SupplierRMNo"  name="suprmno" value="">
+              <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;" [(ngModel)]="SupplierRMNo" name="suprmno" value="">
             </div>
           </form>
           <!--<div>
-            <form>
-              <div class="form-row">
-                <div class="col-md-8">
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:57px;width:113px;">Previous</button>
-                </div>
-                <div class="col-md-4">
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:113px;">Next</button>
-                </div>
+          <form>
+            <div class="form-row">
+              <div class="col-md-8">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:57px;width:113px;">Previous</button>
               </div>
-            </form>
-          </div>-->
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:57px;width:113px;">Next</button>
+              </div>
+            </div>
+          </form>
+        </div>-->
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="9">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Functions</a>
         <ng-template ngbNavContent>
           <div class="form-inline">
@@ -1552,7 +1565,7 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="10">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Web Page</a>
         <ng-template ngbNavContent>
           <h5 class="text-center">Web Browser</h5>
@@ -1573,7 +1586,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-left: 20px">
+      <ng-container ngbNavItem="11" style="margin-left: 20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Audit</a>
         <ng-template ngbNavContent>
           <div style="margin-left: 1%; margin-top: 1%; height: 33rem; overflow-y: auto; background-color: white;border:solid;border-width:0.1px">
@@ -1628,12 +1641,12 @@
   </div>-->
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Back </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Update </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Save </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletermmain()"matDialogClose>Delete RM</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>RM Cost Import</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px"(click)="ClearData();" matDialogClose>Back </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Rawmaterial_Update();" >Update </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Rawmaterial_Save();" >Save </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="ClearData();changeTab();">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletermmain();" >Delete RM</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" >RM Cost Import</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px">Save As</button>
 
 

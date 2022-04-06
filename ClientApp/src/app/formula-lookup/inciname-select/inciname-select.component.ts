@@ -16,6 +16,7 @@ export class IncinameSelectComponent implements OnInit {
   griditem: any;
   gridinciname: any;
   gridtradename: any;
+  gridIngredientCode: any;
   gridp: any;
   gridsuppliername: any;
   incicost: any;
@@ -42,7 +43,8 @@ export class IncinameSelectComponent implements OnInit {
    
     this.uniname = inci_search.Unit;
     this.incicost = inci_search.Unitcost;
-    this.searchgrid = [this.gridinciname, this.griditem, this.gridtradename, this.gridp, this.gridsuppliername, this.incicost, this.uniname]
+    this.gridIngredientCode = inci_search.IngredientCode;
+    this.searchgrid = [this.gridinciname, this.griditem, this.gridtradename, this.gridp, this.gridsuppliername, this.incicost, this.uniname, this.gridIngredientCode]
   }
   close() {
     // this.searchitems = [this.formulacodedata, this.formulanamedata, this.lbnotedata]

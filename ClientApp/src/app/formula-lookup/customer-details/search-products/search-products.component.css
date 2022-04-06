@@ -1,20 +1,10 @@
-fieldset.scheduler-border {
-  border: solid 1px #DDD !important;
-  padding: 0 10px 10px 10px;
-  border-bottom: none;
-}
-
-legend.scheduler-border {
-  width: auto !important;
-  border: none;
-  font-size: 14px;
-}
-
 p.test {
   padding: 20px;
   text-align: left;
   font-family: Haettenschweiler
 }
+
+
 
 .margindesign {
   border: 0.5px solid maroon;
@@ -24,34 +14,22 @@ p.test {
   margin: 20px;
 }
 
-input {
-  margin: 5px;
-}
+
 
 .header {
   position: sticky;
   top: 0;
   background-color: white;
 }
-fieldset.scheduler-border {
-  border: solid 1px #DDD !important;
-  padding: 0 10px 10px 10px;
-  border-bottom: none;
+
+
+
+input {
+  margin: 5px;
 }
 
-legend.scheduler-border {
-  width: auto !important;
-  border: none;
-  font-size: 14px;
-}
 
-h2.design {
-  text-align: center;
-  font: 20px;
-  font-family: 'Arial Rounded MT';
-  padding-top: 40px;
-  padding-bottom: 30px;
-}
+
 .center {
   left: 50%;
   position: absolute;
@@ -61,21 +39,57 @@ h2.design {
   -webkit-transform: translateX(-50%) translateY(-50%);
 }
 
+
+
+fieldset.scheduler-border {
+  border: solid 1px #DDD !important;
+  padding: 0 10px 10px 10px;
+  border-bottom: none;
+}
+
+
+
+legend.scheduler-border {
+  width: auto !important;
+  border: none;
+  font-size: 14px;
+}
+
+
+
+h2.design {
+  text-align: center;
+  font: 20px;
+  font-family: 'Arial Rounded MT';
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
+
+
+
 .textalign1 {
 }
+
+
 
 .mat-tab-group {
   margin-bottom: 48px;
 }
 
+
+
 .tabcolor {
   color: #bb2205;
 }
+
+
 
 .tabbutto:hover {
   background-color: whitesmoke;
   color: dimgrey;
 }
+
+
 
 .tabrowli {
   text-align: center;
@@ -87,16 +101,22 @@ h2.design {
 }
 
 
+
+
 .buttoncolor {
   border-color: #214252;
   background-color: #214252;
 }
+
+
 
 .tab-close {
   color: lightseagreen;
   text-align: right;
   cursor: pointer;
 }
+
+
 
 .button {
   border: none;
@@ -105,4 +125,33 @@ h2.design {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+
+
+
+input {
+  margin: 5px;
+}
+
+
+
+mat-radio-button {
+  margin: 5px;
+}
+
+
+
+label {
+  font-size: 15px;
+  font-family: Verdana;
+  text-align: right;
+  padding-right: 20px;
+  display: inline-block;
+  min-width: 150px;
+}
+
+
+
+.tabledatasize {
+  font-size: larger;
 }

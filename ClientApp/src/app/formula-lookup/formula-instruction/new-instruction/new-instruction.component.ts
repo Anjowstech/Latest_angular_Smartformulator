@@ -20,7 +20,7 @@ export class NewInstructionComponent implements OnInit {
   result_deleteinstruction: any = '';
   constructor(private Datashare: DataShareServiceService, private http: HttpClient) { }
   Newinstruction() {
-    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/DisplayInstrcode");
+    return this.http.get("https://formulalookupwebservice1.azurewebsites.net/DisplayInstrcode");
   }
 
 savefrminstruction(formulainstruct: string, formuladat: string) {
@@ -46,7 +46,7 @@ savefrminstruction(formulainstruct: string, formuladat: string) {
     //var formuladatavalue = formuladat;
     
     let params1 = new HttpParams().set('InstrCode', formulainstruction);
-    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/Deleteinstruction", { params: params1 });
+    return this.http.get("https://formulalookupwebservice1.azurewebsites.net/Deleteinstruction", { params: params1 });
   }
 
 
@@ -55,7 +55,7 @@ savefrminstruction(formulainstruct: string, formuladat: string) {
   var formulainstruction = formulainstruct;
   var formuladatavalue = formuladat;
     let params1 = new HttpParams().set('InstrCode', formulainstruction).set('InstrText', formuladatavalue);
-    return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/Saveupdateinstruction", { params: params1 });
+    return this.http.get("https://formulalookupwebservice1.azurewebsites.net/Saveupdateinstruction", { params: params1 });
 }
 
 

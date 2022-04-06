@@ -32,12 +32,13 @@ export interface DialogData {
 })
 export class RawMaterialComponent implements OnInit {
   itemlist = [];
+  Approv: boolean;
   safetylistdata: string = '';
   datarawcategoryload: any;
   name: string;
   gmconverter: any = 3785.2286;
   ccconverter: any = 453.5924;
-  gravity: any ;
+  gravity: any='' ;
   abb: string = '';
   abbdescription: string = '';
   formname: string;
@@ -47,114 +48,117 @@ export class RawMaterialComponent implements OnInit {
   searchdata = [];
   kgm3: any;
   lb_gal: any;
-  risklistdata: string = '';;
+  risklistdata: string = '';
   inciname: string;
-  itemli: string;
+  itemli: string = '';
+  itemcodehidd: string = '';
   supp_name: string;
-  tradn: string;
+  tradn: string ='';
   val2: any;
   incicode: string;
   datarawpropertyload: any;
   Rawmaterialdetails: any = [];
   rawmaterial_update_data: any;
+  updatesuccess: string = '';
   defaultUOMload_data: any;
   Rawdata: any;
-  GMOYesOrNo: string;
-  GlutenYesOrNo: string;
-  Halal: string;
+  GMOYesOrNo: string='False';
+  GlutenYesOrNo: string='False';
+  Halal: string='No';
   itemcode: string;
   generalitemcod: string;
   description: string;
   ingredienttradeName: string;
-  categoryId: string;
-  CategoryName: string;
-  Status: string;
+  categoryId: string='0';
+  CategoryName: string='';
+  Status: string='';
   SupplierKey: string;
-  SubCategoryName: string;
-  subCategoryId: string;
-  statusId: string;
+  SubCategoryName: string ='';
+  subCategoryId: string='0';
+  statusId: string='0';
   supercededBy: string;
-  unitCost: string;
-  costUnit: string;
-  costDt: string;
-  notes: string;
-  AlertRemarks: string;
-  EURiskPhrases: string;
+  unitCost: string='';
+  costUnit: string='';
+  costDt: string='';
+  notes: string = '';
+  deleterawmaterialmain: any;
+  AlertRemarks: string='';
+  EURiskPhrases: string='';
   vendorcode: string;
-  hMISHealth: string;
-  hMISFlammability: string;
-  hMISPhysical: string;
-  hMISPersonal: string;
-  nFPAHealth: string;
-  nFPAFlammability: string;
-  supercededDate: string;
-  rmAssayValue: string;
-  ebsNumber: string;
-  lastPOCost: string;
-  drugName: string;
-  sku: string;
-  COAPath: string;
-  MSDSPath: string;
-  defaultUnit: string;
-  LastPOUnit:string
-  reorderQty: string;
-  origin: string;
-  concentration: string;
-  RMSource: string;
-  proleadtime: string;
-  preloadtime: string;
-  postleadtime: string;
-  rmleadtime: string;
-  sg: string;
-  costdate: string;
-  LastPODt: string;
+  hMISHealth: string='';
+  hMISFlammability: string='';
+  hMISPhysical: string='';
+  hMISPersonal: string='';
+  nFPAHealth: string='';
+  nFPAFlammability: string='';
+  supercededDate: string='';
+  rmAssayValue: string='';
+  ebsNumber: string='';
+  lastPOCost: string='';
+  drugName: string='';
+  sku: string='';
+  COAPath: string='';
+  MSDSPath: string='';
+  defaultUnit: string='';
+  LastPOUnit: string = '';
+  reorderQty: string = '';
+  origin: string='';
+  concentration: string='';
+  RMSource: string='';
+  proleadtime: string='';
+  preloadtime: string='';
+  postleadtime: string='';
+  rmleadtime: string='';
+  sg: string='';
+  costdate: string='';
+  LastPODt: string='';
   date: string;
   suppliername: string;
   supplierkey: string;
   suppliercode: string;
   supp_code: string;
   suppkey: string;
-  flashPtCelsious: string;
-  NFPA_Health: string;
-  FunctionCode: string;
-  NFPA_Flammability: string;
-  nFPASpecial: string;
-  flashPtMethod: string;
+  flashPtCelsious: string='';
+  NFPA_Health: string='0';
+  FunctionCode: string='';
+  NFPA_Flammability: string='';
+  nFPASpecial: string='';
+  flashPtMethod: string='';
   flashPtOverride: string='false';
-  flashPtFlammable: string;
-  NPACertified: string;
-  nFPAReactivity:string
-  monograph: string;
-  Kosher: string;
-  IncidIngredient: string;
-  Exemptornot: string;
-  PhEurName: string;
-  MOQ: string;
-  BlendProcedure: string;
-  EUSafetyPhrases: string;
-  Approved: string;
-  VOCContributor: string;
-  PreviousCost: string;
+  flashPtFlammable: string='';
+  NPACertified: string='N';
+  nFPAReactivity: string = '';
+  monograph: string='No';
+  Kosher: string='No';
+  IncidIngredient: string='No';
+  Exemptornot: string='No';
+  PhEurName: string='';
+  MOQ: string='';
+  BlendProcedure: string='';
+  EUSafetyPhrases: string='';
+  Approved: string='False';
+  VOCContributor: string='No';
+  PreviousCost: string='';
   auditdata: any;
-  Restriction: string;
+  Restriction: string='';
   supplierdata: any;
   Code: string;
   Name: string;
-  address: string;
-  Email: string;
-  phoneno: string;
-  Fax: string;
-  web: string;
-  sabbrev: string;
-  contactperson: string;
-  contactno: string;
-  distributor: string;
-  note: string;
-  approved: string;
-  city: string;
-  state: string;
-  country: string;
-  zip: string;
+  address: string = '';
+  Email: string ='';
+  phoneno: string = '';
+  Fax: string = '';
+  web: string = '';
+  sabbrev: string = '';
+  contactperson: string = '';
+  contactno: string = '';
+  distributor: string = '';
+  note: string = '';
+  approved: string = 'False';
+  city: string = '';
+  state: string = '';
+  country: string = '';
+  zip: string = '';
   fob: string;
   terms: string;
   ifradata: any;
@@ -164,7 +168,7 @@ export class RawMaterialComponent implements OnInit {
   prefered: string;
   othershipvia: string;
   rating: string;
-  IUPACName: string;
+  IUPACName: string='';
   Shipto: string;
   casdata: any;
   INCIName: string;
@@ -182,7 +186,9 @@ export class RawMaterialComponent implements OnInit {
   Percentage: string;
   propertydata: any;
   login_form: FormGroup;
- 
+  public isVisible: boolean = false;
+  public isVisible2: boolean = false;
+  public isVisible3: boolean = false;
   FunctionName: string;
   functioncode: string = "";
   Functiondata: any;
@@ -199,38 +205,39 @@ export class RawMaterialComponent implements OnInit {
  
   savecapropimpu: string;
 
-  Sourceinfo: string;
-  cas: string;
-  amendment: string;
-  femaNo: string;
-  RFIMID: string;
-  Category1A: string;
-  Category1B: string;
-  Category2A: string;
-  Category3A: string;
-  Category3B: string;
-  Category3C: string;
-  Category3D: string;
-  Category4A: string;
-  Category4B: string;
-  Category4C: string;
-  Category4D: string;
-  Category5A: string;
-  Category6A: string;
-  Category7A: string;
-  Category7B: string;
-  Category8A: string;
-  Category8B: string;
-  Category9A: string;
-  Category9B: string;
-  Category9C: string;
-  Category10A: string;
-  Category10B: string;
-  Category11A: string;
-  Category11B: string;
-  isifrafilled: string;
-  isifraaudit: string;
-
+  Sourceinfo: string='';
+  cas: string='';
+  amendment: string='';
+  femaNo: string='';
+  RFIMID: string='';
+  Category1A: string='0';
+  Category1B: string = '0';
+  Category2A: string = '0';
+  Category3A: string = '0';
+  Category3B: string = '0';
+  Category3C: string = '0';
+  Category3D: string = '0';
+  Category4A: string = '0';
+  Category4B: string = '0';
+  Category4C: string = '0';
+  Category4D: string = '0';
+  Category5A: string = '0';
+  Category6A: string = '0';
+  Category7A: string = '0';
+  Category7B: string = '0';
+  Category8A: string = '0';
+  Category8B: string = '0';
+  Category9A: string = '0';
+  Category9B: string = '0';
+  Category9C: string = '0';
+  Category10A: string = '0';
+  Category10B: string = '0';
+  Category11A: string = '0';
+  Category11B: string = '0';
+  isifrafilled: string = '0';
+  isifraaudit: string = '0';
+  itemcodvalue: any;
+  defaultlastpoCost: string;
   regulatoryaudittrackingload: any;
   canadadataload: any;
   canadaLoad: any;
@@ -256,7 +263,7 @@ export class RawMaterialComponent implements OnInit {
   username1: any;
   INCIName1: any;
   Itemcode1: any;
-
+  rawmaterial_save_data: string;
  
   AddedBy: string = '';
   AddedDt: string = '';
@@ -274,14 +281,15 @@ export class RawMaterialComponent implements OnInit {
   CurrSupplierPriority: string = '';
   PrevSupplierPriority: string = '';
   // LastPODt: string;
-  IsBlend: string = '';
-  Hazardous: string = '';
+  IsBlend: string = 'False';
+  Hazardous: string = 'No';
   ReOrderUnit: string = '';
   flashPtGTLT: string = '';
 
   
   oldCost: string = '';
   oldStdCost: string = '';
+  datarawsubcategoryload: any;
 
 
   RMdataList: Datasave[][] = [];
@@ -291,6 +299,18 @@ export class RawMaterialComponent implements OnInit {
   casdataList: Datacas[][] = [];
   i: number;
   j: number;
+
+  lastpodataload: any;
+  unitcostname: string;
+  defaaltunitname: string;
+  lastpounitname: string;
+  deliveredprice: string;
+  cmbpriority: string;
+  oldpriority: string;
+  oldpriorno: string;
+  active: any;
+
+
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -316,8 +336,30 @@ export class RawMaterialComponent implements OnInit {
   }
   radioChangemonograph(event) {
     this.monograph = event.value;
+    if (this.monograph == "true") {
+      this.monograph = "Yes"
+      this.functioncode = this.functioncode + "ACTIVES" + "/";
+      this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
+        console.warn("Functiondetailslload", Functiondetailslload)
+        this.Functiondata = Functiondetailslload
+      })
+    }
+    else {
+      this.monograph = "No"
+      this.funcddlt = "ACTIVES"
+      this.function1 = this.functioncode.split(this.funcddlt)
+      this.functioncode = this.function1[0]
+      this.functioncode = this.functioncode.replace("//", "/");
+      if (this.functioncode == "") { this.functioncode = "/" }
 
+      this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
+        console.warn("Functiondetailslload", Functiondetailslload)
+        this.Functiondata = Functiondetailslload
+      })
+    }
   }
+
+
   radioChangeExemptornot(event) {
     this.Exemptornot = event.value;
 
@@ -343,7 +385,7 @@ export class RawMaterialComponent implements OnInit {
 
   }
   hazardousChange(event) {
-    this.flashPtOverride = event.value;
+    this.Hazardous = event.value;
   }
   blurEvent(event: any) {
     this.gravity=0;
@@ -363,6 +405,31 @@ export class RawMaterialComponent implements OnInit {
     this.gravity = total.toFixed(3);
     this.kgm3 = this.gravity;
    
+  }
+  uomChange(event) {
+    this.defaultUnit = event.target.value;
+    this.LastPOPriceload(this.defaultUnit,this.defaultlastpoCost).subscribe((lastpoload) => {
+      console.warn("lastpoload", lastpoload)
+      this.lastpodataload = lastpoload
+      this.lastPOCost = this.lastpodataload;
+
+    })
+
+  }
+  blurEventpreload(event: any) {
+    this.preloadtime = event.target.value;
+    var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
+    this.rmleadtime = total.toString();
+  }
+  blurEventprolead(event: any) {
+    this.proleadtime = event.target.value;
+    var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
+    this.rmleadtime = total.toString();
+  }
+  blurEventpostlead(event: any) {
+    this.postleadtime = event.target.value;
+    var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
+    this.rmleadtime = total.toString();
   }
  
   Searchsupplierpopup(): void {
@@ -596,6 +663,17 @@ export class RawMaterialComponent implements OnInit {
     let params1 = new HttpParams().set('INCIName', inci)
     return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/loadaudittrackingregulatory", { params: params1 });
   }
+  approvedChange(event) {
+    this.Approved = event.target.checked.toString();
+    if (this.Approved == "true") {
+      this.Approved = "true"
+      this.Approv = true
+    }
+    else {
+      this.Approved = "false";
+      this.Approv = false
+    }
+  }
 
 
   blendsaveup(Percentage: any) {
@@ -742,10 +820,12 @@ export class RawMaterialComponent implements OnInit {
     for (let item of rawdatas) {
       this.incicode = item.ItemCode;
       this.generalitemcod = item.GeneralItemCode;
+      this.itemli = item.GeneralItemCode;
       this.inciname = item.Description;
       this.tradn = item.IngredientTradeName;
       this.ebsNumber = item.EBSNumber;
       this.lastPOCost = item.LastPOCost;
+      this.defaultlastpoCost = item.LastPOCost;
       this.drugName = item.DrugName;
       this.notes = item.Notes;
       this.sku = item.SKU;
@@ -791,8 +871,27 @@ export class RawMaterialComponent implements OnInit {
       this.statusId = item.StatusId;
       this.unitCost = item.UnitCost;
       this.costUnit = item.CostUnit;
-      this.costDt = formatDate(new Date(item.CostDt), 'yyyy-MM-dd', 'en-US');
-      this.LastPODt = formatDate(new Date(item.LastPODt), 'yyyy-MM-dd', 'en-US');
+      if (item.LastPODt == undefined || item.LastPODt == null) {
+        this.LastPODt = "";
+      }
+      else {
+        this.LastPODt = formatDate(new Date(item.LastPODt), 'yyyy-MM-dd', 'en-US');
+      }
+      if (item.CostDt == undefined || item.CostDt == null) {
+        this.costDt = "";
+      }
+      else {
+        this.costDt = formatDate(new Date(item.CostDt), 'yyyy-MM-dd', 'en-US');
+      }
+      if (item.LastPOCost == undefined || item.LastPOCost == "") {
+        this.lastPOCost = "0";
+      }
+      else {
+        this.lastPOCost = this.lastPOCost;
+      }
+      //this.costDt = item.CostDt;
+      //this.LastPODt = item.LastPODt;
+
       this.hMISHealth = item.HMIS_Health;
       this.hMISFlammability = item.HMIS_Flammability;
       this.hMISPhysical = item.HMIS_Physical;
@@ -836,14 +935,24 @@ export class RawMaterialComponent implements OnInit {
       this.StatusReason = item.StatusReason
       this.CurrSupplierPriority = item.CurrSupplierPriority
       this.PrevSupplierPriority = item.PrevSupplierPriority
-      this.LastPODt = item.LastPODt
+    //  this.LastPODt = item.LastPODt
       this.IsBlend = item.IsBlend
       this.Hazardous = item.Hazardous
+      if (this.Hazardous == 'No') {
+        this.Hazardous = "";
+      }
       this.ReOrderUnit = item.ReOrderUnit
 
+      this.unitcostname = item.stdpriceUnitname
+      this.defaaltunitname = item.defaultunitname
+      this.lastpounitname = item.LastPOUnitname
+      this.oldCost = "$" + this.unitCost + " Per " + this.defaultUnit + " as of " + this.costDt;
+      this.oldStdCost = "$" + this.lastPOCost + " Per " + this.LastPOUnit + " as of " + this.LastPODt
+      var total = Number(this.lastPOCost) + Number(this.unitCost);
+      this.deliveredprice = total.toString();
+
     }
-    this.oldCost = "$" + this.unitCost + " Per " + this.defaultUnit + " as of " + this.costDt;
-    this.oldStdCost = "$" + this.lastPOCost + " Per " + this.LastPOUnit + " as of " + this.LastPODt
+   
 
     
     this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
@@ -852,6 +961,34 @@ export class RawMaterialComponent implements OnInit {
 
 
 
+    })
+  }
+
+  showAlert(): void {
+    if (this.isVisible) {
+      return;
+    }
+    this.isVisible = true;
+    setTimeout(() => this.isVisible = false, 5000)
+  }
+  showAlert2(): void {
+    if (this.isVisible2) {
+      return;
+    }
+    this.isVisible2 = true;
+    setTimeout(() => this.isVisible2 = false, 5000)
+  }
+  showAlert3(): void {
+    if (this.isVisible3) {
+      return;
+    }
+    this.isVisible3 = true;
+    setTimeout(() => this.isVisible3 = false, 5000)
+  }
+  rawsubcateload() {
+    this.rawsubcategoryload(this.CategoryName).subscribe((rawsubcategoryload) => {
+      console.warn("rawsubcategoryload", rawsubcategoryload)
+      this.datarawsubcategoryload = rawsubcategoryload
     })
   }
 
@@ -962,6 +1099,11 @@ export class RawMaterialComponent implements OnInit {
     let params1 = new HttpParams().set('funname', Funname);
     return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/loadFunctiontable", { params: params1, })
 
+  }
+  rawsubcategoryload(categoryname: string) {
+    var catename: string = categoryname;
+    let params1 = new HttpParams().set('CategoryName', catename);
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/LoadSubCategorycmb", { params: params1 })
   }
   setvaluesfun(funddetails: any) {
     this.funcddlt = funddetails.FunctionName;
@@ -1195,6 +1337,13 @@ export class RawMaterialComponent implements OnInit {
       })
     })
   }
+  deletermmain() {
+    this.deletermweb().subscribe((deletermmain) => {
+      console.warn("deletermmain", deletermmain)
+      this.deleterawmaterialmain = deletermmain
+    })
+    this.showAlert2();
+  }
   Deletecanada_dt() {
     this.Deletecanadaweb().subscribe((Deletecanada) => {
       console.warn("Deletecanada", Deletecanada)
@@ -1299,16 +1448,16 @@ export class RawMaterialComponent implements OnInit {
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
     return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/USDELRESTRICTION", { params: params1 })
   }
-  deletermmain() {
-    this.deletermweb().subscribe((deletermmain) => {
-      console.warn("deletermmain", deletermmain)
-      this.delclientus_loaddata = deletermmain
-    })
-  }
+  //deletermmain() {
+  //  this.deletermweb().subscribe((deletermmain) => {
+  //    console.warn("deletermmain", deletermmain)
+  //    this.deleterawmaterialmain = deletermmain
+  //  })
+  //}
   deletermweb() {
-    var Itemcode1 = this.itemli;
+    var Itemcode1 = this.incicode;
     let params1 = new HttpParams().set('ItemCode', Itemcode1);
-    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/deleterawmaterials", { params: params1 })
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/deleterawmaterials", { params: params1,responseType: "text"  })
   }
   IFRAload(InciName: string, GenItemCode: string) {
     var inciname: string = InciName;
@@ -1349,6 +1498,16 @@ export class RawMaterialComponent implements OnInit {
       this.Category11B = item.IFRAC11B;
     }
   }
+  LastPOPriceload(defaultunit: string,defaultcost:string) {
+    var LastPOunit: string = this.LastPOUnit;
+    var LastPOprice: string = defaultcost;
+    var DefaltUnit: string = defaultunit;
+    var Itemcode: string = this.incicode;
+    let params1 = new HttpParams().set('LastPOUnit', LastPOunit).set('LastPOPrice', LastPOprice).set('defaultunit', DefaltUnit).set('itemcode', Itemcode);
+    return this.http.get("https://smarformulatorrawmaterialwebservice7.azurewebsites.net/RawlastPOload", { params: params1 });
+  }
+
+
   Rawmaterial_Update() {
 
 
@@ -1370,6 +1529,28 @@ export class RawMaterialComponent implements OnInit {
     else {
       this.isifrafilled = "true";
       this.isifraaudit = "false";
+    }
+    if (this.CurrSupplierPriority == "") {
+      this.cmbpriority = "N/A";
+      this.oldpriority = "N/A";
+    }
+    else {
+      this.cmbpriority = this.CurrSupplierPriority;
+      this.oldpriority = "";
+    }
+    if (this.PrevSupplierPriority == "") {
+
+
+
+    }
+    else {
+      this.oldpriorno = this.PrevSupplierPriority;
+    }
+    if (this.NPAExpiry == "" || this.NPAExpiry == null) {
+      this.NPAExpiry = formatDate(Date.now(), 'yyyy-MM-dd', 'en-US');
+    }
+    else {
+      this.NPAExpiry = this.NPAExpiry;
     }
     this.dataList[0] = ([{
       ItemCode: this.incicode,
@@ -1473,7 +1654,7 @@ export class RawMaterialComponent implements OnInit {
       LastPOUnit: this.LastPOUnit,
       CmbCategory: this.CategoryName,
       CmbSubCategory: this.SubCategoryName,
-      ifracas: '',
+      ifracas: this.cas,
 
 
 
@@ -1483,7 +1664,13 @@ export class RawMaterialComponent implements OnInit {
       LastPODt: this.LastPODt,
       oldstdcost: this.oldStdCost,
       oldcost: this.oldCost,
+
+      oldpriorityNA: this.oldpriority,
+      cmbpriorityno: this.cmbpriority,
+      oldpriorityno: this.oldpriorno,
     }]);
+
+
 
     this.DataListAudit[0] = ([{
       txtRegulatoryNotes: '',
@@ -1513,6 +1700,8 @@ export class RawMaterialComponent implements OnInit {
       txtAddtl5: '',
       txtAddtl6: '',
       txtAddtl7: '',
+
+
 
 
 
@@ -1550,8 +1739,11 @@ export class RawMaterialComponent implements OnInit {
     this.Rawmaterial_updateup().subscribe((rawmaterial_update) => {
       console.warn("rawmaterial_update", rawmaterial_update)
       this.rawmaterial_update_data = rawmaterial_update
+      
     })
-    //} else {
+   
+      this.showAlert()
+        //} else {
     // this.login_form.controls['terms'].setValue(false);
     //}
   };
@@ -1561,8 +1753,9 @@ export class RawMaterialComponent implements OnInit {
     var datalistaudit: any = JSON.stringify(this.DataListAudit);
     var datalistifra: any = JSON.stringify(this.DataListIFRA);
     let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra);
-    return this.http.get("https://smarformulatorrawmaterialwebservice7.azurewebsites.net/Rawmaterialupdate", { params: params1, responseType: 'text' })
+    return this.http.get("https://smarformulatorrawmaterialwebservice7.azurewebsites.net/Rawmaterialupdate", { params: params1, responseType: 'text'})
   }
+
   Rawmaterial_Save() {
 
 
@@ -1581,7 +1774,7 @@ export class RawMaterialComponent implements OnInit {
       CmbCategory: this.CategoryName,
       CmbSubCategory: this.SubCategoryName,
       COAPath: this.COAPath,
-      code: this.Code,
+      code: this.supp_code,
       ContactNo: this.contactno,
       ContactPerson: this.contactperson,
       CostDt: this.costDt,
@@ -1612,7 +1805,7 @@ export class RawMaterialComponent implements OnInit {
       HMIS_Physical: this.hMISPhysical,
       IncidIngredient: this.IncidIngredient,
       IngredientTradeName: this.tradn,
-      ItemCode: this.incicode,
+      ItemCode: 'newitem',
       IUPACName: this.IUPACName,
       Kosher: this.Kosher,
       LastPOCost: this.lastPOCost,
@@ -1622,8 +1815,8 @@ export class RawMaterialComponent implements OnInit {
       MOQ: this.MOQ,
       MSDSPath: this.MSDSPath,
       name: this.supp_name,
-      NFPA_Flammability: this.nFPAFlammability,
-      NFPA_Health: this.nFPAHealth,
+      NFPA_Flammability: this.NFPA_Flammability,
+      NFPA_Health: this.NFPA_Health,
       NFPA_Reactivity: this.nFPAReactivity,
       NFPA_Special: this.nFPASpecial,
       Notes: this.notes,
@@ -1634,7 +1827,7 @@ export class RawMaterialComponent implements OnInit {
       PostprocessLeadTime: this.postleadtime,
       PreprocessLeadTime: this.preloadtime,
       PreviousCost: this.PreviousCost,
-      ProcessLeadTim: this.proleadtime,
+      ProcessLeadTime: this.proleadtime,
       RawMatSource: this.RMSource,
       ReOrderQty: this.reorderQty,
       Restriction: this.Restriction,
@@ -1649,7 +1842,7 @@ export class RawMaterialComponent implements OnInit {
       SupercededDate: '',
       SupplierKey: this.suppkey,
       UnitCost: this.unitCost,
-      VendorCode: this.Code,
+      VendorCode: this.supp_code,
       VOCContributor: this.VOCContributor,
       website: this.web,
       CmbStatus: this.Status,
@@ -1669,7 +1862,9 @@ export class RawMaterialComponent implements OnInit {
       NPAExpiry: this.NPAExpiry,
       oldpriorityno: this.CurrSupplierPriority,
       RMAbbreviation: 'CUSTOM',
-
+      ifracas: '',
+      IsIFRAFilled: '',
+      IsIFRAAudit: '',
 
 
 
@@ -1745,21 +1940,194 @@ export class RawMaterialComponent implements OnInit {
 
     this.Rawmaterial_saveupdateup().subscribe((rawmaterial_save) => {
       console.warn("rawmaterial_save", rawmaterial_save)
-      this.rawmaterial_update_data = rawmaterial_save
+      this.rawmaterial_save_data = rawmaterial_save
     })
+    this.showAlert3();
   }
 
-
-
   Rawmaterial_saveupdateup() {
-    /* var Rawdetails: any = Rawmaterialdetails;*/
     var datalistraw: any = JSON.stringify(this.RMdataList);
     var datalistaudit: any = JSON.stringify(this.DataListAudit);
     var datalistifra: any = JSON.stringify(this.DataListIFRA);
-    let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra);
+    var UserName: any = "admin";
+    let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra).set('username', UserName);
     return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
   }
+
+  ClearData() {
+    this.active = "1";
+    this.incicode = '';
+    this.itemli = '';
+    this.generalitemcod = '';
+    this.inciname = '';
+    this.tradn = '';
+    this.ebsNumber = '';
+    this.lastPOCost = '';
+    this.drugName = '';
+    this.notes = '';
+    this.sku = '';
+    this.rmAssayValue = '';
+    this.supercededBy = '';
+    this.supercededDate = '';
+    this.defaultUnit = '';
+    this.LastPOUnit = '';
+    this.reorderQty = '';
+    this.origin = '';
+    this.concentration = '';
+    this.RMSource = '';
+    this.proleadtime = '';
+    this.preloadtime = '';
+    this.postleadtime = '';
+    this.rmleadtime = '';
+    this.gravity = '';
+    this.IUPACName = '';
+    this.Restriction = '';
+    this.MSDSPath = '';
+    this.CategoryName = '';
+    this.SubCategoryName = '';
+    this.Status = '';
+    this.suppkey = '';
+    this.BlendProcedure = '';
+    this.COAPath = '';
+    this.SupplierKey = '';
+    this.vendorcode = '';
+    this.GMOYesOrNo = '';
+    this.GlutenYesOrNo = '';
+    this.Halal = '';
+    this.AlertRemarks = '';
+    this.EURiskPhrases = '';
+    this.EUSafetyPhrases = '';
+    this.categoryId = '';
+    this.subCategoryId = '';
+    this.statusId = '';
+    this.unitCost = '';
+    this.costUnit = '';
+    this.LastPODt = '';
+    this.costDt = "";
+    this.lastPOCost = "0";
+    this.costDt = '';
+    this.LastPODt = '';
+    this.hMISHealth = '';
+    this.hMISFlammability = '';
+    this.hMISPhysical = '';
+    this.hMISPersonal = '';
+    this.nFPAHealth = '';
+    this.nFPAFlammability = '';
+    this.NPACertified = '';
+    this.monograph = '';
+    this.Kosher = '';
+    this.IncidIngredient = '';
+    this.Exemptornot = '';
+    this.PhEurName = '';
+    this.MOQ = '';
+    this.Approved = '';
+    this.VOCContributor = '';
+    this.PreviousCost = '';
+    this.nFPAReactivity = '';
+    this.flashPtCelsious = '';
+    this.nFPASpecial = '';
+    this.NFPA_Health = '';
+    this.NFPA_Flammability = '';
+    this.flashPtFlammable = '';
+    //this.flashPtGTLT = item.FlashPtGTLT;
+    this.flashPtOverride = '';
+    this.flashPtMethod = '';
+    this.FunctionCode = '';
+    this.functioncode = '';
+    this.AddedBy = '';
+    this.AddedDt = '';
+    this.ApprovalCode = '';
+    this.AlertRemarks = '';
+    this.UpdatedBy = '';
+    this.UpdatedDt = '';
+    this.INNName = '';
+    this.RMAbbreviation = '';
+    this.MOQunit = '';
+    this.NPAExpiry = '';
+    this.PreviousVenderCode = '';
+    this.SupplierRMNo = '';
+    this.StatusReason = '';
+    this.CurrSupplierPriority = '';
+    this.PrevSupplierPriority = '';
+    this.LastPODt = '';
+    this.IsBlend = '';
+    this.Hazardous = '';
+    this.ReOrderUnit = '';
+    this.unitcostname = '';
+    this.defaaltunitname = '';
+    this.lastpounitname = '';
+    this.oldCost = '';
+    this.oldStdCost = '';
+    this.deliveredprice = '';
+
+    this.ifradata = '';
+    this.casdata = '';
+    this.Blenddata = '';
+    this.Functiondata = '';
+    this.auditdata = '';
+    this.propertydata = '';
+    this.canadaLoad = '';
+    this.usload = '';
+    this.austriliaload = '';
+    this.euload = '';
+    this.japanload = '';
+    this.chinaload = '';
+    this.CAprop65load = '';
+    this.CAproprestrictionsload = '';
+    this.regulatoryaudittrackingload = '';
+
+    this.Code = '';
+    this.Name = '';
+    this.address = '';
+    this.Email = '';
+    this.phoneno = '';
+    this.Fax = '';
+    this.web = '';
+    this.sabbrev = '';
+    this.contactperson = '';
+    this.contactno = '';
+    this.distributor = '';
+    this.note = '';
+    this.approved = '';
+    this.city = '';
+    this.state = '';
+    this.country = '';
+    this.zip = '';
+    this.suppkey = '';
+    this.fob = '';
+    this.terms = '';
+    this.shipvia = '';
+    this.expaccount = '';
+    this.suppstatus = '';
+    this.prefered = '';
+    this.othershipvia = '';
+    this.rating = '';
+    this.Shipto = '';
+    this.Datashare.senditemtoraw(null);
+  }
+  itemcodechange() {
+  
+    if (this.itemli != null) {
+      this.Rawmaterialload(this.itemli).subscribe((rawmaterialload) => {
+        console.warn("rawmaterialload", rawmaterialload)
+        this.Rawdata = rawmaterialload
+        this.Rawmaterialdataload(this.Rawdata)
+      })
+
+    }
+  }
+
   ngOnInit() {
+
+    this.itemcodehidd = this.Datashare.getitemcoderaw();
+    if (this.itemcodehidd != null) {
+      this.Rawmaterialload(this.itemcodehidd).subscribe((rawmaterialload) => {
+        console.warn("rawmaterialload", rawmaterialload)
+        this.Rawdata = rawmaterialload
+        this.Rawmaterialdataload(this.Rawdata)
+      })
+
+    }
     this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
       console.warn("resultsaveraw", result6)
       this.datasaveabbraw = result6
@@ -1773,6 +2141,7 @@ export class RawMaterialComponent implements OnInit {
       console.warn("defaultUOMload", defaultUOMload)
       this.defaultUOMload_data = defaultUOMload
     })
+  
   }
 
 }
@@ -1891,7 +2260,9 @@ export class RawmaterialData {
   dtpLastCost: string;
   oldstdcost: string;
   oldcost: string;
-
+  oldpriorityNA: string;
+  cmbpriorityno: string;
+  oldpriorityno: string;
 
 
 
@@ -1925,6 +2296,8 @@ export class AuditData {
   txtAddtl5: string;
   txtAddtl6: string;
   txtAddtl7: string;
+
+
 
 
 
@@ -2055,10 +2428,13 @@ export class Datasave {
   GlutenYesOrNo: string;
   GMOYesOrNo: string;
   PreprocessLeadTime: string;
-  ProcessLeadTim: string;
+  ProcessLeadTime: string;
   PostprocessLeadTime: string;
   EBSNumber: string;
   AddedBy: string;
+  ifracas: string;
+  IsIFRAFilled: string;
+  IsIFRAAudit: string;
 
 
 

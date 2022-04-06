@@ -1,92 +1,65 @@
 <div style="background-color: #f6f5f1">
-  <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Specification Params</h2>
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;">
+    <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Specification Params</h2>
 
-  <!--<mat-grid-list cols="2" rowHeight="18:1" style="background-color:white">
-  <mat-grid-tile>Property</mat-grid-tile>
-  <mat-grid-tile>value</mat-grid-tile>
-  <div *ngFor="let propertyloading of Propertyloaddata let i=index">
-  <mat-grid-tile>{{propertyloading.Description}}</mat-grid-tile>
-  </div>
-  <div *ngFor="let propertyloading of Propertyloaddata let i=index">
-  <mat-grid-tile>{{propertyloading.Description}}</mat-grid-tile>
-  </div>-->
-  <!--<mat-grid-tile>4</mat-grid-tile>-->
-  <!--</mat-grid-list>-->
-  <div style="margin-left:1%;margin-top:1%; height:340px; overflow-y: auto;">
-    <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
-      <thead>
-        <tr>
-          <th scope="col">Specification Param</th>
-
-
-
-          <th scope="col">Value</th>
-
-
-
-        </tr>
-      </thead>
-      <tbody>
+    <!--<mat-grid-list cols="2" rowHeight="18:1" style="background-color:white">
+    <mat-grid-tile>Property</mat-grid-tile>
+    <mat-grid-tile>value</mat-grid-tile>
+    <div *ngFor="let propertyloading of Propertyloaddata let i=index">
+    <mat-grid-tile>{{propertyloading.Description}}</mat-grid-tile>
+    </div>
+    <div *ngFor="let propertyloading of Propertyloaddata let i=index">
+    <mat-grid-tile>{{propertyloading.Description}}</mat-grid-tile>
+    </div>-->
+    <!--<mat-grid-tile>4</mat-grid-tile>-->
+    <!--</mat-grid-list>-->
+    <div style="margin-left:1%;margin-top:1%; height:35rem; overflow-y: auto;">
+      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+        <thead>
+          <tr>
+            <th scope="col">Specification Param</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loadspecdatadetailspop of loadspecdetails; let i =index ;" (click)="highlightRow(loadspecdatadetailspop)">
 
 
 
-        <tr *ngFor="let propertyloadingraw of datarawpropertyloadrprop let i=index " (click)="setClickedRow(i);selecteduserdet(propertyloading);highlightRow(propertyloadingraw)" [class.active]="i == HighlightRow">
+            <td class="tabledatasize">{{ loadspecdatadetailspop.Specification}}</td>
 
 
 
-          <td style="width:5%">{{propertyloadingraw.propname}}</td>
+            <td style="width:50%">
 
 
 
-
-          <td style="width:6%">
-
-
-
-            <input type="text" class="form-control" [(ngModel)]="propertyloadingraw.propvalue" #valname name="valname" value="" (blur)="blurEvent($event)">
+              <input type="text" class="form-control" [(ngModel)]="loadspecdatadetailspop.SpecificationValue" #specvalname name="spevalname" value="" (blur)="blurEvent($event)">
 
 
 
 
-          </td>
+            </td>
 
 
 
 
 
-
-        </tr>
-
-
-
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
 
 
 
-  </div>
-  <div>
-    <div style="margin-top:10px;">
-      <div>
-        <form>
-          <div class="form-row">
-            <div class="col-md-6">
-
-
-
-            </div>
-            <div class="col-md-6 form-inline">
-              <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:170px;margin-left:14%;" (click)="openloadaddnewparam()">Add New Param</button>
-              <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:70px;margin-left:1%;" (click)="SaveProperty()">Save</button>
-              <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:170px;margin-left:1%;" (click)="deleteProperty()">Delete Param</button>
-              <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:70px;margin-left:1%;" (click)="closedialog()"matDialogClose>Back</button>
-            </div>
-          </div>
-        </form>
-      </div>
+      </table>
+    </div>
     </div>
   </div>
-
-
-
-</div>
+   
+      <div style=" border-top:solid 0.1px darkgrey">
+       
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-top:10px;height:50px;width:170px;margin-left:14%;" (click)="openloadaddnewparam()">Add New Param</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 10px; height: 50px; width: 70px; margin-left: 1%;" (click)="SaveProperty()">Save</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 10px; height: 50px; width: 170px; margin-left: 1%;" (click)="deleteProperty()">Delete Param</button>
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 10px; height: 50px; width: 70px; margin-left: 1%;" (click)="closedialog()" matDialogClose>Back</button>
+              
+  </div>
