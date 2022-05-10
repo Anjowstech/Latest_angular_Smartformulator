@@ -39,12 +39,16 @@ export class DataShareServiceService {
   itemcodetoraw: any;
   labelvalues: string;
   itemcodeval: string;
+  suppna: any
   datashareitemcode: any;
   datasharecasdata: any;
   custocod
   datashareclientlocation: any = [];
   senditemtoraw(itemda: string) {
     this.itemcodetoraw = itemda;
+  }
+  senditemtosupplier(suppl: string) {
+    this.suppna = suppl;
   }
   sendcustomercode(ccode: string) {
     this.custocod = ccode;
@@ -134,6 +138,9 @@ export class DataShareServiceService {
   //}
   getitemcode(): string {
     return this.itemcodeval;
+  }
+getitemtosupplier(): string {
+  return this.suppna;
   }
   getitemcoderaw(): string {
     return this.itemcodetoraw;

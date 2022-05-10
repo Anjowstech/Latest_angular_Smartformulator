@@ -5,15 +5,41 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(items: any[], filter: string): any {
-    if (!items || !filter) {
+  //transform(items: any[], filter: string): any {
+  //  if (!items || !filter) {
+  //    return items;
+  //  }
+  // //  To search values only of "name" variable of your object(item)
+  ////  return items.filter(item => item.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+
+  // //  To search in values of every variable of your object(item)
+  //  return items.filter(item => JSON.stringify(item.toLowerCase()).indexOf(filter.toLowerCase()) !== -1);
+  //}
+  //transform(items: any[], filter: string): any {
+  //  if (!items || !filter) {
+  //    return items;
+  //  }
+  //  // To search values only of "name" variable of your object(item)
+  //  //return items.filter(item => item.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+
+
+
+  //  // To search in values of every variable of your object(item)
+  //  return items.filter(item => JSON.stringify(item).toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+  //}
+
+  transform(items: any[], searchText: string): any[] {
+    if (!items) {
+      return [];
+    }
+    if (!searchText) {
       return items;
     }
-    // To search values only of "name" variable of your object(item)
-    //return items.filter(item => item.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
-
-    // To search in values of every variable of your object(item)
-    return items.filter(item => JSON.stringify(item).toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+    searchText = searchText.toLocaleLowerCase();
+    
+    return items.filter(it =>
+     it.INCIName.toLowerCase().startsWith(searchText));
+   
   }
 
 }

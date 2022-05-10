@@ -18,6 +18,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { SearchSupplierComponent } from './add-supplier/search-supplier/search-supplier.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { formatDate } from '@angular/common';
 
 export interface DialogData {
@@ -38,7 +39,7 @@ export class RawMaterialComponent implements OnInit {
   name: string;
   gmconverter: any = 3785.2286;
   ccconverter: any = 453.5924;
-  gravity: any='' ;
+  gravity: any='1' ;
   abb: string = '';
   abbdescription: string = '';
   formname: string;
@@ -71,45 +72,45 @@ export class RawMaterialComponent implements OnInit {
   ingredienttradeName: string;
   categoryId: string='0';
   CategoryName: string='';
-  Status: string='';
+  Status: string='0';
   SupplierKey: string;
   SubCategoryName: string ='';
   subCategoryId: string='0';
   statusId: string='0';
   supercededBy: string;
-  unitCost: string='';
+  unitCost: string='0.001';
   costUnit: string='';
-  costDt: string='';
+  costDt: string='';   //
   notes: string = '';
   deleterawmaterialmain: any;
   AlertRemarks: string='';
   EURiskPhrases: string='';
   vendorcode: string;
   hMISHealth: string='';
-  hMISFlammability: string='';
-  hMISPhysical: string='';
+  hMISFlammability: string='0';
+  hMISPhysical: string='0';
   hMISPersonal: string='';
-  nFPAHealth: string='';
-  nFPAFlammability: string='';
+  nFPAHealth: string='0';
+  nFPAFlammability: string='0';
   supercededDate: string='';
-  rmAssayValue: string='';
+  rmAssayValue: string='0';
   ebsNumber: string='';
-  lastPOCost: string='';
+  lastPOCost: string='0.001';
   drugName: string='';
   sku: string='';
   COAPath: string='';
   MSDSPath: string='';
-  defaultUnit: string='';
-  LastPOUnit: string = '';
-  reorderQty: string = '';
+  defaultUnit: string='0';
+  LastPOUnit: string = '0';
+  reorderQty: string = '0';
   origin: string='';
-  concentration: string='';
+  concentration: string='0';
   RMSource: string='';
-  proleadtime: string='';
-  preloadtime: string='';
-  postleadtime: string='';
-  rmleadtime: string='';
-  sg: string='';
+  proleadtime: string='0';
+  preloadtime: string='0';
+  postleadtime: string='0';
+  rmleadtime: string='0';
+  sg: string='0';
   costdate: string='';
   LastPODt: string='';
   date: string;
@@ -121,19 +122,19 @@ export class RawMaterialComponent implements OnInit {
   flashPtCelsious: string='';
   NFPA_Health: string='0';
   FunctionCode: string='';
-  NFPA_Flammability: string='';
+  NFPA_Flammability: string='0';
   nFPASpecial: string='';
   flashPtMethod: string='';
   flashPtOverride: string='false';
   flashPtFlammable: string='';
   NPACertified: string='N';
-  nFPAReactivity: string = '';
+  nFPAReactivity: string = '0';
   monograph: string='No';
   Kosher: string='No';
   IncidIngredient: string='No';
   Exemptornot: string='No';
   PhEurName: string='';
-  MOQ: string='';
+  MOQ: string='0';
   BlendProcedure: string='';
   EUSafetyPhrases: string='';
   Approved: string='False';
@@ -278,8 +279,8 @@ export class RawMaterialComponent implements OnInit {
   PreviousVenderCode: string = '';
   SupplierRMNo: string = '';
   StatusReason: string = '';
-  CurrSupplierPriority: string = '';
-  PrevSupplierPriority: string = '';
+  CurrSupplierPriority: string = '0';
+  PrevSupplierPriority: string = '0';
   // LastPODt: string;
   IsBlend: string = 'False';
   Hazardous: string = 'No';
@@ -309,7 +310,18 @@ export class RawMaterialComponent implements OnInit {
   oldpriority: string;
   oldpriorno: string;
   active: any;
+  shippingcost: string = '0';
 
+  standardprice: string = '0.001';
+  shippingprize: string = '0.000';
+  standardpriceunit: string = '0';
+  standardpricedate: string = '';
+  shippingpriceunit: string = '0';
+  shippingpricedate: string = '';
+  lastpounit: string;
+  defaultstandardprice: string;
+  defaultshippingprize: string;
+  defaultdeliveredprice: string;
 
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
@@ -338,7 +350,11 @@ export class RawMaterialComponent implements OnInit {
     this.monograph = event.value;
     if (this.monograph == "true") {
       this.monograph = "Yes"
-      this.functioncode = this.functioncode + "ACTIVES" + "/";
+      if (this.functioncode == "" || this.functioncode == undefined) { this.functioncode = "ACTIVES" }
+      else
+      {
+        this.functioncode = this.functioncode +"/"+ "ACTIVES" ;
+      }
       this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
         console.warn("Functiondetailslload", Functiondetailslload)
         this.Functiondata = Functiondetailslload
@@ -346,11 +362,11 @@ export class RawMaterialComponent implements OnInit {
     }
     else {
       this.monograph = "No"
-      this.funcddlt = "ACTIVES"
+      this.funcddlt = "/ACTIVES"
       this.function1 = this.functioncode.split(this.funcddlt)
       this.functioncode = this.function1[0]
       this.functioncode = this.functioncode.replace("//", "/");
-      if (this.functioncode == "") { this.functioncode = "/" }
+      if (this.functioncode == "") { }
 
       this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
         console.warn("Functiondetailslload", Functiondetailslload)
@@ -408,11 +424,32 @@ export class RawMaterialComponent implements OnInit {
   }
   uomChange(event) {
     this.defaultUnit = event.target.value;
-    this.LastPOPriceload(this.defaultUnit,this.defaultlastpoCost).subscribe((lastpoload) => {
+    this.LastPOPriceload(this.defaultUnit, this.defaultlastpoCost).subscribe((lastpoload) => {
       console.warn("lastpoload", lastpoload)
       this.lastpodataload = lastpoload
       this.lastPOCost = this.lastpodataload;
 
+      var LastPOCost: Number = Number(this.lastPOCost);
+      this.lastPOCost = (LastPOCost.toFixed(3)).toString();
+
+      this.LastPOUnit = this.defaultUnit;
+    })
+   
+  }
+  stdpriceChange(event) {
+    this.standardpriceunit = event.target.value;
+    this.shippingpriceunit = this.standardpriceunit;
+    this.costUnit = this.standardpriceunit;
+    this.defaultUnit = this.standardpriceunit;
+    this.LastPOUnit = this.standardpriceunit;
+
+    this.LastPOPriceload(this.defaultUnit, this.defaultlastpoCost).subscribe((lastpoload) => {
+      console.warn("lastpoload", lastpoload)
+      this.lastpodataload = lastpoload
+      this.lastPOCost = this.lastpodataload;
+
+      var LastPOCost: Number = Number(this.lastPOCost);
+      this.lastPOCost = (LastPOCost.toFixed(3)).toString();
     })
 
   }
@@ -431,7 +468,26 @@ export class RawMaterialComponent implements OnInit {
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
+  blurdeliveredcost(event: any) {
+    var shipprice1: Number = Number(event.target.value);
+    this.shippingprize = (shipprice1.toFixed(3)).toString();
+    var total = Number(this.standardprice) + Number(this.shippingprize);
+    this.unitCost = total.toFixed(3);
+  }
+  blurdelstdcost(event: any) {
+    var stdprice1: Number = Number(event.target.value);
+    
+      this.standardprice = (stdprice1.toFixed(3)).toString();
+    var total = Number(this.standardprice) + Number(this.shippingprize);
+    this.unitCost = total.toFixed(3);
+  }
+  blurlastpo(event: any) {
+    var lastpoprice1: Number = Number(event.target.value);
+    this.lastPOCost = (lastpoprice1.toFixed(3)).toString();
+    
+  }
  
+
   Searchsupplierpopup(): void {
 
     const dialogRef = this.dialog.open(SearchSupplierComponent, {
@@ -824,8 +880,10 @@ export class RawMaterialComponent implements OnInit {
       this.inciname = item.Description;
       this.tradn = item.IngredientTradeName;
       this.ebsNumber = item.EBSNumber;
-      this.lastPOCost = item.LastPOCost;
-      this.defaultlastpoCost = item.LastPOCost;
+      var lastPOCost1: Number = Number(item.LastPOCost);
+      this.lastPOCost = (lastPOCost1.toFixed(3)).toString();
+      var defaultlastpoCost1: Number = Number(item.LastPOCost);
+      this.defaultlastpoCost = (defaultlastpoCost1.toFixed(3)).toString();
       this.drugName = item.DrugName;
       this.notes = item.Notes;
       this.sku = item.SKU;
@@ -834,6 +892,7 @@ export class RawMaterialComponent implements OnInit {
       this.supercededDate = item.SupercededDate;
       this.defaultUnit = item.DefaultUnit;
       this.LastPOUnit = item.LastPOUnit;
+      this.lastpounit = item.LastPOUnit;
       this.reorderQty = item.ReOrderQty;
       this.origin = item.Origin;
       this.concentration = item.RMConcentration;
@@ -853,7 +912,7 @@ export class RawMaterialComponent implements OnInit {
       this.BlendProcedure = item.BlendProcedure;
       this.COAPath = item.COAPath
       this.SupplierKey = item.SupplierKey;
-      this.vendorcode = item.VendorCode
+      this.supp_code = item.VendorCode
       this.GMOYesOrNo = item.GMOYesOrNo
       this.GlutenYesOrNo = item.GlutenYesOrNo;
       this.Halal = item.Halal;
@@ -869,7 +928,8 @@ export class RawMaterialComponent implements OnInit {
       this.categoryId = item.CategoryId;
       this.subCategoryId = item.SubCategoryId;
       this.statusId = item.StatusId;
-      this.unitCost = item.UnitCost;
+      var unitCost1: Number = Number(item.UnitCost);
+      this.unitCost = (unitCost1.toFixed(3)).toString();
       this.costUnit = item.CostUnit;
       if (item.LastPODt == undefined || item.LastPODt == null) {
         this.LastPODt = "";
@@ -918,8 +978,9 @@ export class RawMaterialComponent implements OnInit {
       this.flashPtOverride = item.FlashPtOverride;
       this.flashPtMethod = item.FlashPtMethod;
       this.FunctionCode = item.FunctionCode;
-      this.functioncode = this.FunctionCode + "/";
-
+     // this.functioncode = this.FunctionCode + "/";
+     // this.functioncode = this.functioncode.replace("//", "/");
+      this.functioncode = this.FunctionCode;     
       this.AddedBy = item.AddedBy
       this.AddedDt = item.AddedDt
       this.ApprovalCode = item.ApprovalCode
@@ -946,14 +1007,38 @@ export class RawMaterialComponent implements OnInit {
       this.unitcostname = item.stdpriceUnitname
       this.defaaltunitname = item.defaultunitname
       this.lastpounitname = item.LastPOUnitname
-      this.oldCost = "$" + this.unitCost + " Per " + this.defaultUnit + " as of " + this.costDt;
-      this.oldStdCost = "$" + this.lastPOCost + " Per " + this.LastPOUnit + " as of " + this.LastPODt
-      var total = Number(this.lastPOCost) + Number(this.unitCost);
-      this.deliveredprice = total.toString();
+      //this.oldCost = "$" + this.unitCost + " Per " + this.defaultUnit + " as of " + this.costDt;
+      //this.oldStdCost = "$" + this.lastPOCost + " Per " + this.LastPOUnit + " as of " + this.LastPODt
 
+      var standardprice1: Number = Number(item.standardprice);
+      this.standardprice = (standardprice1.toFixed(3)).toString();
+      var standardprice2: Number = Number(item.standardprice);
+      this.defaultstandardprice = (standardprice2.toFixed(3)).toString();
+      var shippingprize1: Number = Number(item.Shippingprice);
+      this.shippingprize = (shippingprize1.toFixed(3)).toString();
+      var shippingprize2: Number = Number(item.Shippingprice);
+      this.defaultshippingprize = (shippingprize2.toFixed(3)).toString();
+
+      if (this.shippingprize == "") {
+        this.shippingprize = "0"
+      }
+      this.standardpriceunit = item.standardpriceunit
+      this.standardpricedate = formatDate(new Date(item.standardpricedate), 'yyyy-MM-dd', 'en-US')
+      this.shippingpriceunit = item.shippingpriceunit
+      if (this.shippingpriceunit == "") {
+        this.shippingpriceunit = this.standardpriceunit
+      }
+      this.shippingpricedate = formatDate(new Date(item.shippingpricedate), 'yyyy-MM-dd', 'en-US')
+      if (this.shippingpricedate == null || this.shippingpricedate == "")
+        {
+        this.shippingpricedate = Date.now.toString();
+      }
+
+      var total = Number(this.defaultstandardprice) + Number(this.defaultshippingprize);
+      this.defaultdeliveredprice = total.toFixed(3);
+      this.oldCost = "$" + this.defaultdeliveredprice + " Per " + this.defaaltunitname + " as of " + this.costDt;
+      this.oldStdCost = "$" + this.defaultlastpoCost + " Per " + this.lastpounitname + " as of " + this.LastPODt;
     }
-   
-
     
     this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
       console.warn("Functiondetailslload", Functiondetailslload)
@@ -1079,8 +1164,10 @@ export class RawMaterialComponent implements OnInit {
 
       this.FunctionCode = result[0];
       this.FunctionName = result[1];
-      this.functioncode = this.functioncode + this.FunctionCode + "/";
-
+      if (this.functioncode == "") { this.functioncode = this.FunctionCode }
+      else {
+        this.functioncode = this.functioncode + "/" + this.FunctionCode;
+      }
 
 
       this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
@@ -1166,6 +1253,10 @@ export class RawMaterialComponent implements OnInit {
   dateChange(event) {
     this.costDt = event.target.value;
    
+  }
+  dateChangeship(event) {
+    this.shippingpricedate = event.target.value;
+
   }
   defaultUOMload() {
     return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/UnitTableLoad")
@@ -1498,8 +1589,8 @@ export class RawMaterialComponent implements OnInit {
       this.Category11B = item.IFRAC11B;
     }
   }
-  LastPOPriceload(defaultunit: string,defaultcost:string) {
-    var LastPOunit: string = this.LastPOUnit;
+  LastPOPriceload(defaultunit: string, defaultcost: string) {
+    var LastPOunit: string = this.lastpounit;
     var LastPOprice: string = defaultcost;
     var DefaltUnit: string = defaultunit;
     var Itemcode: string = this.incicode;
@@ -1511,238 +1602,259 @@ export class RawMaterialComponent implements OnInit {
   Rawmaterial_Update() {
 
 
-
-    //this.markFormTouched(this.login_form);
-    //if (this.login_form.valid) {
-    //var operation: string = "Update";
-    //var username: string = "admin";
-    //var suppliercode = this.supp_code;
-    //var sg = this.lb_gal;
-    //var tradename: string = this.tradn;
-    //var chemist: string = this.supercededBy;
-    //var unitid = this.defaultUnit;
-    //var unitcost = this.unitCost;
-    if (this.ifradata == "") {
-      this.isifrafilled = "false";
-      this.isifraaudit = "true";
+    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) < 100) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total percentage should be 100%.Adjust to 100%.' } });
+      this.active = "3";
     }
     else {
-      this.isifrafilled = "true";
-      this.isifraaudit = "false";
+      //this.markFormTouched(this.login_form);
+      //if (this.login_form.valid) {
+      //var operation: string = "Update";
+      //var username: string = "admin";
+      //var suppliercode = this.supp_code;
+      //var sg = this.lb_gal;
+      //var tradename: string = this.tradn;
+      //var chemist: string = this.supercededBy;
+      //var unitid = this.defaultUnit;
+      //var unitcost = this.unitCost;
+      if (this.ifradata == "") {
+        this.isifrafilled = "false";
+        this.isifraaudit = "true";
+      }
+      else {
+        this.isifrafilled = "true";
+        this.isifraaudit = "false";
+      }
+      if (this.CurrSupplierPriority == "") {
+        this.cmbpriority = "N/A";
+        this.oldpriority = "N/A";
+      }
+      else {
+        this.cmbpriority = this.CurrSupplierPriority;
+        this.oldpriority = "";
+      }
+      if (this.PrevSupplierPriority == "") {
+
+
+
+
+
+      }
+      else {
+        this.oldpriorno = this.PrevSupplierPriority;
+      }
+      if (this.NPAExpiry == "" || this.NPAExpiry == null) {
+        this.NPAExpiry = formatDate(Date.now(), 'yyyy-MM-dd', 'en-US');
+      }
+      else {
+        this.NPAExpiry = this.NPAExpiry;
+      }
+      this.dataList[0] = ([{
+        ItemCode: this.incicode,
+        GeneralItemCode: this.itemli,
+        Description: this.inciname,
+        IngredientTradeName: this.tradn,
+        CategoryId: this.categoryId,
+        SubCategoryId: this.subCategoryId,
+        StatusId: this.statusId,
+        SupercededBy: this.supercededBy,
+        SupercededDate: '',
+        UnitCost: this.unitCost,
+        CostUnit: this.costUnit,
+        CostDt: this.costDt,
+        Notes: this.notes,
+        VendorCode: this.supp_code,
+        HMIS_Health: this.hMISHealth,
+        HMIS_Flammability: this.hMISFlammability,
+        HMIS_Physical: this.hMISPhysical,
+        HMIS_Personal: this.hMISPersonal,
+        NFPA_Health: this.NFPA_Health,
+        NFPA_Flammability: this.NFPA_Flammability,
+        NFPA_Reactivity: this.nFPAReactivity,
+        FlashPtCelsious: this.flashPtCelsious,
+        NFPA_Special: this.nFPASpecial,
+        FlashPtFlammable: this.flashPtFlammable,
+        FlashPtGTLT: this.flashPtGTLT,
+        FlashPtOverride: this.flashPtOverride,
+        FlashPtMethod: this.flashPtMethod,
+        MSDSPath: this.MSDSPath,
+        EURiskPhrases: this.risklistdata,
+        EUSafetyPhrases: this.safetylistdata,
+        AddedBy: this.AddedBy,
+        AddedDt: this.AddedDt,
+        UpdatedDt: this.UpdatedDt,
+        UpdatedBy: this.UpdatedBy,
+        INNName: this.INNName,
+        PhEurName: this.PhEurName,
+        IUPACName: this.IUPACName,
+        Restriction: this.Restriction,
+        FunctionCode: this.functioncode,
+        PreviousCost: this.PreviousCost,
+        DrugName: this.drugName,
+        SKU: this.sku,
+        RawMatSource: this.RMSource,
+        RMAbbreviation: 'CUSTOM',
+        ReOrderQty: this.reorderQty,
+        Exemptornot: this.Exemptornot,
+        RMLeadTime: this.rmleadtime,
+        Monograph: this.monograph,
+        IncidIngredient: this.IncidIngredient,
+        BlendProcedure: this.BlendProcedure,
+        VOCContributor: this.VOCContributor,
+        Approved: this.Approved,
+        COAPath: this.COAPath,
+        Origin: this.origin,
+        MOQ: this.MOQ,
+        MOQunit: this.MOQunit,
+        NPACertified: this.NPACertified,
+        NPAExpiry: this.NPAExpiry,
+        ApprovalCode: this.ApprovalCode,
+        PreviousVenderCode: this.PreviousVenderCode,
+        GMOYesOrNo: this.GMOYesOrNo,
+        GlutenYesOrNo: this.GlutenYesOrNo,
+        SupplierRMNo: this.SupplierRMNo,
+        ProcessLeadTime: this.proleadtime,
+        PreprocessLeadTime: this.preloadtime,
+        PostprocessLeadTime: this.postleadtime,
+        StatusReason: this.StatusReason,
+        Halal: this.Halal,
+        Kosher: this.Kosher,
+        AlertRemarks: this.AlertRemarks,
+        EBSNumber: this.ebsNumber,
+        CurrSupplierPriority: this.CurrSupplierPriority,
+        PrevSupplierPriority: this.PrevSupplierPriority,
+        LastPOCost: this.lastPOCost,
+        RMConcentration: this.concentration,
+        RMAssayValue: this.rmAssayValue,
+        IsBlend: 'false',
+        Hazardous: this.Hazardous,
+        ReOrderUnit: this.ReOrderUnit,
+        ContactPerson: this.contactperson,
+        ContactNo: this.contactno,
+        fax: this.Fax,
+        Address: this.address,
+        name: this.supp_name,
+        SG: this.gravity,
+        Distributor: this.distributor,
+        phoneNumber: this.phoneno,
+        website: this.web,
+        MOQUnit: this.MOQunit,
+        code: this.supp_code,
+        SupplierKey: this.suppkey,
+        email: this.Email,
+        lblusername: 'admin',
+        CmbStatus: this.Status,
+        DefaultUnit: this.defaultUnit,
+        cmbUOM1: this.defaultUnit,
+        cmbcostuom: this.defaaltunitname,
+        cmbLastper: this.LastPOUnit,
+        LastPOUnit: this.lastpounitname,
+        CmbCategory: this.CategoryName,
+        CmbSubCategory: this.SubCategoryName,
+        ifracas: this.cas,
+
+
+
+        IsIFRAFilled: this.isifrafilled,
+        IsIFRAAudit: this.isifraaudit,
+        dtpLastCost: this.LastPODt,
+        LastPODt: this.LastPODt,
+        oldstdcost: this.oldStdCost,
+        oldcost: this.oldCost,
+
+
+
+        oldpriorityNA: this.oldpriority,
+        cmbpriorityno: this.cmbpriority,
+        oldpriorityno: this.oldpriorno,
+
+
+
+        shippingpriceunit: this.shippingpriceunit,
+        stdpriceunit: this.standardpriceunit,
+        stdprice: this.standardprice,
+        stdpricedate: this.standardpricedate,
+        shippingprice: this.shippingprize,
+        shippingpricedate: this.shippingpricedate,
+      }]);
+
+
+
+      this.DataListAudit[0] = ([{
+        txtRegulatoryNotes: '',
+        txtWord1: '',
+        txtWord2: '',
+        txtWord3: '',
+        txtWord4: '',
+        txtWord5: '',
+        txtWord6: '',
+        txtExcel1: '',
+        txtExcel2: '',
+        txtExcel3: '',
+        txtExcel4: '',
+        txtExcel5: '',
+        txtExcel6: '',
+        txtpdf1: '',
+        txtpdf2: '',
+        txtpdf3: '',
+        txtpdf4: '',
+        txtpdf5: '',
+        txtpdf6: '',
+        txtpdf7: '',
+        txtAddtl1: '',
+        txtAddtl2: '',
+        txtAddtl3: '',
+        txtAddtl4: '',
+        txtAddtl5: '',
+        txtAddtl6: '',
+        txtAddtl7: '',
+
+
+
+
+
+      }]);
+      this.DataListIFRA[0] = ([{
+        txtSourceinfo: this.Sourceinfo,
+        txtIFRAAmmendment: this.amendment,
+        txtFEMA: this.femaNo,
+        txtRIFMD: this.RFIMID,
+        txtIFRACI: this.Category1A,
+        txtIFRACIB: this.Category1B,
+        txtIFRACII: this.Category2A,
+        txtClassThree: this.Category3A,
+        txtClassThreeB: this.Category3B,
+        txtClassThreeC: this.Category3C,
+        txtClassThreeD: this.Category3D,
+        txtIFRACIV: this.Category4A,
+        txtIFRACIVB: this.Category4B,
+        txtIFRACIVC: this.Category4C,
+        txtIFRACIVD: this.Category4D,
+        txtIFRACV: this.Category5A,
+        txtIFRACVI: this.Category6A,
+        txtIFRACVII: this.Category7A,
+        txtIFRACVIIB: this.Category7B,
+        txtIFRACVIII: this.Category8A,
+        txtIFRACVIIIB: this.Category8B,
+        txtIFRACIX: this.Category9A,
+        txtIFRACIXB: this.Category9B,
+        txtIFRACIXC: this.Category9C,
+        txtIFRACX: this.Category10A,
+        txtIFRACXB: this.Category10B,
+        txtIFRACXI: this.Category11A,
+        txtIFRACXIB: this.Category11B,
+      }]);
+      this.Rawmaterial_updateup().subscribe((rawmaterial_update) => {
+        console.warn("rawmaterial_update", rawmaterial_update)
+        this.rawmaterial_update_data = rawmaterial_update
+        if (this.rawmaterial_update_data == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
+          this.rawmaterial_update_data = ""
+        }
+      })
     }
-    if (this.CurrSupplierPriority == "") {
-      this.cmbpriority = "N/A";
-      this.oldpriority = "N/A";
-    }
-    else {
-      this.cmbpriority = this.CurrSupplierPriority;
-      this.oldpriority = "";
-    }
-    if (this.PrevSupplierPriority == "") {
-
-
-
-    }
-    else {
-      this.oldpriorno = this.PrevSupplierPriority;
-    }
-    if (this.NPAExpiry == "" || this.NPAExpiry == null) {
-      this.NPAExpiry = formatDate(Date.now(), 'yyyy-MM-dd', 'en-US');
-    }
-    else {
-      this.NPAExpiry = this.NPAExpiry;
-    }
-    this.dataList[0] = ([{
-      ItemCode: this.incicode,
-      GeneralItemCode: this.itemli,
-      Description: this.inciname,
-      IngredientTradeName: this.tradn,
-      CategoryId: this.categoryId,
-      SubCategoryId: this.subCategoryId,
-      StatusId: this.statusId,
-      SupercededBy: this.supercededBy,
-      SupercededDate: '',
-      UnitCost: this.unitCost,
-      CostUnit: this.costUnit,
-      CostDt: this.costDt,
-      Notes: this.notes,
-      VendorCode: this.Code,
-      HMIS_Health: this.hMISHealth,
-      HMIS_Flammability: this.hMISFlammability,
-      HMIS_Physical: this.hMISPhysical,
-      HMIS_Personal: this.hMISPersonal,
-      NFPA_Health: this.NFPA_Health,
-      NFPA_Flammability: this.NFPA_Flammability,
-      NFPA_Reactivity: this.nFPAReactivity,
-      FlashPtCelsious: this.flashPtCelsious,
-      NFPA_Special: this.nFPASpecial,
-      FlashPtFlammable: this.flashPtFlammable,
-      FlashPtGTLT: this.flashPtGTLT,
-      FlashPtOverride: this.flashPtOverride,
-      FlashPtMethod: this.flashPtMethod,
-      MSDSPath: this.MSDSPath,
-      EURiskPhrases: this.risklistdata,
-      EUSafetyPhrases: this.safetylistdata,
-      AddedBy: this.AddedBy,
-      AddedDt: this.AddedDt,
-      UpdatedDt: this.UpdatedDt,
-      UpdatedBy: this.UpdatedBy,
-      INNName: this.INNName,
-      PhEurName: this.PhEurName,
-      IUPACName: this.IUPACName,
-      Restriction: this.Restriction,
-      FunctionCode: this.functioncode,
-      PreviousCost: this.PreviousCost,
-      DrugName: this.drugName,
-      SKU: this.sku,
-      RawMatSource: this.RMSource,
-      RMAbbreviation: 'CUSTOM',
-      ReOrderQty: this.reorderQty,
-      Exemptornot: this.Exemptornot,
-      RMLeadTime: this.rmleadtime,
-      Monograph: this.monograph,
-      IncidIngredient: this.IncidIngredient,
-      BlendProcedure: this.BlendProcedure,
-      VOCContributor: this.VOCContributor,
-      Approved: this.Approved,
-      COAPath: this.COAPath,
-      Origin: this.origin,
-      MOQ: this.MOQ,
-      MOQunit: this.MOQunit,
-      NPACertified: this.NPACertified,
-      NPAExpiry: this.NPAExpiry,
-      ApprovalCode: this.ApprovalCode,
-      PreviousVenderCode: this.PreviousVenderCode,
-      GMOYesOrNo: this.GMOYesOrNo,
-      GlutenYesOrNo: this.GlutenYesOrNo,
-      SupplierRMNo: this.SupplierRMNo,
-      ProcessLeadTime: this.proleadtime,
-      PreprocessLeadTime: this.preloadtime,
-      PostprocessLeadTime: this.postleadtime,
-      StatusReason: this.StatusReason,
-      Halal: this.Halal,
-      Kosher: this.Kosher,
-      AlertRemarks: this.AlertRemarks,
-      EBSNumber: this.ebsNumber,
-      CurrSupplierPriority: this.CurrSupplierPriority,
-      PrevSupplierPriority: this.PrevSupplierPriority,
-      LastPOCost: this.lastPOCost,
-      RMConcentration: this.concentration,
-      RMAssayValue: this.rmAssayValue,
-      IsBlend: 'false',
-      Hazardous: this.Hazardous,
-      ReOrderUnit: this.ReOrderUnit,
-      ContactPerson: this.contactperson,
-      ContactNo: this.contactno,
-      fax: this.Fax,
-      Address: this.address,
-      name: this.supp_name,
-      SG: this.gravity,
-      Distributor: this.distributor,
-      phoneNumber: this.phoneno,
-      website: this.web,
-      MOQUnit: this.MOQunit,
-      code: this.Code,
-      SupplierKey: this.suppkey,
-      email: this.Email,
-      lblusername: 'admin',
-      CmbStatus: this.Status,
-      DefaultUnit: this.defaultUnit,
-      cmbUOM1: this.defaultUnit,
-      cmbcostuom: this.defaultUnit,
-      cmbLastper: this.LastPOUnit,
-      LastPOUnit: this.LastPOUnit,
-      CmbCategory: this.CategoryName,
-      CmbSubCategory: this.SubCategoryName,
-      ifracas: this.cas,
-
-
-
-      IsIFRAFilled: this.isifrafilled,
-      IsIFRAAudit: this.isifraaudit,
-      dtpLastCost: this.LastPODt,
-      LastPODt: this.LastPODt,
-      oldstdcost: this.oldStdCost,
-      oldcost: this.oldCost,
-
-      oldpriorityNA: this.oldpriority,
-      cmbpriorityno: this.cmbpriority,
-      oldpriorityno: this.oldpriorno,
-    }]);
-
-
-
-    this.DataListAudit[0] = ([{
-      txtRegulatoryNotes: '',
-      txtWord1: '',
-      txtWord2: '',
-      txtWord3: '',
-      txtWord4: '',
-      txtWord5: '',
-      txtWord6: '',
-      txtExcel1: '',
-      txtExcel2: '',
-      txtExcel3: '',
-      txtExcel4: '',
-      txtExcel5: '',
-      txtExcel6: '',
-      txtpdf1: '',
-      txtpdf2: '',
-      txtpdf3: '',
-      txtpdf4: '',
-      txtpdf5: '',
-      txtpdf6: '',
-      txtpdf7: '',
-      txtAddtl1: '',
-      txtAddtl2: '',
-      txtAddtl3: '',
-      txtAddtl4: '',
-      txtAddtl5: '',
-      txtAddtl6: '',
-      txtAddtl7: '',
-
-
-
-
-
-    }]);
-    this.DataListIFRA[0] = ([{
-      txtSourceinfo: this.Sourceinfo,
-      txtIFRAAmmendment: this.amendment,
-      txtFEMA: this.femaNo,
-      txtRIFMD: this.RFIMID,
-      txtIFRACI: this.Category1A,
-      txtIFRACIB: this.Category1B,
-      txtIFRACII: this.Category2A,
-      txtClassThree: this.Category3A,
-      txtClassThreeB: this.Category3B,
-      txtClassThreeC: this.Category3C,
-      txtClassThreeD: this.Category3D,
-      txtIFRACIV: this.Category4A,
-      txtIFRACIVB: this.Category4B,
-      txtIFRACIVC: this.Category4C,
-      txtIFRACIVD: this.Category4D,
-      txtIFRACV: this.Category5A,
-      txtIFRACVI: this.Category6A,
-      txtIFRACVII: this.Category7A,
-      txtIFRACVIIB: this.Category7B,
-      txtIFRACVIII: this.Category8A,
-      txtIFRACVIIIB: this.Category8B,
-      txtIFRACIX: this.Category9A,
-      txtIFRACIXB: this.Category9B,
-      txtIFRACIXC: this.Category9C,
-      txtIFRACX: this.Category10A,
-      txtIFRACXB: this.Category10B,
-      txtIFRACXI: this.Category11A,
-      txtIFRACXIB: this.Category11B,
-    }]);
-    this.Rawmaterial_updateup().subscribe((rawmaterial_update) => {
-      console.warn("rawmaterial_update", rawmaterial_update)
-      this.rawmaterial_update_data = rawmaterial_update
-      
-    })
    
-      this.showAlert()
+      //this.showAlert()
         //} else {
     // this.login_form.controls['terms'].setValue(false);
     //}
@@ -1758,191 +1870,231 @@ export class RawMaterialComponent implements OnInit {
 
   Rawmaterial_Save() {
 
+   
+   
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter INCI Name' } });
+    }
+   
+    else if
+      (this.itemli == undefined || this.itemli== "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter RM Item # ' } });
+    }
+    else if
+      (this.supp_name == "" || this.supp_name == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please select Supplier details' } });
+    }
+    else if (this.CategoryName == "" || this.CategoryName == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Category Name' } });
+    }
+    else if
+      (this.Status == "" || this.Status == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please select Status' } });
+    }
+    else if
+      (this.standardprice == "" || this.shippingprize == "" || this.unitCost == "" || this.lastPOCost=="") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Price details' } });
+    }
+    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) < 100) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total percentage should be 100%.Adjust to 100%.' } });
+      this.active = "3";
+    }
+  else {
 
-
-    this.RMdataList[0] = ([{
-
-
-
-      AddedBy: 'admin',
-      AddedDt: this.AddedDt,
-      Address: this.address,
-      AlertRemarks: this.AlertRemarks,
-      Approved: this.Approved,
-      BlendProcedure: this.BlendProcedure,
-      CategoryId: this.categoryId,
-      CmbCategory: this.CategoryName,
-      CmbSubCategory: this.SubCategoryName,
-      COAPath: this.COAPath,
-      code: this.supp_code,
-      ContactNo: this.contactno,
-      ContactPerson: this.contactperson,
-      CostDt: this.costDt,
-      CostUnit: this.costUnit,
-      DefaultUnit: this.defaultUnit,
-      Description: this.inciname,
-      Distributor: this.distributor,
-      DrugName: this.drugName,
-      EBSNumber: this.ebsNumber,
-      email: this.Email,
-      EURiskPhrases: this.risklistdata,
-      EUSafetyPhrases: this.safetylistdata,
-      Exemptornot: this.Exemptornot,
-      fax: this.Fax,
-      FlashPtCelsious: this.flashPtCelsious,
-      FlashPtFlammable: this.flashPtFlammable,
-      FlashPtGTLT: this.flashPtGTLT,
-      FlashPtMethod: this.flashPtMethod,
-      FlashPtOverride: this.flashPtOverride,
-      FunctionCode: this.functioncode,
-      GeneralItemCode: this.itemli,
-      GlutenYesOrNo: this.GlutenYesOrNo,
-      GMOYesOrNo: this.GMOYesOrNo,
-      Halal: this.Halal,
-      HMIS_Flammability: this.hMISFlammability,
-      HMIS_Health: this.hMISHealth,
-      HMIS_Personal: this.hMISPersonal,
-      HMIS_Physical: this.hMISPhysical,
-      IncidIngredient: this.IncidIngredient,
-      IngredientTradeName: this.tradn,
-      ItemCode: 'newitem',
-      IUPACName: this.IUPACName,
-      Kosher: this.Kosher,
-      LastPOCost: this.lastPOCost,
-      LastPODt: this.LastPODt,
-      LastPOUnit: this.LastPOUnit,
-      Monograph: this.monograph,
-      MOQ: this.MOQ,
-      MSDSPath: this.MSDSPath,
-      name: this.supp_name,
-      NFPA_Flammability: this.NFPA_Flammability,
-      NFPA_Health: this.NFPA_Health,
-      NFPA_Reactivity: this.nFPAReactivity,
-      NFPA_Special: this.nFPASpecial,
-      Notes: this.notes,
-      NPACertified: this.NPACertified,
-      Origin: this.origin,
-      PhEurName: this.PhEurName,
-      phoneNumber: this.phoneno,
-      PostprocessLeadTime: this.postleadtime,
-      PreprocessLeadTime: this.preloadtime,
-      PreviousCost: this.PreviousCost,
-      ProcessLeadTime: this.proleadtime,
-      RawMatSource: this.RMSource,
-      ReOrderQty: this.reorderQty,
-      Restriction: this.Restriction,
-      RMAssayValue: this.rmAssayValue,
-      RMConcentration: this.concentration,
-      RMLeadTime: this.rmleadtime,
-      SG: this.gravity,
-      SKU: this.sku,
-      StatusId: this.statusId,
-      SubCategoryId: this.subCategoryId,
-      SupercededBy: 'admin',
-      SupercededDate: '',
-      SupplierKey: this.suppkey,
-      UnitCost: this.unitCost,
-      VendorCode: this.supp_code,
-      VOCContributor: this.VOCContributor,
-      website: this.web,
-      CmbStatus: this.Status,
-      chkHazard: this.Hazardous,
-      cmbcostuom: this.defaultUnit,
-      SupplierRMNo: this.SupplierRMNo,
-      ReorderUnit: this.ReOrderUnit,
-      PrevSupplierPriority: this.PrevSupplierPriority,
-      MOQUnit: this.MOQunit,
-      INNName: this.INNName,
-      IsBlend: this.IsBlend,
-      CurrSupplierPriority: this.CurrSupplierPriority,
-      cmbUOM1: this.defaultUnit,
-      lblusername: 'admin',
-      cmbLastper: this.LastPOUnit,
-      CmbPriorityno: this.CurrSupplierPriority,
-      NPAExpiry: this.NPAExpiry,
-      oldpriorityno: this.CurrSupplierPriority,
-      RMAbbreviation: 'CUSTOM',
-      ifracas: '',
-      IsIFRAFilled: '',
-      IsIFRAAudit: '',
+      this.RMdataList[0] = ([{
 
 
 
+        AddedBy: 'admin',
+        AddedDt: this.AddedDt,
+        Address: this.address,
+        AlertRemarks: this.AlertRemarks,
+        Approved: this.Approved,
+        BlendProcedure: this.BlendProcedure,
+        CategoryId: this.categoryId,
+        CmbCategory: this.CategoryName,
+        CmbSubCategory: this.SubCategoryName,
+        COAPath: this.COAPath,
+        code: this.supp_code,
+        ContactNo: this.contactno,
+        ContactPerson: this.contactperson,
+        CostDt: this.costDt,
+        CostUnit: this.costUnit,
+        DefaultUnit: this.defaultUnit,
+        Description: this.inciname,
+        Distributor: this.distributor,
+        DrugName: this.drugName,
+        EBSNumber: this.ebsNumber,
+        email: this.Email,
+        EURiskPhrases: this.risklistdata,
+        EUSafetyPhrases: this.safetylistdata,
+        Exemptornot: this.Exemptornot,
+        fax: this.Fax,
+        FlashPtCelsious: this.flashPtCelsious,
+        FlashPtFlammable: this.flashPtFlammable,
+        FlashPtGTLT: this.flashPtGTLT,
+        FlashPtMethod: this.flashPtMethod,
+        FlashPtOverride: this.flashPtOverride,
+        FunctionCode: this.functioncode,
+        GeneralItemCode: this.itemli,
+        GlutenYesOrNo: this.GlutenYesOrNo,
+        GMOYesOrNo: this.GMOYesOrNo,
+        Halal: this.Halal,
+        HMIS_Flammability: this.hMISFlammability,
+        HMIS_Health: this.hMISHealth,
+        HMIS_Personal: this.hMISPersonal,
+        HMIS_Physical: this.hMISPhysical,
+        IncidIngredient: this.IncidIngredient,
+        IngredientTradeName: this.tradn,
+        ItemCode: 'newitem',
+        IUPACName: this.IUPACName,
+        Kosher: this.Kosher,
+        LastPOCost: this.lastPOCost,
+        LastPODt: this.LastPODt,
+        LastPOUnit: this.LastPOUnit,
+        Monograph: this.monograph,
+        MOQ: this.MOQ,
+        MSDSPath: this.MSDSPath,
+        name: this.supp_name,
+        NFPA_Flammability: this.NFPA_Flammability,
+        NFPA_Health: this.NFPA_Health,
+        NFPA_Reactivity: this.nFPAReactivity,
+        NFPA_Special: this.nFPASpecial,
+        Notes: this.notes,
+        NPACertified: this.NPACertified,
+        Origin: this.origin,
+        PhEurName: this.PhEurName,
+        phoneNumber: this.phoneno,
+        PostprocessLeadTime: this.postleadtime,
+        PreprocessLeadTime: this.preloadtime,
+        PreviousCost: this.PreviousCost,
+        ProcessLeadTime: this.proleadtime,
+        RawMatSource: this.RMSource,
+        ReOrderQty: this.reorderQty,
+        Restriction: this.Restriction,
+        RMAssayValue: this.rmAssayValue,
+        RMConcentration: this.concentration,
+        RMLeadTime: this.rmleadtime,
+        SG: this.gravity,
+        SKU: this.sku,
+        StatusId: this.statusId,
+        SubCategoryId: this.subCategoryId,
+        SupercededBy: 'admin',
+        SupercededDate: '',
+        SupplierKey: this.suppkey,
+        UnitCost: this.unitCost,
+        VendorCode: this.supp_code,
+        VOCContributor: this.VOCContributor,
+        website: this.web,
+        CmbStatus: this.Status,
+        chkHazard: this.Hazardous,
+        cmbcostuom: this.defaultUnit,
+        SupplierRMNo: this.SupplierRMNo,
+        ReorderUnit: this.ReOrderUnit,
+        PrevSupplierPriority: this.PrevSupplierPriority,
+        MOQUnit: this.MOQunit,
+        INNName: this.INNName,
+        IsBlend: this.IsBlend,
+        CurrSupplierPriority: this.CurrSupplierPriority,
+        cmbUOM1: this.defaultUnit,
+        lblusername: 'admin',
+        cmbLastper: this.LastPOUnit,
+        CmbPriorityno: this.CurrSupplierPriority,
+        NPAExpiry: this.NPAExpiry,
+        oldpriorityno: this.CurrSupplierPriority,
+        RMAbbreviation: 'CUSTOM',
+        ifracas: '',
+        IsIFRAFilled: '',
+        IsIFRAAudit: '',
 
-    }]);
-    this.DataListAudit[0] = ([{
-      txtRegulatoryNotes: '',
-      txtWord1: '',
-      txtWord2: '',
-      txtWord3: '',
-      txtWord4: '',
-      txtWord5: '',
-      txtWord6: '',
-      txtExcel1: '',
-      txtExcel2: '',
-      txtExcel3: '',
-      txtExcel4: '',
-      txtExcel5: '',
-      txtExcel6: '',
-      txtpdf1: '',
-      txtpdf2: '',
-      txtpdf3: '',
-      txtpdf4: '',
-      txtpdf5: '',
-      txtpdf6: '',
-      txtpdf7: '',
-      txtAddtl1: '',
-      txtAddtl2: '',
-      txtAddtl3: '',
-      txtAddtl4: '',
-      txtAddtl5: '',
-      txtAddtl6: '',
-      txtAddtl7: '',
+        shippingpriceunit: this.shippingpriceunit,
+        stdpriceunit: this.standardpriceunit,
+        stdprice: this.standardprice,
+        stdpricedate: this.standardpricedate,
+        shippingprice: this.shippingprize,
+        shippingpricedate: this.shippingpricedate,
+
+
+      }]);
+      this.DataListAudit[0] = ([{
+        txtRegulatoryNotes: '',
+        txtWord1: '',
+        txtWord2: '',
+        txtWord3: '',
+        txtWord4: '',
+        txtWord5: '',
+        txtWord6: '',
+        txtExcel1: '',
+        txtExcel2: '',
+        txtExcel3: '',
+        txtExcel4: '',
+        txtExcel5: '',
+        txtExcel6: '',
+        txtpdf1: '',
+        txtpdf2: '',
+        txtpdf3: '',
+        txtpdf4: '',
+        txtpdf5: '',
+        txtpdf6: '',
+        txtpdf7: '',
+        txtAddtl1: '',
+        txtAddtl2: '',
+        txtAddtl3: '',
+        txtAddtl4: '',
+        txtAddtl5: '',
+        txtAddtl6: '',
+        txtAddtl7: '',
 
 
 
 
 
-    }]);
-    this.DataListIFRA[0] = ([{
-      txtSourceinfo: this.Sourceinfo,
-      txtIFRAAmmendment: this.amendment,
-      txtFEMA: this.femaNo,
-      txtRIFMD: this.RFIMID,
-      txtIFRACI: this.Category1A,
-      txtIFRACIB: this.Category1B,
-      txtIFRACII: this.Category2A,
-      txtClassThree: this.Category3A,
-      txtClassThreeB: this.Category3B,
-      txtClassThreeC: this.Category3C,
-      txtClassThreeD: this.Category3D,
-      txtIFRACIV: this.Category4A,
-      txtIFRACIVB: this.Category4B,
-      txtIFRACIVC: this.Category4C,
-      txtIFRACIVD: this.Category4D,
-      txtIFRACV: this.Category5A,
-      txtIFRACVI: this.Category6A,
-      txtIFRACVII: this.Category7A,
-      txtIFRACVIIB: this.Category7B,
-      txtIFRACVIII: this.Category8A,
-      txtIFRACVIIIB: this.Category8B,
-      txtIFRACIX: this.Category9A,
-      txtIFRACIXB: this.Category9B,
-      txtIFRACIXC: this.Category9C,
-      txtIFRACX: this.Category10A,
-      txtIFRACXB: this.Category10B,
-      txtIFRACXI: this.Category11A,
-      txtIFRACXIB: this.Category11B,
-    }]);
+      }]);
+      this.DataListIFRA[0] = ([{
+        txtSourceinfo: this.Sourceinfo,
+        txtIFRAAmmendment: this.amendment,
+        txtFEMA: this.femaNo,
+        txtRIFMD: this.RFIMID,
+        txtIFRACI: this.Category1A,
+        txtIFRACIB: this.Category1B,
+        txtIFRACII: this.Category2A,
+        txtClassThree: this.Category3A,
+        txtClassThreeB: this.Category3B,
+        txtClassThreeC: this.Category3C,
+        txtClassThreeD: this.Category3D,
+        txtIFRACIV: this.Category4A,
+        txtIFRACIVB: this.Category4B,
+        txtIFRACIVC: this.Category4C,
+        txtIFRACIVD: this.Category4D,
+        txtIFRACV: this.Category5A,
+        txtIFRACVI: this.Category6A,
+        txtIFRACVII: this.Category7A,
+        txtIFRACVIIB: this.Category7B,
+        txtIFRACVIII: this.Category8A,
+        txtIFRACVIIIB: this.Category8B,
+        txtIFRACIX: this.Category9A,
+        txtIFRACIXB: this.Category9B,
+        txtIFRACIXC: this.Category9C,
+        txtIFRACX: this.Category10A,
+        txtIFRACXB: this.Category10B,
+        txtIFRACXI: this.Category11A,
+        txtIFRACXIB: this.Category11B,
+      }]);
 
 
 
 
-    this.Rawmaterial_saveupdateup().subscribe((rawmaterial_save) => {
-      console.warn("rawmaterial_save", rawmaterial_save)
-      this.rawmaterial_save_data = rawmaterial_save
-    })
-    this.showAlert3();
+      this.Rawmaterial_saveupdateup().subscribe((rawmaterial_save) => {
+        console.warn("rawmaterial_save", rawmaterial_save)
+        this.rawmaterial_save_data = rawmaterial_save
+
+        if (this.rawmaterial_save_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
+          this.rawmaterial_save_data = ""
+        }
+      })
+    }
+    
   }
 
   Rawmaterial_saveupdateup() {
@@ -1966,20 +2118,20 @@ export class RawMaterialComponent implements OnInit {
     this.drugName = '';
     this.notes = '';
     this.sku = '';
-    this.rmAssayValue = '';
+    this.rmAssayValue = '0.00';
     this.supercededBy = '';
     this.supercededDate = '';
     this.defaultUnit = '';
     this.LastPOUnit = '';
-    this.reorderQty = '';
+    this.reorderQty = '0.00';
     this.origin = '';
-    this.concentration = '';
+    this.concentration = '0.00';
     this.RMSource = '';
-    this.proleadtime = '';
-    this.preloadtime = '';
-    this.postleadtime = '';
-    this.rmleadtime = '';
-    this.gravity = '';
+    this.proleadtime = '0';
+    this.preloadtime = '0';
+    this.postleadtime = '0';
+    this.rmleadtime = '0';
+    this.gravity = '1';
     this.IUPACName = '';
     this.Restriction = '';
     this.MSDSPath = '';
@@ -2003,8 +2155,11 @@ export class RawMaterialComponent implements OnInit {
     this.unitCost = '';
     this.costUnit = '';
     this.LastPODt = '';
-    this.costDt = "";
-    this.lastPOCost = "0";
+    this.costDt = '';
+    this.lastPOCost = '0.001';
+    this.standardprice = '0.001';
+    this.shippingprize = '0.000';
+    this.deliveredprice='0.001'
     this.costDt = '';
     this.LastPODt = '';
     this.hMISHealth = '';
@@ -2019,7 +2174,7 @@ export class RawMaterialComponent implements OnInit {
     this.IncidIngredient = '';
     this.Exemptornot = '';
     this.PhEurName = '';
-    this.MOQ = '';
+    this.MOQ = '0.00';
     this.Approved = '';
     this.VOCContributor = '';
     this.PreviousCost = '';
@@ -2059,6 +2214,7 @@ export class RawMaterialComponent implements OnInit {
     this.oldCost = '';
     this.oldStdCost = '';
     this.deliveredprice = '';
+    this.gravity = '1.000';
 
     this.ifradata = '';
     this.casdata = '';
@@ -2120,7 +2276,9 @@ export class RawMaterialComponent implements OnInit {
   ngOnInit() {
 
     this.itemcodehidd = this.Datashare.getitemcoderaw();
+  
     if (this.itemcodehidd != null) {
+      this.supp_name = this.Datashare.getitemtosupplier();
       this.Rawmaterialload(this.itemcodehidd).subscribe((rawmaterialload) => {
         console.warn("rawmaterialload", rawmaterialload)
         this.Rawdata = rawmaterialload
@@ -2264,7 +2422,12 @@ export class RawmaterialData {
   cmbpriorityno: string;
   oldpriorityno: string;
 
-
+  shippingpriceunit: string;
+  stdpriceunit: string;
+  stdprice: string;
+  stdpricedate: string;
+  shippingprice: string;
+  shippingpricedate: string;
 
 
 }
@@ -2437,6 +2600,11 @@ export class Datasave {
   IsIFRAAudit: string;
 
 
-
+  shippingpriceunit: string;
+  stdpriceunit: string;
+  stdprice: string;
+  stdpricedate: string;
+  shippingprice: string;
+  shippingpricedate: string;
 
 }

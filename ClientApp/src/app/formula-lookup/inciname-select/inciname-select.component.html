@@ -39,7 +39,8 @@
         </thead>
         <tbody>
 
-          <tr *ngFor="let inci_search of getrawtable|filter:getgriddat.value| slice:pageStart:pageEnd; let i=index;" (click)="setvalues(inci_search);close();">
+          <tr *ngFor="let inci_search of getrawtable|appFilter:getgriddat.value| slice:pageStart:pageEnd; let i=index;" (click)="setvalues(inci_search);close();">
+         
             <td class="tabledatasize">{{inci_search.INCIName}}</td>
             <td class="tabledatasize" style="width:15%">{{inci_search.ItemNo}}</td>
             <td class="tabledatasize">{{inci_search.TradeName}}</td>

@@ -45,10 +45,10 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let pdr_search of dataresultsearchpdr | filter:Formulaname|filter:Pdrdata; let i=index;" (click)="setvalues( pdr_search);close();"#conten>
+          <tr *ngFor="let pdr_search of dataresultsearchpdr | filter:Formulaname|filter:Pdrdata; let i=index;" (click)="setvalues( pdr_search);close();" #conten>
             <td hidden>{{ pdr_search.FormulaCode }}</td>
             <td>{{ pdr_search.PDRNo}}</td>
-            <td>{{ pdr_search.ProjectName }}</td>
+            <td>{{ pdr_search.FormulaName }}</td>
           </tr>
         </tbody>
       </table>

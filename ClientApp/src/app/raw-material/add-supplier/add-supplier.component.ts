@@ -323,7 +323,12 @@ export class AddSupplierComponent implements OnInit {
     this.SupplierStatus ='';
     this.OtherShipVia = '';
     this.shipto = '';
-
+    this.auditrialdetails = '';
+    this.dataloadsupplierallrm = '';
+    this.dataloadsupplierapprovedrm=
+    this.dataloadsupplierunapprovedrm = '';
+    this.rowData = '';
+    this.formuladetails = '';
   }
   showAlert(): void {
     if (this.isVisible) {

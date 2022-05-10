@@ -13,16 +13,19 @@ export class SearchPdrComponent implements OnInit {
   formulacodedata: string = '';
   Pdrdata: string = '';
   Formulaname: string = '';
+  projectname: string = '';
+  cstmrname: string = '';
   searchitems: any = [];
   isLoading = true;
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchPdrComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   setvalues(pdr_search) {
-    this.formulacodedata = pdr_search.FormulaCode;
+    this.formulacodedata = pdr_search.Formulacode;
     this.Pdrdata = pdr_search.PDRNo;
     this.Formulaname = pdr_search.FormulaName;
-
-    this.searchitems = [this.formulacodedata, this.Pdrdata, this.Formulaname]
+    this.projectname = pdr_search.Projectname;
+    this.cstmrname = pdr_search.Customername;
+    this.searchitems = [this.formulacodedata, this.Pdrdata, this.Formulaname, this.projectname, this.cstmrname]
   }
   close() {
     // this.searchitems = [this.formulacodedata, this.formulanamedata, this.lbnotedata]

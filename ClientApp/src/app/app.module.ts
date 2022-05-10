@@ -13,6 +13,7 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FilterPipe } from 'src/app/pipefilter';
+import { FilterPipe1 } from 'src/app/filter.pipe'
 import { UserSecurityComponent } from './user-security/user-security.component';
 import { GroupSetPermissionComponent } from './user-security/group-set-permission/group-set-permission.component';
 import { UserSetPermissionComponent } from './user-security/user-set-permission/user-set-permission.component';
@@ -27,7 +28,6 @@ import { AgGridModule } from 'ag-grid-angular';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ReactiveFormsModule } from '@angular/forms';
-
 
 
 import {
@@ -142,6 +142,9 @@ import { AddChemistryComponent } from './pdr-management/new-chemistry-params/add
 import { NewMicrobiologyParamsComponent } from './pdr-management/new-microbiology-params/new-microbiology-params.component';
 import { AddMicrobiologyComponent } from './pdr-management/new-microbiology-params/add-microbiology/add-microbiology.component';
 import { SearchProductsComponent } from './formula-lookup/customer-details/search-products/search-products.component';
+import { MessageBoxComponent } from './message-box/message-box.component';
+import { MessageBoxYesnoComponent } from './message-box-yesno/message-box-yesno.component';
+import { AssignPdrComponent } from './formula-lookup/assign-pdr/assign-pdr.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -215,8 +218,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'incinameselect', component: IncinameSelectComponent },
 
       { path: 'SearchCustomer', component: SearchCustomerComponent },
-      { path: 'SearchProducts', component: SearchProductsComponent }
-
+      { path: 'SearchProducts', component: SearchProductsComponent } ,
+      { path: 'Assignpdr', component: AssignPdrComponent }
     ]
   }
 ];
@@ -240,7 +243,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     CancelComponent ,
     NavMenuComponent,
     HomeComponent,
-    
+    FilterPipe1,
     CounterComponent,
     FetchDataComponent,
     MenuItemComponent,
@@ -326,6 +329,9 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     NewMicrobiologyParamsComponent,
     AddMicrobiologyComponent,
     SearchProductsComponent,
+    MessageBoxComponent,
+    MessageBoxYesnoComponent,
+    AssignPdrComponent,
     
   ],
   imports: [
@@ -367,7 +373,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, SearchProductsComponent,
-    AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent,IncinameSelectComponent,RawmaterialRestrictionProp65Component,CheckRestrictionComponent,FrmNewPropertyComponent,AddproductTestingComponent,PropellantsvocCalculationComponent,PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent,MaxFormulaComponent,AddProducttestingComponent,AddphystabilityTestComponent,CustomerDetailsComponent,AddMarketingIndicatorComponent,CreateLabTktsComponent,MarketingCalloutsComponent,PdrTrackStatusComponent,NewInstructionComponent,FormulaInstructionComponent,SelectPropertyComponent,FormulaPropertyComponent,AddQCComponent,SearchPdrComponent,SearchFormulaComponent,UnitmeasureMaintenanceComponent,UnitOfMeasureComponent,UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent]
+  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, SearchProductsComponent, AssignPdrComponent,
+    AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
+    MessageBoxYesnoComponent, FormulaLookupComponent]
 })
 export class AppModule { }

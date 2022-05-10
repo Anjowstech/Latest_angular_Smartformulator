@@ -1,4 +1,4 @@
-<div style="    background-color: #f6f5f1">
+<div style="background-color: #f6f5f1">
   <div style="overflow-y:auto;overflow-x:hidden; height:88vh;width:100%">
     <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formulation Lookup</h2>
 
@@ -8,7 +8,7 @@
       <input disabled type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter PDR" id="PDR" size="20" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="">
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="assignpdr()">Assign PDR</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)="searchpdr()">Search PDR</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; ">Add PDR/Project</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; "(click)="addpdr()">Add PDR/Project</button>
       <label for="Formulacode" style="margin-left: 1%;">Formula Code</label>
       <select disabled id="formulacode" class="form-control" style="width:13%;margin-left:10px">
         <option selected>CUSTOM</option>
@@ -29,7 +29,7 @@
       <input type="text" style="margin-left: 10px ;margin-top:10px" class="form-control" placeholder="Enter Formula Name" id="formulaname" size="125" [(ngModel)]="formulaname" #formulanam name="formulaname" value="">
 
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-top:10px; height:40px;" (click)=" searchformula();changeTab()">Search Formula</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="    margin-left: 10px;margin-top: 10px; height: 40px;width: 90px;" (click)=" ClearData();">Clear</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="    margin-left: 10px;margin-top: 10px; height: 40px;width: 90px;" (click)=" ClearData();changeTab();">Clear</button>
     </form>
     <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible">
       Saved Successfully!!
@@ -110,36 +110,41 @@
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
                   <label class="label1" for="inputcust">Chemist</label>
-                  <select style="width: 35%;" type="text" class="form-control" [(ngModel)]="SupercededBy" #Superceded name="Superced" value="">
+                  <select style="width: 35%;" type="text" class="form-control" [(ngModel)]="SupercededBy" name="Superced" value="">
                     <option *ngFor="let loadassignedusers of loadassignedusersdata "> {{loadassignedusers.UserName}}</option>
                   </select>
                   <label for="inputcust" style="margin-left:1.5%">On</label>
-                  <input type="date" id="datapp" class="form-control" style="width:20%;margin-left:10px" [(ngModel)]="AddedDT" name="addeddate" value="">
+                  <input type="date" id="adddat" class="form-control" style="width:20%;margin-left:10px" [(ngModel)]="supercededdate" name="chemistdate" value="">
+
+
 
 
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
                   <label class="label1" for="inputcust">Approved By</label>
-                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="ApprovedBy" #approvedb name="approvedby" value="">
+                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="ApprovedBy" name="apprvdby" value="">
                   <label for="inputcust" style="margin-left:1%">On</label>
-                  <input type="date" id="datapp" class="form-control" style="width:20%;margin-left:10px" [(ngModel)]="ApprovedDT" name="approvdate" value="">
+                  <input type="date" id="apprvdt" class="form-control" style="width:20%;margin-left:10px" [(ngModel)]="ApprovedDT" name="apprvdate" value="">
+
+
 
                 </div>
 
                 <div class="form-inline" style="padding-top:1%;">
-                  <input class="form-check-input" style="margin-left:17%" type="checkbox" id="Yes" name="Yes" value="Yes">
+                  <input class="form-check-input" style="margin-left:17%" type="checkbox" name="Chkplt" id="Chkplt" (change)="triggerSomeEvent()">
                   <label for="male">Ok to Pilot</label><br>
                   <input class="form-check-input" style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="Yes">
                   <label for="male">Ok to Produce</label><br>
-                  <input class="form-check-input" style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="Yes" [(ngModel)]="Approved">
+                  <input class="form-check-input" style="margin-left:7%" type="checkbox" [checked]="Approved=='True'?true:false">
                   <label style="color: maroon; font-size: larger;" for="male">Approve Formula</label><br>
 
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
                   <label class="label1" for="inputcust">Max Pilot Qty</label>
-                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="MaxPilotQty" #maxpiloqty name="maxpilotqty" value="">
+                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="MaxPilotQty" #maxpiloqty name="maxpilotqty" value="" [disabled]="isDisabledappr" >
                   <label for="inputcust" style="margin-left:30px">Unit Name</label>
-                  <select disabled id="PRD" class="form-control" style="width:10%;margin-left:10px">
+                  <select  id="PRD" class="form-control" style="width:10%;margin-left:10px" [(ngModel)]="Maxpilotunit" name="maxpilotqtyunit" value="" [disabled]="isDisabledappr" >
+                    <option *ngFor="let itemunit of unitdatalo_data" (change)="setunitdata(unitdatalo_data)">{{itemunit.UnitName}}</option>
                   </select>
 
                 </div>
@@ -161,16 +166,21 @@
             </div>
             <div class="form-inline">
               <label class="label1" for="inputcust">Specific Gravity</label>
-              <input style="width: 6%;" type="text" class="form-control" [(ngModel)]="ManualSG" #ManualS name="Manual" value="">
+              <input style="width: 6%;" type="text" class="form-control"  id="manusg" [(ngModel)]="ManualSG" #ManualS name="Manual" value="" (blur)="blurEventsg($event)">
               <label for="inputcust" style="margin-left:30px">_</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control" value="0.00">
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="highsp" [(ngModel)]="highspecificgravity"  name="sghigh" value="" (blur)="blurEventhighsg($event)">
               <label for="inputcust" style="margin-left:30px">Lb/Gal</label>
               <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="inputclass">
             </div>
             <div class="form-inline">
               <label class="label1" for="inputcust">Shelf Life</label>
-              <input style="width:35%" type="text" class="form-control" [(ngModel)]="ShelfLife" #shelflife name="ShelfLifedata" value="">
-              <input style="width:10%" type="text" class="form-control" [(ngModel)]="ShelfLifeUnit" #ShelfLifeUni name="ShelfLifeU" value="">
+              <input style="width:35%" type="text" class="form-control" [(ngModel)]="ShelfLife" #shelflife name="ShelfLifedata" value="" (blur)="blurEventshelflife($event)">
+              <select style="width:10%" type="text" class="form-control" [(ngModel)]="ShelfLifeUnit" #ShelfLifeUni name="ShelfLifeU" value="">
+                <option>Day(s)</option>
+                <option>Month(s)</option>
+                <option>Year(s)</option>
+
+              </select>
 
             </div>
           </form>
@@ -275,12 +285,12 @@
                         <div class="form-group col-md-5">
                           <div class="form-inline">
                             <label style="margin-left:5%;" for="Cost$/Kg">Cost $/Kg</label>
-                            <input type="text" style="margin-left:10px;width:25%; text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInkg" #TotalCostInKG name="TotalCostInk" value="">
+                            <input disabled type="text" style="margin-left:10px;width:25%; text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInkg" #TotalCostInKG name="TotalCostInk" value="">
 
                           </div>
                           <div class="form-inline">
                             <label style="margin-top:0.5%;margin-left:5%;" for="Cost$/Lb">Cost $/Lb</label>
-                            <input type="text" style="margin-left:10px;width:25%;text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInLB" #TotalCostlb name="TotalCostlb" value="">
+                            <input disabled type="text" style="margin-left:10px;width:25%;text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInLB" #TotalCostlb name="TotalCostlb" value="">
 
                           </div>
                         </div>
@@ -310,7 +320,7 @@
                           </div>
                           <div class="form-inline" style="margin-top:0.5%">
 
-                            <input disabled type="text" style="margin-left:46.8%;width:10%;text-align:right" class="form-control" placeholder="" [(ngModel)]="Yield" #Yie name="Yiel" value="">
+                            <input disabled  type="text" style="margin-left:46.8%;width:10%;text-align:right" class="form-control" placeholder="" [(ngModel)]="Yield" #Yie name="Yiel" value="">
                             <input disabled type="text" style="margin-left: 1%; width: 10%; text-align: right" class="form-control" placeholder="" [(ngModel)]="totaquantity" #formulaNetQ name="formulaNetQt" value="">
                             <input disabled type="text" style="  margin-left: 9%; width:17%;text-align:right" class="form-control" placeholder="" [(ngModel)]="formulaCost" #formulaCo name="formulaCos" value="">
 
