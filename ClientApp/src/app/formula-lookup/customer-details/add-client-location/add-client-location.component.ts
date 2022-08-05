@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 @Component({
   selector: 'app-add-client-location',
   templateUrl: './add-client-location.component.html',
@@ -10,6 +10,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class AddClientLocationComponent implements OnInit {
   addclientlocationload: string[];
+  isclienthiddensa: boolean = false;
+  isclienthiddenup: boolean = true;
   location: string;
   address: string;
   state: string;
@@ -27,7 +29,7 @@ export class AddClientLocationComponent implements OnInit {
   telephone: string;
   client_loc_updata: any;
 
-  constructor(public datashare: DataShareServiceService, private http: HttpClient) { }
+  constructor(public dialog: MatDialog,public datashare: DataShareServiceService, private http: HttpClient) { }
   Client_Locationsave() {
 
     this.Client_Locationsaveup().subscribe((SaveClient_Loc) => {
@@ -42,7 +44,8 @@ export class AddClientLocationComponent implements OnInit {
     })
   }
   Client_Locationsaveup() {
-
+    this.isclienthiddensa = true;
+    this.isclienthiddenup = false;
     var cstmrcode = this.cuscode;
     var Clid: string = "";
     var loc = this.location;
@@ -61,7 +64,17 @@ export class AddClientLocationComponent implements OnInit {
     let params1 = new HttpParams().set('CusCode', cstmrcode).set('CLId', Clid).set('Address', address).set('LocationName', loc).set('City', city).set('State', state).set('Country', country).set('ZipCode', zip).set('Telephone', tele).set('Fax', fAx).set('Emailid', emailid).set('ContactPerson', cperson).set('ContactNo', cno).set('LocationNotes', locnotes).set('operation', oper);
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SaveupdateClientLocation", { params: params1 })
   }
-
+  validemail(event) {
+    var val: any = event.target.value;
+    if (val != "") {
+      var regexp = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+      var serchfind = regexp.test(val);
+      if (serchfind == false) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'invalid email' } });
+        this.email = '';
+      }
+    }
+  }
   Client_Locationupdateup() {
 
     var cstmrcode = this.cuscode;
@@ -83,6 +96,8 @@ export class AddClientLocationComponent implements OnInit {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SaveupdateClientLocation", { params: params1 })
   }
   ClearData() {
+    this.isclienthiddensa = false;
+    this.isclienthiddenup = true;
     this.location = '';
     this.address = '';
     this.city = '';
@@ -115,7 +130,10 @@ export class AddClientLocationComponent implements OnInit {
     this.fax = this.addclientlocationload[11];
     this.notes = this.addclientlocationload[12];
     this.telephone = this.addclientlocationload[13];
-
+    if (this.location != "") {
+      this.isclienthiddensa = true;
+      this.isclienthiddenup = false;
+    }
 
   }
 

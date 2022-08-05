@@ -14,7 +14,7 @@
         <div class="form-group col-md-6">
           <div class="form-inline">
             <label>Location</label>
-            <input style="width: 70%; margin-top: 3% " type="text" class="form-control" [(ngModel)]="location" value="" name="locate">
+            <input  style="width: 70%; margin-top: 3% " type="text" class="form-control" [(ngModel)]="location" value="" name="locate">
           </div>
           <div class="form-inline">
             <label>Address</label>
@@ -26,7 +26,7 @@
           </div>
           <div class="form-inline">
             <label>Email</label>
-            <input style="width: 70%; margin-top: 3%" type="text" class="form-control" [(ngModel)]="email" value="" name="emilid">
+            <input style="width: 70%; margin-top: 3%" type="text" class="form-control" [(ngModel)]="email" value="" name="emilid" (blur)="validemail($event)">
           </div>
           <div class="form-inline">
             <label>Contact Person</label>
@@ -74,10 +74,10 @@
 <div class="form-row" style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
   <div class="form-group col-md-12">
     <div class="form-inline">
-      <button type="submit" class="btn btn-primary buttoncolor " style="height: 5%; width: 18%; margin-left: 1% ;margin-top:1%" (click)="ClearData();">Clear/Add New Location</button>
-      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 24%; height: 5%; width: 18%; margin-top: 1%" (click)="Client_Locationsave();" matDialogClose>Save Client Locations</button>
-      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 1%; height: 5%; width: 18%; margin-top: 1%" (click)="Client_Locationupdate();" matDialogClose>Update Client Locations</button>
-      <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left: 1%; height: 5%; width: 10%; margin-top: 1%" matDialogClose>Close</button>
+      <button type="submit" class="btn btn-primary buttoncolor "style="height: 5%; width: 18%;float: right; margin-right: 1%;margin-top:1%" (click)="ClearData();">Clear/Add New Location</button>
+      <button [hidden]="isclienthiddensa" type="submit" class="btn btn-primary buttoncolor " style="float: right; margin-right: 1%; height: 5%; width: 18%; margin-top: 1%" (click)="Client_Locationsave();" matDialogClose>Save Client Locations</button>
+      <button [hidden]="isclienthiddenup" type="submit" class="btn btn-primary buttoncolor " style="float: right; margin-right: 1%; height: 5%; width: 18%; margin-top: 1%" (click)="Client_Locationupdate();" matDialogClose>Update Client Locations</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style=" float:right;margin-right: 1%; height: 5%; width: 10%; margin-top: 1%" matDialogClose>Close</button>
     </div>
   </div>
 </div>

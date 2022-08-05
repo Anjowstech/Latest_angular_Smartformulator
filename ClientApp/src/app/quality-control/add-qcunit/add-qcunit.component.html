@@ -1,0 +1,35 @@
+<div>
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <h4 class="text-center">Add Quality Control Unit</h4>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:2%">
+    <form>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">QC Unit Name </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="staticEmail" [(ngModel)]="qcunitname" name="qcuna" #qcun>
+        </div>
+      </div>
+    </form>
+  </div>
+  <form>
+    <div class="form-row">
+      <div class="col-7">
+        <!--<input type="text" class="form-control" placeholder="First name">-->
+      </div>
+      <div class="col-5">
+        <div class="form-inline">
+          <mat-dialog-actions style="float:right">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:20px;" (click)="clearUNIT()">New</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="savetunit(qcun.value)">Save</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Close</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

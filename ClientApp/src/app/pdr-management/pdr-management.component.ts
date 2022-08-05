@@ -10,13 +10,17 @@ import { AddnewParamComponent } from 'src/app/pdr-management/loadspecification-p
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomerDetailsComponent } from 'src/app//formula-lookup/customer-details/customer-details.component';
 import { formatDate } from '@angular/common';
-
+import * as moment from 'moment';
 import { NewChemistryParamsComponent } from 'src/app/pdr-management/new-chemistry-params/new-chemistry-params.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { NewMicrobiologyParamsComponent } from 'src/app/pdr-management/new-microbiology-params/new-microbiology-params.component';
 import { DatagridcomponentComponent } from 'src/app/formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
 import { NgModule } from '@angular/core';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
+
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
+
+
 @Component({
   selector: 'app-pdr-management',
   templateUrl: './pdr-management.component.html',
@@ -33,11 +37,13 @@ import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 })
 export class PdrManagementComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-
+  issearchpdr: boolean = true;
+  issearchpdrsave:boolean=false
   requirement: string = '';
   isprocheck: boolean = false;
   formulacreatedate:string
-  status: string='';
+  status: string = '';
+  Status: string = 'WIP-Initiated';
   totalhr: string;
   totalcost: string;
   result: string='';
@@ -53,7 +59,7 @@ export class PdrManagementComponent implements OnInit {
   target: string = '';
   Comments: string = '';
   specificGravity: string = '0';
-  texture: string = '0';
+  texture: string = '';
   Texture: string = '';
   highSpecificGravity: string='0';
   helipath: string='false';
@@ -128,6 +134,7 @@ export class PdrManagementComponent implements OnInit {
   public isVisible: boolean = false;
   public isVisible2: boolean = false;
   public isVisible3: boolean = false;
+  isDisabledappr: boolean = true;
   projectapprovalcheck: boolean;
   datecheck: boolean;
   isLoadingspec = true;
@@ -140,6 +147,7 @@ export class PdrManagementComponent implements OnInit {
   currentDate: string;
   currentDate1: Date
   pdrapproval: string;
+  pdrapprovalend: string;
   formulacreationend: string;
   qctestapprovals: string
   qctestapprovalsend: string;
@@ -170,7 +178,7 @@ export class PdrManagementComponent implements OnInit {
   myForm: FormGroup;
   customercode: string='';
   AssignedTo: string = 'admin';
-  Status: string = '';
+
   StartDate: string;
   CompletedDate: string;
   ProjDetails: string='';
@@ -240,11 +248,11 @@ export class PdrManagementComponent implements OnInit {
   communistatus: any;
   FollowupStatus: string='';
   FollowupSubject: string = '';
-  FollowupID: string;
+  FollowupID: string="";
   CommuStatus: string = '';
   CommuSubject: string = '';
   cdelete: string;
-  CommuID: string;
+  CommuID: string="";
   loadformulationsassign: any;
   loadformulationlabbatchticket: any;
   FormulaCode: any;
@@ -304,11 +312,46 @@ export class PdrManagementComponent implements OnInit {
   oldLowviscosity: any;
   oldhighviscosity: any;
   oldColor: any;
-  oldodor: any;
+  oldOdor: any;
   oldsp: any;
   oldAppearance: any;
   oldtexture: any;
-
+  oldhighph1: string;
+  oldlowviscosity1: string;
+  oldhighvisc1: string;
+  oldlowsp1: string;
+  oldhighsp1: string;
+  oldappearance1: string;
+  oldcolor1: string;
+  oldodor1: string='';
+  texture1: string;
+  oldtexture1: string;
+  oldlowph1: string;
+  olddatalistraw: string;
+  testname: any;
+  description: any;
+  active: any;
+  FormulagridList: safetytest[][] = [];
+  DiffDate: any;
+  DiffDate2: any;
+  stageassigneduserdata: any;
+  stageassigneduserdata1: any;
+  stageassigneduserdata2: any;
+  stageassigneduserdata3: any;
+  stageassigneduserdata4: any;
+  stageassigneduserdata5: any;
+  stageassigneduserdata6: any;
+  stageassigneduserdata7: any;
+  stageassigneduserdata8: any;
+  stageassigneduserdata9: any;
+  stageassigneduserdata10: any;
+  stageassigneduserdata11: any;
+  stageassigneduserdata12: any;
+  stageassigneduserdata13: any;
+  stageassigneduserdata14: any;
+  stageassigneduserdata15: any;
+  stageassigneduserdata16: any;
+  stageassigneduserdata17: any;
   //saji
   
 
@@ -405,8 +448,20 @@ export class PdrManagementComponent implements OnInit {
   }
   openloadspecificationparameter(): void {
     const dialogRef = this.dialog.open(LoadspecificationParameterComponent, {
-      width: '60%', height: '70%', disableClose: true
+      width: '60%', height: '70%', disableClose: true, data: { pdrname: this.projectname }
     });
+    dialogRef.afterClosed().subscribe(result => {
+
+      this.loadspecification(this.pdrno).subscribe((loadspec) => {
+        console.warn("loadspec", loadspec)
+        this.loadspecdata = loadspec
+        this.pdrnosend = this.pdrno
+        this.datashare.sendpdrno(this.pdrnosend)
+
+      })
+    });
+  
+  
   }
   openloadnewchemistryparams(): void {
     const dialogRef = this.dialog.open(NewChemistryParamsComponent, {
@@ -426,6 +481,8 @@ export class PdrManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
+        this.issearchpdr = false;
+        this.issearchpdrsave = true;
         this.pdrno = result[0];
         this.projectname = result[1];
         this.customername = result[2];
@@ -444,7 +501,12 @@ export class PdrManagementComponent implements OnInit {
           this.pdrno = this.pdrautogenerate_data
         })
       }
+      this.loadsafettytest(this.pdrno).subscribe((loadsafetyproduct) => {
+        console.warn("loadsafetyproduct", loadsafetyproduct)
+        this.safety_test_rowdata = loadsafetyproduct
+        
 
+      })
       this.PDRdataload(this.pdrno).subscribe((pdrload) => {
         console.warn("pdrload", pdrload)
         this.pdrData = pdrload
@@ -585,6 +647,7 @@ this.loadformulationsassign = loadformulations
     this.isVisible3 = true;
     setTimeout(() => this.isVisible3 = false, 5000)
   }
+
   producttdevbriefdata(devbriefdata: any) {
     for (let item of devbriefdata) {
       this.currentpdct = item.CurrentProduct;
@@ -774,7 +837,7 @@ this.loadformulationsassign = loadformulations
         this.Approv = false
       }
       this.requirement = item.Requirements;
-      this.status = item.Status;
+     // this.status = item.Status;
       this.totalhr = item.TotalHours;
       this.totalcost = item.TotalCost;
       this.result = item.ProjectResults;
@@ -784,6 +847,18 @@ this.loadformulationsassign = loadformulations
       this.highviscosity = item.highviscosity;
       this.Viscosityunit = item.viscosityunit;
       this.Appearance = item.appearance;
+      this.oldlowph1 = item.lowph;
+      this.oldhighph1 = item.highph;
+      this.oldlowviscosity1 = item.lowviscosity;
+      this.oldhighvisc1=item.highviscosity;
+      this. oldlowsp1= item.SpecificGravity;
+      this. oldhighsp1 = item.HighSpecificGravity;
+         this.oldappearance1 = item.appearance;
+      this. oldcolor1 = item.color;
+      
+      this.oldodor1 = item.odor;
+      
+         this.oldtexture1=item.Texture;
       this.Color = item.color;
       this.Odor = item.odor;
       this.Comments = item.comments;
@@ -831,6 +906,7 @@ this.loadformulationsassign = loadformulations
     let params1 = new HttpParams().set('PDRNo', pdrnum);
     return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/loadspecs", { params: params1 })
   }
+
   PDRdataload(pdrnumber: string) {
     var pdrnum = pdrnumber;
     let params1 = new HttpParams().set('PDRNo', pdrnum);
@@ -870,6 +946,66 @@ this.loadformulationsassign = loadformulations
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
   ClearData() {
+    this.active = "1";
+    this.issearchpdr = true;
+    this.issearchpdrsave = false;
+    this.Followupdata = null;
+    this.communicationData = null;
+    this.loadspecdata = null;
+    this.dataloadaudittrackpdr = null;
+    this.Lowph = "0.00";
+    this.Highph = "0.00";
+    this.Lowviscosity = "0.00";
+    this.highviscosity = "0.00";
+    this.Viscosityunit = "";
+    this.specificGravity = "0.00";
+    this.highSpecificGravity = "0.00";
+    this.Odor = "";
+    this.requirement = "";
+    this.result = "";
+    this.Appearance = "";
+    this.Color = "";
+    this.viscosityMethod = "";
+    this.viscosityFactor = "";
+    this.vTime = "";
+    this.spindle = "";
+    this.speed = "";
+    this.texture = "";
+    this.Comments = "";
+    this.currentpdct = "";
+    this.intendedendmarket = "";
+    this.estimatedannualvolume = "";
+    this.pdctdistrbtedcountrs = "";
+    this.productdescription = "";
+    this.size1 = "";
+    this.gallons = "";
+    this.size2 = "";
+    this.bulkonly = "";
+    this.size3 = "";
+    this.Botl = false;
+    this.Pckt = false;
+    this.Stck = false;
+    this.Jaar = false;
+    this.Wnd = false;
+    this.Tub = false;
+    this.specialnotes = "";
+    this.packagingother = "";
+    this.claim = "";
+    this.benchmark = "";
+    this.competitive = "";
+    this.developmentnotes = "";
+    this.samplerequirement = "";
+    this.targetcost = "";
+    this.productconcept = "";
+    this.mustHaveIng = "";
+    this.ingredientrestriction = "";
+    this.desiredthirdParty = "";
+    this.marketingclaim = "";
+    this.scent = "";
+    this.brandsupplied = "";
+    this.txture = "";
+    this.color = "";
+    this.colorrestrictions = "";
     this.isprocheck =false;
     this.pdrno = this.pdrautogenerate_data;
     this.Approv = false;
@@ -882,7 +1018,7 @@ this.loadformulationsassign = loadformulations
     this.CompletedDate = '';
     this.ProjDetails = '';
     this.customercode = '';
-    this.Revenue = '';
+    this.Revenue = '0.00';
     this.Priority = 'Low';
     this.PDRDate = '';
     this.Class = '';
@@ -891,6 +1027,47 @@ this.loadformulationsassign = loadformulations
     this.currentstartDate = new Date().toISOString().substring(0, 10);
     this.currentendDate = new Date().toISOString().substring(0, 10);
     this.currentDate = new Date().toISOString().substring(0, 10);
+    this.currentpdct = '';
+    this.intendedendmarket = '';
+    this.estimatedannualvolume = '';
+    this.pdctdistrbtedcountrs = '';
+    this.productdescription = '';
+    this.size1 = '';
+    this.size2 = '';
+    this.size3 = '';
+    this.bulkonly = '';
+    this.gallons = '';
+    this.Botl = null;
+    this.Pckt = null;
+    this.Stck = null;
+    this.Jaar = null;
+    this.Wnd = null;
+    this.Tub = null;
+    this.packagingother = '';
+    this.specialnotes = '';
+
+
+
+    this.productconcept = '';
+    this.mustHaveIng = '';
+    this.ingredientrestriction = '';
+    this.desiredthirdParty = '';
+    this.marketingclaim = '';
+    this.scent = '';
+    this.brandsupplied = '';
+    this.txture = '';
+    this.color = '';
+    this.colorrestrictions = '';
+
+
+
+    this.benchmark = '';
+    this.competitive = '';
+    this.developmentnotes = '';
+    this.samplerequirement = '';
+    this.targetcost = '';
+    this.claim = '';
+    this.safety_test_rowdata = [];
   }
   //openDialogpdr() {
   //  const dialogConfig = new MatDialogConfig();
@@ -918,6 +1095,395 @@ this.loadformulationsassign = loadformulations
     const dialogRef = this.dialog.open(CustomerDetailsComponent, {
       width: '95%', height: '95%', disableClose: true
     });
+  }
+  datechangeclick(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.currentDate;
+    var pdrend = this.pdrcreatedate;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.pdrcreationdays = this.DiffDate;
+  }
+  datechangepdrapproval(event) {
+    var totalchange: number = null;
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.pdrapproval;
+
+    var pdrend = this.pdapprovalend;
+
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.pdrapprovaldays = this.DiffDate+1;
+    var curr2 = this.currentDate;
+    this.pdrcreatedate = this.pdapprovalend
+    var pdrend2 = this.pdrcreatedate;
+    var tenatativestartdate2 = moment(curr2);
+    var tentaviveenddate2 = moment(pdrend2);
+    this.DiffDate2 = Math.abs(tenatativestartdate2.diff(tentaviveenddate2, 'days'));
+    var pdrcreationhange = this.pdrcreationdays;
+    // totalchange = pdrcreationhange + this.DiffDate;
+    this.pdrcreationdays = this.DiffDate2+1;
+    //this.pdrcreatedate = this.pdrapprovalend;
+  }
+  datechangeformulacreation(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.formulacreation;
+    var pdrend = this.formulacreationend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.formulacreationdays = this.DiffDate;
+  }
+  datechangeqctestapprovals(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.qctestapprovals;
+    var pdrend = this.qctestapprovalsend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.qcapprovaldays = this.DiffDate;
+  }
+  datechangeproducttestapprovals(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.producttestapprovals;
+    var pdrend = this.protestapprend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.ptapprovaldays = this.DiffDate;
+  }
+  datechangestabilitytestapprovals(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.stabilitytestapproval;
+    var pdrend = this.stabilityapprovalend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.stabilityapprovaldays = this.DiffDate;
+  }
+  datechangescoatestapprovals(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.coateatappro;
+    var pdrend = this.coatestapproend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.coaapprovaldays = this.DiffDate;
+  }
+  datechangesRegulatoryRejectionaprovals(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.regulatoryappro;
+    var pdrend = this.regulatoryapproend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.regulatoryapprovaldays = this.DiffDate;
+  }
+  datechangesILLabel(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.ilapprappr;
+    var pdrend = this.ilapprapprend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.ilapprovaldays = this.DiffDate;
+  }
+  datechangesFormulaProcedure(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.formprocedureappr;
+    var pdrend = this.formprocedureapprend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.formulprocedureaapprovaldays = this.DiffDate;
+  }
+  datechangesApprovalRejection(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.formulaapprorejection;
+    var pdrend = this.formulaapprorejectionend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.formulaapprovaldays = this.DiffDate;
+  }
+  datechangesSampleCreation(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.samplecreation;
+    var pdrend = this.samplecreationend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.samplecreationdays = this.DiffDate;
+  }
+  datechangesSampleApprovalRejection(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.sampleapproval;
+    var pdrend = this.sampleapprovalend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.sampleapprovaldays = this.DiffDate;
+  }
+  datechangesproductization(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.productization;
+    var pdrend = this.productizationend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.productizationdays = this.DiffDate;
+  }
+  datechangesPCCApproval(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.pccapprovaldata;
+    var pdrend = this.pccapprovalenddata;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.pccapprovaldays = this.DiffDate;
+  }
+  datechangesPIFApproval(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.pifapprovaldata;
+    var pdrend = this.pifapprovalenddata;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.pifapprovaldays = this.DiffDate;
+  }
+  datechangesProductApproval(event) {
+    var date = this.currentDate;
+    //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
+    //var dates = diffInMs / (1000 * 60 * 60 * 24);
+    var curr = this.pdapproval;
+    var pdrend = this.pdapprovalend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.productapprovaldays = this.DiffDate;
+  }
+  setvaluepdrapproval(workflow_pdr) {
+    this.taskid = "2";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata2 = approverassigned
+    })
+
+
+  }
+  setvaluepdrcreation(workflow_pdr) {
+    this.taskid = "1";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata1 = approverassigned
+    })
+
+  }
+
+  setvalueFormulaCreation(workflow_pdr) {
+    this.taskid = "3";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata3 = approverassigned
+    })
+
+  }
+  setvalueqctestapprovals(workflow_pdr) {
+    this.taskid = "4";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata4 = approverassigned
+    })
+
+  }
+  setvalueProducttestapprovals(workflow_pdr) {
+    this.taskid = "5";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata5 = approverassigned
+    })
+
+  }
+  setvalueStabilityTestapprovals(workflow_pdr) {
+    this.taskid = "6";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata6 = approverassigned
+    })
+
+  }
+  setvalueCOATestapprovals(workflow_pdr) {
+    this.taskid = "7";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata7 = approverassigned
+    })
+
+  }
+  setvalueRegulatoryapprovals(workflow_pdr) {
+    this.taskid = "8";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata8 = approverassigned
+    })
+
+  }
+  setvalueIL(workflow_pdr) {
+    this.taskid = "9";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata9 = approverassigned
+    })
+
+  }
+  setvalueFormulaProcedure(workflow_pdr) {
+    this.taskid = "10";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata10 = approverassigned
+    })
+
+  }
+  setvalueFormulaRejection(workflow_pdr) {
+    this.taskid = "11";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata11 = approverassigned
+    })
+
+  }
+  setvalueSampleCreation(workflow_pdr) {
+    this.taskid = "12";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata12 = approverassigned
+    })
+
+  }
+  setvalueSampleApproval(workflow_pdr) {
+    this.taskid = "13";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata13 = approverassigned
+    })
+
+  }
+  setvalueProductization(workflow_pdr) {
+    this.taskid = "14";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata14 = approverassigned
+    })
+
+  }
+  setvaluePccapproval(workflow_pdr) {
+    this.taskid = "15";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata15 = approverassigned
+    })
+
+  }
+  setvaluePIFapproval(workflow_pdr) {
+    this.taskid = "16";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata16 = approverassigned
+    })
+
+  }
+  setvalueProductapproval(workflow_pdr) {
+    this.taskid = "17";
+    this.task = "Project 2268"
+    this.isLoadingchek = false;
+    this.isLoadingchek2 = false;
+    this.loadassignedapprovers(this.pdrno, this.taskid, this.projectname).subscribe((approverassigned) => {
+      console.warn("approverassigned", approverassigned)
+      this.stageassigneduserdata17 = approverassigned
+    })
+
   }
   changeassigned(event) {
     this.AssignedTo = event.target.value
@@ -972,8 +1538,25 @@ this.loadformulationsassign = loadformulations
     this.PDR_Delete().subscribe((PDR_dlt) => {
       console.warn("PDR_deletedata", PDR_dlt)
       this.PDR_deletedata = PDR_dlt
+      this.wait(3000)
+      if (this.PDR_deletedata == "Deleted Succesfully") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
+      }
+
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to Delete' } });
+      }
+
       //this.showAlert4()
     })
+   
+  }
+  loadassignedapprovers(pdrno: string, taskid: string, pjctname: string) {
+    var Pdrno = pdrno;
+    var taskID = taskid;
+    var PjctName = pjctname;
+    let params1 = new HttpParams().set('ProjectName', PjctName).set('PDRNo', Pdrno).set('Taskid', taskID);
+    return this.http.get("https://smartformulatorformulallokupwebservice8.azurewebsites.net/Loadstagegatesettings", { params: params1 })
   }
   PDR_Delete() {
     var PDRNo = this.pdrno;
@@ -994,7 +1577,7 @@ this.loadformulationsassign = loadformulations
       StartDate: this.currentstartDate,
       CompletedDate: this.currentendDate,
       Requirements: this.requirement,
-      Status: this.status,
+      Status: this.Status,
       ProjectResults: this.result,
       lowph: this.Lowph,
       oldlowph: this.oldlowph,
@@ -1017,16 +1600,16 @@ this.loadformulationsassign = loadformulations
       VTime: this.vTime,
       AddedDT: '',
       AddedBy: 'Admin',
-      oldhighph: '0',
-      oldlowviscosity: '0',
-      oldhighvisc: '0',
-      oldlowsp: '0.00',
-      oldhighsp: '0',
-      oldappearance: '0',
-      oldcolor: '0',
-      oldodor: '0',
-      texture: '0',
-      oldtexture: '0',
+      oldhighph: this.oldhighph1,
+      oldlowviscosity: this.oldlowviscosity1,
+      oldhighvisc: this.oldhighvisc1,
+      oldlowsp: this.oldlowsp1,
+      oldhighsp: this.oldhighsp1,
+      oldappearance: this.oldappearance1,
+      oldcolor: this.oldcolor1,
+      oldodor: this.oldodor1,
+      texture: this.texture,
+      oldtexture: this.oldtexture1,
       Helipath: 'false',
       currentpdct: this.currentpdct,
       IntendedEnd: this.intendedendmarket,
@@ -1064,17 +1647,49 @@ this.loadformulationsassign = loadformulations
       Claims: this.claim,
       samplereq: this.samplerequirement,
     }]);
-
-
-
-
-    this.pdr_saveup().subscribe((pdr_save) => {
-      console.warn("pdrsavemain", pdr_save)
-      this.pdrsavedatas = pdr_save
+    this.pdrgrid(this.safety_test_rowdata);
+    this.AssigineduserdataList = [];
+    this.setvaluesassign(this.loadformulationsassign);
+    this.setvaluesassign2(this.loadassignedusersdata);
+    this.Assignuser_save().subscribe((assign_save) => {
+      console.warn("assign_save", assign_save)
+      this.assign_save_data = assign_save
     })
-    this.showAlert()
+    if (this.customername == '' || this.customername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please Enter Customer Name' } });
+    }
+    else if (this.projectname == '' || this.projectname == undefined)
+    {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please Enter Project Name' } });
+    }
+    else {
+      this.pdr_saveup().subscribe((pdr_save) => {
+        console.warn("pdrsavemain", pdr_save)
 
+        this.pdrsavedatas = pdr_save
+        this.wait(5000)
+        if (this.pdrsavedatas == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'saved successfully' } });
+          this.issearchpdr = false;
+          this.issearchpdrsave = true
+        }
+        else if (this.pdrsavedatas == "ProjectName") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Project already exists!' } });
+          this.issearchpdr= true;
+          this.issearchpdrsave= false
+        }
+        else {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
+          this.issearchpdr = true;
+          this.issearchpdrsave = false
+        }
+      })
 
+      this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+        console.warn("loadpdraudittrack", loadpdraudittrack)
+        this.dataloadaudittrackpdr = loadpdraudittrack
+      })
+    }
   };
   pdrupdatemain() {
     this.dataList1[0] = ([{
@@ -1089,10 +1704,10 @@ this.loadformulationsassign = loadformulations
       StartDate: this.currentstartDate,
       CompletedDate: this.currentendDate,
       Requirements: this.requirement,
-      Status: this.status,
+      Status: this.Status,
       ProjectResults: this.result,
       lowph: this.Lowph,
-      oldlowph: this.oldlowph,
+      oldlowph: this.oldlowph1 ,
       highph: this.Highph,
       lowviscosity: this.Lowviscosity,
       highviscosity: this.highviscosity,
@@ -1111,17 +1726,20 @@ this.loadformulationsassign = loadformulations
       Spindle: this.spindle,
       VTime: this.vTime,
       AddedDT: '',
+
+    
+
       AddedBy: 'Admin',
-      oldhighph: '0',
-      oldlowviscosity: '0',
-      oldhighvisc: '0',
-      oldlowsp: '0',
-      oldhighsp: '0',
-      oldappearance: '0',
-      oldcolor: '0',
-      oldodor: '0',
-      texture: '0',
-      oldtexture: '0',
+      oldhighph: this.oldhighph1,
+      oldlowviscosity: this.oldlowviscosity1,
+      oldhighvisc: this.oldhighvisc1,
+      oldlowsp: this.oldlowsp1,
+      oldhighsp: this.oldhighsp1,
+      oldappearance: this.oldappearance1,
+      oldcolor: this.oldcolor1,
+      oldodor: this.oldodor1,
+      texture: this.texture,
+      oldtexture: this.oldtexture1,
       Helipath: 'false',
       currentpdct: this.currentpdct,
       IntendedEnd: this.intendedendmarket,
@@ -1154,6 +1772,7 @@ this.loadformulationsassign = loadformulations
       target: this.targetcost,
       developmentnotes: this.developmentnotes,
       productdescription: this.productdescription,
+      
       Testure: this.txture,
       Claims: this.claim,
       samplereq: this.samplerequirement,
@@ -1166,43 +1785,84 @@ this.loadformulationsassign = loadformulations
 
 
 
-    }]);
+    }])
 
-
-
+    this.pdrgrid(this.safety_test_rowdata);
+    this.AssigineduserdataList = [];
+    this.setvaluesassign(this.loadformulationsassign);
+    this.setvaluesassign2(this.loadassignedusersdata);
+    this.Assignuser_save().subscribe((assign_save) => {
+      console.warn("assign_save", assign_save)
+      this.assign_save_data = assign_save
+    })
 
     this.pdr_updateup().subscribe((pdr_updatemain) => {
       console.warn("pdrupdatemain", pdr_updatemain)
+      
       this.pdrsavedatas = pdr_updatemain
-    })
-    this.showAlert2()
+      this.wait(5000);
+      if (this.pdrsavedatas == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated successfully' } });
+        this.issearchpdr = false;
+        this.issearchpdrsave = true;
+      }
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
+        this.issearchpdr = true;
+        this.issearchpdrsave = false
+      }
 
+    })
+   
+    this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+      console.warn("loadpdraudittrack", loadpdraudittrack)
+      this.dataloadaudittrackpdr = loadpdraudittrack
+    })
 
   };
+  pdrgrid(Formuladata2: any) {
+    this.i = 0;
+    this.j = 0;
+    this.FormulagridList = [];
+    for (let item2 of Formuladata2) {
+      this.FormulagridList[this.i] = ([{
+        Testnamesafety: item2.TestName,
+        comentssafety: item2.Comments,
+        p_Size: item2.Size
+      }]);
+      this.i++;
+      
+    }
+    
+  }
   pdr_updateup() {
-
-
-
+    
+    var pdrdatagrid: any = JSON.stringify(this.FormulagridList);
     var datalistraw: any = JSON.stringify(this.dataList1);
-    //var datalistaudit: any = JSON.stringify(this.DataListAudit);
-    //var datalistifra: any = JSON.stringify(this.DataListIFRA);
-    var operation = 'Update';
-    var username = 'admin';
-    var username2 = 'admin';
-    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2);
-    return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
+    if (this.olddatalistraw == datalistraw) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please update after change anything' } });
+    } else {
+      //var datalistaudit: any = JSON.stringify(this.DataListAudit);
+      //var datalistifra: any = JSON.stringify(this.DataListIFRA);
+      this.olddatalistraw = datalistraw;
+      var operation = 'Update';
+      var username = 'admin';
+      var username2 = 'admin';
+      let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid);
+      return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
+    }
   }
   pdr_saveup() {
 
 
-
+    var pdrdatagrid: any = JSON.stringify(this.FormulagridList);
     var datalistraw: any = JSON.stringify(this.dataList);
     //var datalistaudit: any = JSON.stringify(this.DataListAudit);
     //var datalistifra: any = JSON.stringify(this.DataListIFRA);
     var operation = 'Save';
     var username = 'admin';
     var username2 = 'admin';
-    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2);
+    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid);
     return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
   }
   loadstagegatesettings(Pdrno) {
@@ -1349,7 +2009,11 @@ this.loadformulationsassign = loadformulations
     let params1 = new HttpParams().set('user', user).set('ClbUsersSelectedItem', user).set('PDRNo', loadformulations);
     return this.http.get("https://smartformulatorpdrwebservice2.azurewebsites.net/Userassignload", { params: params1, })
   }
- 
+  loadsafettytest(PDRNo: string) {
+    var loadformulations = PDRNo;
+    let params1 = new HttpParams().set('PDRNo', loadformulations);
+    return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/SafetyTestsLoad", { params: params1, })
+  }
   assignedformulationstable(PDRNo: string) {
     var loadformulations = PDRNo;
     let params1 = new HttpParams().set('PDRNo', loadformulations);
@@ -1426,10 +2090,18 @@ this.loadformulationsassign = loadformulations
   }
   userdatacheck(option, event) {
     // this.loadassignedusersdata = loadassignedusers
+    // this.isDisabledappr = !this.isDisabledappr;
     var eventval: any = event.target.checked;
     for (let laodassign of this.loadassignedusersdata) {
       if (laodassign.UserName == option.UserName) {
-        laodassign.UserCheck = eventval
+        if (eventval == true) {
+          laodassign.UserCheck = 'true'
+        }
+        else if (eventval == false) {
+          laodassign.UserCheck = 'false'
+        }
+        else { }
+
       }
       //if (this.checkedListcheck[i] == option.UserCheck) {
       // this.checkedListcheck.splice(i, 1);
@@ -1477,6 +2149,7 @@ this.loadformulationsassign = loadformulations
       console.warn("assign_save", assign_save)
       this.assign_save_data = assign_save
     })
+    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Users details saved successfully' } });
   }
   Assignuser_save() {
     var PDRNO = this.pdrno;
@@ -1492,7 +2165,7 @@ this.loadformulationsassign = loadformulations
     var fstatus: string = this.FollowupStatus;
     var user: any = "admin";
     var fsubject: string = this.FollowupSubject;
-    if (this.FollowupID == '') {
+    if (this.FollowupID == "" ) {
       var Operation = "Add"
     }
     else { var Operation = "update" }
@@ -1563,7 +2236,7 @@ this.loadformulationsassign = loadformulations
     var cstatus: string = this.CommuStatus;
     var user: any = "admin";
     var csubject: string = this.CommuSubject;
-    if (this.CommuID == '') {
+    if (this.CommuID == "") {
       var Operation = "Add"
     }
     else { var Operation = "update" }
@@ -1744,7 +2417,7 @@ this.loadformulationsassign = loadformulations
     this.pifapprovaldata = pifapproval.toISOString().substring(0, 10);
     this.pifapprovalenddata = pifapprovalend.toISOString().substring(0, 10);
     this.pdapproval = prodapproval.toISOString().substring(0, 10);
-    this.pdapprovalend = prodapprovalend.toISOString().substring(0, 10);
+  //  this.pdapprovalend = prodapprovalend.toISOString().substring(0, 10);
     
     this.formulacreation = formcreate.toISOString().substring(0, 10);
     futureDateend.setDate(futureDateend.getDate() + 89);
@@ -1770,6 +2443,14 @@ this.loadformulationsassign = loadformulations
     this.workflowload().subscribe((loadworkflow) => {
       console.warn("loadworkflow", loadworkflow)
       this.datatask = loadworkflow
+    })
+    this.loadassignusers(this.projectname).subscribe((loadassignedusers) => {
+      console.warn("loadassignedusers", loadassignedusers)
+      this.loadassignedusersdata = loadassignedusers
+    })
+    this.loadassignedformulations(this.pdrno, this.uservalue).subscribe((loadformulations) => {
+      console.warn("loadformula", loadformulations)
+      this.loadformulationsassign = loadformulations
     })
    
     //this.currentstartDate = new Date().toISOString().substring(0, 10);
@@ -1879,4 +2560,9 @@ export class PDRDetail1 {
 export class Data2 {
   ClbUsers: string;
   usercheck: string;
+}
+export class safetytest {
+  Testnamesafety: string;
+  comentssafety: string;
+  p_Size: string
 }

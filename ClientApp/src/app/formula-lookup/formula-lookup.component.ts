@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit,ElementRef, ViewChild,Input,Inject } from '@angular/core';
 import { ColDef, GridApi, GridReadyEvent, RowDragEndEvent, GridOptions, Color } from 'ag-grid-community';
 import { CategoryMaintenanceComponent } from 'src/app/raw-material/category-maintenance/category-maintenance.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -33,6 +33,8 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { CheckRestrictionComponent } from 'src/app/formula-lookup/check-restriction/check-restriction.component';
 import { IncinameSelectComponent } from 'src/app/formula-lookup/inciname-select/inciname-select.component';
+import { ItemnameSelectComponent } from 'src/app/formula-lookup/itemname-select/itemname-select.component';
+import { TradenameSelectComponent } from 'src/app/formula-lookup/tradename-select/tradename-select.component';
 import { Router } from '@angular/router';
 import { RawMaterialComponent } from 'src/app/raw-material/raw-material.component';
 import { SearchProjectPdrComponent } from 'src/app/pdr-management/search-project-pdr/search-project-pdr.component';
@@ -42,7 +44,10 @@ import { PdrManagementComponent } from '../pdr-management/pdr-management.compone
 
 import { formatDate } from '@angular/common';
 import { AssignPdrComponent } from './assign-pdr/assign-pdr.component';
-
+import { DxDataGridModule, DxDataGridComponent } from 'devextreme-angular';
+import { ViewLabStabilityCoaComponent } from './view-lab-stability-coa/view-lab-stability-coa.component';
+import { UpdateQcComponent } from './update-qc/update-qc.component';
+import * as pako from 'pako';
 export interface DialogData {
   itemlist: string;
   name: string;
@@ -54,6 +59,7 @@ export interface DialogData {
   styleUrls: ['./formula-lookup.component.css']
 })
 export class FormulaLookupComponent implements OnInit {
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   Isformat1: any;
     public isVisible: boolean = false;
   backformuldetails: string[];
@@ -61,12 +67,20 @@ export class FormulaLookupComponent implements OnInit {
   disableEnd: boolean = true;
   tabIndex = 0;
   actualPage = 1
+  customercode: string = "";
   columnApi: any;
   newData: any = [];
   active: any;
+   olddatalistraw: string = "";
+  datalistraw: string = "";
+  olddatalistgirdformula: string = "";
+  datalistgirdformula: string = "";
   formactive: any;
+  isLoading:boolean;
   rowsToDisplay1: any;
   proced: any;
+  okpilot: string;
+  okproduce: string;
   proceduretextlist: string;
   procedgrid: any;
   generalrowData: any;
@@ -74,9 +88,12 @@ export class FormulaLookupComponent implements OnInit {
   ApprovedBy: string="";
   ApprovedDT:string= "";
   ProjectName: string ="";
-  ShelfLife: string="0";
+  ShelfLife: string = "0";
+  totcost1: Number;
+  unitcosttotalnew: Number;
   ShelfLifeUnit: string = 'Day(s)';
-  SubClass: string='Acrylic';
+  SubClass: string = 'Acrylic';
+  SubClass1: string = '';
   Class: string='Additive';
   MaxPilotQty: string="0";
   TradeName: string="";
@@ -86,28 +103,41 @@ export class FormulaLookupComponent implements OnInit {
   TotalCostInkg: string = "0.00000";
   TotalPercentage: string="0";
   TotalUnitCost: string = "0.00000";
+  scalef: any;
+  unit1: any;
+  unit: any;
+  unitvalue1: any;
   TotalUnitCosted: string;
+  TotalUnitCost1: string = "0.00000";
+  TotalCostInLB1: string = "0.00000";
   Yield: string = "100";
   selectedData: any;
+  loading:boolean ;
   formulaCost: string;
+  formulaCost1: any;
+
   formulaNetQty: string = "0.00000";
-  SupercededBy: string = "";
+  SupercededBy: string = "admin";
   supercededdate: string = "";
   FormulaTotalQTY: string = "0.00000";
   companyowned: string='Company-Owned';
-  ManualSG: string="0";
+  ManualSG: string = "0";
+
+  totaquantity1: any;
   manuprocreviewdata: any;
-  useFormulation: string;
+  useFormulation: string="";
   market_indi_data: any;
-  ph: string;
-  odor: string;
+
+  BindFormulaProduct_data_load: any;
+  ph: string="";
+  odor: string="";
   oldlabvalue: string;
-  appearence: string;
-  formulationDoes: string;
-  WhoUse: string;
-  FormulaSpecsNotes: string;
-  AboutFormulation: string;
-  viscosity: string;
+  appearence: string="";
+  formulationDoes: string="";
+  WhoUse: string="";
+  FormulaSpecsNotes: string="";
+  AboutFormulation: string="";
+  viscosity: string="";
   FormulaNotes: string;
   formulamarketingdata: any;
   AudittrackData: any;
@@ -115,6 +145,9 @@ export class FormulaLookupComponent implements OnInit {
   incilabel: string;
   gridinciname: string = "";
   griditem: string;
+  scalefactor: string;
+  units: string;
+
   gridtradename: string;
   gridIngredientCode: string;
   gridp: string;
@@ -123,6 +156,7 @@ export class FormulaLookupComponent implements OnInit {
  radiovalue: string = "1";
   labbatchh: string ="1.00000";
   labbatch: string = "0.00000";
+  unitcosttotal: string = "0.00000";
   selectedunit: string="g";
   unitvalue: string;
   unitdatalo_data: any;
@@ -130,22 +164,44 @@ export class FormulaLookupComponent implements OnInit {
   instruc: string;
   unname: any;
   rowData2: any;
+  rowdrag: string;
+  okpilot2: string = '0';
+  okproduce2:string = '0';
   datarawcategoryload: any;
   formulalookupupdatedatas: any;
   dataList: any = [];
   count: Number = 0;
   totaquantity: string = '';
   labdatalo_data: any;
-  AddedDT: string;
+  AddedDT: string="";
   loadassignedusersdata: any;
   datarawsubcategoryload: any;
   Approved: boolean;
   unico: Number = 0;
   flag: Number = 0;
-  isDisabledappr: boolean = false;
+  flag1: Number = 0;
+  isDisabledappr: boolean = true;
+  isDisabledappr2: boolean = true;
+  issearchform: boolean = false;
   operation1: string = 'firstload';
-  operation2: string = 'gridload';
-  operation3: string = 'Labatchchange';
+  operation2: string = 'Labatchchange';
+  issearchformula: boolean = true;
+  issearchformulasave: boolean = false;
+  userna: string = 'admin';
+  datachem: any = [];
+  datachem1: any=[];
+  TestName: string;
+  Method: string;
+  Limits: string;
+  Result: string;
+  datacoaauditforchem: any;
+  Isformatlabbatch1: boolean = false;
+  Isformatlabbatch2: boolean = true;
+  Isformatstorage1: boolean = false;
+  Isformatstorage2: boolean = true;
+  labatchnumber: any;
+  qcdataload: any;
+  //operation3: string = 'Labatchchange';
   //onAddRow() {
   //  this.agGrid.api.updateRowData({
   //    add: [{ make: 'BMW', model: 'S2', price: '63000' }]
@@ -154,12 +210,13 @@ export class FormulaLookupComponent implements OnInit {
   //}
 
   public gridApi;
+  public gridApione;
  
   //private columnDefs;
   public rowHeight;
   public defaultColDef;
   public rowData: any = [];
-
+  scalefactnew: Number;
   private rowStyle;
   pdrnum: string;
   formulacod: string;
@@ -176,6 +233,7 @@ export class FormulaLookupComponent implements OnInit {
   private getcellstyle;
   radiodata: any;
   private columnDefs;
+  private columnDefs1;
   oldunit: string;
   oldtotalqty: string;
   oldunitcost: string;
@@ -189,28 +247,42 @@ export class FormulaLookupComponent implements OnInit {
   
   i: number;
   j: number;
-  isLoading = true;
-  formgriddata: string = '';
+  
+  formgriddata: any;
   FormulagridList: FormulaGridData[][] = [];
   FormulatextboxList: Formulationtextbox[][] = [];
   Costupdates: any;
   dataformList: FormulaLookUpData[][] = [];
+  dataformListcoa: FormulaLookUpcoaData[][] = [];
+  FormulagridListcoa: coachemistry[][] = [];
   formula_save_data: any;
   Maxpilotunit: string="";
   highspecificgravity: string = "0";
   costupdatedetail: string;
+  sgcalcload: any;
+  Lbgal: string = '';
+  rowDatascalability: any = [];
+  markdata: any = [];
+
+  componentcomp_data: any;
+  phyAudit_data: any;
+  labbatchno_data: any;
  // private gridApi1!: GridApi;
   public overlayLoadingTemplate =
     '<span class="ag-overlay-loading-center"> Computing...Please wait </span>';
  
   gridOptions: GridOptions = {
-    onRowDragEnd: this.onRowDragEnd,
-   
+    //deltaRowDataMode: true,
+    //onRowDragEnd: this.onRowDragEnd,
+  // suppressScrollOnNewData: true,
+    //immutableData:true
     //getRowHeight: function (params) {
     //  // assuming 50 characters per line, working how how many lines we need
     //  return 18 * (Math.floor(params.data.INCIName.length / 45) + 2);
     //}
   };
+    sendqc: any[];
+ 
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) {
 
 
@@ -253,6 +325,7 @@ export class FormulaLookupComponent implements OnInit {
     };
     
     this.columnDefs = this.columnDefsforper;
+    this.columnDefs1 = this.columnDefs1forper;
     this.rowHeight = 10;
     const cellClassRules = {
       "cell-pass": this.radiovalue == "1",
@@ -303,7 +376,7 @@ export class FormulaLookupComponent implements OnInit {
     // { step: 9, inciname: 'dsfsdfsdfsdfsdfsdfsdfdsfrsgsfgsgdgdfgdfgdfg', perc: 12, qty: 'qew', Unit: 13, UnitCost: 24, Cost: 45, suppliername: 'abc' },
     //];
   }
-
+  
    columnDefsforper = [
   {
     flex: 1,
@@ -321,16 +394,29 @@ export class FormulaLookupComponent implements OnInit {
        field: '', width: 20, 
     minWidth: 20,
     maxWidth: 40,
-  },
+     },
+     {
+       flex: 1,
+       resizable: true,
+       editable: false,
+       wrapText: false,     // <-- HERE
+       autoHeight: true,
+       onCellClicked: this.makeCellClickedstep.bind(this),
+       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+       width: 20,
+       minWidth: 20,
+       maxWidth: 50,
+       headerName: "", field: 'inst'
+     },
   {
     flex: 1,
     resizable: true,
     editable: true,
     wrapText: true,     // <-- HERE
     autoHeight: true,
-    onCellClicked: this.makeCellClickedstep.bind(this),
-    cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-    width: 20,
+   
+    cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right"  },
+    width: 40,
     minWidth: 10,
     maxWidth: 50,
     headerName: "St", field: 'Step'
@@ -350,7 +436,7 @@ export class FormulaLookupComponent implements OnInit {
    
     flex: 1,
     resizable: true,
-    editable: true,
+ //   editable: true,
     wrapText: true,
     width: 270,
     minWidth: 70,
@@ -383,8 +469,8 @@ export class FormulaLookupComponent implements OnInit {
 
    
 
-    minWidth: 40,
-    maxWidth: 180,
+    minWidth: 20,
+    maxWidth: 160,
     headerName: "Item #", field: 'GeneralItemcode', type: 'numericColumn'
   },
   {
@@ -397,17 +483,7 @@ export class FormulaLookupComponent implements OnInit {
    
     cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", backgroundColor: 'lightblue' },
     onCellValueChanged: this.onCellValueChanged.bind(this),
-    editable: function (params) {
-      if (params.data.SupplierName === "" && params.data.TradeName == "" ) {
-        return false;
-      } else if (params.node.rowIndex == 0) {
-        return false;
-      }
-      else {
-        return true;
-      }
-
-    },
+    editable: this.onCellfirstValueChanged.bind(this),
     // cellClassRules: cellClassRules,
     
     minWidth: 100,
@@ -502,6 +578,17 @@ export class FormulaLookupComponent implements OnInit {
        maxWidth: 120, type: 'numericColumn',
 
      },
+     {
+       // flex: 1,
+       // resizable: true,
+       hide: "true",
+       //wrapText: true,     // <-- HERE
+       // autoHeight: true,
+       headerName: "ItemCode", field: 'ItemCode', width: 70,
+       minWidth: 60,
+       maxWidth: 120,
+
+     },
 
 
 
@@ -513,7 +600,155 @@ export class FormulaLookupComponent implements OnInit {
 
   dataFormatter(params) {
   return   String(params.value.toFixed(7));
-}
+  }
+
+  columnDefs1forper = [
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+
+      headerStyle: { border: 'solid', borderColor: 'black', borderRightWidth: '0.1px', borderLeftWidth: '0.1px', borderBottomWidth: '0.1px', },
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // checkboxSelection: true,
+      suppressSizeToFit: true,
+      field: '', width: 20,
+      minWidth: 20,
+      maxWidth: 40,
+    },
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      width: 20,
+      minWidth: 10,
+      maxWidth: 50,
+      headerName: "St", field: 'Step'
+    },
+    {
+
+      // <-- HERE
+      autoHeight: true,
+      editable: false,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      headerName: "INCI Name",
+
+      field: "INCIName"
+    },
+
+
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal"},
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 100,
+      maxWidth: 140,
+      headerName: "%", field: 'Qtyinpercentage', type: 'numericColumn'
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "Qty", field: 'Quantity1', type: 'numericColumn',
+      //width: 100,
+      minWidth: 90,
+      editable: false,
+      maxWidth: 140,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", backgroundColor: this.changecolor() },
+    },
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      headerName: "UOM", field: 'UnitName',
+
+      minWidth: 30,
+      maxWidth: 70,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "UnitCost ", field: 'UnitCost1', width: 70,
+      minWidth: 70,
+      maxWidth: 130, type: 'numericColumn',
+      autoHeight: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "Cost $", field: 'Cost1', width: 90,
+      aggFunc: this.mySum.bind(this),
+      minWidth: 70,
+      maxWidth: 130,
+      type: 'numericColumn',
+
+      autoHeight: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+      hide: "true",
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "Costinlb ", field: 'costinlb1', width: 70,
+      minWidth: 60,
+      maxWidth: 120, type: 'numericColumn',
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+      hide: "true",
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "Quantityinlb", field: 'quantityinlb', width: 70,
+      minWidth: 60,
+      maxWidth: 120, type: 'numericColumn',
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+      hide: "true",
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "Unitcostinlb ", field: 'unitcostinlb', width: 70,
+      minWidth: 60,
+      maxWidth: 120, type: 'numericColumn',
+
+    },
+
+
+  ];
  columnDefsforqty = [
   {
     flex: 1,
@@ -531,17 +766,29 @@ export class FormulaLookupComponent implements OnInit {
     field: '', width: 20,
     minWidth: 20,
     maxWidth: 40,
-  },
+   },
+   {
+     flex: 1,
+     resizable: true,
+     editable: false,
+     wrapText: false,     // <-- HERE
+     autoHeight: true,
+     onCellClicked: this.makeCellClickedstep.bind(this),
+     cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+     width: 20,
+     minWidth: 20,
+     maxWidth: 50,
+     headerName: "", field: 'inst'
+   },
   {
     flex: 1,
     resizable: true,
     editable: true,
     wrapText: true,     // <-- HERE
     autoHeight: true,
-    onCellClicked: this.makeCellClickedstep.bind(this),
 
-    cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-    width: 20,
+    cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
+    width: 40,
     minWidth: 10,
     maxWidth: 50,
     headerName: "St", field: 'Step'
@@ -561,7 +808,7 @@ export class FormulaLookupComponent implements OnInit {
      onCellClicked: this.makeCellClickedtrade.bind(this),
     flex: 1,
     resizable: true,
-    editable: true,
+  //  editable: true,
     wrapText: true,
     width: 270,
     minWidth: 70,
@@ -628,17 +875,7 @@ export class FormulaLookupComponent implements OnInit {
     minWidth: 90,
     onCellValueChanged: this.onCellValueChanged2.bind(this),
    
-    editable:  function(params) {
-      if (params.data.SupplierName === "" && params.data.TradeName == "" ) {
-        return false;
-      } else if (params.node.rowIndex == 0) {
-        return false;
-      }
-      else {
-        return true;
-      }
-      
-    },
+    editable: this.onCellfirstValueChanged.bind(this), 
     maxWidth: 140, cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", backgroundColor: 'lightblue' },
    },
  
@@ -714,7 +951,17 @@ export class FormulaLookupComponent implements OnInit {
 
    },
 
+   {
+       // flex: 1,
+       // resizable: true,
+       hide: "true",
+       //wrapText: true,     // <-- HERE
+       // autoHeight: true,
+       headerName: "ItemCode", field: 'ItemCode', width: 70,
+       minWidth: 60,
+       maxWidth: 120, 
 
+     },
 
 
 
@@ -792,21 +1039,83 @@ export class FormulaLookupComponent implements OnInit {
       disableClose: true,
     });
   }
+  setradio(e: string): void {
+    var task: string = "Chem";
+    this.loadcoaaudit(task).subscribe((loadcoaaudit) => {
+      console.warn("loadcoaaudit", loadcoaaudit)
+      this.datacoaauditforchem = loadcoaaudit
+      this.isLoading = false;
+    })
+
+  }
+  setradio1(e: string): void {
+    var task: string = "All";
+    this.loadcoaaudit(task).subscribe((loadcoaaudit) => {
+      console.warn("loadcoaaudit", loadcoaaudit)
+      this.datacoaauditforchem = loadcoaaudit
+      this.isLoading = false;
+    })
+
+  }
+  setradio2(e: string): void {
+    var task: string = "Micro";
+    this.loadcoaaudit(task).subscribe((loadcoaaudit) => {
+      console.warn("loadcoaaudit", loadcoaaudit)
+      this.datacoaauditforchem = loadcoaaudit
+      this.isLoading = false;
+    })
+
+  }
+  setlabatchchange(event: any) {
+    this.labatchnumber = event.target.value;
+
+  }
   searchformula(): void {
-    this.active = "1";
+   
+    
     const dialogRef = this.dialog.open(SearchFormulaComponent, {
       width: '80%', height: '90%', disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
+    
       console.log('The dialog was closed', result);
       if (result != "") {
+        this.issearchformula = false;
+        this.issearchformulasave = true;
+        this.issearchform = true;
+        this.active = "1"; 
         this.formulacode = result[0];
         this.formulaname = result[1];
         this.labref = result[2];
         this.PDRno = result[3];
         this.rowData = null;
-
+        this.labbatchload(this.formulacode).subscribe((labload) => {
+          console.warn("labbatchnumberload", labload)
+          this.labbatchno_data = labload
+          this.Isformatlabbatch1 = true;
+          this.Isformatlabbatch2 = false;
+        })
+        this.storageload(this.formulacode).subscribe((storageload) => {
+          console.warn("storageload", storageload)
+          this.labbatchno_data = storageload
+          this.Isformatstorage1 = true;
+          this.Isformatstorage2 = false;
+        })
+        //this.labstorageload(this.formulacode).subscribe((labload) => {
+        //  console.warn("labbatchnumberload", labload)
+        //  this.storage_data = labload
+        //  this.Isformatlabbatch1 = true;
+        //  this.Isformatlabbatch2 = false;
+        //})
+        this.loadcoachemistry().subscribe((loadgirdchem) => {
+          console.warn("loadgirdchem", loadgirdchem)
+          this.datachem1 = loadgirdchem
+        })
+        this.loadcoamicrobiolodgy().subscribe((loadgirdmicrobiolodgy) => {
+          console.warn("loadgirdmicrobiolodgy", loadgirdmicrobiolodgy)
+          this.datachem = loadgirdmicrobiolodgy
+        })
         //this.generalformulationload(this.formulacode).subscribe((generalformulationload) => {
         //  console.warn("generalformulationload", generalformulationload)
         //  this.generalrowData = generalformulationload
@@ -829,7 +1138,18 @@ export class FormulaLookupComponent implements OnInit {
           console.warn("generalformulationload", generalformulationload)
           this.generalrowData = generalformulationload
           this.generalmethod(this.generalrowData);
-         
+          
+          this.SGcalculation(this.ManualSG).subscribe((sgcalcload) => {
+            console.warn("SGCalcload", sgcalcload)
+            this.sgcalcload = sgcalcload
+            this.Lbgal = this.sgcalcload
+          })
+
+          this.qctabload(this.formulacode).subscribe((qcdetailslload) => {
+            console.warn("qcdetailslload", qcdetailslload)
+            this.qcdataload = qcdetailslload
+
+          })
 
 
 
@@ -839,6 +1159,7 @@ export class FormulaLookupComponent implements OnInit {
           console.warn("formulaload", formulationload)
 
           this.rowData = formulationload
+          this.rowDatascalability = this.rowData
           //var unitcosttotal = 0;
           //var costlb = 0;
           //var sumvar: any = 0;
@@ -920,12 +1241,24 @@ export class FormulaLookupComponent implements OnInit {
           console.warn("labdatalo", labdatalo)
           this.labdatalo_data = labdatalo
         })
-     
-          
+        //this.physicalstabilityload(this.formulacode).subscribe((stabload) => {
+        //  console.warn("physicalstabilityload", stabload)
+        //  this.physicalstability_data = stabload
+        //})
+        this.componentload(this.formulacode).subscribe((compload) => {
+          console.warn("componentcompload", compload)
+          this.componentcomp_data = compload
+        })
+        this.phyAuditload(this.formulacode, this.formulaname).subscribe((auditload) => {
+          console.warn("Auditphycompload", auditload)
+          this.phyAudit_data = auditload
+        })
+       
+       
       }
-        
+     
     });
-  
+    this.percentscalabilitygrid()
   }
 
   Procedure(proceduredata: string) {
@@ -966,6 +1299,7 @@ export class FormulaLookupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
+
         this.PDRno = result[0];
         this.ProjectName = result[1];
         this.customername = result[2];
@@ -989,19 +1323,119 @@ export class FormulaLookupComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
+      this.issearchformula = false;
+      this.issearchformulasave = true;
       this.formulacode = result[0];
+
       this.PDRno = result[1];
       this.formulaname = result[2];
       this.ProjectName = result[3];
       this.customername = result[4];
 
      
-      this.formulationload(this.formulacode, this.labbatchh, this.selectedunit, this.operation1).subscribe((formulationload) => {
+      this.generalformulationload(this.formulacode).subscribe((generalformulationload) => {
+        console.warn("generalformulationload", generalformulationload)
+        this.generalrowData = generalformulationload
+        this.generalmethod(this.generalrowData);
+
+        this.SGcalculation(this.ManualSG).subscribe((sgcalcload) => {
+          console.warn("SGCalcload", sgcalcload)
+          this.sgcalcload = sgcalcload
+          this.Lbgal = this.sgcalcload
+        })
+
+
+
+
+      })
+      this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation1).subscribe((formulationload) => {
         console.warn("formulaload", formulationload)
+
         this.rowData = formulationload
+        //var unitcosttotal = 0;
+        //var costlb = 0;
+        //var sumvar: any = 0;
+        //this.gridApi.setRowData(this.rowData);
+        //var rowdatacount = this.rowData.length;
+        //for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+        //  var rowNode = this.gridApi.getRowNode(rowin);
+        //  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+        //}
+        //this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+        //var totcs: Number = sumvar * Number(this.labbatch);
+        //// this.TotalUnitCost = this.formulaCost;
+        //this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
+        //var totalquantity = 0;
+        //for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+        //  var rowNode = this.gridApi.getRowNode(rowin);
+
+        //  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+        //}
+        //this.totaquantity = String(totalquantity.toFixed(5));
+        //for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+        //  var rowNode = this.gridApi.getRowNode(rowin);
+        //  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+        //}
+        //this.TotalCostInLB = String(costlb.toFixed(5));
+        //this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+        ////  this.selectedunit="";
+
+
+        //  this.selectedunit = String(this.rowData[0].UnitName);
 
       })
 
+
+
+      this.proceduretext(this.formulacode).subscribe((procedureteext) => {
+        console.warn("proceduretext", procedureteext)
+        this.proced = procedureteext
+        this.Procedure(this.proced);
+      })
+      this.proceduretextgrid(this.formulacode).subscribe((proceduretextgridval) => {
+        console.warn("proceduretextgridval", proceduretextgridval)
+        this.procedgrid = proceduretextgridval
+
+      })
+
+
+      this.manuprocreview(this.formulacode).subscribe((manuprocreview) => {
+        console.warn("manuprocreview", manuprocreview)
+        this.manuprocreviewdata = manuprocreview
+
+      })
+      this.manuprocreview(this.formulacode).subscribe((manuprocreview) => {
+        console.warn("manuprocreview", manuprocreview)
+        this.manuprocreviewdata = manuprocreview
+
+      })
+      this.marketart(this.formulacode).subscribe((formulamarketing) => {
+        console.warn("formulamarketing", formulamarketing)
+        this.formulamarketingdata = formulamarketing
+
+      })
+      this.Marketing_indicator().subscribe((market_indi) => {
+        console.warn("market_indi", market_indi)
+        this.market_indi_data = market_indi
+      })
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
+
+      })
+      this.loadassignusers(this.ProjectName).subscribe((loadassignedusers) => {
+        console.warn("loadassignedusers", loadassignedusers)
+        this.loadassignedusersdata = loadassignedusers
+      })
+
+      this.Labbatchdetailsload(this.formulacode).subscribe((labdatalo) => {
+        console.warn("labdatalo", labdatalo)
+        this.labdatalo_data = labdatalo
+      })
+
+
+    
 
     });
   }
@@ -1018,24 +1452,105 @@ export class FormulaLookupComponent implements OnInit {
 
   }
   curDate = new Date();
+
   addqc(): void {
-    const dialogRef = this.dialog.open(AddQCComponent, {
-      width: '80%', height: '90%', disableClose: true
+
+    if (this.formulacode == "" || this.formulacode == undefined) { this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'enter formula code' } }); }
+    else if (this.formulaname == "" || this.formulaname == undefined) { this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'enter formula name' } }); }
+
+    else {
+      var billdata: any = [this.formulacode, this.formulaname]
+      const dialogRef = this.dialog.open(AddQCComponent, {
+        width: '80%', height: '90%', data: { displaydata: billdata }, disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.wait(3000);
+
+        this.qctabload(this.formulacode).subscribe((qcdetailslload) => {
+          console.warn("qcdetailslload", qcdetailslload)
+          this.qcdataload = qcdetailslload
+        })
+
+      });
+    }
+
+  }
+  setvaluesqc(qcdetails) {
+
+    this.sendqc = [this.formulacode, this.formulaname, qcdetails.TestName, qcdetails.noOfDays,
+    qcdetails.startDate, qcdetails.enddate, qcdetails.Results, qcdetails.SeqNo, qcdetails.Unit, qcdetails.QCTest,
+    qcdetails.AddedDT, qcdetails.AddedBy, qcdetails.UpdatedDT, qcdetails.Remarks, qcdetails.Note,
+    qcdetails.ApprovedDt, qcdetails.SOPFile, qcdetails.Approved, qcdetails.ApprovedBy];
+    //this.datashare.sendaddlocation(this.searchitems);
+    this.openaddqc();
+  }
+
+  loadupdate(formulacode: any, SeqNo: any) {
+
+    var formul: string = formulacode;
+    var Seq: string = SeqNo;
+
+    let params1 = new HttpParams().set('FormulaCode', formul).set('SeqNo', Seq);
+    return this.http.get("https://formulalookupwebservice11.azurewebsites.net/QCrowload", { params: params1, responseType: 'text' })
+
+
+  }
+
+
+  openaddqc(): void {
+
+    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+    const dialogRef = this.dialog.open(UpdateQcComponent, {
+      width: '80%', height: '90%', disableClose: true, data: { displaydata: this.sendqc }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.wait(3000);
+
+      this.qctabload(this.formulacode).subscribe((qcdetailslload) => {
+        console.warn("qcdetailslload", qcdetailslload)
+        this.qcdataload = qcdetailslload
+      })
+
     });
   }
+
+
+
+
+
+
+
+
+
+
+
   marketingcallouts(): void {
     const dialogRef = this.dialog.open(MarketingCalloutsComponent, {
       width: '80%', height: '90%', disableClose: true
     });
   }
   createlabbatchtkts(): void {
-    const dialogRef = this.dialog.open(CreateLabTktsComponent, {
+    if (this.formulacode == "" || this.formulacode == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Formula Code' } });
+    }
+    else {
+      var crtelbtktsdatas: any = [this.formulacode, this.PDRno, this.formulaname, this.ProjectName, this.customername];
+      const dialogRef = this.dialog.open(CreateLabTktsComponent, {
+        width: '90%', height: '90%', data: { displaydata: crtelbtktsdatas }, disableClose: true
+      });
+    }
+  }
+  Viewlabbatchstability(): void {
+    const dialogRef = this.dialog.open(ViewLabStabilityCoaComponent, {
       width: '90%', height: '90%', disableClose: true
     });
   }
   Opencustomer(): void {
     const dialogRef = this.dialog.open(CustomerDetailsComponent, {
-      width: '95%', height: '95%', disableClose: true
+      width: '95%', height: '95%', data: {displaydata:this.customercode}, disableClose: true
     });
   }
   AddphystabilityTest(): void {
@@ -1078,8 +1593,51 @@ export class FormulaLookupComponent implements OnInit {
     });
   }
   ScalabilityFactor(): void {
+
+    this.flag1 = 1;
+
     const dialogRef = this.dialog.open(ScalabilityFactorComponent, {
-      width: '40%', height: '20%', disableClose: true
+      width: '35%', height: '26%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+
+      //var rowdatacount = this.gridApi.getDisplayedRowCount();
+
+      var val = result[0];
+      this.units = result[1];
+      if (val != null) {
+        this.scalefactor = val
+
+        this.scalefactnew = Number(this.scalefactor) / Number(this.labbatch);
+        this.scalef = String(this.scalefactnew.toFixed(5));
+
+
+        this.dialog.open(MessageBoxComponent, {
+          width: '25%', height: '15%',
+          data: { displaydata: "Scalability Factor" + " " + "=" + "Qty needed" + " " + this.scalefactor + " " + " / " + "Net quantity" + this.labbatch + " = " + "   " + this.scalef }
+        });
+        this.active = "3";
+
+      }
+      //this.onGridReadyone(params);
+      //this.gridApione.setRowData(this.rowDatascalability);
+      //this.gridApione.getModel();
+      //this.rowDatascalability = [];
+      //this.gridApione.forEachNode(RowNode => this.rowDatascalability.push(RowNode.data));
+      //this.gridApione.setRowData(this.rowDatascalability);
+      //var rowdatacount = this.rowDatascalability.length;
+      ////var scalfact = (val / Number(this.labbatch));
+      //for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+      //  var rowNode = this.gridApione.getRowNode(rowin);
+      //  var qtynew: any = (Number(val) * Number(rowNode.data.Quantity)).toFixed(5);
+      //  rowNode.setDataValue('Quantity', String(qtynew));
+      //  var costnew: any = (Number(val) * Number(rowNode.data.Cost)).toFixed(5);
+      //  rowNode.setDataValue('Cost', String(costnew));
+      //}
+      // rowNode.setDataValue('Quantity', String(qtynew));
+
     });
   }
   CoaCompare(): void {
@@ -1105,30 +1663,29 @@ export class FormulaLookupComponent implements OnInit {
   makeCellClickedinci(event) {
     this.incilabel = "INCI Name";
     this.Datashare.sendlabel(this.incilabel);
-    this.editcellgrid(event)
+    this.editcellgridinci(event)
   }
   makeCellClickeditem(event) {
     this.incilabel = "Item"
     this.Datashare.sendlabel(this.incilabel);
-    this.editcellgrid(event)
+    this.editcellgriditem(event)
   }
   makeCellClickedtrade(event) {
     this.incilabel = "Trade Name"
     this.Datashare.sendlabel(this.incilabel);
-    this.editcellgrid(event)
+    this.editcellgridtrade(event)
   }
   makeCellClickedstep(event) {
     this.editcellgriddata2(event)
   }
-
-  editcellgrid(event) {
+  editcellgriditem(event) {
     let rowData = [];
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
-   
-    const dialogRef = this.dialog.open(IncinameSelectComponent, {
-      width: '80%', height: '40%', disableClose: true
+
+    const dialogRef = this.dialog.open(ItemnameSelectComponent, {
+      width: '80%', height: '40%', data: { displaydata: event.data.GeneralItemcode}, disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
@@ -1141,105 +1698,264 @@ export class FormulaLookupComponent implements OnInit {
       this.incicost = result[5];
       this.gridIngredientCode = result[7];
       this.gridApi.deselectAll();
-      
+
       if (result != "") {
 
-        
+
         this.convertunit(this.unname, this.gridIngredientCode, this.selectedunit).subscribe((conversionload) => {
           console.warn("convertload", conversionload)
-          this.incicost= conversionload
+          this.incicost = conversionload
 
-       
-        this.unname = this.selectedunit;
-       
-       // if (this.selectedunit == "g" && this.unname == "Kg") {
-       //   this.unname = "g";
-       //   this.incicost = (Number(this.incicost) / 1000).toString();
-       // }
-       // else if (this.selectedunit == "Kg" && this.unname == "g") {
-       //   this.unname = "Kg";
-       //   this.incicost = (Number(this.incicost) / 1000).toString();
-       // } else if (this.selectedunit == "g" && this.unname == "Lb") {
-       //   this.unname = "g";
-       //   this.incicost = (Number(this.incicost) / 453.592).toString();
-       // }
-       // else if (this.selectedunit == "Lb" && this.unname == "g") {
-       //   this.unname = "Lb";
-       //   this.incicost = (Number(this.incicost) * 453.592).toString();
-       // }
-       // else if (this.selectedunit == "Kg" && this.unname == "Lb") {
-       //   this.unname = "Kg";
-       //   this.incicost = (Number(this.incicost) / 0.453592).toString();
-       // }
-       // else if (this.selectedunit == "Lb" && this.unname == "Kg") {
-       //   this.unname = "Lb";
-       //   this.incicost = (Number(this.incicost) * 0.453592).toString();
-       // }
-       // else if (this.selectedunit == "g" && this.unname == "Ltr") {
-       //   this.unname = "g";
-       //   this.incicost = (Number(this.incicost) / 1000).toString();
-       // }
-       // else if (this.selectedunit == "Lb" && this.unname == "Ltr") {
-       //   this.unname = "Lb";
-       //   this.incicost = (Number(this.incicost) * 0.453592).toString();
-       // }
-       // else if (this.selectedunit == "Kg" && this.unname == "Ltr") {
-       //   this.unname = "Kg";
-       ////   this.incicost = (Number(this.incicost) * 0.453592).toString();
-       // }
-       this.selectedData = this.gridApi.getFocusedCell()
-        var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
+
+          this.unname = this.selectedunit;
+
+          // if (this.selectedunit == "g" && this.unname == "Kg") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "g") {
+          //   this.unname = "Kg";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // } else if (this.selectedunit == "g" && this.unname == "Lb") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 453.592).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "g") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 453.592).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "Lb") {
+          //   this.unname = "Kg";
+          //   this.incicost = (Number(this.incicost) / 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "Kg") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "g" && this.unname == "Ltr") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "Ltr") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "Ltr") {
+          //   this.unname = "Kg";
+          ////   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          this.selectedData = this.gridApi.getFocusedCell()
+          var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
           if (this.selectedData.rowIndex == 0) {
 
             if (RowNode.data.INCIName == "") {
 
+              if (this.rowdrag == "rowDragEnd") {
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                var cosinlb: any = 0;
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                var rowdatacount2 = this.gridApi.getDisplayedRowCount();
+                var rowindata2: any;
+                var fla: any = 0;
+                var rowinc: any;
+                if (rowdatacount2 == 1) {
+                  rowindata2 = 1;
+                }
+                else {
+                  for (let rowinc = 1; rowinc <= rowdatacount2 - 1; rowinc++) {
+                    var rowNode = this.gridApi.getRowNode(rowinc);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata2 = rowinc;
+                      fla = 1;
+                      break;
+                    }
+                  }
+                }
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                var qtypere = rowNode.data.Qtyinpercentage;
+                var qtyvale = rowNode.data.Quantity;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: qtypere,
+                  Quantity: qtyvale,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(rowNode.data.Quantity)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
 
-              var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
-              var cosinlb: any = 0;
-              if (this.selectedunit == "g") {
-                cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
-              } else if (this.selectedunit == "Kg") {
-                cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                RowNode.setData(this.selectedData);
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                rowNode.setDataValue('Quantity', '0.0000000');
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+                let rowData = [];
+                this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+                this.gridApi.setRowData(rowData);
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100';
+                this.Yield = '100';
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var unitcosttotal = 0;
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+                
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+
+
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
               }
+
               else {
-                cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+
+
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                var cosinlb: any = 0;
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '100.0000000',
+                  Quantity: this.labbatch,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100';
+                this.Yield = '100';
+                this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                this.formulaCost = Number(this.incicost).toFixed(5);
+                this.totaquantity = this.labbatch;
+                this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+
+
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var unitcosttotal = 0;
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+
               }
-              this.selectedData = {
-                Step: '',
-                INCIName: this.gridinciname,
-                TradeName: this.gridtradename,
-                GeneralItemcode: this.griditem,
-                Qtyinpercentage: '100.0000000',
-                Quantity: this.labbatch,
-                UnitName: this.unname,
-                UnitCost: Number(this.incicost).toFixed(5),
-                Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
-                SupplierName: this.gridsuppliername,
-                costinlb: cosinlb ,
-                Itemcode: this.gridIngredientCode,
-                unitcostinlb: Number(cosinlb).toFixed(5),
-              };
-
-
-              // this.gridApi.updateRowData({ update: selectedData });
-              //   var rowNode = this.gridApi.getRowNode(this.rowindex);
-              this.TotalPercentage = '100';
-              this.Yield = '100';
-              this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
-              this.formulaCost = Number(this.incicost).toFixed(5);
-              this.totaquantity = this.labbatch;
-              this.TotalCostInLB = Number(cosinlb).toFixed(5);
-              this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
-              RowNode.setData(this.selectedData);
-              this.gridApi.getModel();
-              
-    this.rowData = [];
-    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-              this.gridApi.setRowData(this.rowData);
-              
-             
             }
-            else {
+            else if (RowNode.data.UnitName != "") {
 
 
               var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
@@ -1263,8 +1979,8 @@ export class FormulaLookupComponent implements OnInit {
                 UnitCost: Number(this.incicost).toFixed(5),
                 Cost: (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5),
                 SupplierName: this.gridsuppliername,
-                costinlb:   cosinlb ,
-                Itemcode: this.gridIngredientCode,
+                costinlb: cosinlb,
+                ItemCode: this.gridIngredientCode,
                 unitcostinlb: Number(cosinlb).toFixed(5),
               };
 
@@ -1273,11 +1989,11 @@ export class FormulaLookupComponent implements OnInit {
               //   var rowNode = this.gridApi.getRowNode(this.rowindex);
               this.TotalPercentage = '100';
               this.Yield = '100';
-             // this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
-             // this.formulaCost = Number(this.incicost).toFixed(5);
-             // this.totaquantity = this.labbatch;
-             // this.TotalCostInLB = Number(cosinlb).toFixed(5);
-             // this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+              // this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+              // this.formulaCost = Number(this.incicost).toFixed(5);
+              // this.totaquantity = this.labbatch;
+              // this.TotalCostInLB = Number(cosinlb).toFixed(5);
+              // this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
               RowNode.setData(this.selectedData);
               var rowdatacount = this.gridApi.getDisplayedRowCount();
               var unitcosttotal = 0;
@@ -1293,7 +2009,7 @@ export class FormulaLookupComponent implements OnInit {
               var totcs: Number = sumvar * Number(this.labbatch);
               // this.TotalUnitCost = this.formulaCost;
               this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
-             
+
               for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
                 var rowNode = this.gridApi.getRowNode(rowin);
                 totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
@@ -1312,171 +2028,1256 @@ export class FormulaLookupComponent implements OnInit {
               this.TotalCostInLB = String(costlb.toFixed(5));
               this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
               subvalue = 0;
-              
+
               this.gridApi.getModel();
               this.rowData = [];
               this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
               this.gridApi.setRowData(this.rowData);
               RowNode.setData(this.selectedData);
             }
-          }
-        else {
-            this.selectedData = {
-            Step: '',
-            INCIName: this.gridinciname,
-            TradeName: this.gridtradename,
-            GeneralItemcode: this.griditem,
-            Qtyinpercentage: '0.0000000',
-            Quantity: '0.0000000',
-            UnitName: this.unname,
-            UnitCost: Number(this.incicost).toFixed(5),
-            Cost: null,
-            SupplierName: this.gridsuppliername,
-            costinlb: null,
-            Itemcode: this.gridIngredientCode,
-            unitcostinlb: Number(this.incicost).toFixed(5),
-          };
-          // this.gridApi.updateRowData({ update: selectedData });
-          //   var rowNode = this.gridApi.getRowNode(this.rowindex);
-
-
-            RowNode.setData(this.selectedData );
-
-
-          var rowin: any = 0;
-          var rowing: any = 0;
-          let { rowsToDisplay } = this.gridApi.getModel();
-          this.rowData = [];
-          this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-          this.gridApi.setRowData(this.rowData);
-          //this.firstdata= rowNode.data.Qtyinpercentage;
-          rowin = RowNode.rowIndex;
-          //  this.gridApi.refreshCells(params);
-          if (rowin != 0) {
-            var sumvar: any = 0;
-            var firstsumvar: any = 0;
-            rowin = 1;
-            var i = 1;
-            var rowdatacount = this.gridApi.getDisplayedRowCount();
-            //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
-            for (let rowin = 1, i = 1; i <= rowdatacount - 1; rowin++, i++) {
-
-              var rowNode = this.gridApi.getRowNode(rowin);
-
-              sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
-
-            }
-            var firstrowNode = this.gridApi.getRowNode(0);
-            rowin = RowNode.rowIndex;
-            var rowNo = this.gridApi.getRowNode(rowin);
-            var pamv = Number('0.0000000');
-
-            if (pamv < 0.0000000 || isNaN(pamv)) {
-              var dat: any = '0.0000000';
-              var rowNode = this.gridApi.getRowNode(rowin);
-              rowNode.setDataValue('Qtyinpercentage', String(dat));
-            }
-
-            //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
-            //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
-            else if (Number((sumvar).toFixed(7)) > 100) {
-
-              var dat: any = '0.0000000';
-              var rowNode = this.gridApi.getRowNode(rowin);
-              rowNode.setDataValue('Qtyinpercentage', String(dat));
-              rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
-            }
-
             else {
-              var dat: any = '0.0000000';
-              var adt2: any = Number('0.0000000');
-              var dat2: any = String(adt2.toFixed(7));
-              var rowNode = this.gridApi.getRowNode(rowin);
-
-            rowNode.setDataValue('Qtyinpercentage', '0.0000000');
-
-              //  rowin2 = params.node.rowIndex;
-              //  const colId = params.column.getId();
-
-              var qtyper: Number = Number(dat);
-              var rowNode = this.gridApi.getRowNode(rowin);
-              var oldda: any = '0.0000000';
-              var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
-              var unicost: any = Number(this.incicost).toFixed(5);
-              var updatedunicost: any = (enwda * unicost).toFixed(5);
-
-              rowNode.setDataValue('Quantity', String(enwda));
-              rowNode.setDataValue('Cost', String(updatedunicost));
+              var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
+              var cosinlb: any = 0;
               if (this.selectedunit == "g") {
-                var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                cosinlb = Number(cos * 453.592 / Number(RowNode.data.Quantity)).toFixed(5);
               } else if (this.selectedunit == "Kg") {
-                var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                cosinlb = Number(cos * .453592 / Number(RowNode.data.Quantity)).toFixed(5);
               }
               else {
-                var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                cosinlb = Number((cos) / Number(RowNode.data.Quantity)).toFixed(5);
               }
-
-              rowNode.setDataValue('costinlb', String(updtedcosinlb));
-              rowNode.setDataValue('quantityinlb', String(enwda));
-
-
-              rowin = 0;
-              var rowNode = this.gridApi.getRowNode(rowin);
-              rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
-              //var rowin2: any = params.node.rowIndex;
-              //var rowNode2 = this.gridApi.getRowNode(rowin2);
-              //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
-              rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
-              rowNode.setDataValue('Cost', String(rowNode.data.Cost));
-              var fistrowdata: any = rowNode.data.Qtyinpercentage;
-
-              var firstrowunicost: any = rowNode.data.UnitCost;
-              var subvalue: any = (fistrowdata - dat).toFixed(7);
-
-              subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
-              if (subvalue == "-0.0000000") {
-                subvalue = "0.0000000";
-              }
-              this.formulaCost = String(sumvar);
-              var unitcosttotal = 0;
-              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
-                var rowNode = this.gridApi.getRowNode(rowin);
-                unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
-              }
-              this.TotalUnitCost = String(unitcosttotal.toFixed(5));
-              var totcs: Number = sumvar * Number(this.labbatch);
-              // this.TotalUnitCost = this.formulaCost;
-              this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
-              // this.TotalUnitCost = String(totcs.toFixed(5));
-              if (subvalue < 0.0000000) {
-                rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
-                rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
-                rowNode.setDataValue('Cost', String(rowNode.data.Cost));
-              }
-              else {
-                var rowNode = this.gridApi.getRowNode(0);
-                // var subvalue2: any = subvalue.toFixed(7);
-                rowNode.setDataValue('Qtyinpercentage', String(subvalue));
-
-                var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
-                var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
-
-                rowNode.setDataValue('Quantity', String(enwda2));
-                rowNode.setDataValue('Cost', String(subcost));
-
+              var rowdatacount2 = this.gridApi.getDisplayedRowCount();
+              var rowindata2: any;
+              var fla: any = 0;
+              var rowinc: any;
+              if (rowdatacount2 == 1) {
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
                 if (this.selectedunit == "g") {
-                  var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
                 } else if (this.selectedunit == "Kg") {
-                  var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
                 }
                 else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                rowindata2 = 1;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '100.0000000',
+                  Quantity: this.labbatch,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
 
-                  var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100.00000';
+                this.Yield = '100';
+                this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                this.formulaCost = Number(this.incicost).toFixed(5);
+                this.totaquantity = this.labbatch;
+                this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+              }
+              else {
+                for (let rowinc = 1; rowinc <= rowdatacount2 - 1; rowinc++) {
+                  var rowNode = this.gridApi.getRowNode(rowinc);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata2 = rowinc;
+                    fla = 1;
+                    break;
+                  }
+                }
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                var qtypere = rowNode.data.Qtyinpercentage;
+                var qtyvale = rowNode.data.Quantity;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: qtypere,
+                  Quantity: qtyvale,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: null,
+                  SupplierName: this.gridsuppliername,
+                  costinlb: null,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(this.incicost).toFixed(5),
+                };
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                RowNode.setData(this.selectedData);
+
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                rowNode.setDataValue('Quantity', '0.0000000');
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+              }
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
                 }
 
-                rowNode.setDataValue('costinlb', String(cosinlb));
-                rowNode.setDataValue('quantityinlb', String(enwda2));
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
               }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+          //  this.gridApi.refreshClientSideRowModel();
+          //this.gridApi.updateRowData({
+          //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+          //    addIndex: this.rowindex
+
+          //  });
+
+
+
+            }
+          }
+          else {
+            if (RowNode.data.UnitName == "") {
+
+              var rowdatacount = this.gridApi.getDisplayedRowCount();
+              var flaa: any = 0;
+              var emp1: any = 0
+              var rowindata1: any
+              var rowcount = this.selectedData.rowIndex;
+              for (let rowin = 0; rowin <= rowcount; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                if (rowNode.data.UnitName != '' && flaa != 1) {
+                  emp1 = 1;
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                  flaa = 1;
+                  break;
+                }
+                else {
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                }
+
+              }
+              if (emp1 == 1) {
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '0.0000000',
+                  Quantity: '0.0000000',
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: null,
+                  SupplierName: this.gridsuppliername,
+                  costinlb: null,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(this.incicost).toFixed(5),
+                };
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                RowNode.setData(this.selectedData);
+
+
+
+              }
+              else {
+                var rowindata4: any
+                var emp3: any = 0;
+                var rowdatacount4 = this.gridApi.getDisplayedRowCount();
+                for (let rowind = 1; rowind <= rowdatacount4 - 1; rowind++) {
+                  var rowNode = this.gridApi.getRowNode(rowind);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata4 = rowinc;
+                    emp3 = 1
+                    fla = 1;
+                    break;
+                  }
+                }
+                if (emp3 == 0) {
+                  var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                  if (this.selectedunit == "g") {
+                    cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                  }
+                  rowindata2 = 1;
+                  this.selectedData = {
+                    Step: '',
+                    INCIName: this.gridinciname,
+                    TradeName: this.gridtradename,
+                    GeneralItemcode: this.griditem,
+                    Qtyinpercentage: '100.0000000',
+                    Quantity: this.labbatch,
+                    UnitName: this.unname,
+                    UnitCost: Number(this.incicost).toFixed(5),
+                    Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                    SupplierName: this.gridsuppliername,
+                    costinlb: cosinlb,
+                    ItemCode: this.gridIngredientCode,
+                    unitcostinlb: Number(cosinlb).toFixed(5),
+                  };
+
+
+                  // this.gridApi.updateRowData({ update: selectedData });
+                  //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                  this.TotalPercentage = '100.00000';
+                  this.Yield = '100';
+                  this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                  this.formulaCost = Number(this.incicost).toFixed(5);
+                  this.totaquantity = this.labbatch;
+                  this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                  this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                  RowNode.setData(this.selectedData);
+                  this.gridApi.getModel();
+
+                }
+                else {
+                  var rowNode = this.gridApi.getRowNode(rowindata1);
+                  var qtypere = rowNode.data.Qtyinpercentage;
+                  var qtyvale = rowNode.data.Quantity;
+                  this.selectedData = {
+                    Step: '',
+                    INCIName: this.gridinciname,
+                    TradeName: this.gridtradename,
+                    GeneralItemcode: this.griditem,
+                    Qtyinpercentage: qtypere,
+                    Quantity: qtyvale,
+                    UnitName: this.unname,
+                    UnitCost: Number(this.incicost).toFixed(5),
+                    Cost: null,
+                    SupplierName: this.gridsuppliername,
+                    costinlb: null,
+                    ItemCode: this.gridIngredientCode,
+                    unitcostinlb: Number(this.incicost).toFixed(5),
+                  };
+                  // this.gridApi.updateRowData({ update: selectedData });
+                  //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                  RowNode.setData(this.selectedData);
+
+                  var rowNode = this.gridApi.getRowNode(rowindata1);
+                  rowNode.setDataValue('Quantity', '0.0000000');
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                }
+              }
+
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+              //  this.gridApi.refreshClientSideRowModel();
+              //this.gridApi.updateRowData({
+              //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+              //    addIndex: this.rowindex
+
+              //  });
+
+
+            }
+            else {
+              this.selectedData = {
+                Step: '',
+                INCIName: this.gridinciname,
+                TradeName: this.gridtradename,
+                GeneralItemcode: this.griditem,
+                Qtyinpercentage: '0.0000000',
+                Quantity: '0.0000000',
+                UnitName: this.unname,
+                UnitCost: Number(this.incicost).toFixed(5),
+                Cost: null,
+                SupplierName: this.gridsuppliername,
+                costinlb: null,
+                ItemCode: this.gridIngredientCode,
+                unitcostinlb: Number(this.incicost).toFixed(5),
+              };
+              // this.gridApi.updateRowData({ update: selectedData });
+              //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+              RowNode.setData(this.selectedData);
+
+
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+              //  this.gridApi.refreshClientSideRowModel();
+              //this.gridApi.updateRowData({
+              //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+              //    addIndex: this.rowindex
+
+              //  });
+
+
+            }
+          }
+        })
+      }
+      else {
+
+
+      }
+      let { rowsToDisplay } = this.gridApi.getModel();
+      this.rowData = [];
+      this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+      this.gridApi.setRowData(this.rowData);
+      this.rowindex = null;
+    });
+
+  }
+  editcellgridtrade(event) {
+  //  let rowData = [];
+  //  this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+  //  this.gridApi.setRowData(rowData);
+    this.rowindex = event.rowIndex;
+    var rowin6: any = event.rowIndex;
+    const dialogRef = this.dialog.open(TradenameSelectComponent, {
+      width: '80%', height: '40%', data: { displaydata: event.data.TradeName }, disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.gridinciname = result[0];
+      this.griditem = result[1];
+      this.gridtradename = result[2];
+      this.gridp = result[3];
+      this.gridsuppliername = result[4];
+      this.unname = result[6];
+      this.incicost = result[5];
+      this.gridIngredientCode = result[7];
+      this.gridApi.deselectAll();
+
+      if (result != "") {
+
+
+        this.convertunit(this.unname, this.gridIngredientCode, this.selectedunit).subscribe((conversionload) => {
+          console.warn("convertload", conversionload)
+          this.incicost = conversionload
+
+
+          this.unname = this.selectedunit;
+
+          // if (this.selectedunit == "g" && this.unname == "Kg") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "g") {
+          //   this.unname = "Kg";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // } else if (this.selectedunit == "g" && this.unname == "Lb") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 453.592).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "g") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 453.592).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "Lb") {
+          //   this.unname = "Kg";
+          //   this.incicost = (Number(this.incicost) / 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "Kg") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "g" && this.unname == "Ltr") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "Ltr") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "Ltr") {
+          //   this.unname = "Kg";
+          ////   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          this.selectedData = this.gridApi.getFocusedCell()
+          var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
+          if (this.selectedData.rowIndex == 0) {
+
+            if (RowNode.data.INCIName == "") {
+
+              if (this.rowdrag == "rowDragEnd") {
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                var cosinlb: any = 0;
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                var rowdatacount2 = this.gridApi.getDisplayedRowCount();
+                var rowindata2: any;
+                var fla: any = 0;
+                var rowinc: any;
+                if (rowdatacount2 == 1) {
+                  rowindata2 = 1;
+                }
+                else {
+                  for (let rowinc = 1; rowinc <= rowdatacount2 - 1; rowinc++) {
+                    var rowNode = this.gridApi.getRowNode(rowinc);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata2 = rowinc;
+                      fla = 1;
+                      break;
+                    }
+                  }
+                }
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                var qtypere = rowNode.data.Qtyinpercentage;
+                var qtyvale = rowNode.data.Quantity;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: qtypere,
+                  Quantity: qtyvale,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(rowNode.data.Quantity)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+                RowNode.setData(this.selectedData);
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                rowNode.setDataValue('Quantity', '0.0000000');
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+                let rowData = [];
+                this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+                this.gridApi.setRowData(rowData);
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100';
+                this.Yield = '100';
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var unitcosttotal = 0;
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+
+
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+              }
+
+              else {
+
+
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                var cosinlb: any = 0;
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '100.0000000',
+                  Quantity: this.labbatch,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100';
+                this.Yield = '100';
+                this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                this.formulaCost = Number(this.incicost).toFixed(5);
+                this.totaquantity = this.labbatch;
+                this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+
+
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var unitcosttotal = 0;
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+
+              }
+            }
+            else if (RowNode.data.UnitName != "") {
+
+
+              var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
+              var cosinlb: any = 0;
+              if (this.selectedunit == "g") {
+                cosinlb = Number(cos * 453.592 / Number(RowNode.data.Quantity)).toFixed(5);
+              } else if (this.selectedunit == "Kg") {
+                cosinlb = Number(cos * .453592 / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              else {
+                cosinlb = Number((cos) / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              this.selectedData = {
+                Step: '',
+                INCIName: this.gridinciname,
+                TradeName: this.gridtradename,
+                GeneralItemcode: this.griditem,
+                Qtyinpercentage: RowNode.data.Qtyinpercentage,
+                Quantity: RowNode.data.Quantity,
+                UnitName: this.unname,
+                UnitCost: Number(this.incicost).toFixed(5),
+                Cost: (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5),
+                SupplierName: this.gridsuppliername,
+                costinlb: cosinlb,
+                ItemCode: this.gridIngredientCode,
+                unitcostinlb: Number(cosinlb).toFixed(5),
+              };
+
+
+              // this.gridApi.updateRowData({ update: selectedData });
+              //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+              this.TotalPercentage = '100';
+              this.Yield = '100';
+              // this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+              // this.formulaCost = Number(this.incicost).toFixed(5);
+              // this.totaquantity = this.labbatch;
+              // this.TotalCostInLB = Number(cosinlb).toFixed(5);
+              // this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+              RowNode.setData(this.selectedData);
+              var rowdatacount = this.gridApi.getDisplayedRowCount();
+              var unitcosttotal = 0;
               var totalquantity = 0;
               var totaper = 0;
               var costlb = 0;
@@ -1486,6 +3287,10 @@ export class FormulaLookupComponent implements OnInit {
                 unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
               }
               this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+              var totcs: Number = sumvar * Number(this.labbatch);
+              // this.TotalUnitCost = this.formulaCost;
+              this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
               for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
                 var rowNode = this.gridApi.getRowNode(rowin);
                 totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
@@ -1504,8 +3309,295 @@ export class FormulaLookupComponent implements OnInit {
               this.TotalCostInLB = String(costlb.toFixed(5));
               this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
               subvalue = 0;
-              this.rowsToDisplay1 = this.gridApi.getModel();
+
+              this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              RowNode.setData(this.selectedData);
             }
+            else {
+           
+              var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
+              var cosinlb: any = 0;
+              if (this.selectedunit == "g") {
+                cosinlb = Number(cos * 453.592 / Number(RowNode.data.Quantity)).toFixed(5);
+              } else if (this.selectedunit == "Kg") {
+                cosinlb = Number(cos * .453592 / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              else {
+                cosinlb = Number((cos) / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              var rowdatacount2 = this.gridApi.getDisplayedRowCount();
+              var rowindata2: any;
+              var fla: any = 0;
+              var rowinc: any;
+              if (rowdatacount2 == 1) {
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                rowindata2 = 1;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '100.0000000',
+                  Quantity: this.labbatch,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100.00000';
+                this.Yield = '100';
+                this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                this.formulaCost = Number(this.incicost).toFixed(5);
+                this.totaquantity = this.labbatch;
+                this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+              }
+              else {
+                for (let rowinc = 1; rowinc <= rowdatacount2 - 1; rowinc++) {
+                  var rowNode = this.gridApi.getRowNode(rowinc);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata2 = rowinc;
+                    fla = 1;
+                    break;
+                  }
+                }
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                var qtypere = rowNode.data.Qtyinpercentage;
+                var qtyvale = rowNode.data.Quantity;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: qtypere,
+                  Quantity: qtyvale,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: null,
+                  SupplierName: this.gridsuppliername,
+                  costinlb: null,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(this.incicost).toFixed(5),
+                };
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                RowNode.setData(this.selectedData);
+
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                rowNode.setDataValue('Quantity', '0.0000000');
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+               
+              }
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
 
 
 
@@ -1514,21 +3606,21 @@ export class FormulaLookupComponent implements OnInit {
 
 
 
-            var sumvar: any = 0;
-            for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
-              var rowNode = this.gridApi.getRowNode(rowin);
-              sumvar = Number(sumvar) + Number(rowNode.data.Cost);
-            }
-            // this.formulaCost = String(sumvar);
-            var totcs: Number = sumvar * Number(this.labbatch);
-            //this.TotalUnitCost = String(totcs);
-            rowin = 0;
-            this.count = 1;
-          }
-          this.gridApi.deselectAll();
-          this.rowindex = null;
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
 
-        
+
           //  this.gridApi.refreshClientSideRowModel();
           //this.gridApi.updateRowData({
           //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
@@ -1536,8 +3628,1917 @@ export class FormulaLookupComponent implements OnInit {
 
           //  });
 
-          
+
+            }
           }
+          else {
+            if (RowNode.data.UnitName == "") {
+
+              var rowdatacount = this.gridApi.getDisplayedRowCount();
+              var flaa: any = 0;
+              var emp1: any = 0
+              var rowindata1: any
+              var rowcount = this.selectedData.rowIndex;
+              for (let rowin = 0; rowin <= rowcount; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                if (rowNode.data.UnitName != '' && flaa != 1) {
+                  emp1 = 1;
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                  flaa = 1;
+                  break;
+                }
+                else {
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                }
+
+              }
+              if (emp1 == 1) {
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '0.0000000',
+                  Quantity: '0.0000000',
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: null,
+                  SupplierName: this.gridsuppliername,
+                  costinlb: null,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(this.incicost).toFixed(5),
+                };
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                RowNode.setData(this.selectedData);
+
+
+
+              }
+              else {
+                var rowindata4: any
+                var emp3: any = 0;
+                var rowdatacount4 = this.gridApi.getDisplayedRowCount();
+                for (let rowind = 1; rowind <= rowdatacount4 - 1; rowind++) {
+                  var rowNode = this.gridApi.getRowNode(rowind);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata4 = rowinc;
+                    emp3 = 1
+                    fla = 1;
+                    break;
+                  }
+                }
+                if (emp3 == 0) {
+                  var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                  if (this.selectedunit == "g") {
+                    cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                  }
+                  rowindata2 = 1;
+                  this.selectedData = {
+                    Step: '',
+                    INCIName: this.gridinciname,
+                    TradeName: this.gridtradename,
+                    GeneralItemcode: this.griditem,
+                    Qtyinpercentage: '100.0000000',
+                    Quantity: this.labbatch,
+                    UnitName: this.unname,
+                    UnitCost: Number(this.incicost).toFixed(5),
+                    Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                    SupplierName: this.gridsuppliername,
+                    costinlb: cosinlb,
+                    ItemCode: this.gridIngredientCode,
+                    unitcostinlb: Number(cosinlb).toFixed(5),
+                  };
+
+
+                  // this.gridApi.updateRowData({ update: selectedData });
+                  //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                  this.TotalPercentage = '100.00000';
+                  this.Yield = '100';
+                  this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                  this.formulaCost = Number(this.incicost).toFixed(5);
+                  this.totaquantity = this.labbatch;
+                  this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                  this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                  RowNode.setData(this.selectedData);
+                  this.gridApi.getModel();
+
+                }
+                else {
+                  var rowNode = this.gridApi.getRowNode(rowindata1);
+                  var qtypere = rowNode.data.Qtyinpercentage;
+                  var qtyvale = rowNode.data.Quantity;
+                  this.selectedData = {
+                    Step: '',
+                    INCIName: this.gridinciname,
+                    TradeName: this.gridtradename,
+                    GeneralItemcode: this.griditem,
+                    Qtyinpercentage: qtypere,
+                    Quantity: qtyvale,
+                    UnitName: this.unname,
+                    UnitCost: Number(this.incicost).toFixed(5),
+                    Cost: null,
+                    SupplierName: this.gridsuppliername,
+                    costinlb: null,
+                    ItemCode: this.gridIngredientCode,
+                    unitcostinlb: Number(this.incicost).toFixed(5),
+                  };
+                  // this.gridApi.updateRowData({ update: selectedData });
+                  //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                  RowNode.setData(this.selectedData);
+
+                  var rowNode = this.gridApi.getRowNode(rowindata1);
+                  rowNode.setDataValue('Quantity', '0.0000000');
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                }
+
+              }
+
+
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+              //  this.gridApi.refreshClientSideRowModel();
+              //this.gridApi.updateRowData({
+              //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+              //    addIndex: this.rowindex
+
+              //  });
+
+
+            }
+            else {
+              this.selectedData = {
+                Step: '',
+                INCIName: this.gridinciname,
+                TradeName: this.gridtradename,
+                GeneralItemcode: this.griditem,
+                Qtyinpercentage: '0.0000000',
+                Quantity: '0.0000000',
+                UnitName: this.unname,
+                UnitCost: Number(this.incicost).toFixed(5),
+                Cost: null,
+                SupplierName: this.gridsuppliername,
+                costinlb: null,
+                ItemCode: this.gridIngredientCode,
+                unitcostinlb: Number(this.incicost).toFixed(5),
+              };
+              // this.gridApi.updateRowData({ update: selectedData });
+              //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+              RowNode.setData(this.selectedData);
+
+
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+              //  this.gridApi.refreshClientSideRowModel();
+              //this.gridApi.updateRowData({
+              //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+              //    addIndex: this.rowindex
+
+              //  });
+
+
+            }
+          }
+        })
+      }
+      else {
+
+
+      }
+      this.gridApi.ensureIndexVisible(rowin6, 'bottom');
+      //let { rowsToDisplay } = this.gridApi.getModel();
+      //this.rowData = [];
+      //this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+     
+      //this.gridApi.setRowData(this.rowData);
+  
+    
+      let { rowsToDisplay } = this.gridApi.getModel();
+      this.rowData = [];
+      this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+      this.gridApi.setRowData(this.rowData);
+      this.rowindex = null;
+    });
+   
+ 
+  }
+  editcellgridinci(event) {
+    let rowData = [];
+    this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+    this.gridApi.setRowData(rowData);
+    this.rowindex = event.rowIndex;
+   
+    const dialogRef = this.dialog.open(IncinameSelectComponent, {
+      width: '80%', height: '40%', data: { displaydata: event.data.INCIName }, disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.gridinciname = result[0];
+      this.griditem = result[1];
+      this.gridtradename = result[2];
+      this.gridp = result[3];
+      this.gridsuppliername = result[4];
+      this.unname = result[6];
+      this.incicost = result[5];
+      this.gridIngredientCode = result[7];
+      this.gridApi.deselectAll();
+      
+      if (result != "") {
+
+        
+        this.convertunit(this.unname, this.gridIngredientCode, this.selectedunit).subscribe((conversionload) => {
+          console.warn("convertload", conversionload)
+          this.incicost = conversionload
+
+
+          this.unname = this.selectedunit;
+
+          // if (this.selectedunit == "g" && this.unname == "Kg") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "g") {
+          //   this.unname = "Kg";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // } else if (this.selectedunit == "g" && this.unname == "Lb") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 453.592).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "g") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 453.592).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "Lb") {
+          //   this.unname = "Kg";
+          //   this.incicost = (Number(this.incicost) / 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "Kg") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "g" && this.unname == "Ltr") {
+          //   this.unname = "g";
+          //   this.incicost = (Number(this.incicost) / 1000).toString();
+          // }
+          // else if (this.selectedunit == "Lb" && this.unname == "Ltr") {
+          //   this.unname = "Lb";
+          //   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          // else if (this.selectedunit == "Kg" && this.unname == "Ltr") {
+          //   this.unname = "Kg";
+          ////   this.incicost = (Number(this.incicost) * 0.453592).toString();
+          // }
+          this.selectedData = this.gridApi.getFocusedCell()
+          var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
+          if (this.selectedData.rowIndex == 0) {
+
+            if (RowNode.data.INCIName == "") {
+
+              if (this.rowdrag == "rowDragEnd") {
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                var cosinlb: any = 0;
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                var rowdatacount2 = this.gridApi.getDisplayedRowCount();
+
+                var rowindata2: any;
+                var fla: any = 0;
+                var rowinc: any;
+                if (rowdatacount2 == 1) {
+                  rowindata2 = 1;
+                }
+                else {
+                  for (let rowinc = 1; rowinc <= rowdatacount2 - 1; rowinc++) {
+                    var rowNode = this.gridApi.getRowNode(rowinc);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata2 = rowinc;
+                      fla = 1;
+                      break;
+                    }
+                  }
+                }
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                var qtypere = rowNode.data.Qtyinpercentage;
+                var qtyvale = rowNode.data.Quantity;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: qtypere,
+                  Quantity: qtyvale,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(rowNode.data.Quantity)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+                RowNode.setData(this.selectedData);
+
+
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                rowNode.setDataValue('Quantity', '0.0000000');
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+                let rowData = [];
+                this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+                this.gridApi.setRowData(rowData);
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100';
+                this.Yield = '100';
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var unitcosttotal = 0;
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+               
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+               
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+
+
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+              }
+
+              else {
+
+
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                var cosinlb: any = 0;
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '100.0000000',
+                  Quantity: this.labbatch,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100';
+                this.Yield = '100';
+                this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                
+                this.formulaCost = Number(this.incicost).toFixed(5);
+                this.totaquantity = this.labbatch;
+                this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+
+
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var unitcosttotal = 0;
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+              
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+
+
+
+                this.rowData = [];
+                this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+                this.gridApi.setRowData(this.rowData);
+
+
+              }
+            }
+            else if (RowNode.data.UnitName != "") {
+
+
+              var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
+              var cosinlb: any = 0;
+              if (this.selectedunit == "g") {
+                cosinlb = Number(cos * 453.592 / Number(RowNode.data.Quantity)).toFixed(5);
+              } else if (this.selectedunit == "Kg") {
+                cosinlb = Number(cos * .453592 / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              else {
+                cosinlb = Number((cos) / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              this.selectedData = {
+                Step: '',
+                INCIName: this.gridinciname,
+                TradeName: this.gridtradename,
+                GeneralItemcode: this.griditem,
+                Qtyinpercentage: RowNode.data.Qtyinpercentage,
+                Quantity: RowNode.data.Quantity,
+                UnitName: this.unname,
+                UnitCost: Number(this.incicost).toFixed(5),
+                Cost: (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5),
+                SupplierName: this.gridsuppliername,
+                costinlb: cosinlb,
+                ItemCode: this.gridIngredientCode,
+                unitcostinlb: Number(cosinlb).toFixed(5),
+              };
+
+
+              // this.gridApi.updateRowData({ update: selectedData });
+              //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+              this.TotalPercentage = '100';
+              this.Yield = '100';
+              // this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+              // this.formulaCost = Number(this.incicost).toFixed(5);
+              // this.totaquantity = this.labbatch;
+              // this.TotalCostInLB = Number(cosinlb).toFixed(5);
+              // this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+              RowNode.setData(this.selectedData);
+              var rowdatacount = this.gridApi.getDisplayedRowCount();
+              var unitcosttotal = 0;
+              var totalquantity = 0;
+              var totaper = 0;
+              var costlb = 0;
+              var unitcosttotal = 0;
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+              }
+              this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+              var totcs: Number = sumvar * Number(this.labbatch);
+              // this.TotalUnitCost = this.formulaCost;
+             
+              this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+              }
+              this.totaquantity = String(totalquantity.toFixed(5));
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+              }
+              this.TotalPercentage = String(totaper.toFixed(5));
+
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+              }
+              this.TotalCostInLB = String(costlb.toFixed(5));
+              this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+              subvalue = 0;
+
+              this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              RowNode.setData(this.selectedData);
+            }
+            else {
+
+              var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
+              var cosinlb: any = 0;
+              if (this.selectedunit == "g") {
+                cosinlb = Number(cos * 453.592 / Number(RowNode.data.Quantity)).toFixed(5);
+              } else if (this.selectedunit == "Kg") {
+                cosinlb = Number(cos * .453592 / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              else {
+                cosinlb = Number((cos) / Number(RowNode.data.Quantity)).toFixed(5);
+              }
+              var rowdatacount2 = this.gridApi.getDisplayedRowCount();
+              var rowindata2: any;
+              var fla: any = 0;
+              var rowinc: any;
+              if (rowdatacount2 == 1) {
+                var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                if (this.selectedunit == "g") {
+                  cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                }
+                rowindata2 = 1;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '100.0000000',
+                  Quantity: this.labbatch,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                  SupplierName: this.gridsuppliername,
+                  costinlb: cosinlb,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(cosinlb).toFixed(5),
+                };
+
+
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                this.TotalPercentage = '100.00000';
+                this.Yield = '100';
+                this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+               
+                this.formulaCost = Number(this.incicost).toFixed(5);
+                this.totaquantity = this.labbatch;
+                this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                RowNode.setData(this.selectedData);
+                this.gridApi.getModel();
+
+              }
+              else {
+                for (let rowinc = 1; rowinc <= rowdatacount2 - 1; rowinc++) {
+                  var rowNode = this.gridApi.getRowNode(rowinc);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata2 = rowinc;
+                    fla = 1;
+                    break;
+                  }
+                }
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                var qtypere = rowNode.data.Qtyinpercentage;
+                var qtyvale = rowNode.data.Quantity;
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: qtypere,
+                  Quantity: qtyvale,
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: null,
+                  SupplierName: this.gridsuppliername,
+                  costinlb: null,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(this.incicost).toFixed(5),
+                };
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                RowNode.setData(this.selectedData);
+
+                var rowNode = this.gridApi.getRowNode(rowindata2);
+                rowNode.setDataValue('Quantity', '0.0000000');
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+              }
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+              //  this.gridApi.refreshClientSideRowModel();
+              //this.gridApi.updateRowData({
+              //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+              //    addIndex: this.rowindex
+
+              //  });
+
+
+            }
+            //  this.gridApi.ensureIndexVisible(this.rowindex,'bottom');
+          }
+          else {
+            if (RowNode.data.UnitName == "")
+            {
+
+              var rowdatacount = this.gridApi.getDisplayedRowCount();
+              var flaa: any = 0;
+              var emp1: any = 0
+              var rowindata1: any
+              var rowcount = this.selectedData.rowIndex;
+              for (let rowin = 0; rowin <= rowcount; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                if (rowNode.data.UnitName != '' && flaa != 1) {
+                  emp1 = 1;
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                  flaa = 1;
+                  break;
+                }
+                else {
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                }
+
+              }
+              if (emp1 == 1)
+              {
+                this.selectedData = {
+                  Step: '',
+                  INCIName: this.gridinciname,
+                  TradeName: this.gridtradename,
+                  GeneralItemcode: this.griditem,
+                  Qtyinpercentage: '0.0000000',
+                  Quantity: '0.0000000',
+                  UnitName: this.unname,
+                  UnitCost: Number(this.incicost).toFixed(5),
+                  Cost: null,
+                  SupplierName: this.gridsuppliername,
+                  costinlb: null,
+                  ItemCode: this.gridIngredientCode,
+                  unitcostinlb: Number(this.incicost).toFixed(5),
+                };
+                // this.gridApi.updateRowData({ update: selectedData });
+                //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                RowNode.setData(this.selectedData);
+
+
+
+              }
+              else {
+                var rowindata4: any
+                var emp3: any = 0;
+                var rowdatacount4 = this.gridApi.getDisplayedRowCount();
+                for (let rowind = 1; rowind <= rowdatacount4 - 1; rowind++) {
+                  var rowNode = this.gridApi.getRowNode(rowind);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata4 = rowinc;
+                    emp3 = 1
+                    fla = 1;
+                    break;
+                  }
+                }
+                if (emp3 == 0) {
+                  var cos: any = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                  if (this.selectedunit == "g") {
+                    cosinlb = Number(cos * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    cosinlb = Number(cos * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    cosinlb = Number((cos) / Number(this.labbatch)).toFixed(5);
+                  }
+                  rowindata2 = 1;
+                  this.selectedData = {
+                    Step: '',
+                    INCIName: this.gridinciname,
+                    TradeName: this.gridtradename,
+                    GeneralItemcode: this.griditem,
+                    Qtyinpercentage: '100.0000000',
+                    Quantity: this.labbatch,
+                    UnitName: this.unname,
+                    UnitCost: Number(this.incicost).toFixed(5),
+                    Cost: (Number(this.incicost) * Number(this.labbatch)).toFixed(5),
+                    SupplierName: this.gridsuppliername,
+                    costinlb: cosinlb,
+                    ItemCode: this.gridIngredientCode,
+                    unitcostinlb: Number(cosinlb).toFixed(5),
+                  };
+
+
+                  // this.gridApi.updateRowData({ update: selectedData });
+                  //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+                  this.TotalPercentage = '100.00000';
+                  this.Yield = '100';
+                  this.TotalUnitCost = (Number(this.incicost) * Number(this.labbatch)).toFixed(5);
+                 
+                  this.formulaCost = Number(this.incicost).toFixed(5);
+                  this.totaquantity = this.labbatch;
+                  this.TotalCostInLB = Number(cosinlb).toFixed(5);
+                  this.TotalCostInkg = String((cosinlb * 2.20462).toFixed(5));
+                  RowNode.setData(this.selectedData);
+                  this.gridApi.getModel();
+
+                }
+                else {
+                  var rowNode = this.gridApi.getRowNode(rowindata1);
+                  var qtypere = rowNode.data.Qtyinpercentage;
+                  var qtyvale = rowNode.data.Quantity;
+                  this.selectedData = {
+                    Step: '',
+                    INCIName: this.gridinciname,
+                    TradeName: this.gridtradename,
+                    GeneralItemcode: this.griditem,
+                    Qtyinpercentage: qtypere,
+                    Quantity: qtyvale,
+                    UnitName: this.unname,
+                    UnitCost: Number(this.incicost).toFixed(5),
+                    Cost: null,
+                    SupplierName: this.gridsuppliername,
+                    costinlb: null,
+                    ItemCode: this.gridIngredientCode,
+                    unitcostinlb: Number(this.incicost).toFixed(5),
+                  };
+                  // this.gridApi.updateRowData({ update: selectedData });
+                  //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+                  RowNode.setData(this.selectedData);
+
+                  var rowNode = this.gridApi.getRowNode(rowindata1);
+                  rowNode.setDataValue('Quantity', '0.0000000');
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                }
+
+              }
+
+
+              var rowin: any = 0;
+              var rowing: any = 0;
+              let { rowsToDisplay } = this.gridApi.getModel();
+              this.rowData = [];
+              this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+              this.gridApi.setRowData(this.rowData);
+              //this.firstdata= rowNode.data.Qtyinpercentage;
+              rowin = RowNode.rowIndex;
+              //  this.gridApi.refreshCells(params);
+              if (rowin != 0) {
+                var sumvar: any = 0;
+                var firstsumvar: any = 0;
+                rowin = 1;
+                var i = 1;
+                var rowdatacount = this.gridApi.getDisplayedRowCount();
+                var flaa: any = 0;
+                var rowindata1: any
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && flaa != 1) {
+                    rowindata1 = rowin;
+                    rowindata1 = rowindata1 + 1;
+                    flaa = 1;
+                    break;
+                  }
+                }
+                //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+                for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+                }
+                var firstrowNode = this.gridApi.getRowNode(0);
+                rowin = RowNode.rowIndex;
+                var rowNo = this.gridApi.getRowNode(rowin);
+                var pamv = Number('0.0000000');
+
+                if (pamv < 0.0000000 || isNaN(pamv)) {
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                }
+
+                //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+                //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+                else if (Number((sumvar).toFixed(7)) > 100) {
+
+                  var dat: any = '0.0000000';
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  rowNode.setDataValue('Qtyinpercentage', String(dat));
+                  rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+                }
+
+                else {
+                  var dat: any = '0.0000000';
+                  var adt2: any = Number('0.0000000');
+                  var dat2: any = String(adt2.toFixed(7));
+                  var rowNode = this.gridApi.getRowNode(rowin);
+
+                  rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                  //  rowin2 = params.node.rowIndex;
+                  //  const colId = params.column.getId();
+
+                  var qtyper: Number = Number(dat);
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  var oldda: any = '0.0000000';
+                  var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                  var unicost: any = Number(this.incicost).toFixed(5);
+                  var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda));
+                  rowNode.setDataValue('Cost', String(updatedunicost));
+                  if (this.selectedunit == "g") {
+                    var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+                    var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                  var rowindata: any;
+                  var fla: any = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    if (rowNode.data.UnitName != '' && fla != 1) {
+                      rowindata = rowin;
+                      fla = 1;
+                      break;
+                    }
+                  }
+
+                  //rowin = 0;
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  //var rowin2: any = params.node.rowIndex;
+                  //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                  //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                  var firstrowunicost: any = rowNode.data.UnitCost;
+                  var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                  subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                  if (subvalue == "-0.0000000") {
+                    subvalue = "0.0000000";
+                  }
+                  this.formulaCost = String(sumvar);
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                  var totcs: Number = sumvar * Number(this.labbatch);
+                  // this.TotalUnitCost = this.formulaCost;
+                  
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  // this.TotalUnitCost = String(totcs.toFixed(5));
+                  if (subvalue < 0.0000000) {
+                    rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                    rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                    rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                  }
+                  else {
+                    var rowNode = this.gridApi.getRowNode(rowindata);
+                    // var subvalue2: any = subvalue.toFixed(7);
+                    rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                    var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                    var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                    rowNode.setDataValue('Quantity', String(enwda2));
+                    rowNode.setDataValue('Cost', String(subcost));
+
+                    if (this.selectedunit == "g") {
+                      var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                    } else if (this.selectedunit == "Kg") {
+                      var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                    }
+                    else {
+
+                      var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                    }
+
+                    rowNode.setDataValue('costinlb', String(cosinlb));
+                    rowNode.setDataValue('quantityinlb', String(enwda2));
+                  }
+                  var totalquantity = 0;
+                  var totaper = 0;
+                  var costlb = 0;
+                  var unitcosttotal = 0;
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                  }
+                  this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                
+                  this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                  }
+                  this.totaquantity = String(totalquantity.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                  }
+                  this.TotalPercentage = String(totaper.toFixed(5));
+                  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                    var rowNode = this.gridApi.getRowNode(rowin);
+                    costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                  }
+                  this.TotalCostInLB = String(costlb.toFixed(5));
+                  this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                  subvalue = 0;
+                  this.rowsToDisplay1 = this.gridApi.getModel();
+                }
+
+
+
+
+
+
+
+
+                var sumvar: any = 0;
+                for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+                }
+                // this.formulaCost = String(sumvar);
+                var totcs: Number = sumvar * Number(this.labbatch);
+                //this.TotalUnitCost = String(totcs);
+                rowin = 0;
+                this.count = 1;
+              }
+              this.gridApi.deselectAll();
+              this.rowindex = null;
+
+
+                //  this.gridApi.refreshClientSideRowModel();
+                //this.gridApi.updateRowData({
+                //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+                //    addIndex: this.rowindex
+
+                //  });
+
+
+            }
+            else {
+            this.selectedData = {
+              Step: '',
+              INCIName: this.gridinciname,
+              TradeName: this.gridtradename,
+              GeneralItemcode: this.griditem,
+              Qtyinpercentage: '0.0000000',
+              Quantity: '0.0000000',
+              UnitName: this.unname,
+              UnitCost: Number(this.incicost).toFixed(5),
+              Cost: null,
+              SupplierName: this.gridsuppliername,
+              costinlb: null,
+              ItemCode: this.gridIngredientCode,
+              unitcostinlb: Number(this.incicost).toFixed(5),
+            };
+            // this.gridApi.updateRowData({ update: selectedData });
+            //   var rowNode = this.gridApi.getRowNode(this.rowindex);
+
+
+            RowNode.setData(this.selectedData);
+
+
+            var rowin: any = 0;
+            var rowing: any = 0;
+            let { rowsToDisplay } = this.gridApi.getModel();
+            this.rowData = [];
+            this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+            this.gridApi.setRowData(this.rowData);
+            //this.firstdata= rowNode.data.Qtyinpercentage;
+            rowin = RowNode.rowIndex;
+            //  this.gridApi.refreshCells(params);
+            if (rowin != 0) {
+              var sumvar: any = 0;
+              var firstsumvar: any = 0;
+              rowin = 1;
+              var i = 1;
+              var rowdatacount = this.gridApi.getDisplayedRowCount();
+              var flaa: any = 0;
+              var rowindata1: any
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                if (rowNode.data.UnitName != '' && flaa != 1) {
+                  rowindata1 = rowin;
+                  rowindata1 = rowindata1 + 1;
+                  flaa = 1;
+                  break;
+                }
+              }
+              //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+              for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+
+                var rowNode = this.gridApi.getRowNode(rowin);
+
+                sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+              }
+              var firstrowNode = this.gridApi.getRowNode(0);
+              rowin = RowNode.rowIndex;
+              var rowNo = this.gridApi.getRowNode(rowin);
+              var pamv = Number('0.0000000');
+
+              if (pamv < 0.0000000 || isNaN(pamv)) {
+                var dat: any = '0.0000000';
+                var rowNode = this.gridApi.getRowNode(rowin);
+                rowNode.setDataValue('Qtyinpercentage', String(dat));
+              }
+
+              //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+              //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+              else if (Number((sumvar).toFixed(7)) > 100) {
+
+                var dat: any = '0.0000000';
+                var rowNode = this.gridApi.getRowNode(rowin);
+                rowNode.setDataValue('Qtyinpercentage', String(dat));
+                rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
+              }
+
+              else {
+                var dat: any = '0.0000000';
+                var adt2: any = Number('0.0000000');
+                var dat2: any = String(adt2.toFixed(7));
+                var rowNode = this.gridApi.getRowNode(rowin);
+
+                rowNode.setDataValue('Qtyinpercentage', '0.0000000');
+
+                //  rowin2 = params.node.rowIndex;
+                //  const colId = params.column.getId();
+
+                var qtyper: Number = Number(dat);
+                var rowNode = this.gridApi.getRowNode(rowin);
+                var oldda: any = '0.0000000';
+                var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+                var unicost: any = Number(this.incicost).toFixed(5);
+                var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+                rowNode.setDataValue('Quantity', String(enwda));
+                rowNode.setDataValue('Cost', String(updatedunicost));
+                if (this.selectedunit == "g") {
+                  var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
+                } else if (this.selectedunit == "Kg") {
+                  var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+                }
+                else {
+                  var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+                }
+
+                rowNode.setDataValue('costinlb', String(updtedcosinlb));
+                rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+                var rowindata: any;
+                var fla: any = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  if (rowNode.data.UnitName != '' && fla != 1) {
+                    rowindata = rowin;
+                    fla = 1;
+                    break;
+                  }
+                }
+
+                //rowin = 0;
+                var rowNode = this.gridApi.getRowNode(rowindata);
+                rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                //var rowin2: any = params.node.rowIndex;
+                //var rowNode2 = this.gridApi.getRowNode(rowin2);
+                //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+                rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+                var firstrowunicost: any = rowNode.data.UnitCost;
+                var subvalue: any = (fistrowdata - dat).toFixed(7);
+
+                subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
+                if (subvalue == "-0.0000000") {
+                  subvalue = "0.0000000";
+                }
+                this.formulaCost = String(sumvar);
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+                var totcs: Number = sumvar * Number(this.labbatch);
+                // this.TotalUnitCost = this.formulaCost;
+               
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                // this.TotalUnitCost = String(totcs.toFixed(5));
+                if (subvalue < 0.0000000) {
+                  rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+                  rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+                  rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+                }
+                else {
+                  var rowNode = this.gridApi.getRowNode(rowindata);
+                  // var subvalue2: any = subvalue.toFixed(7);
+                  rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+                  var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+                  var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+
+                  rowNode.setDataValue('Quantity', String(enwda2));
+                  rowNode.setDataValue('Cost', String(subcost));
+
+                  if (this.selectedunit == "g") {
+                    var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+                  } else if (this.selectedunit == "Kg") {
+                    var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+                  }
+                  else {
+
+                    var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+                  }
+
+                  rowNode.setDataValue('costinlb', String(cosinlb));
+                  rowNode.setDataValue('quantityinlb', String(enwda2));
+                }
+                var totalquantity = 0;
+                var totaper = 0;
+                var costlb = 0;
+                var unitcosttotal = 0;
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+                }
+                this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+              
+                this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+                }
+                this.totaquantity = String(totalquantity.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+                }
+                this.TotalPercentage = String(totaper.toFixed(5));
+                for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                  var rowNode = this.gridApi.getRowNode(rowin);
+                  costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+                }
+                this.TotalCostInLB = String(costlb.toFixed(5));
+                this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+                subvalue = 0;
+                this.rowsToDisplay1 = this.gridApi.getModel();
+              }
+
+
+
+
+
+
+
+
+              var sumvar: any = 0;
+              for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+              }
+              // this.formulaCost = String(sumvar);
+              var totcs: Number = sumvar * Number(this.labbatch);
+              //this.TotalUnitCost = String(totcs);
+              rowin = 0;
+              this.count = 1;
+            }
+            this.gridApi.deselectAll();
+            this.rowindex = null;
+
+
+            //  this.gridApi.refreshClientSideRowModel();
+            //this.gridApi.updateRowData({
+            //  add: [{ Step: '', INCIName: this.gridinciname, TradeName: this.gridtradename, GeneralItemcode: this.griditem, Qtyinpercentage: '0.0000000', Quantity: '0.0000000', UnitName: this.unname, UnitCost: (Number(this.incicost)).toFixed(5).toString(), Cost: null, SupplierName: this.gridsuppliername }],
+            //    addIndex: this.rowindex
+
+            //  });
+
+
+          }
+        }
         })
       }
       else {
@@ -1553,7 +5554,7 @@ export class FormulaLookupComponent implements OnInit {
     
   }
   rowDoubleClicked(event: any) {
-    var selectd: any = event.data.Itemcode;
+    var selectd: any = event.data.ItemCode;
     var suppname: any = event.data.SupplierName;
     var unitdata: any = event.data.UnitName;
     if (unitdata != "") {
@@ -1583,16 +5584,19 @@ export class FormulaLookupComponent implements OnInit {
           TotalPercentage: this.TotalPercentage,
           FormulaUnit: this.selectedunit,
         }]);
-        this.Formulacostupdate().subscribe((Cost_pref) => {
+        this.Formulacostupdate("nobuttoncostupdate").subscribe((Cost_pref) => {
           console.warn("Cost_pref", Cost_pref)
           this.Costupdates = Cost_pref
           this.costupdatedetail = this.Costupdates
-
+          let stringToSplit = this.costupdatedetail;
+          var splitdata = stringToSplit.replace(':', '/n').replace(' updated.', '/n').replace('Cost details will be', ' Cost details will be')
+          var splited = splitdata.split('/n')
           if (this.costupdatedetail == "" || this.costupdatedetail == undefined) { }
           else {
-            this.dialog.open(MessageBoxComponent, { width: '40%', height: '20%', data: { displaydata: this.costupdatedetail  } });
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '25%', data: { displaydata: splited[0] + '\n' + splited[1] + ' Updated' + '\n' + splited[2] + '\n' } });
           }
-          this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation1).subscribe((formulationload) => {
+          this.formgriddata = JSON.stringify(this.FormulagridList);
+          this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation2).subscribe((formulationload) => {
             console.warn("formulaload", formulationload)
 
             this.rowData = formulationload
@@ -1611,6 +5615,7 @@ export class FormulaLookupComponent implements OnInit {
             this.TotalUnitCost = String(unitcosttotal.toFixed(5));
             var totcs: Number = sumvar * Number(this.labbatch);
             // this.TotalUnitCost = this.formulaCost;
+            
             this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
             var totalquantity = 0;
             for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
@@ -1628,19 +5633,26 @@ export class FormulaLookupComponent implements OnInit {
             this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
 
             //  this.selectedunit = String(this.rowData[0].UnitName);
-
+            this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+              console.warn("Audittrackingload", Audittrackingload)
+              this.AudittrackData = Audittrackingload
+            })
           })
         })
         //this.wait(10000);
-       
-       
+
+
 
       });
+    }
+    else {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'The selected value is not a Raw Material ' } });
     }
   }
 
   
   editcellgriddata2(event: any): void {
+
     let rowData = [];
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
@@ -1653,13 +5665,13 @@ export class FormulaLookupComponent implements OnInit {
       this.instruc = result;
       this.gridApi.deselectAll();
       if (result != "") {
-        this. selectedData = this.gridApi.getFocusedCell()
+        this.selectedData = this.gridApi.getFocusedCell()
         var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
-       this. selectedData = {
+        this.selectedData = {
           Step: '',
           INCIName: this.instruc,
           TradeName: '',
-          ItemCode:'null',
+          ItemCode: 'null',
           GeneralItemcode: '',
           Qtyinpercentage: '',
           Quantity: '',
@@ -1675,83 +5687,102 @@ export class FormulaLookupComponent implements OnInit {
 
         var rowin: any = 0;
         var rowing: any = 0;
+        this.count = 0;
         let { rowsToDisplay } = this.gridApi.getModel();
         this.rowData = [];
         this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
         this.gridApi.setRowData(this.rowData);
-        //this.firstdata= rowNode.data.Qtyinpercentage;
-        rowin = RowNode.rowIndex;
-        //  this.gridApi.refreshCells(params);
-        if (rowin != 0) {
-          var sumvar: any = 0;
-          var firstsumvar: any = 0;
-          rowin = 1;
-          var i = 1;
-          var rowdatacount = this.gridApi.getDisplayedRowCount();
-          //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
-          for (let rowin = 1, i = 1; i <= rowdatacount - 1; rowin++, i++) {
+        var rowin6: any = this.rowindex;
 
-            var rowNode = this.gridApi.getRowNode(rowin);
+        if (this.count != 1) {
+          //this.firstdata= rowNode.data.Qtyinpercentage;
+          var rowin: any = 0;
+          rowin = this.rowindex
 
-            sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
 
-          }
-          var firstrowNode = this.gridApi.getRowNode(0);
-          rowin = RowNode.rowIndex;
-          var rowNo = this.gridApi.getRowNode(rowin);
-          var pamv = Number('0.0000000');
-
-          if (pamv < 0.0000000 || isNaN(pamv)) {
-            var dat: any = '0.0000000';
-            var rowNode = this.gridApi.getRowNode(rowin);
-            rowNode.setDataValue('Qtyinpercentage', String(dat));
-          }
-
-          //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
-          //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
-          else if (Number((sumvar).toFixed(7)) > 100) {
-
-            var dat: any = '0.0000000';
-            var rowNode = this.gridApi.getRowNode(rowin);
-            rowNode.setDataValue('Qtyinpercentage', String(dat));
-            rowNode.setDataValue('UnitCost', rowNo.data.UnitCost);
-          }
-
-          else {
-            var dat: any = '0.0000000';
-            var adt2: any = Number('0.0000000');
-            var dat2: any = String(adt2.toFixed(7));
-            var rowNode = this.gridApi.getRowNode(rowin);
-
-            rowNode.setDataValue('Qtyinpercentage', '0.0000000');
-
-            //  rowin2 = params.node.rowIndex;
-            //  const colId = params.column.getId();
-
-            var qtyper: Number = Number(dat);
-            var rowNode = this.gridApi.getRowNode(rowin);
-            var oldda: any = '0.0000000';
-            var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
-            var unicost: any = Number(this.incicost).toFixed(5);
-            var updatedunicost: any = (enwda * unicost).toFixed(5);
-
-            rowNode.setDataValue('Quantity', String(enwda));
-            rowNode.setDataValue('Cost', String(updatedunicost));
-            if (this.selectedunit == "g") {
-              var updtedcosinlb: any = Number(updatedunicost * 453.592 / Number(this.labbatch)).toFixed(5);
-            } else if (this.selectedunit == "Kg") {
-              var updtedcosinlb: any = Number(updatedunicost * .453592 / Number(this.labbatch)).toFixed(5);
+          // this.gridApi.refreshCells(params);
+          if (rowin != null) {
+            var sumvar: any = 0;
+            var firstsumvar: any = 0;
+            rowin = 1;
+            var emp: any = 0
+            var i = 1;
+            var rowdatacount = this.gridApi.getDisplayedRowCount();
+            var flaa: any = 0;
+            var rowindata1: any
+            for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+              var rowNode = this.gridApi.getRowNode(rowin);
+              if (rowNode.data.UnitName != '' && flaa != 1) {
+                emp = 1;
+                rowindata1 = rowin;
+                rowindata1 = rowindata1 + 1;
+                flaa = 1;
+                break;
+              }
             }
-            else {
-              var updtedcosinlb: any = Number((updatedunicost) / Number(this.labbatch)).toFixed(5);
+            if (emp != 1) {
+              this.TotalUnitCost = '0.00000';
+              this.formulaCost = '0.00000';
+              this.totaquantity = '0.0000000';
+              this.TotalPercentage = '0.00000';
+              this.TotalCostInLB = '0.00000';
+              this.TotalCostInkg = '0.00000';
+            }
+            //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+            for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+              var rowNode = this.gridApi.getRowNode(rowin);
+
+              sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+            }
+            var firstrowNode = this.gridApi.getRowNode(0);
+            // rowin = params.node.rowIndex;
+            var rowNo = this.gridApi.getRowNode(rowin);
+
+
+
+            //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+            //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+
+
+
+            //var dat: any = params.newValue;
+            //var adt2: any = Number(params.newValue)
+            //var dat2: any = String(adt2.toFixed(7));
+            //var rowNode = this.gridApi.getRowNode(rowin);
+
+            //rowNode.setDataValue('Qtyinpercentage', dat2);
+
+            // //  rowin2 = params.node.rowIndex;
+            // //  const colId = params.column.getId();
+
+            //var qtyper: Number = Number(dat);
+            //var rowNode = this.gridApi.getRowNode(rowin);
+            //var oldda: any = params.data.Quantity;
+            //var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+            //var unicost: any = params.data.UnitCost;
+            //var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+            //rowNode.setDataValue('Quantity', String(enwda));
+            //rowNode.setDataValue('Cost', String(updatedunicost));
+            //rowNode.setDataValue('costinlb', String(updatedunicost));
+            //rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+            var rowindata: any;
+            var fla: any = 0;
+            for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+              var rowNode = this.gridApi.getRowNode(rowin);
+              if (rowNode.data.UnitName != '' && fla != 1) {
+                rowindata = rowin;
+                fla = 1;
+                break;
+              }
             }
 
-            rowNode.setDataValue('costinlb', String(updtedcosinlb));
-            rowNode.setDataValue('quantityinlb', String(enwda));
-
-
-            rowin = 0;
-            var rowNode = this.gridApi.getRowNode(rowin);
+            //rowin = 0;
+            var rowNode = this.gridApi.getRowNode(rowindata);
             rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
             //var rowin2: any = params.node.rowIndex;
             //var rowNode2 = this.gridApi.getRowNode(rowin2);
@@ -1761,39 +5792,35 @@ export class FormulaLookupComponent implements OnInit {
             var fistrowdata: any = rowNode.data.Qtyinpercentage;
 
             var firstrowunicost: any = rowNode.data.UnitCost;
-            var subvalue: any = (fistrowdata - dat).toFixed(7);
-
-            subvalue = ((100 - sumvar.toFixed(7))).toFixed(7);
-            if (subvalue == "-0.0000000") {
-              subvalue = "0.0000000";
-            }
+            //  var subvalue: any = (fistrowdata - dat).toFixed(7);
+            var subvalue: any;
+            subvalue = (100 - sumvar).toFixed(7);
             this.formulaCost = String(sumvar);
             var unitcosttotal = 0;
             for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
               var rowNode = this.gridApi.getRowNode(rowin);
               unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
             }
-            this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+            //this.TotalUnitCost = String(unitcosttotal.toFixed(5));
             var totcs: Number = sumvar * Number(this.labbatch);
             // this.TotalUnitCost = this.formulaCost;
-            this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+           
+            this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
             // this.TotalUnitCost = String(totcs.toFixed(5));
-            if (subvalue < 0.0000000) {
+            if (subvalue <= 0.0000000) {
               rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
               rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
               rowNode.setDataValue('Cost', String(rowNode.data.Cost));
             }
             else {
-              var rowNode = this.gridApi.getRowNode(0);
-              // var subvalue2: any = subvalue.toFixed(7);
+              var rowNode = this.gridApi.getRowNode(rowindata);
               rowNode.setDataValue('Qtyinpercentage', String(subvalue));
 
               var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
-              var subcost: any = (enwda2 * firstrowunicost).toFixed(5);
+              var subcost: any = (enwda2 * firstrowunicost).toFixed(5)
 
               rowNode.setDataValue('Quantity', String(enwda2));
               rowNode.setDataValue('Cost', String(subcost));
-
               if (this.selectedunit == "g") {
                 var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
               } else if (this.selectedunit == "Kg") {
@@ -1803,7 +5830,6 @@ export class FormulaLookupComponent implements OnInit {
 
                 var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
               }
-
               rowNode.setDataValue('costinlb', String(cosinlb));
               rowNode.setDataValue('quantityinlb', String(enwda2));
             }
@@ -1816,6 +5842,8 @@ export class FormulaLookupComponent implements OnInit {
               unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
             }
             this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+             this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
+           // this.TotalUnitCost = String(unitcosttotal.toFixed(5));
             for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
               var rowNode = this.gridApi.getRowNode(rowin);
               totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
@@ -1825,7 +5853,7 @@ export class FormulaLookupComponent implements OnInit {
               var rowNode = this.gridApi.getRowNode(rowin);
               totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
             }
-            this.TotalPercentage = String(totaper.toFixed(5));
+           this.TotalPercentage = String(totaper.toFixed(5));
             for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
               var rowNode = this.gridApi.getRowNode(rowin);
               costlb = Number(costlb) + Number(rowNode.data.costinlb);
@@ -1834,13 +5862,15 @@ export class FormulaLookupComponent implements OnInit {
             this.TotalCostInLB = String(costlb.toFixed(5));
             this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
             subvalue = 0;
-            this.rowsToDisplay1 = this.gridApi.getModel();
+
           }
 
+          this.rowindex = null;
 
-
-
-
+          let { rowsToDisplay } = this.gridApi.getModel();
+          this.rowData = [];
+          this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+          this.gridApi.setRowData(this.rowData);
 
 
 
@@ -1855,32 +5885,8 @@ export class FormulaLookupComponent implements OnInit {
           rowin = 0;
           this.count = 1;
         }
-        this.gridApi.deselectAll();
-        this.rowindex = null;
-
-        //var rowNode = this.gridApi.getRowNode(this.rowindex);
-        //var newData = {
-        //  Step: '',
-        //  INCIName: this.gridinciname,
-        //  TradeName: this.gridtradename,
-        //  GeneralItemcode: this.griditem,
-        //  Qtyinpercentage: '0.0000000',
-        //  Quantity: '0.0000000',
-        //  UnitName: this.unname,
-        //  UnitCost: Number(this.incicost).toFixed(5),
-        //  Cost: null,
-        //  SupplierName: this.gridsuppliername,
 
 
-        //};
-        //rowNode.setData(newData);
-        //this.gridApi.updateRowData({
-        //  add: [{ Step: '', INCIName: this.instruc, TradeName: '', GeneralItemcode:'', Qtyinpercentage: '', Quantity: '', UnitName: '', UnitCost: null, Cost: null, SupplierName: ''}],
-        //  addIndex: this.rowindex
-
-        //});
-     
-        
 
       }
       else {
@@ -1903,42 +5909,70 @@ export class FormulaLookupComponent implements OnInit {
   }
   deleteRow() {
     var selectedData = this.gridApi.getSelectedRows();
-    var qua = selectedData[0].Quantity;
+    var qua: any = selectedData[0].Quantity;
     this.gridApi.updateRowData({ remove: selectedData });
+  
    let { rowsToDisplay1 } = this.gridApi.getModel();
     this.rowData = [];
     this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+  //  this.gridApi.refreshClientSideRowModel();
     this.gridApi.setRowData(this.rowData);
-    if (this.count != 1) {
-      //this.firstdata= rowNode.data.Qtyinpercentage;
-      var rowin: any = 0;
-      rowin = this.rowindex
-     // this.gridApi.refreshCells(params);
-      if (rowin != null) {
-        var sumvar: any = 0;
-        var firstsumvar: any = 0;
-        rowin = 1;
-        var i = 1;
-        var rowdatacount = this.gridApi.getDisplayedRowCount();
-        //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
-        for (let rowin = 1, i = 1; i <= rowdatacount - 1; rowin++, i++) {
+    var rowin6: any = this.rowindex;
+    if (qua != "") {
+      if (this.count != 1) {
+        //this.firstdata= rowNode.data.Qtyinpercentage;
+        var rowin: any = 0;
+        rowin = this.rowindex
 
-          var rowNode = this.gridApi.getRowNode(rowin);
 
-          sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+        // this.gridApi.refreshCells(params);
+        if (rowin != null) {
+          var sumvar: any = 0;
+          var firstsumvar: any = 0;
+          rowin = 1;
+          var i = 1;
+          var rowdatacount = this.gridApi.getDisplayedRowCount();
+          var flaa: any = 0;
+          var emp:any=0
+          var rowindata1: any
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            if (rowNode.data.UnitName != '' && flaa != 1) {
+              emp = 1;
+              rowindata1 = rowin;
+              rowindata1 = rowindata1 + 1;
+              flaa = 1;
+              break;
+            }
+           
+          }
+          if (emp != 1) {
+            this.TotalUnitCost = '0.00000';
+            this.formulaCost = '0.00000';
+            this.totaquantity = '0.0000000';
+            this.TotalPercentage = '0.00000';
+            this.TotalCostInLB = '0.00000';
+            this.TotalCostInkg = '0.00000';
+          }
+          //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+          for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
 
-        }
-        var firstrowNode = this.gridApi.getRowNode(0);
-       // rowin = params.node.rowIndex;
-        var rowNo = this.gridApi.getRowNode(rowin);
+            var rowNode = this.gridApi.getRowNode(rowin);
 
-     
+            sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
 
-        //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
-        //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
-        
+          }
+          var firstrowNode = this.gridApi.getRowNode(0);
+          // rowin = params.node.rowIndex;
+          var rowNo = this.gridApi.getRowNode(rowin);
 
-        
+
+
+          //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+          //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+
+
+
           //var dat: any = params.newValue;
           //var adt2: any = Number(params.newValue)
           //var dat2: any = String(adt2.toFixed(7));
@@ -1946,8 +5980,8 @@ export class FormulaLookupComponent implements OnInit {
 
           //rowNode.setDataValue('Qtyinpercentage', dat2);
 
-         // //  rowin2 = params.node.rowIndex;
-         // //  const colId = params.column.getId();
+          // //  rowin2 = params.node.rowIndex;
+          // //  const colId = params.column.getId();
 
           //var qtyper: Number = Number(dat);
           //var rowNode = this.gridApi.getRowNode(rowin);
@@ -1962,8 +5996,19 @@ export class FormulaLookupComponent implements OnInit {
           //rowNode.setDataValue('quantityinlb', String(enwda));
 
 
-          rowin = 0;
-          var rowNode = this.gridApi.getRowNode(rowin);
+          var rowindata: any;
+          var fla: any = 0;
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            if (rowNode.data.UnitName != '' && fla != 1) {
+              rowindata = rowin;
+              fla = 1;
+              break;
+            }
+          }
+
+          //rowin = 0;
+          var rowNode = this.gridApi.getRowNode(rowindata);
           rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
           //var rowin2: any = params.node.rowIndex;
           //var rowNode2 = this.gridApi.getRowNode(rowin2);
@@ -1973,10 +6018,10 @@ export class FormulaLookupComponent implements OnInit {
           var fistrowdata: any = rowNode.data.Qtyinpercentage;
 
           var firstrowunicost: any = rowNode.data.UnitCost;
-        //  var subvalue: any = (fistrowdata - dat).toFixed(7);
-        var subvalue: any;
+          //  var subvalue: any = (fistrowdata - dat).toFixed(7);
+          var subvalue: any;
           subvalue = (100 - sumvar).toFixed(7);
-          this.formulaCost = String(sumvar);
+          //this.formulaCost = String(sumvar);
           var unitcosttotal = 0;
           for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
             var rowNode = this.gridApi.getRowNode(rowin);
@@ -1984,8 +6029,9 @@ export class FormulaLookupComponent implements OnInit {
           }
           this.TotalUnitCost = String(unitcosttotal.toFixed(5));
           var totcs: Number = sumvar * Number(this.labbatch);
-        // this.TotalUnitCost = this.formulaCost;
-        this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
+          // this.TotalUnitCost = this.formulaCost;
+         
+          this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
           // this.TotalUnitCost = String(totcs.toFixed(5));
           if (subvalue <= 0.0000000) {
             rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
@@ -1993,7 +6039,7 @@ export class FormulaLookupComponent implements OnInit {
             rowNode.setDataValue('Cost', String(rowNode.data.Cost));
           }
           else {
-            var rowNode = this.gridApi.getRowNode(0);
+            var rowNode = this.gridApi.getRowNode(rowindata);
             rowNode.setDataValue('Qtyinpercentage', String(subvalue));
 
             var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
@@ -2001,7 +6047,16 @@ export class FormulaLookupComponent implements OnInit {
 
             rowNode.setDataValue('Quantity', String(enwda2));
             rowNode.setDataValue('Cost', String(subcost));
-            rowNode.setDataValue('costinlb', String(subcost));
+            if (this.selectedunit == "g") {
+              var cosinlb: any = Number(subcost * 453.592 / Number(this.labbatch)).toFixed(5);
+            } else if (this.selectedunit == "Kg") {
+              var cosinlb: any = Number(subcost * .453592 / Number(this.labbatch)).toFixed(5);
+            }
+            else {
+
+              var cosinlb: any = Number((subcost) / Number(this.labbatch)).toFixed(5);
+            }
+            rowNode.setDataValue('costinlb', String(cosinlb));
             rowNode.setDataValue('quantityinlb', String(enwda2));
           }
           var totalquantity = 0;
@@ -2013,6 +6068,8 @@ export class FormulaLookupComponent implements OnInit {
             unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
           }
           this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+          
+          this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
           for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
             var rowNode = this.gridApi.getRowNode(rowin);
             totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
@@ -2028,38 +6085,44 @@ export class FormulaLookupComponent implements OnInit {
             costlb = Number(costlb) + Number(rowNode.data.costinlb);
 
           }
-        this.TotalCostInLB = String(costlb.toFixed(5));
-        this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+          this.TotalCostInLB = String(costlb.toFixed(5));
+          this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
           subvalue = 0;
-        
+
+        }
+
+        this.rowindex = null;
+
+        //let { rowsToDisplay } = this.gridApi.getModel();
+        //this.rowData = [];
+        //this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+        //this.gridApi.setRowData(this.rowData);
+
+
+
+        var sumvar: any = 0;
+        for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+          var rowNode = this.gridApi.getRowNode(rowin);
+          sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+        }
+        // this.formulaCost = String(sumvar);
+        var totcs: Number = sumvar * Number(this.labbatch);
+        //this.TotalUnitCost = String(totcs);
+        rowin = 0;
+        this.count = 1;
+       
+        this.gridApi.ensureIndexVisible(60, 'bottom');
       }
-
-      this.rowindex = null;
-
-      let { rowsToDisplay } = this.gridApi.getModel();
-     this.rowData = [];
-      this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-      this.gridApi.setRowData(this.rowData);
-
-
-
-      var sumvar: any = 0;
-      for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
-        var rowNode = this.gridApi.getRowNode(rowin);
-        sumvar = Number(sumvar) + Number(rowNode.data.Cost);
-      }
-      // this.formulaCost = String(sumvar);
-      var totcs: Number = sumvar * Number(this.labbatch);
-      //this.TotalUnitCost = String(totcs);
-      rowin = 0;
-      this.count = 1;
+      
     }
-    this.gridApi.deselectAll();
-    let { rowsToDisplay } = this.gridApi.getModel();
-    this.rowData = [];
-    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-    this.gridApi.setRowData(this.rowData);
-    this.rowindex = null;
+    //this.gridApi.deselectAll();
+    //let { rowsToDisplay } = this.gridApi.getModel();
+    //this.rowData = [];
+    //this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+    //this.gridApi.setRowData(this.rowData);
+  
+    this.rowindex = this.gridApi.getDisplayedRowCount();
+    this.gridApi.ensureIndexVisible(60, 'bottom');
   }
   addRow() {
 
@@ -2084,6 +6147,7 @@ export class FormulaLookupComponent implements OnInit {
           Qtyinpercentage: '',
           Quantity: '',
           UnitName: '',
+          ItemCode:'',
           UnitCost: null,
           Cost: null,
           SupplierName: '',
@@ -2097,31 +6161,38 @@ export class FormulaLookupComponent implements OnInit {
         //this.gridApi.setRowData(this.rowData);
         //   this.gridApi.getRowNode(this.rowindex);
         this.gridApi.getRowNode(this.rowindex);
+       
         //this.rowindex = null;
-
+        this.gridApi.ensureIndexVisible(this.rowindex,'bottom');
       }
       else {
         this.gridApi.updateRowData({
           add: [{ Step: '', INCIName: '', TradeName: '', GeneralItemcode: '', Qtyinpercentage: '', Quantity: '', UnitName: '', UnitCost: null, Cost: '', SupplierName: '', costinlb: '', quantityinlb: '', unitcostinlb: '' }],
           addIndex: this.rowindex,
 
-
+        
         });
         this.gridApi.getRowNode(this.rowindex);
-
+        var rowdatacount1 = this.gridApi.getDisplayedRowCount();
+        this.gridApi.ensureIndexVisible(rowdatacount1-1,'bottom');
         // var no = this.gridApi.refreshClientSideRowModel();
-        this.rowindex = null;
+       // this.rowindex = null;
         this.count = 1;
         this.flag = 0;
       }
       //this.agGrid.api.updateRowData({
       //  add: [{ step: '', inciname: '', tradename: '', itemno: '', perc: '', qty: '', Unit: '', UnitCost: 0.00011, Cost: 0.00114, suppliername: ''}]
       //});
-      let { rowsToDisplay } = this.gridApi.getModel();
-      this.rowData = [];
-      this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-      this.gridApi.setRowData(this.rowData);
+      //let { rowsToDisplay } = this.gridApi.getModel();
+      //this.rowData = [];
+      //this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+      
+      //this.gridApi.setRowData(this.rowData);
+      //this.gridApi.ensureIndexVisible(this.rowindex, 'bottom');
     }
+   
+ 
+    this.rowindex = null;
   }
   
  convert(str) {
@@ -2148,8 +6219,12 @@ export class FormulaLookupComponent implements OnInit {
   generalmethod(generalvalues: any) {
 
     for (let item of generalvalues) {
-
+      this.Class = item.Class
+      this.SubClass1 = item.SubClass
+      this.rawsubcateload();
+      
       this.customername = item.CusName
+      this.customercode = item.CusCode
 
       this.ApprovedBy = item.ApprovedBy
       this.AddedDT = item.AddedDT;
@@ -2163,10 +6238,30 @@ export class FormulaLookupComponent implements OnInit {
       this.ProjectName = item.ProjectName
       this.ShelfLife = item.ShelfLife
       this.ShelfLifeUnit = item.ShelfLifeUnit
-      this.SubClass = item.SubClass
-      this.Class = item.Class
-      this.rawsubcateload();
-     
+      this.okpilot = item.MayPilot
+      if (this.okpilot == "True") {
+        this.okpilot = "1"
+        this.okpilot2="1"
+        this.isDisabledappr = false
+      }
+      else {
+        this.okpilot = "0"
+        this.okpilot2 = "0"
+        this.isDisabledappr=true
+      }
+      this.okproduce = item.MayProduce
+      if (this.okproduce == "True") {
+        this.okproduce = "1"
+        this.okproduce2 = "1"
+        this.isDisabledappr2 = false
+      }
+      else {
+        this.okproduce = "0"
+        this.okproduce2 = "0"
+        this.isDisabledappr2 = true
+      }
+      
+      
       this.MaxPilotQty = item.MaxPilotQty
       this.TradeName = item.TradeName
       this.LabRefNo = item.LabRefNo
@@ -2210,40 +6305,103 @@ export class FormulaLookupComponent implements OnInit {
       this.Maxpilotunit = item.MaxPilotUnit
       this.highspecificgravity = item.HighSpecificGravity
       this.supercededdate = item.SupercededDate
-
+ 
+    
     }
   }
- // blurEventsg(event: any) {
- //   var defsg: Number = Number(event.target.value);
- //   this.ManualSG = (defsg.toFixed(3)).toString();
- //   if (Number(this.ManualSG) < 0 || isNaN(Number(this.ManualSG))) {
- //     this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
- //     this.ManualSG = "0.000";
- //   }
- // }
- // blurEventhighsg(event: any) {
- //   var defhighsg: Number = Number(event.target.value);
- //   this.highspecificgravity = (defhighsg.toFixed(3)).toString();
- //   if (Number(this.highspecificgravity) < 0 || isNaN(Number(this.highspecificgravity))) {
- //     this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
- //     this.highspecificgravity = "0.000";
- //   }
- // }
- // blurEventshelflife(event: any) {
- //   var defshelf: Number = Number(event.target.value);
- //   this.ShelfLife = (defshelf.toFixed(3)).toString();
- //   if (Number(this.ShelfLife) < 0 || isNaN(Number(this.ShelfLife))) {
- //     this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
- //     this.ShelfLife = "0";
- //   }
- // }
+  handleRowDataChanged(event)
+  {
+  
+   // this.gridOptions.api.ensureIndexVisible(index, 'bottom');
+  }
+  blurEventsg(event: any) {
+    var defsg: Number = Number(event.target.value);
+    this.ManualSG = (defsg.toFixed(3)).toString();
+    if (Number(this.ManualSG) < 0 || isNaN(Number(this.ManualSG))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
+      this.ManualSG = "0.000";
+    }
+    this.SGcalculation(this.ManualSG).subscribe((sgcalcload) => {
+      console.warn("SGCalcload", sgcalcload)
+      this.sgcalcload = sgcalcload
+      var sg: Number = Number(this.sgcalcload)
+      this.Lbgal = sg.toFixed(3).toString();
+    })
+  }
+  blurEventhighsg(event: any) {
+    var defhighsg: Number = Number(event.target.value);
+    this.highspecificgravity = (defhighsg.toFixed(3)).toString();
+    if (Number(this.highspecificgravity) < 0 || isNaN(Number(this.highspecificgravity))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
+      this.highspecificgravity = "0.000";
+    }
+  }
+  blurEventshelflife(event: any) {
+    var defshelf: Number = Number(event.target.value);
+    this.ShelfLife = (defshelf.toFixed(3)).toString();
+    if (Number(this.ShelfLife) < 0 || isNaN(Number(this.ShelfLife))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
+      this.ShelfLife = "0";
+    }
+  }
   rawsubcateload()
   {
     this.rawsubcategoryload(this.Class).subscribe((rawsubcategoryload) => {
       console.warn("rawsubcategoryload", rawsubcategoryload)
       this.datarawsubcategoryload = rawsubcategoryload
+      this.datarawsubcategoryload.forEach(item => {
+        if (item.SubCategory == this.SubClass1) {
+          this.SubClass = item.SubCategory;
+        }
     })
-}
+   
+  
+    });
+  }
+  FormulationLookup_coasave() {
+    this.dataformListcoa[0] = ([{
+      PDRNo: this.PDRno,
+      FormulaCode: this.formulacode,
+      Description: this.formulaname,
+      LabRefNo: this.LabRefNo,
+      Customer: this.customername,
+      LabLotNumber: this.labatchnumber,
+      //AnalysisDate: this.AnalysisDate,
+      //ExpiryDate: this.ExpiryDate,
+      //CertificationDate: this.CertificationDate,
+      //TrialNo:,
+      //StorageCondition:,
+      //UserName: this.username,
+      //ChemCreatedBy:,
+      //ChemCreatedDt:,
+      //ChemVerifieddBy:,
+      //ChemVerifieddDt:,
+      //ChemApprovedBy:,
+      //ChemApproveddDt:,
+      //MicroCreatedDt:,
+      //MicroVerifieddBy:,
+      //MicroVerifieddDt:,
+      //MicroApproveddBy:,
+      //MicroApproveddDt:,
+
+    }]);
+    this.coagrid(this.datachem1);
+  }
+  coagrid(Formuladata2: any) {
+    this.i = 0;
+    this.j = 0;
+    this.FormulagridListcoa = [];
+    for (let item2 of Formuladata2) {
+      this.FormulagridListcoa[this.i] = ([{
+        Testnamesafety: item2.TestName,
+        comentssafety: item2.Comments,
+        p_Size: item2.Size
+      }]);
+      this.i++;
+
+    }
+
+  }
   formulationload(formulcode: string, lab_batch: string, unitval: string, operat: string) {
     //let { rowsToDisplay } = this.gridApi.getModel();
     //this.rowData = [];
@@ -2267,6 +6425,71 @@ export class FormulaLookupComponent implements OnInit {
       .set('operation', oper);
     
     return this.http.get("https://formulalookupwebservice1.azurewebsites.net/displayformulation.json", { params: params1 })
+  }
+  
+  formulationload2(formulcode: string, lab_batch: string, unitval: string, operat: string) {
+    //let { rowsToDisplay } = this.gridApi.getModel();
+    //this.rowData = [];
+    //this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+    //this.Formulagridvalues(this.rowData);
+    this.formgriddata = JSON.stringify(this.FormulagridList);
+    //  let { rowsToDisplay } = this.gridApi.getModel();
+    //  let rowData = [];
+    //this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+    //   this.gridApi.setRowData(rowData);
+    // var Formulationgriddat: any = JSON.stringify(rowData);
+    var formulcod: string = formulcode;
+    var labbac: string = lab_batch;
+    var unival: string = unitval;
+    var oper: string = operat;
+    let params1 = new HttpParams().set('Formulacode', formulcod)
+      .set('formulagridjson', this.formgriddata)
+      .set('labbatch', labbac)
+      .set('unitname', unival)
+      .set('operation', oper);
+    return this.http.get("https://formulalookupwebservice1.azurewebsites.net/displayformulation.json", { params: params1 })
+  }
+
+
+  loadcoachemistry() {
+    var Formulacode: string = 'Formula 1002.Ver 06';
+    var storagecondition: string = '2.0 oz white jar';
+    var TrialNo: string = 'Trial 1';
+    var lablotnumber: string = 'Formula 1002.Ver 06-LB-1-101519-admin';
+    let params1 = new HttpParams().set('Formulacode', Formulacode).set('storagecondition', storagecondition).set('TrialNo', TrialNo).set('lablotnumber', lablotnumber);
+    return this.http.get("https://formulalookupwebservice10.azurewebsites.net/LoadCOA_Chemistry", { params: params1 })
+  }
+  loadcoamicrobiolodgy() {
+    var Formulacode: string = 'Formula 1002.Ver 06';
+    var storagecondition: string = '2.0 oz white jar';
+    var TrialNo: string = 'Trial 1';
+    var lablotnumber: string = 'Formula 1002.Ver 06-LB-1-101519-admin';
+    let params1 = new HttpParams().set('Formulacode', Formulacode).set('storagecondition', storagecondition).set('TrialNo', TrialNo).set('lablotnumber', lablotnumber);
+    return this.http.get("https://formulalookupwebservice10.azurewebsites.net/LoadMicrobiology_Chemistry", { params: params1 })
+  }
+  loadchemistry(Pdrno) {
+    var pdr: string = Pdrno;
+    let params1 = new HttpParams().set('pdrno', pdr);
+    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/FillPDRCOAChemistry", { params: params1 })
+  }
+  loadcoaaudit(approve: string) {
+    var task= approve;
+    var Formulacode = 'Formula 1002.Ver 06';
+    var storagecondition: string = '2.0 oz white jar';
+    var TrialNo: string = 'Trial 1';
+    var lablotnumber: string = 'Formula 1002.Ver 06-LB-1-101519-admin';
+    let params1 = new HttpParams().set('task', task).set('Formulacode', Formulacode).set('storagecondition', storagecondition).set('TrialNo', TrialNo).set('lablotnumber', lablotnumber);
+    return this.http.get("https://formulalookupwebservice10.azurewebsites.net/Loadcoaauditgrid", { params: params1 })
+  }
+  //Coa_Delete() {
+   
+  //  let params1 = new HttpParams().set('PDRNo', PDRNo).set('ProjectName', ProjectName);
+  //  return this.http.get("https://formulalookupwebservice10.azurewebsites.net/Deletecoa", { params: params1, responseType: 'text' })
+  //}
+  loadmicrobiology(Pdrno) {
+    var pdr: string = Pdrno;
+    let params1 = new HttpParams().set('pdrno', pdr);
+    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/FillPDRCOAMicrobiology", { params: params1 })
   }
   proceduretext(formulcode: string) {
     var formulcod: string = formulcode;
@@ -2293,18 +6516,262 @@ export class FormulaLookupComponent implements OnInit {
     let params1 = new HttpParams().set('ProjectName', proname);
     return this.http.get("https://smartformulatorpdrwebservice2.azurewebsites.net/Loadassigningusers", { params: params1 })
   }
-  onRowDragEnd() {
-   // var dataindex = e.node.rowIndex;
-  //  let { rowsToDisplay } = this.gridApi.getModel();
-   // let rowData = [];
-   // this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
-   //this.gridApi.setRowData(rowData);
+  onRowDragEnd(event:any) {
+    let { rowsToDisplay1 } = this.gridApi.getModel();
+    this.rowData = [];
+    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+    this.gridApi.setRowData(this.rowData);
+    this.rowdrag = event.type;
+    
+      if (this.count != 1) {
+        //this.firstdata= rowNode.data.Qtyinpercentage;
+        var rowin: any = 0;
+        rowin = this.rowindex
+
+
+        // this.gridApi.refreshCells(params);
+        if (rowin != null) {
+          var sumvar: any = 0;
+          var firstsumvar: any = 0;
+          rowin = 1;
+          var i = 1;
+          var rowdatacount = this.gridApi.getDisplayedRowCount();
+          var flaa: any = 0;
+          var rowindata1: any
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            if (rowNode.data.UnitName != '' && flaa != 1) {
+              rowindata1 = rowin;
+              rowindata1 = rowindata1 + 1;
+              flaa = 1;
+              break;
+            }
+          }
+          //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
+          for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
+            var rowNode = this.gridApi.getRowNode(rowin);
+
+            sumvar = Number(sumvar) + Number(rowNode.data.Qtyinpercentage);
+
+          }
+          var firstrowNode = this.gridApi.getRowNode(0);
+          // rowin = params.node.rowIndex;
+          var rowNo = this.gridApi.getRowNode(rowin);
+
+
+
+          //  else if (Number(100 - Number(sumvar)) >= Number(firstrowNode.data.Qtyinpercentage)  )
+          //else if (params.newValue >= firstrowNode.data.Qtyinpercentage && (100-sumvar)<)
+
+
+
+          //var dat: any = params.newValue;
+          //var adt2: any = Number(params.newValue)
+          //var dat2: any = String(adt2.toFixed(7));
+          //var rowNode = this.gridApi.getRowNode(rowin);
+
+          //rowNode.setDataValue('Qtyinpercentage', dat2);
+
+          // //  rowin2 = params.node.rowIndex;
+          // //  const colId = params.column.getId();
+
+          //var qtyper: Number = Number(dat);
+          //var rowNode = this.gridApi.getRowNode(rowin);
+          //var oldda: any = params.data.Quantity;
+          //var enwda: any = ((Number(this.labbatch) / 100) * dat).toFixed(7);
+          //var unicost: any = params.data.UnitCost;
+          //var updatedunicost: any = (enwda * unicost).toFixed(5);
+
+          //rowNode.setDataValue('Quantity', String(enwda));
+          //rowNode.setDataValue('Cost', String(updatedunicost));
+          //rowNode.setDataValue('costinlb', String(updatedunicost));
+          //rowNode.setDataValue('quantityinlb', String(enwda));
+
+
+          var rowindata: any;
+          var fla: any = 0;
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            if (rowNode.data.UnitName != '' && fla != 1) {
+              rowindata = rowin;
+              fla = 1;
+              break;
+            }
+          }
+
+          //rowin = 0;
+          var rowNode = this.gridApi.getRowNode(rowindata);
+          rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+          //var rowin2: any = params.node.rowIndex;
+          //var rowNode2 = this.gridApi.getRowNode(rowin2);
+          //rowNode2.setDataValue('Qtyinpercentage', String(qtyper.toFixed(7)));
+          rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+          rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+          var fistrowdata: any = rowNode.data.Qtyinpercentage;
+
+          var firstrowunicost: any = rowNode.data.UnitCost;
+          //  var subvalue: any = (fistrowdata - dat).toFixed(7);
+          var subvalue: any;
+          subvalue = (100 - sumvar).toFixed(7);
+          this.formulaCost = String(sumvar);
+          var unitcosttotal = 0;
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+          }
+          this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+          var totcs: Number = sumvar * Number(this.labbatch);
+          // this.TotalUnitCost = this.formulaCost;
+          
+          this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
+          // this.TotalUnitCost = String(totcs.toFixed(5));
+          if (subvalue <= 0.0000000) {
+            rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
+            rowNode.setDataValue('Quantity', String(rowNode.data.UnitCost));
+            rowNode.setDataValue('Cost', String(rowNode.data.Cost));
+          }
+          else {
+            var rowNode = this.gridApi.getRowNode(rowindata);
+            rowNode.setDataValue('Qtyinpercentage', String(subvalue));
+
+            var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
+            var subcost: any = (enwda2 * firstrowunicost).toFixed(5)
+
+            rowNode.setDataValue('Quantity', String(enwda2));
+            rowNode.setDataValue('Cost', String(subcost));
+            rowNode.setDataValue('costinlb', String(subcost));
+            rowNode.setDataValue('quantityinlb', String(enwda2));
+          }
+          var totalquantity = 0;
+          var totaper = 0;
+          var costlb = 0;
+          var unitcosttotal = 0;
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+          }
+          this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+          }
+          this.totaquantity = String(totalquantity.toFixed(5));
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            totaper = Number(totaper) + Number(rowNode.data.Qtyinpercentage);
+          }
+          this.TotalPercentage = String(totaper.toFixed(5));
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+          }
+          this.TotalCostInLB = String(costlb.toFixed(5));
+          this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+          subvalue = 0;
+
+        }
+
+        this.rowindex = null;
+
+        let { rowsToDisplay } = this.gridApi.getModel();
+        this.rowData = [];
+        this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+        this.gridApi.setRowData(this.rowData);
+
+
+
+        var sumvar: any = 0;
+        for (rowin = 0; rowin <= this.rowData.length - 1; rowin++) {
+          var rowNode = this.gridApi.getRowNode(rowin);
+          sumvar = Number(sumvar) + Number(rowNode.data.Cost);
+        }
+        // this.formulaCost = String(sumvar);
+        var totcs: Number = sumvar * Number(this.labbatch);
+        //this.TotalUnitCost = String(totcs);
+        rowin = 0;
+        this.count = 1;
+      }
+    
+    this.gridApi.deselectAll();
+    let { rowsToDisplay } = this.gridApi.getModel();
+    this.rowData = [];
+    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+    this.gridApi.setRowData(this.rowData);
+   
+    this.rowindex = null;
   //console.log('onRowDragEnd', e);
 }
   onGridReady(params) {
     this.gridApi = params.api;
+    this.gridApi.ensureIndexVisible(60, 'bottom');
    // this.columnApi = params.columnApi;
   }
+  
+  onGridReadyone(params) {
+    this.gridApione = params.api;
+    if (this.scalefactor != null && this.scalefactor != undefined && this.flag1 == 1) {
+      this.gridApione.setRowData(this.rowDatascalability);
+      this.gridApione.getModel();
+      this.Formulagridvalues(this.rowDatascalability);
+      this.rowDatascalability = [];
+      this.formulationload2(this.formulacode, this.scalefactor, this.units, this.operation2).subscribe((formulationload) => {
+        console.warn("formulaload", formulationload)
+        this.rowDatascalability = formulationload
+
+        this.wait(2000);
+        // this.gridApione.forEachNode(RowNode => this.rowDatascalability.push(RowNode.data));
+        this.gridApione.setRowData(this.rowDatascalability);
+        var rowdatacount = this.rowDatascalability.length;
+        //var scalfact = (val / Number(this.labbatch));
+        for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+          var rowNode = this.gridApione.getRowNode(rowin);
+          var qtynew: any = (Number(rowNode.data.Quantity)).toFixed(7);
+          //var qtynew: any = (Number(this.scalefactor) * Number(rowNode.data.Quantity)).toFixed(7);
+          //var rowNode = this.gridApi.getRowNode(rowin);
+          //totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+          rowNode.setDataValue('Quantity1', String(qtynew));
+          rowNode.setDataValue('Cost1', String(rowNode.data.Cost));
+          rowNode.setDataValue('UnitCost1', String(rowNode.data.UnitCost));
+        }
+        var totalquantity12 = 0;
+        var totaper = 0;
+        var costlb1 = 0;
+        var costtotalnew: Number = 0;
+        for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+          var rowNode = this.gridApione.getRowNode(rowin);
+          totalquantity12 = Number(totalquantity12) + Number(rowNode.data.Quantity1);
+        }
+        this.totaquantity1 = String(totalquantity12.toFixed(5));
+        for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+          var rowNode = this.gridApione.getRowNode(rowin);
+          costtotalnew = Number(costtotalnew) + Number(rowNode.data.Cost1);
+        }
+        this.formulaCost1 = String(costtotalnew.toFixed(5));
+        var unitcosttot = (Number(costtotalnew) / Number(this.scalefactor));
+        this.TotalUnitCost1 = String(unitcosttot.toFixed(5));
+        // this.TotalUnitCost1 = this.TotalUnitCost;
+        this.TotalCostInLB1 = this.TotalCostInLB;
+        this.unit1 = this.units;
+        //this.unit1 = this.unit;
+        //this.totcost1 = Number(this.scalefactor) * Number(this.TotalUnitCost);
+        //this.formulaCost1 = String(this.totcost1.toFixed(5));
+        this.scalefactnew = Number(this.scalefactor) / Number(this.labbatch);
+        this.scalef = String(this.scalefactnew.toFixed(5));
+        this.gridApione.ensureIndexVisible(60, 'bottom');
+        //this.scalefactor = null;
+        // this.columnApi = params.columnApi;
+      })
+      //this.scalefactor = null;
+    }
+    else {
+      this.rowDatascalability = [];
+      this.gridApione.setRowData(this.rowDatascalability);
+    }
+  }
+
+
   generalformulationload(formulcode: string) {
     var formulcod: string = formulcode;
 
@@ -2329,6 +6796,8 @@ export class FormulaLookupComponent implements OnInit {
   }
   uniddataload() {
     return this.http.get("https://smartformulatorformulalookupwebservice6.azurewebsites.net/LoadUnitTable");
+
+                    
   }
   rawmaterialgrid() {
 
@@ -2352,6 +6821,44 @@ export class FormulaLookupComponent implements OnInit {
     let params1 = new HttpParams().set('formulacode', formulcod);
     return this.http.get("https://formulalookuppilotlabbatchwebservice.azurewebsites.net/Load_Lab_BatchDetails", { params: params1 })
   }
+  SGcalculation(sg: string) {
+    var sgoverride: string = sg;
+    let params1 = new HttpParams().set('txtSGOverride', sgoverride);
+    return this.http.get("https://smarformulatorrawmaterialwebservice7.azurewebsites.net/sgcalculation", { params: params1, })
+  }
+  qctabload(formulacode: string) {
+    var Formula = formulacode;
+    let params1 = new HttpParams().set('FormulaCode', Formula);
+    return this.http.get("https://formulalookupwebservice15.azurewebsites.net/loadQCTABLE", { params: params1, })
+
+  }
+  //physicalstabilityload(formcode:string) {
+  //  var formulacode: string = formcode;
+  //  var labbatch: string = formname;
+  //  let params1 = new HttpParams().set('Formulacode', formulacode).set('LabBatch', labbatch);
+  //  return this.http.get("https://formulalookupwebservice13.azurewebsites.net/stabilityfilldetails", { params: params1 })
+  //}
+  componentload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('Formulacode', formulacode);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/componentfill", { params: params1 })
+  }
+  phyAuditload(formcode: string, formname: string) {
+    var formulacode: string = formcode;
+    var formulaname: string = formname;
+    let params1 = new HttpParams().set('Formulacode', formulacode).set('Formulaname', formulaname);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/auditdocload", { params: params1 })
+  }
+  labbatchload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('Formulacode', formulacode);
+    return this.http.get("https://formulastabiltywebapplication.azurewebsites.net/LoadLabBatch", { params: params1 })
+  }
+  storageload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('Formulacode', formulacode);
+    return this.http.get("https://formulastabiltywebapplication.azurewebsites.net/LoadLabBatch", { params: params1 })
+  }
   //coagridload(formulcode: string) {
   //  var formulcod: string = formulcode;
 
@@ -2374,24 +6881,49 @@ export class FormulaLookupComponent implements OnInit {
   loadgrid(rawgriddataLoadval: any) {
     this.Datashare.sendrawtable(rawgriddataLoadval);
   }
-  triggerSomeEvent() {
+  triggerSomeEvent(event:any) {
+    
     this.isDisabledappr = !this.isDisabledappr;
+    if (this.isDisabledappr == true) {
+      this.okpilot = "0";
+      this.okpilot2 = "0"
+    }
+    else {
+      this.okpilot = "1"
+      this.okpilot2 = "1"
+    }
+    return;
+  
+  }
+  triggerSomeEvent1(event: any) {
+    this.isDisabledappr2 = !this.isDisabledappr2;
+    if (this.isDisabledappr2 == true) {
+      this.okproduce = "0";
+      this.okproduce2 = "0"
+    }
+    else {
+      this.okproduce = "1"
+      this.okproduce2 = "1"
+    }
     return;
   }
+  
   blurEvent(event: any) {
 
     this.unitvalue = this.selectedunit;
     this.labbatchh = event.target.value;
-
-    if (Number(this.labbatchh) < 0.00000 || isNaN(Number(this.labbatchh))) {
+    this.isLoading = true;
+    if (Number(this.labbatchh) <= 0.00000 || isNaN(Number(this.labbatchh))) {
 
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter valid digits' } });
       this.labbatch = this.oldlabvalue;
-      this.onBtHide();
+  
       this.formulationload(this.formulacode, this.labbatch, this.unitvalue, this.operation2).subscribe((formulationload) => {
+        
         console.warn("formulaload", formulationload)
         this.rowData = formulationload
-        this.wait(7000);
+       // this.wait(7000);
+        this.isLoading = false;
         var unitcosttotal = 0;
         var costlb = 0;
         this.gridApi.setRowData(this.rowData);
@@ -2403,6 +6935,7 @@ export class FormulaLookupComponent implements OnInit {
         this.TotalUnitCost = String(unitcosttotal.toFixed(5));
         var totcs: Number = sumvar * Number(this.labbatch);
         // this.TotalUnitCost = this.formulaCost;
+       
         this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
         var totalquantity = 0;
         for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
@@ -2426,14 +6959,16 @@ export class FormulaLookupComponent implements OnInit {
       this.labbatch = (Number(this.labbatchh).toFixed(5)).toString();
       var totdata: Number = parseFloat(this.labbatch) * parseFloat(this.TotalUnitCosted)
       this.TotalUnitCost = String(totdata);
-      //let rowData = [];
-      //this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
-      //this.Formulagridvalues(rowData);
-      //this.formgriddata = JSON.stringify(this.FormulagridList);
+      this.gridApi.getModel();
+     this.rowData = [];
+      this.gridApi.forEachNode(RowNode =>  this.rowData.push(RowNode.data));
+      this.Formulagridvalues( this.rowData);
+      this.formgriddata = JSON.stringify(this.FormulagridList);
       this.formulationload(this.formulacode, this.labbatchh, this.unitvalue, this.operation2).subscribe((formulationload) => {
+        this.isLoading = false;
         console.warn("formulaload", formulationload)
         this.rowData = formulationload
-        this.wait(7000);
+      //  this.wait(7000);
         var unitcosttotal = 0;
         var costlb = 0;
         this.gridApi.setRowData(this.rowData);
@@ -2445,6 +6980,7 @@ export class FormulaLookupComponent implements OnInit {
         this.TotalUnitCost = String(unitcosttotal.toFixed(5));
         var totcs: Number = sumvar * Number(this.labbatch);
         // this.TotalUnitCost = this.formulaCost;
+        
         this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
         var totalquantity = 0;
         for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
@@ -2490,18 +7026,22 @@ export class FormulaLookupComponent implements OnInit {
   }
 
   blurEventunit(event: any) {
-    this.onBtShowLoading();
+   
     this.unitvalue = this.selectedunit;
-    this.onBtShowLoading();
-    let { rowsToDisplay } = this.gridApi.getModel();
-    let rowData = [];
-    this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
-    this.Formulagridvalues(rowData);
-    this.formgriddata = JSON.stringify(this.FormulagridList);
+    this.isLoading = true;
+    this.gridApi.getModel();
+    this.rowData = [];
+    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+    this.Formulagridvalues(this.rowData);
+    this.formgriddata= JSON.stringify(this.FormulagridList);
+  //   = JSON.parse(formgrid);
+
     this.formulationload(this.formulacode, this.labbatch, this.unitvalue, this.operation2).subscribe((formulationload) => {
+      this.isLoading = false;
       console.warn("formulaload", formulationload)
       this.rowData = formulationload
-      this.wait(7000);
+
+
       var unitcosttotal = 0;
       var costlb = 0;
       this.gridApi.setRowData(this.rowData);
@@ -2523,7 +7063,6 @@ export class FormulaLookupComponent implements OnInit {
       this.TotalCostInLB = String(costlb.toFixed(5));
       this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
     })
-   
 
 
 
@@ -2597,6 +7136,14 @@ export class FormulaLookupComponent implements OnInit {
     });
    // this.columnDefs = this.columnDefsforper;
   }
+
+  percentscalabilitygrid() {
+    // this.columnDefs = null;
+    this.gridApione.setColumnDefs(this.columnDefs1forper);
+    this.gridApione.redrawRows();
+
+  }
+
   percentqty() {
     this.gridApi.setColumnDefs(this.columnDefsforqty);
     this.gridApi.redrawRows();
@@ -2607,11 +7154,27 @@ export class FormulaLookupComponent implements OnInit {
     //this.columnDefs = this.columnDefsforqty;
   }
   ClearData() {
+    this.loading = false;
+    this.customercode = "";
+    this.Isformatlabbatch1 = false;
+    this.Isformatlabbatch2 = true;
+    this.Isformatstorage1 = false;
+    this.Isformatstorage2 = true;
+    this.issearchformula = true;
+    this.issearchformulasave = false;
+    this.okpilot = '0'
+    this.okproduce = '0';
+    this.okpilot2 = '0'
+    this.okproduce2 = '0';
+    this.isDisabledappr = true;
     this.active = "1";
+    this.rowdrag = "";
+    this.issearchform = false;
     this.customername = '';
     this.ApprovedDT = new Date().toISOString().split('T')[0];
     this.supercededdate = new Date().toISOString().split('T')[0];
     this.ApprovedBy = '';
+    this.flag1 = 0;
    
     this.AddedDT = '';
     this.AddedDT = '';
@@ -2624,7 +7187,8 @@ export class FormulaLookupComponent implements OnInit {
     this.formulaname = '';
     this.labref = '';
     this.PDRno = '';
-    this.SubClass = 'Acrylic';
+    this.SubClass = '';
+    this.SubClass1 = '';
     this.Class = 'Additive';
     this.rowData = '';
     this.MaxPilotQty = '0'
@@ -2639,12 +7203,21 @@ export class FormulaLookupComponent implements OnInit {
     this.Yield = '100'
     this.formulaCost = '0.00000'
     this.formulaNetQty = '0.00000'
-    this.SupercededBy =''
+    this.SupercededBy ='admin'
     this.FormulaTotalQTY = '0.00000'
     this.labbatch = ''
     this.totaquantity = ''
+
+    this.totaquantity1 = ''
+    this.unit1 = ''
+    this.formulaCost1 = ''
+    this.scalef = ''
+    this.TotalUnitCost1 = ''
+    this.TotalCostInLB1 = ''
+
     this.companyowned = 'Company-Owned'
-    this.ManualSG ='0'
+    this.ManualSG = '0'
+    this.Maxpilotunit='g'
     this.selectedunit = 'g'
     this.AudittrackData = '';
     this.totaquantity = '0.00000';
@@ -2656,7 +7229,43 @@ export class FormulaLookupComponent implements OnInit {
     this.ShelfLife = '0';
     this.ShelfLifeUnit = 'Day(s)';
     this.rowData = null;
-        }
+    this.Lbgal = '';
+    this.AboutFormulation = '';
+    this.useFormulation = '';
+    this.WhoUse = '';
+    this.formulationDoes = '';
+    this.odor = '';
+    this.ph = '';
+    this.viscosity = '';
+    this.appearence = '';
+    this.FormulaSpecsNotes = '';
+    this.rowData='';
+}
+onCellfirstValueChanged(params)
+{
+
+  var rowdatacount = this.gridApi.getDisplayedRowCount();
+  var flaa: any = 0;
+  var rowindata1: any
+  for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+    var rowNode = this.gridApi.getRowNode(rowin);
+    if (rowNode.data.UnitName != '' && flaa != 1) {
+      rowindata1 = rowin;
+
+      flaa = 1;
+      break;
+    }
+  }
+  if (params.data.SupplierName === "" && params.data.TradeName == "") {
+    return false;
+  } else if (params.node.rowIndex === rowindata1) {
+    return false;
+  }
+  else {
+    return true;
+  }
+
+}
   onCellValueChanged(params)
   {
    let { rowsToDisplay } = this.gridApi.getModel();
@@ -2676,9 +7285,21 @@ export class FormulaLookupComponent implements OnInit {
         var firstsumvar: any = 0;
         rowin = 1;
         var i = 1;
+        
         var rowdatacount = this.gridApi.getDisplayedRowCount();
+        var flaa: any = 0;
+         var rowindata1:any
+        for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+          var rowNode = this.gridApi.getRowNode(rowin);
+          if (rowNode.data.UnitName != '' && flaa != 1) {
+            rowindata1 = rowin;
+            rowindata1 = rowindata1 + 1;
+            flaa = 1;
+            break;
+          }
+        }
         //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
-        for (let rowin = 1, i = 1; i <= rowdatacount - 1; rowin++,i++) {
+        for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++,i++) {
 
           var rowNode = this.gridApi.getRowNode(rowin);
 
@@ -2742,10 +7363,19 @@ export class FormulaLookupComponent implements OnInit {
           
           rowNode.setDataValue('costinlb', String(updtedcosinlb));
           rowNode.setDataValue('quantityinlb', String(enwda));
-
-
-          rowin = 0;
-          var rowNode = this.gridApi.getRowNode(rowin);
+          var rowindata: any;
+          var fla: any = 0;
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            if (rowNode.data.UnitName != '' && fla!=1) {
+              rowindata = rowin;
+              fla = 1;
+              break;
+            }
+          }
+          
+          //rowin = 0;
+          var rowNode = this.gridApi.getRowNode(rowindata);
           rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
           //var rowin2: any = params.node.rowIndex;
           //var rowNode2 = this.gridApi.getRowNode(rowin2);
@@ -2761,7 +7391,7 @@ export class FormulaLookupComponent implements OnInit {
           if (subvalue == "-0.0000000") {
             subvalue = "0.0000000";
           }
-          this.formulaCost = String(sumvar);
+        //  this.formulaCost = String(sumvar);
           var unitcosttotal = 0;
           for (let rowin = 0; rowin <= rowdatacount-1; rowin++) {
             var rowNode = this.gridApi.getRowNode(rowin);
@@ -2770,7 +7400,8 @@ export class FormulaLookupComponent implements OnInit {
           this.TotalUnitCost = String(unitcosttotal.toFixed(5));
           var totcs: Number = sumvar * Number(this.labbatch);
           // this.TotalUnitCost = this.formulaCost;
-          this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
+        //  this.oldunitcost = this.formulaCost;
+          //this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
          // this.TotalUnitCost = String(totcs.toFixed(5));
           if (subvalue < 0.0000000)
           {
@@ -2780,7 +7411,7 @@ export class FormulaLookupComponent implements OnInit {
           }
           else
           {
-            var rowNode = this.gridApi.getRowNode(0);
+            var rowNode = this.gridApi.getRowNode(rowindata);
            // var subvalue2: any = subvalue.toFixed(7);
             rowNode.setDataValue('Qtyinpercentage', String(subvalue));
 
@@ -2812,6 +7443,8 @@ export class FormulaLookupComponent implements OnInit {
             unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
           }
           this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+        
+          this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
           for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
             var rowNode = this.gridApi.getRowNode(rowin);
             totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
@@ -2960,8 +7593,20 @@ export class FormulaLookupComponent implements OnInit {
         var qtyinper: any = ((100 / Number(this.labbatch)) * params.newValue).toFixed(7);
         rowNode.setDataValue('Qtyinpercentage', String(qtyinper));
         var rowdatacount = this.gridApi.getDisplayedRowCount();
+        var flaa: any = 0;
+        var rowindata1: any
+        for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+          var rowNode = this.gridApi.getRowNode(rowin);
+          if (rowNode.data.UnitName != '' && flaa != 1) {
+            rowindata1 = rowin;
+            rowindata1 = rowindata1 + 1;
+            flaa = 1;
+            break;
+          }
+        }
         //for (let rowin = 1; rowin <= this.rowData.length; rowin++) 
-        for (let rowin = 1, i = 1; i <= rowdatacount - 1; rowin++, i++) {
+        for (let rowin = rowindata1, i = rowindata1; i <= rowdatacount - 1; rowin++, i++) {
+
 
           var rowNode = this.gridApi.getRowNode(rowin);
 
@@ -3029,8 +7674,19 @@ export class FormulaLookupComponent implements OnInit {
           rowNode.setDataValue('quantityinlb', String(enwda));
 
 
-          rowin = 0;
-          var rowNode = this.gridApi.getRowNode(rowin);
+          var rowindata: any;
+          var fla: any = 0;
+          for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+            var rowNode = this.gridApi.getRowNode(rowin);
+            if (rowNode.data.UnitName != '' && fla != 1) {
+              rowindata = rowin;
+              fla = 1;
+              break;
+            }
+          }
+
+          //rowin = 0;
+          var rowNode = this.gridApi.getRowNode(rowindata);
           rowNode.setDataValue('Qtyinpercentage', String(rowNode.data.Qtyinpercentage));
           //var rowin2: any = params.node.rowIndex;
           //var rowNode2 = this.gridApi.getRowNode(rowin2);
@@ -3058,6 +7714,7 @@ export class FormulaLookupComponent implements OnInit {
           this.TotalUnitCost = String(unitcosttotal.toFixed(5));
           var totcs: Number = sumvar * Number(this.labbatch);
           // this.TotalUnitCost = this.formulaCost;
+         // this.oldunitcost = this.formulaCost;
           this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
           if (isNaN(pamv)) {
             this.formulaCost = this.TotalUnitCost;
@@ -3069,7 +7726,7 @@ export class FormulaLookupComponent implements OnInit {
             rowNode.setDataValue('Cost', String(rowNode.data.Cost));
           }
           else {
-            var rowNode = this.gridApi.getRowNode(0);
+            var rowNode = this.gridApi.getRowNode(rowindata);
             //rowNode.setDataValue('Qtyinpercentage', String(subvalue));
             var enwda2: any = subvalue;
             //var enwda2: any = ((Number(this.labbatch) / 100) * subvalue).toFixed(7);
@@ -3099,6 +7756,8 @@ export class FormulaLookupComponent implements OnInit {
             unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
           }
           this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+         
+          this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
           for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
             var rowNode = this.gridApi.getRowNode(rowin);
             totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
@@ -3172,12 +7831,12 @@ export class FormulaLookupComponent implements OnInit {
       TotalPercentage: this.TotalPercentage,
       FormulaUnit: this.selectedunit,
     }]);
-    this.Formulacostupdate().subscribe((Cost_pref) => {
+    this.Formulacostupdate("buttoncostupate").subscribe((Cost_pref) => {
       console.warn("Cost_pref", Cost_pref)
       this.Costupdates = Cost_pref
     })
     this.wait(7000);
-    this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation1).subscribe((formulationload) => {
+    this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation2).subscribe((formulationload) => {
       console.warn("formulaload", formulationload)
 
       this.rowData = formulationload
@@ -3196,6 +7855,7 @@ export class FormulaLookupComponent implements OnInit {
       this.TotalUnitCost = String(unitcosttotal.toFixed(5));
       var totcs: Number = sumvar * Number(this.labbatch);
       // this.TotalUnitCost = this.formulaCost;
+     
       this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
       var totalquantity = 0;
       for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
@@ -3221,13 +7881,14 @@ export class FormulaLookupComponent implements OnInit {
     this.Formulagridvalues(this.rowData)
 
   }
-  Formulacostupdate() {
+  Formulacostupdate(buttoncostup: string) {
     var Formulationgridjason: any = JSON.stringify(this.FormulagridList);
     var Formulacode = this.formulacode;
-    var UserName = "admin";
+    var UserName = this.userna;
+    var Flag = buttoncostup;
     var TotalQtyAndCostjson: any = JSON.stringify(this.FormulatextboxList);
-    let params1 = new HttpParams().set('Formulationgridjason', Formulationgridjason).set('FormulaCode', Formulacode).set('TotalQtyAndCostjson', TotalQtyAndCostjson).set('UserName', UserName);
-    return this.http.get("https://searchformulawebservice.azurewebsites.net/Formuladetailsave", { params: params1, responseType: 'text'  })
+    let params1 = new HttpParams().set('Formulationgridjason', Formulationgridjason).set('FormulaCode', Formulacode).set('TotalQtyAndCostjson', TotalQtyAndCostjson).set('UserName', UserName).set('flag', Flag);
+    return this.http.get("https://searchformulawebservice.azurewebsites.net/Formuladetailsave", { params: params1, responseType: 'text' })
   }
 
   Formulagridvalues(Formuladata2: any) {
@@ -3235,12 +7896,12 @@ export class FormulaLookupComponent implements OnInit {
     this.j = 0;
     this.FormulagridList = [];
     for (let item2 of Formuladata2) {
-
+      if (item2.INCIName != "") { 
       if (item2.Qtyinpercentage == "" || item2.Qtyinpercentage == null) {
         item2.Qtyinpercentage = "0";
       }
       if (item2.ItemCode == "null" || item2.Qtyinpercentage == "") {
-        item2.Itemcode = "null";
+        item2.ItemCode = "null";
       }
       if (item2.Quantity == "" || item2.Quantity == null) {
         item2.Quantity = "0";
@@ -3263,67 +7924,99 @@ export class FormulaLookupComponent implements OnInit {
       if (item2.ActualTcQty == "" || item2.ActualTcQty == null) {
         item2.ActualTcQty = "0";
       }
-      
-      if (item2.Qtyinpercentage == "0.0000000" && item2.Itemcode != "null") {
+
+      if (item2.Qtyinpercentage == "0.0000000" && item2.ItemCode != "null") {
         this.lookupdate3data = 'One of the Ingredient is Zero Percentage.Do you want to proceed?';
-       
+
       }
-    
-        this.FormulagridList[this.i] = ([{
-          FormulaName: this.formulaname,
-          Formulacode: this.formulacode,
-          ItemCode: item2.Itemcode,
-          Step: item2.Step,
-          INCIName: item2.INCIName,
-          Qtyinpercentage: item2.Qtyinpercentage,
-          Quantity: item2.Quantity,
-          UnitName: item2.UnitName,
-          UnitCost: item2.UnitCost,
-          Cost: item2.Cost,
-          SupplierName: item2.SupplierName,
-          Linenumber: item2.Linenumber,
-          TradeName: item2.TradeName,
-          QuantityInLb: item2.quantityinlb,
-          UnitcostInLb: item2.unitcostinlb,
-          CostInLb: item2.costinlb,
-          GeneralItemcode: item2.GeneralItemcode,
-          Column33: '',
-          Column34: '',
-          ActualTcQty: '0',
-        }]);
-        this.i++;
-     
+
+      this.FormulagridList[this.i] = ([{
+        FormulaName: this.formulaname,
+        Formulacode: this.formulacode,
+        ItemCode: item2.ItemCode,
+        Step: item2.Step,
+        INCIName: item2.INCIName,
+        Qtyinpercentage: item2.Qtyinpercentage,
+        Quantity: item2.Quantity,
+        UnitName: item2.UnitName,
+        UnitCost: item2.UnitCost,
+        Cost: item2.Cost,
+        SupplierName: item2.SupplierName,
+        Linenumber: item2.Linenumber,
+        TradeName: item2.TradeName,
+        QuantityInLb: item2.quantityinlb,
+        UnitcostInLb: item2.unitcostinlb,
+        CostInLb: item2.costinlb,
+        GeneralItemcode: item2.GeneralItemcode,
+        Column33: '',
+        Column34: '',
+        ActualTcQty: '0',
+      }]);
+      this.i++;
+
     }
+  }
   }
 
   FormulationLookup_Save() {
-    if (this.formulacode == "" || this.formulacode == undefined) {
+
+    this.issearchformulasave = true;
+    this.loading = true;
+    if (this.PDRno == "" || this.PDRno == undefined) {
+      this.loading = false;
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter PDR No' } });
+      this.issearchformulasave = false;
+    }
+    else if (this.customername == "" || this.customername == undefined) {
+      this.loading = false;
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Customer name' } });
+      this.issearchformulasave = false;
+    }
+    else if (this.ProjectName == "" || this.ProjectName == undefined) {
+      this.loading = false;
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Projectname' } });
+      this.issearchformulasave = false;
+    }
+    else if (this.formulacode == "" || this.formulacode == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Code' } });
+      this.issearchformulasave = false;
     }
     else if (this.formulaname == "" || this.formulaname == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Name' } });
+      this.issearchformulasave = false;
     }
     else if
       (this.TotalUnitCost == "0.00000" || this.TotalUnitCost == undefined || this.TotalUnitCost == "") {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formulation details ' } });
+      this.issearchformulasave = false;
       this.active = "2";
     }
     else if
       (this.totaquantity < this.labbatch || this.totaquantity == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total QTY is less than lab batch size.Formula can not be saved' } });
+      this.issearchformulasave = false;
     }
     else if
       (this.totaquantity > this.labbatch || this.totaquantity == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total QTY exceeded the lab batch size.Formula can not be saved' } });
+      this.issearchformulasave = false;
     }
     else if
       (this.selectedunit == "" || this.selectedunit == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula unit ,lab batch unit details ' } });
+      this.issearchformulasave = false;
     }
 
  
   else
     {
+      this.issearchformula = false;
       this.lookupdate3data = "";
      // let { rowsToDisplay } = this.gridApi.getModel();
       
@@ -3341,10 +8034,10 @@ export class FormulaLookupComponent implements OnInit {
         LabelCode: this.Status, //this.Status
         SupercededBy: this.SupercededBy, //chemist
         SupercededDate: this.supercededdate, //chemist on date
-        MayProduce: '0',
+        MayProduce: this.okproduce2,
         ApprovedBy: this.ApprovedBy,
         ApprovedDT: this.ApprovedDT, // appvedby date
-        MayPilot: '0', //chkokpilot
+        MayPilot: this.okpilot2, 
         MaxPilotQty: this.MaxPilotQty,
         MaxPilotUnit: this.Maxpilotunit,
         ProjectName: this.ProjectName,
@@ -3403,14 +8096,14 @@ export class FormulaLookupComponent implements OnInit {
         AddedBy: '',
         Locked: '0',
         ShowFormula: '0',
-        AboutFormulation: '',
-        useFormulation: '',
-        WhoUse: '',
-        formulationDoes: '',
-        odor: '',
-        ph: '',
-        viscosity: '',
-        appearence: '',
+        AboutFormulation: this.AboutFormulation,
+        useFormulation: this.useFormulation,
+        WhoUse: this.WhoUse,
+        formulationDoes: this.formulationDoes,
+        odor: this.odor,
+        ph: this.ph,
+        viscosity: this.viscosity,
+        appearence: this.appearence,
         FirstName: 'admin',
         CompanyOwned: this.companyowned,
         FormulaNotes: '',
@@ -3423,7 +8116,7 @@ export class FormulaLookupComponent implements OnInit {
         TotalCostInLB: this.TotalCostInLB,
         TotalPercentage: this.TotalPercentage,
         LabRefNo: this.LabRefNo,
-        FormulaSpecsNotes: '',
+        FormulaSpecsNotes: this.FormulaSpecsNotes,
         Formula: '0',
         COO: '',
         SKU: '',
@@ -3442,7 +8135,7 @@ export class FormulaLookupComponent implements OnInit {
         cmbPrefix: 'CUSTOM',
         txtBatchSize: this.totaquantity,
         cmbMainUnit: this.selectedunit,
-        username: 'admin',
+        username: this.userna,
         formulaPrefix: '',
         AddedDT: this.AddedDT,
         FormulaLevel: '1',
@@ -3452,8 +8145,9 @@ export class FormulaLookupComponent implements OnInit {
 
 
       }]);
+      this.Formulagridvalues(this.rowData);
       if (this.lookupdate3data != "") {
-
+        this.loading = false;
         let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: this.lookupdate3data }, disableClose: true });
 
         dialogRef.afterClosed().subscribe(result =>
@@ -3474,14 +8168,18 @@ export class FormulaLookupComponent implements OnInit {
               })
 
               if (this.lookupdate2data == "Inserted") {
-                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " is " +this.lookupdate2data + " " + "Successfully" } });
+                this.loading = false;
+                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + "  " +this.lookupdate2data + " " + "Successfully" } });
                 this.lookupdate1data = ""
               }
               else if (this.lookupdate2data == "") {
+                this.loading = false;
               }
               else {
+                this.loading = false;
                 this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Save' } });
                 this.lookupdate1data = ""
+                this.issearchformulasave = false;
               }
 
             })
@@ -3507,14 +8205,18 @@ export class FormulaLookupComponent implements OnInit {
           })
 
           if (this.lookupdate2data == "Inserted") {
-            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:"+" "+this.formulaname +" "+ this.lookupdate2data +" is  "+"Successfully" } });
+            this.loading = false;
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:"+" "+this.formulaname +" "+ this.lookupdate2data +" "+"Successfully" } });
             this.lookupdate1data = ""
           }
           else if (this.lookupdate2data == "") {
+            this.loading = false;
           }
           else {
+            this.loading = false;
             this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Save' } });
             this.lookupdate1data = ""
+            this.issearchformulasave = false;
           }
 
         })
@@ -3548,36 +8250,43 @@ export class FormulaLookupComponent implements OnInit {
     this.isVisible = true;
     setTimeout(() => this.isVisible = false, 5000)
   }
-  formulalookupupdatemain()
-  {
+  onChange(val) {
+    this.SubClass = val;
+  }
+  formulalookupupdatemain() {
+    this.loading = true;
     if (this.formulacode == "" || this.formulacode == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Code' } });
     }
     else if (this.formulaname == "" || this.formulaname == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Name' } });
     }
     else if
       (this.TotalUnitCost == "0.00000" || this.TotalUnitCost == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formulation details ' } });
     }
     else if
       (this.totaquantity < this.labbatch || this.totaquantity == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total QTY is less than lab batch size.Formula can not be saved' } });
     }
     else if
       (this.totaquantity > this.labbatch || this.totaquantity == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total QTY exceeded the lab batch size.Formula can not be saved' } });
     }
     else if
       (this.selectedunit == "" || this.selectedunit == undefined) {
+      this.loading = false;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formulaunit ,lab batch unit details ' } });
     }
 
-    else
-    {
+    else {
       this.lookupdate3data = "";
-   
-      
+
 
 
       this.dataList[0] = ([{
@@ -3590,10 +8299,10 @@ export class FormulaLookupComponent implements OnInit {
         Status: this.Status,
         SupercededBy: this.SupercededBy,
         dtpSupercedOn: this.supercededdate,
-        chkOkProduce: '0',
+        chkOkProduce: this.okproduce2,
         ApprovedBy: this.ApprovedBy,
         dtpApprovedOn: this.ApprovedDT,
-        chkOkPilot: '0',
+        chkOkPilot: this.okpilot2,
         MaxPilotQty: this.MaxPilotQty,
         cmbMaxPilotUom: this.Maxpilotunit,
         cmbProjectcode: this.ProjectName,
@@ -3601,7 +8310,7 @@ export class FormulaLookupComponent implements OnInit {
         cmbHmisPersonalProtection: "",
         nmdFlameHmis: '0',
         nmdPhyHazHmiz: '0',
-        nmdHealthNfpa: this.ShelfLife,
+        nmdHealthNfpa: '0',
         nmdFlamNfpa: '0',
         nmdReacNfpa: '0',
         cmbSpecialPrecautions: '',
@@ -3613,7 +8322,9 @@ export class FormulaLookupComponent implements OnInit {
         QCPrep: '',
         FormulaProcedure: '',
         WasteStream: '',
-        ShelfLife: this.ShelfLifeUnit,
+
+        ShelfLife: this.ShelfLife,
+        ShelfLifeUnit: this.ShelfLifeUnit,
         MSDSPath: '',
         RegulatoryNotes: '',
         RegWord1: '',
@@ -3657,7 +8368,7 @@ export class FormulaLookupComponent implements OnInit {
         cmbCompanySpecific: this.companyowned,
         FormulaNotes: '',
         Yield: this.Yield,
-       
+
         TotalQty: this.totaquantity,
         cmbTotalUnit: this.selectedunit,
         NetQty: this.labbatch,
@@ -3688,9 +8399,9 @@ export class FormulaLookupComponent implements OnInit {
         CRReason: '',
         oldformulaname: '',
         RdbPercentage: 'false',
-        oldUnitCost: this.oldunitcost ,
+        oldUnitCost: this.oldunitcost,
         oldUnit: this.oldunit,
-        oldTotalCost: this.oldtotalcost ,
+        oldTotalCost: this.oldtotalcost,
         oldTotalQty: this.oldtotalqty,
         oldCostLb: '',
       }]);
@@ -3698,86 +8409,96 @@ export class FormulaLookupComponent implements OnInit {
 
 
 
-
-      //   this.Formulagridvalues(this.rowData);
+        this.Formulagridvalues(this.rowData);
       var lookupdate1: string;
-
-      if (this.lookupdate3data != "")
-      {
-        let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: this.lookupdate3data }, disableClose: true });
-
-        dialogRef.afterClosed().subscribe(result => {
+      this.oldunit = this.selectedunit;
+      this.oldtotalqty = this.totaquantity;
+      this.oldtotalcost = this.TotalUnitCost;
+      this.oldunitcost = this.formulaCost;
+      if (this.lookupdate3data != "") {
+        this.loading = false;
+        let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: this.lookupdate3data }, disableClose: true }); dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed: ${result}');
-          this.lookupdate4data = result;
-
-          if (this.lookupdate4data == "false")
-          {
-
-          }
-
-          else {
-            this.formulalookup_update().subscribe(forlookup_update => {
-              console.warn("forlookup_update", forlookup_update)
-              if (forlookup_update)
-                lookupdate1 = forlookup_update
-              this.lookupdate1data = forlookup_update
-
-              this.wait(3000);
-              this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
-                console.warn("Audittrackingload", Audittrackingload)
-                this.AudittrackData = Audittrackingload
+          this.lookupdate4data = result; if (this.lookupdate4data == "false") { } else {
+            this.datalistraw = JSON.stringify(this.dataList);
+            this.datalistgirdformula = JSON.stringify(this.FormulagridList);
+            if (this.olddatalistraw == this.datalistraw && this.olddatalistgirdformula == this.datalistgirdformula) {
+              var data: any = "";
+            }
+            else {
+              this.olddatalistraw = this.datalistraw;
+              this.olddatalistgirdformula = this.datalistgirdformula;
+              this.formulalookup_update().subscribe(forlookup_update => {
+                console.warn("forlookup_update", forlookup_update)
+                if (forlookup_update)
+                  lookupdate1 = forlookup_update
+                this.lookupdate1data = forlookup_update
+                this.wait(3000);
+                this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+                  console.warn("Audittrackingload", Audittrackingload)
+                  this.AudittrackData = Audittrackingload
+                })
+                if (this.lookupdate1data == "updated") {
+                  this.loading = false;
+                  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " is " + this.lookupdate1data + " " + "Successfully" } });
+                  this.lookupdate1data = ""
+                }
+                else if (this.lookupdate1data == "") {
+                  this.loading = false;
+                }
+                else {
+                  this.loading = false;
+                  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Update' } });
+                  this.lookupdate1data = ""
+                }
               })
-
-              if (this.lookupdate1data == "updated") {
-                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " is " + this.lookupdate1data + " " + "Successfully" } });
-                this.lookupdate1data = ""
-              }
-              else if (this.lookupdate1data == "") {
-              }
-              else {
-                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Update' } });
-                this.lookupdate1data = ""
-              }
-            })
-           
-
-            var update: any = lookupdate1;
-
+              var update: any = lookupdate1;
+            }
           }
         });
       }
-          else
-          {
-            this.formulalookup_update().subscribe(forlookup_update => {
-              console.warn("forlookup_update", forlookup_update)
-              if (forlookup_update)
-                lookupdate1 = forlookup_update
-              this.lookupdate1data = forlookup_update
-
-              this.wait(3000);
-              this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
-                console.warn("Audittrackingload", Audittrackingload)
-                this.AudittrackData = Audittrackingload
-              })
-
-              if (this.lookupdate1data == "updated") {
-                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%' , data: { displaydata: "Formula:"+" "+this.formulaname + " " + this.lookupdate1data + " " + "Successfully" } });
-                this.lookupdate1data = ""
-              }
-              else if (this.lookupdate1data == "") {
-              }
-              else {
-                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Update' } });
-                this.lookupdate1data = ""
-              }
+      else {
+        this.datalistraw = JSON.stringify(this.dataList);
+        this.datalistgirdformula = JSON.stringify(this.FormulagridList);
+        if (this.olddatalistraw == this.datalistraw && this.olddatalistgirdformula == this.datalistgirdformula) {
+          var data: any = "";
+        }
+        else {
+          this.olddatalistraw = this.datalistraw;
+          this.olddatalistgirdformula = this.datalistgirdformula;
+          this.formulalookup_update().subscribe(forlookup_update => {
+            console.warn("forlookup_update", forlookup_update)
+            if (forlookup_update)
+              lookupdate1 = forlookup_update
+            this.lookupdate1data = forlookup_update
+            this.wait(3000);
+            this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+              console.warn("Audittrackingload", Audittrackingload)
+              this.AudittrackData = Audittrackingload
             })
-           
-
-            var update: any = lookupdate1;
-
-          }
-     
+            if (this.lookupdate1data == "updated") {
+              this.loading = false;
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " " + this.lookupdate1data + " " + "Successfully" } });
+              this.lookupdate1data = ""
+            }
+            else if (this.lookupdate1data == "") {
+              this.loading = false;
+            }
+            else {
+              this.loading = false;
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Update' } });
+              this.lookupdate1data = ""
+            }
+          })
+          var update: any = lookupdate1;
+        }
+      }
     }
+  }
+
+
+  goToBottom() {
+    window.scrollTo(0, document.body.scrollHeight);
   }
   formulalookup_update() {
 
@@ -3785,13 +8506,13 @@ export class FormulaLookupComponent implements OnInit {
     //this.rowData = [];
     //this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
     //this.gridApi.setRowData(this.rowData);
-    this.Formulagridvalues(this.rowData);
+    //this.Formulagridvalues(this.rowData);
     var datalistraw: any = JSON.stringify(this.dataList);
     var datalistgirdformula: any = JSON.stringify(this.FormulagridList);
     //var datalistaudit: any = JSON.stringify(this.DataListAudit);
     //var datalistifra: any = JSON.stringify(this.DataListIFRA);
     var operation = 'Update';
-    var username = 'admin';
+    var username = this.userna;
     let params1 = new HttpParams().set('formulalookupdata', datalistraw).set('Formulationgridjason', datalistgirdformula).set('username', username).set('operation', operation);
     var lookupdate:any;
     lookupdate = this.http.get("https://smartformulatorformulallokupwebservice8.azurewebsites.net/formulalookupupdate", { params: params1, responseType: 'text' })
@@ -3803,11 +8524,13 @@ export class FormulaLookupComponent implements OnInit {
   //  });
   //}
   ngOnInit() {
+    this.Isformatlabbatch2 = false;
     this.ApprovedDT = new Date().toISOString().split('T')[0];
     this.supercededdate = new Date().toISOString().split('T')[0];
-      this.backformuldetails = this.Datashare.getbackformdetails()
+    this.backformuldetails = this.Datashare.getbackformdetails();
+    this.userna = this.Datashare.getlogin();
       this.PDRno = this.backformuldetails[0];
-      this.Isformat1=false;
+      this.Isformat1=true;
       this.formulacode = this.backformuldetails[1];
       this.formulaname = this.backformuldetails[2];
      
@@ -3824,6 +8547,16 @@ export class FormulaLookupComponent implements OnInit {
         console.warn("rawcategoryload", rawcategoryload)
         this.datarawcategoryload = rawcategoryload
       })
+    
+    this.loadchemistry(this.PDRno).subscribe((loadchemdata) => {
+      console.warn("loadchemdata", loadchemdata)
+      this.datachem1 = loadchemdata
+    })
+    this.loadmicrobiology(this.PDRno).subscribe((loadmicrobiologydata) => {
+      console.warn("loadmicrobiologydata", loadmicrobiologydata)
+      this.datachem = loadmicrobiologydata
+    })
+
 
  //   this.rowData = this.http.get<any[]>('http://24.187.220.60/Smartformulator_Formulalookup_webservice/displayformulation.json');
     //this.formulationload(this.formulacode).subscribe((formulationload) => {
@@ -3995,6 +8728,17 @@ export class FormulaLookUpData {
   CRReason: string;
 
 
+
+}
+export class coachemistry {
+  Testnamesafety: string;
+  comentssafety: string;
+  p_Size: string
+}
+export class coagirdjson {
+
+}
+export class FormulaLookUpcoaData {
 
 }
 

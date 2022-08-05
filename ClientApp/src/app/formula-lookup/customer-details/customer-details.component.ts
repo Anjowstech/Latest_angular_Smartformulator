@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,Inject } from '@angular/core';
 import { SearchCustomerComponent } from 'src/app/formula-lookup/customer-details/search-customer/search-customer.component';
 import { SearchINCINameComponent } from 'src/app/raw-material/search-inci-name/search-inci-name.component';
 import { SearchProductsComponent } from 'src/app/formula-lookup/customer-details/search-products/search-products.component';
@@ -12,6 +12,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -19,23 +20,23 @@ import { formatDate } from '@angular/common';
   templateUrl: './customer-details.component.html',
   styleUrls: ['./customer-details.component.css']
 })
-  @NgModule({
-    imports: [
-    
-      DxDataGridModule
-    
-    ],
-    declarations: [ DatagridcomponentComponent],
-    
-  })
+@NgModule({
+  imports: [
+
+    DxDataGridModule
+
+  ],
+  declarations: [DatagridcomponentComponent],
+
+})
 export class CustomerDetailsComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-  Dateforma:any = [
-  { dateform: "MM/dd/yyyy" },
-  { dateform: "MM/dd/yyy" },
-  { dateform: "MM/dd/y" },
-];
- 
+  Dateforma: any = [
+    { dateform: "MM/dd/yyyy" },
+    { dateform: "MM/dd/yyy" },
+    { dateform: "MM/dd/y" },
+  ];
+
   tier1: string;
   tier2: string;
   tier3: string;
@@ -50,59 +51,60 @@ export class CustomerDetailsComponent implements OnInit {
   ProductName: string;
   FormulaCode: string;
   customername: string;
-  customercode: string;
+  customercode: string="";
   customercodepref: string;
   ProductCode: string;
   cusData: any;
-  custgrid: any
-  dataloadaudittrialcustomer: any;
+  custgrid: any;
+  active: any = '1';
+  dataloadaudittrialcustomer: any=null;
   /* custkey: string;*/
   custname: string;
-  fax: string;
+  fax: string = "";
   cuskey: string;
   /* custnam: string;*/
-  address: string="";
+  address: string = "";
   customertype: string;
-  phone: string="";
-  emailref: string="";
-  addeddt: string="";
-  addedby: string="";
-  updateddt: string="";
-  updatedby: string="";
-  caabrevation: string="";
-  contactfperson: string="";
-  contactsperson: string="";
-  contacttperson: string="";
-  contactfmail: string="";
-  contactsmail: string="";
-  contacttmail: string="";
+  phone: string = "";
+  emailref: string = "";
+  addeddt: string = "";
+  addedby: string = "";
+  updateddt: string = "";
+  updatedby: string = "";
+  caabrevation: string = "";
+  contactfperson: string = "";
+  contactsperson: string = "";
+  contacttperson: string = "";
+  contactfmail: string = "";
+  contactsmail: string = "";
+  contacttmail: string = "";
   cc1: string;
   cc2: string;
   cc3: string;
   FormulaName: string;
   ProductNumber: string;
-  fillinginstruction: string="";
-  labelinginstruction: string="";
-  specialinstruction: string="";
-  attachment: string="";
-  terms: string="";
-  fob: string="";
-  shipvia: string="";
-  salesperson: string="";
-  creditcardno: string="";
-  creditcardtype: string="";
-  expirydate: string="";
-  creditlimit: string='0';
-  salesregion: string="";
-  salesrepinitial: string="";
-  city: string="";
-  state: string="";
-  country: string="";
-  zip: string="";
-  custmrkey: string="";
-  saddress: string="";
-  semail: string="";
-  notes: string="";
+  fillinginstruction: string = "";
+  labelinginstruction: string = "";
+  specialinstruction: string = "";
+  attachment: string = "";
+  terms: string = "";
+  fob: string = "";
+  shipvia: string = "";
+  salesperson: string = "";
+  creditcardno: string = "";
+  creditcardtype: string = "";
+  expirydate: string = "";
+  creditlimit: string = '0';
+  salesregion: string = "";
+  salesrepinitial: string = "";
+  city: string = "";
+  state: string = "";
+  country: string = "";
+  zip: string = "";
+  custmrkey: string = "";
+  saddress: string = "";
+  semail: string = "";
+  notes: string = "";
   custocode: string;
   item: string;
   Inciname: string;
@@ -116,7 +118,7 @@ export class CustomerDetailsComponent implements OnInit {
   rowData4: any = [];
   cstmerdata: any = [];
   selectedRowIndex = -1;
-  selectedRowIndexvali=-1;
+  selectedRowIndexvali = -1;
   login_form: FormGroup;
   rowData: any = [];
   rowData1: any = [];
@@ -128,25 +130,25 @@ export class CustomerDetailsComponent implements OnInit {
   Datapricewhole: pricewholedata[][] = [];
   Datavolumepricing: volumepricingdata[][] = [];
   Datamaincustomer: customerdatamain[][] = [];
-  Customerdetail: any=[];
+  Customerdetail: any = [];
   searchitems: any = [];
   shippingdata: any;
   Customer_pref_data: any;
-  locationname: string="";
-  Address: string="";
-  City: string="";
+  locationname: string = "";
+  Address: string = "";
+  City: string = "";
   clientid: string;
   customcode: string;
-  State: string="";
-  Country: string="";
-  zipcode: string="";
-  contactno: string="";
-  contactperson: string="";
-  Email: string="";
-  Fax: string="";
-  locationnote: string="";
-  ValidatedSize: string="";
-  telepho: string="";
+  State: string = "";
+  Country: string = "";
+  zipcode: string = "";
+  contactno: string = "";
+  contactperson: string = "";
+  Email: string = "";
+  Fax: string = "";
+  locationnote: string = "";
+  ValidatedSize: string = "";
+  telepho: string = "";
   delclient_loc_data: any;
   default: string;
   salespersondatalo_data: any;
@@ -161,12 +163,12 @@ export class CustomerDetailsComponent implements OnInit {
   bindcustomerprefdata: any;
   erpunitload_data: any;
   selectedRowsData: any = [];
-  selectedtier1: string= 'Tier1';
+  selectedtier1: string = 'Tier1';
   selectedtier2: string = 'Tier2';
   selectedtier3: string = 'Tier3';
   selectedtier4: string = 'Tier4';
   VPdetailrowdata: any;
-  TieredProduct_Id: string='0';
+  TieredProduct_Id: string = '0';
   volumePricingloadlistdetails_data: any;
   FillingAttachment: string = "";
   FillingAttachment2: string = "";
@@ -184,7 +186,7 @@ export class CustomerDetailsComponent implements OnInit {
   Tier1: string = '0';
   Tier2: string = '0';
   Tier3: string = '0';
-  Tier4: string = '0';  
+  Tier4: string = '0';
   Document1: string = "";
   Document2: string = "";
   Document3: string = "";
@@ -205,11 +207,12 @@ export class CustomerDetailsComponent implements OnInit {
   Document18: string = "";
   Document19: string = "";
   Document20: string = "";
+  Customer_deletedata: any;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
       'custoname': ['', Validators.required],
-     
+
       'terms': [false]
 
     });
@@ -268,7 +271,7 @@ export class CustomerDetailsComponent implements OnInit {
       this.VolumePricingdetails(this.customercode).subscribe((volumePricingdetails) => {
         console.warn("volumePricingdetails", volumePricingdetails)
         this.VPdetailrowdata = volumePricingdetails
-     
+
       })
 
       this.TieredVolumePricing(this.customercode).subscribe((volumePricingload) => {
@@ -281,7 +284,10 @@ export class CustomerDetailsComponent implements OnInit {
         this.volumePricingloadlistdetails_data = volumePricingloadlistdetails
 
       })
-     
+      this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+        console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+        this.dataloadaudittrialcustomer = loadcustomeraudittrial
+      })
 
 
     });
@@ -309,8 +315,8 @@ export class CustomerDetailsComponent implements OnInit {
   }
   bindcustomerprefer(bindcustomerprefdata) {
     for (let item of bindcustomerprefdata) {
-     var ban:string = item.banned;
-    
+      var ban: string = item.banned;
+
     }
   }
   Opensalesperson(): void {
@@ -366,10 +372,10 @@ export class CustomerDetailsComponent implements OnInit {
       this.salesregion = item.SalesRegion;
       this.contactfmail = item.ContactFEmail;
       this.contactsmail = item.ContactSEmail;
-      this.contacttmail = item.ContactTEmail;    
+      this.contacttmail = item.ContactTEmail;
       this.salesrepinitial = item.SalesRepInitial;
       this.creditlimit = item.CreditLimit;
-      this.notes = item.Notes;  
+      this.notes = item.Notes;
       this.addeddt = item.AddedDT;
       this.addedby = item.AddedBy;
       this.updateddt = item.UpdatedDT;
@@ -410,26 +416,26 @@ export class CustomerDetailsComponent implements OnInit {
       this.Tier2 = item.Tier2;
       this.Tier3 = item.Tier3;
       this.Tier4 = item.Tier4;
-      this.Document1=item.Document1
-      this.Document2=item.Document2
-      this.Document3=item.Document3
-      this.Document4=item.Document4
-      this.Document5=item.Document5
-      this.Document6=item.Document6
-      this.Document7=item.Document7
-      this.Document8=item.Document8
-      this.Document9=item.Document9
-      this.Document10=item.Document10
-      this.Document11=item.Document11
-      this.Document12=item.Document12
-      this.Document13=item.Document13
-      this.Document14=item.Document14
-      this.Document15=item.Document15
-      this.Document16=item.Document16
-      this.Document17=item.Document17
-      this.Document18=item.Document18
-      this.Document19=item.Document19
-      this.Document20=item.Document20
+      this.Document1 = item.Document1
+      this.Document2 = item.Document2
+      this.Document3 = item.Document3
+      this.Document4 = item.Document4
+      this.Document5 = item.Document5
+      this.Document6 = item.Document6
+      this.Document7 = item.Document7
+      this.Document8 = item.Document8
+      this.Document9 = item.Document9
+      this.Document10 = item.Document10
+      this.Document11 = item.Document11
+      this.Document12 = item.Document12
+      this.Document13 = item.Document13
+      this.Document14 = item.Document14
+      this.Document15 = item.Document15
+      this.Document16 = item.Document16
+      this.Document17 = item.Document17
+      this.Document18 = item.Document18
+      this.Document19 = item.Document19
+      this.Document20 = item.Document20
 
     }
 
@@ -460,7 +466,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.datashare.sendaddlocation(this.searchitems);
     this.OpenAddClientLocation();
   }
- 
+
   insert_tier4() {
     this.Tier4Range = 'Above ' + this.Tier3;
     this.Tier4 = 'Above ' + this.Tier3;
@@ -468,29 +474,68 @@ export class CustomerDetailsComponent implements OnInit {
   setvalues2(customer_searchdata2: any) {
     this.i = 0;
     this.j = 0;
-    
+
     for (let search of customer_searchdata2) {
-    
-      this.dataList[this.i] = ([{
-        cuscodedata: search.incicode,
-        itemdata: search.item,
-        incinamedata: search.INCIName,
-        usagedata: search.usage,
-        foadata: search.foa,
-        commentsdata: search.comments,
-        banneddata: search.banned,
-      }]);
-      this.i++;
+      if (search.CusCode == undefined) {
+        search.CusCode = this.customercode;
+        this.dataList[this.i] = ([{
+          cuscodedata: search.CusCode,
+          itemdata: search.incicode,
+          incinamedata: search.INCIName,
+          usagedata: search.usage,
+          foadata: search.foa,
+          commentsdata: search.comments,
+          banneddata: search.banned,
+        }]);
+        this.i++;
+      }
+      else if (search.comments == undefined) {
+        this.dataList[this.i] = ([{
+          cuscodedata: search.CusCode,
+          itemdata: search.incicode,
+          incinamedata: search.INCIName,
+          usagedata: search.usage,
+          foadata: search.foa,
+          commentsdata: "",
+          banneddata: search.banned,
+        }]);
+        this.i++;
+      }
+      else if (search.foa == undefined) {
+        this.dataList[this.i] = ([{
+          cuscodedata: search.CusCode,
+          itemdata: search.incicode,
+          incinamedata: search.INCIName,
+          usagedata: search.usage,
+          foadata: "",
+          commentsdata: search.comments,
+          banneddata: search.banned,
+        }]);
+        this.i++;
+      }
+      else {
+        this.dataList[this.i] = ([{
+          cuscodedata: search.CusCode,
+          itemdata: search.incicode,
+          incinamedata: search.INCIName,
+          usagedata: search.usage,
+          foadata: search.foa,
+          commentsdata: search.comments,
+          banneddata: search.banned,
+        }]);
+        this.i++;
+      }
+      
 
     }
-    
+
   }
   setvalueserp(customer_searcherpdata: any) {
     this.i = 0;
     this.j = 0;
 
     for (let search of customer_searcherpdata) {
-      
+
       this.DataListerp[this.i] = ([{
         productcode: search.ProductCode,
         productnumber: search.ProductNumber,
@@ -499,7 +544,7 @@ export class CustomerDetailsComponent implements OnInit {
         formulaname: search.FormulaName,
         COADTFORMAT: search.COADTFORMAT,
         DateFormatOld: search.COADTFORMAT,
-       // DateFormatOld: search.DateFormatOld,
+        // DateFormatOld: search.DateFormatOld,
       }]);
       this.i++;
 
@@ -526,7 +571,7 @@ export class CustomerDetailsComponent implements OnInit {
         soledistributorcost: search.SoleDistributorCost,
         cppid: search.CPP_Id,
         linenumber: search.Linenumber,
-      
+
       }]);
       this.i++;
 
@@ -578,7 +623,7 @@ export class CustomerDetailsComponent implements OnInit {
     }
 
   }
- 
+
   setvalues3(shippingdata_search) {
     this.clientid = shippingdata_search.CLId;
     this.customcode = shippingdata_search.CusCode;
@@ -621,14 +666,14 @@ export class CustomerDetailsComponent implements OnInit {
   }
   addRow() {
     this.dataGrid.instance.addRow();
-    this.dataGrid.instance.saveEditData();  
-   
-  
-   // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
+    this.dataGrid.instance.saveEditData();
+
+
+    // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
   }
   updateCell(rowIndex, dataField, value) {
-        this.dataGrid.instance.cellValue(rowIndex, dataField, value);
-       // this.dataGrid.instance.saveEditData();
+    this.dataGrid.instance.cellValue(rowIndex, dataField, value);
+    // this.dataGrid.instance.saveEditData();
   }
   Opensearchproducts(e): void {
     var indexdataprod: any = e.rowIndex;
@@ -647,7 +692,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.ProductName = result[2];
         this.FormulaCode = result[4];
         this.FormulaName = result[5];
-       // this.COADTFORMAT = result[2];
+        // this.COADTFORMAT = result[2];
         this.item = result[1];
         this.selectedRowIndex = indexdataprod;
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
@@ -723,7 +768,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   Opensearchproductsforotcvalidate(e): void {
     var indexdataprod: any = e.rowIndex;
-    
+
     const dialogRef = this.dialog.open(SearchProductsComponent, {
       width: '60%', height: '70%', disableClose: true
     });
@@ -741,6 +786,7 @@ export class CustomerDetailsComponent implements OnInit {
         //this.item = result[1];
         this.item = result[1];
         this.selectedRowIndex = indexdataprod;
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductNumber);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
@@ -791,7 +837,7 @@ export class CustomerDetailsComponent implements OnInit {
           this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
           this.dataGrid.instance.saveEditData();
 
-          
+
         }
         //  this.customerload(this.customercode).subscribe((customrload) => {
         //    console.warn("customerload", customrload)
@@ -799,7 +845,7 @@ export class CustomerDetailsComponent implements OnInit {
         //    this.customerdata(this.cusData)
 
         //  })
-       
+
 
       });
     }
@@ -808,7 +854,7 @@ export class CustomerDetailsComponent implements OnInit {
   //onRowPreparedtierlist(e) {
   //  this.selectedRowIndexListinggrid = e.rowIndex;
   //  this.dataGrid.instance.addRow();
-       
+
   //}
   insert_tiers() {
     this.selectedRowIndex = 0;
@@ -817,7 +863,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Range", this.Tier2);
     this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Range", this.Tier3);
     this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Range", this.Tier4);
-   
+
     this.dataGrid.instance.saveEditData();
 
 
@@ -826,14 +872,13 @@ export class CustomerDetailsComponent implements OnInit {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.saveEditData();
   }
-  selectedChangedtier(e)
-  {
+  selectedChangedtier(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
     this.selectedtier1 = 'Upto ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier1Range + ' Units $';
     var tierdata2: Number = Number(this.dataGrid.instance.getSelectedRowsData()[0].Tier1Range) + 1;
     this.selectedtier2 = tierdata2.toString() + ' - ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier2Range + ' Units $';
     var tierdata3: Number = Number(this.dataGrid.instance.getSelectedRowsData()[0].Tier2Range) + 1;
-    this.selectedtier3 = tierdata3.toString() + ' - ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier3Range +  ' Units $';
+    this.selectedtier3 = tierdata3.toString() + ' - ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier3Range + ' Units $';
     this.selectedtier4 = this.dataGrid.instance.getSelectedRowsData()[0].Tier4Range + ' Units $';
     var sampledat: any = this.dataGrid.instance.getSelectedRowsData()[0].TieredProduct_id;
     this.focusrowkey = Number(sampledat);
@@ -842,14 +887,14 @@ export class CustomerDetailsComponent implements OnInit {
       this.pricedetailgrid_data = pricedetailgrid
     })
   }
- 
-  pricingdetailgrid(customerc,sampledat) {
-   
+
+  pricingdetailgrid(customerc, sampledat) {
+
     var productid = sampledat;
     var custcod = customerc;
     let params1 = new HttpParams().set('CusCode', custcod).set('TieredProduct_id', productid);
     return this.http.get("https://smartformulatorcustomerwebservice4.azurewebsites.net/BindVolumePricingDetails", { params: params1, })
-   
+
   }
   insert_tiersListinggrid() {
     this.selectedRowIndexListinggrid = 0;
@@ -876,6 +921,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   deleteRow() {
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    this.dataGrid.instance.saveEditData();
     this.dataGrid.instance.deselectAll();
   }
   selectedChanged(e) {
@@ -890,12 +936,12 @@ export class CustomerDetailsComponent implements OnInit {
   statedataload() {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/loadstates");
   }
- 
+
   dateChangeexp(event) {
     this.expirydate = event.target.value;
 
   }
-  
+
   Customer_saveupdate(custkey: string, custnam: string) {
     // for (let v in this.login_form.controls) {
     // this.login_form.controls[v].markAsTouched();
@@ -1008,31 +1054,126 @@ export class CustomerDetailsComponent implements OnInit {
 
 
     this.markFormTouched(this.login_form);
-    if (this.login_form.valid) {
-      // You will get form value if your form is valid
-      var formValues = this.login_form.getRawValue;
-      var custcode: string = this.customercode;
-      var operation: string = "Save";
-      /*this.customercode = "";*/
-      /*this.cstmerdata = [custkey, custnam, this.customercode]*/
+    if (this.customerkey == "" || this.customerkey == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Customer key' } });
 
-
-
-      this.Customer_preferences(custcode, custnam).subscribe((Customer_pref) => {
-        console.warn("Customer_pref", Customer_pref)
-        this.Customer_pref_data = Customer_pref
-      })
-      this.Customer_saveup(custcode, custnam, custkey, operation).subscribe((Customer_save) => {
-        console.warn("Customer_save", Customer_save)
-        this.Customer_save_data = Customer_save
-      })
-
-
-
-    } else {
-      this.login_form.controls['terms'].setValue(false);
     }
-  };
+    
+    else if   (this.customername == "" || this.customername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Customer Name' } });
+    }
+   
+   else if (this.emailref == '' && this.contactfmail == '' && this.contactsmail == '' && this.contacttmail == '' && this.Email=='') {
+
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Email ID' } });
+    }
+    else {
+
+
+
+     
+        if (this.login_form.valid) {
+          // You will get form value if your form is valid
+          var formValues = this.login_form.getRawValue;
+          var custcode: string = this.customercode;
+          var operation: string = "Save";
+          /*this.customercode = "";*/
+          /*this.cstmerdata = [custkey, custnam, this.customercode]*/
+
+
+
+          this.Customer_preferences(custcode, custnam).subscribe((Customer_pref) => {
+            console.warn("Customer_pref", Customer_pref)
+            this.Customer_pref_data = Customer_pref
+          })
+          this.Customer_saveup(custcode, custnam, custkey, operation).subscribe((Customer_save) => {
+            console.warn("Customer_save", Customer_save)
+            this.Customer_save_data = Customer_save
+
+            if (this.Customer_save_data == "Inserted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer " + " " + this.customername + " is " + this.Customer_save_data + " " + "Successfully" } });
+              this.Customer_save_data = ""
+            }
+            else if (this.Customer_save_data == "Customer Key") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer key and Customer name already exists. Choose another one." } });
+              this.Customer_save_data = ""
+            }
+            else if (this.Customer_save_data == "CustomerKey") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer key already exists. Choose another one." } });
+              this.Customer_save_data = ""
+            }
+          })
+          this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+            console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+            this.dataloadaudittrialcustomer = loadcustomeraudittrial
+          })
+
+
+
+        } else {
+          this.login_form.controls['terms'].setValue(false);
+        }
+      }
+     
+    
+    }
+  validemail(event) {
+    var val: any = event.target.value;
+    if (val != "") {
+      var regexp = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+      var serchfind = regexp.test(val);
+      if (serchfind == false) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'invalid email' } });
+        this.emailref = '';
+      }
+    }
+  }
+  validemail1(event) {
+    var val: any = event.target.value;
+    if (val != "") {
+      var regexp = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+      var serchfind = regexp.test(val);
+      if (serchfind == false) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'invalid email' } });
+        this.contactfmail = '';
+      }
+    }
+  }
+  validemail2(event) {
+    var val: any = event.target.value;
+    if (val != "") {
+      var regexp = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+      var serchfind = regexp.test(val);
+      if (serchfind == false) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'invalid email' } });
+        this.contactsmail = '';
+      }
+    }
+  }
+  validemail3(event) {
+    var val: any = event.target.value;
+    if (val != "") {
+      var regexp = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+      var serchfind = regexp.test(val);
+      if (serchfind == false) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'invalid email' } });
+        this.contacttmail = '';
+      }
+    }
+  }
+  validemail4(event) {
+    var val: any = event.target.value;
+    if (val != "") {
+      var regexp = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+      var serchfind = regexp.test(val);
+      if (serchfind == false) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'invalid email' } });
+        this.Email = '';
+      }
+    }
+  }
+
+  
 
   Customer_Update(custkey: string, custnam: string) {
     this.dataList = [];
@@ -1142,22 +1283,38 @@ export class CustomerDetailsComponent implements OnInit {
 
 
     this.markFormTouched(this.login_form);
-    if (this.login_form.valid) {
-      var cuscode: string = this.customercode;
-      var operation: string = "Update";
-      this.Customer_preferences(cuscode, custnam).subscribe((Customer_pref) => {
-        console.warn("Customer_pref", Customer_pref)
-        this.Customer_pref_data = Customer_pref
-      })
-      this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
-        console.warn("Customer_update", Customer_update)
-        this.Customer_save_data = Customer_update
-      })
+    
+    if (this.emailref == '' && this.contactfmail == '' && this.contactsmail == '' && this.contacttmail == '' && this.Email=='') {
 
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Email ID' } });
     }
     else {
-      this.login_form.controls['terms'].setValue(false);
-    }
+     
+
+     
+        if (this.login_form.valid) {
+          var cuscode: string = this.customercode;
+          var operation: string = "Update";
+          this.Customer_preferences(cuscode, custnam).subscribe((Customer_pref) => {
+            console.warn("Customer_pref", Customer_pref)
+            this.Customer_pref_data = Customer_pref
+          })
+          this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
+            console.warn("Customer_update", Customer_update)
+            this.wait(7000)
+            this.Customer_save_data = Customer_update
+            if (this.Customer_save_data == "Updated") {
+              this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'updated successfully' } });
+            }
+
+          })
+        }
+        else {
+          this.login_form.controls['terms'].setValue(false);
+        }
+      }
+     
+    
   }
   markFormTouched(group: FormGroup | FormArray) {
     Object.keys(group.controls).forEach((key: string) => {
@@ -1166,7 +1323,8 @@ export class CustomerDetailsComponent implements OnInit {
       else { control.markAsTouched(); };
     });
   };
- 
+
+
   Customer_preferences(custcode, custnam) {
     var username: string = "admin";
     var cstmrcode: string = custcode;
@@ -1208,6 +1366,56 @@ export class CustomerDetailsComponent implements OnInit {
   //public string SaveUpdateCustomer(string[] Customerdetail, string operation, string customerpreference, string erpproducts, string pricing, string validatedbatches, string volumepricingjson, string tier1, string tier2, string tier3, string tier4) {
 
   //}
+  deletecustomer() {
+    this.Customer_delete().subscribe((Customer_dlt) => {
+      console.warn("Customer_deletedata", Customer_dlt)
+      this.Customer_deletedata = Customer_dlt
+
+      if (this.Customer_deletedata == "Deleted") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer:" + " " + this.customername + " is " + this.Customer_deletedata + " " + "Successfully" } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "ProjectMain") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a project. So it cannot be deleted." } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "SampleManagement") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a sample management. So it cannot be deleted." } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "BatchMain") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a batch. So it cannot be deleted." } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "COAMain") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a COA. So it cannot be deleted" } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "ProductPackageMaster") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a BOM-Product Packaging entry. So it cannot be deleted" } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "CustomerPurchaseOrder") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a customer PO entry. So it cannot be deleted" } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "SaleInvoice" || this.Customer_deletedata == "SalesInvoiceMaster") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a sale invoice entry. So it cannot be deleted." } });
+        this.Customer_deletedata = ""
+      }
+      else if (this.Customer_deletedata == "Failed") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Deletion of customer is failed" } });
+        this.Customer_deletedata = ""
+      }
+
+    })
+  }
+  Customer_delete() {
+    var customercode = this.customercode;
+    var customername = this.customername;
+    let params1 = new HttpParams().set('CustCode', customercode).set('CustName', customername);
+    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/deletecustomer", { params: params1, })
+  }
   insertrowvalidatedbatch() {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.saveEditData();
@@ -1221,6 +1429,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 ClearData()
 {
+  this.active = '1';
   this.customerkey = '';
   this.customercode = '';
   this.customername = '';
@@ -1266,7 +1475,28 @@ ClearData()
   this.country = '';
   this.custmrkey = '';
   this.saddress = '';
-
+  this.dataloadaudittrialcustomer = '';
+  this.loadbatchszizes = '';
+  this.erpproductscoa = '';
+  this.shippingdata = '';
+  this.retailwholeData = '';
+  this.rowData4 = '';
+  this.rowData = '';
+  this.retail_wholesale_rowdata = '';
+  this.rowData6 = '';
+  
+  this.locationname = '';
+  this.Address = '';
+  this.telepho = '';
+  this.Fax = '';
+  this.contactperson = '';
+  this.City = '';
+  this.State = '';
+  this.zipcode = '';
+  this.Country = '';
+  this.Email = '';
+  this.contactno = '';
+  this.Shiptolocation = '';
   }
   termChange(event) {
     this.terms = event.target.value;
@@ -1280,14 +1510,11 @@ ClearData()
     let params1 = new HttpParams().set('cuscode', splrcode);
     return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/otcvalidatedbatchesbind", { params: params1, })
   }
-  audittrialloadfunction() {
+  audittrialloadfunction(custcode:string) {
 
-
-
-    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/loadAuditcustomeraudit");
-
-
-
+    var cucode:any= custcode;
+    let params1 = new HttpParams().set('CusCode', cucode);
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/loadAuditcustomeraudit", { params: params1, });
   }
   OpenAddClientLocation(): void {
     this.datashare.sendcustomercode(this.customercode);
@@ -1341,7 +1568,17 @@ ClearData()
   }
  
   ngOnInit() {
+   //var cuscode = this.data.displaydata;
+    var cuscode = null;
+    if (cuscode != null && cuscode != undefined) {
+      this.customerload(cuscode).subscribe((customrload) => {
+        console.warn("customerload", customrload)
+        this.cusData = customrload
+        this.customerdata(this.cusData)
 
+      })
+
+    }
    
 
     this.countrydataload().subscribe((countrydatalo) => {
@@ -1360,7 +1597,7 @@ ClearData()
       console.warn("custtextgrid", custtextgrid)
       this.custgrid = custtextgrid
     })
-    this.audittrialloadfunction().subscribe((loadcustomeraudittrial) => {
+    this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
       console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
       this.dataloadaudittrialcustomer = loadcustomeraudittrial
     })

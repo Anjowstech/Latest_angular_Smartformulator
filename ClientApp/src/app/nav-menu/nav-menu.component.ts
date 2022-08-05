@@ -370,6 +370,10 @@ export class NavMenuComponent {
           displayName: 'Unit Of Measure',
           route: 'Unitofmeasure'
         },
+        {
+          displayName: 'quality control',
+          route: 'qualitycontrol'
+        },
       ]
     }
 

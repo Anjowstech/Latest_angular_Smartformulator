@@ -26,6 +26,11 @@
     <None Remove="ClientApp\src\app\filter.pipe.ts" />
     <None Remove="ClientApp\src\app\nav-item.ts" />
     <None Remove="ClientApp\src\app\pipefilter.ts" />
+    <None Remove="ClientApp\src\app\pipefilter2.ts" />
+    <None Remove="ClientApp\src\app\pipefilterformulaname.ts" />
+    <None Remove="ClientApp\src\app\pipefiltersorting.ts" />
+    <None Remove="ClientApp\src\app\pipfilter1.ts" />
+    <None Remove="ClientApp\src\sortingfilter.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\raw-material\search-supplier\search-supplier.component.spec.ts" />

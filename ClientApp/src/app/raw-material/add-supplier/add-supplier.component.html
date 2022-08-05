@@ -50,19 +50,15 @@
           </div>
         </div>
       </div>
-      <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible">
-        {{Supplier_save_data}}
-      </div>
+     
       <!--<div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible2">
         Updated Successfully!!
       </div>-->
-      <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible4">
-        Deleted Successfully!!
-      </div>
+     
     </form>
 
-    <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
-      <ng-container ngbNavItem style="margin-left:20px">
+    <nav ngbNav [(activeId)]="active" #nav="ngbNav" class="nav-tabs scrolling-wrapper">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Contact Details</a>
         <ng-template ngbNavContent>
           <form>
@@ -74,28 +70,28 @@
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Cnt">Country</label>
-                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]=" Country" #Coutry name="cntry" value="">
+                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]="Country" #Coutry name="cntry" value="">
                 </div>
 
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="ph">Phone Number</label>
-                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]=" phoneNumber" #Phno name="Phone" value="">
+                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]="phoneNumber" #Phno name="Phone" value="">
                 </div>
 
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="fxid">Fax</label>
-                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]=" fax" #fx name="faxid" value="">
+                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]="fax" #fx name="faxid" value="">
                 </div>
 
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="conpsn">Contact Person</label>
-                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]=" ContactPerson" #Cntper name="cperson" value="">
+                  <input type="text" style="width:60%;" class="form-control" id="Country" placeholder="" [(ngModel)]="ContactPerson" #Cntper name="cperson" value="">
                 </div>
 
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="webadd">Web Address</label>
-                  <input type="text" style="width:60%;" class="form-control" id="webste" placeholder="" [(ngModel)]=" website" #Cntper name="webid" value="">
-                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px;margin-top:10px;">Go</button>
+                  <input type="text" style="width:60%;" class="form-control" id="webste" placeholder="" [(ngModel)]="website" #Cntper name="webid" value="">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px;margin-top:10px;" (click)="openlink()">Go</button>
                 </div>
 
                 <div class=" form-inline" style="padding-top:1%;">
@@ -119,9 +115,9 @@
 
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="inputState">Status</label>
-                  <select id="inputState" style="width:60%" class="form-control" placeholder="" [(ngModel)]="SupplierStatus" #stas name="sts" value="">
-                    <option selected>Choose...</option>
-                    <option>Active</option>
+                  <select id="inputState" style="width:60%" class="form-control" placeholder="" [(ngModel)]="SupplierStatus" name="sts" >
+                 
+                    <option selected >Active</option>
                     <option>Inactive</option>
                   </select>
                 </div>
@@ -168,13 +164,14 @@
                 </div>-->
                 <div class="form-inline">
                   <label>Email</label>
-                  <input class="form-control" id="contactemail2"
+                  <input class="form-control" id="suppemail"
                          style="width: 50%;"
                          type="text"
-                         #contactemail2="ngModel"
-                         [(ngModel)]="email"
-                         required
-                         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                      
+                         [(ngModel)]="emailsup"
+                         name="emailsu"
+                         value=""
+                        >
 
 
 
@@ -191,7 +188,7 @@
                   <label for="Terms">Terms</label>
 
                   <select id="Terms" class="form-control" style="width:60%;" name="termname" [(ngModel)]="Terms">
-                    <option selected>No Terms</option>
+                    
                     <option *ngFor="let itemunit of termsdatalo_data">{{itemunit.Terms}}</option>
                     <!--<option>DHL</option>
       <option>Federal Express</option>-->
@@ -214,7 +211,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem="2" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Raw Material(s)</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
@@ -367,7 +364,7 @@
           </ng-template>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem="3" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Component(s)</a>
         <ng-template ngbNavContent>
           <h4>Double Click to Select a Raw Material</h4>
@@ -396,7 +393,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem="4" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Finished Product(s)</a>
         <ng-template ngbNavContent>
           <h4>Double Click to Select a Raw Material</h4>
@@ -464,7 +461,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem="5" style="margin-left:20px">
 
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Audit Trail</a>
         <ng-template ngbNavContent>
@@ -505,7 +502,7 @@
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [routerLink]="'/RawMaterial'">Back</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  (click)="Suppliersaveupdate(supplierkey.value,suppliername.value,suppliercod.value);">Save</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"(click)="Suppliersupdate(supplierkey.value,suppliername.value);">Update</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="ClearData();">New</button>
+  <button type="submit"  id="btnenw"class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="ClearData();">New</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% " (click)="deletesupplier(suppliername.value)">Delete Supplier</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Print Preview</button>
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Export to Excel</button>

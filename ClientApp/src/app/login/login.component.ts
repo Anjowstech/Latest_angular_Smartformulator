@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HostListener } from "@angular/core";
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
     console.log(this.scrHeight, this.scrWidth);
   }
 
-  constructor(private router: Router, private http: HttpClient) { this.getScreenSize(); }
+  constructor(private router: Router, private http: HttpClient, private Datashare: DataShareServiceService) { this.getScreenSize(); }
   userdata(username: string,password:string) {
     var usern: string = username;
     var passw: string = password;
@@ -45,6 +46,8 @@ export class LoginComponent implements OnInit {
       }
       if (this.username != null && this.connectionstr  !=null && this.username==this.user) {
         this.router.navigate(['/Home']);
+        this.Datashare.sendlogindetails(this.username.replace("@smartformulator.com",""));
+
       } else {
         alert("Invalid credentials");
       }

@@ -121,7 +121,7 @@ Please provide a valid zip.
             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%;width: 60%;margin-top:25%" (click)="quicksaveval(supp_status.value,inciname.value,itemcode.value,supplier.value,tradename.value);">Quick Save </button>
           </div>
           <div>
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%;width:60%;margin-top:3%">Clear </button>
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%;width:60%;margin-top:3%" (click)="Clearaw();">Clear </button>
           </div>
         </div>
       </div>
@@ -184,5 +184,6 @@ Please provide a valid zip.
 <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-
+  <!--<input style=" float:right;height:50px;width:100px;margin-top:1%; width:70px" type="text" class="form-control" id="data1" [(ngModel)]="countrecords" name="count" value="">-->
+  <label for="Recordscount" style="float: left; height: 50px; width: 100px; margin-top: 1%; width: 70px">Records {{countrecords}}</label>
 </div>

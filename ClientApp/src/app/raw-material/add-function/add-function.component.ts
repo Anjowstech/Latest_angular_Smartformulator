@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 @Component({
   selector: 'app-add-function',
@@ -9,9 +10,14 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 })
 export class AddFunctionComponent implements OnInit {
   Function_save_data: any;
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<AddFunctionComponent>) { }
+  functioncodes: string = '';
+  functiondiscriptions: string = '';
+  Datashare: any;
 
 
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<AddFunctionComponent>, public dialog: MatDialog) { }
+  
+ 
 
   Functionsave(fun: string, des: string) {
 
@@ -19,10 +25,13 @@ export class AddFunctionComponent implements OnInit {
       console.warn("Blenddatasaveup", Blenddatasaveup)
       this.Function_save_data = Blenddatasaveup
     })
-
+    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Function is saved successfully.' } });
   }
-
-
+  clearfunc() {
+    this.functioncodes = '';
+    this.functiondiscriptions = '';
+    this.Datashare.senditemtoraw(null);
+  }
 
   funsaveup(fun: any, des: any) {
     var funcode = fun;

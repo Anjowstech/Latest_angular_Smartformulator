@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject  } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AddnewParamComponent } from './addnew-param/addnew-param.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-loadspecification-parameter',
@@ -18,8 +19,11 @@ export class LoadspecificationParameterComponent implements OnInit {
   finalspecification: string;
   specificationvalue: string;
   deletespecdetails: any;
+  i: any;
+  j: any;
+  SpecdataList: data3[][] = [];
   Spec_save_data: any;
-  constructor(public dialog: MatDialog, private http: HttpClient, public datashare: DataShareServiceService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private http: HttpClient, public datashare: DataShareServiceService) { }
   openloadaddnewparam(): void {
     const dialogRef = this.dialog.open(AddnewParamComponent, {
       width: '30%', height: '25%', disableClose: true
@@ -51,47 +55,47 @@ export class LoadspecificationParameterComponent implements OnInit {
     let params1 = new HttpParams().set('Description', desc);
     return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/deletespecificationparams", { params: params1 })
   }
-  //setvalues(loadspecdata: any) {
-  //  this.i = 0;
-  //  this.j = 0;
+  setvalues(loadspecdata: any) {
+    this.i = 0;
+    this.j = 0;
 
 
 
-  //  for (let search of loadspecdata) {
+    for (let search of loadspecdata) {
 
 
 
-  //    this.SpecdataList[this.i] = ([{
+      this.SpecdataList[this.i] = ([{
 
-  //      Specification: search.Specification,
-  //      SpecificationValue: search.SpecificationValue,
+        Specification: search.Specification,
+        SpecificationValue: search.SpecificationValue,
 
-  //    }]);
-  //    this.i++;
+      }]);
+      this.i++;
 
 
 
-  //  }
-  //}
+    }
+  }
  
-  //SaveSpecifications() {
-  //  this.setvalues(this.loadspecdetails);
-  //  this.Specsaveup(this.loadpdrno).subscribe((Specda_save) => {
-  //    console.warn("Customer_save", Specda_save)
-  //    this.Spec_save_data = Specda_save
-  //  })
-  //}
-  //Specsaveup(pdrno: string) {
-  //  var pdrnum = pdrno;
-  //  var datalistdata: any = JSON.stringify(this.SpecdataList);
-  //  var Username = "admin";
-  //  var Projectname = this.loadpdrname;
+  SaveSpecifications() {
+    this.setvalues(this.loadspecdetails);
+    this.Specsaveup(this.loadpdrno).subscribe((Specda_save) => {
+      console.warn("save_specification", Specda_save)
+      this.Spec_save_data = Specda_save
+    })
+  }
+  Specsaveup(pdrno: string) {
+    var pdrnum = pdrno;
+    var datalistdata: any = JSON.stringify(this.SpecdataList);
+    var Username = "admin";
+    var Projectname = this.data.pdrname;
 
 
 
-  //  let params1 = new HttpParams().set('PDRNo', pdrnum).set('ProjectName', Projectname).set('specdatajson', datalistdata).set('username', Username);
-  //  return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/SavePDRSpecification", { params: params1 })
-  //}
+    let params1 = new HttpParams().set('PDRNo', pdrnum).set('ProjectName', Projectname).set('specdatajson', datalistdata).set('username', Username);
+    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/SavePDRSpecification", { params: params1 })
+  }
   selecteduserdet(specificationloading: string) {
     this.selecteduserspecification = specificationloading;
     //this.finalproperty = this.selecteduserProperty[0];
@@ -112,4 +116,8 @@ export class LoadspecificationParameterComponent implements OnInit {
       this.loadspecdetails = loadspecs
     })
   }
+}
+export class data3 {
+  Specification: string;
+  SpecificationValue: string;
 }

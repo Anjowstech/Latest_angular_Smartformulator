@@ -53,7 +53,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let raw_search of dataraw_search | filter:formulanamedata|filter:formulacodedata|filter:lbnotedata; let i=index;" (click)="setvalues( raw_search);close();" #conten>
+          <tr *ngFor="let raw_search of dataraw_search | filter:formulanamedata|filter:formulacodedata|filter:lbnotedata ; let i=index;" (click)="setvalues( raw_search);close();" #conten>
             <td class="tabledatasize  ">{{ raw_search.FormulaCode }}</td>
             <td class="tabledatasize ">{{ raw_search.Description}}</td>
             <td class="tabledatasize ">{{ raw_search.LabRefNo }}</td>

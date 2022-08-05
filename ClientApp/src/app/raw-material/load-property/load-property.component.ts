@@ -45,6 +45,9 @@ export class LoadPropertyComponent implements OnInit {
   valname: any = "";
   itemcod: string = '';
   pop = "% Wt Solids";
+  i: number;
+  j: number;
+  SpecdataList: data3[][] = [];
   datarawpropertyloadrprop: any;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService) {
    
@@ -92,8 +95,20 @@ export class LoadPropertyComponent implements OnInit {
   closedialog() {
     this.dialog.closeAll();
   }
+  setvalues(loadspecdata: any) {
+    this.i = 0;
+    this.j = 0;
+    for (let search of loadspecdata) {
+      this.SpecdataList[this.i] = ([{
+        propname: search.propname,
+        propvalue: search.propvalue,
+      }]);
+      this.i++;
+    }
+  }
   SaveProperty() {
     var itemco = this.Datashare.getitemcode();
+    this.setvalues(this.datarawpropertyloadrprop);
     this.PropertySave(this.myusername, itemco).subscribe((result7) => {
       console.warn("resultsavesProperty", result7)
       this.acceptPropertyvalue = result7
@@ -101,8 +116,9 @@ export class LoadPropertyComponent implements OnInit {
   }
   PropertySave(WebValue1: string,itemcode:string) {    
     this.WebvValue = WebValue1;
+    var loadproperty: any = JSON.stringify(this.SpecdataList);
     var operation: string = "Insert";
-    let parms = new HttpParams().set('PropertyName', this.finalproperty).set('PropertyValue', this.WebvValue).set('itemcode', itemcode).set('operation', operation);
+    let parms = new HttpParams().set('Propertjson', loadproperty).set('itemcode', itemcode).set('operation', operation);
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/update_save_Properties", { params: parms, responseType: 'text' });
   }
   PropertyDelete() {
@@ -135,5 +151,9 @@ export class LoadPropertyComponent implements OnInit {
       this.datarawpropertyloadrprop = rawpropertyload
     });
   }
-
 }
+export class data3 {
+  propname: string;
+  propvalue: string;
+}
+

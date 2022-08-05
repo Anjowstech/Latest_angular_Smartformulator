@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DxDataGridModule, DxDataGridComponent } from 'devextreme-angular';
 import themes from 'devextreme/ui/themes';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 
 
@@ -30,7 +31,7 @@ export class AddSupplierComponent implements OnInit {
   address: string="";
   customertype: string;
   phone: string ="";
-  email: string= "";
+  emailsup: string= "";
   fax: string= "";
   addedby: string;
   website: string="";
@@ -52,10 +53,10 @@ export class AddSupplierComponent implements OnInit {
   FOB: string="";
   fob: string="";
   Supplier_deletedata: any;
-  Terms: string ="";
+  Terms: string ="No Terms";
   ShipVia: string="";
   ExpenseAccount: string="";
-  SupplierStatus: string="";
+  SupplierStatus: string="Active";
   OtherShipVia: string="";
   shipto: string="";
   operation: string;
@@ -66,6 +67,7 @@ export class AddSupplierComponent implements OnInit {
   selectedValuerating: number; termsdatalo_data: any;
   componentData: any;
   formuladetails: any;
+  active: string='1';
   auditrialdetails: any;
   dataloadsupplierallrm: any;
   dataloadsupplierapprovedrm: any;
@@ -167,7 +169,7 @@ export class AddSupplierComponent implements OnInit {
       this.SupplierCode = item.code;
       this.Suppliername = item.name;
       this.address = item.Address;
-      this.email = item.email;
+      this.emailsup = item.email;
       this.phoneNumber = item.phoneNumber;
       this.fax = item.fax;
       this.website = item.website;
@@ -293,11 +295,17 @@ export class AddSupplierComponent implements OnInit {
     let params1 = new HttpParams().set('code', suppliercode).set('name', suppliername);
     return this.http.get("https://smartformulatorsupplierwebservice.azurewebsites.net/Supplier_DeleteBtn", { params: params1, })
   }
+  openlink() {
+    window.open(this.website, "_blank");
+    
+  }
   ClearData() {
+    this.active = '1';
     this.SupplierCode = '';
     this.Suppliername = '';
     this.address = '';
-    this.email = '';
+    this.emailsup = '';
+    
     this.phoneNumber ='';
     this.fax = '';
     this.website = '';
@@ -313,7 +321,9 @@ export class AddSupplierComponent implements OnInit {
     this.Supplierkey = '';
     this.Rating = ''
     this.Approved = '';
-   
+    this.Starrating = '';
+  
+    this.countStar(0);
       this.Approv = false
   
     this.FOB = '';
@@ -327,6 +337,47 @@ export class AddSupplierComponent implements OnInit {
     this.dataloadsupplierallrm = '';
     this.dataloadsupplierapprovedrm=
     this.dataloadsupplierunapprovedrm = '';
+    this.rowData = '';
+    this.formuladetails = '';
+  }
+  ClearData2() {
+    this.active = '1';
+    this.SupplierCode = '';
+    this.Suppliername = '';
+    this.address = '';
+    this.emailsup = '';
+
+    this.phoneNumber = '';
+    this.fax = '';
+    this.website = '';
+    this.SAbbreviation = '';
+    this.ContactPerson = '';
+    this.Distributor = '';
+    this.ContactNo = '';
+    this.Notes = '';
+    this.City = '';
+    this.State = '';
+    this.Country = '';
+    this.Zip = '';
+    this.Supplierkey = '';
+    this.Rating = ''
+    this.Approved = '';
+    this.Starrating = '';
+
+    this.countStar(0);
+    this.Approv = false
+
+    this.FOB = '';
+    this.Terms = '';
+    this.ShipVia = '';
+    this.ExpenseAccount = '';
+    this.SupplierStatus = '';
+    this.OtherShipVia = '';
+    this.shipto = '';
+    this.auditrialdetails = '';
+    this.dataloadsupplierallrm = '';
+    this.dataloadsupplierapprovedrm =
+      this.dataloadsupplierunapprovedrm = '';
     this.rowData = '';
     this.formuladetails = '';
   }
@@ -409,104 +460,136 @@ export class AddSupplierComponent implements OnInit {
 
 
     this.markFormTouched(this.login_formsupp);
-    if (this.login_formsupp.valid) {
-      var formValues = this.login_formsupp.getRawValue;
-      var operat: string = "Update";
+    if (supplierkey == "" || supplierkey == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Supplier key' } });
 
+    }
 
-
-      this.RMdataList = [];
-      this.setvalues2(this.dataloadsupplierallrm);
-
-
-
-      this.dataList[0] = ([{
-        code: this.SupplierCode,
-        name: suppliername,
-        Address: this.address,
-        email: this.email,
-        phoneNumber: this.phoneNumber,
-        fax: this.fax,
-        website: this.website,
-        SAbbreviation: this.SAbbreviation,
-        ContactPerson: this.ContactPerson,
-        ContactNo: this.ContactNo,
-        Distributor: this.Distributor,
-        Notes: this.Notes,
-        Approved: this.Approved,
-        City: this.City,
-        State: this.State,
-        Country: this.Country,
-        Zip: this.Zip,
-        SupplierKey: supplierkey,
-        FOB: this.FOB,
-        Terms: this.Terms,
-        ShipVia: this.ShipVia,
-        ExpenseAccount: this.ExpenseAccount,
-        SupplierStatus: this.SupplierStatus,
-        Prefered: 'false',
-        OtherShipVia: this.OtherShipVia,
-        Rating: this.Starrating,
-        shipto: this.shipto,
-      }]);
-      this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
-        console.warn("Supplierr_save", Supplierr_save)
-        this.Supplier_save_data = Supplierr_save
-      })
-      this.showAlert()
+    else if (suppliername == "" || suppliername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Supplier Name' } });
     }
     else {
-      this.login_formsupp.controls['terms'].setValue(false);
+
+
+      if (this.login_formsupp.valid) {
+        var formValues = this.login_formsupp.getRawValue;
+        var operat: string = "Update";
+
+
+
+        this.RMdataList = [];
+        this.setvalues2(this.dataloadsupplierallrm);
+
+
+
+        this.dataList[0] = ([{
+          code: this.SupplierCode,
+          name: suppliername,
+          Address: this.address,
+          email: this.emailsup,
+          phoneNumber: this.phoneNumber,
+          fax: this.fax,
+          website: this.website,
+          SAbbreviation: this.SAbbreviation,
+          ContactPerson: this.ContactPerson,
+          ContactNo: this.ContactNo,
+          Distributor: this.Distributor,
+          Notes: this.Notes,
+          Approved: this.Approved,
+          City: this.City,
+          State: this.State,
+          Country: this.Country,
+          Zip: this.Zip,
+          SupplierKey: supplierkey,
+          FOB: this.FOB,
+          Terms: this.Terms,
+          ShipVia: this.ShipVia,
+          ExpenseAccount: this.ExpenseAccount,
+          SupplierStatus: this.SupplierStatus,
+          Prefered: 'false',
+          OtherShipVia: this.OtherShipVia,
+          Rating: this.Starrating,
+          shipto: this.shipto,
+        }]);
+        this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
+          console.warn("Supplierr_update", Supplierr_save)
+          this.Supplier_save_data = Supplierr_save
+          if (this.Supplier_save_data != "") {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
+          }
+
+        })
+
+
+      }
+      else {
+        this.login_formsupp.controls['terms'].setValue(false);
+      }
     }
   }
   Suppliersaveupdate(supplierkey: string, suppliername: string, suppliercod) {
 
     this.markFormTouched(this.login_formsupp);
-    if (this.login_formsupp.valid) {
-      // You will get form value if your form is valid
-      var formValues = this.login_formsupp.getRawValue;
-      var operat: string = "Save";
 
-      this.dataList[0] = ([{
-        code: suppliercod,
-        name: suppliername,
-        Address: this.address,
-        email: this.email,
-        phoneNumber: this.phoneNumber,
-        fax: this.fax,
-        website: this.website,
-        SAbbreviation: '',
-        ContactPerson: this.ContactPerson,
-        ContactNo: this.ContactNo,
-        Distributor: this.Distributor,
-        Notes: this.Notes,
-        Approved: this.Approved,
-        City: this.City,
-        State: this.State,
-        Country: this.Country,
-        Zip: this.Zip,
-        SupplierKey: supplierkey,
-        FOB: this.FOB,
-        Terms: this.Terms,
-        ShipVia: this.ShipVia,
-        ExpenseAccount: this.ExpenseAccount,
-        SupplierStatus: this.SupplierStatus,
-        Prefered: 'false',
-        OtherShipVia: '',
-        Rating: this.Starrating,
-        shipto: this.shipto,
+    if (supplierkey == "" || supplierkey == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Supplier key' } });
 
+    }
 
-
-      }]);
-      this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
-        console.warn("Supplierr_save", Supplierr_save)
-        this.Supplier_save_data = Supplierr_save
-      })
-      this.showAlert()
+    else if (suppliername == "" || suppliername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Supplier Name' } });
     }
     else {
-      this.login_formsupp.controls['terms'].setValue(false);
+
+      if (this.login_formsupp.valid) {
+        // You will get form value if your form is valid
+        var formValues = this.login_formsupp.getRawValue;
+        var operat: string = "Save";
+
+        this.dataList[0] = ([{
+          code: suppliercod,
+          name: suppliername,
+          Address: this.address,
+          email: this.emailsup,
+          phoneNumber: this.phoneNumber,
+          fax: this.fax,
+          website: this.website,
+          SAbbreviation: '',
+          ContactPerson: this.ContactPerson,
+          ContactNo: this.ContactNo,
+          Distributor: this.Distributor,
+          Notes: this.Notes,
+          Approved: this.Approved,
+          City: this.City,
+          State: this.State,
+          Country: this.Country,
+          Zip: this.Zip,
+          SupplierKey: supplierkey,
+          FOB: this.FOB,
+          Terms: this.Terms,
+          ShipVia: this.ShipVia,
+          ExpenseAccount: this.ExpenseAccount,
+          SupplierStatus: this.SupplierStatus,
+          Prefered: 'false',
+          OtherShipVia: '',
+          Rating: this.Starrating,
+          shipto: this.shipto,
+
+
+
+        }]);
+        this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
+          console.warn("Supplierr_save", Supplierr_save)
+          this.Supplier_save_data = Supplierr_save
+          if (this.Supplier_save_data != "") {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
+          }
+        })
+
+      }
+      else {
+        this.login_formsupp.controls['terms'].setValue(false);
+      }
     }
   }
   markFormTouched(group: FormGroup | FormArray) {

@@ -4,12 +4,59 @@ p.test {
   font-family: Haettenschweiler
 }
 
-h1.design {
+.margindesign {
+  border: 0.5px solid maroon;
+  padding: 50px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin: 20px;
+}
+
+.master-detail-caption {
+  padding: 0 0 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+input {
+  margin: 5px;
+}
+.header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+label {
+  font-size: 15px;
+  font-family: Verdana;
+  text-align: right;
+  padding-right: 20px;
+  display: inline-block;
+  min-width: 150px;
+}
+
+fieldset.scheduler-border {
+  border: solid 1px #DDD !important;
+  padding: 0 10px 10px 10px;
+  border-bottom: none;
+}
+
+legend.scheduler-border {
+  width: auto !important;
+  border: none;
+  font-size: 14px;
+}
+
+h2.design {
   text-align: center;
   font: 20px;
   font-family: 'Arial Rounded MT';
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 40px;
+  padding-bottom: 30px;
 }
 
 .textalign1 {
@@ -25,8 +72,18 @@ h1.design {
 
 .tabbutto:hover {
   background-color: whitesmoke;
-  color: dimgray;
+  color: dimgrey;
 }
+
+.tabrowli {
+  text-align: center;
+  margin: 2px;
+  padding: 10px;
+  border: 1px solid #AAA;
+  background: #ECECEC;
+  display: inline-block;
+}
+
 
 .buttoncolor {
   border-color: #214252;
@@ -39,6 +96,69 @@ h1.design {
   cursor: pointer;
 }
 
+.button {
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+p.test {
+  padding: 20px;
+  text-align: left;
+  font-family: Haettenschweiler
+}
+
+.margindesign {
+  border: 0.5px solid maroon;
+  padding: 50px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin: 20px;
+}
+
+input {
+  margin: 5px;
+}
+
+fieldset.scheduler-border {
+  border: solid 1px #DDD !important;
+  padding: 0 10px 10px 10px;
+  border-bottom: none;
+}
+
+legend.scheduler-border {
+  width: auto !important;
+  border: none;
+  font-size: 14px;
+}
+
+h2.design {
+  text-align: center;
+  font: 20px;
+  font-family: 'Arial Rounded MT';
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
+
+.textalign1 {
+}
+
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+
+.tabcolor {
+  color: #bb2205;
+}
+
+.tabbutto:hover {
+  background-color: whitesmoke;
+  color: dimgrey;
+}
+
 .tabrowli {
   text-align: center;
   margin: 2px;
@@ -46,6 +166,18 @@ h1.design {
   border: 1px solid #AAA;
   background: #ECECEC;
   display: inline-block;
+}
+
+
+.buttoncolor {
+  border-color: #214252;
+  background-color: #214252;
+}
+
+.tab-close {
+  color: lightseagreen;
+  text-align: right;
+  cursor: pointer;
 }
 
 .button {
@@ -57,11 +189,14 @@ h1.design {
   font-size: 16px;
 }
 
-.example-container {
-  height: 400px;
-  overflow: auto;
+label {
+  font-size: 15px;
+  font-family: Verdana;
+  display: inline-block;
+  text-align: right;
 }
 
-table {
-  width: 100%;
+.textsize {
+  font-size: 15px;
+  font-family: Verdana;
 }

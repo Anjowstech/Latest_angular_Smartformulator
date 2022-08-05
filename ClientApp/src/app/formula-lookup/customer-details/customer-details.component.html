@@ -33,8 +33,8 @@
       </div>
 
     </form>
-    <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
-      <ng-container ngbNavItem style="margin-left:20px">
+    <nav ngbNav [(activeId)]="active" #nav="ngbNav" class="nav-tabs scrolling-wrapper">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Details</a>
         <ng-template ngbNavContent>
           <form>
@@ -141,7 +141,7 @@
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
                   <label for="E-Mail">E-Mail </label>
-                  <input type="email" class="form-control" id="emailmai" style="width:60%;" name="emailmain" [(ngModel)]="emailref" value="">
+                  <input type="email" class="form-control" id="emailmai" style="width:60%;" name="emailmain" [(ngModel)]="emailref" value=""(blur)="validemail($event)">
                 </div>
                 <!--<div class="form-inline">
 
@@ -159,7 +159,7 @@
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 1 ">E-Mail 1 </label>
-                  <input type="email" class="form-control" id="E-Mail 1" style="width:60%;" name="email1" [(ngModel)]="contactfmail" value="">
+                  <input type="email" class="form-control" id="E-Mail 1" style="width:60%;" name="email1" [(ngModel)]="contactfmail" value=""(blur)="validemail1($event)">
                 </div>
                 <!--<div class="form-inline">
 
@@ -177,7 +177,7 @@
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 2">E-Mail 2</label>
-                  <input type="email" class="form-control" id="E-Mail 2" style="width:60%;" name="email2" [(ngModel)]="contactsmail" value="">
+                  <input type="email" class="form-control" id="E-Mail 2" style="width:60%;" name="email2" [(ngModel)]="contactsmail" value=""(blur)="validemail2($event)">
                 </div>
                 <!--<div class="form-inline">
 
@@ -195,7 +195,7 @@
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="E-Mail 3">E-Mail 3 </label>
-                  <input type="email" class="form-control" id="E-Mail 3 " style="width:60%;" name="email3" [(ngModel)]="contacttmail" value="">
+                  <input type="email" class="form-control" id="E-Mail 3 " style="width:60%;" name="email3" [(ngModel)]="contacttmail" value=""(blur)="validemail3($event)">
                 </div>
                 <!--<div class="form-inline">
 
@@ -230,7 +230,7 @@
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
                   <label for="Card No">Card No</label>
-                  <input type="text" class="form-control" id="Card No" style="width:25%;">
+                  <input type="text" class="form-control" id="Card No" style="width:25%" [(ngModel)]="creditcardno"name="creditcard" value="">
                   <label for="Expiry Date " style="margin-left:1%">Expiry Date </label>
                   <input style="width: 20%;" type="date" id="expdt" class="form-control" [(ngModel)]="expirydate" (change)="dateChangeexp($event)" name="dateexp" value="">
                 </div>
@@ -251,7 +251,7 @@
         </ng-template>
       </ng-container>
 
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="2">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer Preferences</a>
         <ng-template ngbNavContent>
           <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
@@ -323,9 +323,9 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
                           <b style="color: black"></b>
                         </div>
-                        <dxi-column dataField="incicode"
+                        <dxi-column dataField="CusCode"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black">item #</b>
                         </div>
@@ -536,7 +536,7 @@
           </ng-template>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem style="margin-left:20px">
+      <ng-container ngbNavItem="3" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Shipping Locations</a>
         <ng-template ngbNavContent>
           <div style="color: #bb2205">
@@ -578,7 +578,7 @@
             <div class="form-group col-md-6">
               <div class="form-inline">
                 <label>Location</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="locationname" value="" name="locate">
+                <input style="width: 50%;"  id ="loca"type="text" class="form-control" [(ngModel)]="locationname" value="" name="locate">
               </div>
               <div class="form-inline">
                 <label>Address</label>
@@ -616,7 +616,7 @@
               </div>
               <div class="form-inline">
                 <label>E-Mail</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Email" value="" name="email">
+                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Email" value="" name="email" (blur)="validemail4($event);">
               </div>
               <div class="form-inline">
                 <label>Contact #</label>
@@ -640,7 +640,7 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="4">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>ERP Products/COA Expiry Dates</a>
         <ng-template ngbNavContent>
           <form>
@@ -749,7 +749,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="5">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Pricing </a>
         <ng-template ngbNavContent>
 
@@ -1100,7 +1100,7 @@
           </ng-template>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="6">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Validated OTC Batch Sizes</a>
         <ng-template ngbNavContent>
           <form>
@@ -1111,12 +1111,12 @@
 
               <dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
                             (onRowPrepared)="onRowPrepared3($event)"
-                            (onSelectionChanged)="selectedChanged($event)"
+                            (onSelectionChanged)="selectedChangedvalid($event)"
                             (onCellDblClick)="Opensearchproductsforotcvalidate($event)"
                             [columnAutoWidth]="true"
                             [dataSource]="rowData4"
                             [wordWrapEnabled]="true"
-                            (onCellClick)="Opensearchproductsforotcvalidate($event)"
+                            
                             [showColumnLines]="true"
                             [showRowLines]="true"
                             [showBorders]="true"
@@ -1171,7 +1171,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="7">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Trail</a>
         <ng-template ngbNavContent>
           <form>
@@ -1223,11 +1223,11 @@
  
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" matDialogClose>Back</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();" matDialogClose>Back</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_saveupdate(custkey.value,custnam.value);">Save</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Update</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1% ">Delete</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1% "(click)="deletecustomer()">Delete</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">Print Preview</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">Import Customer Preferences</button>
 

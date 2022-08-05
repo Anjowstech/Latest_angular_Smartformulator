@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
@@ -12,6 +12,7 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 })
 export class IncinameSelectComponent implements OnInit {
   resultraw_searchinci_data: any;
+  private selectedLink: string = "startwith"; 
   getgriddata: string;
   griditem: any;
   gridinciname: any;
@@ -29,11 +30,25 @@ export class IncinameSelectComponent implements OnInit {
   pageHeight: number = 30;
   pageBuffer: number = 100;
   getlabels: string;
-  constructor(private http: HttpClient, private Datashare: DataShareServiceService, public dialogRef: MatDialogRef<IncinameSelectComponent> ) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient, private Datashare: DataShareServiceService, public dialogRef: MatDialogRef<IncinameSelectComponent> ) { }
   Loadsearchraw() {
 
     return this.http.get("https://smartformulatorformulalookupwebservice6.azurewebsites.net/dgFormulation_Loadsubgrid");
   }
+  setradiofilter(e: string): void {
+
+    this.selectedLink = e;
+
+  }
+
+  isSelected(name: string): boolean {
+
+    if (!this.selectedLink) { // if no radio button is selected, always return false so every nothing is shown  
+      return false;
+    }
+
+    return (this.selectedLink === name); // if current radio button is selected, return true, else return false  
+  }  
   setvalues(inci_search) {
     this.gridinciname = inci_search.INCIName;
     this.griditem = inci_search.ItemNo;
@@ -73,7 +88,7 @@ export class IncinameSelectComponent implements OnInit {
     }
   }
   ngOnInit() {
-   // this.getgriddata = this.Datashare.getgridinciname()
+    this.getgriddata = this.data.displaydata
     this.getrawtable = this.Datashare.getrawtable()
 
     this.getlabels = this.Datashare.getlabel()

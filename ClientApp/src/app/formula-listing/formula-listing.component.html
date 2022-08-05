@@ -1,297 +1,892 @@
 <div style="    background-color: #f6f5f1">
- 
-    <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center" >Formula Listing</h2>
+
+  <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formula Listing</h2>
 
 
 
   <nav ngbNav #nav="ngbNav" class="nav-tabs">
     <ng-container ngbNavItem style="margin-left:20px">
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>All</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>All</a>
       <ng-template ngbNavContent>
-        <div style="    background-color: #eeeeee;">
-          <!--<label for="search" style="margin-left: 100px;">search</label>-->
-          <form class="form-inline" style="    background-color: #eeeeee;">
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode" [(ngModel)]="formulacode"  name="formcode" value="">
+              </div>
+              <div class="form-inline">
+                <label>PDR #</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr" [(ngModel)]="pdrnum"  name="pdrno" value="">
+              </div>
+              <div class="form-inline">
+                <label>Status</label>
+                <select id="status" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="status" name="stat" value="">
+                 
+                  <option>A-Active</option>
+                  <option>I-Incomplete</option>
+                  <option>N-Inactive</option>
+                  <option>WIP-Project Initiated</option>
+                  <option>WIP-Under Development</option>
+                  <option>WIP-Primary Testing</option>
+                  <option>WIP-Secondary Testing</option>
+                  <option>WIP-QC Testing</option>
+                  <option>WIP-Finished</option>
+                  <option>WIP-Formula Approved</option>
+                  <option>WIP-Sample Submitted</option>
+                  <option>WIP-Sample Rejected</option>
+                  <option>WIP-Sample Approved</option>
+                  <option>Productized</option>
+                  <option>Locked</option>
+                  <option>Productized Active Formula</option>
+                  <option>Productized InActive Formula</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name" [(ngModel)]="formulaname" name="formname" value="">
+              </div>
+              <div class="form-inline">
+                <label>Project Name</label>
+                <select id="project_name" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="projectname"  name="proname" value="">
 
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
-          </form>
+                  <option *ngFor="let option of loadprojectdata ">{{option.projectname}}</option>
+                </select>
+              </div>
+              <div class="form-inline">
+                <label>Created By</label>
+                <select id="Created_by" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="createdby" name="createby" value="">
 
-          <form class="form-inline">
+                  <option *ngFor="let option of loaduserdata ">{{option.username}}</option>
+                </select>
 
-            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
-
-
-
-            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
-              <option selected>Select Project Name</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-          <form class="form-inline">
-
-
-            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
-              <option selected>Status</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-
-
-            <select id="Created_by" class="form-control" style="width:370px;margin-left:70px;margin-top:15px">
-              <option selected>Created By</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-
-
-          <div class="example-container mat-elevation-z8" style="margin-top:20px">
-            
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+            </div>
           </div>
+
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:50vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">Formula #</th>
+                <th class="header" scope="col">Formula Name</th>
+                <th class="header" scope="col">PDR #</th>
+                <th class="header" scope="col">Project Name</th>
+                <th class="header" scope="col">Status</th>
+                <th class="header" scope="col">Created By</th>
+                <th class="header" scope="col">Created Date</th>
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_all of loadalldata | filter:formulacode|filter:pdrnum| filter:status|filter:formulaname| filter:projectname|filter:createdby; let i=index;">
+                <td>{{ load_all.formulacode }}</td>
+                <td>{{ load_all.description }}</td>
+                <td>{{ load_all.pdrno }}</td>
+                <td>{{ load_all.projectname }}</td>
+                <td>{{ load_all.status }}</td>
+                <td>{{ load_all.username }}</td>
+                <td>{{ load_all.addeddate }}</td>
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
         </div>
       </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>My Formula</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>My Formula</a>
       <ng-template ngbNavContent>
-        <div style="    background-color: #eeeeee;">
-          <!--<label for="search" style="margin-left: 100px;">search</label>-->
-          <form class="form-inline" style="    background-color: #eeeeee;">
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode" [(ngModel)]="t2formulacode"  name="t2formcode" value="">
+              </div>
+              <div class="form-inline">
+                <label>PDR #</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr" [(ngModel)]="t2pdrnum"  name="t2pdrno" value="">
+              </div>
+              <div class="form-inline">
+                <label>Status</label>
+                <select id="status" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="t2status" name="t2stat" value="">
 
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
-          </form>
+                  <option>A-Active</option>
+                  <option>I-Incomplete</option>
+                  <option>N-Inactive</option>
+                  <option>WIP-Project Initiated</option>
+                  <option>WIP-Under Development</option>
+                  <option>WIP-Primary Testing</option>
+                  <option>WIP-Secondary Testing</option>
+                  <option>WIP-QC Testing</option>
+                  <option>WIP-Finished</option>
+                  <option>WIP-Formula Approved</option>
+                  <option>WIP-Sample Submitted</option>
+                  <option>WIP-Sample Rejected</option>
+                  <option>WIP-Sample Approved</option>
+                  <option>Productized</option>
+                  <option>Locked</option>
+                  <option>Productized Active Formula</option>
+                  <option>Productized InActive Formula</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name" [(ngModel)]="t2formulaname"  name="t2formname" value="">
+              </div>
+              <div class="form-inline">
+                <label>Project Name</label>
+                <select id="project_name" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="t2projectname" name="t2projname" value="">
 
-          <form class="form-inline">
+                  <option *ngFor="let option of loadprojectdata ">{{option.projectname}}</option>
+                </select>
+              </div>
 
-            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
-
-
-
-            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
-              <option selected>Select Project Name</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-          <form class="form-inline">
-
-
-            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
-              <option selected>Status</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-
-
-
-
-          </form>
-
-
-          <div class="example-container mat-elevation-z8" style="margin-top:20px">
-           
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+            </div>
           </div>
+
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:50vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">Formula #</th>
+                <th class="header" scope="col">Formula Name</th>
+                <th class="header" scope="col">PDR #</th>
+                <th class="header" scope="col">Project Name</th>
+                <th class="header" scope="col">Status</th>
+                <th class="header" scope="col">Created By</th>
+                <th class="header" scope="col">Created Date</th>
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_form of loadformuladata| filter:t2formulacode|filter:t2pdrnum| filter:t2status|filter:t2formulaname| filter:t2projectname ; let i=index;">
+                <td>{{ load_form.formulacode }}</td>
+                <td>{{ load_form.description }}</td>
+                <td>{{ load_form.pdrno }}</td>
+                <td>{{ load_form.projectname }}</td>
+                <td>{{ load_form.status }}</td>
+                <td>{{ load_form.username }}</td>
+                <td>{{ load_form.addeddate }}</td>
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
         </div>
       </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Products</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Products</a>
       <ng-template ngbNavContent>
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
 
+
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+
+              <div class="form-inline">
+                <label>Product #</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="product" [(ngModel)]="t3productnum"  name="t3productno" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Poduct Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;" class=" form-control" id="Product_Name" [(ngModel)]="t3productname"  name="t3prodname" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;"(click)="ClearData();">Clear</button>
+
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <div class="form-inline" style="margin-top: -10px">
+                <label> Customer</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:82.5%;" class="form-control" id="Customer" [(ngModel)]="t3customername"  name="t3customername" value="">
+              </div>
+            </div>
+          </div>
+          <div class="form-inline" style="margin-top: -10px">
+            <label for="inputcust">Product date</label>
+            <label for="inputcust" style="margin-left:-80px">From</label>
+            <input type="date" id="prodfrm" class="form-control" style="width:20%;" [(ngModel)]="productDatefrom" name="prddatefrm" value="">
+
+
+            <label for="inputcust" style="margin-left:2%">To</label>
+            <input type="date" id="prodto" class="form-control" style="width:20%;margin-left:10px" [(ngModel)]="productDateto" name="prddateto" value="">
+            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; "(click)="datesend();">Search</button>
+          </div>
+          <div class="form-inline" style="padding-top:1%;margin-bottom:1%">
+            <input class="form-check-input" type="checkbox" name="allpro" id="allprod" style="margin-left:2%"   value="" (change)="triggerSomeEvent1($event)"
+                   [checked]="allproduct=='1'?true:false">
+            <label for="All_prod" style="margin-left:-1.5%">All Products</label><br>
+            <input class="form-check-input" style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="" (change)="triggerSomeEvent2($event)"
+                   [checked]="activeproducts=='1'?true:false">
+            <label for="male">Active Products</label><br>
+
+            <input class="form-check-input" style="margin-left:7%" type="checkbox" name="Chkplt" id="Chkplt" (change)="triggerSomeEvent3($event)"
+                   [checked]="inactiveproducts=='1'?true:false">
+            <label for="male" style="margin-left:1%">InActive Products</label><br>
+            <input class="form-check-input" style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="" (change)="triggerSomeEvent4($event)"
+                   [checked]="pendingproducts=='1'?true:false">
+            <label for="male" style="margin-left:1%">Pending Approvals</label><br>
+
+
+          </div>
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:45vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">Product #</th>
+                <th class="header" scope="col">Product Name</th>
+                <th class="header" scope="col">Formula #</th>
+                <th class="header" scope="col">Formula Name</th>
+                <th class="header" scope="col">Product Date</th>
+                <th class="header" scope="col">Size</th>
+                <th class="header" scope="col">Customer</th>
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_pro of loadprodata | filter:t3productnum|filter:t3productname| filter:t3customername; let i=index;">
+                <td>{{ load_pro.productnumber }}</td>
+                <td>{{ load_pro.productname }}</td>
+                <td>{{ load_pro.formulacode }}</td>
+                <td>{{ load_pro.description }}</td>
+                <td>{{ load_pro.productdate }}</td>
+                <td>{{ load_pro.size }}</td>
+                <td>{{ load_pro.customername }}</td>
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Company Owned</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Company Owned</a>
       <ng-template ngbNavContent>
-        <div style="    background-color: #eeeeee;">
-          <!--<label for="search" style="margin-left: 100px;">search</label>-->
-          <form class="form-inline" style="    background-color: #eeeeee;">
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode"  [(ngModel)]="formuacodecomp" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>PDR #</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr"  [(ngModel)]="pdrnumcomp" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Status</label>
+                <select id="status" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="statusnumcomp" name="prddatefrm" value="">
 
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
+                  <option>A-Active</option>
+                  <option>I-Incomplete</option>
+                  <option>N-Inactive</option>
+                  <option>WIP-Project Initiated</option>
+                  <option>WIP-Under Development</option>
+                  <option>WIP-Primary Testing</option>
+                  <option>WIP-Secondary Testing</option>
+                  <option>WIP-QC Testing</option>
+                  <option>WIP-Finished</option>
+                  <option>WIP-Formula Approved</option>
+                  <option>WIP-Sample Submitted</option>
+                  <option>WIP-Sample Rejected</option>
+                  <option>WIP-Sample Approved</option>
+                  <option>Productized</option>
+                  <option>Locked</option>
+                  <option>Productized Active Formula</option>
+                  <option>Productized InActive Formula</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name"  [(ngModel)]="formulanamecomp" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Project Name</label>
+                <select id="project_name" class="form-control" style="width:65%;margin-top:10px"  [(ngModel)]="projectnamecomp" name="prddatefrm" value="">
 
-          </form>
+                  <option *ngFor="let option of loadprojectdata ">{{option.projectname}}</option>
+                </select>
+              </div>
+              <div class="form-inline">
+                <label>Created By</label>
+                <select id="Created_by" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="createdbycomp" name="prddatefrm" value="">
 
-          <form class="form-inline">
+                  <option *ngFor="let option of loaduserdata ">{{option.username}}</option>
+                </select>
 
-            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
-
-
-
-            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
-              <option selected>Select Project Name</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-          <form class="form-inline">
-
-
-            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
-              <option selected>Status</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-
-
-            <select id="Created_by" class="form-control" style="width:370px;margin-left:70px;margin-top:15px">
-              <option selected>Created By</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-
-
-          <div class="example-container mat-elevation-z8" style="margin-top:20px">
-           
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+            </div>
           </div>
+
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:50vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">Formula #</th>
+                <th class="header"scope="col">Formula Name</th>
+                <th class="header" scope="col">PDR #</th>
+                <th class="header" scope="col">Project Name</th>
+                <th class="header" scope="col">Status</th>
+                <th class="header" scope="col">Created By</th>
+                <th class="header" scope="col">Created Date</th>
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_comp of loadcmpanydata | filter:formulanamecomp|filter:projectnamecomp| filter:createdbycomp|filter:pdrnumcomp|filter:statusnumco|filter:formuacodecomp;let i=index;">
+                <td>{{ load_comp.formulacode }}</td>
+                <td>{{ load_comp.description }}</td>
+                <td>{{ load_comp.pdrno }}</td>
+                <td>{{ load_comp.projectname }}</td>
+                <td>{{ load_comp.status }}</td>
+                <td>{{ load_comp.username }}</td>
+                <td>{{ load_comp.addeddate }}</td>
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
         </div>
       </ng-template>
 
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Customer Owned</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer Owned</a>
       <ng-template ngbNavContent>
-        <p>data5</p>
-      </ng-template>
-    </ng-container>
-    <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Generic</a>
-      <ng-template ngbNavContent>
-        <div style="    background-color: #eeeeee;">
-          <!--<label for="search" style="margin-left: 100px;">search</label>-->
-          <form class="form-inline" style="    background-color: #eeeeee;">
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode"[(ngModel)]="formulacodecust" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>PDR #</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr" [(ngModel)]="projectnamecust" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Status</label>
+                <select id="status" class="form-control" style="width:65%;margin-top:10px"[(ngModel)]="statuscust" name="prddatefrm" value="">
 
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 90px;" class="form-control" placeholder="Enter Formula Code" id="formulacode" size="40">
-            <input type="text" (keyup)="applyFilter($event)" style="margin-left: 70px" class=" form-control" placeholder="Enter Formula Name" id="formula_name" size="40">
-            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 90px;">Clear</button>
-          </form>
+                  <option>A-Active</option>
+                  <option>I-Incomplete</option>
+                  <option>N-Inactive</option>
+                  <option>WIP-Project Initiated</option>
+                  <option>WIP-Under Development</option>
+                  <option>WIP-Primary Testing</option>
+                  <option>WIP-Secondary Testing</option>
+                  <option>WIP-QC Testing</option>
+                  <option>WIP-Finished</option>
+                  <option>WIP-Formula Approved</option>
+                  <option>WIP-Sample Submitted</option>
+                  <option>WIP-Sample Rejected</option>
+                  <option>WIP-Sample Approved</option>
+                  <option>Productized</option>
+                  <option>Locked</option>
+                  <option>Productized Active Formula</option>
+                  <option>Productized InActive Formula</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name" [(ngModel)]="formulanamecust" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Project Name</label>
+                <select id="project_name" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="projectnamecust" name="prddatefrm" value="">
 
-          <form class="form-inline">
+                  <option *ngFor="let option of loadprojectdata ">{{option.projectname}}</option>
+                </select>
+              </div>
+              <div class="form-inline">
+                <label>Created By</label>
+                <select id="Created_by" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="createdbycust" name="prddatefrm" value="">
 
-            <input type="text" style="margin-top:10px;margin-left:90px;" class="form-control" placeholder="Enter PDR" id="formula_pdr" size="40">
+                  <option *ngFor="let option of loaduserdata ">{{option.username}}</option>
+                </select>
 
-
-
-            <select id="project_name" class="form-control" style="width:370px;margin-left:70px;margin-top:10px">
-              <option selected>Select Project Name</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-          <form class="form-inline">
-
-
-            <select id="status" class="form-control" style="width:370px;margin-left:90px;margin-top:15px">
-              <option selected>Status</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-
-
-            <select id="Created_by" class="form-control" style="width:370px;margin-left:70px;margin-top:15px">
-              <option selected>Created By</option>
-              <option>Admin</option>
-              <option>Admin1</option>
-              <option>Admin2</option>
-              <option>Admin3</option>
-              <option>Admin4</option>
-            </select>
-
-          </form>
-
-
-          <div class="example-container mat-elevation-z8" style="margin-top:20px">
-           
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+            </div>
           </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <div class="form-inline">
+                <label>Customer</label>
+                <select id="status" class="form-control" style="width:82.5%">
+
+                  <option>All</option>
+                  <option>Admin1</option>
+                  <option>Admin2</option>
+                  <option>Admin3</option>
+                  <option>Admin4</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:45vh; overflow-y: auto;background-color:white">
+          <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">Customer Name</th>
+                <th class="header" scope="col">Formula #</th>
+                <th class="header" scope="col">Formula Name</th>
+                <th class="header" scope="col">PDR #</th>
+                <th class="header" scope="col">Project Name</th>
+                <th class="header" scope="col">Status</th>
+                <th class="header" scope="col">Created By</th>
+                <th  class="header" scope="col">Created Date</th>
+
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_custom of loadcustom| filter:formulanamecust|filter:projectnamecust| filter:createdbycust|filter:projectnamecust|filter:statuscust|filter:formulacodecust;let i=index;">
+                <td>{{ load_custom.customername}}</td>
+                <td>{{ load_custom.formulacode }}</td>
+                <td>{{ load_custom.description }}</td>
+                <td>{{ load_custom.pdrno }}</td>
+                <td>{{ load_custom.projectname }}</td>
+                <td>{{ load_custom.status }}</td>
+                <td>{{ load_custom.username }}</td>
+                <td>{{ load_custom.addeddate }}</td>
+
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
         </div>
       </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>LabNotebook</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Generic</a>
       <ng-template ngbNavContent>
-        <form>
-        </form>
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode"  [(ngModel)]="formulacodegene" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>PDR #</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr" [(ngModel)]="pdrnumgene" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Status</label>
+                <select id="status" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="statusgene" name="prddatefrm" value="">
+
+                  <option>A-Active</option>
+                  <option>I-Incomplete</option>
+                  <option>N-Inactive</option>
+                  <option>WIP-Project Initiated</option>
+                  <option>WIP-Under Development</option>
+                  <option>WIP-Primary Testing</option>
+                  <option>WIP-Secondary Testing</option>
+                  <option>WIP-QC Testing</option>
+                  <option>WIP-Finished</option>
+                  <option>WIP-Formula Approved</option>
+                  <option>WIP-Sample Submitted</option>
+                  <option>WIP-Sample Rejected</option>
+                  <option>WIP-Sample Approved</option>
+                  <option>Productized</option>
+                  <option>Locked</option>
+                  <option>Productized Active Formula</option>
+                  <option>Productized InActive Formula</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name" [(ngModel)]="formulanamegene" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Project Name</label>
+                <select id="project_name" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="projectnamegene" name="prddatefrm" value="">
+                  <option *ngFor="let option of loadprojectdata ">{{option.projectname}}</option>
+                </select>
+              </div>
+              <div class="form-inline">
+                <label>Created By</label>
+                <select id="Created_by" class="form-control" style="width:65%;margin-top:10px" [(ngModel)]="createdbygene" name="prddatefrm" value="">
+
+                  <option *ngFor="let option of loaduserdata ">{{option.username}}</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+            </div>
+          </div>
+
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:50vh; overflow-y: auto;background-color:white">
+          <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+
+                <th class="header" scope="col">Formula #</th>
+                <th  class="header"scope="col">Formula Name</th>
+                <th class="header" scope="col">PDR #</th>
+                <th class="header"scope="col">Project Name</th>
+                <th class="header"scope="col">Status</th>
+                <th class="header"scope="col">Created By</th>
+                <th class="header"scope="col">Created Date</th>
+
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_gene of loadgenericdata| filter:formulacodegene|filter:pdrnumgene| filter:statusgene|filter:formulanamegene|filter:projectnamegene|filter:createdbygene;let i=index;">
+
+                <td>{{ load_gene.formulacode }}</td>
+                <td>{{ load_gene.description }}</td>
+                <td>{{ load_gene.pdrno }}</td>
+                <td>{{ load_gene.projectname }}</td>
+                <td>{{ load_gene.status }}</td>
+                <td>{{ load_gene.username }}</td>
+                <td>{{ load_gene.addeddate }}</td>
+
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Customer</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>LabNotebook</a>
       <ng-template ngbNavContent>
-        <dx-button text="Click me"
-                   (onClick)="helloWorld()">
-        </dx-button>
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <div class="form-inline">
+                <label> Lab Notebook #-Page #</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:78.5%" class="form-control" id="labno"  [(ngModel)]="labpage" name="prddatefrm" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;">Clear</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode"  [(ngModel)]="formulacodelab" name="prddatefrm" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name"  [(ngModel)]="formulanamelab" name="prddatefrm" value="">
+              </div>
+            </div>
+
+          </div>
+
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:53vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header"scope="col">Lab Notebook #</th>
+                <th class="header"scope="col">Formula #</th>
+                <th class="header"scope="col">Formula Name</th>
+                <th class="header"scope="col">PDR #</th>
+                <th class="header"scope="col">Project Name</th>
+                <th class="header"scope="col">Status</th>
+                <th class="header"scope="col">Created By</th>
+                <th class="header"scope="col">Created Date</th>
+
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_lab of loadlarefdata | filter:labpage|filter:formulacodelab| filter:formulanamelab;let i=index;">
+                <td>{{ load_lab.labrefno }}</td>
+                <td>{{ load_lab.formulacode }}</td>
+                <td>{{ load_lab.description }}</td>
+                <td>{{ load_lab.pdrno }}</td>
+                <td>{{ load_lab.projectname }}</td>
+                <td>{{ load_lab.status }}</td>
+                <td>{{ load_lab.username }}</td>
+                <td>{{ load_lab.addeddate }}</td>
+
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-      <a class="tabcolor tabbutto tabrowli" ngbNavLink>Stability</a>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer</a>
       <ng-template ngbNavContent>
-        <p>data2</p>
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <!--<label for="search" style="margin-left: 100px;">search</label>-->
+              <div class="form-inline">
+                <label>Formula Code</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode"[(ngModel)]="formulcodecustomer" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>PDR #</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr"[(ngModel)]="pdrnumcustomer" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Status</label>
+                <select id="status" class="form-control" style="width:65%;margin-top:10px"[(ngModel)]="statuccustomer" name="prddatefrm" value="">
+
+                  <option>A-Active</option>
+                  <option>I-Incomplete</option>
+                  <option>N-Inactive</option>
+                  <option>WIP-Project Initiated</option>
+                  <option>WIP-Under Development</option>
+                  <option>WIP-Primary Testing</option>
+                  <option>WIP-Secondary Testing</option>
+                  <option>WIP-QC Testing</option>
+                  <option>WIP-Finished</option>
+                  <option>WIP-Formula Approved</option>
+                  <option>WIP-Sample Submitted</option>
+                  <option>WIP-Sample Rejected</option>
+                  <option>WIP-Sample Approved</option>
+                  <option>Productized</option>
+                  <option>Locked</option>
+                  <option>Productized Active Formula</option>
+                  <option>Productized InActive Formula</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Formula Name</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%;margin-top:10px" class=" form-control" id="formula_name"[(ngModel)]="formulanamecustomer" name="prddatefrm" value="">
+              </div>
+              <div class="form-inline">
+                <label>Project Name</label>
+                <select id="project_name" class="form-control" style="width:65%;margin-top:10px"[(ngModel)]="projectnamecustomer" name="prddatefrm" value="">
+
+                  <option *ngFor="let option of loadprojectdata ">{{option.projectname}}</option>
+                  </select>
+              </div>
+              <div class="form-inline">
+                <label>Created By</label>
+                <select id="Created_by" class="form-control" style="width:65%;margin-top:10px"[(ngModel)]="createdbycustomer" name="prddatefrm" value="">
+
+                  <option *ngFor="let option of loaduserdata ">{{option.username}}</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <div class="form-inline">
+                <label>Customer</label>
+                <select id="status" class="form-control" style="width:82.5%">
+
+                  <option>All</option>
+                  <option>Admin1</option>
+                  <option>Admin2</option>
+                  <option>Admin3</option>
+                  <option>Admin4</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:45vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header"scope="col">Customer Name</th>
+                <th class="header"scope="col">Formula #</th>
+                <th class="header"scope="col">Formula Name</th>
+                <th class="header"scope="col">PDR #</th>
+                <th class="header"scope="col">Project Name</th>
+                <th class="header"scope="col">Status</th>
+                <th class="header"scope="col">Created By</th>
+                <th class="header"scope="col">Created Date</th>
+
+                <!--<th scope="col">Customer Code</th>-->
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let load_cust of loadcustdata | filter:formulacodecustomer|filter:pdrnumcustomer| filter:statuscustomer|filter:formulanamecustomer|filter:projectnamecustomer|filter:createdbycustomer;let i=index;">
+                <td>{{ load_cust.customername}}</td>
+                <td>{{ load_cust.formulacode }}</td>
+                <td>{{ load_cust.description }}</td>
+                <td>{{ load_cust.pdrno }}</td>
+                <td>{{ load_cust.projectname }}</td>
+                <td>{{ load_cust.status }}</td>
+                <td>{{ load_cust.username }}</td>
+                <td>{{ load_cust.addeddate }}</td>
+
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Stability</a>
+      <ng-template ngbNavContent>
+        <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+        <ng-template #innerTabset class="nav-tabs">
+          <ngb-tabset>
+            <ngb-tab class="" title="Stability Testing">
+              <ng-template ngbTabContent>
+                <form>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Daily Test Schedule">
+              <ng-template ngbTabContent>
+                <form>
+                </form>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ng-template>
+     
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Comp Compatability</a>
+      <ng-template ngbNavContent>
+        <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+        <ng-template #innerTabset class="nav-tabs">
+          <ngb-tabset>
+            <ngb-tab class="" title="Compatability Testing">
+              <ng-template ngbTabContent>
+                <form>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Daily Test Schedule">
+              <ng-template ngbTabContent>
+                <form>
+                </form>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
       </ng-template>
     </ng-container>
 
   </nav>
 
   <div [ngbNavOutlet]="nav" class="mt-2"></div>
-  <div class="form-row" style="    background-color: #eeeeee;">
+  <!--<div class="form-row">
     <div style="margin-left:20px;margin-top:20px" class="form-group ">
       <div class="form-inline">
 
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">New</button>
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:130px;">Create Report</button>
-        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;height:50px;width:100px;">Back</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;">New</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;">Create Report</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:30px;">Back</button>
 
 
 
 
       </div>
     </div>
-  </div>
-</div>
+  </div>-->
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();" matDialogClose>Back</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_saveupdate(custkey.value,custnam.value);">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Create Report</button>
+  
+
+  </div>
+
+</div>
 

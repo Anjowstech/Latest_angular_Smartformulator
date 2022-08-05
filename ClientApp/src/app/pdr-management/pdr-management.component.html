@@ -5,7 +5,7 @@
 
     <form class="form-inline" style="    background-color: #f6f5f1">
       <label for="PRD">PDR #</label>
-      <input type="text" style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="" #pdrn [readonly]="true">
+      <input type="text" disabled style="margin-left: 10px;" class="form-control" placeholder="Enter PDR" id="PD" size="40" [(ngModel)]="pdrno" name="pdr" value="" #pdrn >
       <label for="PDR Date" style="margin-left:10px;">PDR Date</label>
       <input type="date" [min]="currentDate" style="margin-left:10px" class="form-control" id="pdrdate" name="pddate" [(ngModel)]="currentDate" #currdate value="" [disabled]="datecheck" (change)="changecurrentdate($event)">
 
@@ -31,8 +31,8 @@
 
 
 
-    <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
-      <ng-container ngbNavItem style="margin-left:20px">
+    <nav ngbNav #nav="ngbNav"[(activeId)]="active" class="nav-tabs scrolling-wrapper">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
 
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>General</a>
         <ng-template ngbNavContent>
@@ -65,7 +65,7 @@
             </div>
             <div class="form-inline" style="margin-top:1%">
               <label for="inputStatus">Status</label>
-              <select id="inputStatus" class="form-control" style="width:40%" [(ngModel)]="status" (change)="changestatus($event)" name="stat" value="">
+              <select id="inputStatus" class="form-control" style="width:40%" [(ngModel)]="Status" (change)="changestatus($event)" name="stat" value="">
 
                 <option>WIP-Initiated</option>
                 <option>WIP-Approved</option>
@@ -105,7 +105,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="2">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Req's & Results</a>
         <ng-template ngbNavContent>
           <form>
@@ -141,7 +141,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="3">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Product Dev Brief</a>
         <ng-template ngbNavContent>
 
@@ -475,11 +475,11 @@
 
                               <dxi-column dataField="" [width]="50"></dxi-column>
 
-                              <dxi-column dataField="testname"  headerCellTemplate="addressHeaderTemplatetestnam"></dxi-column>
+                              <dxi-column dataField="TestName"  headerCellTemplate="addressHeaderTemplatetestnam"></dxi-column>
                               <div *dxTemplate="let info of 'addressHeaderTemplatetestnam'">
                                 <b style="color: black">Test Name</b>
                               </div>
-                              <dxi-column dataField="description"  headerCellTemplate="addressHeaderTemplatedescription"></dxi-column>
+                              <dxi-column dataField="Size"  headerCellTemplate="addressHeaderTemplatedescription"></dxi-column>
                               <div *dxTemplate="let info of 'addressHeaderTemplatedescription'">
                                 <b style="color: black">Description</b>
                               </div>
@@ -505,7 +505,7 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="4">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Assigning Users</a>
         <ng-template ngbNavContent>
           <div class=" form-row">
@@ -569,7 +569,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="5">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>21CFR Part-11 Approver List</a>
         <ng-template ngbNavContent>
           <div class=" form-row">
@@ -650,7 +650,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="6">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Stage-Gate Settings</a>
         <ng-template ngbNavContent>
           <div style="margin-top:15px;">
@@ -671,35 +671,36 @@
                 </tr>
               </thead>
               <tbody>
-                <tr >
+                <tr>
                   <th scope="row">1</th>
                   <td style="background-color: #d8e7eb; color:black;">PDR Creation</td>
                   <td style="background-color: #d8e7eb;">
-                  
+
                     <input [min]="currentDate" type="date" style=" width:100%;
                   border: none;
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
                  " [(ngModel)]="currentDate" value="" id="compdate" name="createenddate" placeholder="Enter PDR date" />
-<td style="background-color: #d8e7eb;">
-                    <input  [(ngModel)]="pdrcreatedate" value="" id="createdate" name="createstartdate" type="date" style=" width:100%;
+                  <td style="background-color: #d8e7eb;">
+                    <input [(ngModel)]="pdrcreatedate" value="" id="createdate" name="createstartdate" type="date" style=" width:100%;
                   border: none;
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
-                 "  placeholder="Enter PDR date" />
+                 " placeholder="Enter PDR date" (change)="datechangeclick($event)" />
                   </td>
                   <td style="background-color: #d8e7eb;">{{pdrcreationdays}}</td>
                   <td style="background-color: #d8e7eb;">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvaluepdrcreation(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pdrcreateuser}}</option>
-                     
+                      <option *ngFor="let pdrdata of stageassigneduserdata1">{{pdrdata.UserName}}</option>
+                      <!--<option selected>{{pdrcreateuser}}</option>-->
+
                     </select>
                   </td>
                   <td style="background-color: #d8e7eb;">
@@ -709,7 +710,8 @@
                     box-shadow: none;
                     outline: none;
                     ">
-                      <option selected>{{pdrcreateuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata1">{{pdrdata.UserName}}</option>
+                      <!--<option selected>{{pdrcreateuser1}}</option>-->
                     </select>
                   </td>
                 </tr>
@@ -717,32 +719,33 @@
                   <th scope="row">2</th>
                   <td style="color:red;">PDR Approval</td>
                   <td>
-                    <input  [min]="pdrapproval"   type="date" style="    width: 100%;
+                    <input [min]="pdrapproval" type="date" style="    width: 100%;
     border: none;
     color: red;
     box-shadow: none;
     outline: none;
-  "[(ngModel)]="pdrapproval" value="" id="pdrappr" name="pdrappro" placeholder="Enter PDR date" />
+  " [(ngModel)]="pdrapproval" value="" id="pdrappr" name="pdrappro" placeholder="Enter PDR date" />
                   </td>
                   <td>
-                    <input  [min]="pdrapproval"  type="date" style="    width: 100%;
+                    <input [min]="pdrapproval" type="date" style="    width: 100%;
     border: none;
     color: red;
     box-shadow: none;
     outline: none;
-  "[(ngModel)]="pdrapproval" value="" id="pdrendappr" name="pdrendappro" placeholder="Enter PDR date" />
+  " [(ngModel)]="pdapprovalend" value="" id="pdrendappr" name="pdrendappro" placeholder="Enter PDR date" (change)="datechangepdrapproval($event)" />
                   </td>
                   <td style="color: red;">
                     {{pdrapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvaluepdrapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pdrapprovaluser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata2">{{pdrdata.UserName}}</option>
+                      <!--<option selected>{{pdrapprovaluser}}</option>-->
                     </select>
                   </td>
                   <td>
@@ -752,7 +755,8 @@
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pdrapprovaluser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata2">{{pdrdata.UserName}}</option>
+                      <!--<option selected>{{pdrapprovaluser1}}</option>-->
                     </select>
                   </td>
                 </tr>
@@ -760,8 +764,8 @@
                   <th scope="row">3</th>
                   <td style="color:black; background-color:#d8e7eb">Formula Creation</td>
                   <td style="background-color:#d8e7eb">
-                
-                    <input  [min]="formulacreation" type="date" style=" width:100%;
+
+                    <input [min]="formulacreation" type="date" style=" width:100%;
                   border: none;
                   background-color: #d8e7eb;
                   box-shadow: none;
@@ -770,34 +774,35 @@
                   </td>
 
                   <td style="background-color: #d8e7eb;">
-                    <input  [min]="formulacreationend" type="date" style=" width:100%;
+                    <input [min]="formulacreationend" type="date" style=" width:100%;
                   border: none;
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
-                 " [(ngModel)]="formulacreationend" value="" id="formulacreateen" name="formulacreat" placeholder="Enter PDR date" />
+                 " [(ngModel)]="formulacreationend" value="" id="formulacreateen" name="formulacreat" placeholder="Enter PDR date" (change)="datechangeformulacreation($event)" />
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
                     {{formulacreationdays}}
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueFormulaCreation(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{formulacreationuser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata3">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueFormulaCreation(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{formulacreationuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata3">{{pdrdata.UserName}}</option>
+                      <!--<option selected>{{formulacreationuser1}}</option>-->
                     </select>
                   </td>
                 </tr>
@@ -810,37 +815,38 @@
 
                   box-shadow: none;
                  outline: none;
-                 "[(ngModel)]="qctestapprovals" value="" id="qcappstarta" name="qcapprstartaa" placeholder="Enter PDR date" />
+                 " [(ngModel)]="qctestapprovals" value="" id="qcappstarta" name="qcapprstartaa" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="qctestapprovalsend" type="date" style=" width:100%;
                   border: none;
-                 
+
                   box-shadow: none;
                  outline: none;
-                 " [(ngModel)]="qctestapprovalsend" value="" id="qcappend" name="qcapprend" placeholder="Enter PDR date" />
+                 " [(ngModel)]="qctestapprovalsend" value="" id="qcappend" name="qcapprend" placeholder="Enter PDR date" (change)="datechangeqctestapprovals($event)" />
                   </td>
                   <td>
                     {{qcapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueqctestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{qctestapprovalsuser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata4">{{pdrdata.UserName}}</option>
+                      <!--<option selected>{{qctestapprovalsuser}}</option>-->
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueqctestapprovals(workflow_pdr)" id="Assigned_to" style="width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{qctestapprovalsuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata4">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -853,37 +859,37 @@
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="producttestapprovals" value="" id="prodtestappro" name="prodtestappr"  placeholder="Enter PDR date" />
+                 " [(ngModel)]="producttestapprovals" value="" id="prodtestappro" name="prodtestappr" placeholder="Enter PDR date" />
                   </td>
                   <td>
-                    <input  [min]="protestapprend" type="date" style=" width:100%;
+                    <input [min]="protestapprend" type="date" style=" width:100%;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 " [(ngModel)]="protestapprend" value="" id="prodtestapproend" name="prodtestapprend"placeholder="Enter PDR date" />
+                 " [(ngModel)]="protestapprend" value="" id="prodtestapproend" name="prodtestapprend" placeholder="Enter PDR date" (change)="datechangeproducttestapprovals($event)" />
                   </td>
                   <td>
                     {{ptapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueProducttestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{producttestapprovalsuser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata5">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueProducttestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{producttestapprovalsuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata5">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -891,12 +897,12 @@
                   <th scope="row">6</th>
                   <td>Stability Test Approvals</td>
                   <td>
-                    <input  [min]="stabilitytestapproval"  type="date" style=" width:100%;
+                    <input [min]="stabilitytestapproval" type="date" style=" width:100%;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="stabilitytestapproval" value="" id="stabilitytestapprovalaa" name="stabilitytestapprovala" placeholder="Enter PDR date" />
+                 " [(ngModel)]="stabilitytestapproval" value="" id="stabilitytestapprovalaa" name="stabilitytestapprovala" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="stabilityapprovalend" type="date" style=" width:100%;
@@ -904,29 +910,29 @@
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="stabilityapprovalend" value="" id="stabilityapprovalendaa" name="stabilityapprovalenda"  placeholder="Enter PDR date" />
+                 " [(ngModel)]="stabilityapprovalend" value="" id="stabilityapprovalendaa" name="stabilityapprovalenda" placeholder="Enter PDR date" (change)="datechangestabilitytestapprovals($event)" />
                   </td>
                   <td>
                     {{stabilityapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueStabilityTestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{stabilitytestapprovaluser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata6">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueStabilityTestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{stabilitytestapprovaluser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata6">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -934,42 +940,42 @@
                   <th scope="row">7</th>
                   <td>COA Test Approvals</td>
                   <td>
-                    <input  [min]="coateatappro" type="date" style=" width:100%;
+                    <input [min]="coateatappro" type="date" style=" width:100%;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 "   [(ngModel)]="coateatappro" value="" id="coateatapproaa" name="coateatapproa"  placeholder="Enter PDR date" />
+                 " [(ngModel)]="coateatappro" value="" id="coateatapproaa" name="coateatapproa" placeholder="Enter PDR date" />
                   </td>
                   <td>
-                    <input  [min]="coatestapproend" type="date" style=" width:100%;
+                    <input [min]="coatestapproend" type="date" style=" width:100%;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="coatestapproend" value="" id="coatestapproendaa" name="coatestapproenda"  placeholder="Enter PDR date" />
+                 " [(ngModel)]="coatestapproend" value="" id="coatestapproendaa" name="coatestapproenda" placeholder="Enter PDR date" (change)="datechangescoatestapprovals($event)" />
                   </td>
                   <td>
                     {{coaapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueCOATestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{coateatapprouser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata7">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueCOATestapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{coateatapprouser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata7">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -977,12 +983,12 @@
                   <th scope="row">8</th>
                   <td style="color:red;">Regulatory Approvals/Rejection</td>
                   <td>
-                    <input  [min]="regulatoryappro" type="date" style="    width: 100%;
+                    <input [min]="regulatoryappro" type="date" style="    width: 100%;
     border: none;
     box-shadow: none;
     outline: none;
     color: red;
-  "[(ngModel)]="regulatoryappro" value="" id="regulatoryapproaa" name="regulatoryapproa" placeholder="Enter PDR date" />
+  " [(ngModel)]="regulatoryappro" value="" id="regulatoryapproaa" name="regulatoryapproa" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="regulatoryapproend" type="date" style="    width: 100%;
@@ -990,29 +996,29 @@
     color: red;
     box-shadow: none;
     outline: none;
-  "[(ngModel)]="regulatoryapproend" value="" id="regulatoryapproendaa" name="regulatoryapproenda" placeholder="Enter PDR date" />
+  " [(ngModel)]="regulatoryapproend" value="" id="regulatoryapproendaa" name="regulatoryapproenda" placeholder="Enter PDR date" (change)="datechangesRegulatoryRejectionaprovals($event)" />
                   </td>
                   <td style="color: red;">
                     {{regulatoryapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueRegulatoryapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{regulatoryapprouser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata8">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueRegulatoryapprovals(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{regulatoryapprouser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata8">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
 
@@ -1026,7 +1032,7 @@
 
                   box-shadow: none;
                  outline: none;
-                 "[(ngModel)]="ilapprappr" value="" id="ilapprappraa" name="ilapprappra" placeholder="Enter PDR date" />
+                 " [(ngModel)]="ilapprappr" value="" id="ilapprappraa" name="ilapprappra" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="ilapprapprend" type="date" style=" width:100%;
@@ -1034,29 +1040,29 @@
 
                   box-shadow: none;
                  outline: none;
-                 " [(ngModel)]="ilapprapprend" value="" id="ilapprapprendaa" name="ilapprapprenda" placeholder="Enter PDR date" />
+                 " [(ngModel)]="ilapprapprend" value="" id="ilapprapprendaa" name="ilapprapprenda" placeholder="Enter PDR date" (change)="datechangesILLabel($event)" />
                   </td>
                   <td>
                     {{ilapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueIL(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{ilapprappruser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata9">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueIL(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{ilapprappruser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata9">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
 
@@ -1078,29 +1084,29 @@
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="formprocedureapprend" value="" id="formprocedureapprendaa" name="formprocedureapprenda" placeholder="Enter PDR date" />
+                 " [(ngModel)]="formprocedureapprend" value="" id="formprocedureapprendaa" name="formprocedureapprenda" placeholder="Enter PDR date" (change)="datechangesFormulaProcedure($event)" />
                   </td>
                   <td>
                     {{formulprocedureaapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueFormulaProcedure(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{formprocedureappruser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata10">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueFormulaProcedure(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{formprocedureappruser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata10">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -1113,7 +1119,7 @@
     color: red;
     box-shadow: none;
     outline: none;
-  "   [(ngModel)]="formulaapprorejection" value="" id="formulaapprorejectionaa" name="formulaapprorejectiona" placeholder="Enter PDR date" />
+  " [(ngModel)]="formulaapprorejection" value="" id="formulaapprorejectionaa" name="formulaapprorejectiona" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="formulaapprorejectionend" type="date" style="    width: 100%;
@@ -1121,29 +1127,29 @@
     color: red;
     box-shadow: none;
     outline: none;
-  "  [(ngModel)]="formulaapprorejectionend" value="" id="formulaapprorejectionendaa" name="formulaapprorejectionenda" placeholder="Enter PDR date" />
+  " [(ngModel)]="formulaapprorejectionend" value="" id="formulaapprorejectionendaa" name="formulaapprorejectionenda" placeholder="Enter PDR date" (change)="datechangesApprovalRejection($event)" />
                   </td>
                   <td style="color: red;">
                     {{formulaapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueFormulaRejection(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{formulaapprorejectionuser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata11">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueFormulaRejection(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{formulaapprorejectionuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata11">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -1157,51 +1163,51 @@
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="samplecreation" value="" id="samplecreationaa" name="samplecreationa" placeholder="Enter PDR date" />
+                 " [(ngModel)]="samplecreation" value="" id="samplecreationaa" name="samplecreationa" placeholder="Enter PDR date" />
                   </td>
 
                   <td style="background-color: #d8e7eb;">
-                    <input  [min]="samplecreationend" type="date" style=" width:100%;
+                    <input [min]="samplecreationend" type="date" style=" width:100%;
                   border: none;
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="samplecreationend" value="" id="samplecreationendaa" name="samplecreationenda" placeholder="Enter PDR date" />
+                 " [(ngModel)]="samplecreationend" value="" id="samplecreationendaa" name="samplecreationenda" placeholder="Enter PDR date" (change)="datechangesSampleCreation($event)" />
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
                     {{samplecreationdays}}
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueSampleCreation(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{samplecreationuser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata12">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueSampleCreation(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{samplecreationuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata12">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">13</th>
                   <td style="color:red;">Sample Approval/Rejection </td>
-                 <td>
+                  <td>
                     <input [min]="sampleapproval" type="date" style="    width: 100%;
     border: none;
     color: red;
     box-shadow: none;
     outline: none;
-  "  [(ngModel)]="sampleapproval" value="" id="sampleapprovalaa" name="sampleapprovala" placeholder="Enter PDR date" />
+  " [(ngModel)]="sampleapproval" value="" id="sampleapprovalaa" name="sampleapprovala" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="sampleapproval" type="date" style="    width: 100%;
@@ -1209,43 +1215,43 @@
     color: red;
     box-shadow: none;
     outline: none;
-  "  [(ngModel)]="sampleapprovalend" value="" id="sampleapprovalendaa" name="sampleapprovalenda" placeholder="Enter PDR date" />
+  " [(ngModel)]="sampleapprovalend" value="" id="sampleapprovalendaa" name="sampleapprovalenda" placeholder="Enter PDR date" (change)=" datechangesSampleApprovalRejection($event)" />
                   </td>
                   <td style="color: red;">
                     {{sampleapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueSampleApproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{sampleapprovaluser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata13">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueSampleApproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{sampleapprovaluser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata13">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">14</th>
                   <td style="color:black;background-color:#d8e7eb">Productization (to scale up&manufacture) </td>
-                  <td  style="background-color:#d8e7eb">
+                  <td style="background-color:#d8e7eb">
 
                     <input [min]="productization" type="date" style=" width:100%;
                   border: none;
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="productization" value="" id="productizationaa" name="productizationa" placeholder="Enter PDR date" />
+                 " [(ngModel)]="productization" value="" id="productizationaa" name="productizationa" placeholder="Enter PDR date" />
                   </td>
 
                   <td style="background-color: #d8e7eb;">
@@ -1254,42 +1260,42 @@
                   background-color: #d8e7eb;
                   box-shadow: none;
                  outline: none;
-                 " [(ngModel)]="productizationend" value="" id="productizationendaa" name="productizationenda" placeholder="Enter PDR date" />
+                 " [(ngModel)]="productizationend" value="" id="productizationendaa" name="productizationenda" placeholder="Enter PDR date" (change)=" datechangesproductization($event)" />
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
                     {{productizationdays}}
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueProductization(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{productizationuser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata14">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td style="color:black; background-color:#d8e7eb">
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueProductization(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
                    background-color: #d8e7eb;
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{productizationuser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata14">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">15</th>
                   <td>PCC Approval </td>
-                 <td>
-                    <input  [min]="pccapprovaldata" type="date" style=" width:100%;
+                  <td>
+                    <input [min]="pccapprovaldata" type="date" style=" width:100%;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="pccapprovaldata" value="" id="pccapprovaldataaa" name="pccapprovaldataa" placeholder="Enter PDR date" />
+                 " [(ngModel)]="pccapprovaldata" value="" id="pccapprovaldataaa" name="pccapprovaldataa" placeholder="Enter PDR date" />
                   </td>
                   <td>
                     <input [min]="pccapprovalenddata" type="date" style=" width:100%;
@@ -1297,29 +1303,29 @@
 
                   box-shadow: none;
                  outline: none;
-                 " [(ngModel)]="pccapprovalenddata" value="" id="pccapprovalenddataaa" name="pccapprovalenddataa" placeholder="Enter PDR date" />
+                 " [(ngModel)]="pccapprovalenddata" value="" id="pccapprovalenddataaa" name="pccapprovalenddataa" placeholder="Enter PDR date" (change)=" datechangesPCCApproval($event)" />
                   </td>
                   <td>
                     {{pccapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvaluePccapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pccapprovaldatauser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata15">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvaluePccapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pccapprovaldatauser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata15">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -1334,44 +1340,44 @@
                  outline: none;
                  " [(ngModel)]="pifapprovaldata" value="" id="pifapprovaldataaa" name="pifapprovaldataa" placeholder="Enter PDR date" />
                   </td>
-                 
+
                   <td>
                     <input [min]="pifapprovalenddata" type="date" style=" width:100%;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 "[(ngModel)]="pifapprovalenddata" value="" id="pifapprovalenddataaa" name="pifapprovalenddataa" placeholder="Enter PDR date" />
+                 " [(ngModel)]="pifapprovalenddata" value="" id="pifapprovalenddataaa" name="pifapprovalenddataa" placeholder="Enter PDR date" (change)=" datechangesPIFApproval($event)" />
                   </td>
                   <td>
                     {{pifapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvaluePIFapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pifapprovaldatauser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata16">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvaluePIFapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pifapprovaldatauser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata16">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
                 <tr>
-                  <th  scope="row">17</th>
+                  <th scope="row">17</th>
                   <td style="color:red;">Product Approval </td>
                   <td>
-                    <input  [min]="pdapproval" type="date" style=" width:100%;color:red;
+                    <input [min]="pdapproval" type="date" style=" width:100%;color:red;
                   border: none;
 
                   box-shadow: none;
@@ -1379,34 +1385,34 @@
                  " [(ngModel)]="pdapproval" value="" id="pdapprovalaa" name="pdapprovala" placeholder="Enter PDR date" />
                   </td>
                   <td>
-                    <input  [min]="pdapprovalend" type="date" style=" width:100%;color:red;
+                    <input [min]="pdapprovalend" type="date" style=" width:100%;color:red;
                   border: none;
 
                   box-shadow: none;
                  outline: none;
-                 "  [(ngModel)]="pdapprovalend" value="" id="pdapprovalendaa" name="pdapprovalenda" placeholder="Enter PDR date" />
+                 " [(ngModel)]="pdapprovalend" value="" id="pdapprovalendaa" name="pdapprovalenda" placeholder="Enter PDR date" (change)=" datechangesProductApproval($event)" />
                   </td>
                   <td style="color: red;">
                     {{productapprovaldays}}
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueProductapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pdapprovaluser}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata17">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                   <td>
-                    <select id="Assigned_to" style=" width:100%;
+                    <select (click)="setvalueProductapproval(workflow_pdr)" id="Assigned_to" style=" width:100%;
                    border: none;
 
                    box-shadow: none;
                    outline: none;
                    ">
-                      <option selected>{{pdapprovaluser1}}</option>
+                      <option *ngFor="let pdrdata of stageassigneduserdata17">{{pdrdata.UserName}}</option>
                     </select>
                   </td>
                 </tr>
@@ -1416,7 +1422,7 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="7">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Documents</a>
         <ng-template ngbNavContent>
           <form>
@@ -1531,7 +1537,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="8">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Assigned Formulations</a>
         <ng-template ngbNavContent>
           <p style="font-weight:bold">List of Formulations Assigned ( Double Click to Go for More Details</p>
@@ -1591,7 +1597,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="9">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Products</a>
         <ng-template ngbNavContent>
 
@@ -1631,7 +1637,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="10">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Change Request</a>
         <ng-template ngbNavContent>
           <label style="font-weight:bold">List of Changed Request ( Double Click to Go for More Details )</label>
@@ -1659,7 +1665,7 @@
           </div>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="11">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer Communications</a>
         <ng-template ngbNavContent>
 
@@ -1783,7 +1789,7 @@
 
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="12">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Specifications</a>
         <ng-template ngbNavContent>
           <form *ngIf="isLoadingspec;else contenspec">
@@ -1811,7 +1817,7 @@
                 <div class="form-inline" style="margin-top:10px; ">
                   <label> Odor </label>
                   <input style=" width:15%" type="text" class="form-control" id="data1" [(ngModel)]="Odor" name="od" value="">
-                  <label> Apperence </label>
+                  <label> Appearance </label>
                   <input style=" width: 23%;" type="text" class="form-control" id="data1" [(ngModel)]="Appearance" name="app" value="">
                   <label>Color</label>
                   <input style="  width: 15%" type="text" class="form-control" id="data1" [(ngModel)]="Color" name="clr" value="">
@@ -2046,7 +2052,7 @@
                 <div class="form-inline" style="margin-top:10px; margin-left:70px;">
                   <h5> Odor </h5>
                   <input style=" margin-left: 10px; width:185px" type="text" class="form-control" id="data1" [(ngModel)]="Odor" name="od" value="">
-                  <h5 style=" margin-left: 30px;"> Apperence </h5>
+                  <h5 style=" margin-left: 30px;"> Appearance </h5>
                   <input style=" margin-left: 10px; width: 282px;" type="text" class="form-control" id="data1" [(ngModel)]="Appearance" name="app" value="">
                   <h5 style="margin-left:110px;">Color</h5>
                   <input style=" margin-left: 10px; width: 190px;" type="text" class="form-control" id="data1" [(ngModel)]="Color" name="clr" value="">
@@ -2189,7 +2195,7 @@
           </form>
         </ng-template>
       </ng-container>
-      <ng-container ngbNavItem>
+      <ng-container ngbNavItem="13">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Tracking</a>
         <ng-template ngbNavContent>
           <div style="margin-left:1%;margin-top:1%; height:40rem; overflow-y: auto;">
@@ -2242,8 +2248,8 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="pdrsavemain()">Save</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="pdrupdatemain()">Update</button>
+    <button type="submit"  [hidden]="issearchpdrsave" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="pdrsavemain()">Save</button>
+    <button type="submit" [hidden]="issearchpdr" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="pdrupdatemain()">Update</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)=" ClearData()">New</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5% " (click)="DeletePDR()">Delete PDR</button>
 

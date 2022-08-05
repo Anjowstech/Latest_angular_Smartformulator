@@ -2,13 +2,14 @@ import { Component, OnInit, VERSION, ViewChild } from '@angular/core';
 import { NavItem } from './nav-item';
 import { MatMenuTrigger } from '@angular/material';
 import { PostsService } from './posts.service';
+import { RouterModule, Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   data: any;
-  constructor(private postData: PostsService) { }
+  constructor(private postData: PostsService, private router: Router) { }
   version = VERSION;
   panelOpenState = false;
   navItems: NavItem[] = [
@@ -388,6 +389,7 @@ export class AppComponent implements OnInit {
       this.data=result
     })
     this.recheckIfInMenu = false;
+ 
   }
   openResourceMenu() {
     this.trigger.openMenu();

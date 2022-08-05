@@ -1,15 +1,17 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div style="background-color: #f6f5f1">
   <div style="overflow-y:auto;overflow-x:hidden; height:88vh;width:100%">
     <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formulation Lookup</h2>
 
     <form class="form-inline" style="    background-color: #f6f5f1">
-      <label for="PDR" style="margin-left:82px;font-size: medium;
+      <label class="label1" for="PDR" style="margin-left:82px;font-size: medium;
   font-family: Verdana;">PDR</label>
       <input disabled type="text" style="margin-left: 20px;" class="form-control" placeholder="Enter PDR" id="PDR" size="20" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="">
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="assignpdr()">Assign PDR</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)="searchpdr()">Search PDR</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; "(click)="addpdr()">Add PDR/Project</button>
-      <label for="Formulacode" style="margin-left: 1%;">Formula Code</label>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)="searchpdr();goToBottom()">Search PDR</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; " (click)="addpdr()">Add PDR/Project</button>
+      <label for="PDR" style="margin-left: 1%;font-size: medium;
+  font-family: Verdana;">Formula Code</label>
       <select disabled id="formulacode" class="form-control" style="width:13%;margin-left:10px">
         <option selected>CUSTOM</option>
         <option>Admin</option>
@@ -18,15 +20,15 @@
         <option>Admin3</option>
         <option>Admin4</option>
       </select>
-      <input type="text" style="margin-left:30px;width:25%" class="form-control" id="formula_pdr" [(ngModel)]="formulacode" #formulacod name="formulacode" value="">
+      <input [disabled]="issearchform" type="text" style="margin-left:30px;width:20%" class="form-control" id="formula_pdr" [(ngModel)]="formulacode" #formulacod name="formulacode" value="">
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px;" (click)="AddPrefixPopUp()">Add Prefix</button>
     </form>
     <form class="form-inline">
     </form>
     <form class="form-inline" style="margin-bottom: 10px; background-color: #f6f5f1">
-      <label for="formulaname" style="margin-left: 1%;margin-top:10px; font-size: medium;
+      <label class="label1" for="formulaname" style="margin-left: 1%;margin-top:10px; font-size: medium;
   font-family: Verdana;">Formula Name</label>
-      <input type="text" style="margin-left: 10px ;margin-top:10px" class="form-control" placeholder="Enter Formula Name" id="formulaname" size="125" [(ngModel)]="formulaname" #formulanam name="formulaname" value="">
+      <input type="text" style="margin-left: 10px ;margin-top:10px" class="form-control" placeholder="Enter Formula Name" id="formulaname" size="125" [(ngModel)]="formulaname" #formulanam name="formulaname" value="" [disabled]="issearchform">
 
       <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-top:10px; height:40px;" (click)=" searchformula();changeTab()">Search Formula</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="    margin-left: 10px;margin-top: 10px; height: 40px;width: 90px;" (click)=" ClearData();changeTab();">Clear</button>
@@ -34,16 +36,18 @@
     <div class="alert" style="font-weight:700;font-size:larger" [class.visible]="isVisible">
       Saved Successfully!!
     </div>
+    
+    <mat-progress-bar mode="indeterminate" color="warn" *ngIf="loading;else conten3"></mat-progress-bar>
     <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
       <ng-container ngbNavItem="1" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>General</a>
         <ng-template ngbNavContent>
           <form>
             <div class="form-row" style=" ">
-              <div class="form-group col-md-9">
+              <div class="form-group col-md-8">
                 <div class="form-inline" style="padding-top:1%;">
                   <label class="label1" for="inputcust">Main Classification</label>
-                  <select id="PRD" class="form-control" style="width:45%;margin-left:5px">
+                  <select id="PRD" class="form-control" style="width:45%;margin-left:-6px">
                     <option selected>Cosmetics</option>
                     <option>Nutrition</option>
                     <option>Paints</option>
@@ -63,8 +67,8 @@
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
                   <label class="label1" for="inputcust">Sub Category</label>
-                  <select style="width: 45%;" type="text" class="form-control" [(ngModel)]="SubClass" #SubClas name="SubCla" value="">
-
+                  <select style="width: 45%;" class="form-control" [(ngModel)]="SubClass" id="subcateco" #subclass name="subcatecodes" (change)="onChange($event.target.value)">
+                    <option selected>Choose..</option>
                     <option *ngFor="let optionsub of datarawsubcategoryload ">{{optionsub.SubCategory}}</option>
 
                   </select>
@@ -131,9 +135,11 @@
                 </div>
 
                 <div class="form-inline" style="padding-top:1%;">
-                  <input class="form-check-input" style="margin-left:17%" type="checkbox" name="Chkplt" id="Chkplt" (change)="triggerSomeEvent()">
+                  <input class="form-check-input" style="margin-left:17%" type="checkbox" name="Chkplt" id="Chkplt" (change)="triggerSomeEvent($event)"
+                         [checked]="okpilot=='1'?true:false">
                   <label for="male">Ok to Pilot</label><br>
-                  <input class="form-check-input" style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="Yes">
+                  <input class="form-check-input" style="margin-left:7%" type="checkbox" id="Yes" name="Yes" value="" (change)="triggerSomeEvent1($event)"
+                         [checked]="okproduce=='1'?true:false">
                   <label for="male">Ok to Produce</label><br>
                   <input class="form-check-input" style="margin-left:7%" type="checkbox" [checked]="Approved=='True'?true:false">
                   <label style="color: maroon; font-size: larger;" for="male">Approve Formula</label><br>
@@ -141,40 +147,40 @@
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
                   <label class="label1" for="inputcust">Max Pilot Qty</label>
-                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="MaxPilotQty" #maxpiloqty name="maxpilotqty" value="" [disabled]="isDisabledappr" >
+                  <input style="width: 35%;" type="text" class="form-control" [(ngModel)]="MaxPilotQty" #maxpiloqty name="maxpilotqty" value="" [disabled]="isDisabledappr">
                   <label for="inputcust" style="margin-left:30px">Unit Name</label>
-                  <select  id="PRD" class="form-control" style="width:10%;margin-left:10px" [(ngModel)]="Maxpilotunit" name="maxpilotqtyunit" value="" [disabled]="isDisabledappr" >
+                  <select id="PRD" class="form-control" style="width:10%;margin-left:10px" [(ngModel)]="Maxpilotunit" name="maxpilotqtyunit" value="" [disabled]="isDisabledappr">
                     <option *ngFor="let itemunit of unitdatalo_data" (change)="setunitdata(unitdatalo_data)">{{itemunit.UnitName}}</option>
                   </select>
 
                 </div>
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-4">
 
                 <div class="form-inline">
                   <label style="margin-top:33%;font-size: medium;
   font-family: Verdana;">Trade Name</label>
-                  <input style="width: 60%;margin-left:15px;margin-top:33%;margin-left:12%" type="text" class="form-control" [(ngModel)]="TradeName" #Tradename name="tradenam" value="">
+                  <input style="width: 60%;margin-top:33%;" type="text" class="form-control" [(ngModel)]="TradeName" #Tradename name="tradenam" value="">
                 </div>
                 <div class="form-inline">
                   <label style="margin-top:2%;font-size: medium;
   font-family: Verdana;">Lab Notebook #-page</label>
-                  <input style="width: 50%;margin-top:5%" type="text" class="form-control" [(ngModel)]="LabRefNo" #Labrefno name="labRef" value="">
+                  <input style="width: 47%;margin-top:5%" type="text" class="form-control" [(ngModel)]="LabRefNo" #Labrefno name="labRef" value="">
                 </div>
 
               </div>
             </div>
             <div class="form-inline">
               <label class="label1" for="inputcust">Specific Gravity</label>
-              <input style="width: 6%;" type="text" class="form-control"  id="manusg" [(ngModel)]="ManualSG" #ManualS name="Manual" value="" (blur)="blurEventsg($event)">
+              <input style="width: 6%;" type="text" class="form-control" id="manusg" [(ngModel)]="ManualSG" #ManualS name="Manual" value="" (blur)="blurEventsg($event)">
               <label for="inputcust" style="margin-left:30px">_</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="highsp" [(ngModel)]="highspecificgravity"  name="sghigh" value="" (blur)="blurEventhighsg($event)">
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="highsp" [(ngModel)]="highspecificgravity" name="sghigh" value="" (blur)="blurEventhighsg($event)">
               <label for="inputcust" style="margin-left:30px">Lb/Gal</label>
-              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="inputclass">
+              <input style="width: 10%;margin-left:10px" type="text" class="form-control" id="inputclass" [(ngModel)]="Lbgal" name="lbgal" value="">
             </div>
-            <div class="form-inline">
+            <div class="form-inline" style="padding-top:0.5%;">
               <label class="label1" for="inputcust">Shelf Life</label>
-              <input style="width:35%" type="text" class="form-control" [(ngModel)]="ShelfLife" #shelflife name="ShelfLifedata" value="" (blur)="blurEventshelflife($event)">
+              <input style="width:10%" type="text" class="form-control" [(ngModel)]="ShelfLife" #shelflife name="ShelfLifedata" value="" (blur)="blurEventshelflife($event)">
               <select style="width:10%" type="text" class="form-control" [(ngModel)]="ShelfLifeUnit" #ShelfLifeUni name="ShelfLifeU" value="">
                 <option>Day(s)</option>
                 <option>Month(s)</option>
@@ -210,23 +216,27 @@
                       <mat-radio-button [value]="1" [checked]="true" (change)="radioChange($event)">%</mat-radio-button>
                       <mat-radio-button [value]="2" style="margin-left:20px" (change)="radioChange($event)">QTY</mat-radio-button>
                     </mat-radio-group>
-
+                    <mat-progress-spinner class="center" style="margin-left:40% " color="accent" *ngIf="isLoading;else conten" [diameter]="30"
+                                          mode="indeterminate">
+                    </mat-progress-spinner>
                   </div>
 
-                  <form>
+                  <form style="height:36vh;overflow-y:auto;overflow-x:hidden" #scrollBottom>
 
-                    <div class="col-1">
 
-                    </div>
 
-                    <ag-grid-angular style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+
+
+
+
+
+                    <ag-grid-angular style="width: 100%; height: 36vh;font-family:Verdana;font-style:normal;background-color:white"
                                      class="ag-theme-alpine"
                                      [rowHeight]="rowHeight"
                                      [columnDefs]="columnDefs"
                                      [rowClassRules]="rowClassRules"
                                      (columnResized)="onColumnResized($event)"
                                      (columnVisible)="onColumnVisible($event)"
-                                     [immutableData]="false"
                                      [rowDragManaged]="true"
                                      #agGrid
                                      [applyColumnDefOrder]="true"
@@ -238,14 +248,17 @@
                                      (contextmenu)=" rowRightClicked($event)"
                                      (rowClicked)="rowClicked($event)"
                                      (rowDoubleClicked)="rowDoubleClicked($event)"
+                                     (rowDragEnd)="onRowDragEnd($event)"
                                      [enableRangeSelection]="true"
+                                     [suppressScrollOnNewData]="true"
                                      [gridOptions]="gridOptions"
                                      [defaultColDef]="defaultColDef"
                                      [rowData]="rowData"
-                                       [overlayLoadingTemplate]="overlayLoadingTemplate"
+                                     [overlayLoadingTemplate]="overlayLoadingTemplate"
                                      (gridReady)="onGridReady($event)">
 
                     </ag-grid-angular>
+
                     <!--<dx-data-grid id="gridContainer "style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
                                 [height]="440"
                                 (onRowPrepared)="onRowPrepared($event)"
@@ -279,79 +292,82 @@
                     <dxi-column dataField="Cost" alignment="right" style="color:black"></dxi-column>
 
                   </dx-data-grid>-->
-                    <fieldset class="border p-0">
-                      <legend class="w-auto" style="font-size:15px;color:black">QUANTITY & COST</legend>
-                      <div class="form-row">
-                        <div class="form-group col-md-5">
-                          <div class="form-inline">
-                            <label style="margin-left:5%;" for="Cost$/Kg">Cost $/Kg</label>
-                            <input disabled type="text" style="margin-left:10px;width:25%; text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInkg" #TotalCostInKG name="TotalCostInk" value="">
+                  </form>
+                  <fieldset class="border p-0" style="margin-bottom:1%">
+                    <legend class="w-auto" style="font-size:15px;color:black">QUANTITY & COST</legend>
+                    <div class="form-row">
+                      <div class="form-group col-md-5">
+                        <div class="form-inline">
+                          <label style="margin-left:5%;" for="Cost$/Kg">Cost $/Kg</label>
+                          <input disabled type="text" style="margin-left:10px;width:25%; text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInkg" #TotalCostInKG name="TotalCostInk" value="">
 
-                          </div>
-                          <div class="form-inline">
-                            <label style="margin-top:0.5%;margin-left:5%;" for="Cost$/Lb">Cost $/Lb</label>
-                            <input disabled type="text" style="margin-left:10px;width:25%;text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInLB" #TotalCostlb name="TotalCostlb" value="">
-
-                          </div>
                         </div>
-                        <div class="form-group col-md-7">
+                        <div class="form-inline">
+                          <label style="margin-top:0.5%;margin-left:5%;" for="Cost$/Lb">Cost $/Lb</label>
+                          <input disabled type="text" style="margin-left:10px;width:25%;text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalCostInLB" #TotalCostlb name="TotalCostlb" value="">
 
-                          <div>
-
-
-
-
-
-
-
-
-                            <input disabled type="text" style="float: right; margin-right: 60px;width:17%;text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalUnitCost" #TotalunitCost name="TotalunitCos" value="">
-                          
-                            <input  type="text" disabled id="gra" class="form-control" [(ngModel)]="selectedunit" name="uni" value="" style=" float: right; margin-right: 10px; width: 6%;">
-                            <input disabled type="text" style=" float:right;margin-right:10px;width:10.5%;text-align:right" class="form-control" placeholder="" [(ngModel)]="totaquantity" #FormulaTotalQT name="FormulaTotalQ" value="">
-                            <input disabled type="text" style="float:right;margin-right:10px;width:10%;text-align:right" class="form-control" placeholder="" [(ngModel)]="TotalPercentage" #TotalPer name="TotalPerce" value="">
-                          </div>
-                          <div class="form-inline" style="margin-top:5%">
-                            <label style="margin-left:49.5%" for="total%">Total %</label>
-                            <label style="margin-left:6% " for="totalquantity">Total Quantity</label>
-                           
-                            <label style="margin-left: 13% " for="Unitcost">Total Cost$</label>
-
-                          </div>
-                          <div class="form-inline" style="margin-top:0.5%">
-
-                            <input disabled  type="text" style="margin-left:46.8%;width:10%;text-align:right" class="form-control" placeholder="" [(ngModel)]="Yield" #Yie name="Yiel" value="">
-                            <input disabled type="text" style="margin-left: 1%; width: 10%; text-align: right" class="form-control" placeholder="" [(ngModel)]="totaquantity" #formulaNetQ name="formulaNetQt" value="">
-                            <input disabled type="text" style="  margin-left: 9%; width:17%;text-align:right" class="form-control" placeholder="" [(ngModel)]="formulaCost" #formulaCo name="formulaCos" value="">
-
-                          </div>
-                          <div class="form-inline" style="margin-top:0.5%">
-                            <label style="margin-left: 49.5%" for="NetQuantity">Yield %</label>
-                            <label style="margin-left: 5%" for="NetQuantity">Net Quantity</label>
-                            <label style="margin-left: 15%" for="Unitcost">Unit Cost$</label>
-                          </div>
                         </div>
                       </div>
+                      <div class="form-group col-md-7">
+                        
+
+                        <div class="form-inline ">
 
 
-                    </fieldset>
-                    <div class="form-inline">
 
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="addRow($event)">Insert Row</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)=" deleteRow()">Delete Row</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)=" Pricing()">Pricing</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="HlbCalculation()">HLB Calculation</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formularestriction()">Check Restriction</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="ScalabilityFactor()">Scalability Factor</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="CostUpdate()">Cost Update</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;">Compare Formulas</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulaproperty();loadprop(formulacod.value)">Property</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="FormulaGraph()">Formula Graph</button>
-                      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulainstruction()">Formula Instruction</button>
 
-                    </div>
 
-                  </form>
+
+                          <input disabled type="text" style="margin-left: 46.5%; width: 10%; text-align: right" class="form-control" placeholder="" [(ngModel)]="TotalPercentage" #TotalPer name="TotalPerce" value="">
+                          <input disabled type="text" style=" margin-left:1%;width:10.5%;text-align:right" class="form-control" placeholder="" [(ngModel)]="totaquantity" #FormulaTotalQT name="FormulaTotalQ" value="">
+                          <input type="text" disabled id="gra" class="form-control" [(ngModel)]="selectedunit" name="uni" value="" style=" float: right; margin-right: 10px; width: 6%;">
+
+
+                          <input disabled type="text" style="margin-left: 1%; width: 17%; text-align: right" class="form-control" placeholder="" [(ngModel)]="TotalUnitCost" #TotalunitCost name="TotalunitCos" value="">
+
+
+
+                        </div>
+    <div class="form-inline" style="margin-top:0.5%">
+      <label style="margin-left: 49.5%" for="total%">Total %</label>
+      <label style="margin-left:5%" for="totalquantity">Total Quantity</label>
+
+      <label style="margin-left: 13% " for="Unitcost">Total Cost$</label>
+
+    </div>
+                                <div class="form-inline" style="margin-top:0.5%">
+
+                                  <input disabled type="text" style="margin-left:46.8%;width:10%;text-align:right" class="form-control" placeholder="" [(ngModel)]="Yield" #Yie name="Yiel" value="">
+                                  <input disabled type="text" style="margin-left: 1%; width: 10%; text-align: right" class="form-control" placeholder="" [(ngModel)]="totaquantity" #formulaNetQ name="formulaNetQt" value="">
+                                  <input disabled type="text" style="  margin-left: 9%; width:17%;text-align:right" class="form-control" placeholder="" [(ngModel)]="formulaCost" #formulaCo name="formulaCos" value="">
+
+                                </div>
+                                <div class="form-inline" style="margin-top:0.5%">
+                                  <label style="margin-left: 49.5%" for="NetQuantity">Yield %</label>
+                                  <label style="margin-left: 5%" for="NetQuantity">Net Quantity</label>
+                                  <label style="margin-left: 15%" for="Unitcost">Unit Cost$</label>
+                                </div>
+                              </div>
+                            </div>
+
+
+                  </fieldset>
+
+                  <div class="form-inline" style="margin-bottom:1vh;">
+
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="addRow($event)">Insert Row</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)=" deleteRow()">Delete Row</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)=" Pricing()">Pricing</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="HlbCalculation()">HLB Calculation</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formularestriction()">Check Restriction</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="ScalabilityFactor()">Scalability Factor</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="CostUpdate()">Cost Update</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;">Compare Formulas</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulaproperty();loadprop(formulacod.value)">Property</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="FormulaGraph()">Formula Graph</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;margin-top:10px; height:40px;" (click)="formulainstruction()">Formula Instruction</button>
+
+                  </div>
                 </ng-template>
               </ngb-tab>
               <ngb-tab>
@@ -542,125 +558,86 @@
 
             </div>
             <!--<div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-            <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white;height:20%" id="table" width="98%">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  <th scope="col">step</th>
-                  <th scope="col">INCI Name</th>
-                  <th scope="col">%</th>
-                  <th scope="col">Qty</th>
-                  <th scope="col">Unit</th>
-                  <th scope="col">Unit Cost $</th>
-                  <th scope="col">Cost $</th>
+    <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white;height:20%" id="table" width="98%">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">step</th>
+          <th scope="col">INCI Name</th>
+          <th scope="col">%</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Unit Cost $</th>
+          <th scope="col">Cost $</th>
 
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-
-
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
 
 
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
 
-                </tr>
 
-              </tbody>
-            </table>
 
-          </div>-->
-            <dx-data-grid id="gridContainer " style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
-                          [height]="440"
-                          (onRowPrepared)="onRowPrepared($event)"
-                          (onCellPrepared)="onCellPrepared($event)"
-                          [allowColumnReordering]="true"
-                          [allowColumnResizing]="true"
-                          [columnAutoWidth]="true"
-                          [dataSource]="rowData"
-                          [wordWrapEnabled]="true"
-                          [showColumnLines]="true"
-                          [showRowLines]="true"
-                          [showBorders]="true">
+        </tr>
 
-              <dxo-editing mode="row"
-                           [allowUpdating]="true"
-                           [allowDeleting]="true"
-                           [allowAdding]="true">
-              </dxo-editing>
-              <dxo-row-dragging [allowReordering]="true"
-                                [showDragIcons]="showDragIcons"></dxo-row-dragging>
-              <dxo-scrolling mode="virtual"></dxo-scrolling>
-              <dxo-sorting mode="none"></dxo-sorting>
-              <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
-              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-              <dxi-column dataField="Step" [fixed]="true" headerCellTemplate="addressHeaderTemplatestep"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplatestep'">
-                <b style="color: black">Step</b>
-              </div>
-              <dxi-column style="color:black"
-                          dataField="INCIName"
-                          [fixed]="true" headerCellTemplate="addressHeaderTemplateinci"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplateinci'">
-                <b style="color: black">INCI Name</b>
-              </div>
-              <dxi-column dataField="TradeName" headerCellTemplate="addressHeaderTemplatetrade"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplatetrade'">
-                <b style="color: black">Trade Name</b>
-              </div>
-              <dxi-column dataField="SupplierName" style="color:black" headerCellTemplate="addressHeaderTemplatesupplier"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplatesupplier'">
-                <b style="color: black">Supplier Name</b>
-              </div>
-              <dxi-column dataField="GeneralItemcode" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplategeneral"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplategeneral'">
-                <b style="color: black">General Item Code</b>
-              </div>
-              <dxi-column dataField="Qtyinpercentage" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplategeneralQty"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplategeneralQty'">
-                <b style="color: black">Qtyinpercentage</b>
-              </div>
-              <dxi-column dataField="Quantity" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplateQty"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplateQty'">
-                <b style="color: black">Quantity</b>
-              </div>
-              <dxi-column dataField="UnitName" style="color:black" headerCellTemplate="addressHeaderTemplateunit"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplateunit'">
-                <b style="color: black">Unit Name</b>
-              </div>
-              <dxi-column dataField="UnitCost" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplateUnitCost"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplateUnitCost'">
-                <b style="color: black">Unit Cost</b>
-              </div>
-              <dxi-column dataField="Cost" alignment="right" style="color:black" headerCellTemplate="addressHeaderTemplateCost"></dxi-column>
-              <div *dxTemplate="let info of 'addressHeaderTemplateCost'">
-                <b style="color: black">Cost</b>
-              </div>
+      </tbody>
+    </table>
 
-            </dx-data-grid>
+  </div>-->
+            <ag-grid-angular style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                             class="ag-theme-alpine"
+                             [rowHeight]="rowHeight"
+                             [columnDefs]="columnDefs1"
+                             [rowClassRules]="rowClassRules"
+                             (columnResized)="onColumnResized($event)"
+                             (columnVisible)="onColumnVisible($event)"
+                             #agGrid
+                             [applyColumnDefOrder]="true"
+                             [getRowStyle]="getRowStyle"
+                             [rowStyle]="rowStyle"
+                             [getRowNodeId]="getRowNodeId"
+                             [rowSelection]="rowSelection"
+                             [enableRangeSelection]="true"
+                             [suppressScrollOnNewData]="true"
+                             [gridOptions]="gridOptions"
+                             [defaultColDef]="defaultColDef"
+                             [rowData]="rowDatascalability"
+                             [overlayLoadingTemplate]="overlayLoadingTemplate"
+                             (gridReady)="onGridReadyone($event)">
+
+            </ag-grid-angular>
 
 
             <div class="form-inline">
               <label style="margin-left:1%;" for="Cost$/Lb">Cost $/Lb</label>
-              <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+              <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder=""
+                     [(ngModel)]="TotalCostInLB1" #Totalcost name="Totalcostin" value="">
+
               <label style="margin-left:3%; " for="TotalQuantity">Total Quantity</label>
-              <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
-              <input type="text" style="margin-left:10px;width:10%" class="form-control" placeholder="">
+              <input type="text" style="margin-left:10px;width:24.9%" class="form-control" placeholder=""
+                     [(ngModel)]="totaquantity1" #Totalqty name="Totalqty" value="">
+              <input type="text" style="margin-left:10px;width:10%" class="form-control"
+                     placeholder="" [(ngModel)]="unit1" #unit name="units" value="">
+
               <label style="margin-left:2%; " for="TotalQuantity">Total Cost $</label>
-              <input type="text" style="margin-left:10px;width:10%" class="form-control" placeholder="">
+              <input type="text" style="margin-left: 10px; width: 10%; color: red" class="form-control" placeholder=""
+                     [(ngModel)]="formulaCost1" #Totalcost name="Totalcost1" value="">
             </div>
             <div class="form-inline">
               <label style="margin-left:32%; " for="TotalQuantity">Scalability Factor</label>
-              <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+              <input type="text" style="margin-left:5px;width:24.9%" class="form-control" placeholder=""
+                     [(ngModel)]="scalef" #scalabilityfactor name="scalability" value="">
               <label style="margin-left:13%;color:red" for="TotalQuantity">Unit Cost $</label>
-              <input type="text" style="margin-left:10px;width:10%;color:red" class="form-control" placeholder="">
+              <input type="text" style="margin-left:7px;width:10%;color:red" class="form-control" placeholder="" [(ngModel)]="TotalUnitCost1" #Totalcost name="Totalcost" value="">
             </div>
 
 
@@ -673,66 +650,38 @@
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>QC</a>
         <ng-template ngbNavContent>
           <label style="margin-left:1%;margin-top:10px">Quality Control Test Results (Click Grid to Edit) :</label>
-          <table class="table table-bordered" style="background-color:white;">
-            <thead>
-              <tr>
-                <th scope="col">Test Name</th>
-                <th scope="col">No of Days</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Results</th>
-                <th scope="col">Approved (Y/N)</th>
-                <th scope="col">Approved By</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">A</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row">B</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row">C</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row">D</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row">E</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-          </table>
+          <div style="margin-left: 1%; margin-top: 1%; height: 30rem; overflow-y: auto; background-color: white;border:solid;border-width:0.1px">
+            <table class="table table-bordered" style="background-color:white;">
+              <thead>
+                <tr>
+                  <th scope="col">Test Name</th>
+                  <th scope="col">No of Days</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Results</th>
+                  <th scope="col">Approved (Y/N)</th>
+                  <th scope="col">Approved By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let qcdetails of qcdataload; let i=index;" (dblclick)="setvaluesqc(qcdetails);" #conten>
+
+                  <td class="tabledatasize">{{ qcdetails.TestName}}</td>
+                  <td class="tabledatasize">{{ qcdetails.noOfDays}}</td>
+                  <td class="tabledatasize">{{ qcdetails.startDate}}</td>
+                  <td class="tabledatasize">{{ qcdetails.enddate}}</td>
+                  <td class="tabledatasize">{{ qcdetails.Results}}</td>
+                  <td class="tabledatasize">{{ qcdetails.Approved}}</td>
+                  <td class="tabledatasize">{{ qcdetails.ApprovedBy}}</td>
+
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px" (click)="addqc()">Add QC</button>
+
           <div class="form-inline">
             <label style="margin-left:1%;margin-top:2%">Quality Control Notes</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:80%; height: 60px; margin-left: 1.5%;margin-top:2%"></textarea>
@@ -2076,45 +2025,56 @@
       <ng-container ngbNavItem="12">
         <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Pilot/Lab Batch Ticket</a>
         <ng-template ngbNavContent>
-          <label style="margin-left:1%;margin-top:10px">Double Click to View Lab Batch Tkt Details.Right Click to view COA Information.</label>
-          <table class="table table-bordered" style="background-color:white;">
-            <thead>
-              <tr>
-                <th scope="col">Lab Batch #</th>
-                <th scope="col">Batch Type</th>
-                <th scope="col">Batch Date</th>
-                <th scope="col">Batch Size</th>
-                <th scope="col">Unit </th>
-                <th scope="col">User Name</th>
-                <th scope="col">Approved</th>
-                <th scope="col">Approved By</th>
-                <th scope="col">Rejected</th>
-                <th scope="col">Rejected By</th>
+          <div class=" form-inline">
+            <label style="margin-left:1%;margin-top:10px;font-size:medium; font-weight:500;color:red"> Create Lab Batch first,then Stability (For various TEMPS) & Create COA's </label>
+          </div>
+          <div classs="form-inline">
+            <label style="margin-left:1%;margin-top:10px;font-size:medium;font-weight:500;">Double Click to View Lab Batch Tkt Details.Right Click to view COA Information.</label>
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:5%;"> Lab Batch Work Flow</button>
+          </div>
+          <div style="background-color:white;height:550px">
+            <table class="table table-bordered" style="background-color:white;">
+              <thead>
+                <tr>
+                  <th scope="col">Lab Batch #</th>
+                  <th scope="col">Batch Type</th>
+                  <th scope="col">Batch Date</th>
+                  <th scope="col">Batch Size</th>
+                  <th scope="col">Unit </th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">Approved</th>
+                  <th scope="col">Approved By</th>
+                  <th scope="col">Rejected</th>
+                  <th scope="col">Rejected By</th>
 
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor=" let values of labdatalo_data;">
-
-
-
-
-                <td class="tabledatasize">{{values.LabBatchNo}}</td>
-                <td class="tabledatasize">{{values.BatchType}}</td>
-                <td class="tabledatasize"> {{values.LabBatchDate}}</td>
-                <td class="tabledatasize">{{values.Quantity}}</td>
-                <td class="tabledatasize">{{values.UnitName}}</td>
-                <td class="tabledatasize"> {{values.Username}}</td>
-                <td class="tabledatasize">{{values.Approved}}</td>
-                <td class="tabledatasize">{{values.ApprovedBy}}</td>
-                <td class="tabledatasize"> {{values.Rejected}}</td>
-                <td class="tabledatasize"> {{values.RejectedBy}}</td>
-              </tr>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor=" let values of labdatalo_data;">
 
 
 
-          </table>
-          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px" (click)="createlabbatchtkts()">Create Lab Batch Ticket</button>
+
+                  <td class="tabledatasize">{{values.LabBatchNo}}</td>
+                  <td class="tabledatasize">{{values.BatchType}}</td>
+                  <td class="tabledatasize"> {{values.LabBatchDate}}</td>
+                  <td class="tabledatasize">{{values.Quantity}}</td>
+                  <td class="tabledatasize">{{values.UnitName}}</td>
+                  <td class="tabledatasize"> {{values.Username}}</td>
+                  <td class="tabledatasize">{{values.Approved}}</td>
+                  <td class="tabledatasize">{{values.ApprovedBy}}</td>
+                  <td class="tabledatasize"> {{values.Rejected}}</td>
+                  <td class="tabledatasize"> {{values.RejectedBy}}</td>
+                </tr>
+
+
+
+            </table>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:2%" (click)="createlabbatchtkts()">Create Lab Batch Ticket</button>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:2%" (click)="Viewlabbatchstability();">View all Lab-Batch-Stability-COA</button>
 
         </ng-template>
       </ng-container>
@@ -2126,207 +2086,173 @@
             <ngb-tabset>
               <ngb-tab>
                 <ng-template ngbTabTitle><span class="textsize">Phy.Stability Details</span></ng-template>
-                <!--<ngb-tab class="" title="Phy.Stability Details">-->
                 <ng-template ngbTabContent>
-                  <table class="table table-bordered" style="margin-top:20px;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Storage Condition</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Approved (Y/N)</th>
-                        <th scope="col">Approved By</th>
-                        <th scope="col">SOP Doc</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </table>
+                  <div class=" form-inline">
+                    <label style="margin-left:1%;" for="labbatchname" class="textsize">Double Click for Details</label>
+                    <label style="margin-left:5%; color:maroon" for="labbatchname" class="textsize">Labbatch #</label>
+                    <select id="labbatchdrop" class="form-control" [(ngModel)]="selectedunit" style="width:20%;">
+                      <option *ngFor="let itemunit of labbatchno_data" (change)="setunitdata(unitdatalo_data)">{{itemunit.LabBatchNo}}</option>
+                    </select>
+                    <label style="margin-left:25%; color:red" for="labbatchname" class="textsize">Create Labbatch first,then Stability(For various TEMPS) & Create COAs</label>
 
+                  </div>
+                  <div style="background-color:white;">
+                    <fieldset class="border p-1" style="width:100%; margin-left: 5px;margin-top:1%">
+                      <table class="table table-bordered" style="margin-top: 20px; height: 420px;background-color:white;">
+                        <thead>
+                          <tr>
+                            <th scope="col">Storage Condition</th>
+                            <th scope="col">Batch Type</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
+                            <th scope="col">Approved (Y/N)</th>
+                            <th scope="col">Approved By</th>
+                            <th scope="col">SOP Doc</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let phystab_details of physicalstability_data;">
+                            <td>{{ phystab_details.storagecondition}}</td>
+                            <td>{{ phystab_details.batchtype}}</td>
+                            <td>{{ phystab_details.startdate}}</td>
+                            <td>{{ phystab_details.enddate}}</td>
+                            <td>{{ phystab_details.approved}}</td>
+                            <td>{{ phystab_details.approvedby}}</td>
+                            <td>{{ phystab_details.labbatchno}}</td>
+                          </tr>
+                      </table>
+                    </fieldset>
+                  </div>
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" style="margin-top:1%">
                       <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px">
                         <legend class="w-auto" style="font-size:15px;color:maroon">Review 1</legend>
                         <div class="form-inline">
                           <div class="form-group col-md-6">
                             <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                           <div class="form-group col-md-6">
                             <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                         </div>
                         <div class="form-inline">
                           <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:81.5%; height: 60px; margin-left: 1.5%;"></textarea>
                         </div>
                       </fieldset>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" style="margin-top:1%">
                       <fieldset class="border p-1" style="width:100%; margin-left: 5px">
                         <legend class="w-auto" style="font-size:15px;color:maroon">Review 2</legend>
                         <div class="form-inline">
                           <div class="form-group col-md-6">
                             <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                           <div class="form-group col-md-6">
                             <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                         </div>
                         <div class="form-inline">
                           <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:81.5%; height: 60px; margin-left: 1.5%;"></textarea>
                         </div>
                       </fieldset>
                     </div>
                   </div>
 
-                  <div class="form-inline" style="margin-top: 5px;">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;height:50px;width:120px;">Previous</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:27%;height:50px;width:120px;">Graph View</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:200px;">Final Stability Report</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:200px;" (click)="AddphystabilityTest()">Add Phy.Stability Tests </button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:50px;width:120px;">Next</button>
+                  <div class="form-inline" style="margin-top: 10px;">
+                    <!--<button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;height:50px;width:120px;">Previous</button>-->
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;height:50px;width:200px;">Lab Batch Work Flow</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;height:50px;width:120px;">Graph View</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:27%;height:50px;width:200px;">Final Stability Report</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;height:50px;width:200px;" (click)="AddphystabilityTest()">Add Phy.Stability Tests </button>
+                    <!--<button type="submit" class="btn btn-primary buttoncolor" style="margin-left:5%;height:50px;width:120px;">Next</button>-->
 
                   </div>
                 </ng-template>
               </ngb-tab>
               <ngb-tab>
                 <ng-template ngbTabTitle><span class="textsize">Component Compatibility</span></ng-template>
-                <!--<ngb-tab title="Component Compatibility">-->
+
                 <ng-template ngbTabContent>
-                  <table class="table table-bordered" style="margin-top:20px;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Storage Condition</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Approved (Y/N)</th>
-                        <th scope="col">Approved By</th>
-                        <th scope="col">SOP Doc</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </table>
+                  <div class="form-inline">
+                    <textarea class="form-control" id="" rows="4" style="width:100%;font-style:italic; height: 60px; margin-left: 1%;resize:none">Packaging Compatibility Testing is used to test a cosmetic product within its packaging; and placed at different storage conditions, for a set period of time, to determine reactivity between the package, the product and the environment.  Appropriate product/package relationship is affected by a package’s effective barrier to light, moisture, oxygen, bacteria, volatiles, etc. as appropriate. 
+As a result, samples are evaluated at selected intervals, samples are evaluated for various physical, chemical and performance characteristics within parameters of the packaging, and these results are recorded to assess the changes over time.Since moisture loss through the packaging plays a major role in determining the efficiency of the packaging, it is therefore imperative to verify whether the package that is chosen will offer the protection needed to prevent a deficit as it may lead to unpleasant changes in the product. 
+Just as moisture plays a major role in package compatibility, exposure to light can cause product/package degradation. Demonstrating how the product will react to certain conditions while in the package will help in determining what conditions are best employed for proper storage of products.)
+</textarea>
+                  </div>
+                  <div class=" form-inline">
+                    <label style="margin-left: 1%; margin-top: 1%" for="labbatchname" class="textsize">Double Click for Details</label>
+                  </div>
+                  <div style="background-color:white">
+                    <fieldset class="border p-1" style="width:100%; margin-left: 5px;">
+                      <table class="table table-bordered" style="margin-top: 20px; height: 420px;background-color:white;">
+                        <thead>
+                          <tr>
+                            <th scope="col">Package Description</th>
+                            <th scope="col">Storage Condition</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
+                            <th scope="col">Approved (Y/N)</th>
+                            <th scope="col">Approved By</th>
+                            <th scope="col">SOP Doc</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let comp_details of componentcomp_data;">
+                            <td>{{ comp_details.packagedesc}}</td>
+                            <td>{{ comp_details.storagecondition}}</td>
+                            <td>{{ comp_details.productname}}</td>
+                            <td>{{ comp_details.startdate}}</td>
+                            <td>{{ comp_details.enddate}}</td>
+                            <td>{{ comp_details.approved}}</td>
+                            <td>{{ comp_details.approvedby}}</td>
+                          </tr>
+                      </table>
+                    </fieldset>
+                  </div>
 
                   <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px">
+                    <div class="form-group col-md-6" style="margin-top:1%">
+                      <fieldset class="border p-1" style=" width:100% ;  margin-left: 5px;margin-top:1%">
                         <legend class="w-auto" style="font-size:15px;color:maroon">Review 1</legend>
                         <div class="form-inline">
                           <div class="form-group col-md-6">
                             <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                           <div class="form-group col-md-6">
                             <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                         </div>
                         <div class="form-inline">
                           <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:81.5%; height: 60px; margin-left: 1.5%;"></textarea>
                         </div>
                       </fieldset>
                     </div>
-                    <div class="form-group col-md-6">
-                      <fieldset class="border p-1" style="width:100%; margin-left: 5px">
+                    <div class="form-group col-md-6" style="margin-top:1%">
+                      <fieldset class="border p-1" style="width: 100%; margin-left: 5px; margin-top: 1%">
                         <legend class="w-auto" style="font-size:15px;color:maroon">Review 2</legend>
                         <div class="form-inline">
                           <div class="form-group col-md-6">
                             <label style="margin-left:12px">Status</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                           <div class="form-group col-md-6">
                             <label style="margin-left:1px">By</label>
-                            <input style="width: 40%;margin-left:15px" type="text" class="form-control">
+                            <input style="width: 76%;margin-left:15px" type="text" class="form-control">
                           </div>
                         </div>
                         <div class="form-inline">
                           <label style="margin-left:1px">Comments</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:82%; height: 60px; margin-left: 1.5%;"></textarea>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width:81.5%; height: 60px; margin-left: 1.5%;"></textarea>
                         </div>
                       </fieldset>
                     </div>
@@ -2334,14 +2260,14 @@
 
 
 
-                  <div class="form-row" style="margin-top: 5px;">
-                    <div class="form-group col-md-6">
-                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;">Final Compatibility Report</button>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:30%;height:50px;">Add Component Compatibility Tests </button>
-                    </div>
+
+                  <div>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 5%;height: 50px;">Final Compatibility Report</button>
                   </div>
+                  <div>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-right:5%;float:right;height:50px;">Add Component Compatibility Tests </button>
+                  </div>
+
 
 
 
@@ -2349,10 +2275,228 @@
               </ngb-tab>
               <ngb-tab>
                 <ng-template ngbTabTitle><span class="textsize">Phy.Stability Docs</span></ng-template>
-                <!--<ngb-tab title="Phy.Stability Docs">-->
                 <ng-template ngbTabContent>
+                  <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                  <ng-template #innerTabset class="nav-tabs">
+                    <ngb-tabset>
+                      <ngb-tab class="" title="Word File">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
 
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="Excel File">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="PDF File">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="Additional Docs">
+                        <ng-template ngbTabContent>
+                          <form>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <fieldset class="border p-2">
+                                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                  <div class="form-inline" style="margin-top:5px">
+                                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                            </div>
+                          </form>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab class="" title="Document Audit">
+                        <ng-template ngbTabContent>
+                          <!--<div style="background-color:white">
+                        <fieldset class="border p-1" style="width:100%; margin-left: 5px;">
+                          <table class="table table-bordered" style="margin-top: 20px; height: 420px;background-color:white;">-->
+                          <div style="overflow-y: auto; background-color: white">
+                            <table class="table table-hover table-bordered" style="height: 420px;background-color:white;">
+
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">DateTime</th>
+                                  <th scope="col">Task</th>
+                                  <th scope="col">User</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let audit_details of phyAudit_data;">
+                                  <td></td>
+                                  <td>{{ audit_details.date}}</td>
+                                  <td>{{ audit_details.task}}</td>
+                                  <td>{{ audit_details.username}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+                  </ng-template>
                 </ng-template>
+
               </ngb-tab>
 
             </ngb-tabset>
@@ -2368,13 +2512,39 @@
 
             <div class="form-inline">
               <label for="labbatch#" style="margin-left:1%;color:maroon;font-size:larger">Lab Batch #</label>
-              <select id="labbatch#" class="form-control" style="width:25%;margin-left:1%">
-                <option selected>N/A </option>
-              </select>
+              <div *ngIf="Isformatlabbatch1; else Isformatlabbatch2">
+                <select id="labbatchdrop" class="form-control" style="width:80%;" [(ngModel)]="labatchnumber" (change)="setlabatchchange($event)" value="">
+
+                  <option *ngFor="let itemunit of labbatchno_data">{{itemunit.LabBatchNo}}</option>
+                  <option>N/A</option>
+
+                </select>
+              </div>
+              <ng-template #Isformatlabbatch2>
+                <select id="labbatchdrop" class="form-control" style="width:20%;" value="">
+
+                  <option>N/A</option>
+
+
+                </select>
+              </ng-template>
               <label for="storecond" style=" margin-left:5%;color:maroon;font-size:larger">Storage Condition</label>
-              <select id="storecnd" class="form-control" style="width:10%;margin-left:1%">
-                <option selected>N/A </option>
-              </select>
+              <div *ngIf="Isformatstorage1; else Isformatstorage2">
+                <select id="labbatchdrop" class="form-control" style="width:80%;" [(ngModel)]="labatchnumber" (change)="setlabatchchange($event)" value="">
+
+                  <option *ngFor="let itemunit of labbatchno_data">{{itemunit.LabBatchNo}}</option>
+                  <option>N/A</option>
+
+                </select>
+              </div>
+              <ng-template #Isformatstorage2>
+                <select id="labbatchdrop" class="form-control" style="width:20%;" value="">
+
+                  <option>N/A</option>
+
+
+                </select>
+              </ng-template>
               <label for="storecond" style=" margin-left:5%;color:maroon;font-size:larger">Trial #</label>
               <select id="storecnd" class="form-control" style="width:5%;margin-left:1%">
                 <option selected> Trial 1</option>
@@ -2392,13 +2562,13 @@
             </div>
             <div class="form-inline" style="margin-top:.5%">
               <label for="customer" style="margin-left:2%;font-size:larger">Customer</label>
-              <input style="margin-left: 1%; width: 25%;" type="text" class="form-control">
+              <input style="margin-left: 1%; width: 25%;" type="text" class="form-control" [(ngModel)]="Customer" name="Customer1" value="">
               <label for="analysisdate" style=" margin-left:5%;font-size:larger">Analysis Date</label>
-              <input style="width: 10%;" type="date" class="form-control">
+              <input style="width: 10%;" type="date" class="form-control" [(ngModel)]="AnalysisDate" name="AnalysisDates" value="">
               <label for="certifidate" style=" margin-left:5%;font-size:larger">Certification Date</label>
-              <input style="width: 10%;" type="date" class="form-control">
+              <input style="width: 10%;" type="date" class="form-control" [(ngModel)]="CertificationDate" name="CertificationDates" value="">
               <label for="expirydate" style=" margin-left:3%;font-size:larger">Expiry Date</label>
-              <input style="width: 10%;" type="date" class="form-control">
+              <input style="width: 10%;" type="date" class="form-control" [(ngModel)]="ExpiryDate" name="ExpiryDates" value="">
             </div>
             <div class="form-inline">
               <a style="margin-left:1%;margin-top:5px;font-size:large;font-weight:400">Enter Cerificate of Analysis Values into Grid</a>
@@ -2413,40 +2583,93 @@
                     <label for="inputcust" style=" padding-top: 10px;background-color:cornsilk; color:maroon;">TEST RESULTS - C H E M I S T R Y </label>
                     <label for="inputcust" style=" padding-top: 10px;margin-left: 10%; color:darkblue">Only Results can be edited (Tests Params come from PDR Page)</label>
                   </div>
-                  <table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Claim</th>
-                        <th scope="col">Limits</th>
-                        <th scope="col">Result</th>
-                        <th scope="col">Method</th>
-                        <th scope="col">Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">A</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">B</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">C</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <!--<table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Claim</th>
+                      <th scope="col">Limits</th>
+                      <th scope="col">Result</th>
+                      <th scope="col">Method</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">A</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">B</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">C</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>-->
+                  <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                (onSelectionChanged)="selectedChanged($event)"
+                                [columnAutoWidth]="true"
+                                [dataSource]="datachem1"
+                                [wordWrapEnabled]="true"
+                                [showColumnLines]="true"
+                                [showRowLines]="true"
+                                [showBorders]="true"
+                                (onCellClick)="openrawmaterialserach($event)"
+                                (rowprepared)="rowprepared">
+                    <dxo-editing mode="row"
+                                 [allowUpdating]="true"
+                                 [useIcons]="true">
+                    </dxo-editing>
+                    <dxo-column-chooser [enabled]="false">
+                      or "select"
+                    </dxo-column-chooser>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                    <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                    <dxi-column dataField="Linenumber"
+                                [visible]="false"></dxi-column>
+                    <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                      <b style="color: black">Claim</b>
+                    </div>
+                    <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+                      <b style="color: black">Method</b>
+                    </div>
+                    <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
+                      <b style="color: black">Limits</b>
+                    </div>
+                    <dxi-column dataField="Result" headerCellTemplate="addressHeaderTemplatefoa"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
+                      <b style="color: black;">Result</b>
+                    </div>
+                    <!--<dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                  <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+                    <b style="color: black">Username</b>
+                  </div>-->
+
+
+
+                  </dx-data-grid>
                   <div class="form-inline" style="margin-top:10px">
                     <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">Created By</label>
                     <select id="PRD" class="form-control" style="width:15%;margin-left:10px">
@@ -2471,40 +2694,97 @@
                     <label for="inputcust" style=" padding-top: 10px;background-color:cornsilk; color:maroon;">TEST RESULTS -M  I  C  R  O  B  I  O  L  O  G  Y   </label>
                     <label for="inputcust" style=" padding-top: 10px;margin-left: 10%; color:darkblue">Only Results can be edited (Tests Params come from PDR Page)</label>
                   </div>
-                  <table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Claim</th>
-                        <th scope="col">Limits</th>
-                        <th scope="col">Result</th>
-                        <th scope="col">Method</th>
-                        <th scope="col">Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">A</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">B</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">C</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
+                  <!--<table class="table table-bordered" style="margin-top:.5%;background-color:azure;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Claim</th>
+                      <th scope="col">Limits</th>
+                      <th scope="col">Result</th>
+                      <th scope="col">Method</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">A</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">B</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">C</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
 
-                  </table>
+                </table>-->
+                  <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                (onSelectionChanged)="selectedChanged($event)"
+                                [columnAutoWidth]="true"
+                                [dataSource]="datachem"
+                                [wordWrapEnabled]="true"
+                                [showColumnLines]="true"
+                                [showRowLines]="true"
+                                [showBorders]="true"
+                                (onCellClick)="openrawmaterialserach($event)"
+                                (rowprepared)="rowprepared">
+                    <dxo-editing mode="row"
+                                 [allowUpdating]="true"
+                                 [useIcons]="true">
+                    </dxo-editing>
+                    <dxo-column-chooser [enabled]="false">
+                      or "select"
+                    </dxo-column-chooser>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                    <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                    <!--<dxi-column dataField="Linenumber"
+                            [visible]="false"></dxi-column>-->
+                    <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                      <b style="color: black">Test</b>
+                    </div>
+                    <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+                      <b style="color: black">Method</b>
+                    </div>
+                    <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
+                      <b style="color: black">USP SPECS cfu/g</b>
+                    </div>
+                    <dxi-column dataField="Result1" headerCellTemplate="addressHeaderTemplateResult1"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateResult1'">
+                      <b style="color: black;">Result 1</b>
+                    </div>
+                    <dxi-column dataField="Result2" headerCellTemplate="addressHeaderTemplateResult2"></dxi-column>
+                    <div *dxTemplate="let info of 'addressHeaderTemplateResult2'">
+                      <b style="color: black;">Result 2</b>
+                    </div>
+                    <!--<dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                  <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+                    <b style="color: black">Username</b>
+                  </div>-->
+
+
+
+                  </dx-data-grid>
                   <div class="form-inline" style="margin-top:10px">
 
                     <label for="inputcust" style=" padding-top: 10px;margin-left:5%;color:maroon">Created By</label>
@@ -2528,39 +2808,36 @@
               <ngb-tab class="" title="Audit Tracking">
                 <ng-template ngbTabContent>
                   <div class="form-inline">
-                    <input type="radio" id="Yes" name="Yes" value="Yes">
+                    <input type="radio" id="Yes" name="Yes" value="Yes" (click)="setradio1('All')">
                     <label for="IngredientList" style="color:maroon">Show Allergens >All Audit (Includes Chemistry and Microbiology)</label><br>
-                    <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%">
+                    <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%" (click)="setradio('chem')">
                     <label for="IngredientList" style="color:maroon">Show Allergens >Only Chemistry Audit</label><br>
-                    <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%">
+                    <input type="radio" id="Yes" name="Yes" value="Yes" style="margin-left:7%" (click)="setradio2('micro')">
                     <label for="IngredientList" style="color:maroon">Only Microbiology Audit</label><br>
                   </div>
-                  <table class="table table-bordered" style="margin-top:.5%;background-color:white;">
-                    <thead>
-                      <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Task</th>
-                        <th scope="col">User Name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">A</th>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">B</th>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">C</th>
-                        <td></td>
-                        <td></td>
-                      </tr>
+                  <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+                    <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                      <thead>
+                        <tr>
+                          <th scope="col">Date</th>
+                          <th scope="col">Task</th>
+                          <th scope="col">Username</th>
 
-                  </table>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor=" let values of datacoaauditforchem;">
+
+
+                          <td width="15%" class="tabledatasize">{{values.date}}</td>
+                          <td class="tabledatasize">{{values.Task}}</td>
+                          <td width="15%" class="tabledatasize"> {{values.UserName}}</td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
                 </ng-template>
               </ngb-tab>
             </ngb-tabset>
@@ -2868,11 +3145,11 @@
     <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
      
           
-          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%">Save As</button>
-          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:.5%">Print Preview</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%">New</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%" (click)="FormulationLookup_Save();">Save</button>
-          <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;margin-top:.5%" (click)="formulalookupupdatemain()">Update</button>
+          <button mat-raised-button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%">Save As</button>
+          <button mat-raised-button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:.5%">Print Preview</button>
+          <button mat-raised-button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%" (click)="ClearData();changeTab();">New</button>
+          <button mat-raised-button type="submit" [hidden]="issearchformulasave" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%" (click)="FormulationLookup_Save();">Save</button>
+          <button   type="submit" class="btn btn-primary  buttoncolor" [hidden]="issearchformula"  style="float:right;margin-right:10px;margin-top:.5%" (click)="formulalookupupdatemain();" >  Update</button>
     </div>
   </div>
 

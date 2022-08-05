@@ -100,8 +100,8 @@ export class RawMaterialComponent implements OnInit {
   sku: string='';
   COAPath: string='';
   MSDSPath: string='';
-  defaultUnit: string='0';
-  LastPOUnit: string = '0';
+  defaultUnit: string='Kg';
+  LastPOUnit: string = 'Kg';
   reorderQty: string = '0';
   origin: string='';
   concentration: string='0';
@@ -314,15 +314,15 @@ export class RawMaterialComponent implements OnInit {
 
   standardprice: string = '0.001';
   shippingprize: string = '0.000';
-  standardpriceunit: string = '0';
+  standardpriceunit: string = 'Kg';
   standardpricedate: string = '';
-  shippingpriceunit: string = '0';
+  shippingpriceunit: string = 'Kg';
   shippingpricedate: string = '';
   lastpounit: string;
   defaultstandardprice: string;
   defaultshippingprize: string;
   defaultdeliveredprice: string;
-
+  fulldata: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -898,9 +898,21 @@ export class RawMaterialComponent implements OnInit {
       this.concentration = item.RMConcentration;
       this.RMSource = item.RawMatSource;
       this.proleadtime = item.ProcessLeadTime;
+      if (this.proleadtime == "") {
+        this.proleadtime = "0";
+      }
       this.preloadtime = item.PreprocessLeadTime;
+      if (this.preloadtime== "") {
+        this.preloadtime = "0";
+      }
       this.postleadtime = item.PostprocessLeadTime;
-      this.rmleadtime=item.RMLeadTime
+      if (this.postleadtime == "") {
+        this.postleadtime = "0";
+      }
+      this.rmleadtime = item.RMLeadTime
+      if (this.rmleadtime == "") {
+        this.rmleadtime = "0";
+      }
       this.gravity = item.SG;
       this.IUPACName = item.IUPACName;
       this.Restriction = item.Restriction
@@ -1168,19 +1180,30 @@ export class RawMaterialComponent implements OnInit {
       else {
         this.functioncode = this.functioncode + "/" + this.FunctionCode;
       }
-
-
       this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
         console.warn("Functiondetailslload", Functiondetailslload)
         this.Functiondata = Functiondetailslload
 
-
-
       })
     });
 
-
+  
   }
+  Clearfuntion() {
+    this.functioncode = '';
+    this.Datashare.senditemtoraw(null);
+  }
+  Clearblend() {
+    this.INCIName = '';
+    this.Percentage = '';
+    this.Datashare.senditemtoraw(null);
+  }
+  //PDRdata(pdrdatas: any) {
+  //  for (let item of pdrdatas) {
+  //    var datacheck = item.FunctionName;
+  //    var che
+  //  }
+  //}
   Functionload(funname: string) {
     var Funname = funname;
     let params1 = new HttpParams().set('funname', Funname);
@@ -1602,7 +1625,7 @@ export class RawMaterialComponent implements OnInit {
   Rawmaterial_Update() {
 
 
-    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) < 100) {
+    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) > 100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total percentage should be 100%.Adjust to 100%.' } });
       this.active = "3";
     }
@@ -1868,6 +1891,7 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smarformulatorrawmaterialwebservice7.azurewebsites.net/Rawmaterialupdate", { params: params1, responseType: 'text'})
   }
 
+
   Rawmaterial_Save() {
 
    
@@ -1895,7 +1919,7 @@ export class RawMaterialComponent implements OnInit {
       (this.standardprice == "" || this.shippingprize == "" || this.unitCost == "" || this.lastPOCost=="") {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Price details' } });
     }
-    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) < 100) {
+    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) > 100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total percentage should be 100%.Adjust to 100%.' } });
       this.active = "3";
     }
@@ -2105,8 +2129,24 @@ export class RawMaterialComponent implements OnInit {
     let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra).set('username', UserName);
     return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
   }
+  Deleteus_dt() {
+    this.Deleteusweb().subscribe((Deleteus) => {
+      console.warn("Deleteus", Deleteus)
+      this.delclientus_loaddata = Deleteus
+      this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
+        console.warn("loadrawmaterialus", loadrawmaterialus)
+        this.usload = loadrawmaterialus
+      })
+    })
+  }
 
   ClearData() {
+    this.supp_name = '';
+    this.INCIName = '';
+    this.Percentage = '';
+    this.risklistdata = '';
+    this.safetylistdata = '';
+    this.SubCategoryName = "";
     this.active = "1";
     this.incicode = '';
     this.itemli = '';
@@ -2121,8 +2161,8 @@ export class RawMaterialComponent implements OnInit {
     this.rmAssayValue = '0.00';
     this.supercededBy = '';
     this.supercededDate = '';
-    this.defaultUnit = '';
-    this.LastPOUnit = '';
+    this.defaultUnit = 'Kg';
+    this.LastPOUnit = 'Kg';
     this.reorderQty = '0.00';
     this.origin = '';
     this.concentration = '0.00';
@@ -2143,9 +2183,9 @@ export class RawMaterialComponent implements OnInit {
     this.COAPath = '';
     this.SupplierKey = '';
     this.vendorcode = '';
-    this.GMOYesOrNo = '';
-    this.GlutenYesOrNo = '';
-    this.Halal = '';
+    this.GMOYesOrNo = 'False';
+    this.GlutenYesOrNo = 'False';
+    this.Halal = 'No';
     this.AlertRemarks = '';
     this.EURiskPhrases = '';
     this.EUSafetyPhrases = '';
@@ -2153,7 +2193,7 @@ export class RawMaterialComponent implements OnInit {
     this.subCategoryId = '';
     this.statusId = '';
     this.unitCost = '';
-    this.costUnit = '';
+    this.costUnit = 'Kg';
     this.LastPODt = '';
     this.costDt = '';
     this.lastPOCost = '0.001';
@@ -2168,11 +2208,11 @@ export class RawMaterialComponent implements OnInit {
     this.hMISPersonal = '';
     this.nFPAHealth = '';
     this.nFPAFlammability = '';
-    this.NPACertified = '';
-    this.monograph = '';
-    this.Kosher = '';
-    this.IncidIngredient = '';
-    this.Exemptornot = '';
+    this.NPACertified = 'N';
+    this.monograph = 'No';
+    this.Kosher = 'No';
+    this.IncidIngredient = 'No';
+    this.Exemptornot = 'No';
     this.PhEurName = '';
     this.MOQ = '0.00';
     this.Approved = '';

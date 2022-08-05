@@ -13,7 +13,12 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FilterPipe } from 'src/app/pipefilter';
-import { FilterPipe1 } from 'src/app/filter.pipe'
+import { FilterPipe1 } from 'src/app/filter.pipe';
+import { pipfilter1 } from 'src/app/pipfilter1';
+import { pipefilter2 } from 'src/app/pipefilter2';
+import { pipefilterformulaname } from 'src/app/pipefilterformulaname';
+import { pipefiltersorting } from 'src/app/pipefiltersorting';
+
 import { UserSecurityComponent } from './user-security/user-security.component';
 import { GroupSetPermissionComponent } from './user-security/group-set-permission/group-set-permission.component';
 import { UserSetPermissionComponent } from './user-security/user-set-permission/user-set-permission.component';
@@ -145,6 +150,14 @@ import { SearchProductsComponent } from './formula-lookup/customer-details/searc
 import { MessageBoxComponent } from './message-box/message-box.component';
 import { MessageBoxYesnoComponent } from './message-box-yesno/message-box-yesno.component';
 import { AssignPdrComponent } from './formula-lookup/assign-pdr/assign-pdr.component';
+import { TradenameSelectComponent } from './formula-lookup/tradename-select/tradename-select.component';
+import { ItemnameSelectComponent } from './formula-lookup/itemname-select/itemname-select.component';
+import { ViewLabStabilityCoaComponent } from './formula-lookup/view-lab-stability-coa/view-lab-stability-coa.component';
+import { AddcomponentTestComponent } from './formula-lookup/addcomponent-test/addcomponent-test.component';
+import { QualityControlComponent } from './quality-control/quality-control.component';
+import { AddQctestComponent } from './quality-control/add-qctest/add-qctest.component';
+import { AddQcunitComponent } from './quality-control/add-qcunit/add-qcunit.component';
+import { UpdateQcComponent } from './formula-lookup/update-qc/update-qc.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -219,7 +232,13 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
 
       { path: 'SearchCustomer', component: SearchCustomerComponent },
       { path: 'SearchProducts', component: SearchProductsComponent } ,
-      { path: 'Assignpdr', component: AssignPdrComponent }
+      { path: 'Assignpdr', component: AssignPdrComponent },
+      { path: 'ViewLabbatchStability', component: ViewLabStabilityCoaComponent },
+      { path: 'componentcompatibility', component: AddcomponentTestComponent },
+      { path: 'qualitycontrol', component: QualityControlComponent },
+      { path: 'AddQctest', component: AddQctestComponent },
+      { path: 'AddQcunit', component: AddQcunitComponent },
+      { path: 'UpdateQc', component: UpdateQcComponent }
     ]
   }
 ];
@@ -231,6 +250,10 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     
     AppComponent,
     FilterPipe,
+    pipfilter1,
+    pipefilter2,
+    pipefiltersorting,
+    pipefilterformulaname,
     AddGroupComponent,
     ResetPasswordComponent,
     AddDepartmentComponent ,
@@ -332,6 +355,14 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     MessageBoxComponent,
     MessageBoxYesnoComponent,
     AssignPdrComponent,
+    TradenameSelectComponent,
+    ItemnameSelectComponent,
+    ViewLabStabilityCoaComponent,
+    AddcomponentTestComponent,
+    QualityControlComponent,
+    AddQctestComponent,
+    AddQcunitComponent,
+    UpdateQcComponent,
     
   ],
   imports: [
@@ -373,8 +404,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, SearchProductsComponent, AssignPdrComponent,
+  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
-    MessageBoxYesnoComponent, FormulaLookupComponent]
+    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent]
 })
 export class AppModule { }

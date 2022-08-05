@@ -1,0 +1,74 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:100vh;width:100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-4">
+        <form class="form-inline" style="margin-left:5%;margin-bottom:20px;">
+          <h3 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h3>
+          <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h3>
+          <h3 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Quality Control Maintenance </h3>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div style="margin-left:1%;margin-top:1%;height:900px; overflow-y: auto;background-color:white;">
+          <table class=" table table-hover table-bordered" style=" background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <!--<th scope="col" style="width:1%"></th>-->
+                <th scope="col" style="width:15%">QC Units</th>
+                <th scope="col" style="width:5%">Delete</th>
+
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr *ngFor="let qcunit_Details of loadqcunits" (click)="setvaluesform(qcunit_Details);" #conten>
+                <!--<td class="tabledatasize"></td>-->
+                <td class="tabledatasize">{{ qcunit_Details.QCUnitName }}</td>
+                <td class="tabledatasize"> <button mat-raised-button color="primary" (click)="deleteUNIT(qcunit_Details);">Delete</button> </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div style="height:900px; overflow-y: auto; background-color: white;">
+          <table class=" table table-hover table-bordered" style=" background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <!--<th scope="col" style="width:1%"></th>-->
+                <th scope="col" style="width:15%">Test Code</th>
+                <th scope="col" style="width:25%">QC Test Name</th>
+                <th scope="col" style="width:15%">QC Test Unit</th>
+                <th scope="col" style="width:15%">Delete</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr *ngFor="let qctest_Details of loadqctest" (click)="setvalues(qctest_Details);" #conten>
+                <td class="tabledatasize">{{ qctest_Details.TestCode }}</td>
+                <td class="tabledatasize">{{ qctest_Details.Description}}</td>
+                <td class="tabledatasize">{{ qctest_Details.QCTestUnit}}</td>
+                <td class="tabledatasize"> <button mat-raised-button color="primary" (click)="deleteTEST(qctest_Details);">Delete</button> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:40px;height:50px;margin-top:2.5%" matDialogClose>Back</button>
+    </div>
+    <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:40px;height:50px;margin-top:2.5%" (click)="addQCtest()">Add QC Test</button>
+    </div>
+    <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float:left;margin-left:10px;height:50px;margin-top:2.5%" (click)="addQCunit()">Add QC Unit</button>
+
+    </div>
+  </div>
+</div>

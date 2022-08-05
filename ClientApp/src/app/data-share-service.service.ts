@@ -42,8 +42,12 @@ export class DataShareServiceService {
   suppna: any
   datashareitemcode: any;
   datasharecasdata: any;
+  usern: any;
   custocod
   datashareclientlocation: any = [];
+  sendlogindetails(username: string) {
+    this.usern = username;
+  }
   senditemtoraw(itemda: string) {
     this.itemcodetoraw = itemda;
   }
@@ -136,6 +140,9 @@ export class DataShareServiceService {
   //DatashareTempPass(itempass: string) {
   //  this.Temppass = itempass
   //}
+  getlogin(): string {
+    return this.usern;
+  }
   getitemcode(): string {
     return this.itemcodeval;
   }

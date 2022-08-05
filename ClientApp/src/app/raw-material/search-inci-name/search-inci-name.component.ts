@@ -14,8 +14,10 @@ export class SearchINCINameComponent implements OnInit {
   approve: string = '';
   dataresultquicksave: any;
   dataloadfuncsearch: any;
+  dataloadcount:any;
   rmapprove: string = '';
   hazard: string = 'No';
+  countrecords = '0';
   inci: string = '';
   itemli: string = '';
   supplier_name: string = '';
@@ -32,6 +34,7 @@ export class SearchINCINameComponent implements OnInit {
   supplierva: string = '';
   tradenam: string = '';
   casnum: string = '';
+  suplrst: string = '';
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchINCINameComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
@@ -88,14 +91,20 @@ export class SearchINCINameComponent implements OnInit {
   loadfunction() {
 
 
-
-
-
     return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/functionload");
+
+  }
+
+  loadcount() {
+
+
+
+    return this.http.get("https://smartformulatorformulallokupwebservice8.azurewebsites.net/Loadincinamecount");
 
 
 
   }
+
   quicksaveraw(supp_statusdata: string, inciname: string, itemcode: string, supplier: string, tradename: string) {
 
 
@@ -111,6 +120,11 @@ export class SearchINCINameComponent implements OnInit {
 
 
   }
+  PDRdata(pdrdatas: any) {
+    for (let item of pdrdatas) {
+      this.countrecords = item.RECORDS
+    }
+  }
   quicksaveval(supp_status, inciname, itemcode, supplier, tradename) {
     this.quicksaveraw(supp_status, inciname, itemcode, supplier, tradename).subscribe((resultquicksave) => {
       console.warn("resultquicksave", resultquicksave)
@@ -123,6 +137,15 @@ export class SearchINCINameComponent implements OnInit {
       this.datarawmaterialssearch = rawmaterialssearch
       this.isLoading = false;
     })
+  }
+  Clearaw() {
+    this.inci = '';
+    this.fun_name = '';
+    this.itemc = '';
+    this.supplierva = '';
+    this.tradenam = '';
+    this.casnum = '';
+    this.suplrst = '';
   }
 
   ngOnInit() {
@@ -138,6 +161,12 @@ export class SearchINCINameComponent implements OnInit {
       console.warn("loadfuncsearch", loadfuncsearch)
       this.dataloadfuncsearch = loadfuncsearch
       
+    })
+    this.loadcount().subscribe((loadcountsearch) => {
+
+      console.warn("loadcountsearch", loadcountsearch)
+      this.dataloadcount = loadcountsearch
+      this.PDRdata(this.dataloadcount)
     })
 
   }
