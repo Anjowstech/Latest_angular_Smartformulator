@@ -41,9 +41,11 @@ export class FormulaListingComponent implements OnInit {
   t2formulacode: string = "";
   t2pdrnum: string = "";
   t2status: string = "";
+  customercustomname: string = "";
+  customname: string = "";
    productDatefromfisrt:string = "";
 productDatetofisrt:string = "";
-    
+  loadcustomerdata: any;
   t2formulaname: string = "";
   t2projectname: string = "";
   searchflag: string = "0";
@@ -66,6 +68,22 @@ productDatetofisrt:string = "";
   t3customername: string="";
   loaduserdata: any;
   loadprojectdata: any;
+  t9stab: string = "";
+  t9formulacodecust: string = "";
+  t9pdr: string = "";
+  t9labnb: string = "";
+  t9formulanamecust: string = "";
+  t9projectname: string = "";
+  t9customername: string = "";
+  loadstabilitydata: any;
+  loadcompatdata: any;
+  t10comp: string = "";
+  t10formulacodecust: string = "";
+  t10pdr: string = "";
+  t10pack: string = "";
+  t10formulanamecust: string = "";
+  t10productname: string = "";
+  t10customername: string = "";
   constructor(private http: HttpClient) { }
   helloWorld() {
     alert('Hello world!');
@@ -186,6 +204,17 @@ productDatetofisrt:string = "";
     return this.http.get("https://formulalistingwebservice2.azurewebsites.net/ProjectnameLoad")
 
   }
+  loadcustomername() {
+    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/customernameLoad")
+
+  }
+  loadstability() {
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/stabilityLoad")
+
+  }
+  loadcompat() {
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/compLoad")
+  }
   loadproduct(datefrom:string, dateto:string, checkedvalue:string, searchflag:string) {
     var datf: string = datefrom;
     var datt: string = dateto;
@@ -247,6 +276,18 @@ productDatetofisrt:string = "";
     this.loadprojectname().subscribe((loadproject) => {
       console.warn("loadproject", loadproject)
       this.loadprojectdata = loadproject
+    })
+    this.loadcustomername().subscribe((loadcustomer) => {
+      console.warn("loadcustomer", loadcustomer)
+      this.loadcustomerdata = loadcustomer
+    })
+    this.loadstability().subscribe((loadstability) => {
+      console.warn("loadstability", loadstability)
+      this.loadstabilitydata = loadstability
+    })
+    this.loadcompat().subscribe((loadcompat) => {
+      console.warn("loadstability", loadcompat)
+      this.loadcompatdata = loadcompat
     })
   }
 

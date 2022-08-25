@@ -161,7 +161,7 @@ Please provide a valid zip.
 
 
 
-              <tr *ngFor="let raw_cate_search of datarawmaterialssearch | filter:inci | filter:fun_name | filter:tradenam | filter:itemc | filter:supplierva | filter:casnum |slice:pageStart:pageEnd; let i=index;" (dblclick)="setvalues(raw_cate_search);close();"#conten>
+              <tr *ngFor="let raw_cate_search of datarawmaterialssearch | filter:inci:filterMetadata | filter:fun_name:filterMetadata | filter:tradenam:filterMetadata | filter:itemc:filterMetadata | filter:supplierva:filterMetadata | filter:casnum:filterMetadata |slice:pageStart:pageEnd; let i=index;" (dblclick)="setvalues(raw_cate_search);close();"#conten>
                 <td class="tabledatasize">{{ raw_cate_search.INCIName}}</td>
                 <td class="tabledatasize">{{ raw_cate_search.Item }}</td>
                 <td class="tabledatasize"> {{raw_cate_search.TradeName }}</td>
@@ -185,5 +185,5 @@ Please provide a valid zip.
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
   <!--<input style=" float:right;height:50px;width:100px;margin-top:1%; width:70px" type="text" class="form-control" id="data1" [(ngModel)]="countrecords" name="count" value="">-->
-  <label for="Recordscount" style="float: left; height: 50px; width: 100px; margin-top: 1%; width: 70px">Records {{countrecords}}</label>
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 </div>

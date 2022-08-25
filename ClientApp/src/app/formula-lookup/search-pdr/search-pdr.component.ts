@@ -10,6 +10,7 @@ import { Inject } from '@angular/core';
 })
 export class SearchPdrComponent implements OnInit {
   dataresultsearchpdr: any;
+  filterMetadata = { count: 0 };
   formulacodedata: string = '';
   Pdrdata: string = '';
   Formulaname: string = '';

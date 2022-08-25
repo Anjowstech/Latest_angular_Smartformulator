@@ -14,6 +14,7 @@ export class SearchCASComponent implements OnInit {
   descrption: string;
   einecs: string;
   searchcasitems: any;
+  cassearchLength: any;
   constructor(private http: HttpClient, public datashare: DataShareServiceService, public dialogRef: MatDialogRef<SearchCASComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
@@ -42,6 +43,7 @@ export class SearchCASComponent implements OnInit {
     this.CASsearchload().subscribe((casserachload) => {
       console.warn("casload", casserachload)
       this.cassearchdata = casserachload
+      this.cassearchLength = this.cassearchdata.length
     })
   }
 

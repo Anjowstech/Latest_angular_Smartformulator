@@ -25,11 +25,14 @@ export class AddSupplierComponent implements OnInit {
   Suppliername: string;
   SupplierCode: string;
   supData: any;
+  issearchsupplierupdate: boolean = true;
+  issearchsuppliersave: boolean = false;
   code: string ="";
   name: string ="";
   phoneNumber: string ="";
   address: string="";
   customertype: string;
+  componentdata1: any;
   phone: string ="";
   emailsup: string= "";
   fax: string= "";
@@ -56,7 +59,7 @@ export class AddSupplierComponent implements OnInit {
   Terms: string ="No Terms";
   ShipVia: string="";
   ExpenseAccount: string="";
-  SupplierStatus: string="Active";
+  SupplierStatus: string='Active';
   OtherShipVia: string="";
   shipto: string="";
   operation: string;
@@ -72,6 +75,11 @@ export class AddSupplierComponent implements OnInit {
   dataloadsupplierallrm: any;
   dataloadsupplierapprovedrm: any;
   dataloadsupplierunapprovedrm: any;
+  dataloadsupplierallrmlength: string = "0";
+  dataloadsupplierapprovedrmlength: string = "0";
+  dataloadsupplierunapprovedrmlength: string = "0";
+  finishedproductDatalength: string = "0";
+ formuladetailslength: string = "0";
   i: number;
   j: number;
   finisheddataList: Data2[][] = [];
@@ -102,7 +110,7 @@ export class AddSupplierComponent implements OnInit {
   //  const dialogRef = this.dialog.open(SearchSupplierComponent)
   //}
   Searchsupplierpopup(): void {
-
+    this.active = '1';
     const dialogRef = this.dialog.open(SearchSupplierComponent, {
       width: '60%', height: '70%', disableClose: true
     });
@@ -111,6 +119,8 @@ export class AddSupplierComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
+        this.issearchsupplierupdate = false;
+        this.issearchsuppliersave = true;
         this.Supplierkey = result[0];
         this.Suppliername = result[1];
         this.SupplierCode = result[2];
@@ -124,7 +134,7 @@ export class AddSupplierComponent implements OnInit {
         this.Componentload(this.SupplierCode).subscribe((componentload) => {
           console.warn("componentload", componentload)
           this.componentData = componentload
-
+          this.componentdata1 = this.componentData.length
         })
 
 
@@ -132,7 +142,7 @@ export class AddSupplierComponent implements OnInit {
         this.Formuladetailsload(this.Suppliername).subscribe((Formuladataload) => {
           console.warn("Formuladataload", Formuladataload)
           this.formuladetails = Formuladataload
-
+          this.formuladetailslength = this.formuladetails.length
 
 
         })
@@ -146,19 +156,24 @@ export class AddSupplierComponent implements OnInit {
         this.loadallrm(this.SupplierCode).subscribe((loadrmsupplierall) => {
           console.warn("loadrmsupplierall", loadrmsupplierall)
           this.dataloadsupplierallrm = loadrmsupplierall
+          this.dataloadsupplierallrmlength = this.dataloadsupplierallrm.length
         })
         this.loadallrmApproved(this.SupplierCode).subscribe((loadrmsupplierapproved) => {
           console.warn("loadrmsupplierapproved", loadrmsupplierapproved)
           this.dataloadsupplierapprovedrm = loadrmsupplierapproved
+          this.dataloadsupplierapprovedrmlength = this.dataloadsupplierapprovedrm.length
         })
         this.loadUnapprovedrm(this.SupplierCode).subscribe((loadrmsupplierunapproved) => {
           console.warn("loadrmsupplierall", loadrmsupplierunapproved)
           this.dataloadsupplierunapprovedrm = loadrmsupplierunapproved
+          this.dataloadsupplierunapprovedrmlength = this.dataloadsupplierunapprovedrm.length
         })
         this.finishedproductload(this.SupplierCode).subscribe((finishedpdctload) => {
           console.warn("finishedpdctload", finishedpdctload)
           this.finishedproductData = finishedpdctload
+          this.finishedproductDatalength = this.finishedproductData.length
           this.rowData = this.finishedproductData
+        
         })
       }
 
@@ -208,6 +223,19 @@ export class AddSupplierComponent implements OnInit {
 
     }
   }
+  isAllSelected() {
+    for (var i = 0; i < this.dataloadsupplierallrm.length; i++) {
+      this.dataloadsupplierallrm[i].oldvalue = "true";
+    }
+  }
+  isAllunSelected() {
+  for(var i = 0; i < this.dataloadsupplierallrm.length; i++) {
+  this.dataloadsupplierallrm[i].oldvalue = "false";
+}
+  }
+  statuschange(event) {
+    this.SupplierStatus = event.target.value;
+  }
   OpenTermsMaster(): void {
     const dialogRef = this.dialog.open(TermsMasterComponent, {
       width: '60%', height: '70%', disableClose: true
@@ -241,7 +269,15 @@ export class AddSupplierComponent implements OnInit {
     this.Supplier_delete(suppliername).subscribe((Supplierr_dlt) => {
       console.warn("Supplierr_deletedata", Supplierr_dlt)
       this.Supplier_deletedata = Supplierr_dlt
-      this.showAlert4()
+      if (this.Supplier_deletedata == "Deleted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
+      }
+      else if (this.Supplier_deletedata == "failed") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Failed to Delete" });
+      }
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Not able to Delete" });
+      }
     })
   }
   updatesupplier(supplierkey: string, suppliername: string, supplieraddress: string) {
@@ -293,14 +329,29 @@ export class AddSupplierComponent implements OnInit {
     var suppliercode = this.SupplierCode;
     var suppliername = suppliername;
     let params1 = new HttpParams().set('code', suppliercode).set('name', suppliername);
-    return this.http.get("https://smartformulatorsupplierwebservice.azurewebsites.net/Supplier_DeleteBtn", { params: params1, })
+    return this.http.get("https://smartformulatorsupplierwebservice.azurewebsites.net/Supplier_DeleteBtn", { params: params1, responseType: 'text' })
   }
   openlink() {
-    window.open(this.website, "_blank");
-    
+    if (this.website != "") {
+      window.open(this.website, "_blank");
+    }
+    else {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Web Address' } });
+    }
   }
   ClearData() {
-    this.active = '1';
+    this.active = "1";
+    this.issearchsupplierupdate = true;
+    this.issearchsuppliersave = false;
+    this.dataloadsupplierallrm = "";
+    this.dataloadsupplierapprovedrm="" ;
+    this.dataloadsupplierunapprovedrm="";
+    this.dataloadsupplierallrmlength = "0";
+    this. dataloadsupplierapprovedrmlength = "0";
+    this.dataloadsupplierunapprovedrmlength = "0";
+    this. finishedproductDatalength= "0";
+    this.formuladetailslength = "0";
+    this.componentdata1="0";
     this.SupplierCode = '';
     this.Suppliername = '';
     this.address = '';
@@ -330,14 +381,14 @@ export class AddSupplierComponent implements OnInit {
     this.Terms = '';
     this.ShipVia = '';
     this.ExpenseAccount = '';
-    this.SupplierStatus ='';
+    this.SupplierStatus ='Active';
     this.OtherShipVia = '';
     this.shipto = '';
     this.auditrialdetails = '';
     this.dataloadsupplierallrm = '';
     this.dataloadsupplierapprovedrm=
     this.dataloadsupplierunapprovedrm = '';
-    this.rowData = '';
+    this.rowData = [];
     this.formuladetails = '';
   }
   ClearData2() {
@@ -371,7 +422,7 @@ export class AddSupplierComponent implements OnInit {
     this.Terms = '';
     this.ShipVia = '';
     this.ExpenseAccount = '';
-    this.SupplierStatus = '';
+    this.SupplierStatus = 'Active';
     this.OtherShipVia = '';
     this.shipto = '';
     this.auditrialdetails = '';
@@ -419,6 +470,9 @@ export class AddSupplierComponent implements OnInit {
     this.finished_saveup().subscribe((finished_save) => {
       console.warn("finished_save", finished_save)
       this.finished_save_data = finished_save
+      if (this.finished_save_data == "Finished Product(s) added successfully.") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Finished Product(s) added successfully.' } });
+      }
     })
   }
   finished_saveup() {
@@ -514,6 +568,13 @@ export class AddSupplierComponent implements OnInit {
         this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
           console.warn("Supplierr_update", Supplierr_save)
           this.Supplier_save_data = Supplierr_save
+          this.Audittrialload(this.SupplierCode).subscribe((Auditdataload) => {
+            console.warn("Auditdataload", Auditdataload)
+            this.auditrialdetails = Auditdataload
+
+
+
+          })
           if (this.Supplier_save_data != "") {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
           }
@@ -581,6 +642,13 @@ export class AddSupplierComponent implements OnInit {
         this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
           console.warn("Supplierr_save", Supplierr_save)
           this.Supplier_save_data = Supplierr_save
+          this.Audittrialload(this.SupplierCode).subscribe((Auditdataload) => {
+            console.warn("Auditdataload", Auditdataload)
+            this.auditrialdetails = Auditdataload
+
+
+
+          })
           if (this.Supplier_save_data != "") {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
           }

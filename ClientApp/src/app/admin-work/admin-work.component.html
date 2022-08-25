@@ -137,7 +137,7 @@
                 <ngb-tabset>
                   <ngb-tab class="tabcolor tabbutto tabrowli " title="Company Info">
                     <ng-template ngbTabContent >
-                      <div *ngFor="let itemdata of defaultdata">
+                     
                       <form class="form-inline" style="background-color: #f6f5f1"  *ngFor="let itemdata of defaultdata">
                         <label for="company" style="margin-left:25px;">Company Name</label>
                         <input type="text" style="margin-left: 20px; margin-top: 10px;" class="form-control" placeholder="Enter Company Name" id="companyname" size="81" value={{itemdata.CompanyName}}>
@@ -171,7 +171,7 @@
                         <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;">Browse</button>
 
                       </form>
-                        </div>
+                      
                     </ng-template>
                   </ngb-tab>
 
@@ -179,7 +179,7 @@
 
                   <ngb-tab title="Formulation" >
                     <ng-template ngbTabContent  >
-                      <div *ngFor="let itemdata of defaultdata">
+                     
                         <h2 style=" text-align:center;   margin-top: 20px; font-family: Playfair Display;background-color: #f6f5f1;color:black"> Prefix - Formulation Lookup </h2>
                         <div class="row" style="    background-color: #f6f5f1">
                           <div class="col-sm-9">
@@ -224,7 +224,7 @@
                                   </tr>
                                 </tbody>
                               </table>
-                            </div>
+                           
                             <!--<div class="card">
     <div class="card-body" style="width: 30rem;height:10rem;overflow-y:auto;">
       <ul *ngFor="let itemdata of datasaveabb;let i=index;">

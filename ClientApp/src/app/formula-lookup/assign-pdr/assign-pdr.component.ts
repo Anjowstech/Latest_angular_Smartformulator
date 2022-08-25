@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class AssignPdrComponent implements OnInit {
   PDR_searchdata: any;
+  filterMetadata = { count: 0 };
   username: string = "admin"
   isLoading = true;
   pdrno: string;

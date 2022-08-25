@@ -9,13 +9,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class SearchProjectPdrComponent implements OnInit {
   PDR_searchdata: any;
+  filterMetadata = { count: 0 };
   username: string = "admin"
   isLoading = true;
   pdrno: string;
   projectname: string;
   customername: string;
   searchitems: any = [];
-
+  projectcount: any;
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchProjectPdrComponent>) { }
   PDR_search(user: string) {
     var usernam = user;
@@ -43,6 +44,7 @@ export class SearchProjectPdrComponent implements OnInit {
      this.isLoading = false;
       console.warn("PDR_search", PDR_search)
       this.PDR_searchdata = PDR_search
+      this.projectcount = this.PDR_searchdata.length;
     })
   }
 

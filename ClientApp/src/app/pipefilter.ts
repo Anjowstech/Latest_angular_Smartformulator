@@ -15,20 +15,35 @@ export class FilterPipe implements PipeTransform {
   // //  To search in values of every variable of your object(item)
   //  return items.filter(item => JSON.stringify(item.toLowerCase()).indexOf(filter.toLowerCase()) !== -1);
   //}
-  transform(items: any[], filter: string): any {
-    if (!items || !filter) {
+  //transform(items: any[], filter: string): any {
+  //  if (!items || !filter) {
+  //    return items;
+  //  }
+  //  // To search values only of "name" variable of your object(item)
+  //  //return items.filter(item => item.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+
+
+
+  //  // To search in values of every variable of your object(item)
+  //return items.filter(item => JSON.stringify(item).toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+
+
+  //}
+  transform(items: any[], searchText: string, filterMetadata: any): any[] {
+
+    if (!items) return [];
+    if (!searchText) {
+      filterMetadata.count = items.length;
       return items;
     }
-    // To search values only of "name" variable of your object(item)
-    //return items.filter(item => item.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+    searchText = searchText.toLowerCase();
 
-
-
-    // To search in values of every variable of your object(item)
-  return items.filter(item => JSON.stringify(item).toLowerCase().indexOf(filter.toLowerCase()) !== -1);
-
+    let filteredItems = items.filter(item => JSON.stringify(item).toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+    filterMetadata.count = filteredItems.length;
+    return filteredItems;
 
   }
+
 
   //transform(items: any[], searchText: string): any[] {
   //  if (!items) {

@@ -321,20 +321,20 @@ export class NavMenuComponent {
     },
     {
       displayName: 'Raw Materials',
+      route: 'RawMaterial'
+      //children: [
+      //  {
+      //    displayName: 'Raw Materials',
+      //    route: 'RawMaterial'
 
-      children: [
-        {
-          displayName: 'Raw Materials',
-          route: 'RawMaterial'
-
-        }
-      ]
+      //  }
+      //]
     },
 
     {
       displayName: 'Suppliers',
       route: 'AddSupplier'
-
+      //route: 'SupplierListing'
 
     },
     {
@@ -389,6 +389,7 @@ export class NavMenuComponent {
   }
 
   ngOnInit() {
+
     this.postData.getPosts().subscribe((result) => {
       console.warn("result", result)
       this.data = result

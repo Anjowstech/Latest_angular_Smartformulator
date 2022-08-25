@@ -42,6 +42,7 @@ export class DataShareServiceService {
   suppna: any
   datashareitemcode: any;
   datasharecasdata: any;
+  FormulaCode: any;
   usern: any;
   custocod
   datashareclientlocation: any = [];
@@ -71,6 +72,9 @@ export class DataShareServiceService {
   }
   sendaddlocation(searchlocation: string[]) {
     this.datashareclientlocation = searchlocation
+  }
+  sendmodulenavpdr(FormulaCode: string) {
+    this.FormulaCode = FormulaCode;
   }
   sendItemcodeno(itemcode: string) {
     this.datashareitemcode = itemcode
@@ -152,7 +156,9 @@ getitemtosupplier(): string {
   getitemcoderaw(): string {
     return this.itemcodetoraw;
   }
-
+  getmodulenavpdr(): string {
+    return this.FormulaCode;
+  }
  
 
 

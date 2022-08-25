@@ -2,6 +2,7 @@ import { Component, OnInit, Inject} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/raw-material/raw-material.component';
+import { MessageBoxComponent } from '../../message-box/message-box.component';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { DialogData } from 'src/app/raw-material/raw-material.component';
 })
 export class SearchINCINameComponent implements OnInit {
   datarawmaterialssearch: any;
+  filterMetadata = { count: 0 };
   approve: string = '';
   dataresultquicksave: any;
   dataloadfuncsearch: any;
@@ -35,7 +37,7 @@ export class SearchINCINameComponent implements OnInit {
   tradenam: string = '';
   casnum: string = '';
   suplrst: string = '';
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchINCINameComponent>,
+  constructor(public dialog: MatDialog,private http: HttpClient, public dialogRef: MatDialogRef<SearchINCINameComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
 
@@ -104,6 +106,16 @@ export class SearchINCINameComponent implements OnInit {
 
 
   }
+  quicksaveval(supp_status, inciname, itemcode, supplier, tradename) {
+    this.quicksaveraw(supp_status, inciname, itemcode, supplier, tradename).subscribe((resultquicksave) => {
+      console.warn("resultquicksave", resultquicksave)
+      this.dataresultquicksave = resultquicksave
+
+      if (this.dataresultquicksave == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: '' } });
+      }
+    })
+  }
 
   quicksaveraw(supp_statusdata: string, inciname: string, itemcode: string, supplier: string, tradename: string) {
 
@@ -115,7 +127,7 @@ export class SearchINCINameComponent implements OnInit {
     var supp: string = supplier;
     var traden: string = tradename;
     let params1 = new HttpParams().set('supplierstatus', supp_stat).set('rmapproved', "1").set('descriptionvalue', incin).set('suppliername', supp).set('tradename', traden).set('strItemCode', itemc);
-    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/quicksave", { params: params1 });
+    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/quicksave", { params: params1, responseType:'text' });
 
 
 
@@ -125,12 +137,7 @@ export class SearchINCINameComponent implements OnInit {
       this.countrecords = item.RECORDS
     }
   }
-  quicksaveval(supp_status, inciname, itemcode, supplier, tradename) {
-    this.quicksaveraw(supp_status, inciname, itemcode, supplier, tradename).subscribe((resultquicksave) => {
-      console.warn("resultquicksave", resultquicksave)
-      this.dataresultquicksave = resultquicksave
-    })
-  }
+  
   setradio(e: string): void {
     this.searchRawMaterials(e).subscribe((rawmaterialssearch) => {
       console.warn("rawmaterialssearch", rawmaterialssearch)

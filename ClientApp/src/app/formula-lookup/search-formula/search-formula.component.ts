@@ -12,6 +12,7 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 })
 export class SearchFormulaComponent implements OnInit {
   dataraw_search: any;
+  filterMetadata = { count: 0 };
   formulacodedata: string = '';
  formulanamedata: string = '';
   lbnotedata: string = '';

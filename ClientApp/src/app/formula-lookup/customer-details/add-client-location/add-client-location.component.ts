@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DataShareServiceService } from 'src/app/data-share-service.service';
+
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
+import { MessageBoxComponent } from '../../../message-box/message-box.component';
+import { DataShareServiceService } from '../../../data-share-service.service';
+
 @Component({
   selector: 'app-add-client-location',
   templateUrl: './add-client-location.component.html',
@@ -31,17 +33,38 @@ export class AddClientLocationComponent implements OnInit {
 
   constructor(public dialog: MatDialog,public datashare: DataShareServiceService, private http: HttpClient) { }
   Client_Locationsave() {
+    if (this.location == "" || this.location == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter location name.' } });
 
-    this.Client_Locationsaveup().subscribe((SaveClient_Loc) => {
-      console.warn("SaveClient_Loc", SaveClient_Loc)
-      this.client_loc_data = SaveClient_Loc
-    })
+    }
+    else {
+      this.Client_Locationsaveup().subscribe((SaveClient_Loc) => {
+        console.warn("SaveClient_Loc", SaveClient_Loc)
+        this.client_loc_data = SaveClient_Loc
+
+        if (this.client_loc_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Client Location is added successfully.' } });
+        }
+      })
+    }
+    
   }
   Client_Locationupdate() {
     this.Client_Locationupdateup().subscribe((UpdateClient_Loc) => {
       console.warn("UpdateClient_Loc", UpdateClient_Loc)
       this.client_loc_updata = UpdateClient_Loc
+      //this.wait(2000);
+      if (this.client_loc_updata == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Client Location is updated successfully.' } });
+      }
     })
+  }
+  wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
   }
   Client_Locationsaveup() {
     this.isclienthiddensa = true;
@@ -62,7 +85,7 @@ export class AddClientLocationComponent implements OnInit {
     var locnotes = this.notes;
     var oper: string = "Save";
     let params1 = new HttpParams().set('CusCode', cstmrcode).set('CLId', Clid).set('Address', address).set('LocationName', loc).set('City', city).set('State', state).set('Country', country).set('ZipCode', zip).set('Telephone', tele).set('Fax', fAx).set('Emailid', emailid).set('ContactPerson', cperson).set('ContactNo', cno).set('LocationNotes', locnotes).set('operation', oper);
-    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SaveupdateClientLocation", { params: params1 })
+    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SaveupdateClientLocation", { params: params1, responseType:'text' })
   }
   validemail(event) {
     var val: any = event.target.value;
@@ -93,7 +116,7 @@ export class AddClientLocationComponent implements OnInit {
     var locnotes = this.notes;
     var oper: string = "Update";
     let params1 = new HttpParams().set('CusCode', cstmrcode).set('CLId', Clid).set('Address', address).set('LocationName', loc).set('City', city).set('State', state).set('Country', country).set('ZipCode', zip).set('Telephone', tele).set('Fax', fAx).set('Emailid', emailid).set('ContactPerson', cperson).set('ContactNo', cno).set('LocationNotes', locnotes).set('operation', oper);
-    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SaveupdateClientLocation", { params: params1 })
+    return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SaveupdateClientLocation", { params: params1, responseType: 'text' })
   }
   ClearData() {
     this.isclienthiddensa = false;
@@ -113,7 +136,8 @@ export class AddClientLocationComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.isclienthiddensa = false;
+    this.isclienthiddenup = true;
     this.addclientlocationload = this.datashare.getclientlocation()
     this.location = this.addclientlocationload[0];
     this.address = this.addclientlocationload[1];

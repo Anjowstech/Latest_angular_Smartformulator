@@ -20,7 +20,7 @@
     <p style="color:maroon">Make your selection by double clicking on your choice</p>
    
       <div style="margin-left:1%;margin-top:1%; height:400px; overflow-y: auto;">
-        <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="serach_project" width="98%">
+        <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="serach_project" width="98%">
           <thead>
             <tr>
               <th scope="col">PDR #</th>
@@ -36,7 +36,7 @@
             <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                   mode="indeterminate">
             </mat-progress-spinner>
-            <tr *ngFor="let pdr_search of PDR_searchdata|filter:projectname|filter:pdrno; let i=index;" (click)="setvalues( pdr_search);close();" #conten>
+            <tr *ngFor="let pdr_search of PDR_searchdata|filter:projectname:filterMetadata|filter:pdrno:filterMetadata; let i=index;" (click)="setvalues( pdr_search);close();" #conten>
               <td class="tabledatasize">{{ pdr_search.PDRNo }}</td>
               <td class="tabledatasize">{{ pdr_search.ProjectName}}</td>
              
@@ -56,5 +56,5 @@
 <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 </div>

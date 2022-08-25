@@ -4,6 +4,9 @@ import { CategoryMaintenanceComponent } from 'src/app/raw-material/category-main
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SerachCategoryComponent } from './serach-category/serach-category.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
+import {  MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 @Component({
   selector: 'app-sub-category-maintenance',
   templateUrl: './sub-category-maintenance.component.html',
@@ -11,6 +14,7 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 })
 export class SubCategoryMaintenanceComponent implements OnInit {
   dataraw_sup: any;
+  filterMetadata = { count: 0 };
   selectedrow: string = '';
   subcategoryid: any;
   dataraw_sup_update: any;
@@ -25,6 +29,8 @@ export class SubCategoryMaintenanceComponent implements OnInit {
   categorynam: string = '';
   categoryid: string = '';
   subcategorynam: string = '';
+  issubcategorysave: boolean = false;
+  issubcategoryupdate: boolean = true;
   descript: string = '';
   categoryidm: string = '';
   categoid: string = '';
@@ -52,7 +58,8 @@ export class SubCategoryMaintenanceComponent implements OnInit {
   }
   selectitem(raw_supp) {
     this.selectedrow = raw_supp;
-
+    this.issubcategorysave = true;
+    this.issubcategoryupdate= false;
     this.categorynam = this.catenam = raw_supp.CategoryName;
     this.categoryidval = this.categoid = raw_supp.CategoryId;
     this.subcategorynam = this.subcatenam = raw_supp.SubCategoryName;
@@ -83,9 +90,9 @@ export class SubCategoryMaintenanceComponent implements OnInit {
     return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
 
   }
-  savesubcategory(subcategoryname: string, description: string, subcategoryid: string, categoryid: string) {
+  savesubcategory(subcategoryname: string, description: string,  categoryid: string) {
     var subcategorynameval: string = subcategoryname;
-    var subcategoryidval: string = subcategoryid;
+   
     var categoryidval: string = categoryid;
     var descriptionval: string = description
     let params1 = new HttpParams().set('SubCategoryName', subcategorynameval).
@@ -115,16 +122,39 @@ export class SubCategoryMaintenanceComponent implements OnInit {
 
   }
   updatedata(subcategoryname, description, subcategoryid, categoryid) {
-    this.Updatesubcategory(subcategoryname, description, subcategoryid, categoryid).subscribe((resultraw_sup_update) => {
-      console.warn("resultraw_sup_update", resultraw_sup_update)
-      this.dataraw_sup_update = resultraw_sup_update
-    })
+    if (this.categorynam == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
+    }
+    else if (this.descript == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
+    }
+    else if (this.subcategorynam == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Subcategory Name" } });
+    }
+    else {
+      this.Updatesubcategory(subcategoryname, description, subcategoryid, categoryid).subscribe((resultraw_sup_update) => {
+        console.warn("resultraw_sup_update", resultraw_sup_update)
+        this.dataraw_sup_update = resultraw_sup_update
+      })
+    }
   }
-  savedata(subcategoryname, description, subcategoryid, categoryid) {
-    this.savesubcategory(subcategoryname, description, subcategoryid, categoryid).subscribe((resultraw_sup_save) => {
-      console.warn("resultraw_sup_save", resultraw_sup_save)
-      this.dataraw_sup_save = resultraw_sup_save
-    })
+  savedata() {
+    if (this.categorynam == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
+    }
+    else if (this.descript == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
+    }
+    else if (this.subcategorynam == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Subcategory Name" } });
+    }
+    else {
+
+      this.savesubcategory(this.subcategorynam, this.descript, this.categoryidval).subscribe((resultraw_sup_save) => {
+        console.warn("resultraw_sup_save", resultraw_sup_save)
+        this.dataraw_sup_save = resultraw_sup_save
+      })
+    }
   }
   deletedata(subcategoryname, description, subcategoryid, categoryid) {
     this.deletesubcategory(subcategoryname, description, subcategoryid, categoryid).subscribe((resultraw_sup_delete) => {
@@ -155,9 +185,17 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       width: '80%', height: '90%', disableClose: true
     });
   }
+  Cleardata() {
+    this.categorynam = "";
+    this.categoryidval = "";
+    this.subcategorynam = "";
+    this.descript = "";
+    this.issubcategorysave = false;
+    this.issubcategoryupdate = true;
+  }
   ngOnInit() {
     this.Loadsubcategory().subscribe((resultraw_sup) => {
-      console.warn("resultraw_sup", resultraw_sup)
+      console.warn("sub_category_load", resultraw_sup)
       this.dataraw_sup = resultraw_sup
     })
 

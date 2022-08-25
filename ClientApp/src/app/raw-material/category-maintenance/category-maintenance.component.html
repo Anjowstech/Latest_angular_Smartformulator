@@ -14,8 +14,8 @@
             <option>RAWS-RAWS</option>
             <option>RM-Raw Mat</option>
           </datalist>-->
-          <select typeof="submit" class="form-control" style="width:70%;" [(ngModel)]="classify" (change)="onSelectedChange()">
-            <option selected>{{this.classifiedvalue}}</option>
+          <select typeof="submit" class="form-control" style="width:70%;" [(ngModel)]="classify" (change)="onSelectedChange($event)">
+           
             <option *ngFor="let option of options">{{option}}</option>
 
 
@@ -54,8 +54,8 @@
     <div style="margin-left:30%">
       <mat-radio-group aria-label="Select an option" style="margin-left:0.3%" (change)="radioChange($event)">
         <mat-radio-button class="textsize" [value]="1" [checked]=" false" style="margin-left:10px">For Formula</mat-radio-button>
-        <mat-radio-button class="textsize" [value]="1" [checked]=" false" style="margin-left:10px">For Raw Materials</mat-radio-button>
-        <mat-radio-button class="textsize" [value]="2" [checked]=" true" style="margin-left:20px">All</mat-radio-button>
+        <mat-radio-button class="textsize" [value]="2" [checked]=" false" style="margin-left:10px">For Raw Materials</mat-radio-button>
+        <mat-radio-button class="textsize" [value]="3" [checked]=" true" style="margin-left:20px">All</mat-radio-button>
       </mat-radio-group>
     </div>
     <!--<div class="form-group row" style="margin-left:30%">
@@ -96,8 +96,8 @@
         </thead>
 
         <tbody>
-          <tr height="20px" *ngFor="let raw_sup_cate of dataraw_sup_cate; let i=index;" (click)="selectitem( raw_sup_cate); changetext();">
-            <td hidden>{{ raw_sup_cate.Classification}}</td>
+          <tr height="20px" *ngFor="let raw_sup_cate of dataraw_sup_cate| filter:CategoryNam:filterMetadata|filter:Descriptio:filterMetadata|filter:classify:filterMetadata; let i=index;" (click)="selectitem( raw_sup_cate); changetext();">
+            <td hidden >{{ raw_sup_cate.Classification}}</td>
             <td>{{ raw_sup_cate.CategoryName }}</td>
             <td>{{raw_sup_cate.Description }}</td>
             <td>{{ raw_sup_cate.ForType}}</td>
@@ -132,10 +132,10 @@
 
      
       
-          <button type="submit" class="btn btn-primary  buttoncolor"  style="float:right;height:40px;margin-top:1%"  (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Delete Category </button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px">New</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);" matDialogClose>Save</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Update</button>
+          <button type="submit" class="btn btn-primary  buttoncolor"  style="float:right;height:40px;margin-top:1%"  (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);">Delete Category </button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px"(click)="cleardata();">New</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);" [hidden]="iscategorysave" >Save</button>
+          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata(classify.value, categoryname.value,description.value,categorymainval.value);" [hidden]="iscategoryupdate" >Update</button>
           <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Close</button>
         
      

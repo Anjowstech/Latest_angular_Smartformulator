@@ -49,7 +49,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let customer_search of customer_searchdata | filter:customerkey|filter:customername; let i=index;" (click)="setvalues( customer_search);close();" #conten>
+          <tr *ngFor="let customer_search of customer_searchdata | filter:customerkey:filterMetadata|filter:customername:filterMetadata; let i=index;" (dblclick)="setvalues( customer_search);close();" #conten>
             <td class="tabledatasize">{{ customer_search.CustomerKey }}</td>
             <td class="tabledatasize">{{ customer_search.CustomerName}}</td>
             <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
@@ -68,7 +68,7 @@
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
 
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
 
 </div>

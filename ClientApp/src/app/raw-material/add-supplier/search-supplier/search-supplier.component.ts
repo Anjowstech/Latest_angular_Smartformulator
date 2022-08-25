@@ -9,7 +9,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class SearchSupplierComponent implements OnInit {
 
-
+  countyes: number = 0;
+  countno: number = 0;
   supplier_searchdata: any;
   searchitems: any = [];
   SupplierName: string;
@@ -17,7 +18,7 @@ export class SearchSupplierComponent implements OnInit {
   SupplierCode: string;
   Case: string='All';
   isLoading = true;
-
+  supplier_searchdatalength: string = '';
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchSupplierComponent>) { }
   Supplier_search() {
     var operate = this.Case;
@@ -70,6 +71,15 @@ export class SearchSupplierComponent implements OnInit {
       this.isLoading = false;
       console.warn("cus_search", cus_search)
       this.supplier_searchdata = cus_search
+      this.supplier_searchdatalength = this.supplier_searchdata.length;
+      for (let item of this.supplier_searchdata) {
+        if (item.Case == "Yes") {
+          this.countyes = this.countyes + 1;
+        }
+        else {
+          this.countno = this.countno + 1;
+        }
+      }
     })
   }
 

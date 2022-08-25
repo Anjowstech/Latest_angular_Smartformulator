@@ -11,6 +11,7 @@ export class SearchCustomerPdrComponent implements OnInit {
   customerkey: string;
   customername: string;
   customercode: string;
+  countrecords: string;
   searchitems_pdr: any = [];
   constructor(public dialogRef: MatDialogRef<SearchCustomerPdrComponent>, private http: HttpClient) { }
   search_customer_pdr(){
@@ -31,6 +32,7 @@ export class SearchCustomerPdrComponent implements OnInit {
     this.search_customer_pdr().subscribe((search_cust_pdr) => {
       console.warn("search_cust_pdr", search_cust_pdr)
       this.search_cust_pdr_data = search_cust_pdr
+      this.countrecords = this.search_cust_pdr_data.length
     })
   }
 

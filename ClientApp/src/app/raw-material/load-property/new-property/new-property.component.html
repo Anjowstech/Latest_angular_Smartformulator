@@ -6,7 +6,7 @@
     <div class="form-row">
       <div class="form-inline">
         <label style="margin-left:10px;">Property Name</label>
-        <input type="text" class="form-control"  style="margin-left:10px;width:80%" id="PropertyName" name="PropertyName" #PropertyName>
+        <input type="text" class="form-control"  style="margin-left:10px;width:80%" id="PropertyName" name="PrtyName"  [(ngModel)]="PropertyName">
       </div>
       <div class="form-inline">
       </div>
@@ -21,8 +21,8 @@
         <div style="margin-top:1%">
           <div class="form-inline">
             <mat-dialog-actions>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:60px;">New</button>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="AddProperty(PropertyName.value);openloadproperty()" matDialogClose>Add</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:60px;" (click)="cleardata();">New</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="AddProperty();openloadproperty()" matDialogClose>Add</button>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
             </mat-dialog-actions>
           </div>

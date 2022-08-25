@@ -12,8 +12,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { NgModule } from '@angular/core';
+
+import { DatePipe } from '@angular/common';
+
+
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { formatDate } from '@angular/common';
+import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-yesno.component';
 
 @Component({
   selector: 'app-customer-details',
@@ -31,12 +36,19 @@ import { formatDate } from '@angular/common';
 })
 export class CustomerDetailsComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-  Dateforma: any = [
+  Dateforma = [
     { dateform: "MM/dd/yyyy" },
     { dateform: "MM/dd/yyy" },
     { dateform: "MM/dd/y" },
+    { dateform: "No Expiry Date" },
   ];
-
+  Unitforma = [
+    { Unitform: "Kg" },
+    { Unitform: "Lb" },
+  ];
+  issearchcustomer: boolean = true;
+  issearchcustomersave: boolean = false;
+  isstateus: boolean = false;
   tier1: string;
   tier2: string;
   tier3: string;
@@ -90,16 +102,18 @@ export class CustomerDetailsComponent implements OnInit {
   terms: string = "";
   fob: string = "";
   shipvia: string = "";
-  salesperson: string = "";
+  salesperson: string = "N/A";
   creditcardno: string = "";
   creditcardtype: string = "";
-  expirydate: string = "";
+  expirydate: string = Date.now().toString();
+ 
   creditlimit: string = '0';
   salesregion: string = "";
   salesrepinitial: string = "";
   city: string = "";
   state: string = "";
-  country: string = "";
+  country: string = "United States of America";
+
   zip: string = "";
   custmrkey: string = "";
   saddress: string = "";
@@ -155,7 +169,7 @@ export class CustomerDetailsComponent implements OnInit {
   erpproductscoa: any;
   rowData6: any = [];
   selectedRowIndexListinggrid = -1;
-  pricedetailgrid_data: any;
+  pricedetailgrid_data: any=[];
   retail_wholesale_rowdata: any = [];
   retailwholeData: any;
   pricentryrowdata: any = [];
@@ -208,6 +222,11 @@ export class CustomerDetailsComponent implements OnInit {
   Document19: string = "";
   Document20: string = "";
   Customer_deletedata: any;
+  loadcustomerstate: any;
+  Statefull: string;
+  loadsalesrepinitial: any;
+  deleteddata: string;
+  deleterowdelete: string;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
@@ -216,6 +235,10 @@ export class CustomerDetailsComponent implements OnInit {
       'terms': [false]
 
     });
+  }
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document1 = files.item(0).name;
   }
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
@@ -226,6 +249,9 @@ export class CustomerDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
+
+        this.issearchcustomer = false;
+        this.issearchcustomersave = true;
         this.customerkey = result[0];
         this.customername = result[1];
         this.customercode = result[2];
@@ -294,16 +320,39 @@ export class CustomerDetailsComponent implements OnInit {
 
   }
   DeleteClient_location() {
-    this.DeleteClient_locationdlt().subscribe((DeleteClient_Loc) => {
-      console.warn("SaveClient_Loc", DeleteClient_Loc)
-      this.delclient_loc_data = DeleteClient_Loc
-    })
-    this.wait(3000);
-    this.shippinglocationload(this.customercode).subscribe((shippingload) => {
-      console.warn("shippingload", shippingload)
-      this.shippingdata = shippingload
-    })
+    if (this.customerkey == "" || this.customerkey == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Enter Customerkey.' } });
+    }
+    else if (this.customername == "" || this.customername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Enter Customername.' } });
+    }
+    else {
+      let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'This will delete the entry.Do you really want to delete this entry?' }, disableClose: true });
 
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed: ${result}');
+        this.deleteddata = result;
+        if (this.deleteddata == "false") { }
+        else {
+          this.DeleteClient_locationdlt().subscribe((DeleteClient_Loc) => {
+            console.warn("SaveClient_Loc", DeleteClient_Loc)
+            this.delclient_loc_data = DeleteClient_Loc
+            if (this.delclient_loc_data == "Client location details are deleted successfully") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Client location details are deleted successfully.' } });
+            }
+          })
+          this.wait(3000);
+          this.shippinglocationload(this.customercode).subscribe((shippingload) => {
+            console.warn("shippingload", shippingload)
+            this.shippingdata = shippingload
+          })
+        }
+
+
+
+
+      });
+    }
   }
   sendcustcode(customercode) {
     this.datashare.sendcustomercode(customercode);
@@ -311,7 +360,7 @@ export class CustomerDetailsComponent implements OnInit {
   DeleteClient_locationdlt() {
     var clid = this.clientid;
     let params1 = new HttpParams().set('CLId', clid);
-    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/deleteclientlocation", { params: params1 })
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/deleteclientlocation", { params: params1, responseType:'text' })
   }
   bindcustomerprefer(bindcustomerprefdata) {
     for (let item of bindcustomerprefdata) {
@@ -393,8 +442,17 @@ export class CustomerDetailsComponent implements OnInit {
       this.salesperson = item.SalesPerson;
       this.creditcardno = item.CreditCardNo;
       this.creditcardtype = item.CreditCardType;
-      this.expirydate = formatDate(new Date(item.ExpiryDate), 'yyyy-MM-dd', 'en-US');
+    
+      this.expirydate = new DatePipe('en-US').transform(item.ExpiryDate, 'yyyy-MM');
+
+
       this.country = item.Country;
+      if (this.country == "United States of America") {
+        this.isstateus = false;
+      }
+      else {
+        this.isstateus = true;
+      }
       this.custmrkey = item.CustomerKey;
       this.saddress = item.SAddress;
       this.semail = item.SEmail;
@@ -410,6 +468,7 @@ export class CustomerDetailsComponent implements OnInit {
       this.Fax = item.SFax;
       this.telepho = item.SPhoneNo;
       this.State = item.SState;
+      this.Statefull = item.stateabbrv;
       this.zipcode = item.SZip;
       this.Shiptolocation = item.Shiptolocation;
       this.Tier1 = item.Tier1;
@@ -439,6 +498,42 @@ export class CustomerDetailsComponent implements OnInit {
 
     }
 
+  }
+  setstates(event) {
+    var state = event.target.value;
+    this.stateloadfunction(state).subscribe((loadcustomerstate) => {
+      console.warn("loadcustomerstate", loadcustomerstate)
+      this.loadcustomerstate = loadcustomerstate
+      this.Statefull = this.loadcustomerstate
+    })
+  }
+  setsalesrepinitial(event) {
+    var staterepinitial = event.target.value;
+    this.salesrepinitialloadfunction(staterepinitial).subscribe((loadsalesrepini) => {
+      console.warn("loadsalesrepini", loadsalesrepini)
+      this.loadsalesrepinitial = loadsalesrepini
+      this.salesrepinitial = this.loadsalesrepinitial
+    })
+  }
+  setcountry(event) {
+    this.Statefull = "";
+    this.country = event.target.value;
+    if (this.country == "United States of America") {
+      this.isstateus = false;
+    }
+    else {
+      this.isstateus = true;
+    }
+  }
+  stateloadfunction(state: string) {
+    var stateabbr: any = state;
+    let params1 = new HttpParams().set('stateabbrv', stateabbr);
+    return this.http.get("https://formulalookupwebservice12.azurewebsites.net/customerstateload", { params: params1, responseType: 'text' });
+  }
+  salesrepinitialloadfunction(salesrep: string) {
+    var salesrepinitial: any = salesrep;
+    let params1 = new HttpParams().set('salesrepname', salesrepinitial);
+    return this.http.get("https://smarformulatorformulalookupwebservice3.azurewebsites.net/salesrepnameload", { params: params1, responseType: 'text' });
   }
   customerload(customercode: string) {
     var custcode = customercode;
@@ -807,8 +902,24 @@ export class CustomerDetailsComponent implements OnInit {
     // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
   }
   deleteRowerp() {
-    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
+    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //if (this.selectedRowIndex == -1) {
+    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //}     
+    //this.dataGrid.instance.deselectAll();
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.deleterowdelete = result;
+      if (this.deleterowdelete == "false") { }
+      else {
+        this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+        if (this.selectedRowIndex == -1) {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+        }
+        this.dataGrid.instance.deselectAll();
+      }
+    });
   }
   selectedChangederp(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
@@ -914,15 +1025,50 @@ export class CustomerDetailsComponent implements OnInit {
 
   }
   retailwholsaledelete() {
-    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
+    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //(this.selectedRowIndex);
+    //if (this.selectedRowIndex == -1) {
+    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //}
+    //this.dataGrid.instance.deselectAll();
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.deleterowdelete = result;
+      if (this.deleterowdelete == "false") { }
+      else {
+        this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+        if (this.selectedRowIndex == -1) {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+        }
+        this.dataGrid.instance.deselectAll();
+      }
+    });
   }
   selectedChangedwholeretail(e) { this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]); }
 
   deleteRow() {
-    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    this.dataGrid.instance.saveEditData();
-    this.dataGrid.instance.deselectAll();
+    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //(this.selectedRowIndex);
+    //if (this.selectedRowIndex == -1) {
+    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //}
+    //this.dataGrid.instance.saveEditData();
+    //this.dataGrid.instance.deselectAll();
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.deleterowdelete = result;
+      if (this.deleterowdelete == "false") { }
+      else {
+        this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+        if (this.selectedRowIndex == -1) {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+        }
+         this.dataGrid.instance.saveEditData();
+         this.dataGrid.instance.deselectAll();
+      }
+    });
   }
   selectedChanged(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
@@ -1063,10 +1209,10 @@ export class CustomerDetailsComponent implements OnInit {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Customer Name' } });
     }
    
-   else if (this.emailref == '' && this.contactfmail == '' && this.contactsmail == '' && this.contacttmail == '' && this.Email=='') {
+   //else if (this.emailref == '' && this.contactfmail == '' && this.contactsmail == '' && this.contacttmail == '' && this.Email=='') {
 
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Email ID' } });
-    }
+   //   this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Email ID' } });
+   // }
     else {
 
 
@@ -1090,6 +1236,11 @@ export class CustomerDetailsComponent implements OnInit {
             console.warn("Customer_save", Customer_save)
             this.Customer_save_data = Customer_save
 
+            this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+              console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+              this.dataloadaudittrialcustomer = loadcustomeraudittrial
+            })
+
             if (this.Customer_save_data == "Inserted") {
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer " + " " + this.customername + " is " + this.Customer_save_data + " " + "Successfully" } });
               this.Customer_save_data = ""
@@ -1103,10 +1254,7 @@ export class CustomerDetailsComponent implements OnInit {
               this.Customer_save_data = ""
             }
           })
-          this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
-            console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
-            this.dataloadaudittrialcustomer = loadcustomeraudittrial
-          })
+         
 
 
 
@@ -1284,11 +1432,11 @@ export class CustomerDetailsComponent implements OnInit {
 
     this.markFormTouched(this.login_form);
     
-    if (this.emailref == '' && this.contactfmail == '' && this.contactsmail == '' && this.contacttmail == '' && this.Email=='') {
+    //if (this.emailref == '' && this.contactfmail == '' && this.contactsmail == '' && this.contacttmail == '' && this.Email=='') {
 
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Email ID' } });
-    }
-    else {
+    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Email ID' } });
+    //}
+  
      
 
      
@@ -1301,8 +1449,14 @@ export class CustomerDetailsComponent implements OnInit {
           })
           this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
             console.warn("Customer_update", Customer_update)
-            this.wait(7000)
+           // this.wait(7000)
             this.Customer_save_data = Customer_update
+
+            this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+              console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+              this.dataloadaudittrialcustomer = loadcustomeraudittrial
+            })
+
             if (this.Customer_save_data == "Updated") {
               this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'updated successfully' } });
             }
@@ -1312,7 +1466,7 @@ export class CustomerDetailsComponent implements OnInit {
         else {
           this.login_form.controls['terms'].setValue(false);
         }
-      }
+     
      
     
   }
@@ -1367,62 +1521,91 @@ export class CustomerDetailsComponent implements OnInit {
 
   //}
   deletecustomer() {
-    this.Customer_delete().subscribe((Customer_dlt) => {
-      console.warn("Customer_deletedata", Customer_dlt)
-      this.Customer_deletedata = Customer_dlt
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'This will delete the entry.Do you really want to delete this entry?' }, disableClose: true });
 
-      if (this.Customer_deletedata == "Deleted") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer:" + " " + this.customername + " is " + this.Customer_deletedata + " " + "Successfully" } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "ProjectMain") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a project. So it cannot be deleted." } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "SampleManagement") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a sample management. So it cannot be deleted." } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "BatchMain") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a batch. So it cannot be deleted." } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "COAMain") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a COA. So it cannot be deleted" } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "ProductPackageMaster") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a BOM-Product Packaging entry. So it cannot be deleted" } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "CustomerPurchaseOrder") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a customer PO entry. So it cannot be deleted" } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "SaleInvoice" || this.Customer_deletedata == "SalesInvoiceMaster") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a sale invoice entry. So it cannot be deleted." } });
-        this.Customer_deletedata = ""
-      }
-      else if (this.Customer_deletedata == "Failed") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Deletion of customer is failed" } });
-        this.Customer_deletedata = ""
-      }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.deleteddata = result;
 
-    })
+      if (this.deleteddata == "false") { }
+      else {
+        this.Customer_delete().subscribe((Customer_dlt) => {
+          console.warn("Customer_deletedata", Customer_dlt)
+          this.Customer_deletedata = Customer_dlt
+
+          if (this.Customer_deletedata == "Deleted") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer:" + " " + this.customername + " is " + this.Customer_deletedata + " " + "Successfully" } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "ProjectMain") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a project. So it cannot be deleted." } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "SampleManagement") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a sample management. So it cannot be deleted." } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "BatchMain") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a batch. So it cannot be deleted." } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "COAMain") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a COA. So it cannot be deleted" } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "ProductPackageMaster") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a BOM-Product Packaging entry. So it cannot be deleted" } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "CustomerPurchaseOrder") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a customer PO entry. So it cannot be deleted" } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "SaleInvoice" || this.Customer_deletedata == "SalesInvoiceMaster") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "This customer is assigned to a sale invoice entry. So it cannot be deleted." } });
+            this.Customer_deletedata = ""
+          }
+          else if (this.Customer_deletedata == "Failed") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Deletion of customer is failed" } });
+            this.Customer_deletedata = ""
+          }
+          this.active = '1';
+          this.ClearData();
+
+        })
+      }
+    });
   }
   Customer_delete() {
     var customercode = this.customercode;
     var customername = this.customername;
     let params1 = new HttpParams().set('CustCode', customercode).set('CustName', customername);
-    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/deletecustomer", { params: params1, })
+    return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/deletecustomer", { params: params1,responseType:'text' })
   }
   insertrowvalidatedbatch() {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.saveEditData();
   }
   deleterowvalidatedbatch() {
-    this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
-    this.dataGrid.instance.deselectAll();
+    //this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
+    //(this.selectedRowIndex);
+    //if (this.selectedRowIndex == -1) {
+    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //}
+    //this.dataGrid.instance.deselectAll();
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.deleterowdelete = result;
+      if (this.deleterowdelete == "false") { }
+      else {
+        this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
+        if (this.selectedRowIndexvali == -1) {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+        }
+        this.dataGrid.instance.deselectAll();
+      }
+    });
   }
   selectedChangedvalid(e) {
     this.selectedRowIndexvali = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
@@ -1430,6 +1613,8 @@ export class CustomerDetailsComponent implements OnInit {
 ClearData()
 {
   this.active = '1';
+  this.issearchcustomer = true;
+  this.issearchcustomersave = false;
   this.customerkey = '';
   this.customercode = '';
   this.customername = '';
@@ -1468,11 +1653,12 @@ ClearData()
   this.attachment = '';
   this.terms = '';
   this.shipvia = '';
-  this.salesperson = '';
+  this.salesperson = 'N/A';
   this.creditcardno = '';
   this.creditcardtype = '';
-  this.expirydate = '';
-  this.country = '';
+  this.expirydate = Date.now().toString();
+  this.country = 'United States of America';
+  this.isstateus = false;
   this.custmrkey = '';
   this.saddress = '';
   this.dataloadaudittrialcustomer = '';
@@ -1480,10 +1666,10 @@ ClearData()
   this.erpproductscoa = '';
   this.shippingdata = '';
   this.retailwholeData = '';
-  this.rowData4 = '';
-  this.rowData = '';
-  this.retail_wholesale_rowdata = '';
-  this.rowData6 = '';
+  this.rowData4 = [];
+  this.rowData = [];
+  this.retail_wholesale_rowdata = [];
+  this.rowData6 = [];
   
   this.locationname = '';
   this.Address = '';
@@ -1497,6 +1683,7 @@ ClearData()
   this.Email = '';
   this.contactno = '';
   this.Shiptolocation = '';
+  this.Statefull = '';
   }
   termChange(event) {
     this.terms = event.target.value;
@@ -1517,24 +1704,29 @@ ClearData()
     return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/loadAuditcustomeraudit", { params: params1, });
   }
   OpenAddClientLocation(): void {
-    this.datashare.sendcustomercode(this.customercode);
-    const dialogRef = this.dialog.open(AddClientLocationComponent, {
-      width: '60%', height: '70%', disableClose: true
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      this.wait(3000);
-      this.shippinglocationload(this.customercode).subscribe((shippingload) => {
-        console.warn("shippingload", shippingload)
-        this.shippingdata = shippingload
-
-      })
-
-      this.searchitems = ['', '', '', '', '', '', '', '', '', '', '', '', '', ''];
-      this.datashare.sendaddlocation(this.searchitems);
- 
-    });
+    if (this.customerkey == "" || this.customerkey == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter customer key' } });
+    }
+    else if (this.customername == "" || this.customername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter customer name' } });
+    }
+    else {
+      this.datashare.sendcustomercode(this.customercode);
+      const dialogRef = this.dialog.open(AddClientLocationComponent, {
+        width: '60%', height: '70%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.wait(3000);
+        this.shippinglocationload(this.customercode).subscribe((shippingload) => {
+          console.warn("shippingload", shippingload)
+          this.shippingdata = shippingload
+        })
+        this.searchitems = ['', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+        this.datashare.sendaddlocation(this.searchitems);
+      });
+    }
 
   }
   shippinglocationload(customercode: string) {
@@ -1579,7 +1771,7 @@ ClearData()
       })
 
     }
-   
+
 
     this.countrydataload().subscribe((countrydatalo) => {
       console.warn("countrydatalo", countrydatalo)

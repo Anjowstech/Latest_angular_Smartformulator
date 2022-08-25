@@ -20,7 +20,7 @@
         <option>Admin3</option>
         <option>Admin4</option>
       </select>
-      <input [disabled]="issearchform" type="text" style="margin-left:30px;width:20%" class="form-control" id="formula_pdr" [(ngModel)]="formulacode" #formulacod name="formulacode" value="">
+      <input [disabled]="issearchform" type="text" placeholder="Enter Formula Code" style="margin-left:30px;width:20%" class="form-control" id="formula_pdr" [(ngModel)]="formulacode" #formulacod name="formulacode" value="">
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px;" (click)="AddPrefixPopUp()">Add Prefix</button>
     </form>
     <form class="form-inline">
@@ -3144,8 +3144,8 @@ Just as moisture plays a major role in package compatibility, exposure to light 
   </div>
     <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
      
-          
-          <button mat-raised-button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%">Save As</button>
+      <button mat-raised-button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%" matDialogClose>Back</button>
+          <button mat-raised-button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:.5%">Save As</button>
           <button mat-raised-button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:.5%">Print Preview</button>
           <button mat-raised-button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%" (click)="ClearData();changeTab();">New</button>
           <button mat-raised-button type="submit" [hidden]="issearchformulasave" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;margin-top:.5%" (click)="FormulationLookup_Save();">Save</button>

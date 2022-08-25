@@ -1,5 +1,5 @@
 <div style="background-color: #f6f5f1">
-  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
     <div class="col-sm-12">
       <div style="background-color: #f6f5f1">
 
@@ -31,8 +31,8 @@
     <div style="color: #bb2205">
       <p class="font-weight-bold">Make your selection by double clicking on your choice</p>
     </div>
-    <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
-      <table class=" table table-hover table-bordered" style=" background-color: white" id="table" width="100%">
+    <div style="margin-left:1%;margin-top:1%; height:400px; overflow-y: auto;">
+      <table class=" table table-hover table-bordered" style=" background-color: white" id="table" width="98%">
         <thead>
           <tr>
             <th class="header" hidden scope="col">Formula Code</th>
@@ -45,7 +45,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let pdr_search of dataresultsearchpdr | filter:Formulaname|filter:Pdrdata; let i=index;" (click)="setvalues( pdr_search);close();" #conten>
+          <tr *ngFor="let pdr_search of dataresultsearchpdr | filter:Formulaname:filterMetadata|filter:Pdrdata:filterMetadata; let i=index;" (click)="setvalues( pdr_search);close();" #conten>
             <td hidden>{{ pdr_search.FormulaCode }}</td>
             <td>{{ pdr_search.PDRNo}}</td>
             <td>{{ pdr_search.FormulaName }}</td>
@@ -59,8 +59,8 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
 
-    <button type="submit"   class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
   </div>
 </div>

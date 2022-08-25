@@ -5,13 +5,13 @@
       <div class="form-row" [formGroup]="login_form">
         <div class="form-group col-md-7">
           <div class=" form-inline">
-            <label for="PRD" style="margin-left: 2%;">Customer Key</label>
+            <label class="label2" for="PRD" style="margin-left: 2%;">Customer Key</label>
             <input type="text" style="margin-left:10px; width:71%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="customerkey" #custkey  value="" formControlName="custokey" name="custkeyname" />
             <span class="text-danger" style="margin-left:20%;margin-top:-0.5%"  *ngIf="login_form.controls['custokey'].hasError('required') && (login_form.controls['custokey'].dirty || login_form.controls['custokey'].touched)">This field is required</span>
 
           </div>
           <div class="form-inline">
-            <label for="PRD" style="margin-left: 2%">Customer Name</label>
+            <label class="label2" for="PRD" style="margin-left: 2%">Customer Name</label>
             <input type="text" style="margin-left:10px; width:71%" class="form-control" id="PDR Date" placeholder="" [(ngModel)]="customername" #custnam  value="" formControlName="custoname" name="cusnamevalue" />
             <span class="text-danger" style="margin-left:20%;margin-top:-0.5%"*ngIf="login_form.controls['custoname'].hasError('required') && (login_form.controls['custoname'].dirty || login_form.controls['custoname'].touched)">This field is required</span>
           </div>
@@ -41,11 +41,11 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Address">Address</label>
+                  <label class="label2" for="Address">Address</label>
                   <textarea class="form-control rounded-0" id="Address" rows="4" style="width:60%; margin-left:1%" #Add name="address" [(ngModel)]="address" value=""></textarea>
                 </div>
                 <div class=" form-inline" style="padding-top:2%;">
-                  <label for="CustomerTyp">Customer Type</label>
+                  <label class="label2" for="CustomerTyp">Customer Type</label>
                   <select id="CustomerTyp" class="form-control" style="width:60%;margin-left:1%" [(ngModel)]="customertype" name="custtyp" value="">
                     <option>Retail</option>
                     <option>Distributor</option>
@@ -55,27 +55,27 @@
                   </select>
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Telephone">Telephone</label>
+                  <label class="label2" for="Telephone">Telephone</label>
                   <input type="text" class="form-control" id="Telephone" placeholder="" style="width:60%;" #tele name="telephone" [(ngModel)]="phone" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Fax">Fax</label>
+                  <label class="label2" for="Fax">Fax</label>
                   <input type="text" class="form-control" id="Fax" style="width:60%;" name="fax" [(ngModel)]="fax" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Contact Person 1">Contact Person 1</label>
+                  <label class="label2" for="Contact Person 1">Contact Person 1</label>
                   <input type="text" class="form-control" id="Contact Person 1" style="width:60%;" name="contactpersn1" [(ngModel)]="contactfperson" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Contact Person 2">Contact Person 2</label>
+                  <label class="label2" for="Contact Person 2">Contact Person 2</label>
                   <input type="text" class="form-control" id="Contact Person 2" style="width:60%;" name="contactpersn2" [(ngModel)]="contactsperson" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Contact Person 3">Contact Person 3</label>
+                  <label class="label2" for="Contact Person 3">Contact Person 3</label>
                   <input type="text" class="form-control" id="Contact Person 3" style="width:60%;" name="contactpersn3" [(ngModel)]="contacttperson" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Terms">Terms</label>
+                  <label class="label2" for="Terms">Terms</label>
                   <select id="Termsd" class="form-control" style="width:60%;" [(ngModel)]="terms" (change)="termChange($event)" name="ter" value="">
                     <option selected>No Terms</option>
                     <option *ngFor="let itemunit of termsdatalo_data">{{itemunit.Terms}}</option>
@@ -85,11 +85,11 @@
                   <button type="button" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 4%; "(click)="OpenTermsMaster()">...</button>
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="FOB">FOB</label>
-                  <input type="text" class="form-control" id="FOB" style="width:60%;" name="fob" [(ngModel)]="fob" value="">
+                  <label class="label2" for="FOB">FOB</label>
+                  <input  type="text" class="form-control" id="FOB" style="width:60%;" name="fob" maxlength="13" placeholder="13 Chars only" [(ngModel)]="fob" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Credit Card Type">Credit Card Type</label>
+                  <label class="label2" for="Credit Card Type">Credit Card Type</label>
                   <select id="Credit Card Type" class="form-control" style="width:60%;" [(ngModel)]="creditcardtype" value="" name="credittype">
                     <option >American Express</option>
                     <option>Discover</option>
@@ -101,9 +101,9 @@
                   </select>
                 </div>
                 <div class=" form-inline" style="padding-top:2%;">
-                  <label for="Sales Rep Name">Sales Rep Name</label>
-                  <select id="Sales Rep Name" class="form-control" style="width:60%;" [(ngModel)]="salesperson" name="sp" value="">
-                    <option selected>N/A</option>
+                  <label  class="label2"for="Sales Rep Name">Sales Rep Name</label>
+                  <select id="Sales Rep Name" class="form-control" style="width:60%;" [(ngModel)]="salesperson" name="sp" value="" (change)="setsalesrepinitial($event)">
+                    <option >N/A</option>
                     <option *ngFor="let itemunitSales of salespersondatalo_data">{{itemunitSales.FirstName}}</option>
                   </select>
                   <button type="button" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 4%; "(click)="Opensalesperson()">...</button>
@@ -113,34 +113,34 @@
 
 
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="City">City</label>
+                  <label class="label2" for="City">City</label>
                   <input type="text" class="form-control" id="City" style="width:60%;" name="city" [(ngModel)]="city" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="States">States</label>
-                  <select id="States" class="form-control" style="width:30%;" name="state" [(ngModel)]="state" value="">
+                  <label class="label2" for="States">States</label>
+                  <select id="States" class="form-control" style="width:30%;" name="state" [(ngModel)]="state" value="" [hidden]="isstateus" (change)="setstates($event)">
                     <option selected>Select</option>
                     <option *ngFor="let itemunit of statedatalo_data">{{itemunit.StateAbbrev}}</option>
                     <!--<option>DHL</option>
-      <option>Federal Express</option>-->
+    <option>Federal Express</option>-->
                   </select>
-                  <input type="text" class="form-control" id="input" style="width:30%;">
+                  <input type="text" class="form-control" id="input" style="width:30%;" name="stateAbb" [(ngModel)]="Statefull" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Zip Code">Zip Code</label>
+                  <label class="label2" for="Zip Code">Zip Code</label>
                   <input type="text" class="form-control" id="Zip Code" style="width:60%;" name="zipcode" [(ngModel)]="zip" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Country">Country</label>
-                  <select id="Country" class="form-control" style="width:60%;" name="country" [(ngModel)]="country" value="">
-                    <option selected>select</option>
+                  <label class="label2" for="Country">Country</label>
+                  <select id="coun" class="form-control" style="width:60%;" name="countr" [(ngModel)]="country" value="" (change)="setcountry($event)">
+                    <option selected>United States of America</option>
                     <option *ngFor="let itemunit of countrydatalo_data">{{itemunit.Country}}</option>
                     <!--<option>1</option>
       <option>2 </option>-->
                   </select>
                 </div>
                 <div class="form-inline" style="padding-top:1%;">
-                  <label for="E-Mail">E-Mail </label>
+                  <label class="label2" for="E-Mail">E-Mail </label>
                   <input type="email" class="form-control" id="emailmai" style="width:60%;" name="emailmain" [(ngModel)]="emailref" value=""(blur)="validemail($event)">
                 </div>
                 <!--<div class="form-inline">
@@ -158,7 +158,7 @@
     </div>
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="E-Mail 1 ">E-Mail 1 </label>
+                  <label class="label2" for="E-Mail 1 ">E-Mail 1 </label>
                   <input type="email" class="form-control" id="E-Mail 1" style="width:60%;" name="email1" [(ngModel)]="contactfmail" value=""(blur)="validemail1($event)">
                 </div>
                 <!--<div class="form-inline">
@@ -176,7 +176,7 @@
     </div>
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="E-Mail 2">E-Mail 2</label>
+                  <label class="label2" for="E-Mail 2">E-Mail 2</label>
                   <input type="email" class="form-control" id="E-Mail 2" style="width:60%;" name="email2" [(ngModel)]="contactsmail" value=""(blur)="validemail2($event)">
                 </div>
                 <!--<div class="form-inline">
@@ -194,7 +194,7 @@
     </div>
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="E-Mail 3">E-Mail 3 </label>
+                  <label class="label2" for="E-Mail 3">E-Mail 3 </label>
                   <input type="email" class="form-control" id="E-Mail 3 " style="width:60%;" name="email3" [(ngModel)]="contacttmail" value=""(blur)="validemail3($event)">
                 </div>
                 <!--<div class="form-inline">
@@ -212,11 +212,11 @@
     </div>
   </div>-->
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Sales Region ">Sales Region </label>
+                  <label class="label2" for="Sales Region ">Sales Region </label>
                   <input type="text" class="form-control" id="Sales Region" style="width:60%;" name="salesregion" [(ngModel)]="salesregion" value="">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Ship Via">Ship Via</label>
+                  <label class="label2" for="Ship Via">Ship Via</label>
                   <select id="Ship Via" class="form-control" style="width:60%;" name="shipv" [(ngModel)]="shipvia" value="">
 
                     <option>DHL</option>
@@ -229,22 +229,22 @@
                   </select>
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Card No">Card No</label>
+                  <label class="label2" for="Card No">Card No</label>
                   <input type="text" class="form-control" id="Card No" style="width:25%" [(ngModel)]="creditcardno"name="creditcard" value="">
-                  <label for="Expiry Date " style="margin-left:1%">Expiry Date </label>
-                  <input style="width: 20%;" type="date" id="expdt" class="form-control" [(ngModel)]="expirydate" (change)="dateChangeexp($event)" name="dateexp" value="">
+                  <label class="label2" for="Expiry Date " style="margin-left:1%">Expiry Date </label>
+                  <input style="width: 20%;" type="month" id="expdt" class="form-control" (change)="dateChangeexp($event)" name="dateexp" [ngModel]="expirydate | date:'yyyy-MM'" value="2022-05">
                 </div>
                 <div class=" form-inline" style="padding-top:1%;">
-                  <label for="Sales Rep Initials ">Sales Rep Initials </label>
+                  <label class="label2" for="Sales Rep Initials ">Sales Rep Initials </label>
                   <input type="text" class="form-control" id="Sales Rep Initials" style="width:25%;" name="salesrepinitial" [(ngModel)]="salesrepinitial" value="">
-                  <label for="Credit Limit ">Credit Limit </label>
+                  <label class="label2" for="Credit Limit ">Credit Limit </label>
                   <input type="text" class="form-control" id="Credit Limit " placeholder="" style="width:25%;" name="creditlimit" [(ngModel)]="creditlimit" value="">
                 </div>
               </div>
             </div>
           </form>
           <div class=" form-inline" style="padding-top:1%;">
-            <label for="Notes">Notes</label>
+            <label class="label2" for="Notes">Notes</label>
             <textarea class="form-control rounded-0" id="Notes" rows="3" size="40" style="width:80%;margin-bottom:1%; margin-left:.5%" name="Notes" value="" [(ngModel)]="notes" ></textarea>
           </div>
 
@@ -427,8 +427,14 @@
                         <fieldset class="border p-2">
                           <div class="form-inline">
                             <input style="width: 87%;" type="text" class="form-control" id="data1" [(ngModel)]="Document1" name="doc1" value="">
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                            <!--<button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>-->
+                            <div class="form-group">
+                              <label for="file" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                              <input type="file"
+                                     id="file"
+                                     (change)="handleFileInput($event.target.files)">
+                            </div>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Open</button>
                           </div>
                           <div class="form-inline" style="margin-top:10px">
                             <input style="width: 87%;" type="text" class="form-control" id="data2" [(ngModel)]="Document2" name="doc2" value="">
@@ -578,49 +584,49 @@
             <div class="form-group col-md-6">
               <div class="form-inline">
                 <label>Location</label>
-                <input style="width: 50%;"  id ="loca"type="text" class="form-control" [(ngModel)]="locationname" value="" name="locate">
+                <input disabled style="width: 50%;"  id ="loca"type="text" class="form-control" [(ngModel)]="locationname" value="" name="locate">
               </div>
               <div class="form-inline">
                 <label>Address</label>
-                <textarea style="width: 50%;" type="text" class="form-control" rows="3" [(ngModel)]="Address" value="" name="add"></textarea>
+                <textarea disabled style="width: 50%;" type="text" class="form-control" rows="3" [(ngModel)]="Address" value="" name="add"></textarea>
               </div>
               <div class="form-inline">
                 <label>Telephone</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="telepho" value="" name="tele">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="telepho" value="" name="tele">
               </div>
               <div class="form-inline">
                 <label>Fax</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Fax" value="" name="fa">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="Fax" value="" name="fa">
               </div>
               <div class="form-inline">
                 <label>Contact Person</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactperson" value="" name="cp">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactperson" value="" name="cp">
               </div>
             </div>
             <div class="form-group col-md-6">
               <div class="form-inline">
                 <label>City</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="City" value="" name="cit">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="City" value="" name="cit">
               </div>
               <div class="form-inline">
                 <label>State</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="State" value="" name="sta">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="State" value="" name="sta">
               </div>
               <div class="form-inline">
                 <label>Zip Code</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="zipcode" value="" name="zip">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="zipcode" value="" name="zip">
               </div>
               <div class="form-inline">
                 <label>Country</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Country" value="" name="coun">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="Country" value="" name="coun">
               </div>
               <div class="form-inline">
                 <label>E-Mail</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="Email" value="" name="email" (blur)="validemail4($event);">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="Email" value="" name="email" (blur)="validemail4($event);">
               </div>
               <div class="form-inline">
                 <label>Contact #</label>
-                <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactno" value="" name="cno">
+                <input disabled style="width: 50%;" type="text" class="form-control" [(ngModel)]="contactno" value="" name="cno">
               </div>
               <div class="form-inline">
                 <label>Ship to location</label>
@@ -728,11 +734,12 @@
                 <div *dxTemplate="let info of 'addressHeaderTemplateformname'">
                   <b style="color: black">Formula Name</b>
                 </div>
-                <dxi-column dataField="COADTFORMAT" headerCellTemplate="addressHeaderTemplateCOADTFORMAT"></dxi-column>
-                <dxo-lookup [dataSource]="Dateforma"
-                            valueExpr="dateform"
-                            displayExpr="dateform">
-                </dxo-lookup>
+                <dxi-column dataField="COADTFORMAT" headerCellTemplate="addressHeaderTemplateCOADTFORMAT">
+                  <dxo-lookup [dataSource]="Dateforma"
+                              valueExpr="dateform"
+                              displayExpr="dateform">
+                  </dxo-lookup>
+                </dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateCOADTFORMAT'">
                   <b style="color: black">COA Expiry Date Format</b>
 
@@ -957,6 +964,7 @@
                                    (onRowPrepared)="onRowPreparedtierlist($event)" >
                       <dxo-editing mode="row"
                                    [allowAdding]="true"
+                                   [allowDeleting]="true"
                                    [allowUpdating]="true"
                                    [useIcons]="true">
                       </dxo-editing>-->
@@ -1116,7 +1124,6 @@
                             [columnAutoWidth]="true"
                             [dataSource]="rowData4"
                             [wordWrapEnabled]="true"
-                            
                             [showColumnLines]="true"
                             [showRowLines]="true"
                             [showBorders]="true"
@@ -1154,7 +1161,13 @@
                 <div *dxTemplate="let info of 'addressHeaderTemplateValidated'">
                   <b style="color: black">Validated Batch Size</b>
                 </div>
-                <dxi-column dataField="Unit" headerCellTemplate="addressHeaderTemplateUnit"></dxi-column>
+                <!--<dxi-column dataField="Unit" headerCellTemplate="addressHeaderTemplateUnit"></dxi-column>-->
+                <dxi-column dataField="Unit" headerCellTemplate="addressHeaderTemplateUnit">
+                  <dxo-lookup [dataSource]="Unitforma"
+                              valueExpr="Unitform"
+                              displayExpr="Unitform">
+                  </dxo-lookup>
+                </dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateUnit'">
                   <b style="color: black">Unit</b>
                 </div>
@@ -1224,10 +1237,10 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();" matDialogClose>Back</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_saveupdate(custkey.value,custnam.value);">Save</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Update</button>
+    <button type="submit" [hidden]="issearchcustomersave" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_saveupdate(custkey.value,custnam.value);">Save</button>
+    <button type="submit" [hidden]="issearchcustomer" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Update</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1% "(click)="deletecustomer()">Delete</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1% "(click)="deletecustomer();">Delete</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">Print Preview</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">Import Customer Preferences</button>
 

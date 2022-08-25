@@ -17,7 +17,7 @@ import { NewMicrobiologyParamsComponent } from 'src/app/pdr-management/new-micro
 import { DatagridcomponentComponent } from 'src/app/formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
 import { NgModule } from '@angular/core';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
-
+import { FormulaLookupComponent } from 'src/app/formula-lookup/formula-lookup.component';
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 
@@ -169,7 +169,8 @@ export class PdrManagementComponent implements OnInit {
   productizationdays: Number=7;
   pccapprovaldays: Number=7;
   pifapprovaldays: Number=7;
-  productapprovaldays: Number=1;
+  productapprovaldays: Number = 1;
+  taskcountdurationdays: Number = 90;
   stagestartDate: string;
   stageendDate: string;
   pdrcreatedate: string;
@@ -184,7 +185,7 @@ export class PdrManagementComponent implements OnInit {
   ProjDetails: string='';
   Approvedproject: string;
   Revenue: string='0';
-  Priority: string = 'Low';
+  Priority: string = 'Choose...';
   PDRDate: string;
   Class: string='';
   pdrData: any;
@@ -298,7 +299,8 @@ export class PdrManagementComponent implements OnInit {
   userdataList: Data2[][] = [];
   safety_test_rowdata: any = [];
   i: number;
-
+  dataformListstagegate: stagegatedatesettingsdetails[][] = [];
+  stagegatedatesduration: any = [];
   j: number;
   datachem: any;
   datamicro: any;
@@ -481,6 +483,7 @@ export class PdrManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
+        this.active = "1";
         this.issearchpdr = false;
         this.issearchpdrsave = true;
         this.pdrno = result[0];
@@ -613,6 +616,7 @@ this.loadformulationsassign = loadformulations
   isAllSelectedassigned() {
     for (var i = 0; i < this.loadformulationsassign.length; i++) {
       this.loadformulationsassign[i].Assign = 'True';
+      this.loadformulationsassign[i].EmailAlert = 'True';
     }
 
 
@@ -620,6 +624,7 @@ this.loadformulationsassign = loadformulations
   isAllunSelectedassigned() {
     for (var i = 0; i < this.loadformulationsassign.length; i++) {
       this.loadformulationsassign[i].Assign = 'false';
+      this.loadformulationsassign[i].EmailAlert = 'false';
     }
 
 
@@ -946,8 +951,31 @@ this.loadformulationsassign = loadformulations
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
   ClearData() {
+    this.Priority = "Choose...";
+    this.doc1 = "";
+    this.doc2 = "";
+    this.doc3 = "";
+    this.doc4 = "";
+    this.doc5 = "";
+    this.doc6 = "";
+    this.doc7 = "";
+    this.doc8 = "";
+    this.doc9 = "";
+    this.doc10 = "";
+    this.doc11 = "";
+    this.doc12 = "";
+    this.doc13 = "";
+    this.doc14 = "";
+    this.doc15 = "";
+    this.doc16 = "";
+    this.doc17 = "";
+    this.doc18 = "";
+    this.doc19 = "";
+    this.doc20 = "";
     this.active = "1";
     this.issearchpdr = true;
+    this.DateCalculations();
+    this.taskcountdurationdays = 90;
     this.issearchpdrsave = false;
     this.Followupdata = null;
     this.communicationData = null;
@@ -1019,7 +1047,6 @@ this.loadformulationsassign = loadformulations
     this.ProjDetails = '';
     this.customercode = '';
     this.Revenue = '0.00';
-    this.Priority = 'Low';
     this.PDRDate = '';
     this.Class = '';
     this.projectapprovalcheck = true;
@@ -1096,6 +1123,98 @@ this.loadformulationsassign = loadformulations
       width: '95%', height: '95%', disableClose: true
     });
   }
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc1 = files.item(0).name;
+
+  }
+  handleFileInput1(files: FileList) {
+    var filebrowse1 = files.item.length;
+    this.doc2 = files.item(0).name;
+  }
+  handleFileInput2(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc3 = files.item(0).name;
+  }
+  handleFileInput3(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc4 = files.item(0).name;
+  }
+  handleFileInput4(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc5 = files.item(0).name;
+  }
+  handleFileInput5(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc6 = files.item(0).name;
+  }
+  handleFileInput6(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc7 = files.item(0).name;
+  }
+  handleFileInput7(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc8 = files.item(0).name;
+  }
+  handleFileInput8(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc9 = files.item(0).name;
+  }
+  handleFileInput9(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc10 = files.item(0).name;
+  }
+  handleFileInput10(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc11 = files.item(0).name;
+  }
+  handleFileInput11(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc12 = files.item(0).name;
+  }
+  handleFileInput12(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc13 = files.item(0).name;
+  }
+  handleFileInput13(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc14 = files.item(0).name;
+  }
+  handleFileInput14(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc15 = files.item(0).name;
+  }
+  handleFileInput15(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc16 = files.item(0).name;
+  }
+  handleFileInput16(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc17 = files.item(0).name;
+  }
+  handleFileInput17(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc18 = files.item(0).name;
+  }
+  handleFileInput18(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc19 = files.item(0).name;
+  }
+  handleFileInput19(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc20 = files.item(0).name;
+  }
+
+
+
+  datestartchangeclick(event) {
+    var curr = this.currentDate;
+    var pdrend = this.pdapprovalend;
+    var tenatativestartdate = moment(curr);
+    var tentaviveenddate = moment(pdrend);
+    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    this.taskcountdurationdays = this.DiffDate + 1;
+  }
   datechangeclick(event) {
     var date = this.currentDate;
     //const diffInMs = Math.abs(this.currentDate - this.pdrcreatedate);  
@@ -1104,8 +1223,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.pdrcreatedate;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.pdrcreationdays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.pdrcreationdays = this.DiffDate;
+    }
+    //this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+    //this.pdrcreationdays = this.DiffDate;
   }
   datechangepdrapproval(event) {
     var totalchange: number = null;
@@ -1499,7 +1624,7 @@ this.loadformulationsassign = loadformulations
   }
   changestartdate(event) {
     this.currentstartDate = event.target.value
-    this.currentendDate = this.currentstartDate
+   // this.currentendDate = this.currentstartDate
   }
   changeenddate(event) {
     this.currentendDate = event.target.value
@@ -1534,6 +1659,22 @@ this.loadformulationsassign = loadformulations
       this.loadformulationlabbatchticket = loadformulationslab
     })
   }
+  setvalueschangerequest(loadformulations) {
+    this.FormulaCode = loadformulations.FormulaCode;
+    this.loadassignedformulationslabbatchticket(this.FormulaCode).subscribe((loadformulationslab) => {
+      console.warn("loadformulalabbatch", loadformulationslab)
+      this.loadformulationlabbatchticket = loadformulationslab
+    })
+    this.datashare.sendmodulenavpdr(this.FormulaCode);
+    const dialogRef = this.dialog.open(FormulaLookupComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal'
+    });
+  }
+
   DeletePDR() {
     this.PDR_Delete().subscribe((PDR_dlt) => {
       console.warn("PDR_deletedata", PDR_dlt)
@@ -1541,6 +1682,7 @@ this.loadformulationsassign = loadformulations
       this.wait(3000)
       if (this.PDR_deletedata == "Deleted Succesfully") {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
+        this.ClearData();
       }
 
       else {
@@ -1647,6 +1789,148 @@ this.loadformulationsassign = loadformulations
       Claims: this.claim,
       samplereq: this.samplerequirement,
     }]);
+    this.dataformListstagegate[0] = ([{
+      Taskid: '1',
+      Task: 'PDR Creation',
+      startdate: this.currentDate,
+      enddate: this.pdrcreatedate,
+      duration: String(this.pdrcreationdays)
+    }]);
+    this.dataformListstagegate[1] = ([{
+      Taskid: '2',
+      Task: 'PDR Approval',
+      startdate: this.pdrapproval,
+      enddate: this.pdapprovalend,
+      duration: String(this.pdrapprovaldays)
+    }]);
+    this.dataformListstagegate[2] = ([{
+      Taskid: '3',
+      Task: 'Formula Creation',
+      startdate: this.formulacreation,
+      enddate: this.formulacreationend,
+      duration: String(this.formulacreationdays)
+    }]);
+    this.dataformListstagegate[3] = ([{
+      Taskid: '4',
+      Task: 'Formula Creation',
+      startdate: this.qctestapprovals,
+      enddate: this.qctestapprovalsend,
+      duration: String(this.qcapprovaldays)
+    }]);
+    this.dataformListstagegate[4] = ([{
+      Taskid: '5',
+      Task: 'QC Tests Approvals',
+      startdate: this.producttestapprovals,
+      enddate: this.protestapprend,
+      duration: String(this.ptapprovaldays)
+    }]);
+    this.dataformListstagegate[5] = ([{
+      Taskid: '6',
+      Task: 'Product Test Approvals',
+      startdate: this.stabilitytestapproval,
+      enddate: this.stabilityapprovalend,
+      duration: String(this.stabilityapprovaldays)
+    }]);
+    this.dataformListstagegate[6] = ([{
+      Taskid: '7',
+      Task: 'Stability Test Approvals',
+      startdate: this.coateatappro,
+      enddate: this.coatestapproend,
+      duration: String(this.coaapprovaldays)
+    }]);
+    this.dataformListstagegate[7] = ([{
+      Taskid: '8',
+      Task: 'COA Test Approval',
+      startdate: this.regulatoryappro,
+      enddate: this.regulatoryapproend,
+      duration: String(this.regulatoryapprovaldays)
+
+
+
+    }]);
+    this.dataformListstagegate[8] = ([{
+      Taskid: '9',
+      Task: 'Regulatory Approvals/Rejection',
+      startdate: this.ilapprappr,
+      enddate: this.ilapprapprend,
+      duration: String(this.ilapprovaldays)
+    }]);
+    this.dataformListstagegate[9] = ([{
+      Taskid: '10',
+      Task: 'IL(Label)Approval',
+      startdate: this.formprocedureappr,
+      enddate: this.formprocedureapprend,
+      duration: String(this.formulprocedureaapprovaldays)
+    }]);
+    this.dataformListstagegate[10] = ([{
+      Taskid: '11',
+      Task: 'Formula Approval/Rejection',
+      startdate: this.formulaapprorejection,
+      enddate: this.formulaapprorejectionend,
+      duration: String(this.formulaapprovaldays)
+    }]);
+    this.dataformListstagegate[11] = ([{
+      Taskid: '12',
+      Task: 'Sample Creation',
+      startdate: this.samplecreation,
+      enddate: this.samplecreationend,
+      duration: String(this.samplecreationdays)
+    }]);
+    this.dataformListstagegate[12] = ([{
+      Taskid: '13',
+      Task: 'Sample Approval/Rejection',
+      startdate: this.sampleapproval,
+      enddate: this.sampleapprovalend,
+      duration: String(this.sampleapprovaldays)
+    }]);
+    this.dataformListstagegate[13] = ([{
+      Taskid: '14',
+      Task: 'Productization',
+      startdate: this.productization,
+      enddate: this.productizationend,
+      duration: String(this.productizationdays)
+    }]);
+    this.dataformListstagegate[14] = ([{
+      Taskid: '15',
+      Task: 'PCC Approval',
+      startdate: this.pccapprovaldata,
+      enddate: this.pccapprovalenddata,
+      duration: String(this.pccapprovaldays)
+    }]);
+    this.dataformListstagegate[15] = ([{
+      Taskid: '16',
+      Task: 'PIF Approval',
+      startdate: this.pifapprovaldata,
+      enddate: this.pifapprovalenddata,
+      duration: String(this.pifapprovaldays)
+    }]);
+    this.dataformListstagegate[16] = ([{
+      Taskid: '17',
+      Task: 'Product Approval',
+      startdate: this.pdapproval,
+      enddate: this.pdapprovalend,
+      duration: String(this.productapprovaldays)
+    }]);
+    this.stagegatedatesduration[0] = this.dataformListstagegate[0];
+    this.stagegatedatesduration[1] = this.dataformListstagegate[1];
+    this.stagegatedatesduration[2] = this.dataformListstagegate[2];
+    this.stagegatedatesduration[3] = this.dataformListstagegate[3];
+    this.stagegatedatesduration[4] = this.dataformListstagegate[4];
+    this.stagegatedatesduration[5] = this.dataformListstagegate[5];
+    this.stagegatedatesduration[6] = this.dataformListstagegate[6];
+    this.stagegatedatesduration[7] = this.dataformListstagegate[7];
+    this.stagegatedatesduration[8] = this.dataformListstagegate[8];
+    this.stagegatedatesduration[9] = this.dataformListstagegate[9];
+    this.stagegatedatesduration[10] = this.dataformListstagegate[10];
+    this.stagegatedatesduration[11] = this.dataformListstagegate[11];
+    this.stagegatedatesduration[12] = this.dataformListstagegate[12];
+    this.stagegatedatesduration[13] = this.dataformListstagegate[13];
+    this.stagegatedatesduration[14] = this.dataformListstagegate[14];
+
+
+
+    this.stagegatedatesduration[15] = this.dataformListstagegate[15];
+    this.stagegatedatesduration[16] = this.dataformListstagegate[16];
     this.pdrgrid(this.safety_test_rowdata);
     this.AssigineduserdataList = [];
     this.setvaluesassign(this.loadformulationsassign);
@@ -1655,12 +1939,15 @@ this.loadformulationsassign = loadformulations
       console.warn("assign_save", assign_save)
       this.assign_save_data = assign_save
     })
-    if (this.customername == '' || this.customername == undefined) {
+    if (this.projectname == '' || this.projectname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please Enter Project Name' } });
+    }
+    else if (this.customername == '' || this.customername == undefined)
+    {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please Enter Customer Name' } });
     }
-    else if (this.projectname == '' || this.projectname == undefined)
-    {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please Enter Project Name' } });
+    else if (this.currentstartDate > this.currentendDate) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Start Date Should be less than completion date' } });
     }
     else {
       this.pdr_saveup().subscribe((pdr_save) => {
@@ -1672,6 +1959,10 @@ this.loadformulationsassign = loadformulations
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'saved successfully' } });
           this.issearchpdr = false;
           this.issearchpdrsave = true
+          this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+            console.warn("loadpdraudittrack", loadpdraudittrack)
+            this.dataloadaudittrackpdr = loadpdraudittrack
+          })
         }
         else if (this.pdrsavedatas == "ProjectName") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Project already exists!' } });
@@ -1786,7 +2077,145 @@ this.loadformulationsassign = loadformulations
 
 
     }])
+    this.dataformListstagegate[0] = ([{
+      Taskid: '1',
+      Task: 'PDR Creation',
+      startdate: this.currentDate,
+      enddate: this.pdrcreatedate,
+      duration: String(this.pdrcreationdays)
+    }]);
+    this.dataformListstagegate[1] = ([{
+      Taskid: '2',
+      Task: 'PDR Approval',
+      startdate: this.pdrapproval,
+      enddate: this.pdapprovalend,
+      duration: String(this.pdrapprovaldays)
+    }]);
+    this.dataformListstagegate[2] = ([{
+      Taskid: '3',
+      Task: 'Formula Creation',
+      startdate: this.formulacreation,
+      enddate: this.formulacreationend,
+      duration: String(this.formulacreationdays)
+    }]);
+    this.dataformListstagegate[3] = ([{
+      Taskid: '4',
+      Task: 'Formula Creation',
+      startdate: this.qctestapprovals,
+      enddate: this.qctestapprovalsend,
+      duration: String(this.qcapprovaldays)
+    }]);
+    this.dataformListstagegate[4] = ([{
+      Taskid: '5',
+      Task: 'QC Tests Approvals',
+      startdate: this.producttestapprovals,
+      enddate: this.protestapprend,
+      duration: String(this.ptapprovaldays)
+    }]);
+    this.dataformListstagegate[5] = ([{
+      Taskid: '6',
+      Task: 'Product Test Approvals',
+      startdate: this.stabilitytestapproval,
+      enddate: this.stabilityapprovalend,
+      duration: String(this.stabilityapprovaldays)
+    }]);
+    this.dataformListstagegate[6] = ([{
+      Taskid: '7',
+      Task: 'Stability Test Approvals',
+      startdate: this.coateatappro,
+      enddate: this.coatestapproend,
+      duration: String(this.coaapprovaldays)
+    }]);
+    this.dataformListstagegate[7] = ([{
+      Taskid: '8',
+      Task: 'COA Test Approval',
+      startdate: this.regulatoryappro,
+      enddate: this.regulatoryapproend,
+      duration: String(this.regulatoryapprovaldays)
 
+
+
+    }]);
+    this.dataformListstagegate[8] = ([{
+      Taskid: '9',
+      Task: 'Regulatory Approvals/Rejection',
+      startdate: this.ilapprappr,
+      enddate: this.ilapprapprend,
+      duration: String(this.ilapprovaldays)
+    }]);
+    this.dataformListstagegate[9] = ([{
+      Taskid: '10',
+      Task: 'IL(Label)Approval',
+      startdate: this.formprocedureappr,
+      enddate: this.formprocedureapprend,
+      duration: String(this.formulprocedureaapprovaldays)
+    }]);
+    this.dataformListstagegate[10] = ([{
+      Taskid: '11',
+      Task: 'Formula Approval/Rejection',
+      startdate: this.formulaapprorejection,
+      enddate: this.formulaapprorejectionend,
+      duration: String(this.formulaapprovaldays)
+    }]);
+    this.dataformListstagegate[11] = ([{
+      Taskid: '12',
+      Task: 'Sample Creation',
+      startdate: this.samplecreation,
+      enddate: this.samplecreationend,
+      duration: String(this.samplecreationdays)
+    }]);
+    this.dataformListstagegate[12] = ([{
+      Taskid: '13',
+      Task: 'Sample Approval/Rejection',
+      startdate: this.sampleapproval,
+      enddate: this.sampleapprovalend,
+      duration: String(this.sampleapprovaldays)
+    }]);
+    this.dataformListstagegate[13] = ([{
+      Taskid: '14',
+      Task: 'Productization',
+      startdate: this.productization,
+      enddate: this.productizationend,
+      duration: String(this.productizationdays)
+    }]);
+    this.dataformListstagegate[14] = ([{
+      Taskid: '15',
+      Task: 'PCC Approval',
+      startdate: this.pccapprovaldata,
+      enddate: this.pccapprovalenddata,
+      duration: String(this.pccapprovaldays)
+    }]);
+    this.dataformListstagegate[15] = ([{
+      Taskid: '16',
+      Task: 'PIF Approval',
+      startdate: this.pifapprovaldata,
+      enddate: this.pifapprovalenddata,
+      duration: String(this.pifapprovaldays)
+    }]);
+    this.dataformListstagegate[16] = ([{
+      Taskid: '17',
+      Task: 'Product Approval',
+      startdate: this.pdapproval,
+      enddate: this.pdapprovalend,
+      duration: String(this.productapprovaldays)
+    }]);
+    this.stagegatedatesduration[0] = this.dataformListstagegate[0];
+    this.stagegatedatesduration[1] = this.dataformListstagegate[1];
+    this.stagegatedatesduration[2] = this.dataformListstagegate[2];
+    this.stagegatedatesduration[3] = this.dataformListstagegate[3];
+    this.stagegatedatesduration[4] = this.dataformListstagegate[4];
+    this.stagegatedatesduration[5] = this.dataformListstagegate[5];
+    this.stagegatedatesduration[6] = this.dataformListstagegate[6];
+    this.stagegatedatesduration[7] = this.dataformListstagegate[7];
+    this.stagegatedatesduration[8] = this.dataformListstagegate[8];
+    this.stagegatedatesduration[9] = this.dataformListstagegate[9];
+    this.stagegatedatesduration[10] = this.dataformListstagegate[10];
+    this.stagegatedatesduration[11] = this.dataformListstagegate[11];
+    this.stagegatedatesduration[12] = this.dataformListstagegate[12];
+    this.stagegatedatesduration[13] = this.dataformListstagegate[13];
+    this.stagegatedatesduration[14] = this.dataformListstagegate[14];
+    this.stagegatedatesduration[15] = this.dataformListstagegate[15];
+    this.stagegatedatesduration[16] = this.dataformListstagegate[16];
     this.pdrgrid(this.safety_test_rowdata);
     this.AssigineduserdataList = [];
     this.setvaluesassign(this.loadformulationsassign);
@@ -1805,6 +2234,10 @@ this.loadformulationsassign = loadformulations
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated successfully' } });
         this.issearchpdr = false;
         this.issearchpdrsave = true;
+        this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+          console.warn("loadpdraudittrack", loadpdraudittrack)
+          this.dataloadaudittrackpdr = loadpdraudittrack
+        })
       }
       else {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
@@ -1836,25 +2269,25 @@ this.loadformulationsassign = loadformulations
     
   }
   pdr_updateup() {
-    
+    var stagegatesettingsdates = JSON.stringify(this.stagegatedatesduration)
     var pdrdatagrid: any = JSON.stringify(this.FormulagridList);
     var datalistraw: any = JSON.stringify(this.dataList1);
-    if (this.olddatalistraw == datalistraw) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please update after change anything' } });
-    } else {
+    //if (this.olddatalistraw == datalistraw) {
+    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please update after change anything' } });
+    //} else {
       //var datalistaudit: any = JSON.stringify(this.DataListAudit);
       //var datalistifra: any = JSON.stringify(this.DataListIFRA);
       this.olddatalistraw = datalistraw;
       var operation = 'Update';
       var username = 'admin';
       var username2 = 'admin';
-      let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid);
+      let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid).set('datetaskjson', stagegatesettingsdates);
       return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
-    }
+    //}
   }
   pdr_saveup() {
 
-
+    var stagegatesettingsdates = JSON.stringify(this.stagegatedatesduration)
     var pdrdatagrid: any = JSON.stringify(this.FormulagridList);
     var datalistraw: any = JSON.stringify(this.dataList);
     //var datalistaudit: any = JSON.stringify(this.DataListAudit);
@@ -1862,7 +2295,7 @@ this.loadformulationsassign = loadformulations
     var operation = 'Save';
     var username = 'admin';
     var username2 = 'admin';
-    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid);
+    let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid).set('datetaskjson', stagegatesettingsdates);
     return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
   }
   loadstagegatesettings(Pdrno) {
@@ -2047,6 +2480,12 @@ this.loadformulationsassign = loadformulations
     this.Pdraddfollowup().subscribe((Pdr_addfollow) => {
       console.warn("Pdr_addfollow", Pdr_addfollow)
       this.followupstatus = Pdr_addfollow
+      if (Pdr_addfollow == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Project follow up notes added successfully' } });
+      }
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the note' } });
+      }
     })
     this.wait(2000);
     this.Loadfollowupnotes(this.pdrno).subscribe((Followupdetails) => {
@@ -2181,6 +2620,12 @@ this.loadformulationsassign = loadformulations
     this.Deletefollowup().subscribe((Pdr_deletefollow) => {
       console.warn("Pdr_deletefollow", Pdr_deletefollow)
       this.Fdelete = Pdr_deletefollow
+      if (this.Followupdata.length == 0) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Notes cannot be empty' } });
+      }
+      else{
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'follow up notes Deleted successfully' } });
+      }
     })
     this.wait(2000);
     this.Loadfollowupnotes(this.pdrno).subscribe((Followupdetails) => {
@@ -2220,6 +2665,12 @@ this.loadformulationsassign = loadformulations
     this.Pdraddcommunication().subscribe((Pdr_addcom) => {
       console.warn("Pdr_addcom", Pdr_addcom)
       this.communistatus = Pdr_addcom
+      if (Pdr_addcom == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'communication notes added successfully' } });
+      }
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the note' } });
+      }
     })
     this.wait(3000);
     this.Loadcommnotes(this.pdrno).subscribe((CommunicationDetails) => {
@@ -2250,6 +2701,13 @@ this.loadformulationsassign = loadformulations
     this.DeleteCommunication().subscribe((Pdr_deletecommu) => {
       console.warn("Pdr_deletecommu", Pdr_deletecommu)
       this.cdelete = Pdr_deletecommu
+      if (this.communicationData.lenth == 0) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'notes cannot be empty' } });
+      }
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'communication notes Deleted successfully' } });
+      }
+      
     })
     this.wait(3000);
     this.Loadcommnotes(this.pdrno).subscribe((CommunicationDetails) => {
@@ -2417,7 +2875,7 @@ this.loadformulationsassign = loadformulations
     this.pifapprovaldata = pifapproval.toISOString().substring(0, 10);
     this.pifapprovalenddata = pifapprovalend.toISOString().substring(0, 10);
     this.pdapproval = prodapproval.toISOString().substring(0, 10);
-  //  this.pdapprovalend = prodapprovalend.toISOString().substring(0, 10);
+    this.pdapprovalend = prodapprovalend.toISOString().substring(0, 10);
     
     this.formulacreation = formcreate.toISOString().substring(0, 10);
     futureDateend.setDate(futureDateend.getDate() + 89);
@@ -2565,4 +3023,12 @@ export class safetytest {
   Testnamesafety: string;
   comentssafety: string;
   p_Size: string
+}
+export class stagegatedatesettingsdetails {
+  Taskid: string;
+  Task: string;
+  startdate: string;
+  enddate: string;
+  duration: string;
+
 }

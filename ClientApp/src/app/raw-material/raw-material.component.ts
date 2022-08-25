@@ -20,6 +20,7 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { formatDate } from '@angular/common';
+import { MessageBoxYesnoComponent } from '../message-box-yesno/message-box-yesno.component';
 
 export interface DialogData {
   itemlist: string;
@@ -323,6 +324,16 @@ export class RawMaterialComponent implements OnInit {
   defaultshippingprize: string;
   defaultdeliveredprice: string;
   fulldata: string;
+
+  oldproleadtime: string;
+  oldpreloadtime: string;
+  oldpostleadtime: string;
+  oldunitcost: string;
+  oldstandardprice: string ='0.001';
+  oldshippingprice: string ='0.000';
+  oldlastPOCost: string = '0.001';
+  oldPreviousCost: string = '';
+  blendmsgdata: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -455,36 +466,71 @@ export class RawMaterialComponent implements OnInit {
   }
   blurEventpreload(event: any) {
     this.preloadtime = event.target.value;
+    if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.preloadtime = this.oldpreloadtime ;
+    }
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurEventprolead(event: any) {
     this.proleadtime = event.target.value;
+    if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.proleadtime = this.oldproleadtime ;
+    }
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurEventpostlead(event: any) {
     this.postleadtime = event.target.value;
+    if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.postleadtime = this.oldpostleadtime ;
+    }
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurdeliveredcost(event: any) {
     var shipprice1: Number = Number(event.target.value);
-    this.shippingprize = (shipprice1.toFixed(3)).toString();
-    var total = Number(this.standardprice) + Number(this.shippingprize);
-    this.unitCost = total.toFixed(3);
+    if (Number(shipprice1) < 0.00000 || isNaN(Number(shipprice1))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.shippingprize = this.oldshippingprice;
+    }
+    else {
+      this.shippingprize = (shipprice1.toFixed(3)).toString();
+      var total = Number(this.standardprice) + Number(this.shippingprize);
+      this.unitCost = total.toFixed(3);
+    }
   }
   blurdelstdcost(event: any) {
     var stdprice1: Number = Number(event.target.value);
-    
+    if (Number(stdprice1) < 0.00000 || isNaN(Number(stdprice1))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.standardprice = this.oldstandardprice;
+    }
+    else {
       this.standardprice = (stdprice1.toFixed(3)).toString();
-    var total = Number(this.standardprice) + Number(this.shippingprize);
-    this.unitCost = total.toFixed(3);
+      var total = Number(this.standardprice) + Number(this.shippingprize);
+      this.unitCost = total.toFixed(3);
+    }
   }
   blurlastpo(event: any) {
     var lastpoprice1: Number = Number(event.target.value);
-    this.lastPOCost = (lastpoprice1.toFixed(3)).toString();
-    
+    if (Number(lastpoprice1) < 0.00000 || isNaN(Number(lastpoprice1))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.lastPOCost = this.oldlastPOCost;
+    }
+    else {
+      this.lastPOCost = (lastpoprice1.toFixed(3)).toString();
+    }
+  }
+  blurpreviousprice(event: any) {
+    this.PreviousCost = event.target.value;
+    if (Number(this.PreviousCost) < 0.00000 || isNaN(Number(this.PreviousCost))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.PreviousCost = this.oldPreviousCost;
+    }
   }
  
 
@@ -518,6 +564,13 @@ export class RawMaterialComponent implements OnInit {
       width: '80%', height: '90%', disableClose: true
     });
   }
+
+  Addsupplierpopup() {
+    const dialogRef = this.dialog.open(AddSupplierComponent, { maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%', panelClass: 'full-screen-modal' });
+
+  }
+
+
   opensearchinciname(): void {
     const dialogRef = this.dialog.open(SearchINCINameComponent, {
       width: '80%', height: '90%', disableClose: true
@@ -626,16 +679,32 @@ export class RawMaterialComponent implements OnInit {
     }
   }
   Blenddelete() {
-    this.Blenddlt().subscribe((Blenddlte) => {
-      console.warn("Blenddlte", Blenddlte)
-      this.Blenddatadlt = Blenddlte
-    })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure yo want to delete ' + this.INCIName+ '?' }, disableClose: true });
 
-    this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
-      console.warn("Blenddetailslload", Blenddetailslload)
-      this.Blenddata = Blenddetailslload
-      this.Blenddataload(this.Blenddata)
-    })
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.blendmsgdata = result;
+
+      if (this.blendmsgdata == "false") { }
+      else {
+        this.Blenddlt().subscribe((Blenddlte) => {
+          console.warn("Blenddlte", Blenddlte)
+          this.Blenddatadlt = Blenddlte
+
+          if (this.Blenddatadlt == "Blend compositions successfully deleted.") {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions successfully deleted.' } });
+          }
+          this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
+            console.warn("Blenddetailslload", Blenddetailslload)
+            this.Blenddata = Blenddetailslload
+            this.Blenddataload(this.Blenddata)
+          })
+        })
+
+       
+      }
+    });
+   
   }
   setvalues(blebddetails: any) {
     this.INCIName = blebddetails.INCIName;
@@ -655,8 +724,11 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/BlendDeleteIngredient", { params: params1, responseType:'text' })
   }
   Blendsaveupdate(prcntg: string) {
-    if (parseInt(prcntg) > 100) {
-      // this.showAlert4();
+    if (this.INCIName == "" || this.INCIName == null)  {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Select ingredient code.' } });
+    }
+    else if (parseInt(prcntg) > 100) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
     else if ((this.Balance - parseInt(prcntg)) < 0) {
       //this.showAlert4();
@@ -665,6 +737,13 @@ export class RawMaterialComponent implements OnInit {
       this.blendsaveup(prcntg).subscribe((Blenddatasaveup) => {
         console.warn("Blenddatasaveup", Blenddatasaveup)
         this.Blend_save_data = Blenddatasaveup
+
+        if (this.Blend_save_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions saved successfully.' } });
+        }
+        else if (this.Blend_save_data == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions updated successfully.' } });
+        }
       })
 
       this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
@@ -881,6 +960,7 @@ export class RawMaterialComponent implements OnInit {
       this.tradn = item.IngredientTradeName;
       this.ebsNumber = item.EBSNumber;
       var lastPOCost1: Number = Number(item.LastPOCost);
+      this.oldlastPOCost = (lastPOCost1.toFixed(3)).toString();
       this.lastPOCost = (lastPOCost1.toFixed(3)).toString();
       var defaultlastpoCost1: Number = Number(item.LastPOCost);
       this.defaultlastpoCost = (defaultlastpoCost1.toFixed(3)).toString();
@@ -898,14 +978,17 @@ export class RawMaterialComponent implements OnInit {
       this.concentration = item.RMConcentration;
       this.RMSource = item.RawMatSource;
       this.proleadtime = item.ProcessLeadTime;
+      this.oldproleadtime = item.ProcessLeadTime;
       if (this.proleadtime == "") {
         this.proleadtime = "0";
       }
       this.preloadtime = item.PreprocessLeadTime;
+      this.oldpreloadtime = item.PreprocessLeadTime;
       if (this.preloadtime== "") {
         this.preloadtime = "0";
       }
       this.postleadtime = item.PostprocessLeadTime;
+      this.oldpostleadtime = item.PostprocessLeadTime;
       if (this.postleadtime == "") {
         this.postleadtime = "0";
       }
@@ -929,6 +1012,10 @@ export class RawMaterialComponent implements OnInit {
       this.GlutenYesOrNo = item.GlutenYesOrNo;
       this.Halal = item.Halal;
       this.AlertRemarks = item.AlertRemarks;
+      if (this.AlertRemarks != "") {
+        this.active = "7";
+      }
+
       this.EURiskPhrases = item.EURiskPhrases;
       this.EUSafetyPhrases = item.EUSafetyPhrases
       //if (this.Halal == "Yes") {
@@ -941,6 +1028,7 @@ export class RawMaterialComponent implements OnInit {
       this.subCategoryId = item.SubCategoryId;
       this.statusId = item.StatusId;
       var unitCost1: Number = Number(item.UnitCost);
+     // this.oldunitcost = (unitCost1.toFixed(3)).toString();
       this.unitCost = (unitCost1.toFixed(3)).toString();
       this.costUnit = item.CostUnit;
       if (item.LastPODt == undefined || item.LastPODt == null) {
@@ -979,7 +1067,8 @@ export class RawMaterialComponent implements OnInit {
       this.MOQ = item.MOQ;
       this.Approved = item.Approved;
       this.VOCContributor = item.VOCContributor;
-      this.PreviousCost=item.PreviousCost
+      this.PreviousCost = item.PreviousCost;
+      this.oldPreviousCost == item.PreviousCost;
       this.nFPAReactivity = item.NFPA_Reactivity;
       this.flashPtCelsious = item.FlashPtCelsious;
       this.nFPASpecial = item.NFPA_Special;
@@ -1023,10 +1112,13 @@ export class RawMaterialComponent implements OnInit {
       //this.oldStdCost = "$" + this.lastPOCost + " Per " + this.LastPOUnit + " as of " + this.LastPODt
 
       var standardprice1: Number = Number(item.standardprice);
+      this.oldstandardprice = (standardprice1.toFixed(3)).toString();
       this.standardprice = (standardprice1.toFixed(3)).toString();
       var standardprice2: Number = Number(item.standardprice);
+     
       this.defaultstandardprice = (standardprice2.toFixed(3)).toString();
       var shippingprize1: Number = Number(item.Shippingprice);
+      this.oldshippingprice = (shippingprize1.toFixed(3)).toString();
       this.shippingprize = (shippingprize1.toFixed(3)).toString();
       var shippingprize2: Number = Number(item.Shippingprice);
       this.defaultshippingprize = (shippingprize2.toFixed(3)).toString();
@@ -1101,21 +1193,26 @@ export class RawMaterialComponent implements OnInit {
     });
   }
   openloadproperty(): void {
-    this.Datashare.senditemcode(this.incicode); 
-    const dialogRef = this.dialog.open(LoadPropertyComponent, {
-      width: '50%', height: '50%', disableClose: true
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter INCIName.' } });
+    }
+    else {
+      this.Datashare.senditemcode(this.incicode);
+      const dialogRef = this.dialog.open(LoadPropertyComponent, {
+        width: '50%', height: '50%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.propertydataload(this.incicode).subscribe((propertydataload) => {
-        console.warn("propertydataload", propertydataload)
-        this.propertydata = propertydataload
 
-      })
+        this.propertydataload(this.incicode).subscribe((propertydataload) => {
+          console.warn("propertydataload", propertydataload)
+          this.propertydata = propertydataload
 
-    });
+        })
+
+      });
+    }
   }
   OpenIngredientSearch(): void {
     const dialogRef = this.dialog.open(IngredientSearchComponent, {
@@ -2299,6 +2396,9 @@ export class RawMaterialComponent implements OnInit {
     this.othershipvia = '';
     this.rating = '';
     this.Shipto = '';
+    this.LastPODt = new Date().toISOString().split('T')[0];
+    this.standardpricedate = new Date().toISOString().split('T')[0];
+    this.shippingpricedate = new Date().toISOString().split('T')[0];
     this.Datashare.senditemtoraw(null);
   }
   itemcodechange() {
@@ -2326,6 +2426,10 @@ export class RawMaterialComponent implements OnInit {
       })
 
     }
+    this.LastPODt = new Date().toISOString().split('T')[0];
+    this.standardpricedate = new Date().toISOString().split('T')[0];
+    this.shippingpricedate = new Date().toISOString().split('T')[0];
+   
     this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
       console.warn("resultsaveraw", result6)
       this.datasaveabbraw = result6

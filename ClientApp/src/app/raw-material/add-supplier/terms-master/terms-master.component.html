@@ -1,12 +1,10 @@
 <div style="background-color: #f6f5f1">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <form class="form-inline text-center" style="margin-bottom:20px;">
+
+      <form class=" text-center" style="margin-bottom:20px;">
        
         <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Terms Master</h2>
       </form>
-    </div>
-  </div>
+   
   <div class="card">
     <div class="card-body">
       <form>
@@ -28,7 +26,7 @@
   <div>
     <p style="margin-left:2%;">Click to Edit the Value in Grid</p>
   </div>
-  <div style="margin-left:1%;margin-top:1%; height:450px; overflow-y: auto;">
+  <div style="margin-left:1%;margin-top:1%; height:300px; overflow-y: auto;">
     <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
       <thead>
         <tr>
@@ -44,7 +42,7 @@
         <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                               mode="indeterminate">
         </mat-progress-spinner>
-        <tr *ngFor="let Termmastersdata of Termsdata | filter:TermCode|filter:Terms; let i=index; " (click)="setvalues(Termmastersdata);" #conten>
+        <tr *ngFor="let Termmastersdata of Termsdata let i=index; " (click)="setvalues(Termmastersdata);" #conten>
 
 
 
@@ -65,15 +63,18 @@
         <form>
           <div class="form-row">
             <div class="col-7">
+              <h5 style="float:left;margin-top:10px;color:maroon">{{TermsdataLength}} Record(s)</h5>
               <!--<input type="text" class="form-control" placeholder="First name">-->
             </div>
             <div class="col-5">
+            
               <div class="form-inline">
+
                 <mat-dialog-actions style="float:right;">
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmasterdelete(termsdata.value);">Delete</button>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;">New</button>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmastersave(termcode.value,termsdata.value);">Save</button>
-                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmasterupdate(termcode.value,termsdata.value);">Update</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmasterdelete(termsdata.value);cleardata()">Delete</button>
+                  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;"(click)="cleardata()">New</button>
+                  <button type="submit" [hidden]="issearchtermssave" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmastersave(termcode.value,termsdata.value);cleardata()">Save</button>
+                  <button type="submit" [hidden]="issearchterms" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Termsmasterupdate(termcode.value,termsdata.value);cleardata()">Update</button>
                   <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
                 </mat-dialog-actions>
               </div>

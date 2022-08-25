@@ -122,7 +122,7 @@ export class FormulaLookupComponent implements OnInit {
   FormulaTotalQTY: string = "0.00000";
   companyowned: string='Company-Owned';
   ManualSG: string = "0";
-
+  formulacodepdr: any;
   totaquantity1: any;
   manuprocreviewdata: any;
   useFormulation: string="";
@@ -1319,7 +1319,7 @@ export class FormulaLookupComponent implements OnInit {
   searchpdr(): void {
     this.active = "1";
     const dialogRef = this.dialog.open(SearchPdrComponent, {
-      width: '80%', height: '90%', disableClose: true
+      width: '60%', height: '70%', disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
@@ -8533,7 +8533,21 @@ onCellfirstValueChanged(params)
       this.Isformat1=true;
       this.formulacode = this.backformuldetails[1];
       this.formulaname = this.backformuldetails[2];
-     
+    this.formulacodepdr = this.Datashare.getmodulenavpdr();
+    this.generalformulationload(this.formulacodepdr).subscribe((generalformulationload) => {
+      console.warn("generalformulationload", generalformulationload)
+      this.generalrowData = generalformulationload
+      this.generalmethod(this.generalrowData);
+      this.SGcalculation(this.ManualSG).subscribe((sgcalcload) => {
+        console.warn("SGCalcload", sgcalcload)
+        this.sgcalcload = sgcalcload
+        this.Lbgal = this.sgcalcload
+      })
+    })
+    this.formulationload(this.formulacodepdr, this.labbatch, this.selectedunit, this.operation1).subscribe((formulationload) => {
+      console.warn("formulaload", formulationload)
+      this.rowData = formulationload
+    })
     this.uniddataload().subscribe((unitdatalo) => {
       console.warn("unitdatalo", unitdatalo)
       this.unitdatalo_data = unitdatalo

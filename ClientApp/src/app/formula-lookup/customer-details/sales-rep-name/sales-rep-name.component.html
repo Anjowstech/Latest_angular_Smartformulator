@@ -85,8 +85,8 @@
             <th scope="col">ContactNumber</th>
             <th scope="col">ContactEmail</th>
             <th scope="col">Region</th>
-            <th scope="col">FirstName</th>
-            <th scope="col">LastName</th>
+            <!--<th scope="col">FirstName</th>
+            <th scope="col">LastName</th>-->
 
 
 
@@ -98,7 +98,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let salespersondetails of Sales_person | filter:FirstName|filter:LastName; let i=index; " (click)="setvalues( salespersondetails);" #conten>
+          <tr *ngFor="let salespersondetails of Sales_person  let i=index; " (click)="setvalues( salespersondetails);" #conten>
 
 
 
@@ -108,8 +108,8 @@
             <td class="tabledatasize">{{ salespersondetails.ContactNumber}}</td>
             <td class="tabledatasize">{{ salespersondetails.ContactEmail }}</td>
             <td class="tabledatasize">{{ salespersondetails.Region}}</td>
-            <td class="tabledatasize">{{ salespersondetails.FirstName }}</td>
-            <td class="tabledatasize">{{ salespersondetails.LastName}}</td>
+            <!--<td class="tabledatasize">{{ salespersondetails.FirstName }}</td>
+            <td class="tabledatasize">{{ salespersondetails.LastName}}</td>-->
 
 
 
@@ -127,13 +127,15 @@
 
 
 
-    <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="SalesPersondelete();">Delete</button>
-    <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">New</button>
+    <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="SalesPersondelete();ClearData();">Delete</button>
+    <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();">New</button>
     <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="SalesPersonsaveupdate(fstname.value,CNnum.value,
 Rgn.value,lstnam.value,mail.value,initial.value);">
       Save/Update
     </button>
     <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%;" matDialogClose>Back</button>
+    <h5 style="float:left;margin-top:10px;color:maroon">{{countrecords}} Record(s)</h5>
+    <!--<label for="Recordscount" style="float: left; height: 50px; width: 100px; margin-top: 1%; width: 70px;color:red">Records {{countrecords}}</label>-->
 
   </div>
 </div>

@@ -61,7 +61,7 @@
           <div class="form-inline" style="margin-top:15px">
             <!--<button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Searchsupplierpopup()">Search Supplier</button>-->
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Searchsupplierpopup()">Search Supplier</button>
-            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width: 19.5%;" [routerLink]="'/AddSupplier'">Add  Supplier</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width: 19.5%;" [routerLink]="'/AddSupplier'" (click)="Addsupplierpopup()">Add  Supplier</button>
           </div>
         </div>
       </div>
@@ -141,9 +141,9 @@
               </div>
               <div class="form-inline">
                 <label for="inputcust" style="color:darkblue;font-weight:700;text-align:right">Last PO Price$</label>
-                <input style="width: 35%;margin-left:1.8%;text-align:right" type="text" class="form-control" [(ngModel)]="lastPOCost" #POvalue name="LastPOval" placeholder="0.000" value="" (change)="blurlastpo($event)">
+                <input style="width: 35%;margin-left:1.8%;text-align:right" type="text" class="form-control" [(ngModel)]="lastPOCost" name="LastPOval"  value="" (change)="blurlastpo($event)">
                 <h5 for="inputcust" style="color:red">*</h5>
-                <label for="inputcust" style="margin-left:-100px">Per</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px" >Per</h4>
                 <select disabled id="PRD" class="form-control" style="width:22.5%;" name="uomnamevallastpo" [(ngModel)]="LastPOUnit" value="">
                   <option selected>{{changeunit}}</option>
                   <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
@@ -153,7 +153,7 @@
                 <label for="inputcust" style="color:forestgreen;font-weight:700;text-align:right">Standard Price$</label>
                 <input style="width: 35%;margin-left:1%;text-align:right" type="text" class="form-control" [(ngModel)]="standardprice" placeholder="0.000" name="stdprizval" value="" (blur)="blurdelstdcost($event)">
                 <h5 for="inputcust" style="color:red">*</h5>
-                <label style="margin-left:-100px">Per</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
                 <select id="PRD" class="form-control" style="width:22.5%;" [(ngModel)]="standardpriceunit" (change)="stdpriceChange($event)" name="uomnameval" value="">
                   <option selected>{{changeunit}}</option>
                   <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
@@ -163,7 +163,7 @@
                 <label for="inputcust" style="color:forestgreen;font-weight:700">Shipping Cost$</label>
                 <input style="width: 35%;margin-left:2%;text-align:right" type="text" class="form-control" [(ngModel)]="shippingprize" #POvalue name="shipval" placeholder="0.000" value="" (blur)="blurdeliveredcost($event)">
                 <h5 for="inputcust" style="color:red">*</h5>
-                <label style="margin-left:-100px">Per</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
                 <select disabled id="PRD" class="form-control" style="width:22.5%;" name="shipco" value="" [(ngModel)]="shippingpriceunit">
                   <option selected>{{changeunit}}</option>
                   <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
@@ -172,9 +172,9 @@
               <div class="form-inline">
 
                 <label for="inputcust" style="color:maroon;font-weight:700">Delivered Price$</label>
-                <input style="width: 35%;text-align:right" type="text" class="form-control" [(ngModel)]="unitCost" name="delprice" placeholder="0.000" value="">
+                <input disabled style="width: 35%;text-align:right" type="text" class="form-control" [(ngModel)]="unitCost" name="delprice" placeholder="0.000" value="">
                 <h5 for="inputcust" style="color:red">*</h5>
-                <label for="inputcust" style="margin-left:-100px">Per</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
                 <select disabled id="PRD" class="form-control" style="width:22.5%;" name="deliverval" value="" [(ngModel)]="costUnit">
                   <option selected>{{changeunit}}</option>
                   <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
@@ -228,17 +228,17 @@
                 <input style="width: 60%;" type="text" class="form-control" [(ngModel)]="sku" #skvalue name="skuname" value="">
               </div>
               <div class="form-inline">
-                <label for="inputcust" style="margin-left:-100px">as of</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">as of</h4>
                 <input disabled style="width: 33%;" type="date" id="lastpo" class="form-control" [(ngModel)]="LastPODt" (change)="dateChange($event)" name="lastpodate" value="">
 
               </div>
               <div class="form-inline">
-                <label for="inputcust" style="margin-left:-100px">as of</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">as of</h4>
                 <input style="width: 33%;" type="date" id="stdpricedate" class="form-control" [(ngModel)]="standardpricedate" (change)="dateChange($event)" name="stddate" value="">
 
               </div>
               <div class="form-inline">
-                <label for="inputcust" style="margin-left:-100px">as of</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">as of</h4>
                 <input disabled style="width: 33%;" type="date" id="shipdate" class="form-control" (change)="dateChangeship($event)" [(ngModel)]="shippingpricedate" name="shippdate" value="">
 
                 <label for="inputcust" style="margin-left:-30px">Default UOM</label>
@@ -249,7 +249,7 @@
               </div>
               <div class="form-inline">
 
-                <label for="inputcust" style="margin-left:-100px">as of</label>
+                <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">as of</h4>
                 <input style="width: 33%;" type="date" id="deliverdate" class="form-control" (change)="dateChange($event)" [(ngModel)]="standardpricedate" name="deliverdate" value="">
                 <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; " (click)="OpenRMVP()">Volume Pricing</button>
               </div>
@@ -352,7 +352,7 @@
                 </div>
                 <div class="form-inline">
                   <label style="color:maroon" placeholder="0">CUM Lead Time</label>
-                  <input style="width: 50%;text-align:right" type="text" class="form-control" [(ngModel)]="rmleadtime" #Rawmatsource name="rmlead" value="">
+                  <input disabled style="width: 50%;text-align:right" type="text" class="form-control" [(ngModel)]="rmleadtime" #Rawmatsource name="rmlead" value="">
                 </div>
               </fieldset>
               <div class="form-inline" style="margin-top:4%">
@@ -369,7 +369,7 @@
               </div>
               <div class="form-inline">
                 <label for="inputcust" style="color:forestgreen;">Previous Price $</label>
-                <input style="width: 50%;text-align:right" type="text" class="form-control" [(ngModel)]="PreviousCost" name="PreviousCos" value="">
+                <input style="width: 50%;text-align:right" type="text" class="form-control" [(ngModel)]="PreviousCost" name="PreviousCos" value="" (blur)=" blurpreviousprice($event);">
               </div>
             </div>
           </div>
@@ -452,12 +452,12 @@
                   <form>
                     <div class="form-inline" style="margin-top:1%">
                       <label for="inputcust">INCI Name</label>
-                      <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="INCIName" name="inc1" value="">
+                      <input disabled style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="INCIName" name="inc1" value="">
                       <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:180px" (click)="opensearchinciname1()">Ingredient Search</button>
                     </div>
                     <div class="form-inline" style="margin-top:1%">
                       <label for="inputcust">Percentage</label>
-                      <input style="width: 30%;" type="text" class="form-control" id="data1" [(ngModel)]="Percentage" #prcntg name="prcntge" value="">
+                      <input style="width: 30%;text-align:right;" maxlength="9" type="text" class="form-control" id="data1" [(ngModel)]="Percentage" #prcntg name="prcntge" value="">
                     </div>
 
                     <div class="form-row" style="margin-top:0.5%">
@@ -466,7 +466,7 @@
                       <div class="col form-inline">
                         <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:90px;height:50px;width:90px;" (click)="Blendsaveupdate(prcntg.value)">Save</button>
                         <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:14px;height:50px;width:90px;" (click)="Clearblend()">Clear</button>
-                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:14px;height:50px;width:180px;" (click)="Blenddelete()">Delete Ingredient</button>
+                        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:14px;height:50px;width:180px;" (click)="Blenddelete();Clearblend()">Delete Ingredient</button>
                       </div>
                     </div>
                   </form>
@@ -498,9 +498,9 @@
                       </div>
                       <div class="col form-inline">
                         <label for="PRD" style="margin-left:80px;">Balance (%)</label>
-                        <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="Supplier Key" size="10" [(ngModel)]="Balance" name="bal" value=""><br />
-                        <label for="PRD" style="margin-left:20px;">Total (%)</label>
-                        <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="Supplier Key" size="10" [(ngModel)]="totalpercent" name="totper" value=""><br />
+                        <input disabled type="text" style="margin-left: 10px;text-align:right" class="form-control" placeholder="" id="Supplier Key" size="10" [(ngModel)]="Balance" name="bal" value=""><br />
+                        <label for="PRD" style="    margin-left: 20px;">Total (%)</label>
+                        <input disabled type="text" style="    margin-left: 10px;text-align: right" class="form-control" placeholder="" id="Supplier Key" size="10" [(ngModel)]="totalpercent" name="totper" value=""><br />
 
 
 
