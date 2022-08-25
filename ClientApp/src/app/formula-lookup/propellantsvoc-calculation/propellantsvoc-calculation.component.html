@@ -13,74 +13,54 @@
     <div class="form-row">
       <div class="form-group col-md-12">
         <div class="form-inline">
-          <label style="margin-left:7.3%">PDR No</label>
-          <input style="width: 50%;margin-left:10%" type="text" class="form-control">
+          <label>PDR No</label>
+          <input style="width: 50%;" type="text" class="form-control" name="provocpdr" id="vocpdr" [(ngModel)]="propvocPDRno" value="">
         </div>
         <div class="form-inline">
-          <label style="margin-left:6.5%">Formula Code</label>
-          <input style="width: 50%;margin-left:8%" type="text" class="form-control">
+          <label >Formula Code</label>
+          <input style="width: 50%;" type="text" class="form-control" ame="provocformulacod" id="vocpdr" [(ngModel)]="propvocformulacode" value="">
         </div>
         <div class="form-inline">
-          <label style="margin-left:8%">Formula Name</label>
-          <input style="width: 50%;margin-left:6.1%" type="text" class="form-control">
+          <label>Formula Name</label>
+          <input style="width: 50%;" type="text" class="form-control"ame="provocformname" id="vocformname" [(ngModel)]="propvocformulaname" value="">
         </div>
       </div>
     </div>
     <div>
-      <table class="table table-bordered">
+      <div style="overflow-y:auto">
+        <ag-grid-angular style="width: 100%; height: 500px;font-family:Verdana;font-style:normal;background-color:white"
+                         class="ag-theme-alpine"
+                         [rowHeight]="rowHeight"
+                         [columnDefs]="columnDefs1"
+                         [rowClassRules]="rowClassRules"
+                         (columnResized)="onColumnResized($event)"
+                         (columnVisible)="onColumnVisible($event)"
+                         #agGrid
+                         [applyColumnDefOrder]="true"
+                         [getRowStyle]="getRowStyle"
+                         [rowStyle]="rowStyle"
+                         [getRowNodeId]="getRowNodeId"
+                         [rowSelection]="rowSelection"
+                         [enableRangeSelection]="true"
+                         [suppressScrollOnNewData]="true"
+                         [gridOptions]="gridOptions"
+                         [defaultColDef]="defaultColDef"
+                         [rowData]="rowDatascalability"
+                         [overlayLoadingTemplate]="overlayLoadingTemplate"
+                         (gridReady)="onGridReadyone($event)">
 
-
-
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col"></th>
-            <th scope="col">INCI Name</th>
-            <th scope="col">Fill Ratio %</th>
-            <th scope="col">VOC %</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-
-
-
-          </tr>
-
-
-
-
-        </tbody>
-      </table>
+        </ag-grid-angular>
+      </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <div class="form-inline">
+        <div class="form-inline"style="padding-top:20px">
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px">Insert Row </button>
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px">Delete Row </button>
         </div>
       </div>
       <div class="form-group col-md-6">
-        <div class="form-inline">
+        <div class="form-inline"style="padding-top:20px">
           <h3 style="margin-left:5%; " for="TotalQuantity">Total (%)</h3>
           <input type="text" style="margin-left:10px;width:20%" class="form-control" placeholder="">
           <input type="text" style="margin-left:10px;width:16%" class="form-control" placeholder="">

@@ -35,30 +35,30 @@
           <div class="form-group col-md-7">
             <div class="form-inline">
               <label for="inputCompany Name">Company Name</label>
-              <input type="text" class="form-control" id="inputCompany Name" style="width:80%" placeholder="Company Name" value="" [(ngModel)]="compname">
+              <input type="text" class="form-control" id="inputCompanyName" name="comnam" style="width:80%" value="" [(ngModel)]="compname">
             </div>
             <div class="form-inline" style="padding-top:10px">
               <label for="validationTextarea">Address</label>
-              <textarea value=""[(ngModel)]="compaddress" style="width:80%" class="form-control" id="validationTextarea" placeholder="Address"></textarea>
+              <textarea value=""[(ngModel)]="compaddress" style="width:80%" class="form-control" id="validationTextarea" name="addr" ></textarea>
             </div>
             <div class="form-inline" style="padding-top:10px">
               <label for="Phone Number" style="margin-top:5px">Phone Number</label>
-              <input type="text" class="form-control" id="inputPhone Number" style="width:80%" placeholder="Phone Number" value="" [(ngModel)]="compnumber">
+              <input type="text" class="form-control" id="inputPhoneNumber" name="comnum" style="width:80%"  value="" [(ngModel)]="compnumber">
             </div>
             <div class="form-inline" style="padding-top:10px">
               <label for="Phone Number">Fax</label>
-              <input value="" [(ngModel)]="compfax" type="text" style="width:80%" class="form-control" id="inputFax" placeholder="Fax">
+              <input value="" [(ngModel)]="compfax" type="text" style="width:80%" class="form-control" id="inputFax" name="fax">
             </div>
             <div class="form-inline" style="padding-top:10px">
               <label for="Email">Email</label>
-              <input type="text" class="form-control" style="width:80%" id="inputEmail" placeholder="Email" value="" [(ngModel)]="compemail">
+              <input type="text" class="form-control" style="width:80%" id="inputEmail"  value="" [(ngModel)]="compemail" name="email">
             </div>
             <div class="form-inline" style="padding-top:10px">
               <label for="WebAddress">Web Address</label>
-              <input type="text" class="form-control" style="width:80%" id="inputWebAddress" placeholder="WebAddress" value="" [(ngModel)]="compwebaddress">
+              <input type="text" class="form-control" style="width:80%" id="inputWebAddress" name="webaddress" value="" [(ngModel)]="compwebaddress">
               </div>
                 <div class="custom-file" style="margin-top:30px">
-                  <input value="" type="file" style="width:80%" class="custom-file-input" id="validatedCustomFile" [(ngModel)]="comppicturepath" required>
+                  <input value="" type="file" style="width:80%" class="custom-file-input" id="validatedCustomFile" [(ngModel)]="comppicturepath" required name="picpath" >
                   <label class="custom-file-label" for="validatedCustomFile"></label>
                   <div class="invalid-feedback">Example invalid custom file feedback</div>
                 </div>
@@ -82,20 +82,20 @@
             
               <div class="form-inline">
                 <label for="inputPrefix">Prefix</label>
-                <input type="text" class="form-control" id="inputPrefix" placeholder="Prefix" style="width:60%;margin-left:49px" #abbrawform>
+                <input type="text" class="form-control" id="inputPrefix" [(ngModel)]="compprefix"value="" name="prefix" style="width:60%;margin-left:49px" #abbrawform placeholder="Prefix">
                 <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="saverawprefix(abbrawform.value,abbdescriptionrawform.value)">Add Prefix</button>
               </div>
               <div class="form-inline">
                 <label for="inputPrefix">Prefix Description</label>
-                <input type="text" class="form-control" id="inputPrefix" placeholder="Prefix Description" style="width:80%;margin-left:49px" #abbdescriptionrawform>
+                <input type="text"[(ngModel)]="comppredescription" class="form-control" id="inputPrefix" name="prefixdescription" value="" style="width:80%;margin-left:49px" #abbdescriptionrawform placeholder="Prefix Description">
               </div>
               <div class="form-inline">
                 <label for="inputSeperator">Seperator</label>
-                <input type="text" class="form-control" id="inputPrefix" placeholder=":" style="width:80%;margin-left:50px">
+                <input type="text" class="form-control" id="inputPrefix" [(ngModel)]="compseparator" name="separator"value="" style="width:80%;margin-left:50px">
               </div>
               <div class="form-inline">
                 <label for="inputPrefix">Numbering Starts From</label>
-                <input type="text" class="form-control" id="inputPrefix" placeholder="1234567" style="width:80%">
+                <input type="text" class="form-control" id="inputPrefix" [(ngModel)]="compnumstart"  name="numstartfrom" value="" style="width:80%">
               </div>
               </div>
               <div class="form-group col-md-4">

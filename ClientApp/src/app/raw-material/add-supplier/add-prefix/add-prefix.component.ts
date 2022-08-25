@@ -18,6 +18,10 @@ export class AddPrefixComponent implements OnInit {
   compnumber: string = "";
   compaddress: string = "";
   compname: string = "";
+  compprefix: string = "";
+  comppredescription: string = "";
+  compseparator: string = "";
+  compnumstart: string = "";
   constructor(private http: HttpClient) { }
   saveabbrawmaterials(abbrawmat: string, abbrawdescription: string) {
     var abbraw: string = abbrawmat;
@@ -25,7 +29,7 @@ export class AddPrefixComponent implements OnInit {
     let params1 = new HttpParams().set('abb', abbraw).
       set('formname', "Raw Materials").
       set('abbdescription', descraw);
-    return this.http.get("http://smartformulatoradminworkwebservice.azurewebsites.net/saveabbreviation", { params: params1 });
+    return this.http.get("https://smartformulatoradminworkwebservice.azurewebsites.net/saveabbreviation", { params: params1 });
 
   }
   saveabbformulation(abbform1: string, abbdescriptionform1: string) {
@@ -42,7 +46,7 @@ export class AddPrefixComponent implements OnInit {
   defaultsettingdata() {
 
 
-    return this.http.get("http://smartformulatoradminworkwebservice.azurewebsites.net/defaultsettingsdata");
+    return this.http.get("https://smartformulatoradminworkwebservice.azurewebsites.net/defaultsettingsdata");
   }
   saverawprefix(abbrawform, abbdescriptionrawform) {
 
@@ -54,7 +58,16 @@ export class AddPrefixComponent implements OnInit {
   }
   defaultprefixload(defaultdataprefix)
 {
-    this.compname = defaultdataprefix
+    this.compname = defaultdataprefix[0].CompanyName;
+    this.compaddress = defaultdataprefix[0].CompanyAddress;
+    this.compnumber = defaultdataprefix[0].CompanyNumber;
+    this.compfax = defaultdataprefix[0].Fax;
+    this.compemail = defaultdataprefix[0].CompanyEmail;
+    this.compwebaddress = defaultdataprefix[0].CompanyWebAddress;
+    this.comppicturepath = defaultdataprefix[0].picturePath;
+ 
+      this.compseparator = defaultdataprefix[0].SeperatorFormulationLookUp
+      this.compnumstart = defaultdataprefix[0].StartingNumberFormulationLookUp
 }
   ngOnInit() {
     this.saveabbformulation(this.abb, this.abbdescription).subscribe((result5) => {
@@ -63,18 +76,20 @@ export class AddPrefixComponent implements OnInit {
     })
 
 
-    this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
-      console.warn("resultsaveraw", result6)
-      this.datasaveabbraw = result6
-    })
+    //this.saveabbrawmaterials(this.abb, this.abbdescription).subscribe((result6) => {
+    //  console.warn("resultsaveraw", result6)
+    //  this.datasaveabbraw = result6
+    //})
   
    this.defaultsettingdata().subscribe((result4) => {
-     console.warn("result", result4)
+     console.warn("loaddefaultdata", result4)
      this.defaultdataprefix = result4
      this.defaultprefixload(this.defaultdataprefix);
 
 
+
    })
+     
   }
 
 }

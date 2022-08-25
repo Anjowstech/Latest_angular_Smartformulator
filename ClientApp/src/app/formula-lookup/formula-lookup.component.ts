@@ -281,7 +281,8 @@ export class FormulaLookupComponent implements OnInit {
     //  return 18 * (Math.floor(params.data.INCIName.length / 45) + 2);
     //}
   };
-    sendqc: any[];
+  sendqc: any[];
+  sendpropellenetvoc: any[];
  
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) {
 
@@ -1651,9 +1652,15 @@ export class FormulaLookupComponent implements OnInit {
     });
   }
   PropellantsvocCalculaton(): void {
-    const dialogRef = this.dialog.open(PropellantsvocCalculationComponent, {
-      width: '80%', height: '90%', disableClose: true
-    });
+    if (this.formulacode == "" || this.formulacode == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Enter Formula Code" } });
+    }
+    else {
+      this.sendpropellenetvoc = [this.formulacode, this.formulaname, this.PDRno];
+      const dialogRef = this.dialog.open(PropellantsvocCalculationComponent, {
+        width: '80%', height: '90%', data: { displaydata: this.sendpropellenetvoc  } , disableClose: true
+      });
+    }
   }
   AddproductTesting(): void {
     const dialogRef = this.dialog.open(AddproductTestingComponent, {
