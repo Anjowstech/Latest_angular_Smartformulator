@@ -15,7 +15,7 @@ export class SerachCategoryComponent implements OnInit {
 
   constructor(public dialog: MatDialog,private http: HttpClient, private Datashare: DataShareServiceService) { }
   categorysearch() {
-    return this.http.get("http://localhost/raw_sup_webservice/categorysearch");
+    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/categorysearch");
   }
   selectitem(cateval: string) {
     this.selectedrow = cateval;

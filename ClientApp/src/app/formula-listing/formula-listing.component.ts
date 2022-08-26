@@ -10,7 +10,7 @@ export interface FormulaList {
   status: string;
   createdby: string;
   date: string;
- 
+
 
 }
 export interface FormulaList1 {
@@ -29,6 +29,7 @@ const ELEMENT_DATA1: FormulaList1[] = [
   styleUrls: ['./formula-listing.component.css']
 })
 export class FormulaListingComponent implements OnInit {
+  filterMetadata = { count: 0 };
   formulacode: string = "";
   pdrnum: string = "";
   status: string = "";

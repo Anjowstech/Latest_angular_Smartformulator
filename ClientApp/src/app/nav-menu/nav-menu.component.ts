@@ -2,7 +2,7 @@ import { Component, OnInit, VERSION, ViewChild } from '@angular/core';
 import { NavItem } from 'src/app/nav-item';
 import { MatMenuTrigger } from '@angular/material';
 import { PostsService } from 'src/app/posts.service';
-
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
@@ -10,8 +10,11 @@ import { PostsService } from 'src/app/posts.service';
 })
 export class NavMenuComponent {
   data: any;
-  constructor(private postData: PostsService) { }
+  userna: string = "";
+  company: string = "";
+  constructor(private postData: PostsService, private Datashare: DataShareServiceService) { }
   version = VERSION;
+
   panelOpenState = false;
   navItems: NavItem[] = [
     {
@@ -389,7 +392,8 @@ export class NavMenuComponent {
   }
 
   ngOnInit() {
-
+    this.userna = this.Datashare.getlogin();
+    this.company = this.Datashare.getcompany();
     this.postData.getPosts().subscribe((result) => {
       console.warn("result", result)
       this.data = result

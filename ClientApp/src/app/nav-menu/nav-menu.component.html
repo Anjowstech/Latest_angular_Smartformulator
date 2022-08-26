@@ -30,9 +30,9 @@
           <button mat-icon-button>
             <mat-icon style="color: #214252" (click)="sidenav.toggle()">menu</mat-icon>
           </button>
-          <img  [routerLink]="'/Home'" src="../assets/SMARTFORMULATOR.jpg " height="30" width="30" />
-          <h1  [routerLink]="'/Home'" style="font-family: Playfair Display; font-size:25px;color:  #150485">SMART </h1>
-          <h1  [routerLink]="'/Home'" style="margin-right:30px;  font-family: Playfair Display;font-size:25px; color: firebrick"> Formulator</h1>
+          <img [routerLink]="'/Home'" src="../assets/SMARTFORMULATOR.jpg " height="30" width="30" />
+          <h1 [routerLink]="'/Home'" style="font-family: Playfair Display; font-size:25px;color:  #150485">SMART </h1>
+          <h1 [routerLink]="'/Home'" style="margin-right:30px;  font-family: Playfair Display;font-size:25px; color: firebrick"> Formulator</h1>
 
 
 
@@ -64,16 +64,11 @@
 
           <span style="flex: 1 1 auto;"></span>
 
-          <div class="icon" style="float:right;margin-right:5px">
-            <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu" style=" float: right; margin-right: 10px; color: #214252; height: 40px; width: 50px ">settings</mat-icon>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item [routerLink]="'AdminWork'">Admin Work</button>
-              <button mat-menu-item [routerLink]="'/UserSecurity'">User Security</button>
-              <button mat-menu-item>Lab Inventory</button>
-              <button mat-menu-item [routerLink]="'/RawMaterial'">Raw Material</button>
-            </mat-menu>
-          </div>
-          <div class="icon" style="float:right;margin-right:5px">
+
+
+
+
+          <div class="icon" style="float:right;margin-right:5px;">
             <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu1" style="color: #214252;">account_circle</mat-icon>
 
             <mat-menu #menu1="matMenu">
@@ -84,8 +79,14 @@
             </mat-menu>
 
           </div>
-        </mat-toolbar-row>
+          <h4 style="color:black;">{{userna}}</h4>
 
+        </mat-toolbar-row>
+        <mat-toolbar-row >
+          <div  style="margin-left:90%;margin-bottom:15px">
+            <label style="color:black; ">{{company}}</label>
+          </div>
+        </mat-toolbar-row>
         <style>
           .icon {
             font-size: 27px;
@@ -93,8 +94,9 @@
         </style>
 
 
-
+        
       </mat-toolbar>
+    
     </div>
   </div>
 

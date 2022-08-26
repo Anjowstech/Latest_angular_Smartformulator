@@ -34,9 +34,15 @@ export class SearchINCINameComponent implements OnInit {
   fun_name: string = "";
   itemc: string = "";
   supplierva: string = '';
-  tradenam: string = '';
+  tradenam: string = "";
   casnum: string = '';
   suplrst: string = '';
+  suppstatus: string = 'All';
+
+
+
+ 
+
   constructor(public dialog: MatDialog,private http: HttpClient, public dialogRef: MatDialogRef<SearchINCINameComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
@@ -106,26 +112,39 @@ export class SearchINCINameComponent implements OnInit {
 
 
   }
-  quicksaveval(supp_status, inciname, itemcode, supplier, tradename) {
-    this.quicksaveraw(supp_status, inciname, itemcode, supplier, tradename).subscribe((resultquicksave) => {
-      console.warn("resultquicksave", resultquicksave)
-      this.dataresultquicksave = resultquicksave
+  quicksaveval() {
+    if (this.inci == "" || this.inci == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Inciname.' } });
+    }
+    else if (this.itemc == "" || this.itemc == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Itemcode.' } });
+    }
+    else if (this.supplierva == "" || this.supplierva == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Supplier.' } });
+    }
+    else {
+      this.quicksaveraw().subscribe((resultquicksave) => {
+        console.warn("resultquicksave", resultquicksave)
+        this.dataresultquicksave = resultquicksave
 
-      if (this.dataresultquicksave == "Inserted") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: '' } });
-      }
-    })
+
+
+        if (this.dataresultquicksave == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Rawmaterial' + ' ' + this.inci + ' is saved successfully.' } });
+        }
+      })
+    }
   }
 
-  quicksaveraw(supp_statusdata: string, inciname: string, itemcode: string, supplier: string, tradename: string) {
+  quicksaveraw() {
 
 
 
-    var supp_stat: string = supp_statusdata;
-    var incin: string = inciname;
-    var itemc: string = itemcode;
-    var supp: string = supplier;
-    var traden: string = tradename;
+    var supp_stat: string = this.suppstatus;
+    var incin: string = this.inci;
+    var itemc: string = this.itemc;
+    var supp: string = this.supplierva;
+    var traden: string = this.tradenam;
     let params1 = new HttpParams().set('supplierstatus', supp_stat).set('rmapproved', "1").set('descriptionvalue', incin).set('suppliername', supp).set('tradename', traden).set('strItemCode', itemc);
     return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/quicksave", { params: params1, responseType:'text' });
 
@@ -153,6 +172,7 @@ export class SearchINCINameComponent implements OnInit {
     this.tradenam = '';
     this.casnum = '';
     this.suplrst = '';
+    this.suppstatus = 'All';
   }
 
   ngOnInit() {

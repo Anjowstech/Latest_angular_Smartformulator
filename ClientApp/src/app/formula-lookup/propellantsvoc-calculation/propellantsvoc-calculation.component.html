@@ -1,4 +1,4 @@
-<div style="background-color: #f6f5f1" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+<div style="background-color: #f6f5f1" >
   <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
     <div class="col-sm-12">
       <div style="background-color: #f6f5f1">
@@ -36,6 +36,9 @@
                          (columnResized)="onColumnResized($event)"
                          (columnVisible)="onColumnVisible($event)"
                          #agGrid
+                         (rowClicked)="rowClicked($event)"
+                         [rowDragManaged]="true"
+                         [singleClickEdit]="true"
                          [applyColumnDefOrder]="true"
                          [getRowStyle]="getRowStyle"
                          [rowStyle]="rowStyle"
@@ -45,7 +48,7 @@
                          [suppressScrollOnNewData]="true"
                          [gridOptions]="gridOptions"
                          [defaultColDef]="defaultColDef"
-                         [rowData]="rowDatascalability"
+                         [rowData]="rowDatavoc"
                          [overlayLoadingTemplate]="overlayLoadingTemplate"
                          (gridReady)="onGridReadyone($event)">
 
@@ -55,7 +58,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <div class="form-inline"style="padding-top:20px">
-          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px">Insert Row </button>
+          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px"(click)="addRow()">Insert Row </button>
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 17px; padding-top: 10px">Delete Row </button>
         </div>
       </div>

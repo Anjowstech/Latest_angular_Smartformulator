@@ -283,7 +283,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_pro of loadprodata | filter:t3productnum|filter:t3productname| filter:t3customername; let i=index;">
+              <tr *ngFor="let load_pro of loadprodata | filter:t3productnum:filterMetadata|filter:t3productname:filterMetadata| filter:t3customername:filterMetadata; let i=index;">
                 <td>{{ load_pro.productnumber }}</td>
                 <td>{{ load_pro.productname }}</td>
                 <td>{{ load_pro.formulacode }}</td>

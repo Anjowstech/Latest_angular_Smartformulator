@@ -163,6 +163,7 @@ import { UpdateQcComponent } from './formula-lookup/update-qc/update-qc.componen
 import { ImportCustPreferenceComponent } from './formula-lookup/customer-details/import-cust-preference/import-cust-preference.component';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { SupplierListingComponent } from './supplier-listing/supplier-listing.component';
+import { RmsaveasComponent } from './raw-material/rmsaveas/rmsaveas.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -373,6 +374,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     ImportCustPreferenceComponent,
     CustomerListingComponent,
     SupplierListingComponent,
+    RmsaveasComponent,
     
   ],
   imports: [

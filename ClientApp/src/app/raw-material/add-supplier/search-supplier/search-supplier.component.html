@@ -52,7 +52,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let supplier_search of supplier_searchdata | filter:SupplierKey|filter:SupplierName; let i=index;" (click)="setvalues( supplier_search);close();" #conten>
+          <tr *ngFor="let supplier_search of supplier_searchdata | filter:SupplierKey:filterMetadata|filter:SupplierName:filterMetadata; let i=index;" (click)="setvalues( supplier_search);close();" #conten>
             <td class="tabledatasize">{{ supplier_search.SupplierKey }}</td>
             <td class="tabledatasize">{{ supplier_search.SupplierName}}</td>
             <td hidden class="tabledatasize">{{ supplier_search.SupplierCode}}</td>

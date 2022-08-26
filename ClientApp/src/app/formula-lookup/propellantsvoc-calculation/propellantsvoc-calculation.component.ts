@@ -14,7 +14,9 @@ export class PropellantsvocCalculationComponent implements OnInit {
   propvocPDRno: string = "";
   private columnDefs1;
   public gridApione;
-
+  rowindex: any;
+  public rowSelection;
+  rowDatavoc: any = [];
   gridOptions: GridOptions = {
     //deltaRowDataMode: true,
     //onRowDragEnd: this.onRowDragEnd,
@@ -27,12 +29,12 @@ export class PropellantsvocCalculationComponent implements OnInit {
   };
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.columnDefs1 = this.columnDefsvoc;
-    
+    this.rowSelection = 'single';
   }
   columnDefsvoc = [
     {
       flex: 1,
-
+      rowDrag: true,
       wrapText: true,     // <-- HERE
       autoHeight: true,
 
@@ -46,26 +48,16 @@ export class PropellantsvocCalculationComponent implements OnInit {
       minWidth: 20,
       maxWidth: 40,
     },
+    
     {
-      flex: 1,
-
-      wrapText: true,     // <-- HERE
-      autoHeight: true,
-
-      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-      width: 20,
-      minWidth: 10,
-      maxWidth: 50,
-      headerName: "St", field: 'Step'
-    },
-    {
-
+      resizable: true,
       // <-- HERE
       autoHeight: true,
       editable: false,
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
       headerName: "INCI Name",
-
+      minWidth: 800,
+      maxWidth: 900,
       field: "INCIName"
     },
 
@@ -77,105 +69,81 @@ export class PropellantsvocCalculationComponent implements OnInit {
       //wrapText: true,     // <-- HERE
       autoHeight: true,
 
-
-      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      resizable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal",'color':'black' },
 
       // cellClassRules: cellClassRules,
 
-      minWidth: 100,
-      maxWidth: 140,
-      headerName: "%", field: 'Qtyinpercentage', type: 'numericColumn'
+      minWidth: 400,
+      maxWidth: 500,
+      headerName: "Fill Ratio %", field: 'fillratio', type: 'numericColumn'
 
 
     },
     {
       // flex: 1,
       // resizable: true,
-
+      resizable: true,
       //wrapText: true,     // <-- HERE
       // autoHeight: true,
-      headerName: "Qty", field: 'Quantity1', type: 'numericColumn',
+      headerName: "VOC %", field: 'voc', type: 'numericColumn',
       //width: 100,
-      minWidth: 90,
+      minWidth: 400,
+      maxWidth: 500,
       editable: false,
-      maxWidth: 140,
+      
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", },
     },
-    {
-      flex: 1,
-
-      wrapText: true,     // <-- HERE
-      autoHeight: true,
-      headerName: "UOM", field: 'UnitName',
-
-      minWidth: 30,
-      maxWidth: 70,
-
-      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-    },
-    {
-      // flex: 1,
-      // resizable: true,
-
-      //wrapText: true,     // <-- HERE
-      // autoHeight: true,
-      headerName: "UnitCost ", field: 'UnitCost1', width: 70,
-      minWidth: 70,
-      maxWidth: 130, type: 'numericColumn',
-      autoHeight: true,
-      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-    },
-    {
-      // flex: 1,
-      // resizable: true,
-
-      //wrapText: true,     // <-- HERE
-      // autoHeight: true,
-      headerName: "Cost $", field: 'Cost1', width: 90,
-
-      minWidth: 70,
-      maxWidth: 130,
-      type: 'numericColumn',
-
-      autoHeight: true,
-      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
-    },
-    {
-      // flex: 1,
-      // resizable: true,
-      hide: "true",
-      //wrapText: true,     // <-- HERE
-      // autoHeight: true,
-      headerName: "Costinlb ", field: 'costinlb1', width: 70,
-      minWidth: 60,
-      maxWidth: 120, type: 'numericColumn',
-
-    },
-    {
-      // flex: 1,
-      // resizable: true,
-      hide: "true",
-      //wrapText: true,     // <-- HERE
-      // autoHeight: true,
-      headerName: "Quantityinlb", field: 'quantityinlb', width: 70,
-      minWidth: 60,
-      maxWidth: 120, type: 'numericColumn',
-
-    },
-    {
-      // flex: 1,
-      // resizable: true,
-      hide: "true",
-      //wrapText: true,     // <-- HERE
-      // autoHeight: true,
-      headerName: "Unitcostinlb ", field: 'unitcostinlb', width: 70,
-      minWidth: 60,
-      maxWidth: 120, type: 'numericColumn',
-
-    },
+    
 
 
-  ]; 
+  ];
+  onGridReadyone(params) {
+    this.gridApione = params.api;
+    this.rowDatavoc = [{
+     
+      INCIName: 'Deionized Water',
+      fillratio: '0.0000',
+      voc: '0.0000',
+      
+    },];
+    this.gridApione.setRowData(this.rowDatavoc);
+  }
+  addRow() {
+    this.rowindex =1;
+  
+     
+      // let rowData = [];
+      //this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
+
+      //this.gridApi.setRowData(rowData);
+      //var selectedRow: any = this.rowindex;
+
+    this.gridApione.updateRowData({ add: [{ INCIName: '', fillratio: '', voc: '' }], addIndex: this.rowindex });
+        // this.gridApi.setRowData(this.rowData);
+        //var newRowData: any = this.rowData.splice(this.rowindex, 0,newData);
+        //var data = this.radiovalue;
+        //this.gridApi.setRowData(this.rowData);
+        //   this.gridApi.getRowNode(this.rowindex);
+    this.gridApione.getRowNode(this.rowindex);
+
+        //this.rowindex = null;
+    this.gridApione.ensureIndexVisible(this.rowindex, 'bottom');
+      
+      
+
+    this.rowindex = null;
+  }
+  deleteRow() {
+    var selectedData = this.gridApione.getSelectedRows();
+    var qua: any = selectedData[0].Quantity;
+    this.gridApione.updateRowData({ remove: selectedData });
+  }
+  rowClicked(event: any): void {
+  
+    this.rowindex = event.rowIndex;
+
+  }
   ngOnInit() {
 
     var dat: any = this.data;

@@ -8,7 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   styleUrls: ['./search-supplier.component.css']
 })
 export class SearchSupplierComponent implements OnInit {
-
+  filterMetadata = { count: 0 };
   countyes: number = 0;
   countno: number = 0;
   supplier_searchdata: any;

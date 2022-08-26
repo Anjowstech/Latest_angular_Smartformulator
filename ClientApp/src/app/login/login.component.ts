@@ -46,8 +46,12 @@ export class LoginComponent implements OnInit {
       }
       if (this.username != null && this.connectionstr  !=null && this.username==this.user) {
         this.router.navigate(['/Home']);
-        this.Datashare.sendlogindetails(this.username.replace("@smartformulator.com",""));
-
+        var use = this.username.split('@');
+        var user = use[0];
+        var comp = use[1];
+        var detail: any = [user, comp];
+        this.Datashare.sendlogindetails(user);
+        this.Datashare.sendcompdetails(comp);
       } else {
         alert("Invalid credentials");
       }

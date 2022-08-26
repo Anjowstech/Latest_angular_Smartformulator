@@ -36,6 +36,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
   categoid: string = '';
   categoryidval: string = '';
   text: string = 'save';
+  subcateid: string = "";
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService) { }
   public cleandata() {
 
@@ -64,6 +65,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
     this.categoryidval = this.categoid = raw_supp.CategoryId;
     this.subcategorynam = this.subcatenam = raw_supp.SubCategoryName;
     this.descript = this.descr = raw_supp.Description;
+    this.subcateid = raw_supp.SubCategoryId;
 
     // declare variable in component.
   }
@@ -87,7 +89,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', subcategoryidval).
       set('categoryid', categoryidval);
 
-    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
+    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType: "text"  });
 
   }
   savesubcategory(subcategoryname: string, description: string,  categoryid: string) {
@@ -101,7 +103,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', "0").
       set('categoryid', categoryidval );
 
-    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
+    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType:"text" });
 
   }
   addRow(row: { name: string; items: string; items1: string; items2: string; items3: string;  }): void {
@@ -118,10 +120,10 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', subcategoryidval).
       set('categoryid', categoryidval);
 
-    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/delete_insert_new_subcatogory", { params: params1 });
+    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType: "text"  });
 
   }
-  updatedata(subcategoryname, description, subcategoryid, categoryid) {
+  updatedata() {
     if (this.categorynam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
     }
@@ -132,9 +134,19 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Subcategory Name" } });
     }
     else {
-      this.Updatesubcategory(subcategoryname, description, subcategoryid, categoryid).subscribe((resultraw_sup_update) => {
+      this.Updatesubcategory(this.subcategorynam, this.descript, this.subcateid, this.categoryidval).subscribe((resultraw_sup_update) => {
         console.warn("resultraw_sup_update", resultraw_sup_update)
         this.dataraw_sup_update = resultraw_sup_update
+        if (this.dataraw_sup_update == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "SubCategory: " + this.subcategorynam + " Updated Successfully" } });
+          this.Loadsubcategory().subscribe((resultraw_sup) => {
+            console.warn("sub_category_load", resultraw_sup)
+            this.dataraw_sup = resultraw_sup
+          })
+        }
+        else {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Failed to Update" } });
+        }
       })
     }
   }
@@ -153,14 +165,45 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       this.savesubcategory(this.subcategorynam, this.descript, this.categoryidval).subscribe((resultraw_sup_save) => {
         console.warn("resultraw_sup_save", resultraw_sup_save)
         this.dataraw_sup_save = resultraw_sup_save
+        if (this.dataraw_sup_save== "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "SubCategory: " + this.subcategorynam+ " Saved Successfully" } });
+          this.Loadsubcategory().subscribe((resultraw_sup) => {
+            console.warn("sub_category_load", resultraw_sup)
+            this.dataraw_sup = resultraw_sup
+          })
+        }
+        else {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Failed to Save" } });
+        }
       })
     }
   }
-  deletedata(subcategoryname, description, subcategoryid, categoryid) {
-    this.deletesubcategory(subcategoryname, description, subcategoryid, categoryid).subscribe((resultraw_sup_delete) => {
-      console.warn("resultraw_sup_save", resultraw_sup_delete)
-      this.dataraw_sup_delete = resultraw_sup_delete
-    })
+  deletedata() {
+    if (this.categorynam == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
+    }
+    else if (this.descript == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
+    }
+    else if (this.subcategorynam == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Subcategory Name" } });
+    }
+    else {
+      this.deletesubcategory(this.subcategorynam, this.descript, this.subcateid, this.categoryidval).subscribe((resultraw_sup_delete) => {
+        console.warn("resultraw_sup_save", resultraw_sup_delete)
+        this.dataraw_sup_delete = resultraw_sup_delete
+        if (this.dataraw_sup_delete== "Deleted") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "SubCategory: " + this.subcategorynam + " Deleted Successfully" } });
+          this.Loadsubcategory().subscribe((resultraw_sup) => {
+            console.warn("sub_category_load", resultraw_sup)
+            this.dataraw_sup = resultraw_sup
+          })
+        }
+        else {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Failed to Delete" } });
+        }
+      })
+    }
   }
   changetext(): void {
 

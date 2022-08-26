@@ -44,10 +44,14 @@ export class DataShareServiceService {
   datasharecasdata: any;
   FormulaCode: any;
   usern: any;
+  compa: any;
   custocod
   datashareclientlocation: any = [];
   sendlogindetails(username: string) {
     this.usern = username;
+  }
+  sendcompdetails(company: string) {
+    this.compa = company;
   }
   senditemtoraw(itemda: string) {
     this.itemcodetoraw = itemda;
@@ -144,6 +148,9 @@ export class DataShareServiceService {
   //DatashareTempPass(itempass: string) {
   //  this.Temppass = itempass
   //}
+  getcompany(): string {
+    return this.compa;
+  }
   getlogin(): string {
     return this.usern;
   }

@@ -35,6 +35,7 @@ export interface DialogData {
 export class RawMaterialComponent implements OnInit {
   itemlist = [];
   Approv: boolean;
+  rmapproveinci: boolean = true;
   safetylistdata: string = '';
   datarawcategoryload: any;
   name: string;
@@ -334,6 +335,7 @@ export class RawMaterialComponent implements OnInit {
   oldlastPOCost: string = '0.001';
   oldPreviousCost: string = '';
   blendmsgdata: string;
+  rmdltdata: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -578,6 +580,7 @@ export class RawMaterialComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
+      this.rmapproveinci = false;
       this.inciname = result[0];
       this.itemli = result[1];
       this.tradn = result[2];
@@ -1549,11 +1552,38 @@ export class RawMaterialComponent implements OnInit {
     })
   }
   deletermmain() {
-    this.deletermweb().subscribe((deletermmain) => {
-      console.warn("deletermmain", deletermmain)
-      this.deleterawmaterialmain = deletermmain
-    })
-    this.showAlert2();
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '35%', height: '15%', data: { displaydatagrid: 'This will delete the raw material entry.Do you really want to delete this raw material?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.rmdltdata = result;
+
+
+
+      if (this.rmdltdata == "false") { }
+      else {
+        this.deletermweb().subscribe((deletermmain) => {
+          console.warn("deletermmain", deletermmain)
+          this.deleterawmaterialmain = deletermmain
+
+
+
+          if (this.deleterawmaterialmain == "Deleted") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '20%', height: '15%', data: {
+                displaydata: 'Raw material' + ' ' + this.inciname + ' ' + 'is deleted successfully.'
+              }
+            });
+            this.ClearData();
+          }
+        })
+
+      }
+
+
+
+    });
+   
+    
   }
   Deletecanada_dt() {
     this.Deletecanadaweb().subscribe((Deletecanada) => {
@@ -2238,6 +2268,7 @@ export class RawMaterialComponent implements OnInit {
   }
 
   ClearData() {
+    this.rmapproveinci = true;
     this.supp_name = '';
     this.INCIName = '';
     this.Percentage = '';
