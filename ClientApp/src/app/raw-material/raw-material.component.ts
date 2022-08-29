@@ -1122,7 +1122,7 @@ export class RawMaterialComponent implements OnInit {
     this.totalpercent = 0;
     for (let Blenditem of blenddetails) {
       this.percentvalue = Blenditem.Percentage;
-      this.totalpercent = + this.totalpercent + +this.percentvalue;
+      this.totalpercent =+ this.totalpercent+ + this.percentvalue;
       this.Balance = (100 - this.totalpercent);
     }
   }
@@ -1178,8 +1178,9 @@ export class RawMaterialComponent implements OnInit {
     else if (parseInt(prcntg) > 100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
-    else if ((this.Balance - parseInt(prcntg)) < 0) {
-      //this.showAlert4();
+    else if (this.totalpercent>100)
+    {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
     else {
       this.blendsaveup(prcntg).subscribe((Blenddatasaveup) => {
@@ -1192,13 +1193,14 @@ export class RawMaterialComponent implements OnInit {
         else if (this.Blend_save_data == "Updated") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions updated successfully.' } });
         }
+        this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
+          console.warn("Blenddetailslload", Blenddetailslload)
+          this.Blenddata = Blenddetailslload
+          this.Blenddataload(this.Blenddata)
+        })
       })
 
-      this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
-        console.warn("Blenddetailslload", Blenddetailslload)
-        this.Blenddata = Blenddetailslload
-        this.Blenddataload(this.Blenddata)
-      })
+     
     }
   }
   canadadataaload(INCIName: string) {
@@ -2221,7 +2223,7 @@ export class RawMaterialComponent implements OnInit {
   Rawmaterial_Update() {
 
 
-    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) > 100) {
+    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) < 100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total percentage should be 100%.Adjust to 100%.' } });
       this.active = "3";
     }
@@ -2470,6 +2472,10 @@ export class RawMaterialComponent implements OnInit {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
           this.rawmaterial_update_data = ""
         }
+        this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+          console.warn("auditload", auditload)
+          this.auditdata = auditload
+        })
       })
     }
    
@@ -2712,6 +2718,10 @@ export class RawMaterialComponent implements OnInit {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
           this.rawmaterial_save_data = ""
         }
+        this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+          console.warn("auditload", auditload)
+          this.auditdata = auditload
+        })
       })
     }
     

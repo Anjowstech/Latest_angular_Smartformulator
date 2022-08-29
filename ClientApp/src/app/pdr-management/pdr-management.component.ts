@@ -2838,7 +2838,7 @@ this.loadformulationsassign = loadformulations
     pifapproval.setDate(pdrapprova.getDate() + 77);
     pifapprovalend.setDate(pdrapprova.getDate() + 83);
     prodapproval.setDate(pdrapprova.getDate() + 83);
-    prodapprovalend.setDate(pdrapprova.getDate() + 83);
+    prodapprovalend.setDate(pdrapprova.getDate() +113);
   
     var diff = Math.abs(pdrcreationdate.getTime() - futureDatestart.getTime());
    // this.pdrcreationdays  = Math.ceil(diff / (1000 * 3600 * 24) );
