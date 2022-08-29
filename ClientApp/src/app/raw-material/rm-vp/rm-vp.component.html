@@ -5,26 +5,36 @@
 
     <div class="form-row" style="margin-top:5px;">
       <div class="form-group col-md-6">
-        <input style="width: 80%;margin-left:10px;
-              margin-top: 20px;" type="text" class="form-control" id="PDR #" placeholder="INCI Name">
-        <input style="width: 80%;margin-left:10px;margin-top: 20px;" type="text" class="form-control" id="PDR #" placeholder="Supplier">
-      </div>
+        <div class="form-inline">
+          <label for="inci" style="margin-left:10px">INCIName</label>
+          <input style="width: 80%;
+              margin-top: 20px;" type="text" class="form-control" id="PDR #" [(ngModel)]="inciname" name="inci" value="" >
+        </div>
+        <div class="form-inline">
+          <label for="inci" style="margin-left:10px">Supplier</label>
+          <input style="width: 80%;margin-top: 20px;" type="text" class="form-control" id="PDR #" [(ngModel)]="supplier" name="sup" value="">
+          </div>
+        </div>
 
       <div class="form-group col-md-6">
-        <input style="width: 80%;margin-left:10px;margin-top: 20px;" type="text" class="form-control" id="PDR #" placeholder="Item #">
-        <input style="width:80%;margin-left:10px;margin-top: 20px;" type="text" class="form-control" id="Project Name" placeholder="Trade Name">
+        <div class="form-inline">
+          <label for="item" style="margin-left:10px">Item #</label>
+          <input style="width: 80%;margin-top: 20px;" type="text" class="form-control" id="PDR #" [(ngModel)]="itemcode" name="item" value="" >
+        </div>
+        <div class="form-inline">
+          <label for="trade" style="margin-left:10px">Trade Name</label>
+          <input style="width:80%;margin-top: 20px;" type="text" class="form-control" id="Project Name" [(ngModel)]="tradename" name="trade" value="">
+          </div>
+        </div>
       </div>
-    </div>
     <div class="form-row" style="margin-top:5px;">
       <div class="form-group col-md-4">
         <div class="form-inline">
           <label for="PDR #" style="margin-left:10px;margin-top:10px;">Quantity</label>
-          <input style="width:30%;margin-left:10px" type="text" class="form-control" id="Project Name">
-          <select id="PRD" class="form-control" style="width:20%;margin-left: 10px;">
-            <option selected>Kg</option>
-            <option>Custom</option>
-            <option>RAWS-RAWS</option>
-            <option>RM-Raw Mat</option>
+          <input style="width:30%;margin-left:10px" type="text" class="form-control" id="Project Name" [(ngModel)]="quantity" name="qty" value="">
+          <select id="PRD" class="form-control" style="width:20%;margin-left: 10px;" [(ngModel)]="qtyunit" name="unit" value="">
+
+            <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitname}}>{{defaultUOM.Unitname}}</option>
           </select>
 
         </div>
@@ -33,12 +43,10 @@
       <div class="form-group col-md-4">
         <div class="form-inline">
           <label for="PDR #" style="margin-left:10px;margin-top:10px;">Volume Price $</label>
-          <input style="width:30%;margin-left:10px" type="text" class="form-control" id="Project Name">
-          <select id="PRD" class="form-control" style="width:20%;margin-left: 10px;">
-            <option selected>Kg</option>
-            <option>Custom</option>
-            <option>RAWS-RAWS</option>
-            <option>RM-Raw Mat</option>
+          <input style="width:30%;margin-left:10px" type="text" class="form-control" id="Project Name" [(ngModel)]="volprice" name="prize" value="">
+          <select id="PRD" class="form-control" style="width:20%;margin-left: 10px;" [(ngModel)]="vpunit" name="unit" value="">
+
+            <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitname}}>{{defaultUOM.Unitname}}</option>
           </select>
 
         </div>
@@ -46,7 +54,7 @@
       <div class="form-group col-md-4">
         <div class="form-inline">
           <label for="PDR #" style="margin-left:10px;margin-top:10px;">Lead Time</label>
-          <input style="width:40%;margin-left:10px" type="text" class="form-control" id="Project Name">
+          <input style="width:40%;margin-left:10px" type="text" class="form-control" id="Project Name" [(ngModel)]="leadtime" name="qty" value="">
         </div>
       </div>
     </div>
@@ -55,23 +63,22 @@
 
       <label for="data_requirements">Comments / Lead Time</label>
 
-      <textarea id="data_requirements" style="width:80%;margin-left: 10px;" class="form-control md-textarea" size="7" rows="4"></textarea>
+      <textarea id="data_requirements" style="width:80%;margin-left: 10px;" class="form-control md-textarea" size="7" rows="4" [(ngModel)]="comments" name="com" value=""></textarea>
     </div>
     <div>
-
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 140px;">Save / Update</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 120px;">New / Clear</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 120px;">Delete</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 140px;" matDialogClose>Back</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 140px;" (click)=" Volumepricing_saveupdate();">Save / Update</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 120px;" (click)="Cleardata();">New / Clear</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-top: 20px; margin-right:10px;height:50px;float:right;width: 120px;" (click)="Volumepricing_delete();">Delete</button>
 
     </div>
     <div>
-      <p style="color:maroon;margin-top: 40px;"> Double click to view more details</p>
+      <p style="color:maroon;margin-top: 40px;font-weight:500"> Double click to view the details</p>
     </div>
 
     <div class=" form-row">
-      <div class="form-group col-md-12">
-
-        <table class="table table-hover table-striped" style="height:400px;background-color:white">
+      <div style="margin-left: 1%; margin-top: 1%; height: 33rem;width:99%; overflow-y: auto; background-color: white;border:solid;border-width:0.1px">
+        <table class="table table-hover table-bordered" style="height:400px;background-color:white">
           <thead>
             <tr>
               <th scope="col">INCI Name</th>
@@ -81,14 +88,19 @@
               <th scope="col">Price Unit</th>
               <th scope="col"> Lead Time</th>
               <th scope="col">Comments</th>
+              <th hidden scope="col">RMvolpricingID</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
+            <tr *ngFor="let vpload of vpload_data; let i=index;" (click)="setvpvalues(vpload);">
+              <td>{{ vpload.INCIName}}</td>
+              <td>{{ vpload.Quantity}}</td>
+              <td>{{ vpload.Qtyunit}}</td>
+              <td>{{ vpload.price}}</td>
+              <td>{{ vpload.priceunit}}</td>
+              <td>{{ vpload.Leadtime}}</td>
+              <td>{{ vpload.Comments}}</td>
+              <td hidden>{{ vpload.VolumepricingID}}</td>
             </tr>
           </tbody>
         </table>
@@ -99,14 +111,6 @@
   </div>
 
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
-
-
-
-   
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Close</button>
-
-
   </div>
 </div>
-
-

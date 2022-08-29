@@ -4,7 +4,7 @@
     <div class="form-group">
       <div class="form-inline">
         <label for="PDR #" style="margin-left:10px">CAS No</label>
-        <input style="width: 60%;margin-left:95px;" type="text" class="form-control" id="cas #" [(ngModel)]="casno" #casnumber name="casvalue" value="">
+        <input style="width: 60%;margin-left:95px;" type="text" class="form-control" id="cas #" [(ngModel)]="casno" #casnumber name="casvalue" value="" (click)="blurcasno($event)">
         <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%;width: 120px;" (click)="OpenSearchCAS()">Search CAS </button>
       </div>
 
@@ -14,14 +14,14 @@
     <div class="form-group">
       <div class="form-inline">
         <label for="PDR #" style="margin-left:10px">Description</label>
-        <input style="width: 60%;margin-left:70px;" type="text" class="form-control" id="descrptn" [(ngModel)]="description" #decrpname name="desp" value="">
+        <input style="width: 60%;margin-left:70px;" type="text" class="form-control" id="descrptn" [(ngModel)]="description" #decrpname name="desp" value="" (click)="blurdescription($event)">
         <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%;width: 120px;">Add CAS </button>
       </div>
     </div>
     <div class="form-group">
       <div class="form-inline">
         <label for="PDR #" style="margin-left:10px">EINECS/ELINCS No</label>
-        <input style="width: 60%;margin-left:2%;" type="text" class="form-control" id="elinc #" [(ngModel)]="einecs" #einecno name="eno" value="">
+        <input disabled style="width: 60%;margin-left:2%;" type="text" class="form-control" id="elinc #" [(ngModel)]="einecs" #einecno name="eno" value="">
       </div>
     </div>
   </form>

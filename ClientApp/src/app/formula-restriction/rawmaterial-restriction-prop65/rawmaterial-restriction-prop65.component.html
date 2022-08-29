@@ -20,40 +20,40 @@
 
     <div class="form-inline" style="padding-top:1%;">
       <label>Type of Toxicity</label>
-      <input style="margin-left: 1%; width: 45%;" type="text" class="form-control">
+      <input style="margin-left: 1%; width: 45%;" type="text" [(ngModel)]="toxicity" class="form-control" name="tox" value="">
     </div>
 
     <div class="form-inline" style="padding-top:1%;">
       <label>Listing Mechanism</label>
-      <input style="margin-left: 1%; width: 15%;" type="text" class="form-control">
+      <input style="margin-left: 1%; width: 15%;" type="text" [(ngModel)]="listing" class="form-control" name="list" value="">
 
     </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Date Listed</label>
-      <input style="margin-left: 1%; width: 15%;" type="date" class="form-control">
+      <input style="margin-left: 1%; width: 15%;" type="date" [(ngModel)]="cadate" class="form-control" name="dat" value="">
 
     </div>
 
     <div class="form-inline" style="padding-top:1%;">
       <label>NSRL or MADL(Ug/dat))</label>
-      <input style="margin-left: 1%; width: 15%;" type="text" class="form-control">
+      <input style="margin-left: 1%; width: 15%;" type="text" [(ngModel)]="nsdl" class="form-control" name="ns" value="">
 
     </div>
-   
+
     <div class="form-inline" style="padding-top:1%;">
       <label>Source of Info</label>
-      <input style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control">
+      <input style="margin-left: 1%; width: 45%;" type="text" rows="2" [(ngModel)]="sourceinfo" class="form-control" name="sorc" value="">
 
     </div>
-  
+
     <div class="form-inline" style="padding-top:1%;">
       <label>Source Regulation Doc Link</label>
-      <input style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control">
+      <input style="margin-left: 1%; width: 45%;" type="text" [(ngModel)]="sourceregdoc" rows="2" class="form-control" name="doc" value="">
 
     </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Internal Reg.Notes</label>
-      <textarea style="margin-left:1%; width: 45%;" type="text" rows="2" class="form-control"></textarea>
+      <textarea style="margin-left:1%; width: 45%;" type="text" [(ngModel)]="internalreg" rows="2" class="form-control" name="reg" value=""></textarea>
 
     </div>
   </form>
@@ -64,8 +64,7 @@
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px" matDialogClose>Close</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px">New</button>
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-top:1%;margin-left:10px">Save / Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-top:1%;margin-left:10px" (click)="Restriction_SaveUpdate();">Save / Update</button>
 
   </div>
 </div>
-

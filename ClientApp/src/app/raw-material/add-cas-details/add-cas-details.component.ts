@@ -1,10 +1,11 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddFunctionComponent } from '../add-function/add-function.component';
 import { SearchCASComponent } from './search-cas/search-cas.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DialogData } from 'src/app/raw-material/raw-material.component';
+import { MessageBoxComponent } from '../../message-box/message-box.component';
 @Component({
   selector: 'app-add-cas-details',
   templateUrl: './add-cas-details.component.html',
@@ -36,12 +37,23 @@ export class AddCASDetailsComponent implements OnInit {
     });
 
   }
-
+  blurcasno(event: any) {
+    this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Search the value from database using the search button.' } });
+    this.casno = '';
+  }
+  blurdescription(event: any) {
+    this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Search the value from database using the search button.' } });
+    this.description = '';
+  }
   CASsave(casnumber: string, einecno: string) {
     this.loaditemcode = this.datashare.getitemcode1();
     this.CASaveup(casnumber, einecno).subscribe((cas_Details) => {
       console.warn("cas_Details", cas_Details)
       this.CAS_Data = cas_Details
+
+      if (this.CAS_Data == "inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'CAS details saved successfully.' } });
+      }
     })
   }
 
@@ -50,7 +62,7 @@ export class AddCASDetailsComponent implements OnInit {
     var Casno = casno;
     var Einecs = einecs;
     let params1 = new HttpParams().set('ItemCode', itemcode).set('CASNo', Casno).set('EINECSNo', Einecs);
-    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/CASsave", { params: params1 })
+    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/CASsave", { params: params1, responseType: 'text' })
   }
   close() {
     this.dialogRef.close();

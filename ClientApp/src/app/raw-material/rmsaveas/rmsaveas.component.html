@@ -1,1 +1,111 @@
-<p>rmsaveas works!</p>
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <div class="col-sm-12">
+      <div style="background-color: #f6f5f1">
+        <form class="form-inline text-center" style="margin-bottom:20px;">
+
+          <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;margin-left:47%">Copying a Rawmaterial</h2>
+        </form>
+      </div>
+    </div>
+
+    <!--<div class="form-inline">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Ingredient Code</label>
+      <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="ingredient" name="ingcode" value="">
+    </div>-->
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">InciName</label>
+      <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="inciname" name="inci" value="">
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Supplier Key</label>
+      <input disabled style="width: 70%;" type="text" class="form-control" [(ngModel)]="suppkey" name="key" value="">
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Supplier Name</label>
+      <input disabled style="width: 70%;" type="text" class="form-control" [(ngModel)]="suppnam" name="supname" value="">
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="opensuppliers()">Search Supplier</button>
+      <!--<button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:1%;height:50px;width:100px;"(click)="opensuppliers();">Search</button>-->
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">TradeName</label>
+      <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="tradename" name="trade" value="">
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Item #</label>
+      <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="itemcode" name="item" value="">
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Default UOM</label>
+
+      <select id="PRD" class="form-control" style="width:15%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval1" value="">
+        <!--<option selected>{{changeunit}}</option>-->
+        <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitname}}>{{defaultUOM.Unitname}}</option>
+      </select>
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Current Cost $</label>
+      <input style="width: 20%;" type="text" class="form-control" [(ngModel)]="currcost" name="cost" value="">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Per</label>
+      <select id="PRD" class="form-control" style="width:15%;" [(ngModel)]="costunit" (change)="uomChange($event)" name="uomnameval1" value="">
+        <!--<option selected>{{changeunit}}</option>-->
+        <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitname}}>{{defaultUOM.Unitname}}</option>
+      </select>
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">as of</label>
+      <input style="width: 15%;" type="date" id="deliverdate" class="form-control" (change)="dateChange($event)" [(ngModel)]="pricedate" name="deliverdate" value="">
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Specific Gravity</label>
+      <input style="width: 30%;" type="text" class="form-control" [(ngModel)]="sg" name="deliverdate" value="" (blur)="blurEventsg($event)">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">LB/Gal</label>
+      <input style="width: 30%;" type="text" class="form-control" [(ngModel)]="lbgal" name="deliverdate" value="">
+    </div>
+
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Category</label>
+      <select id="PRD" class="form-control" style="width: 40%; margin-left: 5px; margin-top: 5px" [(ngModel)]="CategoryName" name="categ" value="" (change)="rawsubcateload();">
+        <option selected>Additive</option>
+        <option *ngFor="let option of datarawcategoryload ">{{option.categoryname}}</option>
+
+      </select>
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Status</label>
+      <select id="PRD" class="form-control" style="width: 40%; margin-left: 5px; margin-top: 5px" [(ngModel)]="Status" name="Stat" value="">
+        <option>Active</option>
+        <option>Experiment</option>
+        <option>Hold</option>
+        <option>Obsolete</option>
+        <option>Completed</option>
+        <option>DWS</option>
+      </select>
+    </div>
+    <div class="form-inline" style="margin-top:2%">
+      <label class="label1" style="font-size: medium;
+  font-family: Verdana;">Sub Category</label>
+      <select id="PRD1" class="form-control" style="width: 51%; margin-left: 1%" [(ngModel)]="SubCategoryName" name="subcateg" value="" (change)="onChange($event.target.value)">
+        <option *ngFor="let optionsub of datarawsubcategoryload ">{{optionsub.SubCategory}}</option>
+
+      </select>
+    </div>
+
+  </div>
+</div>
+
+
+<div style="margin-top:0.5%">
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:1%;height:50px;width:100px;" matDialogClose>Close</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:1%;height:50px;width:100px;" (click)=" Rawmaterial_Save();">Save</button>
+</div>

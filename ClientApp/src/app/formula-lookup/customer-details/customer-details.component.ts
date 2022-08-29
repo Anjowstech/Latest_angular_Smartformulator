@@ -240,6 +240,95 @@ export class CustomerDetailsComponent implements OnInit {
     var filebrowse = files.item.length;
     this.Document1 = files.item(0).name;
   }
+  handleFileInput2(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document2 = files.item(0).name;
+  }
+  handleFileInput3(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document3 = files.item(0).name;
+  }
+  handleFileInput4(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document4 = files.item(0).name;
+  }
+  handleFileInput5(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document5 = files.item(0).name;
+  }
+  handleFileInput6(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document6 = files.item(0).name;
+  }
+  handleFileInput7(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document7 = files.item(0).name;
+  }
+  handleFileInput8(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document8 = files.item(0).name;
+  }
+  handleFileInput9(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document9 = files.item(0).name;
+  }
+  handleFileInput10(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document10 = files.item(0).name;
+  }
+  handleFileInput11(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document11 = files.item(0).name;
+  }
+  handleFileInput12(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document12 = files.item(0).name;
+  }
+  handleFileInput13(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document13 = files.item(0).name;
+  }
+  handleFileInput14(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document14 = files.item(0).name;
+  }
+  handleFileInput15(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document15 = files.item(0).name;
+  }
+  handleFileInput16(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document16 = files.item(0).name;
+  }
+  handleFileInput17(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document18 = files.item(0).name;
+  }
+  handleFileInput19(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document19 = files.item(0).name;
+  }
+  handleFileInput20(files: FileList) {
+    var filebrowse = files.item.length;
+    this.Document20 = files.item(0).name;
+  }
+  handleFileInputattachment(files: FileList) {
+    var filebrowse = files.item.length;
+    this.attachment = files.item(0).name;
+  }
+  handleFileInputattachmentLabelAttachment(files: FileList) {
+    var filebrowse = files.item.length;
+    this.LabelAttachment = files.item(0).name;
+  }
+  handleFileInputattachmentFillingAttachment1(files: FileList) {
+    var filebrowse = files.item.length;
+    this.FillingAttachment = files.item(0).name;
+  }
+  handleFileInputattachmentFillingAttachment2(files: FileList) {
+    var filebrowse = files.item.length;
+    this.FillingAttachment2 = files.item(0).name;
+  }
+ 
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
       width: '60%', height: '70%', disableClose: true
@@ -902,24 +991,24 @@ export class CustomerDetailsComponent implements OnInit {
     // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
   }
   deleteRowerp() {
-    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //if (this.selectedRowIndex == -1) {
-    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //}     
-    //this.dataGrid.instance.deselectAll();
-    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ${result}');
-      this.deleterowdelete = result;
-      if (this.deleterowdelete == "false") { }
-      else {
-        this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-        if (this.selectedRowIndex == -1) {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-        }
-        this.dataGrid.instance.deselectAll();
-      }
-    });
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    if (this.selectedRowIndex == -1) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    }     
+    this.dataGrid.instance.deselectAll();
+    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    //dialogRef.afterClosed().subscribe(result => {
+    //  console.log('The dialog was closed: ${result}');
+    //  this.deleterowdelete = result;
+    //  if (this.deleterowdelete == "false") { }
+    //  else {
+    //    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //    if (this.selectedRowIndex == -1) {
+    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //    }
+    //    this.dataGrid.instance.deselectAll();
+    //  }
+    //});
   }
   selectedChangederp(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
@@ -1025,50 +1114,50 @@ export class CustomerDetailsComponent implements OnInit {
 
   }
   retailwholsaledelete() {
-    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //(this.selectedRowIndex);
-    //if (this.selectedRowIndex == -1) {
-    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //}
-    //this.dataGrid.instance.deselectAll();
-    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ${result}');
-      this.deleterowdelete = result;
-      if (this.deleterowdelete == "false") { }
-      else {
-        this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-        if (this.selectedRowIndex == -1) {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-        }
-        this.dataGrid.instance.deselectAll();
-      }
-    });
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    (this.selectedRowIndex);
+    if (this.selectedRowIndex == -1) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    }
+    this.dataGrid.instance.deselectAll();
+    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    //dialogRef.afterClosed().subscribe(result => {
+    //  console.log('The dialog was closed: ${result}');
+    //  this.deleterowdelete = result;
+    //  if (this.deleterowdelete == "false") { }
+    //  else {
+    //    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //    if (this.selectedRowIndex == -1) {
+    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //    }
+    //    this.dataGrid.instance.deselectAll();
+    //  }
+    //});
   }
   selectedChangedwholeretail(e) { this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]); }
 
   deleteRow() {
-    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //(this.selectedRowIndex);
-    //if (this.selectedRowIndex == -1) {
-    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //}
-    //this.dataGrid.instance.saveEditData();
-    //this.dataGrid.instance.deselectAll();
-    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ${result}');
-      this.deleterowdelete = result;
-      if (this.deleterowdelete == "false") { }
-      else {
-        this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-        if (this.selectedRowIndex == -1) {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-        }
-         this.dataGrid.instance.saveEditData();
-         this.dataGrid.instance.deselectAll();
-      }
-    });
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    (this.selectedRowIndex);
+    if (this.selectedRowIndex == -1) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    }
+    this.dataGrid.instance.saveEditData();
+    this.dataGrid.instance.deselectAll();
+    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    //dialogRef.afterClosed().subscribe(result => {
+    //  console.log('The dialog was closed: ${result}');
+    //  this.deleterowdelete = result;
+    //  if (this.deleterowdelete == "false") { }
+    //  else {
+    //    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //    if (this.selectedRowIndex == -1) {
+    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //    }
+    //     this.dataGrid.instance.saveEditData();
+    //     this.dataGrid.instance.deselectAll();
+    //  }
+    //});
   }
   selectedChanged(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
@@ -1587,25 +1676,25 @@ export class CustomerDetailsComponent implements OnInit {
     this.dataGrid.instance.saveEditData();
   }
   deleterowvalidatedbatch() {
-    //this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
-    //(this.selectedRowIndex);
-    //if (this.selectedRowIndex == -1) {
-    //  this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //}
-    //this.dataGrid.instance.deselectAll();
-    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ${result}');
-      this.deleterowdelete = result;
-      if (this.deleterowdelete == "false") { }
-      else {
-        this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
-        if (this.selectedRowIndexvali == -1) {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-        }
-        this.dataGrid.instance.deselectAll();
-      }
-    });
+    this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
+    (this.selectedRowIndex);
+    if (this.selectedRowIndex == -1) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    }
+    this.dataGrid.instance.deselectAll();
+    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
+    //dialogRef.afterClosed().subscribe(result => {
+    //  console.log('The dialog was closed: ${result}');
+    //  this.deleterowdelete = result;
+    //  if (this.deleterowdelete == "false") { }
+    //  else {
+    //    this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
+    //    if (this.selectedRowIndexvali == -1) {
+    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    //    }
+    //    this.dataGrid.instance.deselectAll();
+    //  }
+    //});
   }
   selectedChangedvalid(e) {
     this.selectedRowIndexvali = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
@@ -1684,7 +1773,32 @@ ClearData()
   this.contactno = '';
   this.Shiptolocation = '';
   this.Statefull = '';
-  }
+
+  this.Document1 = "";
+  this.Document2 = "";
+  this.Document3 = "";
+  this.Document4 = "";
+  this.Document5 = "";
+  this.Document6 = "";
+  this.Document7 = "";
+  this.Document8 = "";
+  this.Document9 = "";
+  this.Document10 = "";
+  this.Document11 = "";
+  this.Document12 = "";
+  this.Document13 = "";
+  this.Document14 = "";
+  this.Document15 = "";
+  this.Document16 = "";
+  this.Document17 = "";
+  this.Document18 = "";
+  this.Document19 = "";
+  this.Document20 = "";
+  this.FillingAttachment = "";
+  this.FillingAttachment2 = "";
+  this.LabelAttachment = "";
+  this.attachment = "";
+    }
   termChange(event) {
     this.terms = event.target.value;
 }
