@@ -2630,7 +2630,7 @@ export class RawMaterialComponent implements OnInit {
         cmbLastper: this.LastPOUnit,
         CmbPriorityno: this.CurrSupplierPriority,
         NPAExpiry: this.NPAExpiry,
-        oldpriorityno: this.CurrSupplierPriority,
+        oldpriorityno: this.oldpriorno,
         RMAbbreviation: 'CUSTOM',
         ifracas: '',
         IsIFRAFilled: '',
@@ -2643,8 +2643,15 @@ export class RawMaterialComponent implements OnInit {
         shippingprice: this.shippingprize,
         shippingpricedate: this.shippingpricedate,
 
+        dtpLastCost: this.LastPODt,
+        oldstdcost: this.oldStdCost,
+        oldcost: this.oldCost,
+        oldpriorityNA: this.oldpriority,
+      
 
       }]);
+      //LastPODt: this.LastPODt,
+
       this.DataListAudit[0] = ([{
         txtRegulatoryNotes: '',
         txtWord1: '',
@@ -2737,7 +2744,7 @@ export class RawMaterialComponent implements OnInit {
     var datalistifra: any = JSON.stringify(this.DataListIFRA);
     var UserName: any = "admin";
     let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra).set('username', UserName);
-    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
+    return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
   }
   Deleteus_dt() {
     this.Deleteusweb().subscribe((Deleteus) => {
@@ -3100,6 +3107,7 @@ export class RawmaterialData {
 
 
 }
+
 export class AuditData {
   txtRegulatoryNotes: string;
   txtWord1: string;
@@ -3268,7 +3276,6 @@ export class Datasave {
   IsIFRAFilled: string;
   IsIFRAAudit: string;
 
-
   shippingpriceunit: string;
   stdpriceunit: string;
   stdprice: string;
@@ -3276,4 +3283,10 @@ export class Datasave {
   shippingprice: string;
   shippingpricedate: string;
 
+  dtpLastCost: string;
+  oldstdcost: string;
+  oldcost: string;
+  oldpriorityNA: string;
 }
+
+       
