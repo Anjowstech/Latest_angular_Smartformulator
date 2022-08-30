@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
+
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuItemComponent } from './menu-item/menu-item.component';
@@ -18,6 +18,7 @@ import { pipfilter1 } from 'src/app/pipfilter1';
 import { pipefilter2 } from 'src/app/pipefilter2';
 import { pipefilterformulaname } from 'src/app/pipefilterformulaname';
 import { pipefiltersorting } from 'src/app/pipefiltersorting';
+import { sortingfilter } from 'src/sortingfilter';
 
 import { UserSecurityComponent } from './user-security/user-security.component';
 import { GroupSetPermissionComponent } from './user-security/group-set-permission/group-set-permission.component';
@@ -67,6 +68,7 @@ import { EditUserComponent } from './user-security/edit-user/edit-user.component
 import { RawMaterialComponent } from './raw-material/raw-material.component';
 import { AddSupplierComponent } from './raw-material/add-supplier/add-supplier.component';
 import { SearchSupplierComponent } from './raw-material/add-supplier/search-supplier/search-supplier.component';
+
 import { AddPrefixComponent } from './raw-material/add-supplier/add-prefix/add-prefix.component';
 import { SearchINCINameComponent } from './raw-material/search-inci-name/search-inci-name.component';
 import { RawSearchSupplierComponent } from './raw-search-supplier/raw-search-supplier.component';
@@ -158,11 +160,21 @@ import { QualityControlComponent } from './quality-control/quality-control.compo
 import { AddQctestComponent } from './quality-control/add-qctest/add-qctest.component';
 import { AddQcunitComponent } from './quality-control/add-qcunit/add-qcunit.component';
 import { UpdateQcComponent } from './formula-lookup/update-qc/update-qc.component';
+import { ImportCustPreferenceComponent } from './formula-lookup/customer-details/import-cust-preference/import-cust-preference.component';
+import { CustomerListingComponent } from './customer-listing/customer-listing.component';
+import { SupplierListingComponent } from './supplier-listing/supplier-listing.component';
+
+import { SearchSubmissionComponent } from './sample-management/search-submission/search-submission.component';
+import { PDRListSearchComponent } from './sample-management/pdrlist-search/pdrlist-search.component';
+import { SearchFormulalistComponent } from './sample-management/search-formulalist/search-formulalist.component';
+import { UnapprovedRawmaterialComponent } from './sample-management/unapproved-rawmaterial/unapproved-rawmaterial.component';
+import { SampleManagementComponent } from './sample-management/sample-management.component';
+import { FormulaListStatusComponent } from 'src/app/formula-status/formula-status.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
     path: 'Home', component: HomeComponent, children: [{ path: '', component: HomepageComponent, pathMatch: 'full' }, 
-      { path: 'counter', component: CounterComponent },
+      
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'AdminWork', component: AdminWorkComponent },
       { path: 'UserSecurity', component: UserSecurityComponent },
@@ -238,7 +250,14 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'qualitycontrol', component: QualityControlComponent },
       { path: 'AddQctest', component: AddQctestComponent },
       { path: 'AddQcunit', component: AddQcunitComponent },
-      { path: 'UpdateQc', component: UpdateQcComponent }
+      { path: 'UpdateQc', component: UpdateQcComponent },
+      { path: 'SupplierListing', component: SupplierListingComponent },
+      { path: 'SampleManagement', component: SampleManagementComponent },
+      { path: 'UnapprovedRawmaterials', component: UnapprovedRawmaterialComponent },
+      { path: 'SearchSubmission', component: SearchSubmissionComponent },
+      { path: 'PDRListSearch', component: PDRListSearchComponent },
+      { path: 'SearchFormulalist', component: SearchFormulalistComponent },
+      { path: 'FormulaListStatus', component: FormulaListStatusComponent }
     ]
   }
 ];
@@ -252,6 +271,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     FilterPipe,
     pipfilter1,
     pipefilter2,
+    sortingfilter,
     pipefiltersorting,
     pipefilterformulaname,
     AddGroupComponent,
@@ -267,7 +287,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     NavMenuComponent,
     HomeComponent,
     FilterPipe1,
-    CounterComponent,
+    
     FetchDataComponent,
     MenuItemComponent,
     AdminWorkComponent,
@@ -363,6 +383,16 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     AddQctestComponent,
     AddQcunitComponent,
     UpdateQcComponent,
+    ImportCustPreferenceComponent,
+    CustomerListingComponent,
+    SupplierListingComponent,
+    SampleManagementComponent,
+    UnapprovedRawmaterialComponent,
+    SearchSubmissionComponent,
+    PDRListSearchComponent,
+    SearchFormulalistComponent,
+    FormulaListStatusComponent,
+    UnapprovedRawmaterialComponent,
     
   ],
   imports: [
@@ -406,6 +436,6 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   bootstrap: [AppComponent],
   entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
-    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent]
+    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, UnapprovedRawmaterialComponent, SearchSubmissionComponent, SearchFormulalistComponent, PDRListSearchComponent, FormulaListStatusComponent]
 })
 export class AppModule { }

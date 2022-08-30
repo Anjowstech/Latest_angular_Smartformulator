@@ -1,0 +1,558 @@
+<div style="    background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:84vh;width:100%">
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formula Restrictions</h2>
+
+    <div class="form-row" style=" " *ngFor="let restrictproject of restrictionprojectload ">
+      <div class="form-group col-md-6">
+        <div class="form-inline" style="padding-top:1%;">
+          <label class="label1" for="inputcust" style="margin-left:5%">Formula Code</label>
+          <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="formulacode">
+        </div>
+        <div class="form-inline" style="padding-top:1%;">
+          <label class="label1" for="inputcust" style="margin-left:5%">Formula Name</label>
+          <input style="width: 70%;" type="text" class="form-control"[(ngModel)]="formulaname">
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="form-inline" style="padding-top:1%;">
+          <label class="label1" for="inputcust">Customer Name</label>
+          <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="restrictproject.cusname">
+          <input  style="width: 70%;" type="text" class="form-control" [(ngModel)]="restrictproject.cuscode" #cusvalue name="restrictproject.cuscode" value="" id="customercode">
+        </div>
+       
+        <div class="form-inline" style="padding-top:1%;">
+          <label class="label1" for="inputcust">PDR #</label>
+          <input style="width: 70%;" type="text" class="form-control" [(ngModel)]="restrictproject.pdrno">
+
+        </div>
+      </div>
+    </div>
+
+    <nav ngbNav #nav="ngbNav"  [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " (click)="fetchtabid(active)"  ngbNavLink>Ingredient Details in Percentage</a>
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%;font:bolder;color:red">Double click on each restriction cell to view more details of corresponding country's restrictions</label><br />
+          <label style="margin-left:1%;">Abbreviations: JP - Japan , AU - Australia , CN - China , CA-California , CAN - Canada, CP - Customer Preference, IFRA - International Fragrance Association</label>
+          <div style="margin-left:1%; height:500px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th class="header" scope="col">INCI Name</th>
+                  <th  class="header"scope="col" style="width:10%;text-align:right">Quantity</th>
+                  <th class="header" scope="col" style="width:5%">Unit</th>
+                  <th class="header" scope="col" style="width:3%">EU</th>
+                  <th class="header" scope="col" style="width:3%">US</th>
+                  <th class="header" scope="col" style="width:3%">CAN</th>
+                  <th class="header" scope="col" style="width:3%">JP</th>
+                  <th class="header" scope="col" style="width:3%">AU</th>
+                  <th class="header" scope="col" style="width:3%">CH</th>
+                  <th class="header" scope="col" style="width:3%">CA</th>
+                  <th class="header" scope="col" style="width:3%">CP</th>
+                  <th class="header" scope="col" style="width:3%">IFRA</th>
+                  <th class="header" scope="col" style="width:3%">Gluten</th>
+                  <th class="header" scope="col" style="width:3%">GMO</th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+
+                <tr *ngFor="let restrict of restrictionload " #conten>
+
+                  <td [ngStyle]="calcStyles(restrict.EU,restrict.US,restrict.CAN,restrict.JP,restrict.AU, restrict.CN, restrict.CA, restrict.CP)">{{ restrict.INCINAME }}</td>
+                 
+                  <td  style="text-align:right" [ngStyle]="calcStyles(restrict.EU,restrict.US,restrict.CAN,restrict.JP,restrict.AU, restrict.CN, restrict.CA, restrict.CP)">{{ restrict.Quantity}}</td>
+                  <td style="text-align:center" [ngStyle]="calcStyles(restrict.EU,restrict.US,restrict.CAN,restrict.JP,restrict.AU, restrict.CN, restrict.CA, restrict.CP)">{{ restrict.Unit }}</td>
+                  <td style="text-align:center;color:red"><a (click)=" backtorestrictioneu();">{{ restrict.EU}}</a></td>
+                  <td style="text-align:center;color:red"><a (click)=" backtorestrictionus();">{{ restrict.US}}</a></td>
+                  <td style="text-align:center;color:red"><a (click)=" backtorestrictioncan();">{{ restrict.CAN}}</a></td>
+                  <td style="text-align:center;color:red"><a (click)=" backtorestrictionjpn();">{{ restrict.JP}}</a></td>
+                  <td style="text-align:center;color:red"><a (click)=" backtorestrictionaus();">{{ restrict.AU}}</a></td>
+                  <td style="text-align:center;color:red"><a (click)=" backtorestrictionca();">{{ restrict.CN}}</a></td>
+                  <td style="text-align:center;color:red"><a (click)="  backtorestrictioncaprop65(); ">{{ restrict.CA}}</a></td>
+                  <td style="text-align:center;color:red"><a >{{ restrict.CP}}</a></td>
+                  <td style="text-align:center;color:red"><a >{{ restrict.IFRA}}</a></td>
+                  <td style="text-align:center;color:red"><a>{{ restrict.Gluten}}</a></td>
+                  <td style="text-align:center;color:red"><a>{{ restrict.GMO}}</a></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <label style="margin-left:1%;margin-top:1%;color:red">Restrictions are Displayed in Red Color</label>
+
+</ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="2"style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " (click)="fetchtabid(active)" ngbNavLink>EU Restrictions</a>
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                  <th  style="text-align:right" scope="col">Field of Application</th>
+                  <th  style="text-align:right" scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                     
+                  <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; "  *ngIf="isLoading;else conten" color="accent"
+                                        mode="indeterminate">
+                  </mat-progress-spinner>
+                
+                <tr *ngFor="let restrict of restrictionload" (click)=" Rawmaterialrestriction( restrict.FieldOfApplication,restrict.PercentageAllowed,restrict.INCINAME);" #conten>
+                  <td [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.INCINAME }}</td>
+                  <td   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.FieldOfApplication}}</td>
+                  <td style="text-align:right"  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageAllowed }}</td>
+                  <td style="text-align:right"  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+
+
+          <div class="form-inline">
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+
+           
+            <textarea class="form-control" id="Restrictions" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%;color:red">
+{{restrcheck}}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="3" style="margin-left:20px;">
+        <a class="tabcolor tabbutto tabrowli "(click)="fetchtabid(active)" ngbNavLink>US Restrictions</a>
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%;height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                 
+                  <th  style="text-align:right" scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload " (click)=" Rawmaterialrestrictionus();"  #conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)" >{{ restrict.INCINAME }}</td>
+
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageAllowed }}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-inline" >
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%; color:red">{{restrcheck}}
+</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="4" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " (click)="fetchtabid(active)" ngbNavLink>Canada (CAN) Restrictions</a>
+
+
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Field of Application</th>
+                  <th  style="text-align:right" scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload "(click)=" Rawmaterialrestriction( restrict.FieldOfApplication,restrict.PercentageAllowed,restrict.INCINAME);" #conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.INCINAME }}</td>
+                  <td   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.FieldOfApplication}}</td>
+                  <td  style="text-align:right"  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageAllowed }}</td>
+                  <td  style="text-align:right"  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+
+            <div class="form-inline">
+              <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+              <textarea class="form-control" id="Restrictionsjpn" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%;color:red">{{restrcheck}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="5" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli "   (click)="fetchtabid(active)" ngbNavLink>Japan (JP) Restrictions</a>
+
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Field of Application</th>
+                  <th  style="text-align:right" scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload "(click)=" Rawmaterialrestriction( restrict.FieldOfApplication,restrict.PercentageAllowed,restrict.INCINAME);"#conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.INCINAME }}</td>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.FieldOfApplication}}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageAllowed }}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="form-inline">
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+            <textarea class="form-control" id="Restrictionsjpn" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%;color:red">{{restrcheck}}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="6" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli "  (click)="fetchtabid(active)" ngbNavLink>Australia (AU) Restrictions </a>
+
+
+        <!--<ng-template ngbTabTitle><span style="color:maroon;">Australia (AU) Restrictions </span></ng-template>-->
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                  <th  scope="col">Field of Application</th>
+                  <th   style="text-align:right"scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload  " (click)=" Rawmaterialrestriction( restrict.FieldOfApplication,restrict.PercentageAllowed,restrict.INCINAME);"#conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.INCINAME }}</td>
+                  <td   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.FieldOfApplication}}</td>
+                  <td  style="text-align:right"  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageAllowed }}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="form-inline">
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+            <textarea class="form-control" id="RestrictionsAU" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%;color:red">{{restrcheck}}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="7" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli "   (click)="fetchtabid(active)"ngbNavLink>China (CH) Restrictions  </a>
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Field of Application</th>
+                  <th  style="text-align:right" scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload "(click)=" Rawmaterialrestriction( restrict.FieldOfApplication,restrict.PercentageAllowed,restrict.INCINAME);"#conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.INCINAME }}</td>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.FieldOfApplication}}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageAllowed }}</td>
+                  <td  style="text-align:right"  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="form-inline">
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+         
+                <textarea class="form-control" id="RestrictionsAU" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%;color:red">{{restrcheck}}</textarea>
+            
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="8" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli "  (click)="fetchtabid(active)" ngbNavLink>CA PROP 65 </a>
+
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                 
+                  <th scope="col">INCI Name</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                  <th  scope="col">Type of Toxicity</th>
+                  <th  style="text-align:right" scope="col">CASNo</th>
+                  <th  style="text-align:right" scope="col">NSRL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload " (click)="Rawmaterialrestrictionprop65();" #conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.INCINAME }}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.PercentageUsed}}</td>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.Typeoftoxity}}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.CASNo}}</td>
+                  <td style="text-align:right"   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)">{{ restrict.NSRL}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-inline">
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+            <textarea class="form-control" id="RestrictionsCAProp" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%;color:red">{{restrcheck}}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="9" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " (click)="fetchtabid(active)" ngbNavLink>Customer Preference (CP) </a>
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+               
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Field of Application</th>
+                  <th  style="text-align:right" scope="col">Percentage Allowed</th>
+                  <th  style="text-align:right" scope="col">Percentage Used</th>
+                  <th  scope="col">Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload "#conten>
+                  <td  [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)" >{{ restrict.INCINAME }}</td>
+                  <td   [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)" >{{ restrict.FieldOfApplication}}</td>
+                  <td [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)" style="text-align:right" >{{ restrict.PercentageAllowed}}</td>
+                  <td [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)" style="text-align:right">{{ restrict.PercentageUsed}}</td>
+                  <td [ngStyle]="calcStylesEU(restrict.PercentageAllowed,restrict.PercentageUsed)" >{{ restrict.Comments}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+
+            <div class="form-inline">
+              <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+              <textarea class="form-control" id="RestrictionsAU" rows="4" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%">{{restrcheck}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:6%" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="10" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " (click)="fetchtabid(active)" ngbNavLink>IFRA QRA Restrictions  </a>
+
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                 
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Amd#</th>
+                  <th scope="col">Cat-1A</th>
+                  <th scope="col">Cat-1B</th>
+                  <th scope="col">Cat-2</th>
+                  <th scope="col">Cat-3A</th>
+                  <th scope="col">Cat-3B</th>
+                  <th scope="col">Cat-3C</th>
+                  <th scope="col">Cat-3D</th>
+                  <th scope="col">Cat-4A</th>
+                  <th scope="col">Cat-4B</th>
+                  <th scope="col">Cat-4C</th>
+                  <th scope="col">Cat-4D</th>
+                  <th scope="col">Cat-5</th>
+                  <th scope="col">Cat-6</th>
+                  <th scope="col">Cat-7</th>
+                  <th scope="col">Cat-7B</th>
+                  <th scope="col">Cat-8</th>
+                  <th scope="col">Cat-8B</th>
+                  <th scope="col">Cat-9</th>
+                  <th scope="col">Cat-9B</th>
+                  <th scope="col">Cat-9C</th>
+                  <th scope="col">Cat-10</th>
+                  <th scope="col">Cat-10B</th>
+                  <th scope="col">Cat-11</th>
+                  <th scope="col">Cat-11B</th>
+
+
+
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload " #conten>
+                  <td>{{ restrict.INCINAME }}</td>
+                  <td>{{restrict.Amendment}}</td>
+                   <td>{{restrict.Category1}}</td>
+                   <td>{{restrict.Category1B}}</td>
+                   <td>{{restrict.Category2}}</td>
+                   <td> {{restrict.Category3}}</td>
+                   <td>{{ restrict.Category3B}}</td> 
+                   <td> {{restrict.Category3C}}</td>
+                   <td> {{restrict.Category3D}}</td>
+                   <td> {{restrict.Category4}}</td>
+                   <td> {{restrict.Category4B}}</td>
+                   <td> {{restrict.Category4C}}</td> 
+                   <td>{{restrict.Category4D}}</td> 
+                   <td>{{restrict.Category5}}</td> 
+                   <td>{{restrict.Category6}}</td> 
+                   <td>{{restrict.Category7}}</td>
+                   <td>{{restrict.Category7B}}</td>
+                   <td>{{restrict.Category8}}</td>
+                   <td> {{restrict.Category8B}}</td>
+                   <td>{{restrict.Category9}}</td>
+                   <td> {{restrict.Category9B}}</td>
+                   <td>{{restrict.Category9C}}</td>
+                   <td>{{restrict.Category10}}</td>
+                   <td>{{restrict.Category10B}}</td>
+                   <td>{{restrict.Category11}}</td>
+                   <td>{{restrict.Category11B}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+
+            <div class="form-inline">
+              <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+              <textarea class="form-control" id="RestrictionsCAProp" rows="4" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%"></textarea>
+            </div>
+
+            <label style="float:left;margin-top:6%; font:200;font-style:italic">*Note - cat -Category ,Amend# - Amendment No</label>
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:6%" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="11" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli " (click)="fetchtabid(active)" ngbNavLink>Impurities </a>
+
+
+        <ng-template ngbNavContent>
+          <label style="margin-left:1%; color:maroon">Double click to view raw material restrictions details</label>
+          <div style="margin-left:1%; height:370px; overflow-y: auto;">
+            <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Field of Application</th>
+                  <th scope="col">Percentage Allowed</th>
+                  <th scope="col">Percentage Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let restrict of restrictionload " #conten>
+                  <td>{{ restrict.INCINAME }}</td>
+                  <td  >{{ restrict.FieldOfApplication}}</td>
+                  <td style="text-align:right" >{{ restrict.PercentageAllowed }}</td>
+                  <td style="text-align:right" >{{ restrict.PercentageUsed}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+
+          <div class="form-inline">
+            <label style="margin-left:1%;margin-top:1%">Restrictions</label>
+            <textarea class="form-control" id="Restrictionsimpurities" rows="6" style="width:93%; height: 80%; margin-left: 1%;margin-top:1%"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:30px;margin-top:5px" (click)="backtorestrictiongrid();">Back To Restrictions Grid</button>
+        </ng-template>
+      </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+
+  </div>
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+    <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:1%"(click)="deletetempprocess(); backtoformulation();"[routerLink]="'/Home/Formulalookup'">Back to Formulation</button>
+    <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:10px;margin-top:1%">Print Preview</button>
+   
+
+  </div>
+</div>
+

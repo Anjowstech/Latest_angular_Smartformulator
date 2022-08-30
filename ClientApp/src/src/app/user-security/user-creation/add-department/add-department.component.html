@@ -1,0 +1,49 @@
+<div style="background-color: #f6f5f1">
+  <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+    <h2 style="   margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+    <h2 style="     margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+    <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Add Department</h2>
+  </form>
+  <div>
+    <form class="form-inline" style="background-color: #f6f5f1;margin-top: 10px;">
+      <label for="companylogo" style="margin-left: 35px;">Department Name</label>
+      <input type="text" [(ngModel)]="selecteduserfalse.Department" style="margin-left: 78px;" class="form-control" id="PDR" size="50" #deptname name="departmentdata" value="">
+    </form>
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top: 10px;">
+      <label for="companylogo" style="margin-left: 35px;">Remarks</label>
+      <!--<input type="text" style="margin-left: 40px;" class="form-control" id="PDR" size="50" #mailser>-->
+      <textarea [(ngModel)]="selecteduserfalse.Remarks" class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-left:145px;width:450px;" name="remarksdata" #Remarks value=""></textarea>
+      <!--<button class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;width:80px;" (click)="mailser.value=''">Clear</button>-->
+    </form>
+  </div>
+  <div>
+    <form class="form-inline" style="   margin-top: 30px;margin-bottom:20px">
+      <mat-dialog-actions>
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:190px;height:50px;width:100px;" (click)="deletedept()"matDialogClose>Delete</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;"(click)="deptname.value='';Remarks.value='';">Clear </button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;" (click)="SaveDept(deptname.value,Remarks.value)" matDialogClose>Save</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;" (click)="updatedept(deptname.value,Remarks.value)"matDialogClose >Update </button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:110px;" matDialogClose>Cancel</button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <table class="table table-hover table-bordered fixed" style="background-color:white;">
+      <thead>
+        <tr>
+          <th class="header" scope="col" style="width: 50px;visibility: hidden">#</th>
+          <th class="header" scope="col" style="width:290px;">Department Name</th>
+          <th class="header" scope="col" style="width:490px;">Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+        <tr *ngFor="let deptloading of data1" (click)="highlightRow(deptloading);selecteduserdet(deptloading);"[ngClass] = "{'highlight' : deptloading.DeptID == selectedName}">
+          <td style="visibility: hidden">{{deptloading.DeptID}}</td>
+          <td>{{deptloading.Department}}</td>
+          <td>{{deptloading.Remarks}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,469 @@
+<div style="    background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center;margin-top:1%">Formula Status</h2>
+
+    <form class="form-inline" style="    background-color: #f6f5f1;margin-top:1%">
+      <label for="formulaname" style="margin-left:82px">Formula Name</label>
+      <input type="text" style="margin-left: 20px; width:40%" class="form-control" placeholder="Enter Formula Name" id="formula_name">
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;">Search</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 40px; ">Clear</button>
+    </form>
+    <div style="margin-top:1%">
+      <nav ngbNav #nav="ngbNav" class="nav-tabs scrolling-wrapper">
+        <ng-container ngbNavItem style="margin-left:20px">
+          <a class="tabcolor tabbutto tabrowli " ngbNavLink>General</a>
+          <ng-template ngbNavContent>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-9">
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="formulacode">Formula Code</label>
+                    <input type="number" class="form-control" id="formulacode" placeholder="" style="width:50%;">
+
+
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="pdr#">PDR #</label>
+                    <input type="text" class="form-control" id="pdr#" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="projectname">Project Name</label>
+                    <input type="text" class="form-control" id="proj_name" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="customername">Customer Name</label>
+                    <input type="text" class="form-control" id="cust_name" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" id="category" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="subcategory">Sub Category</label>
+                    <input type="text" class="form-control" id="subcategory" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="formulastatus">Formula Status</label>
+                    <input type="text" class="form-control" id="formulastatus" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="tradename">Trade Name</label>
+                    <input type="text" class="form-control" id="tradename" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="formulacost">Formula Cost $</label>
+                    <input type="text" class="form-control" id="formulacost" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="gravity">Gravity</label>
+                    <input type="text" class="form-control" id="gravity" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="shelflife">Shelf Life</label>
+                    <input type="text" class="form-control" id="shelflife" placeholder="" style="width:30%;">
+                    <input type="text" class="form-control" id="shelflife" placeholder="" style="width:30%;">
+                  </div>
+
+
+
+                </div>
+                <div class="form-group col-md-3"></div>
+              </div>
+
+            </form>
+          </ng-template>
+        </ng-container>
+
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Tester</a>
+          <ng-template ngbNavContent>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-9">
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Chemist">Chemist</label>
+                    <input type="text" class="form-control" id="Chemist" placeholder="" style="width:30%;">
+                    <label for="on" style="margin-left:0.5%">on</label>
+                    <input type="text" class="form-control" id="on" placeholder="" style="width:20%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Approved">Approved By</label>
+                    <input type="text" class="form-control" id="Approved" placeholder="" style="width:30%;">
+                    <label for="Approved" style="margin-left:0.5%">on</label>
+                    <input type="text" class="form-control" id="Approved" placeholder="" style="width:20%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Formulator">Formulator</label>
+                    <input type="text" class="form-control" id="Formulator" placeholder="" style="width:30%;">
+                    <label for="Formulator" style="margin-left:0.5%">on</label>
+                    <input type="text" class="form-control" id="Formulator" placeholder="" style="width:20%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Updated">Updated By</label>
+                    <input type="text" class="form-control" id="formulacode" placeholder="" style="width:30%;">
+                    <label for="Updated" style="margin-left:0.5%">on</label>
+                    <input type="text" class="form-control" id="Updated" placeholder="" style="width:20%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Status">Status</label>
+                    <input type="text" class="form-control" id="Status" placeholder="" style="width:30%;">
+                    <label for="Status" style="margin-left:0.5%"></label>
+                    <input type="text" class="form-control" id="Status" placeholder="" style="width:20%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Locked">Locked</label>
+                    <input type="text" class="form-control" id="Locked" placeholder="" style="width:30%;">
+                    <label for="Locked" style="margin-left:0.5%">on</label>
+                    <input type="text" class="form-control" id="Locked" placeholder="" style="width:20%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="MSDS">MSDS Created By</label>
+                    <input type="text" class="form-control" id="MSDS" placeholder="" style="width:30%;">
+                    <label for="MSDS" style="margin-left:0.5%">on</label>
+                    <input type="text" class="form-control" id="MSDS" placeholder="" style="width:20%;">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem style="margin-left:20px">
+          <a class="tabcolor tabbutto tabrowli " ngbNavLink>Project Details</a>
+          <ng-template ngbNavContent>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-9">
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="PDR">PDR #</label>
+                    <input type="number" class="form-control" id="PDR" placeholder="" style="width:50%;">
+
+
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="ProjectName">Project Name</label>
+                    <input type="text" class="form-control" id="ProjectName" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="projectname">Project Status</label>
+                    <input type="text" class="form-control" id="proj_name" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Project Start">Project Start Date</label>
+                    <input type="text" class="form-control" id="Project Start" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Project End">Project End Date</label>
+                    <input type="text" class="form-control" id="Project End" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Customer Code">Customer Code</label>
+                    <input type="text" class="form-control" id="Customer Code" placeholder="" style="width:50%;">
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Customer Name">Customer Name</label>
+                    <input type="text" class="form-control" id="Customer Name" placeholder="" style="width:50%;">
+                  </div>
+                  <div class="form-inline" style="padding-top:1%;">
+                    <label> Customer Address</label>
+                    <textarea style="width: 50%;" type="text" class="form-control" rows="3"></textarea>
+                  </div>
+                  <div class=" form-inline" style="padding-top:1%;">
+                    <label for="Customer Name">Revenue Potential if pr</label>
+                    <input type="text" class="form-control" id="Customer Name" placeholder="" style="width:50%;">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Quality Control</a>
+          <ng-template ngbNavContent>
+            <div>
+              <table class="table table-bordered" style="background-color:white">
+
+
+
+                <thead>
+                  <tr>
+                    <th scope="col">Test Name</th>
+                    <th scope="col">No of Days</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Results</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">Approved (Y/N)</th>
+                    <th scope="col">Approved By</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Pricing Details</a>
+          <ng-template ngbNavContent>
+
+
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Product Testing</a>
+          <ng-template ngbNavContent>
+            <div>
+              <table class="table table-bordered" style="background-color:white">
+
+
+
+                <thead>
+                  <tr>
+                    <th scope="col">Test Name</th>
+                     <th scope="col">Open Date</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Approved (Y/N)</th>
+                    <th scope="col">Approved By</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                 
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                   
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                   
+
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+            </div>
+
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Phy.Stability</a>
+          <ng-template ngbNavContent>
+            <div>
+              <table class="table table-bordered" style="background-color:white">
+
+
+
+                <thead>
+                  <tr>
+                    <th scope="col">Storage Condition</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Approved (Y/N)</th>
+                    <th scope="col">Approved By</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Audit Tracking</a>
+          <ng-template ngbNavContent>
+            <div>
+              <table class="table table-bordered" style="background-color:white">
+
+
+
+                <thead>
+                  <tr>
+                 
+                    <th scope="col">Date</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Username</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  
+
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                   
+
+
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem>
+          <a class="tabcolor tabbutto tabrowli" ngbNavLink>Approvals</a>
+          <ng-template ngbNavContent>
+            <div>
+              <table class="table table-bordered" style="background-color:white">
+
+
+
+                <thead>
+                  <tr>
+                    <th scope="col"> </th>
+                    <th scope="col">Activity</th>
+                    <th scope="col">Approved (Y/N)</th>
+                    <th scope="col">Approed Date</th>
+                    <th scope="col">Approved By</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ng-container>
+
+
+      </nav>
+    </div>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <div style="border: solid 0.1px darkgrey ">
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%"matDialogClose>Back</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%">Print Preview</button>
+  </div>
+</div>
+ 

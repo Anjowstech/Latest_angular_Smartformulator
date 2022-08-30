@@ -67,7 +67,7 @@
           <div class="icon" style="float:right;margin-right:5px">
             <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu" style=" float: right; margin-right: 10px; color: #214252; height: 40px; width: 50px ">settings</mat-icon>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item [routerLink]="'/AdminWork'">Admin Work</button>
+              <button mat-menu-item [routerLink]="'AdminWork'">Admin Work</button>
               <button mat-menu-item [routerLink]="'/UserSecurity'">User Security</button>
               <button mat-menu-item>Lab Inventory</button>
               <button mat-menu-item [routerLink]="'/RawMaterial'">Raw Material</button>
@@ -77,6 +77,7 @@
             <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu1" style="color: #214252;">account_circle</mat-icon>
 
             <mat-menu #menu1="matMenu">
+
               <button mat-menu-item>My Task List</button>
               <button mat-menu-item>Change Password</button>
               <button mat-menu-item [routerLink]="'/login'">Logout</button>
@@ -307,6 +308,22 @@
               </mat-list>
             </mat-expansion-panel>
 
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">FormulaStatus</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+                <a mat-list-item [routerLink]="'/fetch-data'">FormulaStatus </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
 
 
 

@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-header text-center">
+    Add Formula Instruction
+  </div>
+  <div class="card-body">
+   
+      <div class="form-inline">
+        <label style="margin-left:10px;">Instruction Code</label>
+        <input type="text" class="form-control"  style="margin-left:10px;width:100%" id="PropertyName"[(ngModel)]="getforminstruct" #formulainstruct name="formulainstruct" value="" disabled>
+      </div>
+
+      <div class="form-inline">
+        <label style="margin-left:10px">Instruction</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-left:10px;width:100%" [(ngModel)]="getformdata"  #formuladat name="formuladat" value=""></textarea>
+      </div>
+   
+  </div>
+  <div class="card">
+    <div class="card-body">
+     
+        <div style="margin-top:1%">
+          <div class="form-inline">
+           
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="Deleteinstruction(formulainstruct.value)" matDialogClose>Delete</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" (click)="savefrminstruction(formulainstruct.value,formuladat.value)" matDialogClose>Save/Update</button>
+
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;" matDialogClose (click)="getforminstruct.value = '';getformdata.value=''">Back</button>
+           
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--style="margin-left:2%;height:60px;width:20px;"
+style="margin-left:2%;height:60px;width:25px;"
+style="margin-left:2%;height:60px;width:25px;"-->

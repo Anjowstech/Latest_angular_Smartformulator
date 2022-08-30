@@ -233,6 +233,7 @@ export class NavMenuComponent {
       children: [
         {
           displayName: 'Sample Management',
+          route: 'SampleManagement'
 
         },
         {
@@ -321,21 +322,28 @@ export class NavMenuComponent {
     },
     {
       displayName: 'Raw Materials',
+      route: 'RawMaterial'
+      //children: [
+      //  {
+      //    displayName: 'Raw Materials',
+      //    route: 'RawMaterial'
 
-      children: [
-        {
-          displayName: 'Raw Materials',
-          route: 'RawMaterial'
-
-        }
-      ]
+      //  }
+      //]
     },
 
     {
       displayName: 'Suppliers',
-      route: 'AddSupplier'
+      route: 'AddSupplier',
+
+      children: [
+        {
+           displayName: 'SupplierListing',
+           route: 'SupplierListing'
 
 
+        }
+        ]
     },
     {
       displayName: 'Customers',
@@ -360,6 +368,12 @@ export class NavMenuComponent {
 
         }
       ]
+    },
+    {
+      displayName: 'FormulaStatus',
+      route: 'FormulaListStatus'
+
+
     },
     {
       displayName: 'Miscellaneous',
@@ -389,6 +403,7 @@ export class NavMenuComponent {
   }
 
   ngOnInit() {
+
     this.postData.getPosts().subscribe((result) => {
       console.warn("result", result)
       this.data = result

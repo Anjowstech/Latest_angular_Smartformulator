@@ -1,0 +1,31 @@
+<app-toolbar></app-toolbar>
+<div class="main-div" style="background-image:url(../../assets/homepageimage.png); background-repeat: no-repeat;background-size:cover">
+ 
+  <mat-card style="width:40%;height:40rem;margin-bottom:14%;background-color: rgba(255, 255, 255, .8)">
+
+    <h2 style="color:maroon;text-align:center;font-family: Playfair Display;margin-top:10%;font-weight:700">LOGIN</h2>
+    
+    <mat-card-content>
+      <form class="example-form">
+
+        <div style="margin-left:30%;margin-top:10%">
+          <input id="usern" class="form-control" style="width:60%;  border:solid;border-color:maroon;border-width:medium ;height:3rem; color :gray" matInput placeholder="Username" [(ngModel)]="username" required name="username">
+        </div>
+
+
+        <div style="margin-left:30%;margin-top:5%">
+          <input id="passw" class="form-control" style="margin-top:5%; width:60%;  border:solid;border-color:maroon;border-width:medium ;height:3rem; color :gray" matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+        </div>
+
+      </form>
+      <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+      <Button class="btn btn-primary buttoncolor" style="width:20%;margin-top:5%; margin-left:40%; background-color: #150485;color:white;border-color: #150485" (click)="login()" color="primary">Login</Button>
+    </mat-card-actions>
+    <div class=" form-inline">
+      <a href="" style="margin-top:3%;margin-left:5%;color:darkblue;font-size:25px;font-family: Playfair Display">Forgot Password?</a>
+      <a href="" style="margin-top:3%; color:darkblue;margin-left:45%;font-size:25px;font-family: Playfair Display">Register/Sign Up</a>
+    </div>
+  </mat-card>
+</div>

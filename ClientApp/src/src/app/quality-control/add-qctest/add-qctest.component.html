@@ -1,0 +1,51 @@
+<div>
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <h4 class="text-center">Add Quality Control Test</h4>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:2%">
+    <form>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">QC Test Code </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="staticEmail" [(ngModel)]="qctestcode" name="qctesco" #qtc>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputFunction Description" class="col-sm-2 col-form-label">QC Test Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputFunction Description" [(ngModel)]="testname" name="qctesna" #qtn>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="Assigned_to" class="col-sm-2 col-form-label">Default QC Unit</label>
+        <div class="col-sm-10">
+          <select id="Assigned_to" class="form-control" style="width:70%" [(ngModel)]="Defaultqcunit" name="default" #def value="">
+            <option selected>sec</option>
+            <option *ngFor="let qcunit_Details of loadqcunits">{{ qcunit_Details.QCUnitName}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <form>
+    <div class="form-row">
+      <div class="col-7">
+        <!--<input type="text" class="form-control" placeholder="First name">-->
+      </div>
+      <div class="col-5">
+        <div class="form-inline">
+          <mat-dialog-actions style="float:right">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:20px;" (click)="clearTEST()">New</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="savettest(qtc.value,qtn.value,def.value)">Save</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Close</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

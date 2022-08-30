@@ -1,0 +1,111 @@
+<div style="background-color: #f6f5f1" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <div class="col-sm-12">
+      <div style="background-color: #f6f5f1">
+
+
+        <h2 style="margin-top: 10px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formulation Grid</h2>
+
+      </div>
+    </div>
+
+   
+    <div class=" form-inline">
+      <label style="margin-left:3%; color:maroon" for="batchsize&formulaunit">Enter the Lab Batch Size and Default Formula Unit:</label>
+      <input type="text" style="margin-left:10px;width:15%" class="form-control" placeholder="">
+      <select id="batchsize&formulaunitdrop" class="form-control" style="width:10%;margin-left:10px;margin-right:10px">
+        <option selected></option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+
+      </select>
+      <input type="radio" id="Yes" name="Yes" value="Yes">
+      <label for="Yes">%</label><br>
+      <input style="margin-left:2%" type="radio" id="No" name="No" value="No">
+      <label for="No">Qty</label><br>
+
+    </div>
+    <div>
+      <div class="col-1">
+
+      </div>
+      <ag-grid-angular style="width: 100%; height: 46em;font-family:Verdana;font-style:normal"
+                       class="ag-theme-alpine"
+                       [rowHeight]="rowHeight"
+                       [columnDefs]="columnDefs"
+                       (columnResized)="onColumnResized($event)"
+                       (columnVisible)="onColumnVisible($event)"
+                       [immutableData]="true"
+                       [rowDragManaged]="true"
+                       #agGrid
+                       [rowStyle]="rowStyle"
+                       [getRowNodeId]="getRowNodeId"
+                         [rowSelection]="rowSelection"
+                                      [singleClickEdit]="true"
+                                    (contextmenu)=" rowRightClicked($event)"
+                                      (rowDoubleClicked)="rowDoubleClicked($event)"
+                     
+                       [enableRangeSelection]="true"
+                       (gridReady)="onGridReady($event)"
+                       [rowData]="rowData"
+                       [defaultColDef]="defaultColDef">
+      </ag-grid-angular>
+    </div>
+    <fieldset class="border p-0">
+      <legend class="w-auto" style="font-size:15px;color:black">QUANTITY & COST</legend>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <div class="form-inline">
+            <label style="margin-left:3%;" for="Cost$/Kg">Cost $/Kg</label>
+            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+            <label style="margin-left:3%; " for="Total%">Total %</label>
+            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+          </div>
+          <div class="form-inline">
+            <label style="margin-top:0.5%;margin-left:3%;" for="Cost$/Lb">Cost $/Lb</label>
+            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+            <label style="margin-top:0.5%;margin-left:3%; " for="Yield%">Yield %</label>
+            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+          </div>
+        </div>
+        <div class="form-group col-md-8">
+          <div class="form-inline">
+            <label style="margin-left:3%;" for="Cost$/Kg">Total Quantity</label>
+            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+            <select id="gra" class="form-control" style="width:10%;margin-left:1%">
+              <option selected>N/A</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+
+            </select>
+            <label style="margin-left:3%; " for="Cost%">Total Cost $</label>
+            <input type="text" style="margin-left:10px;width:25%" class="form-control" placeholder="">
+          </div>
+          <div class="form-inline">
+            <label style="margin-top:0.5%;margin-left:3%;" for="NetQuantity">Net Quantity</label>
+            <input type="text" style="margin-left:19px;width:25%" class="form-control" placeholder="">
+            <label style="margin-top:0.5%;margin-left:14.5%;color:red " for="TotalQuantity">Unit Cost $</label>
+            <input type="text" style="margin-left:10px;width:25%;color:red" class="form-control" placeholder="">
+          </div>
+        </div>
+      </div>
+
+
+    </fieldset>
+  </div>
+</div>
+
+ <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+
+
+
+
+
+
+

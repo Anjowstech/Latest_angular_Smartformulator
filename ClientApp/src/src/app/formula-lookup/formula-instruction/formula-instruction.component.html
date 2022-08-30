@@ -1,0 +1,46 @@
+<div style="background-color: #f6f5f1" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
+    <div class="col-sm-12">
+      <div style="background-color: #f6f5f1">
+
+
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formula Instruction</h2>
+
+      </div>
+    </div>
+
+    <div style="color: #bb2205">
+      <p class="font-weight-bold">Double Click to Edit the Value</p>
+    </div>
+    <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;">
+      <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+
+        <thead>
+          <tr>
+            <th scope="col">Instruction Code</th>
+            <th scope="col">Instruction</th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let raw_formula of dataraw_formulainstruction; let i=index;"(dblclick)="setvalues( raw_formula);newinstruction();"(click)="setvalues2( raw_formula);close();" >
+            <td>{{ raw_formula.InstrCode }}</td>
+            <td>{{ raw_formula.InstrText}}</td>  
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>
+
+
+<mat-dialog-actions>
+  
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-right:10px" matDialogClose >Close</button>
+
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-right:10px" (click)="  newinstruction1();newinstruction()">New Instruction</button>
+</mat-dialog-actions>
+

@@ -1,0 +1,566 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:88vh;width:100%">
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Sample Management</h2>
+
+   
+    <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Sample Management</a>
+        <ng-template ngbNavContent>
+            <form class="form-inline" style="background-color: #f6f5f1">
+
+                <label for="" style="margin-left:50px;font-size: medium;
+              font-family: Verdana;">PDR #</label>
+                <input  disabled type="text" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="" style="margin-top: 10px;margin-left: 70px;" class="form-control" size="40">
+                <label for="" style="margin-left:40px;font-size: medium;
+                  font-family: Verdana;">PDR Date</label>
+                <input type="date" [(ngModel)]="PDRDate" #PDRDt name="PDRDate" value=""  id="PDRDate" style="margin-left:10px" class="form-control" size="30">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchproductlisting()">Search PDR#</button>
+
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+                <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Customer Name</label>
+                <input disabled type="text" style="margin-top: 10px; margin-left: 25px;" class="form-control" [(ngModel)]="cstmrname" #customer name="cstmrname" value="" [disabled]="issearchform" id="customername" size="80">
+
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+                <label for="" style="margin-left:20px;font-size: medium;
+         font-family: Verdana;">Formula Code</label>
+                <input disabled id="formulacode" type="text" style="margin-top: 10px; margin-left: 40px;" class="form-control" size="80" [(ngModel)]="formulacode" #formulacod name="formulacode" value="" [disabled]="issearchform">
+            </form>
+            <form class="form-inline">
+                <label for="" style="margin-left:20px;font-size: medium;
+         font-family: Verdana;">Formula Name</label>
+                <input disabled type="text" style="margin-top: 10px; margin-left: 35px;" class="form-control" id="" [(ngModel)]="formulaname" #formulanam name="formulaname" value="" [disabled]="issearchform" size="80">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-top:10px; height:40px;" (click)="searchformulaopen()">
+                    Search Formula
+                </button>
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+              <label for="" style="margin-left:30px;font-size: medium;
+           font-family: Verdana;">Submission #</label>
+              <input  type="text" style="margin-top: 5px; margin-left: 30px;" class="form-control" id="" size="35" [(ngModel)]="submissionno" #samplesubmission name="submissionno"  value="" [disabled]="issearchform" />
+              <label for="" style="margin-left:10px;font-size: medium;
+          font-family: Verdana;">Submission Date</label>
+              <input type="date"  [(ngModel)]="submissiondate" #submissionDt name="submissiondate" style="margin-left:30px" class="form-control" >
+              <button type="submit"  class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;"
+                      (click)="searchsubmission()">
+                Search Submission
+              </button>
+
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+                <label for=""  style="margin-top: 10px; margin-left: 30px; font-size: medium; font-family: Verdana;">Lab open status</label>
+                <select id="" class="form-control" style="width:13%;margin-left:15px">
+                    <option selected>O-open</option>
+                    <option>C-Closed</option>
+                    <option>S-Sales(Back to Sales)</option>
+
+                </select>
+                <label for="" style="margin-left: 20px;font-size: medium;
+          font-family: Verdana;">Sample Status</label>
+                <select id="PdrStatus" [(ngModel)]="PDRStatus" #PdrStat name="PDRStatus" (click)="ApproveStatus()" class="form-control" style="width:40%;margin-left:10px">
+                    <option selected>N-New</option>
+                    <option>R-Redirect(customer sending back for enhancements)</option>
+                    <option>BT-Bulk Transfer(more of the same samples)</option>
+                    <option>FA-Fill Assessment</option>
+                    <option>C-Costing</option>
+                    <option>F-Formulation</option>
+                    <option>RDF-Redirect Fragrance</option>
+                    <option>VE-Value Engineered</option>
+                    <option>VE-Value Engineered</option>
+                    <option>S-Sales</option>
+                    <option>R-Rejected</option>
+                    <option>A-Approved </option>
+                    <option>AW-Approved-ON WAIVER</option>
+
+                </select>
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+              <label for="" style="margin-left:30px;font-size: medium;
+           font-family: Verdana;">Sales REP  </label>
+              <input type="text" [(ngModel)]="REP" #re name="REP" style="margin-top: 10px; margin-left: 60px;" class="form-control" id="" size="45">
+              <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Due Date</label>
+              <input type="date" [(ngModel)]="duedate" #duedt name="duedate" style="margin-left:10px" class="form-control" >
+              
+
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+                <label for="" style="margin-left:40px;font-size: medium;
+            font-family: Verdana;">Priority</label>
+                <input type="text" [(ngModel)]="Priority" #Prior name="Priority" style="margin-top: 10px; margin-left: 75px;" class="form-control" id="" size="80">
+            </form>
+            <form class="form-inline" style="background-color: #f6f5f1">
+
+                <label for="" style="margin-left:5px;font-size: medium;
+              font-family: Verdana;">Customer Approval</label>
+                <input type="radio" style="margin-top: 10px; margin-left: 30px;" class="form-control" id="" [(ngModel)]="cstmrname" #customer name="cstmrname" value="" size="50">
+                <label for="" style="margin-left:10px;font-size: medium;
+           font-family: Verdana;">Yes</label>
+                <input type="radio" style="margin-top: 10px; margin-left: 40px;" class="form-control" id="" size="50">
+                <label for="" style="margin-top: 10px; margin-left: 10px; font-size: medium; font-family: Verdana;">No</label>
+                <label for="" style="margin-left:90px;font-size: medium;
+              font-family: Verdana;">Approval Date</label>
+                <input type="date"  [(ngModel)]="approvaldate" #approvaldt name="approvaldate" class="form-control" style="margin-left: 20px;" id="" size="30">
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+                <label for="" style="margin-top: 10px; margin-left: 50px; font-size: medium; font-family: Verdana;">Quantity</label>
+                <input type="text"  [(ngModel)]="qty" #qt name="qty" style="margin-top: 10px; margin-left: 50px; " class="form-control" id="" size="5">
+                <label for="" style="margin-left: 10px; font-size: medium; font-family: Verdana; ">Unit</label>
+                <input type="text" [(ngModel)]="unit" #unt name="unit"  style="margin-top: 10px; margin-left: 10px; " class="form-control" id="" size="5">
+                <label for=""  style="margin-left: 10px; font-size: medium; font-family: Verdana; ">Sample Cost $</label>
+                <input type="text" value="0.00" [(ngModel)]="Price" #Prc name="Price"style="margin-top: 10px; margin-left: 20px; " class="form-control" id="" size="5">
+                <label for="" style="margin-left: 10px; font-size: medium; font-family: Verdana; "># of Pieces</label>
+                <input type="text" [(ngModel)]="noofpieces" #noofpie name="noofpieces" style="margin-top: 10px; margin-left: 10px;" class="form-control" id="" size="5">
+
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+                <label for="" style="margin-left:40px;font-size: medium;
+           font-family: Verdana;">Purpose</label>
+                <textarea class="form-control" id="" [(ngModel)]="Purpose" #purpos name="Purpose" style="width:70%; height: 80%; margin-left: 6%;margin-top:1%;"></textarea>
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+                <label for="" style="margin-left:40px;font-size: medium;
+           font-family: Verdana;">Comments</label>
+                <textarea class="form-control" id="" [(ngModel)]="CustomerComments" #CustomerCmt name="CustomerComments" style="width:70%; height: 80%; margin-left: 4%;margin-top:1%;"></textarea>
+            </form>
+            <form class="form-inline">
+                <label for="" style="margin-left:40px;font-size: medium;
+          font-family: Verdana;">Fax Person</label>
+                <input type="text" [(ngModel)]="FaxPerson" #FaxPer name="FaxPerson" style="margin-top: 10px; margin-left: 45px;" class="form-control" id="Contact Person 1"size="30">
+                <label for="" style="margin-left:40px;font-size: medium;
+          font-family: Verdana;">Fax No</label>
+                <input type="text" [(ngModel)]="fax" #fa name="fax" style="margin-top: 10px; margin-left: 40px;" class="form-control" size="30">
+            </form>
+            <form class="form-inline">
+                <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Approved By</label>
+                <input type="text" [(ngModel)]="ApprovedBy" #apprvby name="ApprovedBy"  style="margin-top: 10px; margin-left: 50px;" class="form-control" id="Contact Person 1" size="30">
+                <label for="" style="margin-left:50px;font-size: medium;
+          font-family: Verdana;">Title</label>
+                <input type="text" [(ngModel)]="PersonTitle" #PersonTit name="PersonTitle"  style="margin-top: 10px; margin-left: 50px;" class="form-control" size="30">
+            </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="2">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer Details</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline">
+            <label for="" style="margin-left:15px;font-size: medium;
+          font-family: Verdana;">Customer Name</label>
+            <input disabled type="text" style="margin-top: 10px; margin-left: 40px;" class="form-control" placeholder="Enter Customer Name" [(ngModel)]="cstmrname" #customer name="cstmrname" id="" size="70">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:45px;font-size: medium;
+          font-family: Verdana;">Address</label>
+            <textarea  disabled class="form-control"  [(ngModel)]="address" #addr name="address"rows="3" style="width:60%; height: 30%; margin-left: 7%;margin-top:1%;"></textarea>
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:45px;font-size: medium;
+          font-family: Verdana;">TelePhone</label>
+            <input disabled type="text" style="margin-top: 10px; margin-left: 60px;" class="form-control" placeholder="Enter TelePhone No" id="Telephone" [(ngModel)]="phone" #pho name="phone" size="20">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Fax</label>
+            <input disabled type="text" style="margin-top: 10px; margin-left: 30px;" [(ngModel)]="fax" #fa name="fax" class="form-control" placeholder="Enter Fax" id="" size="30">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:50px;font-size: medium;
+          font-family: Verdana;">Email</label>
+            <input disabled type="email" style=" margin-left: 90px;" class="form-control" [(ngModel)]="emailref" #emrf name="emailref" placeholder="Enter Email" id="" size="75">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:5px;font-size: medium;
+          font-family: Verdana;">Customer Comments</label>
+            <textarea class="form-control" [(ngModel)]="CustomerComments" #CustomerCmt name="CustomerComments" id=""  rows="3" style="width:60%; height: 30%; margin-left: 1%;margin-top:1%;"></textarea>
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Contacts Person 1</label>
+            <input disabled type="text" [(ngModel)]="contactfperson" #contactfper name="contactfperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Email 1</label>
+            <input  disabled type="text" [(ngModel)]="contactfmail" #contactfem name="contactfmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input  type="checkbox" style="margin-top: 10px; margin-left: 20px;" class="form-control">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Contacts Person 2</label>
+            <input disabled type="text" [(ngModel)]="contactsperson" #contactsper name="contactsperson" style="margin-top: 10px; margin-left: 20px;" class="form-control"  size="20">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Email 2</label>
+            <input disabled type="text" [(ngModel)]="contactsmail" #contactsem name="contactsmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input type="checkbox" style="margin-top: 10px; margin-left: 20px;" class="form-control">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Contacts Person 3</label>
+            <input disabled type="text" [(ngModel)]="contacttperson" #contacttper name="contacttperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" id="Contact Person 3" size="20">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Email 3</label>
+            <input disabled type="text" [(ngModel)]="contacttmail" #contacttem name="contacttmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input type="checkbox" style="margin-top: 10px; margin-left: 20px;" class="form-control">
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="3">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>PDR Listing </a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">PDR #</label>
+            <input type="text" style="margin-top: 10px;margin-left: 35px;"  [(ngModel)]="PDRno" #pdrnum name="PDRno" value="" class="form-control" id="" size="60">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchPDRlisting()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;"(click)=" ClearData()">Clear</button>
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:40px;font-size: medium;
+                  font-family: Verdana;">Formula Name</label>
+            <input type="text" style="margin-left:10px" [(ngModel)]="formulaname"  #formula name="formulaname" value=""class="form-control" size="60">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:45px;font-size: medium;
+                  font-family: Verdana;">Submission #</label>
+            <input type="text" [(ngModel)]="submissionno"  #subnum name="submissionno"  style="margin-left:10px" class="form-control" size="60">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Customer Name</label>
+            <input type="text" style="margin-left:10px"  [(ngModel)]="cstmrname" #customer name="cstmrname"class="form-control"  value=""size="60">
+          </form>
+          <form class="form-row form-inline">
+            <label for="" style=" margin-left: 10px; font-size: medium; font-family: Verdana;">Lab open status</label>
+            <select id="" [(ngModel)]="LabOpenStatusdata"  #labop name="LabOpenStatusdata" class="form-control" style="width:52%;margin-left:30px">
+              <option>O-open</option>
+              <option>C-Closed</option>
+              <option>S-Sales(Back to Sales)</option>
+
+            </select>
+          </form>
+
+          <form class="form-row form-inline">
+            <label for="" style="margin-left: 45px;font-size: medium;
+          font-family: Verdana;">PDR Status</label>
+            <select id="" [(ngModel)]="PDRStatusdata"  #PdrStatus name="PDRStatusdata" class="form-control" style="width:52%;margin-left:40px">
+              <option>N-New</option>
+              <option>R-Redirect(customer sending back for enhancements)</option>
+              <option>BT-Bulk Transfer(more of the same samples)</option>
+              <option>FA-Fill Assessment</option>
+              <option>C-Costing</option>
+              <option>F-Formulation</option>
+              <option>RDF-Redirect Fragrance</option>
+              <option>VE-Value Engineered</option>
+              <option>S-Sales</option>
+              <option>R-Rejected</option>
+              <option>A-Approved </option>
+
+            </select>
+          </form>
+          <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+            <table class="table table-bordered" style="margin-left: 1px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">PDR</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">Submission #</th>
+                  <th scope="col">PDR Status</th>
+                  <th scope="col">Lab Status</th>
+                  <th scope="col">Username</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ProductList_search of dataresultLoadpdrlist | filter:PDRno:filterMetadata|filter:cstmrname:filterMetadata|filter:formulaname:filterMetadata|filter:submissionno:filterMetadata|filter:PDRStatusdata:filterMetadata|filter:LabOpenStatusdata:filterMetadata|filter:UserNamea:filterMetadata; let i=index;" (click)="setvalues( ProductList_search);close();" #conten>
+                  <td class="tabledatasize">{{ProductList_search.PDRNo}}</td>
+                  <td width="15%" class="tabledatasize">{{ProductList_search.CusName}}</td>
+                  <td width="15%" class="tabledatasize">{{ProductList_search.Description}} </td>
+                  <td class="tabledatasize"> {{ProductList_search.SubmissionNo}}</td>
+                  <td width="15%" class="tabledatasize">{{ProductList_search.PDRStatus}} </td>
+                  <td class="tabledatasize">{{ProductList_search.LabOpenStatus}} </td>
+                  <td class="tabledatasize">{{ProductList_search.UserName}} </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+              <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="4">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>PDR Listing By Date</a>
+        <ng-template ngbNavContent>
+          <fieldset>
+            <form class="form-inline" style="background-color: #f6f5f1">
+              <label for="" style="margin-left:40px;font-size: medium;
+              font-family: Verdana;">PDR Date</label>
+              <label for="" style="margin-left:40px;font-size: medium;
+              font-family: Verdana;">From</label>
+              <input type="date"  value ="{{dtpPDRFromDate}}"   [(ngModel)]="dtpPDRFromDate" #PDRFromDate name="dtpPDRFromDate"   style="margin-top: 10px;margin-left: 20px;" class="form-control" id="" size="50">
+              <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">To</label>
+              <input type="date" value ="{{dtpPDRToDate }}"  [(ngModel)]="dtpPDRToDate" #PDRToDate name="dtpPDRToDate"  style="margin-top: 10px;margin-left: 20px;" class="form-control" id="" size="50">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="LoadPDRDate()" >Search</button>
+            </form>
+          </fieldset>
+          <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+            <table class="table table-bordered" style="margin-left: 1px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">PDR</th>
+                  <th scope="col">PDR Date</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">Submission #</th>
+                  <th scope="col">PDR Status</th>
+                  <th scope="col">Lab Status</th>
+                  <th scope="col">Username</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let PdrbydateList_search of dataresultLoadpdrbydatelist ; let i=index;" (click)="setbydatevalues( PdrbydateList_search);closedate();" #conten>
+                  <td class="tabledatasize">{{PdrbydateList_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{PdrbydateList_search.PDRDate}}</td>
+                  <td width="15%" class="tabledatasize">{{PdrbydateList_search.CusName}}</td>
+                  <td width="15%" class="tabledatasize">{{PdrbydateList_search.Description}} </td>
+                  <td class="tabledatasize"> {{PdrbydateList_search.SubmissionNo}}</td>
+                  <td width="15%" class="tabledatasize">{{PdrbydateList_search.PDRStatus}} </td>
+                  <td class="tabledatasize">{{PdrbydateList_search.LabOpenStatus}} </td>
+                  <td class="tabledatasize">{{PdrbydateList_search.UserName}} </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="6">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Documents</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <fieldset class="border p-2">
+                  <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
+                  <div class="form-inline">
+                    <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc6" name="d6" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data7" [(ngModel)]="doc7" name="d7" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data8" [(ngModel)]="doc8" name="d8" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data9" [(ngModel)]="doc9" name="d9" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data10" [(ngModel)]="doc10" name="d10" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data11" [(ngModel)]="doc11" name="d11" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data12" [(ngModel)]="doc12" name="d12" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data13" [(ngModel)]="doc13" name="d13" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data14" [(ngModel)]="doc14" name="d14" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data15" [(ngModel)]="doc15" name="d15" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data16" [(ngModel)]="doc16" name="d16" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data17" [(ngModel)]="doc17" name="d17" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data18" [(ngModel)]="doc18" name="d18" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data19" [(ngModel)]="doc19" name="d19" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                  <div class="form-inline" style="margin-top:10px">
+                    <input style="    width: 80%;" type="text" class="form-control" id="data20" [(ngModel)]="doc20" name="d20" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                  </div>
+                </fieldset>
+              </div>
+
+            </div>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="7">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Disclaimers</a>
+        <ng-template ngbNavContent>
+          <fieldset class="border p-2">
+            <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Enter Disclaimers</legend>
+            <div class="form-inline">
+              </div>
+            </fieldset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="8">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Tracking</a>
+        <ng-template ngbNavContent>
+          <form>
+
+            <div class="col-1">
+
+            </div>
+            <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+              <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Username</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sampleaudit_search of dataresultLoadsampleaudit;let i=index;" (click)="setauditvalues(sampleaudit_search);close();" #conten>
+                 
+                    <td hidden>{{sampleaudit_search.submissionno}}</td>
+                    <td>{{sampleaudit_search.date}}</td>
+                    <td>{{sampleaudit_search.Task}}</td>
+                    <td>{{sampleaudit_search.UserName}}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+            </div>
+
+          </form>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="9">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Document Audit Tracking</a>
+        <ng-template ngbNavContent>
+          <form>
+
+            <div class="col-1">
+
+            </div>
+            <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+              <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Username</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor=" let values of AudittrackData;">
+
+
+                    <td width="15%" class="tabledatasize"></td>
+                    <td class="tabledatasize"></td>
+                    <td width="15%" class="tabledatasize"> </td>
+
+                  </tr>
+
+                </tbody>
+              </table>
+
+
+            </div>
+
+          </form>
+        </ng-template>
+      </ng-container>
+      
+                                   
+
+       
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()" >{{btnval}}</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)=" ClearData()">New/Clear</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Sample Submission Form</button>
+
+  </div>
+</div>
+

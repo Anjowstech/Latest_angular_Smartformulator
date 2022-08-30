@@ -1,0 +1,100 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
+    <!--<div class="col-sm-12">
+      <div style="background-color: #f6f5f1">
+        <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+          <h2 style="margin-top: 20px; font-family: Playfair Display; background-color: #f6f5f1;color: #150485">SMART</h2>
+          <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: #bb2205">Formulator </h2>
+          <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">-Add Supplier</h2>
+        </form>
+      </div>
+    </div>-->
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form class="form-inline" style="margin-left:200px;margin-bottom:20px;">
+          <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black">Quality Control Test</h2>
+        </form>
+      </div>
+    </div>
+    <div>
+      <form class="form-inline" style="background-color: #f6f5f1;">
+        <label class="label1" for="PRD">Formula Code</label>
+        <input type="text" class="form-control" disabled id="Formula" [(ngModel)]="formulacode" name="Formul" value="" size="60">
+      </form>
+      <form class="form-inline" style="background-color: #f6f5f1;">
+        <label class="label1" for="PRD">Formula Name</label>
+        <input type="text" class="form-control" disabled id="Formula" [(ngModel)]="formulaname" name="Formul" value="" size="60"><br />
+      </form>
+      <div class="form-inline" style="margin-top:10px">
+        <label class="label1" for="inputcust" style=" padding-top: 10px;">Test Name</label>
+        <input type="text" class="form-control" disabled id="PRD" [(ngModel)]="TESTNAME" name="TEst" value="" style="width:60%">
+
+        <!--<select id="PRD" class="form-control" style="width:60%" ng-model="TESTNAME" name="TEst" value=""
+              (change)="loadunits($event);">
+        <option selected>N\A</option>
+        <option *ngFor="let qctests_Details of loadqctests">{{ qctests_Details.Description}}</option>-->
+        <!--<option hidden *ngFor="let qctests_Details of loadqctests">{{ qctests_Details.TestCode}}</option>-->
+        <!--</select>-->
+        <!--<label for="PRD" style="margin-left:1.6%; color:red"> * <
+        ty</label>
+         <
+        ty-->
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%; height: 40px; width: 20%;" (click)="addqc()">Add New QC Test</button>
+      </div>
+    </div>
+    <div class="form-inline" style="margin-top:10px">
+      <label class="label1" for="PDR">Unit</label>
+      <input type="text" class="form-control" disabled id="PRD" [(ngModel)]="testunit" name="unit" value="" style="width:60%">
+      <!--<select id="PRD" class="form-control" style="width:60%" type="text" [(ngModel)]="testunit" name="unit" value="">
+
+        <option selected *ngFor="let qcunits_Details of loadqcunits">{{ qcunits_Details.QCTestUnit}}</option>
+      </select>-->
+    </div>
+    <div class="form-inline" style="margin-top:10px">
+      <label class="label1" for="inputcust">Start Date</label>
+      <input type="date" disabled id="date" class="form-control" style="width:15%;" [(ngModel)]="startdate" name="date" value="">
+
+      <label for="inputcust" style="margin-left: 4%;">End Date</label>
+      <input type="date" id="date" class="form-control" style="width:15%;margin-left:10px" [(ngModel)]="enddate" name="Edate" value="">
+
+      <label for="PRD" style="margin-left:1.6%; color:red"> * </label>
+      <label for="inputcust" style="margin-left: 3%;">Number of Days</label>
+
+      <input class="form-control" id="form-0-quantity" min="0" type="search" style="width:8%;margin-left:10px" [(ngModel)]="noofday" name="quantity" #EAt value="1">
+
+      <label for="inputcust" style="margin-left: 1%;">Days(S)</label>
+    </div>
+    <div class="form-inline" style="margin-top:10px">
+      <label class="label1" for="PDR">Results</label>
+      <input style="  width: 85%;" type="text" class="form-control" [(ngModel)]="Results" name="reslt" value="">
+    </div>
+    <div class="form-inline" style="margin-top:10px">
+      <label class="label1" for="PDR">Remarks</label>
+      <input style="    width: 85%;" type="text" class="form-control" [(ngModel)]="remark" name="rmk" value="">
+    </div>
+    <div class="form-inline">
+      <label class="label1" for="inputcust">Notes</label>
+      <textarea class="form-control" id="Formulanote" rows="3" style="width:85%; height:250PX;margin-top:1%" [(ngModel)]="note" name="not" value=""></textarea>
+    </div>
+
+    <div class="form-inline" style="margin-top:10px">
+      <label class="label1" for="PDR">Add File</label>
+      <input style=" width: 58%;" type="file" class="form-control" [(ngModel)]="addfile" name="fil" value="">
+
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">Open</button>
+    </div>
+
+
+
+  </div>
+</div>
+<div class="form-inline" style="margin-top:10px">
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:150px;">Print Preview</button>
+  <input style="margin-left: 1% " class="form-check-input" type="checkbox" (click)="openapprove()">
+  <label class="workflow" style="margin-left: 10px">Approve QC Test</label><br>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:25%;height:40px;width:150px;" (click)="opensave()" matDialogClose>New</button>
+  <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:1%;height:40px;width:150px;" (click)="Updateqc()">Update</button>
+
+  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;" (click)="DELETEqc()">Delete</button>
+  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;height:40px;float:right;width: 150px;" matDialogClose>Back </button>
+</div>

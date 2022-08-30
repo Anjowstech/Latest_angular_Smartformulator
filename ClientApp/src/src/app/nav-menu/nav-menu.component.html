@@ -1,0 +1,351 @@
+<!--<body>
+  <app-nav-menu></app-nav-menu>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</body>-->
+<style>
+  .mat-button:hover {
+    background-color: #EDBB99;
+    color: white;
+  }
+
+  .mat-button:active {
+    background-color: #EDBB99;
+    color: white;
+  }
+
+  .mat-elevation-z5 {
+    position: relative;
+    z-index: 3;
+  }
+</style>
+<div>
+  <div class="basic-container">
+    <div style=" background-color: black;" class="menu-bar mat-elevation-z5 ">
+      <mat-toolbar class="mat-elevation-z5" style="    background-color: #F7EFE5;
+    height: 70px;
+    color: white">
+        <mat-toolbar-row style="margin-top:10px">
+          <button mat-icon-button>
+            <mat-icon style="color: #214252" (click)="sidenav.toggle()">menu</mat-icon>
+          </button>
+          <img  [routerLink]="'/Home'" src="../assets/SMARTFORMULATOR.jpg " height="30" width="30" />
+          <h1  [routerLink]="'/Home'" style="font-family: Playfair Display; font-size:25px;color:  #150485">SMART </h1>
+          <h1  [routerLink]="'/Home'" style="margin-right:30px;  font-family: Playfair Display;font-size:25px; color: firebrick"> Formulator</h1>
+
+
+
+
+
+          <span *ngFor="let item of navItems">
+            <!-- Handle branch node buttons here -->
+            <span *ngIf="item.children && item.children.length > 0">
+
+              <button mat-button #menuTrigger="matMenuTrigger"
+                      [matMenuTriggerFor]="menu.childMenu"
+                      [disabled]="item.disabled" style="color:black; overflow-wrap:break-word;font-size:large;" (click)="toggleSidenav() ">
+                {{item.displayName}}
+              </button>
+              <app-menu-item #menu [items]="item.children"></app-menu-item>
+            </span>
+
+            <!-- Leaf node buttons here -->
+            <span *ngIf="!item.children || item.children.length === 0">
+
+              <button mat-button [routerLink]="item.route" style="font-size:Large;color:black">
+                {{item.displayName}}
+              </button>
+
+            </span>
+
+          </span>
+
+
+          <span style="flex: 1 1 auto;"></span>
+
+          <div class="icon" style="float:right;margin-right:5px">
+            <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu" style=" float: right; margin-right: 10px; color: #214252; height: 40px; width: 50px ">settings</mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item [routerLink]="'AdminWork'">Admin Work</button>
+              <button mat-menu-item [routerLink]="'/UserSecurity'">User Security</button>
+              <button mat-menu-item>Lab Inventory</button>
+              <button mat-menu-item [routerLink]="'/RawMaterial'">Raw Material</button>
+            </mat-menu>
+          </div>
+          <div class="icon" style="float:right;margin-right:5px">
+            <mat-icon [inline]="true" mat-button [matMenuTriggerFor]="menu1" style="color: #214252;">account_circle</mat-icon>
+
+            <mat-menu #menu1="matMenu">
+
+              <button mat-menu-item>My Task List</button>
+              <button mat-menu-item>Change Password</button>
+              <button mat-menu-item [routerLink]="'/login'">Logout</button>
+            </mat-menu>
+
+          </div>
+        </mat-toolbar-row>
+
+        <style>
+          .icon {
+            font-size: 27px;
+          }
+        </style>
+
+
+
+      </mat-toolbar>
+    </div>
+  </div>
+
+  <div style="background-color:#d5f4e6">
+    <mat-sidenav-container>
+
+      <mat-sidenav #sidenav mode="side" opened>
+        <mat-nav-list style="width:250px;">
+          <mat-accordion>
+            <a style="margin-left:1.5%;font-size:larger;color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;" mat-list-item [routerLink]="'/PDRManagement'">My Task List </a>
+            <a style="margin-left:1.5%;font-size:larger;color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;" mat-list-item [routerLink]="'/PDRManagement'">SF Dashboard </a>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+                  <a style="margin-left:0px;font-size:larger">Projects/PDR </a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+                <a mat-list-item [routerLink]="'/PDRManagement'">General </a>
+                <a mat-list-item [routerLink]="'/PDRManagement'"> Requirements </a>
+                <a mat-list-item [routerLink]="'/formularestriction'"> Product Dev.Brief </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Assigning Users</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> 21 CFR Part 11 Approvers List </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Stage Gate Settings </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Assigned Formulas </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Products </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Change Request </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Communications </a>
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Specifications </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+
+              </mat-list>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Formulation</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/Formulalisting'"> Formula Listing </a>
+                <a mat-list-item [routerLink]="'/Formulalookup'"> Formula Lookup </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Sample Management </a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'">Sample Management</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Customer Details </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">PDR Listing</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> PDR Listing by Date </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Disclaimers </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Documents </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Document Audit </a>
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Audit Tracking</a>
+
+              </mat-list>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Productization  </a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'">Product </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Label</a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Packaging</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> ArtWork </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Bulk </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Prod.Regn Approvals </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Prod.Technical Data Specs </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Commerialization Checklist </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">PIF </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">CMO </a>
+
+                <a mat-list-item [routerLink]="'/fetch-data'">Audit </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Raw Materials</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Raw Materials </a>
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Suppliers</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Suppliers </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Customers</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Customers </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Product Portfolio</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Product Portfolio </a>
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Global Search</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/fetch-data'"> Global Search</a>
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">Miscellaneous</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+                <a mat-list-item [routerLink]="'/Unitofmeasure'">Unit Of Measure </a>
+                <a mat-list-item [routerLink]="'/qualitycontrol'">quality control </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
+
+                  <a style="margin-left:0px;font-size:larger">FormulaStatus</a>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+                <a mat-list-item [routerLink]="'/fetch-data'">FormulaStatus </a>
+
+
+              </mat-list>
+            </mat-expansion-panel>
+
+
+
+
+
+
+          </mat-accordion>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <div style="height:90vh;">
+          
+
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+
+    </mat-sidenav-container>
+  </div>
+</div>
+<style>
+  .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+</style>

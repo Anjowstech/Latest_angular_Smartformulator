@@ -1,0 +1,566 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:88vh;width:100%">
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Formula Status</h2>
+    <form class="form-inline" style="    background-color: #f6f5f1">
+      <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Formula Name</label>
+      <input disabled type="text" [(ngModel)]="formulaname" #formulana name="formulaname" style="margin-top: 10px;margin-left: 35px;" value="" class="form-control" id="" size="60">
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchformula()">Search</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearData()">Clear</button>
+    </form>
+
+    <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>General</a>
+        <ng-template ngbNavContent>
+
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:10px;font-size: medium;
+         font-family: Verdana;">Formula Code</label>
+            <input id="formulacode" type="text" style="margin-top: 10px; margin-left: 50px;" class="form-control" size="30" [(ngModel)]="formulacode" #formulacod name="formulacode" value="" [disabled]="issearchform">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+
+            <label for="" style="margin-left:50px;font-size: medium;
+              font-family: Verdana;">PDR #</label>
+            <input type="text" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="" style="margin-top: 10px;margin-left: 70px;" class="form-control" size="30">
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:20px;font-size: medium;
+          font-family: Verdana;">Project Name</label>
+            <input type="text" style=" margin-left: 45px;" class="form-control" [(ngModel)]="ProjectName" #Project name="ProjectName" value=""  size="30">
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:15px;font-size: medium;
+          font-family: Verdana;">Customer Name</label>
+            <input type="text" style="margin-top: 10px; margin-left: 25px;" class="form-control"  [(ngModel)]="cstmrname" #customer name="cstmrnam" id="cstmrna" value=""  size="30">
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:40px;font-size: medium;
+         font-family: Verdana;">Category</label>
+            <input id="formulacode" type="text" style="margin-top: 10px; margin-left: 60px;" class="form-control" size="30" [(ngModel)]="Class" #Cla name="Class" value="" >
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:10px;font-size: medium;
+         font-family: Verdana;">Sub Category</label>
+            <input type="text" style="margin-top: 10px; margin-left: 55px;" class="form-control" id="" [(ngModel)]="SubClass" #SubCls name="SubClass" value=""  size="30">
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:20px;font-size: medium;
+           font-family: Verdana;">Formula Status</label>
+            <input type="text" style="margin-top: 5px; margin-left: 30px;" class="form-control" id="" size="30" [(ngModel)]="Status" #Stat name="Status" value=""  />
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:10px;font-size: medium;
+          font-family: Verdana;">Trade name</label>
+            <input type="text" [(ngModel)]="TradeName" #tradenam name="TradeName" style="margin-left:70px" class="form-control" id="" size="30" >
+          </form>
+
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:25px;font-size: medium;
+           font-family: Verdana;">Formula Cost $  </label>
+            <input type="text"  [(ngModel)]="FormulaCost" #FormulaCt name="FormulaCost"  style="margin-top: 10px; margin-left: 30px;" class="form-control" id="" size="30">
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:10px;font-size: medium;
+            font-family: Verdana;">Specific Gravity </label>
+            <input type="text" style="margin-top: 10px; margin-left: 40px;" class="form-control" id="" size="30">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+
+            <label for="" style="margin-left:40px;font-size: medium;
+              font-family: Verdana;">Shelf life</label>
+            <input type="text" style="margin-top: 10px; margin-left: 65px;" class="form-control" id="" [(ngModel)]="ShelfLife" #ShelfLf name="ShelfLife" value="" size="30">
+            <input type="text" style="margin-top: 10px; margin-left: 45px;" class="form-control" [(ngModel)]="ShelfLifeUnit" #ShelfLifeUt name="ShelfLifeUnit" size="30">
+          </form>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="2">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Testers</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:40px;font-size: medium;
+              font-family: Verdana;">Chemist</label>
+            <input type="text" [(ngModel)]="SupercededBy" #Superceded name="SupercededBy" style="margin-top: 10px;margin-left: 60px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">On</label>
+            <input type="text" [(ngModel)]="SupercededDate" #SupercededDt name="SupercededDate" style="margin-top: 10px;margin-left: 45px;" class="form-control" id="" size="20">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:20px;font-size: medium;
+              font-family: Verdana;">Approved BY</label>
+            <input type="text" [(ngModel)]="ApprovedBy" #Approved name="ApprovedBy"  style="margin-top: 10px;margin-left: 45px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">On</label>
+            <input type="text" [(ngModel)]="AddedDT" #Added name="AddedDT"style="margin-top: 10px;margin-left: 45px;" class="form-control" id="" size="20">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:20px;font-size: medium;
+              font-family: Verdana;">Formulator</label>
+            <input type="text" [(ngModel)]="userName" #userN name="userName" style="margin-top: 10px;margin-left: 60px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">On</label>
+            <input type="text" [(ngModel)]="AddedDT" #Added name="AddedDT" style="margin-top: 10px;margin-left: 45px;" class="form-control" id="" size="20">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:20px;font-size: medium;
+              font-family: Verdana;">Updated BY</label>
+            <input type="text"  [(ngModel)]="UpdatedBy" #Updated name="UpdatedBy" style="margin-top: 10px;margin-left: 50px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">On</label>
+            <input type="text" [(ngModel)]="updatedDt" #updatdt name="updatedDt" style="margin-top: 10px;margin-left: 50px;" class="form-control" id="" size="20">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:30px;font-size: medium;
+              font-family: Verdana;">Status</label>
+            <input type="text" [(ngModel)]="Status" #Stat name="Status" style="margin-top: 10px;margin-left: 85px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;"></label>
+            <input type="text" [(ngModel)]="CompanyOwned" #CompanyOwn name="CompanyOwned" style="margin-top: 10px;margin-left: 70px;" class="form-control" id="" size="20">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:30px;font-size: medium;
+              font-family: Verdana;">Locked</label>
+            <input type="text" [(ngModel)]="Locked" #Lock name="Locked" style="margin-top: 10px;margin-left: 80px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">On</label>
+            <input type="text" [(ngModel)]="LockedDate" #LockedDt name="LockedDate" style="margin-top: 10px;margin-left: 50px;" class="form-control" id="" size="20">
+          </form>
+          <form class="form-inline" style="background-color: #f6f5f1">
+            <label for="" style="margin-left:0px;font-size: medium;
+              font-family: Verdana;">MSDS Created By</label>
+            <input type="text" [(ngModel)]="addeBy" #adde name="addeBy" style="margin-top: 10px;margin-left: 25px;" class="form-control" id="" size="20">
+            <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">To</label>
+            <input type="text" [(ngModel)]="addedDt" #added name="addedDt" style="margin-top: 10px;margin-left: 55px;" class="form-control" id="" size="20">
+
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="3">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Project Details</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="background-color: #f6f5f1">
+
+            <label for="" style="margin-left:60px;font-size: medium;
+              font-family: Verdana;">PDR #</label>
+            <input type="text" style="margin-top: 10px;margin-left: 100px;" [(ngModel)]="PDRno" #pdrnum name="PDRno" value="" class="form-control" id="" size="40">
+
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:50px;font-size: medium;
+                  font-family: Verdana;">Project Name</label>
+            <input type="text" style="margin-left:55px" [(ngModel)]="ProjectName" #Project name="ProjectName" value="" class="form-control" size="40">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:50px;font-size: medium;
+                  font-family: Verdana;">Project Status</label>
+            <input type="text" [(ngModel)]="Status" #stat name="Status" style="margin-left:50px" class="form-control" size="40">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Project Start Date</label>
+            <input type="text" [(ngModel)]="StartDate" #StartDt name="StartDate" style="margin-left:40px" class="form-control" size="40">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:40px;font-size: medium;
+                  font-family: Verdana;">Project End Date</label>
+            <input type="text" [(ngModel)]="CompletedDate" #CompletedDt name="CompletedDate" style="margin-left:40px" class="form-control" size="40">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:50px;font-size: medium;
+                  font-family: Verdana;">Customer Code</label>
+            <input type="text" [(ngModel)]="CusCode" #CusCod name="CusCode" style="margin-left:40px" class="form-control" size="40">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:40px;font-size: medium;
+                  font-family: Verdana;">Customer Name</label>
+            <input type="text" [(ngModel)]="cstmrname" #cstmrna name="cstmrname" style="margin-left:45px" class="form-control" size="40">
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:35px;font-size: medium;
+                  font-family: Verdana;">Customer Address</label>
+            <textarea class="form-control" id="" [(ngModel)]="address" #addr name="address" style="width:50%; height: 80%; margin-left: 3%;margin-top:1%;"></textarea>
+
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:40px;font-size: medium;
+                  font-family: Verdana;">Revenue Potential</label>
+          </form>
+          <form class="form-inline">
+            <label for="" style="margin-left:40px;font-size: medium;
+                  font-family: Verdana;"> if productized $</label>
+            <input type="text" [(ngModel)]="Revenue" #Reven name="Revenue" style="margin-left:50px" class="form-control" size="20">
+          </form>
+
+
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="4">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Quality Control</a>
+        <ng-template ngbNavContent>
+          <h4>Quality Control Details(The Values are Read Only) </h4>
+          <h4>Double click to get more Details</h4>
+          <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+            <table class="table table-bordered" style="margin-left: 1px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Test Name</th>
+                  <th scope="col" hidden>Description</th>
+                  <th scope="col">No of Days</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Results</th>
+                  <th scope="col">Created By</th>
+                  <th scope="col">Approved (Y/N)</th>
+                  <th scope="col">Approved By</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let loadQC_search of dataresultloadQC ; let i=index;" (click)="setvalues(loadQC_search);close();" #conten>
+                  <td class="tabledatasize">{{loadQC_search.SeqNo}}</td>
+                  <td class="tabledatasize" hidden>{{loadQC_search.Description}}</td>
+                  <td width="15%" class="tabledatasize">{{loadQC_search.noOfDays}}</td>
+                  <td width="15%" class="tabledatasize"> {{loadQC_search.startDate}}</td>
+                  <td class="tabledatasize"> {{loadQC_search.endDate}}</td>
+                  <td width="15%" class="tabledatasize">{{loadQC_search.Results}} </td>
+                  <td class="tabledatasize">{{loadQC_search.AddedBy}} </td>
+                  <td class="tabledatasize"> {{loadQC_search.approved}}</td>
+                  <td class="tabledatasize"> {{loadQC_search.ApprovedBy}}</td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="5">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Pricing Details</a>
+        <ng-template ngbNavContent>
+          <p>Pricing Details(The values are Read only)</p>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Lab Batch Size</label>
+                  <input type="text"  [(ngModel)]="LabBatchsize" #LabBatch name="LabBatchsize"  style="margin-left:60px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Formula Costt $</label>
+                  <input type="text"   [(ngModel)]="FormulaCost" #FormulaCt name="FormulaCost" style="margin-left:50px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Packing Cost $</label>
+                  <input type="text"   [(ngModel)]="packingCost" #packingCt name="packingCost" style="margin-left:60px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Labour Cost $</label>
+                  <input type="text"   [(ngModel)]="labourCost" #labourCt name="labourCost" style="margin-left:65px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Overhead cost $</label>
+                  <input type="text"   [(ngModel)]="overheadCost" #overheadCt name="overheadCost" style="margin-left:45px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Misc cost $</label>
+                  <input type="text" [(ngModel)]="miscost" #misct name="miscost" style="margin-left:90px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:5px;font-size: medium;
+                  font-family: Verdana;">Filling Assembly cost $</label>
+                  <input type="text"   [(ngModel)]="facost" #fact name="facost" style="margin-left:20px" class="form-control" size="10">
+                </form>
+              </div>
+              <div class="col-md-6">
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Transportation Air $</label>
+                  <input type="text"  [(ngModel)]="transAir" #transA name="transAir"  style="margin-left:55px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Transportation water $</label>
+                  <input type="text"  [(ngModel)]="transWater" #transWa name="transWater"  style="margin-left:30px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Transportation road $</label>
+                  <input type="text"  [(ngModel)]="transRoad" #transRd name="transRoad" style="margin-left:40px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Artwork cost $</label>
+                  <input type="text"  [(ngModel)]="artworkcost" #artworkct name="artworkcost" style="margin-left:95px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Label cost $</label>
+                  <input type="text"  [(ngModel)]="labelcost" #labelct name="labelcost"  style="margin-left:115px" class="form-control" size="10">
+                </form>
+                <form class="form-inline">
+                  <label for="" style="margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Total Cost $(A)</label>
+                  <input type="text"  [(ngModel)]="Totalcost" #Totalct name="Totalcost" style="margin-left:90px" class="form-control" size="10">
+                </form>
+              </div>
+            </div>
+          </div>
+          <fieldset class="border p-2">
+            <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Markup Margin</legend>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3">
+                  <form class="form-inline">
+                    <label for="" style="margin-top:45px; margin-left:30px;font-size: medium;
+                  font-family: Verdana;">Markup Amount $(B)</label>
+                  </form>
+                  <form class="form-inline">
+                    <label for="" style="margin-top: 45px; margin-left: 30px; font-size: medium; font-family: Verdana;">Total Amt.w/markup $ (C)</label>
+                  </form>
+                  <form class="form-inline">
+                    <label for="" style="margin-top: 40px; margin-left: 30px; font-size: medium; font-family: Verdana;">Markup Amount $(B)</label>
+                  </form>
+                  <form class="form-inline">
+                    <label for="" style="margin-top: 40px; margin-left: 30px; font-size: medium; font-family: Verdana;">Total Amt.w/markup $ (C)</label>
+                  </form>
+                </div>
+                <div class="col-md-3">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">25% Margin</legend>
+                    <input type="text"  [(ngModel)]="twentyfivemargin" #twentyfivemar name="twentyfivemargin"  style="margin-left:10px" class="form-control" size="5">
+                    <input type="text"  [(ngModel)]="twentyfivemargincost" #twentyfivemarginct name="twentyfivemargincost" style="margin-left:10px" class="form-control" size="5">
+
+                  </fieldset>
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">30% Margin</legend>
+                    <input type="text"  [(ngModel)]="thirtymargin" #thirtymar name="thirtymargin" style="margin-left:10px" class="form-control" size="5">
+                    <input type="text"  [(ngModel)]="thirtymargincost" #thirtymarginct name="thirtymargincost" style="margin-left:10px" class="form-control" size="5">
+
+                  </fieldset>
+                </div>
+                <div class="col-md-3">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">40% Margin</legend>
+                    <input type="text"  [(ngModel)]="fortymargin" #fortymar name="fortymargin" style="margin-left:10px" class="form-control" size="5">
+                    <input type="text"  [(ngModel)]="fortymargincost" #fortymarginct name="fortymargincost" style="margin-left:10px" class="form-control" size="5">
+
+                  </fieldset>
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">50% Margin</legend>
+                    <input type="text"  [(ngModel)]="fiftymargin" #fiftymar name="fiftymargin" style="margin-left:10px" class="form-control" size="5">
+                    <input type="text"  [(ngModel)]="fiftymargincost" #fiftymarginct name="fiftymargincost" style="margin-left:10px" class="form-control" size="5">
+
+                  </fieldset>
+                </div>
+                <div class="col-md-3">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">100% Margin</legend>
+                    <input type="text"  [(ngModel)]="hundredmargin" #hundredmar name="hundredmargin" style="margin-left:10px" class="form-control" size="5">
+                    <input type="text"  [(ngModel)]="hundredmargincost" #hundredmarginct name="hundredmargincost" style="margin-left:10px" class="form-control" size="5">
+
+                  </fieldset>
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;padding:10px;color:Black"></legend>
+                    <input type="text"  [(ngModel)]="custommargin" #custommar name="custommargin" style="margin-left:10px" class="form-control" size="5">
+                    <input type="text"  [(ngModel)]="custommargincost" #custommarginct  name="custommargincost" style="margin-left:10px" class="form-control" size="5">
+
+                  </fieldset>
+                </div>
+
+              </div>
+              </div>
+          
+              </fieldset>
+       </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="6">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Phy. Stability</a>
+        <ng-template ngbNavContent>
+          <h4>Physical Stability Details(The Values are Read Only) </h4>
+          <h4>Double click to get more Details</h4>
+          <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+            <table class="table table-bordered" style="margin-left: 1px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Storage Condition</th>
+                  <th scope="col">Lab Batch #</th>
+                  <th scope="col">Batch Type</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col" hidden>Created By</th>
+                  <th scope="col">Approved (Y/N)</th>
+                  <th scope="col">Approved By</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let loadPHY_search of dataresultLoadPhystability ; let i=index;" (click)="setvaluesphystability( loadPHY_search);closephystability();" #conten>
+                  <td class="tabledatasize">{{loadPHY_search.StorageCondition}}</td>
+                  <td class="tabledatasize">{{loadPHY_search.LabBatchNo}}</td>
+                  <td width="15%" class="tabledatasize">{{loadPHY_search.BatchType}}</td>
+                  <td width="15%" class="tabledatasize">{{loadPHY_search.StartDate}} </td>
+                  <td class="tabledatasize">{{loadPHY_search.EndDate}} </td>
+                  <td class="tabledatasize" hidden> </td>
+                  <td width="15%" class="tabledatasize">{{loadPHY_search.Approved}} </td>
+                  <td class="tabledatasize">{{ loadPHY_search.ApprovedBy}} </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem="7">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Product Testing</a>
+        <ng-template ngbNavContent>
+          <h4>Double click to View Details</h4>
+          <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+            <table class="table table-bordered" style="margin-left: 1px; background-color: white" id="table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Test Name</th>
+                  <th scope="col">Open Date</th>
+                  <th scope="col">Due Date</th>
+                  <th scope="col">Approved (Y/N)</th>
+                  <th scope="col">Approved By</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                      mode="indeterminate">
+                </mat-progress-spinner>
+                <tr *ngFor="let Producttesting_search of dataresultProductTesting ; let i=index;" (click)="setvaluesproduct( Producttesting_search);closeprotest();" #conten>
+                  <td class="tabledatasize">{{Producttesting_search.TestName}}</td>
+                  <td class="tabledatasize">{{Producttesting_search.OpenDate}}</td>
+                  <td width="15%" class="tabledatasize">{{Producttesting_search.DueDate}}</td>
+                  <td width="15%" class="tabledatasize">{{Producttesting_search.Approved}} </td>
+                  <td class="tabledatasize">{{Producttesting_search.ApprovedBy}} </td>
+
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="8">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Audit Tracking</a>
+        <ng-template ngbNavContent>
+          <form>
+
+            <div class="col-1">
+
+            </div>
+            <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+              <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Username</th>
+                    <th scope="col" hidden>Approved</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let AuditList_search of dataresultAuditList;let i=index;" (click)="setauditvalues(AuditList_search);closeaud();" #conten>
+
+                    <td>{{AuditList_search.date}}</td>
+                    <td>{{AuditList_search.Task}}</td>
+                    <td>{{AuditList_search.UserName}}</td>
+                    <td hidden>{{AuditList_search.approved}}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+            </div>
+
+          </form>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="9">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Approvals</a>
+        <ng-template ngbNavContent>
+          <form>
+
+            <div class="col-1">
+
+            </div>
+            <div style="margin-left:1%;margin-top:1%;height:700px;background-color:white;overflow-y:auto ">
+              <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                <thead>
+                  <tr>
+                    <th scope="col">Activity</th>
+                    <th scope="col">Approved (Y/N)</th>
+                    <th scope="col">Approved Date</th>
+                    <th scope="col">Approved By</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor=" let Approval_search of dataresultApprovalLoad;let i=index;" (click)="setvaluesapproval(Approval_search);closeapproval();" #conten>
+
+
+                    <td width="15%" class="tabledatasize">{{Approval_search.Activity}}</td>
+                    <td  class="tabledatasize">{{Approval_search.approved}}</td>
+                    <td class="tabledatasize">{{Approval_search.ApprovedDt}} </td>
+                    <td class="tabledatasize"> {{Approval_search.ApprovedBy}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+
+            </div>
+
+          </form>
+        </ng-template>
+      </ng-container>
+
+
+
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Print Preview</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
+
+
+
+  </div>
+</div>
+

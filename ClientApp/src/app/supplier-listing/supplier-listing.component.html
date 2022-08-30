@@ -1,0 +1,137 @@
+<div style="    background-color: #f6f5f1">
+
+  <h2 style="    margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Supplier Listing</h2>
+
+
+
+  <nav ngbNav #nav="ngbNav" class="nav-tabs">
+    <ng-container ngbNavItem style="margin-left:20px">
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Suppliers</a>
+      <ng-template ngbNavContent>
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <form class="form-inline" style="background-color: #f6f5f1">
+
+                <label for="" style="margin-left:20px;font-size: medium;
+              font-family: Verdana;">Key</label>
+                <input disabled type="text" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="" style="margin-top: 10px;margin-left: 70px;" class="form-control" size="40">
+                <label for="" style="margin-left:10px;font-size: medium;
+                  font-family: Verdana;">Name</label>
+                <input type="text" [(ngModel)]="PDRDate" #PDRDt name="PDRDate" value=""  id="PDRDate" style="margin-left:10px" class="form-control" size="30">
+                <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" >Clear</button>
+
+              </form>
+            </div>
+          </div>
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:50vh; overflow-y: auto;background-color:white">
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">code </th>
+                <th class="header" scope="col">SupplierKey</th>
+                <th class="header" scope="col">Supplier Name</th>
+                <th class="header" scope="col">Address</th>
+                <th class="header" scope="col">Email</th>
+                <th class="header" scope="col">Phone</th>
+                <th class="header" scope="col">Approved</th>
+                <th class="header" scope="col">Rating</th>
+
+
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let SupplierList_search of dataresultLoadSupplier | filter:suppliercode|filter:SupplierKey| filter:sname|filter:address| filter:Email|filter:phone|filter:approved|filter:rating; let i=index;">
+                <td>{{SupplierList_search.code}}</td>
+                <td>{{SupplierList_search.SupplierKey}}</td>
+                <td>{{SupplierList_search.sname}}</td>
+                <td>{{SupplierList_search.Address}}</td>
+                <td>{{SupplierList_search.email}}</td>
+                <td>{{SupplierList_search.phoneNumber}}</td>
+                <td>{{SupplierList_search.Approved}}</td>
+                <td>{{SupplierList_search.Rating}}</td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem style="margin-left:20px">
+      <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Manufacturers</a>
+      <ng-template ngbNavContent>
+        <fieldset class="border p-0" style="margin-bottom:1%">
+          <legend class="w-auto" style="font-size:15px;color:maroon; margin-left:1%">Search</legend>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <div class="form-inline">
+                <label>Key</label>
+                <input type="text" (keyup)="applyFilter($event)" style="width:65%" class="form-control" id="formulacode" [(ngModel)]="formulacode" name="formcode" value="">
+                <label>Name</label>
+                <input type="text" style="margin-top:10px;width:65%" class="form-control" id="formula_pdr" [(ngModel)]="pdrnum" name="pdrno" value="">
+                <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;margin-top:10px ">Clear</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div style="color: black">
+          <p class="font-weight-bold">Double Click to Go for More Details</p>
+        </div>
+        <div style="margin-left:10px;margin-top:1%; height:50vh; overflow-y: auto;background-color:white">
+
+          <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+            <thead>
+              <tr>
+                <th class="header" scope="col">MF # </th>
+                <th class="header" scope="col">Manufacturer Name</th>
+                <th class="header" scope="col">City</th>
+                <th class="header" scope="col">State</th>
+                <th class="header" scope="col">Country</th>
+                <th class="header" scope="col">Zip</th>
+                <th class="header" scope="col">Phone</th>
+                <th class="header" scope="col">Email</th>
+
+
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let Manufacturer_search of dataresultLoadManufacturer | filter:Manufacturer|filter:Mname| filter:MCity|filter:MState| filter:MCountry|filter:MZip|filter:phone|filter:Memail; let i=index;">
+                <td>{{Manufacturer_search.ManufacturerKey}}</td>
+                <td>{{Manufacturer_search.name}}</td>
+                <td>{{Manufacturer_search.City}}</td>
+                <td>{{Manufacturer_search.State}}</td>
+                <td>{{Manufacturer_search.Country}}</td>
+                <td>{{Manufacturer_search.Zip}}</td>
+                <td>{{Manufacturer_search.phoneNumber}}</td>
+                <td>{{Manufacturer_search.ManufacturerKey}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ng-container>
+
+  </nav>
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+ 
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();" matDialogClose>Back</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Create Report</button>
+
+
+  </div>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" >Add New Manufacture</button>
+
+</div>
+
+

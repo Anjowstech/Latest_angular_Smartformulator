@@ -1,0 +1,84 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Search Function</h2>
+      </div>
+    </div>
+    <fieldset class="border p-2">
+      <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
+      <div class="form-row" style="margin-top:5px;">
+        <div class="form-group col-md-12">
+          <form>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-2 col-form-label">Function Search</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="staticEmail" placeholder="Function Search" [(ngModel)]="functioncode" #funa name="funnam" value="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Function Description</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword" placeholder="Function Description" [(ngModel)]="functiondiscription" #funa name="fundis" value="">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </fieldset>
+    <div>
+      <p style="margin-left:3%;">Make your selection by Double clicking on your choice</p>
+    </div>
+    <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;">
+      <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+        <thead>
+          <tr>
+
+
+
+            <th scope="col">Function Name</th>
+            <th scope="col">Function Description</th>
+
+
+
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
+                                mode="indeterminate">
+          </mat-progress-spinner>
+          <tr *ngFor="let functionsearch of function_searchdata|filter:functioncode|filter:functiondiscription|pipefiltersorting:'Description'; let i=index;" (click)="setvalues( functionsearch);close();" #conten>
+            <td class="tabledatasize">{{ functionsearch.FunctionCode }}</td>
+            <td class="tabledatasize">{{ functionsearch.FunctionName}}</td>
+          </tr>
+
+
+
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+
+
+
+
+  <button type="submit" class="btn btn-primary buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+
+
+
+
+
+
+</div>
+
+
+
+<!--</div>-->
