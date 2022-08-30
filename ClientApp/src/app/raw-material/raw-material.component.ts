@@ -2721,6 +2721,7 @@ export class RawMaterialComponent implements OnInit {
         this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
           console.warn("auditload", auditload)
           this.auditdata = auditload
+         // this.auditdata = auditload
         })
       })
     }
