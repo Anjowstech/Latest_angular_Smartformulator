@@ -31,7 +31,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let customer_search_pdr of search_cust_pdr_data|filter:customerkey|filter:customername|pipefiltersorting:'Description'; let i=index;" (click)="setvalues( customer_search_pdr);close();" #conten>
+          <tr *ngFor="let customer_search_pdr of search_cust_pdr_data|filter:customerkey:filterMetadata|filter:customername:filterMetadata|pipefiltersorting:'Description'; let i=index;" (click)="setvalues( customer_search_pdr);close();" #conten>
             <td class="tabledatasize">{{ customer_search_pdr.CustomerKey }}</td>
             <td class="tabledatasize">{{ customer_search_pdr.CustomerName}}</td>
             <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
@@ -47,6 +47,6 @@
 <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-  <label for="Recordscount" style="float: left; height: 50px; width: 100px; margin-top: 1%; width: 70px;color:red">Records {{countrecords}}</label>
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 </div>
 

@@ -12,14 +12,15 @@ import { CustomerDetailsComponent } from 'src/app//formula-lookup/customer-detai
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
 import { NewChemistryParamsComponent } from 'src/app/pdr-management/new-chemistry-params/new-chemistry-params.component';
-import { DataShareServiceService } from 'src/app/data-share-service.service';
+
 import { NewMicrobiologyParamsComponent } from 'src/app/pdr-management/new-microbiology-params/new-microbiology-params.component';
 import { DatagridcomponentComponent } from 'src/app/formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
 import { NgModule } from '@angular/core';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 import { FormulaLookupComponent } from 'src/app/formula-lookup/formula-lookup.component';
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
-
+import { Router, RouterModule, Routes } from '@angular/router';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-pdr-management',
@@ -52,10 +53,10 @@ export class PdrManagementComponent implements OnInit {
   Lowviscosity: string = '0';
   highviscosity: string = '0';
   Viscosityunit: string = '0';
-  Appearance: string='0';
-  appearance: string = '0';
-  Color: string = '0';
-  Odor: string = '0';
+  Appearance: string='';
+  appearance: string = '';
+  Color: string = '';
+  Odor: string = '';
   target: string = '';
   Comments: string = '';
   specificGravity: string = '0';
@@ -70,6 +71,7 @@ export class PdrManagementComponent implements OnInit {
   vTime: string = '';
   Requirements: string = '';
   ProjectResults: string = '';
+  userna: string = "";
   doc1: string;
   doc2: string;
   doc3: string;
@@ -90,6 +92,22 @@ export class PdrManagementComponent implements OnInit {
   doc18: string;
   doc19: string;
   doc20: string;
+  pdrcreationdays1: number;
+  formulacreationdays1: number;
+  qcapprovaldays1: number;
+  stabilityapprovaldays1: number;
+  coaapprovaldays1: number;
+  regulatoryapprovaldays1: number;
+  ilapprovaldays1: number;
+  formulprocedureaapprovaldays1: number;
+  samplecreationdays1: number;
+  formulaapprovaldays1: number;
+  sampleapprovaldays1: number;
+  productizationdays1: number;
+  pccapprovaldays1: number;
+  pifapprovaldays1: number;
+  productapprovaldays1: number;
+  ptapprovaldays1: number;
   dataList: any = [];
   dataList1: any = [];
   pdrsavedatas: any;
@@ -219,7 +237,7 @@ export class PdrManagementComponent implements OnInit {
   ingredientrestriction: string='';
   desiredthirdParty: string='';
   marketingclaim: string='';
-  color: string='0';
+  color: string='';
   scent: string='';
   colorrestrictions: string='';
   brandsupplied: string='';
@@ -435,7 +453,7 @@ export class PdrManagementComponent implements OnInit {
   //assign_save_data: any;
   //uservalue: string = "admin";
   //login_formpdr: FormGroup;
-  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
+  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, public router: Router) {
     this.login_formpdr = fb.group({
       'projname': ['', Validators.required],
 
@@ -1205,15 +1223,22 @@ this.loadformulationsassign = loadformulations
     this.doc20 = files.item(0).name;
   }
 
-
-
+  savechemistryparamlist() {
+    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Chemistry parameter saved Successfully' } });
+  }
+  savemicrobioparamlist() {
+    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Micro params saved Successfully' } });
+  }
   datestartchangeclick(event) {
     var curr = this.currentDate;
     var pdrend = this.pdapprovalend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
+
+
+
     this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.taskcountdurationdays = this.DiffDate + 1;
+    this.taskcountdurationdays = this.DiffDate + 2;
   }
   datechangeclick(event) {
     var date = this.currentDate;
@@ -1227,8 +1252,10 @@ this.loadformulationsassign = loadformulations
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
     } else {
       this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-      this.pdrcreationdays = this.DiffDate;
+      this.pdrcreationdays1 = this.DiffDate + 1
+      this.pdrcreationdays = this.pdrcreationdays1;
     }
+    this.pdrapproval = this.pdrcreatedate
     //this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
     //this.pdrcreationdays = this.DiffDate;
   }
@@ -1239,12 +1266,16 @@ this.loadformulationsassign = loadformulations
     //var dates = diffInMs / (1000 * 60 * 60 * 24);
     var curr = this.pdrapproval;
 
+
+
     var pdrend = this.pdapprovalend;
+
+
 
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
     this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.pdrapprovaldays = this.DiffDate+1;
+    this.pdrapprovaldays = this.DiffDate + 1;
     var curr2 = this.currentDate;
     this.pdrcreatedate = this.pdapprovalend
     var pdrend2 = this.pdrcreatedate;
@@ -1253,8 +1284,9 @@ this.loadformulationsassign = loadformulations
     this.DiffDate2 = Math.abs(tenatativestartdate2.diff(tentaviveenddate2, 'days'));
     var pdrcreationhange = this.pdrcreationdays;
     // totalchange = pdrcreationhange + this.DiffDate;
-    this.pdrcreationdays = this.DiffDate2+1;
+    this.pdrcreationdays = this.DiffDate2 + 1;
     //this.pdrcreatedate = this.pdrapprovalend;
+    this.formulacreation = this.pdapprovalend;
   }
   datechangeformulacreation(event) {
     var date = this.currentDate;
@@ -1264,8 +1296,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.formulacreationend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.formulacreationdays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.formulacreationdays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.formulacreationdays1 = this.DiffDate + 1
+      this.formulacreationdays = this.formulacreationdays1;
+    }
   }
   datechangeqctestapprovals(event) {
     var date = this.currentDate;
@@ -1275,8 +1313,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.qctestapprovalsend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.qcapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.qcapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.qcapprovaldays1 = this.DiffDate + 1;
+      this.qcapprovaldays = this.qcapprovaldays1;
+    }
   }
   datechangeproducttestapprovals(event) {
     var date = this.currentDate;
@@ -1286,8 +1330,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.protestapprend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.ptapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.ptapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.ptapprovaldays1 = this.DiffDate + 1;
+      this.ptapprovaldays = this.ptapprovaldays1;
+    }
   }
   datechangestabilitytestapprovals(event) {
     var date = this.currentDate;
@@ -1297,8 +1347,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.stabilityapprovalend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.stabilityapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.stabilityapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.stabilityapprovaldays1 = this.DiffDate + 1;
+      this.stabilityapprovaldays = this.stabilityapprovaldays1;
+    }
   }
   datechangescoatestapprovals(event) {
     var date = this.currentDate;
@@ -1308,8 +1364,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.coatestapproend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.coaapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.coaapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.coaapprovaldays1 = this.DiffDate + 1;
+      this.coaapprovaldays = this.coaapprovaldays1;
+    }
   }
   datechangesRegulatoryRejectionaprovals(event) {
     var date = this.currentDate;
@@ -1319,8 +1381,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.regulatoryapproend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.regulatoryapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.regulatoryapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.regulatoryapprovaldays1 = this.DiffDate + 1;
+      this.regulatoryapprovaldays = this.regulatoryapprovaldays1;
+    }
   }
   datechangesILLabel(event) {
     var date = this.currentDate;
@@ -1330,8 +1398,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.ilapprapprend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.ilapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.ilapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.ilapprovaldays1 = this.DiffDate + 1;
+      this.ilapprovaldays = this.ilapprovaldays1;
+    }
   }
   datechangesFormulaProcedure(event) {
     var date = this.currentDate;
@@ -1341,8 +1415,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.formprocedureapprend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.formulprocedureaapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.formulprocedureaapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.formulprocedureaapprovaldays1 = this.DiffDate + 1;
+      this.formulprocedureaapprovaldays = this.formulprocedureaapprovaldays1;
+    }
   }
   datechangesApprovalRejection(event) {
     var date = this.currentDate;
@@ -1352,8 +1432,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.formulaapprorejectionend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.formulaapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.formulaapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.formulaapprovaldays1 = this.DiffDate + 1;
+      this.formulaapprovaldays = this.formulaapprovaldays1;
+    }
   }
   datechangesSampleCreation(event) {
     var date = this.currentDate;
@@ -1363,8 +1449,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.samplecreationend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.samplecreationdays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.samplecreationdays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.samplecreationdays1 = this.DiffDate + 1;
+      this.samplecreationdays = this.samplecreationdays1;
+    }
   }
   datechangesSampleApprovalRejection(event) {
     var date = this.currentDate;
@@ -1374,8 +1466,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.sampleapprovalend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.sampleapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.sampleapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.sampleapprovaldays1 = this.DiffDate + 1;
+      this.sampleapprovaldays = this.sampleapprovaldays1;
+    }
   }
   datechangesproductization(event) {
     var date = this.currentDate;
@@ -1385,8 +1483,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.productizationend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.productizationdays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.productizationdays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.productizationdays1 = this.DiffDate + 1;
+      this.productizationdays = this.productizationdays1;
+    }
   }
   datechangesPCCApproval(event) {
     var date = this.currentDate;
@@ -1396,8 +1500,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.pccapprovalenddata;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.pccapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.pccapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.pccapprovaldays1 = this.DiffDate + 1;
+      this.pccapprovaldays = this.pccapprovaldays1;
+    }
   }
   datechangesPIFApproval(event) {
     var date = this.currentDate;
@@ -1407,8 +1517,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.pifapprovalenddata;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.pifapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.pifapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.pifapprovaldays1 = this.DiffDate + 1;
+      this.pifapprovaldays = this.pifapprovaldays1;
+    }
   }
   datechangesProductApproval(event) {
     var date = this.currentDate;
@@ -1418,8 +1534,14 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.pdapprovalend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-    this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.productapprovaldays = this.DiffDate;
+    if (curr > pdrend) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Startdate cannot be greater than end date' } });
+      this.productapprovaldays = null;
+    } else {
+      this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
+      this.productapprovaldays1 = this.DiffDate + 1;
+      this.productapprovaldays = this.productapprovaldays1;
+    }
   }
   setvaluepdrapproval(workflow_pdr) {
     this.taskid = "2";
@@ -1741,7 +1863,7 @@ this.loadformulationsassign = loadformulations
       Spindle: this.spindle,
       VTime: this.vTime,
       AddedDT: '',
-      AddedBy: 'Admin',
+      AddedBy: this.userna,
       oldhighph: this.oldhighph1,
       oldlowviscosity: this.oldlowviscosity1,
       oldhighvisc: this.oldhighvisc1,
@@ -1954,7 +2076,7 @@ this.loadformulationsassign = loadformulations
         console.warn("pdrsavemain", pdr_save)
 
         this.pdrsavedatas = pdr_save
-        this.wait(5000)
+        this.wait(3000)
         if (this.pdrsavedatas == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'saved successfully' } });
           this.issearchpdr = false;
@@ -1976,10 +2098,7 @@ this.loadformulationsassign = loadformulations
         }
       })
 
-      this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
-        console.warn("loadpdraudittrack", loadpdraudittrack)
-        this.dataloadaudittrackpdr = loadpdraudittrack
-      })
+    
     }
   };
   pdrupdatemain() {
@@ -2020,7 +2139,7 @@ this.loadformulationsassign = loadformulations
 
     
 
-      AddedBy: 'Admin',
+      AddedBy: this.userna,
       oldhighph: this.oldhighph1,
       oldlowviscosity: this.oldlowviscosity1,
       oldhighvisc: this.oldhighvisc1,
@@ -2067,7 +2186,7 @@ this.loadformulationsassign = loadformulations
       Testure: this.txture,
       Claims: this.claim,
       samplereq: this.samplerequirement,
-      UpdatedBy: 'admin',
+      UpdatedBy: this.userna,
       strProductDevBrief: 'Update',
       /* Linenumber: this.Linenumber,*/
       //TestName: this.TestName,
@@ -2247,11 +2366,7 @@ this.loadformulationsassign = loadformulations
 
     })
    
-    this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
-      console.warn("loadpdraudittrack", loadpdraudittrack)
-      this.dataloadaudittrackpdr = loadpdraudittrack
-    })
-
+  
   };
   pdrgrid(Formuladata2: any) {
     this.i = 0;
@@ -2279,8 +2394,8 @@ this.loadformulationsassign = loadformulations
       //var datalistifra: any = JSON.stringify(this.DataListIFRA);
       this.olddatalistraw = datalistraw;
       var operation = 'Update';
-      var username = 'admin';
-      var username2 = 'admin';
+    var username = this.userna;
+    var username2 = this.userna;
       let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid).set('datetaskjson', stagegatesettingsdates);
       return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
     //}
@@ -2293,8 +2408,8 @@ this.loadformulationsassign = loadformulations
     //var datalistaudit: any = JSON.stringify(this.DataListAudit);
     //var datalistifra: any = JSON.stringify(this.DataListIFRA);
     var operation = 'Save';
-    var username = 'admin';
-    var username2 = 'admin';
+    var username = this.userna;
+    var username2 = this.userna;
     let params1 = new HttpParams().set('PDRDetail1', datalistraw).set('operation', operation).set('username', username).set('username2', username2).set('safetytest', pdrdatagrid).set('datetaskjson', stagegatesettingsdates);
     return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
   }
@@ -2317,7 +2432,7 @@ this.loadformulationsassign = loadformulations
 
   Pdr_savedata(Pdrdetails) {
     var operat: string = "Save";
-    var usernam: string = "admin";
+    var usernam: string = this.userna;
     let params1 = new HttpParams().set('PDRDetail', Pdrdetails).set('operation', operat).set('username', usernam);
     return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/Save_Update_PDR", { params: params1, responseType: 'text' })
   }
@@ -2351,7 +2466,7 @@ this.loadformulationsassign = loadformulations
   };
   Pdr_saveupdateup(Pdrdetails) {
     var operat: string = "Update";
-    var usernam: string = "admin";
+    var usernam: string = this.userna;
     var pdrdetails: any = Pdrdetails;
     this.projectapprovalcheck = false;
     let params1 = new HttpParams().set('PDRDetail', pdrdetails).set('operation', operat).set('username', usernam);
@@ -2385,7 +2500,7 @@ this.loadformulationsassign = loadformulations
     var pdrdata = pdr;
     var proname = projectnam;
     var approver = appro;
-    var usernam: string = "admin";
+    var usernam: string = this.userna;
 
     let params1 = new HttpParams().set('PDRNo', pdrdata).set('ProjectName', proname).set('username', usernam).set('chkprojectapproval1', approver);
     return this.http.get("https://smartformulatorpdrwebservice.azurewebsites.net/ProjectApproval", { params: params1 })
@@ -2602,7 +2717,7 @@ this.loadformulationsassign = loadformulations
   Pdraddfollowup() {
     var PDRNO: string = this.pdrno;
     var fstatus: string = this.FollowupStatus;
-    var user: any = "admin";
+    var user: any = this.userna;
     var fsubject: string = this.FollowupSubject;
     if (this.FollowupID == "" ) {
       var Operation = "Add"
@@ -2685,7 +2800,7 @@ this.loadformulationsassign = loadformulations
   Pdraddcommunication() {
     var PDRNO: string = this.pdrno;
     var cstatus: string = this.CommuStatus;
-    var user: any = "admin";
+    var user: any = this.userna;
     var csubject: string = this.CommuSubject;
     if (this.CommuID == "") {
       var Operation = "Add"
@@ -2766,6 +2881,9 @@ this.loadformulationsassign = loadformulations
 
 
   }
+  gotoback() {
+    this.router.navigateByUrl('/Home');
+  }
   DateCalculations() {
     this.currentstartDate = new Date().toISOString().substring(0, 10);
     this.currentendDate = new Date().toISOString().substring(0, 10);
@@ -2838,7 +2956,7 @@ this.loadformulationsassign = loadformulations
     pifapproval.setDate(pdrapprova.getDate() + 77);
     pifapprovalend.setDate(pdrapprova.getDate() + 83);
     prodapproval.setDate(pdrapprova.getDate() + 83);
-    prodapprovalend.setDate(pdrapprova.getDate() + 83);
+    prodapprovalend.setDate(pdrapprova.getDate() + 113);
   
     var diff = Math.abs(pdrcreationdate.getTime() - futureDatestart.getTime());
    // this.pdrcreationdays  = Math.ceil(diff / (1000 * 3600 * 24) );
@@ -2884,7 +3002,7 @@ this.loadformulationsassign = loadformulations
   }
 
   ngOnInit() {
-
+    this.userna = this.datashare.getlogin();
     this.DateCalculations();
     //this.myForm = new FormGroup({
     //  'presentDate': new FormControl((new Date()).toISOString().substring(0, 10)),

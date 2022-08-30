@@ -91,6 +91,7 @@ export class SalesRepNameComponent implements OnInit {
         this.Salespersondata().subscribe((Salespersondetails) => {
           console.warn("cus_search", Salespersondetails)
           this.Sales_person = Salespersondetails
+          this.countrecords = this.Sales_person.length
         })
 
       })
@@ -153,6 +154,7 @@ export class SalesRepNameComponent implements OnInit {
           this.Salespersondata().subscribe((Salespersondetails) => {
             console.warn("cus_search", Salespersondetails)
             this.Sales_person = Salespersondetails
+            this.countrecords = this.Sales_person.length
           })
         })
 

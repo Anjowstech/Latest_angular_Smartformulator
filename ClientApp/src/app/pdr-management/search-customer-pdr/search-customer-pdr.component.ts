@@ -8,6 +8,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 })
 export class SearchCustomerPdrComponent implements OnInit {
   search_cust_pdr_data: any;
+  filterMetadata = { count: 0 };
   customerkey: string;
   customername: string;
   customercode: string;

@@ -408,6 +408,14 @@ export class CustomerDetailsComponent implements OnInit {
     });
 
   }
+  deletetierrange() {
+    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    if (this.selectedRowIndex == -1) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+    }
+    this.dataGrid.instance.deselectAll();
+   
+  }
   DeleteClient_location() {
     if (this.customerkey == "" || this.customerkey == undefined) {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Enter Customerkey.' } });
@@ -1324,14 +1332,13 @@ export class CustomerDetailsComponent implements OnInit {
           this.Customer_saveup(custcode, custnam, custkey, operation).subscribe((Customer_save) => {
             console.warn("Customer_save", Customer_save)
             this.Customer_save_data = Customer_save
-
-            this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
-              console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
-              this.dataloadaudittrialcustomer = loadcustomeraudittrial
-            })
-
             if (this.Customer_save_data == "Inserted") {
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer " + " " + this.customername + " is " + this.Customer_save_data + " " + "Successfully" } });
+              
+              this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+                console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+                this.dataloadaudittrialcustomer = loadcustomeraudittrial
+              })
               this.Customer_save_data = ""
             }
             else if (this.Customer_save_data == "Customer Key") {
@@ -1342,6 +1349,9 @@ export class CustomerDetailsComponent implements OnInit {
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer key already exists. Choose another one." } });
               this.Customer_save_data = ""
             }
+           
+
+           
           })
          
 
@@ -1538,9 +1548,9 @@ export class CustomerDetailsComponent implements OnInit {
           })
           this.Customer_saveup(cuscode, custnam, custkey, operation).subscribe((Customer_update) => {
             console.warn("Customer_update", Customer_update)
-           // this.wait(7000)
             this.Customer_save_data = Customer_update
 
+            this.wait(3000);
             this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
               console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
               this.dataloadaudittrialcustomer = loadcustomeraudittrial
