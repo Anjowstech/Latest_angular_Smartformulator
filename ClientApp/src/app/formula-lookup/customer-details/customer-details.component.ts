@@ -1816,6 +1816,7 @@ ClearData()
 
     return this.http.get("https://smartformulatorformulalookupwebservice.azurewebsites.net/displayformulation.json");
   }
+/*  sample*/
   loadvalidatedotcbatchsizes(SupplierCode: string) {
     var splrcode = SupplierCode;
     let params1 = new HttpParams().set('cuscode', splrcode);
