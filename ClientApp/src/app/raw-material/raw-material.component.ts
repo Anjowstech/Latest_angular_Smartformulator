@@ -41,7 +41,8 @@ export class RawMaterialComponent implements OnInit {
   activeca: string = "catab1";
   activeIdString: any;
   tabid: string = '';
-
+  issearchRM: boolean = true;
+  issearchRMsave: boolean = false;
   itemlist = [];
   Approv: boolean;
   rmapproveinci: boolean = true;
@@ -1026,6 +1027,8 @@ export class RawMaterialComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       this.rmapproveinci = false;
+      this.issearchRM = false;
+      this.issearchRMsave = true;
       this.inciname = result[0];
       this.itemli = result[1];
       this.tradn = result[2];
@@ -2754,6 +2757,8 @@ export class RawMaterialComponent implements OnInit {
     //this.doc4 = "";
     //this.doc5 = "";
     //this.doc6 = "";
+    this.issearchRM = true;
+    this.issearchRMsave = false;
     this.rmapproveinci = true;
     this.supp_name = '';
     this.INCIName = '';
