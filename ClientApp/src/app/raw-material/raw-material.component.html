@@ -1695,12 +1695,12 @@
   </div>-->
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px"(click)="ClearData();" matDialogClose>Back </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Rawmaterial_Update();" >Update </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Rawmaterial_Save();" >Save </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="ClearData();" matDialogClose>Back </button>
+    <button type="submit" [hidden]="issearchRM" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Rawmaterial_Update();">Update </button>
+    <button type="submit" [hidden]="issearchRMsave" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Rawmaterial_Save();">Save </button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="ClearData();changeTab();">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletermmain();" >Delete RM</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" >RM Cost Import</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletermmain();">Delete RM</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px">RM Cost Import</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="openSaveus();">Save As</button>
 
 
