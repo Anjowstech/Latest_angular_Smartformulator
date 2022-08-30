@@ -5,7 +5,7 @@ import { AddMicrobiologyComponent } from 'src/app/pdr-management/new-microbiolog
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
-
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 
 @Component({
@@ -43,10 +43,16 @@ export class NewMicrobiologyParamsComponent implements OnInit {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
     var testvalue: string = this.dataGrid.instance.cellValue(this.selectedRowIndex, "Test");
   }
+  SaveProperty() {
+    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'parameter saved Successfully' } });
+  }
   microbioparamdelete() {
     this.micro_delete().subscribe((dlt_microbio) => {
       console.warn("dlt_microbio", dlt_microbio)
       this.microdlt_data = dlt_microbio
+      if (this.microdlt_data == "Parameter is deleted successfully.") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Parameter is deleted successfully.' } });
+      }
     })
     this.loadmicrobiology(this.loadpdrno).subscribe((loadmicrobiologydata) => {
       console.warn("loadmicrobiologydata", loadmicrobiologydata)
@@ -57,7 +63,7 @@ export class NewMicrobiologyParamsComponent implements OnInit {
     var testvalue: string = this.dataGrid.instance.cellValue(this.selectedRowIndex, "Test");
     var Test = testvalue;
     let params1 = new HttpParams().set('test', Test);
-    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/deletemicroparams", { params: params1 })
+    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/deletemicroparams", { params: params1, responseType: 'text'})
   }
   ngOnInit() {
     this.loadpdrno = this.datashare.getpdrno();

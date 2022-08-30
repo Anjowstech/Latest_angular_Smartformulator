@@ -41,8 +41,7 @@ export class RawMaterialComponent implements OnInit {
   activeca: string = "catab1";
   activeIdString: any;
   tabid: string = '';
-  issearchRM: boolean = true;
-  issearchRMsave: boolean = false;
+
   itemlist = [];
   Approv: boolean;
   rmapproveinci: boolean = true;
@@ -91,7 +90,7 @@ export class RawMaterialComponent implements OnInit {
   statusId: string='0';
   supercededBy: string;
   unitCost: string='0.001';
-  costUnit: string='';
+  costUnit: string='Kg';
   costDt: string='';   //
   notes: string = '';
   deleterawmaterialmain: any;
@@ -108,7 +107,8 @@ export class RawMaterialComponent implements OnInit {
   rmAssayValue: string='0';
   ebsNumber: string='';
   lastPOCost: string='0.001';
-  drugName: string='';
+  drugName: string = '';
+  oldperc: string = "";
   sku: string='';
   COAPath: string='';
   MSDSPath: string='';
@@ -165,6 +165,7 @@ export class RawMaterialComponent implements OnInit {
   sabbrev: string = '';
   contactperson: string = '';
   contactno: string = '';
+  userna: string = "";
   distributor: string = '';
   note: string = '';
   approved: string = 'False';
@@ -1027,8 +1028,6 @@ export class RawMaterialComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       this.rmapproveinci = false;
-      this.issearchRM = false;
-      this.issearchRMsave = true;
       this.inciname = result[0];
       this.itemli = result[1];
       this.tradn = result[2];
@@ -1125,7 +1124,7 @@ export class RawMaterialComponent implements OnInit {
     this.totalpercent = 0;
     for (let Blenditem of blenddetails) {
       this.percentvalue = Blenditem.Percentage;
-      this.totalpercent =+ this.totalpercent+ + this.percentvalue;
+      this.totalpercent = + this.totalpercent + +this.percentvalue;
       this.Balance = (100 - this.totalpercent);
     }
   }
@@ -1160,15 +1159,16 @@ export class RawMaterialComponent implements OnInit {
   setvalues(blebddetails: any) {
     this.INCIName = blebddetails.INCIName;
     this.Percentage = blebddetails.Percentage;
+    this.oldperc = blebddetails.Percentage
     this.incicode2 = blebddetails.IngredientCode;
-
+   
 
 
   }
   Blenddlt() {
     var blendcd = this.incicode;
     var ingredientcode = this.incicode2;
-    var Usename = "admin";
+    var Usename = this.userna;
     var Percentage = this.Percentage;
     var inciname = this.INCIName;
     let params1 = new HttpParams().set('IngredientCode', ingredientcode).set('Itemcode', blendcd).set('username', Usename).set('Percentage', Percentage).set('inciname', inciname);
@@ -1178,11 +1178,10 @@ export class RawMaterialComponent implements OnInit {
     if (this.INCIName == "" || this.INCIName == null)  {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Select ingredient code.' } });
     }
-    else if (parseInt(prcntg) > 100) {
+    else if (parseInt(prcntg) > 100||this.Balance<0) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
-    else if (this.totalpercent>100)
-    {
+    else if ((this.totalpercent + Number(prcntg)) > 100 && Number(prcntg) > Number(this.oldperc) && this.Balance < 0) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
     else {
@@ -1315,7 +1314,7 @@ export class RawMaterialComponent implements OnInit {
     var INCIName = INCINames;
     var ppm = ppms;
     var SupplierName = suupname;
-    var username = "admin";
+    var username = this.userna;
     var txtname = "";
     var txtitemcode = "";
     //var oldterms = this.oldTerms;
@@ -2008,7 +2007,7 @@ export class RawMaterialComponent implements OnInit {
   DeleteCAPROPimpuritiesweb() {
     var IngredientCode = this.incicode;
     var BlendCode = this.itemli;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var ppm = this.ppm;
     var subinciname = this.doc1;
@@ -2117,7 +2116,7 @@ export class RawMaterialComponent implements OnInit {
   }
   DeleteCAPROP65web() {
     var clid = this.Inciid;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
@@ -2125,7 +2124,7 @@ export class RawMaterialComponent implements OnInit {
   }
   Deletechinaweb() {
     var clid = this.Inciid;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
@@ -2133,7 +2132,7 @@ export class RawMaterialComponent implements OnInit {
   }
   Deletejapanweb() {
     var clid = this.Inciid;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
@@ -2141,7 +2140,7 @@ export class RawMaterialComponent implements OnInit {
   }
   DeleteEUweb() {
     var clid = this.Inciid;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
@@ -2149,7 +2148,7 @@ export class RawMaterialComponent implements OnInit {
   }
   Deletecanadaweb() {
     var clid = this.Inciid;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
@@ -2157,7 +2156,7 @@ export class RawMaterialComponent implements OnInit {
   }
   Deleteusweb() {
     var clid = this.Inciid;
-    var username = "admin";
+    var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
@@ -2366,7 +2365,7 @@ export class RawMaterialComponent implements OnInit {
         code: this.supp_code,
         SupplierKey: this.suppkey,
         email: this.Email,
-        lblusername: 'admin',
+        lblusername: this.userna,
         CmbStatus: this.Status,
         DefaultUnit: this.defaultUnit,
         cmbUOM1: this.defaultUnit,
@@ -2473,6 +2472,7 @@ export class RawMaterialComponent implements OnInit {
         this.rawmaterial_update_data = rawmaterial_update
         if (this.rawmaterial_update_data == "Updated") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
+
           this.rawmaterial_update_data = ""
         }
         this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
@@ -2534,7 +2534,7 @@ export class RawMaterialComponent implements OnInit {
 
 
 
-        AddedBy: 'admin',
+        AddedBy: this.userna,
         AddedDt: this.AddedDt,
         Address: this.address,
         AlertRemarks: this.AlertRemarks,
@@ -2608,7 +2608,7 @@ export class RawMaterialComponent implements OnInit {
         SKU: this.sku,
         StatusId: this.statusId,
         SubCategoryId: this.subCategoryId,
-        SupercededBy: 'admin',
+        SupercededBy: this.userna,
         SupercededDate: '',
         SupplierKey: this.suppkey,
         UnitCost: this.unitCost,
@@ -2626,7 +2626,7 @@ export class RawMaterialComponent implements OnInit {
         IsBlend: this.IsBlend,
         CurrSupplierPriority: this.CurrSupplierPriority,
         cmbUOM1: this.defaultUnit,
-        lblusername: 'admin',
+        lblusername: this.userna,
         cmbLastper: this.LastPOUnit,
         CmbPriorityno: this.CurrSupplierPriority,
         NPAExpiry: this.NPAExpiry,
@@ -2731,7 +2731,6 @@ export class RawMaterialComponent implements OnInit {
         this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
           console.warn("auditload", auditload)
           this.auditdata = auditload
-         // this.auditdata = auditload
         })
       })
     }
@@ -2742,7 +2741,7 @@ export class RawMaterialComponent implements OnInit {
     var datalistraw: any = JSON.stringify(this.RMdataList);
     var datalistaudit: any = JSON.stringify(this.DataListAudit);
     var datalistifra: any = JSON.stringify(this.DataListIFRA);
-    var UserName: any = "admin";
+    var UserName: any = this.userna;
     let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra).set('username', UserName);
     return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
   }
@@ -2764,8 +2763,6 @@ export class RawMaterialComponent implements OnInit {
     //this.doc4 = "";
     //this.doc5 = "";
     //this.doc6 = "";
-    this.issearchRM = true;
-    this.issearchRMsave = false;
     this.rmapproveinci = true;
     this.supp_name = '';
     this.INCIName = '';
@@ -2946,7 +2943,7 @@ export class RawMaterialComponent implements OnInit {
     this.doc1 = files.item(0).name;
   }
   ngOnInit() {
-
+    this.userna = this.Datashare.getlogin();
     this.itemcodehidd = this.Datashare.getitemcoderaw();
   
     if (this.itemcodehidd != null) {
