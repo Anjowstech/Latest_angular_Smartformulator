@@ -1587,7 +1587,7 @@ export class RawMaterialComponent implements OnInit {
       this.oldshippingprice = (shippingprize1.toFixed(3)).toString();
       this.shippingprize = (shippingprize1.toFixed(3)).toString();
       var shippingprize2: Number = Number(item.Shippingprice);
-      this.defaultshippingprize = (shippingprize2.toFixed(3)).toString();
+      this.defaultshippingprize = (Number(this.shippingprize).toFixed(3)).toString();
 
       if (this.shippingprize == "") {
         this.shippingprize = "0"
@@ -2286,6 +2286,21 @@ export class RawMaterialComponent implements OnInit {
       else {
         this.NPAExpiry = this.NPAExpiry;
       }
+      if (this.defaultshippingprize == this.shippingprize) { 
+      this.defaultshippingprize = (Number(this.shippingprize).toFixed(3)).toString();
+      var total = Number(this.defaultstandardprice) + Number(this.defaultshippingprize);
+      this.defaultdeliveredprice = total.toFixed(3);
+      this.oldCost = "$" + this.defaultdeliveredprice + " Per " + this.defaaltunitname + " as of " + this.costDt;
+      this.oldStdCost = "$" + this.defaultlastpoCost + " Per " + this.lastpounitname + " as of " + this.LastPODt;
+    }
+    else {
+       // this.defaultshippingprize = (Number(this.shippingprize).toFixed(3)).toString();
+        var total = Number(this.defaultstandardprice) + Number(this.defaultshippingprize  );
+        this.defaultdeliveredprice = total.toFixed(3);
+        this.oldCost = "$" + this.defaultdeliveredprice + " Per " + this.defaaltunitname + " as of " + this.costDt;
+        this.oldStdCost = "$" + this.defaultlastpoCost + " Per " + this.lastpounitname + " as of " + this.LastPODt;
+        this.defaultshippingprize = this.shippingprize
+    }
       this.dataList[0] = ([{
         ItemCode: this.incicode,
         GeneralItemCode: this.itemli,
@@ -2396,6 +2411,7 @@ export class RawMaterialComponent implements OnInit {
         IsIFRAAudit: this.isifraaudit,
         dtpLastCost: this.LastPODt,
         LastPODt: this.LastPODt,
+       
         oldstdcost: this.oldStdCost,
         oldcost: this.oldCost,
 
@@ -2538,7 +2554,7 @@ export class RawMaterialComponent implements OnInit {
       (this.standardprice == "" || this.shippingprize == "" || this.unitCost == "" || this.lastPOCost=="") {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Price details' } });
     }
-    if (Number(this.totalpercent) != 0 && Number(this.totalpercent) > 100) {
+    else if (Number(this.totalpercent) != 0 && Number(this.totalpercent) > 100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Total percentage should be 100%.Adjust to 100%.' } });
       this.active = "3";
     }
@@ -2644,7 +2660,7 @@ export class RawMaterialComponent implements OnInit {
         cmbLastper: this.LastPOUnit,
         CmbPriorityno: this.CurrSupplierPriority,
         NPAExpiry: this.NPAExpiry,
-        oldpriorityno: this.CurrSupplierPriority,
+        oldpriorityno: this.oldpriorno,
         RMAbbreviation: 'CUSTOM',
         ifracas: '',
         IsIFRAFilled: '',
@@ -2657,8 +2673,15 @@ export class RawMaterialComponent implements OnInit {
         shippingprice: this.shippingprize,
         shippingpricedate: this.shippingpricedate,
 
+        dtpLastCost: this.LastPODt,
+        oldstdcost: this.oldStdCost,
+        oldcost: this.oldCost,
+        oldpriorityNA: this.oldpriority,
+      
 
       }]);
+      //LastPODt: this.LastPODt,
+
       this.DataListAudit[0] = ([{
         txtRegulatoryNotes: '',
         txtWord1: '',
@@ -2750,7 +2773,7 @@ export class RawMaterialComponent implements OnInit {
     var datalistifra: any = JSON.stringify(this.DataListIFRA);
     var UserName: any = this.userna;
     let params1 = new HttpParams().set('RawmaterialDetailjson', datalistraw).set('Auditdocjson', datalistaudit).set('IFRAdocjson', datalistifra).set('username', UserName);
-    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
+    return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
   }
   Deleteus_dt() {
     this.Deleteusweb().subscribe((Deleteus) => {
@@ -3114,6 +3137,7 @@ export class RawmaterialData {
 
 
 }
+
 export class AuditData {
   txtRegulatoryNotes: string;
   txtWord1: string;
@@ -3282,7 +3306,6 @@ export class Datasave {
   IsIFRAFilled: string;
   IsIFRAAudit: string;
 
-
   shippingpriceunit: string;
   stdpriceunit: string;
   stdprice: string;
@@ -3290,4 +3313,10 @@ export class Datasave {
   shippingprice: string;
   shippingpricedate: string;
 
+  dtpLastCost: string;
+  oldstdcost: string;
+  oldcost: string;
+  oldpriorityNA: string;
 }
+
+       
