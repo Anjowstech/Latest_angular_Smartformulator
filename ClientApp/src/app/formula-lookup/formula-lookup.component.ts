@@ -4595,7 +4595,7 @@ export class FormulaLookupComponent implements OnInit {
               this.TotalUnitCost = String(unitcosttotal.toFixed(5));
               var totcs: Number = sumvar * Number(this.labbatch);
               // this.TotalUnitCost = this.formulaCost;
-             
+             //testing git
               this.formulaCost = String((Number(this.TotalUnitCost) / Number(this.labbatch)).toFixed(5));
 
               for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
