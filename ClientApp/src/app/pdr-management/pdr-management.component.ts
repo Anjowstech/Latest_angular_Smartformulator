@@ -1266,11 +1266,7 @@ this.loadformulationsassign = loadformulations
     //var dates = diffInMs / (1000 * 60 * 60 * 24);
     var curr = this.pdrapproval;
 
-
-
     var pdrend = this.pdapprovalend;
-
-
 
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
@@ -1304,6 +1300,7 @@ this.loadformulationsassign = loadformulations
       this.formulacreationdays1 = this.DiffDate + 1
       this.formulacreationdays = this.formulacreationdays1;
     }
+    this.qctestapprovals = this.formulacreationend;
   }
   datechangeqctestapprovals(event) {
     var date = this.currentDate;
@@ -1321,6 +1318,7 @@ this.loadformulationsassign = loadformulations
       this.qcapprovaldays1 = this.DiffDate + 1;
       this.qcapprovaldays = this.qcapprovaldays1;
     }
+    this.producttestapprovals = this.qctestapprovalsend;
   }
   datechangeproducttestapprovals(event) {
     var date = this.currentDate;
@@ -1338,6 +1336,7 @@ this.loadformulationsassign = loadformulations
       this.ptapprovaldays1 = this.DiffDate + 1;
       this.ptapprovaldays = this.ptapprovaldays1;
     }
+    this.stabilitytestapproval = this.protestapprend;
   }
   datechangestabilitytestapprovals(event) {
     var date = this.currentDate;
@@ -1355,6 +1354,7 @@ this.loadformulationsassign = loadformulations
       this.stabilityapprovaldays1 = this.DiffDate + 1;
       this.stabilityapprovaldays = this.stabilityapprovaldays1;
     }
+    this.coateatappro = this.stabilityapprovalend;
   }
   datechangescoatestapprovals(event) {
     var date = this.currentDate;
@@ -1372,6 +1372,7 @@ this.loadformulationsassign = loadformulations
       this.coaapprovaldays1 = this.DiffDate + 1;
       this.coaapprovaldays = this.coaapprovaldays1;
     }
+    this.regulatoryappro = this.coatestapproend;
   }
   datechangesRegulatoryRejectionaprovals(event) {
     var date = this.currentDate;
@@ -1389,6 +1390,7 @@ this.loadformulationsassign = loadformulations
       this.regulatoryapprovaldays1 = this.DiffDate + 1;
       this.regulatoryapprovaldays = this.regulatoryapprovaldays1;
     }
+    this.ilapprappr = this.regulatoryapproend;
   }
   datechangesILLabel(event) {
     var date = this.currentDate;
@@ -1406,6 +1408,7 @@ this.loadformulationsassign = loadformulations
       this.ilapprovaldays1 = this.DiffDate + 1;
       this.ilapprovaldays = this.ilapprovaldays1;
     }
+    this.formprocedureappr = this.ilapprapprend;
   }
   datechangesFormulaProcedure(event) {
     var date = this.currentDate;
@@ -1423,6 +1426,7 @@ this.loadformulationsassign = loadformulations
       this.formulprocedureaapprovaldays1 = this.DiffDate + 1;
       this.formulprocedureaapprovaldays = this.formulprocedureaapprovaldays1;
     }
+    this.formulaapprorejection = this.formprocedureapprend;
   }
   datechangesApprovalRejection(event) {
     var date = this.currentDate;
@@ -1440,6 +1444,7 @@ this.loadformulationsassign = loadformulations
       this.formulaapprovaldays1 = this.DiffDate + 1;
       this.formulaapprovaldays = this.formulaapprovaldays1;
     }
+    this.samplecreation = this.formulaapprorejectionend;
   }
   datechangesSampleCreation(event) {
     var date = this.currentDate;
@@ -1457,6 +1462,7 @@ this.loadformulationsassign = loadformulations
       this.samplecreationdays1 = this.DiffDate + 1;
       this.samplecreationdays = this.samplecreationdays1;
     }
+    this.sampleapproval = this.samplecreationend;
   }
   datechangesSampleApprovalRejection(event) {
     var date = this.currentDate;
@@ -1474,6 +1480,7 @@ this.loadformulationsassign = loadformulations
       this.sampleapprovaldays1 = this.DiffDate + 1;
       this.sampleapprovaldays = this.sampleapprovaldays1;
     }
+    this.productization = this.sampleapprovalend;
   }
   datechangesproductization(event) {
     var date = this.currentDate;
@@ -1491,6 +1498,7 @@ this.loadformulationsassign = loadformulations
       this.productizationdays1 = this.DiffDate + 1;
       this.productizationdays = this.productizationdays1;
     }
+    this.pccapprovaldata = this.productizationend;
   }
   datechangesPCCApproval(event) {
     var date = this.currentDate;
@@ -1508,6 +1516,7 @@ this.loadformulationsassign = loadformulations
       this.pccapprovaldays1 = this.DiffDate + 1;
       this.pccapprovaldays = this.pccapprovaldays1;
     }
+    this.pifapprovaldata = this.pccapprovalenddata;
   }
   datechangesPIFApproval(event) {
     var date = this.currentDate;
@@ -1525,6 +1534,7 @@ this.loadformulationsassign = loadformulations
       this.pifapprovaldays1 = this.DiffDate + 1;
       this.pifapprovaldays = this.pifapprovaldays1;
     }
+    this.pdapproval = this.pifapprovalenddata;
   }
   datechangesProductApproval(event) {
     var date = this.currentDate;

@@ -164,6 +164,11 @@ import { ImportCustPreferenceComponent } from './formula-lookup/customer-details
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { SupplierListingComponent } from './supplier-listing/supplier-listing.component';
 import { RmsaveasComponent } from './raw-material/rmsaveas/rmsaveas.component';
+import { SampleManagementComponent } from './sample-management/sample-management.component';
+import { PDRListSearchComponent } from './sample-management/pdrlist-search/pdrlist-search.component';
+import { SearchSubmissionComponent } from './sample-management/search-submission/search-submission.component';
+import { UnapprovedRawmaterialComponent } from './sample-management/unapproved-rawmaterial/unapproved-rawmaterial.component';
+import { SearchFormulalistComponent } from './sample-management/search-formulalist/search-formulalist.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -246,7 +251,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'AddQcunit', component: AddQcunitComponent },
       { path: 'UpdateQc', component: UpdateQcComponent },
       { path: 'SupplierListing', component: SupplierListingComponent },
-      { path: 'Rmsaveas', component: RmsaveasComponent }
+      { path: 'Rmsaveas', component: RmsaveasComponent },
+      { path: 'SampleManagementComponent', component: SampleManagementComponent }
     ]
   }
 ];
@@ -376,6 +382,11 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     CustomerListingComponent,
     SupplierListingComponent,
     RmsaveasComponent,
+    SampleManagementComponent,
+    PDRListSearchComponent,
+    SearchSubmissionComponent,
+    UnapprovedRawmaterialComponent,
+    SearchFormulalistComponent,
     
   ],
   imports: [
@@ -419,6 +430,6 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   bootstrap: [AppComponent],
   entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
-    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent]
+    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent, PDRListSearchComponent, SearchSubmissionComponent, UnapprovedRawmaterialComponent, SearchFormulalistComponent]
 })
 export class AppModule { }

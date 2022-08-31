@@ -122,7 +122,7 @@ export class FormulaLookupComponent implements OnInit {
   FormulaTotalQTY: string = "0.00000";
   companyowned: string='Company-Owned';
   ManualSG: string = "0";
-  formulacodepdr: any;
+  formulacodepdr: string="";
   totaquantity1: any;
   manuprocreviewdata: any;
   useFormulation: string="";
@@ -8541,6 +8541,9 @@ onCellfirstValueChanged(params)
       this.formulacode = this.backformuldetails[1];
       this.formulaname = this.backformuldetails[2];
     this.formulacodepdr = this.Datashare.getmodulenavpdr();
+    if (this.formulacodepdr != undefined || this.formulacodepdr != "") {
+      this.formulacode = this.formulacodepdr;
+    }
     this.generalformulationload(this.formulacodepdr).subscribe((generalformulationload) => {
       console.warn("generalformulationload", generalformulationload)
       this.generalrowData = generalformulationload

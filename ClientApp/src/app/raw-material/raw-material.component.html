@@ -145,7 +145,7 @@
               <h5 for="inputcust" style="color:red">*</h5>
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select disabled id="PRD" class="form-control" style="width:22.5%;" name="uomnamevallastpo" [(ngModel)]="LastPOUnit" value="">
-                <option selected>Kg</option>
+                <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -155,7 +155,7 @@
               <h5 for="inputcust" style="color:red">*</h5>
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select id="PRD" class="form-control" style="width:22.5%;" [(ngModel)]="standardpriceunit" (change)="stdpriceChange($event)" name="uomnameval" value="">
-                <option selected>Kg</option>
+                <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -165,7 +165,7 @@
               <h5 for="inputcust" style="color:red">*</h5>
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select disabled id="PRD" class="form-control" style="width:22.5%;" name="shipco" value="" [(ngModel)]="shippingpriceunit">
-                <option selected>Kg</option>
+                <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -176,7 +176,7 @@
               <h5 for="inputcust" style="color:red">*</h5>
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select disabled id="PRD" class="form-control" style="width:22.5%;" name="deliverval" value="" [(ngModel)]="costUnit">
-                <option selected>Kg</option>
+                <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -243,7 +243,7 @@
 
               <label for="inputcust" style="margin-left:-30px">Default UOM</label>
               <select disabled id="PRD" class="form-control" style="width:21.5%;" [(ngModel)]="defaultUnit" (change)="uomChange($event)" name="uomnameval1" value="">
-                <option selected>Kg</option>
+                <option selected>{{changeunit}}</option>
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
