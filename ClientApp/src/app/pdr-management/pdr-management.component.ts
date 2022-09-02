@@ -1238,7 +1238,7 @@ this.loadformulationsassign = loadformulations
 
 
     this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
-    this.taskcountdurationdays = this.DiffDate + 2;
+    this.taskcountdurationdays = this.DiffDate + 1;
   }
   datechangeclick(event) {
     var date = this.currentDate;
@@ -2966,7 +2966,7 @@ this.loadformulationsassign = loadformulations
     pifapproval.setDate(pdrapprova.getDate() + 77);
     pifapprovalend.setDate(pdrapprova.getDate() + 83);
     prodapproval.setDate(pdrapprova.getDate() + 83);
-    prodapprovalend.setDate(pdrapprova.getDate() + 113);
+    prodapprovalend.setDate(pdrapprova.getDate() + 83);
   
     var diff = Math.abs(pdrcreationdate.getTime() - futureDatestart.getTime());
    // this.pdrcreationdays  = Math.ceil(diff / (1000 * 3600 * 24) );

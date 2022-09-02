@@ -252,7 +252,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'UpdateQc', component: UpdateQcComponent },
       { path: 'SupplierListing', component: SupplierListingComponent },
       { path: 'Rmsaveas', component: RmsaveasComponent },
-      { path: 'SampleManagementComponent', component: SampleManagementComponent }
+      { path: 'SampleManagementComponent', component: SampleManagementComponent },
+      { path: 'formulastatus', component: FormulaStatusComponent }
     ]
   }
 ];

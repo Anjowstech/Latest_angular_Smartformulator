@@ -377,6 +377,10 @@ export class NavMenuComponent {
           displayName: 'quality control',
           route: 'qualitycontrol'
         },
+        {
+          displayName: 'Formula Status',
+          route: 'formulastatus'
+        },
       ]
     }
 
@@ -394,6 +398,7 @@ export class NavMenuComponent {
   ngOnInit() {
     this.userna = this.Datashare.getlogin();
     this.company = this.Datashare.getcompany();
+    this.company = this.company.replace(".com", "");
     this.postData.getPosts().subscribe((result) => {
       console.warn("result", result)
       this.data = result

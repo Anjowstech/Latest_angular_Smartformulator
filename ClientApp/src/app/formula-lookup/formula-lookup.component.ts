@@ -7264,6 +7264,7 @@ onCellfirstValueChanged(params)
     }
   }
   if (params.data.SupplierName === "" && params.data.TradeName == "") {
+    
     return false;
   } else if (params.node.rowIndex === rowindata1) {
     return false;
