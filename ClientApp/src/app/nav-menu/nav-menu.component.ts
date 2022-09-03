@@ -236,7 +236,7 @@ export class NavMenuComponent {
       children: [
         {
           displayName: 'Sample Management',
-
+          route:'SampleManagementComponent'
         },
         {
           displayName: 'Customer Details',

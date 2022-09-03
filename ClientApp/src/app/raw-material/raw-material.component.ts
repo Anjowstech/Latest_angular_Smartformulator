@@ -41,7 +41,8 @@ export class RawMaterialComponent implements OnInit {
   activeca: string = "catab1";
   activeIdString: any;
   tabid: string = '';
-
+  issearchRM: boolean = true;
+  issearchRMsave: boolean = false;
   itemlist = [];
   Approv: boolean;
   rmapproveinci: boolean = true;
@@ -216,7 +217,7 @@ export class RawMaterialComponent implements OnInit {
   caasno: string;
   descptn: string;
   elinc: string;
- 
+  newtotalvalue: Number = 0;;
   savecapropimpu: string;
 
   Sourceinfo: string='';
@@ -1028,6 +1029,8 @@ export class RawMaterialComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       this.rmapproveinci = false;
+      this.issearchRM = false;
+      this.issearchRMsave = true;
       this.inciname = result[0];
       this.itemli = result[1];
       this.tradn = result[2];
@@ -1160,6 +1163,8 @@ export class RawMaterialComponent implements OnInit {
     this.INCIName = blebddetails.INCIName;
     this.Percentage = blebddetails.Percentage;
     this.oldperc = blebddetails.Percentage
+    this.newtotalvalue = this.totalpercent - Number(this.oldperc);
+    
     this.incicode2 = blebddetails.IngredientCode;
    
 
@@ -1175,13 +1180,22 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/BlendDeleteIngredient", { params: params1, responseType:'text' })
   }
   Blendsaveupdate(prcntg: string) {
+    if (this.newtotalvalue != 0) {
+      var newval = Number(this.newtotalvalue) + Number(prcntg);
+      this.newtotalvalue = 0;
+    }
+    else {
+      var newval = this.totalpercent + Number(prcntg);
+    }
+    
+
     if (this.INCIName == "" || this.INCIName == null)  {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Select ingredient code.' } });
     }
-    else if (parseInt(prcntg) > 100||this.Balance<0) {
+    else if (parseInt(prcntg) > 100 || this.Balance < 0  ) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
-    else if ((this.totalpercent + Number(prcntg)) > 100 && Number(prcntg) > Number(this.oldperc) && this.Balance < 0) {
+    else if (newval>100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
     else {
@@ -2779,8 +2793,11 @@ export class RawMaterialComponent implements OnInit {
     //this.doc4 = "";
     //this.doc5 = "";
     //this.doc6 = "";
+    this.newtotalvalue = 0;
     this.rmapproveinci = true;
     this.supp_name = '';
+    this.issearchRM = true;
+    this.issearchRMsave = false;
     this.INCIName = '';
     this.Percentage = '';
     this.risklistdata = '';
