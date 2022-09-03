@@ -11,7 +11,7 @@ export class FunctionSearchComponent implements OnInit {
   FunctionCode: string;
   FunctionName: string;
   searchitems: any = [];
-
+  filterMetadata = { count: 0 };
 
 
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<FunctionSearchComponent>) { }

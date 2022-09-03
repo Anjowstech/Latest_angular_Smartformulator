@@ -13,6 +13,7 @@ import { MessageBoxYesnoComponent } from '../../../message-box-yesno/message-box
 })
 export class TermsMasterComponent implements OnInit {
   Termsdata: any;
+  filterMetadata = { count: 0 };
   TermCode: string;
   Terms: string;
   searchitems: any = [];

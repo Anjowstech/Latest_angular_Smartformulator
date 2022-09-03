@@ -169,6 +169,8 @@ import { PDRListSearchComponent } from './sample-management/pdrlist-search/pdrli
 import { SearchSubmissionComponent } from './sample-management/search-submission/search-submission.component';
 import { UnapprovedRawmaterialComponent } from './sample-management/unapproved-rawmaterial/unapproved-rawmaterial.component';
 import { SearchFormulalistComponent } from './sample-management/search-formulalist/search-formulalist.component';
+import { AddLabnameComponent } from './formula-lookup/addproduct-testing/add-labname/add-labname.component';
+import { AddTestnameComponent } from './formula-lookup/addproduct-testing/add-testname/add-testname.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -253,7 +255,9 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'SupplierListing', component: SupplierListingComponent },
       { path: 'Rmsaveas', component: RmsaveasComponent },
       { path: 'SampleManagementComponent', component: SampleManagementComponent },
-      { path: 'formulastatus', component: FormulaStatusComponent }
+      { path: 'formulastatus', component: FormulaStatusComponent },
+      { path: 'AddTestname', component: AddTestnameComponent },
+      { path: 'AddLabname', component: AddLabnameComponent }
     ]
   }
 ];
@@ -388,6 +392,8 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     SearchSubmissionComponent,
     UnapprovedRawmaterialComponent,
     SearchFormulalistComponent,
+    AddLabnameComponent,
+    AddTestnameComponent,
     
   ],
   imports: [
@@ -430,7 +436,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
-    AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
+    AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, AddLabnameComponent,AddTestnameComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
     MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent, PDRListSearchComponent, SearchSubmissionComponent, UnapprovedRawmaterialComponent, SearchFormulalistComponent]
 })
 export class AppModule { }

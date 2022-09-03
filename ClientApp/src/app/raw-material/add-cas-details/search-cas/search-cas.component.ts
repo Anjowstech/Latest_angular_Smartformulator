@@ -10,6 +10,7 @@ import { DialogData } from 'src/app/raw-material/raw-material.component';
 })
 export class SearchCASComponent implements OnInit {
   cassearchdata: any;
+  filterMetadata = { count: 0 };
   casno: string;
   descrption: string;
   einecs: string;

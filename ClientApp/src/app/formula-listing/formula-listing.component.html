@@ -91,7 +91,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_all of loadalldata | filter:formulacode|filter:pdrnum| filter:status|filter:formulaname| filter:projectname|filter:createdby; let i=index;">
+              <tr *ngFor="let load_all of loadalldata | filter:formulacode:filterMetadata|filter:pdrnum:filterMetadata| filter:status:filterMetadata|filter:formulaname:filterMetadata| filter:projectname:filterMetadata|filter:createdby:filterMetadata; let i=index;">
                 <td>{{ load_all.formulacode }}</td>
                 <td>{{ load_all.description }}</td>
                 <td>{{ load_all.pdrno }}</td>
@@ -185,7 +185,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_form of loadformuladata| filter:t2formulacode|filter:t2pdrnum| filter:t2status|filter:t2formulaname| filter:t2projectname ; let i=index;">
+              <tr *ngFor="let load_form of loadformuladata| filter:t2formulacode:filterMetadata|filter:t2pdrnum:filterMetadata| filter:t2status:filterMetadata|filter:t2formulaname:filterMetadata| filter:t2projectname:filterMetadata ; let i=index;">
                 <td>{{ load_form.formulacode }}</td>
                 <td>{{ load_form.description }}</td>
                 <td>{{ load_form.pdrno }}</td>
@@ -385,7 +385,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_comp of loadcmpanydata | filter:formulanamecomp|filter:projectnamecomp| filter:createdbycomp|filter:pdrnumcomp|filter:statusnumco|filter:formuacodecomp;let i=index;">
+              <tr *ngFor="let load_comp of loadcmpanydata | filter:formulanamecomp:filterMetadata|filter:projectnamecomp:filterMetadata| filter:createdbycomp:filterMetadata|filter:pdrnumcomp:filterMetadata|filter:statusnumco:filterMetadata|filter:formuacodecomp:filterMetadata;let i=index;">
                 <td>{{ load_comp.formulacode }}</td>
                 <td>{{ load_comp.description }}</td>
                 <td>{{ load_comp.pdrno }}</td>
@@ -499,7 +499,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_custom of loadcustom| filter:formulanamecust|filter:projectnamecust| filter:createdbycust|filter:projectnamecust|filter:statuscust|filter:formulacodecust|filter:customname;let i=index;">
+              <tr *ngFor="let load_custom of loadcustom| filter:formulanamecust:filterMetadata|filter:projectnamecust:filterMetadata| filter:createdbycust:filterMetadata|filter:projectnamecust:filterMetadata|filter:statuscust:filterMetadata|filter:formulacodecust:filterMetadata|filter:customname:filterMetadata;let i=index;">
                 <td>{{ load_custom.customername}}</td>
                 <td>{{ load_custom.formulacode }}</td>
                 <td>{{ load_custom.description }}</td>
@@ -603,7 +603,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_gene of loadgenericdata| filter:formulacodegene|filter:pdrnumgene| filter:statusgene|filter:formulanamegene|filter:projectnamegene|filter:createdbygene;let i=index;">
+              <tr *ngFor="let load_gene of loadgenericdata| filter:formulacodegene:filterMetadata|filter:pdrnumgene:filterMetadata| filter:statusgene:filterMetadata|filter:formulanamegene:filterMetadata|filter:projectnamegene:filterMetadata|filter:createdbygene:filterMetadata;let i=index;">
 
                 <td>{{ load_gene.formulacode }}</td>
                 <td>{{ load_gene.description }}</td>
@@ -676,7 +676,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_lab of loadlarefdata | filter:labpage|filter:formulacodelab| filter:formulanamelab;let i=index;">
+              <tr *ngFor="let load_lab of loadlarefdata | filter:labpage:filterMetadata|filter:formulacodelab:filterMetadata| filter:formulanamelab:filterMetadata;let i=index;">
                 <td>{{ load_lab.labrefno }}</td>
                 <td>{{ load_lab.formulacode }}</td>
                 <td>{{ load_lab.description }}</td>
@@ -791,7 +791,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_cust of loadcustdata | filter:formulacodecustomer|filter:pdrnumcustomer| filter:statuscustomer|filter:formulanamecustomer|filter:projectnamecustomer|filter:createdbycustomer|filter:customercustomname;let i=index;">
+              <tr *ngFor="let load_cust of loadcustdata | filter:formulacodecustomer:filterMetadata|filter:pdrnumcustomer:filterMetadata| filter:statuscustomer:filterMetadata|filter:formulanamecustomer:filterMetadata|filter:projectnamecustomer:filterMetadata|filter:createdbycustomer:filterMetadata|filter:customercustomname:filterMetadata;let i=index;">
                 <td>{{ load_cust.customername}}</td>
                 <td>{{ load_cust.formulacode }}</td>
                 <td>{{ load_cust.description }}</td>
@@ -888,7 +888,7 @@
                     </thead>
                     <tbody>
 
-                      <tr *ngFor="let load_custom of loadstabilitydata| filter:t9stab|filter:t9formulacodecust| filter:t9pdr|filter:t9labnb|filter:t9formulanamecust|filter:t9projectnamecust|filter:t9customername;let i=index;">
+                      <tr *ngFor="let load_custom of loadstabilitydata| filter:t9stab:filterMetadata|filter:t9formulacodecust:filterMetadata| filter:t9pdr:filterMetadata|filter:t9labnb:filterMetadata|filter:t9formulanamecust:filterMetadata|filter:t9projectnamecust:filterMetadata|filter:t9customername:filterMetadata;let i=index;">
                         <td>{{ load_custom.stab}}</td>
                         <td>{{ load_custom.formulacode }}</td>
                         <td>{{ load_custom.description }}</td>
@@ -1046,7 +1046,7 @@
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();" matDialogClose>Back</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_saveupdate(custkey.value,custnam.value);">New</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Create Report</button>
-  
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
   </div>
 

@@ -1,3 +1,4 @@
+add product testing html
 <div style="background-color: #f6f5f1">
   <div style="overflow-y:auto;overflow-x:hidden; height:80vh;width:100%">
     <div class="col-sm-12">
@@ -13,48 +14,55 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <div class="form-inline">
-              <label style="margin-left:7.8%">PDR</label>
-              <input style="width: 50%;margin-left:4.3%" type="text" class="form-control">
+              <label style="margin-left: 6.7%">PDR.no</label>
+              <input style="width: 50%; margin-left: 51px" type="text" class="form-control"
+                     [(ngModel)]="pdrno" #pno name="pno" value="">
             </div>
             <div class="form-inline">
-              <label style="margin-left:6.7%">Formula</label>
-              <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+              <label style="margin-left: 6.7% ">Formula code</label>
+              <input style="width: 50%;margin-left:13px" type="text" class="form-control"
+                     [(ngModel)]="formulacode" #fc name="fcode" value="">
             </div>
             <div class="form-inline">
-              <label style="margin-left:6.7%">Formula</label>
-              <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+              <label style="margin-left:6.7%">Formula name</label>
+              <input style="width: 50%; margin-left:12px" type="text" class="form-control"
+                     [(ngModel)]="formulaname" #fn name="fname" value="">
             </div>
             <div class="form-inline">
               <label style="margin-left:6%">Customer</label>
-              <input style="width: 50%;margin-left:1%" type="text" class="form-control">
+              <input style="width: 50%; margin-left:15px " type="text" class="form-control"
+                     [(ngModel)]="customername" #fn name="cname" value="">
             </div>
             <div class="form-inline">
-              <label for="FormulationDetail" style="margin-left:10%">OTC</label><br>
-              <input type="radio" style="margin-left:2%" id="Yes" name="Yes" value="Yes">
-              <label for="FormulationDetail">Yes</label><br>
-              <input type="radio" style="margin-left:2.7%" id="Yes" name="Yes" value="Yes">
-              <label for="FormulationDetail">No</label><br>
+              <mat-radio-group aria-label="Select an option" style="margin-left:6%">
+                <Label>OTC</Label><br>
+                <mat-radio-button value="true" [checked]="OTC == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChangeOTC($event)">Yes</mat-radio-button>
+                <mat-radio-button value="false" [checked]="OTC == 'No' ? true : false" style="margin-left:20px" (change)="radioChangeOTC($event)">No</mat-radio-button>
+              </mat-radio-group>
             </div>
           </div>
           <div class="form-group col-md-6">
             <div class="form-inline">
-              <label for="FormulationDetail" style="margin-left:10%">Statu</label><br>
-              <input type="radio" style="margin-left:7%" id="Yes" name="Yes" value="Yes">
-              <label for="FormulationDetail">Open</label><br>
-              <input type="radio" style="margin-left:5%" id="Yes" name="Yes" value="Yes">
-              <label for="FormulationDetail">Closed</label><br>
+              <mat-radio-group aria-label="Select an option" style="margin-left:6%">
+                <Label>status</Label><br>
+                <mat-radio-button value="true" [checked]="status == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChangestatus($event)">Yes</mat-radio-button>
+                <mat-radio-button value="false" [checked]="status == 'No' ? true : false" style="margin-left:20px" (change)="radioChangestatus($event)">No</mat-radio-button>
+              </mat-radio-group>
             </div>
             <div class="form-inline">
               <label style="margin-left:12%">Claim</label>
-              <input style="width: 50%;margin-left:4.7%" type="text" class="form-control">
+              <input style="width: 50%;margin-left:4.7%" type="text" class="form-control"
+                     [(ngModel)]="claim" #fn name="claim" value="">
             </div>
             <div class="form-inline">
               <label style="margin-left:6.3%">Product Type</label>
-              <input style="width: 50%;margin-left:4%" type="text" class="form-control">
+              <input style="width: 50%;margin-left:4%" type="text" class="form-control"
+                     [(ngModel)]="PType" #fn name="TYPE" value="">
             </div>
             <div class="form-inline">
               <label style="margin-left:6%">Total Cost $</label>
-              <input style="width: 50%;margin-left:5.4%" type="text" class="form-control">
+              <input style="width: 50%;margin-left:5.4%" type="text" class="form-control"
+                     [(ngModel)]="TotalC" #fn name="totc" value="">
             </div>
           </div>
         </div>
@@ -70,51 +78,40 @@
                 <div class="form-group col-md-9">
                   <div class="form-inline">
                     <label for="inputcust" style="margin-top:15px;margin-left: 12%;margin-right:10px;">Test Name</label>
-                    <select id="PRD" class="form-control" style="width:45%;margin-left:0.5%;margin-top:1%">
-                      <option selected>Cosmetics</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <select id="tes" class="form-control" style="width:45%;margin-left:0.5%;margin-top:1%" [(ngModel)]="Testname" name="tesn" value="">
+                      <option selected>{{Testname}}</option>
+                      <option *ngFor="let testdetails of test_data_load ">{{testdetails.Testname}}</option>
                     </select>
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:15px;padding-top: 10px;margin-top:1%">Add Test Name</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:15px;padding-top: 10px;margin-top:1%" (click)="Opentestname();">Add Test Name</button>
                   </div>
                   <div class="form-inline">
                     <label for="inputcust" style=" margin-left: 12%;margin-right:10px">Lab</label>
-                    <select id="PRD" class="form-control" style="width:45%;margin-left:5%;margin-top:1%">
-                      <option selected>Acrylic</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <select id="PRD" class="form-control" style="width:45%;margin-left:5%;margin-top:1%" [(ngModel)]="labname" #fn name="labn" value="">
+                      <option selected>{{labname}}</option>
+                      <option *ngFor="let labdetails of lab_data_load">{{labdetails.labname}}</option>
                     </select>
                     <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 0.9%; padding-top: 10px;">Add Lab Name</button>
                   </div>
                   <div class="form-inline" style="margin-top:5px">
                     <label for="inputcust" style=" margin-left: 7.5%;margin-right:10px">Purchase Order</label>
-                    <input style="width: 45%;margin-left:2.8%" type="text" class="form-control">
+                    <input style="width: 45%;margin-left:2.8%" type="text" class="form-control" [(ngModel)]="Purchaseorder" #fn name="purchase" value="">
                   </div>
                   <div class="form-inline" style="margin-top:5px">
                     <label for="inputcust" style=" margin-left: 12%;">Cost</label>
-                    <input style="width: 45%;margin-left:5.3%" type="text" class="form-control">
+                    <input style="width: 45%;margin-left:5.3%" type="text" class="form-control"
+                           [(ngModel)]="Costone" name="Costs" value="">
                   </div>
                   <div class="form-inline" style="margin-top:5px">
                     <label for="inputcust" style="margin-right:10px;margin-left:11%">Quatation</label>
-                    <select id="PRD" class="form-control" style="width:20%;margin-left:2.3%">
-                      <option selected>06/18/2021</option>
-                      <option>g</option>
-                      <option>cc</option>
-                    </select>
+                    <input id="PRD" class="form-control" style="width:20%;margin-left:2.3%" type="Date" [(ngModel)]="Quatationdate" #fn name="Quatationd" value="">
+
                     <label for="inputcust" style="margin-right:10px;margin-left:7%">Open</label>
-                    <select id="PRD" class="form-control" style="width:20%;margin-left:10px">
-                      <option selected>06/18/2021</option>
-                      <option>g</option>
-                      <option>cc</option>
-                    </select>
+                    <input id="PRD" class="form-control" style="width:20%;margin-left:10px" type="Date" [(ngModel)]="opendate" #fn name="opend" value="">
+                    <label for="inputcust" style="margin-right:10px;margin-left:7%">Due</label>
+                    <input id="PRD" class="form-control" style="width:18%;margin-left:10px" type="Date" [(ngModel)]="Due" #fn name="Dued" value="">
                     <label for="inputcust" style="margin-right:10px;margin-left:7%">Set</label>
-                    <input class="form-control" id="form-0-quantity" min="0" name="quantity" value="1" type="number" style="width:8%;margin-left:10px">
+                    <input class="form-control" id="form-0-quantity" min="0"
+                           [(ngModel)]="Set" name="quantity" value="1" type="number" style="width:7%;margin-left:10px">
                   </div>
 
                 </div>
@@ -127,35 +124,24 @@
                     <div class="form-group col-md-6">
                       <div class="form-inline">
                         <label for="inputcust" style="margin-right:10px;margin-left:2%">Submitted</label>
-                        <select id="PRD" class="form-control" style="width:20%;margin-left:2.3%">
-                          <option selected>06/18/2021</option>
-                          <option>g</option>
-                          <option>cc</option>
-                        </select>
+                        <input id="PRD" class="form-control" style="width:20%;margin-left:2.3%"
+                               type="Date" [(ngModel)]="Submitteddate" #fn name="Submittedd" value="">
+
                         <label for="inputcust" style="margin-right:10px;margin-left:11%">Send to Customer</label>
-                        <select id="PRD" class="form-control" style="width:20%;margin-left:2.3%">
-                          <option selected>06/18/2021</option>
-                          <option>g</option>
-                          <option>cc</option>
-                        </select>
+                        <input id="PRD" class="form-control" style="width:20%;margin-left:2.3%" type="Date" [(ngModel)]="Customerdate" #fn name="Customerdd" value="">
+
                       </div>
                       <div class="form-inline">
                         <label for="inputcust" style="margin-right:10px;margin-left:4%;margin-top:1%">Start</label>
-                        <select id="PRD" class="form-control" style="width:20%;margin-left:5.3%;margin-top:1%">
-                          <option selected>06/18/2021</option>
-                          <option>g</option>
-                          <option>cc</option>
-                        </select>
+                        <input id="PRD" class="form-control" style="width:20%;margin-left:5.3%;margin-top:1%" type="Date" [(ngModel)]="Startdate" #fn name="Startdd" value="">
+
                         <label for="inputcust" style="margin-right:10px;margin-left:13%;margin-top:1%">Completed</label>
-                        <select id="PRD" class="form-control" style="width:20%;margin-left:6.2%;margin-top:1%">
-                          <option selected>06/18/2021</option>
-                          <option>g</option>
-                          <option>cc</option>
-                        </select>
+                        <input id="PRD" class="form-control" style="width:20%;margin-left:6.2%;margin-top:1%" type="Date" [(ngModel)]="Completeddate" #fn name="Completeddd" value="">
+
                       </div>
                       <div class="form-inline">
                         <label style="margin-left:6.7%">Time of</label>
-                        <input style="width: 50%;margin-left:15px" type="text" class="form-control">
+                        <input style="width: 50%;margin-left:15px" type="text" class="form-control" [(ngModel)]="Time" #fn name="Timeof" value="">
                       </div>
 
                     </div>
@@ -164,11 +150,11 @@
                     <div class="form-group col-md-12">
                       <div class="form-inline">
                         <label style="margin-left:2.7%">Result</label>
-                        <input style="width: 60%;margin-left:2%" type="text" class="form-control">
+                        <input style="width: 60%;margin-left:2%" type="text" class="form-control" [(ngModel)]="Result" #fn name="Results" value="">
                       </div>
                       <div class="form-inline">
                         <label style="margin-left:2%">Comment</label>
-                        <textarea style="width: 60%;margin-left:1%" type="text" class="form-control"></textarea>
+                        <textarea style="width: 60%;margin-left:1%" type="text" class="form-control" [(ngModel)]="Comment" #fn name="Comments" value=""></textarea>
                       </div>
                       <div class="form-inline">
                         <label style="margin-left:2%">Add File</label>
@@ -181,9 +167,13 @@
                   <div style="margin-top:0.5%">
                     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;" matDialogClose>Back</button>
                     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Next</button>
-                    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Save</button>
+                    <button type="submit" [hidden]="isproductsave" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px" (click)="savemmain();">Save</button>
+                    <button type="submit" [hidden]="isproductupdate" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px" (click)="savemmain();">Update</button>
                     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">New</button>
-                    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Delete</button>
+                    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px"
+                            (click)="deletetestinfo();">
+                      Delete
+                    </button>
                     <input type="checkbox" id="checkbox" style="float:right;margin-right:10px" name="" value="">
                     <label for="FormulationDetail" style="float:right;margin-right:10px">Approve</label><br>
                   </div>
@@ -201,18 +191,19 @@
               <div class="col-1">
 
               </div>
-              <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-                <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
+              <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left: 1%; margin-top: 1%; height: 350px; background-color: white; margin-right: 1%; ">
+                <table class="table table-hover table-bordered fixed" style=" background-color: white " id="table" width="98%">
                   <thead>
                     <tr>
-                      <th scope="col"></th>
                       <th scope="col">INCI Name</th>
+                      <th scope="col">%</th>
+
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
+                    <tr *ngFor="let incdetails of activeing_data_load ">
+                      <td class="tabledatasize">{{ incdetails.INCIname }}</td>
+                      <td class="tabledatasize">{{ incdetails.QtyinPercentage}}</td>
                     </tr>
 
                   </tbody>
@@ -241,54 +232,72 @@
               <div class="col-1">
 
               </div>
-              <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
-                <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
-                  <thead>
-                    <tr>
-                      <th scope="col"></th>
-                      <th scope="col">Purchase Order #</th>
-                      <th scope="col">Purchase Order Dt</th>
-                      <th scope="col">Due Dt</th>
-                      <th scope="col">Lab Name</th>
-                      <th scope="col">Cost $</th>
-                      <th scope="col">Invoice #</th>
-                      <th scope="col">Invoice Dt</th>
-                      <th scope="col">Payment Dt</th>
-                      <th scope="col">Payment to the Lab</th>
-                      <th scope="col">Bal. Payment to the Lab</th>
-                      <th scope="col">Client Invoice #</th>
-                      <th scope="col">Client Invoice Dt</th>
-                      <th scope="col">Client Payment</th>
-                      <th scope="col">Bal.Client Payment</th>
-                      <th scope="col">Comments</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+              <!--<div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
+              <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Purchase Order #</th>
+                    <th scope="col">Purchase Order Dt</th>
+                    <th scope="col">Due Dt</th>
+                    <th scope="col">Lab Name</th>
+                    <th scope="col">Cost $</th>
+                    <th scope="col">Invoice #</th>
+                    <th scope="col">Invoice Dt</th>
+                    <th scope="col">Payment Dt</th>
+                    <th scope="col">Payment to the Lab</th>
+                    <th scope="col">Bal. Payment to the Lab</th>
+                    <th scope="col">Client Invoice #</th>
+                    <th scope="col">Client Invoice Dt</th>
+                    <th scope="col">Client Payment</th>
+                    <th scope="col">Bal.Client Payment</th>
+                    <th scope="col">Comments</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let billdetails of bill_data_load ">
+                    <td class="tabledatasize">{{ billdetails.PurchaseOrder }}</td>
+                    <td class="tabledatasize">{{ billdetails.PurchaseOrder_Dt}}</td>
+                    <td class="tabledatasize">{{ billdetails.Testname}}</td>
+                    <td class="tabledatasize">{{ billdetails.Labname}}</td>
+                    <td class="tabledatasize">{{ billdetails.Cost}}</td>
+                    <td class="tabledatasize">{{ billdetails.Invoice}}</td>
+                    <td class="tabledatasize">{{ billdetails.InvoiceDt}}</td>
+                    <td class="tabledatasize">{{ billdetails.PaymentDt}}</td>
+                    <td class="tabledatasize">{{ billdetails.Payment_to_the_Lab}}</td>
+                    <td class="tabledatasize">{{ billdetails.Bal_payment_to_the_Lab}}</td>
+                    <td class="tabledatasize">{{ billdetails.ClientInvoiceDt}}</td>
+                    <td class="tabledatasize">{{ billdetails.Clientpayment}}</td>
+                    <td class="tabledatasize">{{ billdetails.Bal_clientpayment}}</td>
+                    <td class="tabledatasize">{{ billdetails.Comments}}</td>
 
-                  </tbody>
-                </table>
+                  </tr>
 
+                </tbody>
+              </table>-->
+              <!--</div>-->
+              <ag-grid-angular style="width: 100%; height: 400px;font-family:Verdana;font-style:normal;background-color:white"
+                               class="ag-theme-alpine"
+                               [rowHeight]="rowHeight"
+                               [columnDefs]="columnDefs1"
+                               [rowClassRules]="rowClassRules"
+                               (columnResized)="onColumnResized($event)"
+                               (columnVisible)="onColumnVisible($event)"
+                               #agGrid
+                               [applyColumnDefOrder]="true"
+                               [getRowStyle]="getRowStyle"
+                               [rowStyle]="rowStyle"
+                               [getRowNodeId]="getRowNodeId"
+                               [rowSelection]="rowSelection"
+                               [enableRangeSelection]="true"
+                               [suppressScrollOnNewData]="true"
+                               [gridOptions]="gridOptions"
+                               [defaultColDef]="defaultColDef"
+                               [rowData]="rowDatasproductbilling"
+                               [overlayLoadingTemplate]="overlayLoadingTemplate"
+                               (gridReady)="onGridReadyone($event)">
 
-              </div>
-
+              </ag-grid-angular>
 
 
               <div class="form-row">
@@ -298,26 +307,26 @@
                 <div class="form-group col-md-8">
                   <div class="form-inline">
                     <label style="margin-left:12%">Total Cost</label>
-                    <input style="width: 20%;margin-left:2%" type="text" class="form-control">
+                    <input style="width: 20%;margin-left:2%" type="text" class="form-control" [(ngModel)]="TotalCost" #fn name="Total" value="">
                     <label style="margin-left:2.7%">Total Client Payment</label>
-                    <input style="width: 20%;margin-left:4%" type="text" class="form-control">
+                    <input style="width: 20%;margin-left:4%" type="text" class="form-control" [(ngModel)]="ClientPayment" #fn name="CPayment" value="">
                   </div>
                   <div class="form-inline">
                     <label style="margin-left:4%">Total Payment to the Lab</label>
-                    <input style="width: 20%;margin-left:0.5%" type="text" class="form-control">
+                    <input style="width: 20%;margin-left:0.5%" type="text" class="form-control" [(ngModel)]="PaymentLab" #fn name="PaymentL" value="">
                     <label style="margin-left:2%;color:red">Total Bal. Client Payment</label>
-                    <input style="width: 20%;margin-left:1.7%" type="text" class="form-control">
+                    <input style="width: 20%;margin-left:1.7%" type="text" class="form-control" [(ngModel)]="TotalBalCPayment" #fn name="TotalBalCP" value="">
                   </div>
                   <div class="form-inline">
                     <label style="margin-left:0.2%;color:red">Total Bal. Payment To the lab</label>
-                    <input style="width: 20%;margin-left:1.7%" type="text" class="form-control">
+                    <input style="width: 20%;margin-left:1.7%" type="text" class="form-control" [(ngModel)]="TotalBalpaylb" #fn name="tbl" value="">
                   </div>
                 </div>
               </div>
               <div style="margin-top: 2%;">
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Next </button>
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Back </button>
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Save </button>
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right" (click)="savebillgrid();">Save </button>
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">ProductTesting Cost Form </button>
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:left">Previous</button>
               </div>
@@ -335,14 +344,15 @@
                 <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
                   <thead>
                     <tr>
-                      <th scope="col"></th>
+                      <th scope="col">Test Id</th>
                       <th scope="col">Test Name</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
+                    <tr *ngFor="let testdetails of test_data_load "
+                        (click)="setvalues(testdetails)">
+                      <td class="tabledatasize">{{ testdetails.TestId }}</td>
+                      <td class="tabledatasize">{{ testdetails.Testname}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -350,8 +360,8 @@
               <div style="margin-top: 2%;">
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Next </button>
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Back </button>
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Add Test Name </button>
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Delete Test Name </button>
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right" (click)="Opentestname();">Add Test Name </button>
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right" (click)="deletetestname();">Delete Test Name </button>
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:left">Previous</button>
               </div>
 
@@ -369,23 +379,25 @@
                 <table class="table table-hover table-bordered fixed" style="margin-left: 10px; background-color: white" id="table" width="98%">
                   <thead>
                     <tr>
-                      <th scope="col"></th>
+                      <th scope="col">lab Id</th>
                       <th scope="col">Lab Name</th>
                       <th scope="col">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
+                    <tr *ngFor="let labdetails of lab_data_load "
+                        (click)="setvalues1(labdetails)">
+                      <td class="tabledatasize">{{ labdetails .labId }}</td>
+                      <td class="tabledatasize">{{ labdetails .labname}}</td>
+                      <td class="tabledatasize">{{ labdetails .status}}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div style="margin-top: 2%;">
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Back </button>
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Add Lab Name </button>
-                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right">Delete Lab Name </button>
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right" (click)="Openlabname();">Add Lab Name </button>
+                <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:right" (click)="deletelabname();">Delete Lab Name </button>
                 <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left:2%;float:left">Previous</button>
               </div>
 

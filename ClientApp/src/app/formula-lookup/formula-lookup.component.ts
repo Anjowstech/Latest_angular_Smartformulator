@@ -147,6 +147,21 @@ export class FormulaLookupComponent implements OnInit {
   griditem: string;
   scalefactor: string;
   units: string;
+  tsname: any;
+  porder: string;
+  ssdate: string;
+  csst: string;
+  ssddate: string;
+  cussdate: string;
+  adaate: string;
+  odsate: string;
+  dsdate: string;
+  ddate: string;
+  qtsdate: string;
+  cmsdate: string;
+  apd: string;
+  apby: string;
+  lbname: string;
 
   gridtradename: string;
   gridIngredientCode: string;
@@ -170,6 +185,7 @@ export class FormulaLookupComponent implements OnInit {
   datarawcategoryload: any;
   formulalookupupdatedatas: any;
   dataList: any = [];
+  binddata: any = [];
   count: Number = 0;
   totaquantity: string = '';
   labdatalo_data: any;
@@ -247,8 +263,11 @@ export class FormulaLookupComponent implements OnInit {
   
   i: number;
   j: number;
-  
+ 
+  sdate: any;
   formgriddata: any;
+  cmdate: any;
+  
   FormulagridList: FormulaGridData[][] = [];
   FormulatextboxList: Formulationtextbox[][] = [];
   Costupdates: any;
@@ -1145,7 +1164,10 @@ export class FormulaLookupComponent implements OnInit {
             this.sgcalcload = sgcalcload
             this.Lbgal = this.sgcalcload
           })
-
+          this.BindFormulaProduct_load(this.formulacode).subscribe((BindFormulaProduct_load) => {
+            console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
+            this.BindFormulaProduct_data_load = BindFormulaProduct_load;
+          })
           this.qctabload(this.formulacode).subscribe((qcdetailslload) => {
             console.warn("qcdetailslload", qcdetailslload)
             this.qcdataload = qcdetailslload
@@ -1663,8 +1685,32 @@ export class FormulaLookupComponent implements OnInit {
     }
   }
   AddproductTesting(): void {
+    var billdata: any = [this.PDRno, this.formulaname, this.formulacode, this.customername]
     const dialogRef = this.dialog.open(AddproductTestingComponent, {
-      width: '80%', height: '90%', disableClose: true
+      width: '80%', height: '90%', data: { displaydata2: billdata }, disableClose: true
+    });
+  }
+  OpenAddproductTesting(binddetails): void {
+    this.tsname = binddetails.TestName
+    this.sdate = binddetails.StartDate
+    this.cmdate = binddetails.CompletedDate
+    this.apd = binddetails.Approved
+    this.apby = binddetails.ApprovedBy
+    this.lbname = binddetails.LabName
+    this.porder = binddetails.PurchaseOrderNo
+    this.csst = binddetails.Cost
+    this.ssddate = binddetails.SubmittedDate
+    this.cussdate = binddetails.CustomerDate
+    this.adaate = binddetails.AlertDate
+    this.odsate = binddetails.OpenDate
+    this.dsdate = binddetails.DueDate
+    this.qtsdate = binddetails.QuotationDate
+
+
+
+    this.binddata = [this.PDRno, this.formulaname, this.formulacode, this.customername, this.tsname, this.sdate, this.cmdate, this.lbname, this.csst, this.qtsdate, this.odsate, this.ddate, this.ssddate, this.cussdate, this.porder, this.adaate, this.qtsdate, this.apd, this.apby]
+    const dialogRef = this.dialog.open(AddproductTestingComponent, {
+      width: '80%', height: '90%', data: { displaydata: this.binddata }, disableClose: true
     });
   }
   makeCellClickedinci(event) {
@@ -6254,7 +6300,8 @@ export class FormulaLookupComponent implements OnInit {
       else {
         this.okpilot = "0"
         this.okpilot2 = "0"
-        this.isDisabledappr=true
+        this.isDisabledappr = true
+       
       }
       this.okproduce = item.MayProduce
       if (this.okproduce == "True") {
@@ -6341,6 +6388,22 @@ export class FormulaLookupComponent implements OnInit {
     if (Number(this.highspecificgravity) < 0 || isNaN(Number(this.highspecificgravity))) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
       this.highspecificgravity = "0.000";
+    }
+  }
+  blurEvenlbgal(event: any) {
+    var deflbgal: Number = Number(event.target.value);
+    this.Lbgal = (deflbgal.toFixed(3)).toString();
+    if (Number(this.Lbgal) < 0 || isNaN(Number(this.Lbgal))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
+      this.Lbgal = "0.000";
+    }
+  }
+  blurEvenmaxqt(event: any) {
+    var defmaxqt: Number = Number(event.target.value);
+    this.MaxPilotQty = (defmaxqt.toFixed(3)).toString();
+    if (Number(this.MaxPilotQty) < 0 || isNaN(Number(this.MaxPilotQty))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or integers' } });
+      this.MaxPilotQty = "0.000";
     }
   }
   blurEventshelflife(event: any) {
@@ -6839,6 +6902,11 @@ export class FormulaLookupComponent implements OnInit {
     return this.http.get("https://formulalookupwebservice15.azurewebsites.net/loadQCTABLE", { params: params1, })
 
   }
+  BindFormulaProduct_load(formulcode: string) {
+    var formulcod: string = formulcode;
+    let params1 = new HttpParams().set('Formulacode', formulcod)
+    return this.http.get("https://formulalookupwebservice9.azurewebsites.net/Bindproduct", { params: params1 })
+  }
   //physicalstabilityload(formcode:string) {
   //  var formulacode: string = formcode;
   //  var labbatch: string = formname;
@@ -6894,6 +6962,7 @@ export class FormulaLookupComponent implements OnInit {
     if (this.isDisabledappr == true) {
       this.okpilot = "0";
       this.okpilot2 = "0"
+      this.MaxPilotQty="0"
     }
     else {
       this.okpilot = "1"
@@ -6907,6 +6976,7 @@ export class FormulaLookupComponent implements OnInit {
     if (this.isDisabledappr2 == true) {
       this.okproduce = "0";
       this.okproduce2 = "0"
+
     }
     else {
       this.okproduce = "1"
@@ -8020,7 +8090,13 @@ onCellfirstValueChanged(params)
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula unit ,lab batch unit details ' } });
       this.issearchformulasave = false;
     }
-
+    else if (this.labbatch == "0.00000")
+    {
+      this.loading = false;
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please check you entered the quantity for at least ONE raw material.' } });
+      this.issearchformulasave = false;
+      this.active = "2";
+    }
  
   else
     {
@@ -8183,7 +8259,7 @@ onCellfirstValueChanged(params)
               else if (this.lookupdate2data == "") {
                 this.loading = false;
               }
-              else {
+              else  {
                 this.loading = false;
                 this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Please check all your parameters before Save' } });
                 this.lookupdate1data = ""

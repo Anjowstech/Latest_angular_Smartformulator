@@ -1,0 +1,19 @@
+<div style="background-color: #f6f5f1">
+
+  <form>
+    <div class="form-group">
+      <div class="form-inline">
+        <label for="PDR #" style="margin-left:10px">Lab Name</label>
+        <input style="width: 60%;margin-left:95px;" type="text" class="form-control" id="test" [(ngModel)]="labname" name="lname" value="">
+
+      </div>
+    </div>
+  </form>
+  <div class="form-inline" style="float:right">
+    <mat-dialog-actions>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="cleardata();">New</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="labnamesave();" matDialogClose>Save</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
+    </mat-dialog-actions>
+  </div>
+</div>

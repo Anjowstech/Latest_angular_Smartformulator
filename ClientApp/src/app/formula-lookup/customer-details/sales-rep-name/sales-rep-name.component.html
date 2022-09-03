@@ -76,7 +76,7 @@
       <p class="font-weight-bold">Make your selection by double clicking on your choice</p>
     </div>
     <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;">
-      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+      <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -98,7 +98,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let salespersondetails of Sales_person  let i=index; " (click)="setvalues( salespersondetails);" #conten>
+          <tr *ngFor="let salespersondetails of Sales_person | filter:FirstName:filterMetadata|filter:ContactNumber:filterMetadata | filter:Region:filterMetadata|filter:LastName:filterMetadata|filter:ContactEmail:filterMetadata|filter:SalesRepInit:filterMetadata ;  let i=index; " (click)="setvalues( salespersondetails);" #conten>
 
 
 
@@ -134,7 +134,7 @@ Rgn.value,lstnam.value,mail.value,initial.value);ClearData();">
       Save/Update
     </button>
     <button type="submit" class="btn btn-primary buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%;" matDialogClose>Back</button>
-    <h5 style="float:left;margin-top:10px;color:maroon">{{countrecords}} Record(s)</h5>
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
     <!--<label for="Recordscount" style="float: left; height: 50px; width: 100px; margin-top: 1%; width: 70px;color:red">Records {{countrecords}}</label>-->
 
   </div>
