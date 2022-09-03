@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\app\filter.pipe.ts" />
+    <None Remove="ClientApp\src\app\formula-lookup\addphystability-test\Datepickerstability.ts" />
     <None Remove="ClientApp\src\app\nav-item.ts" />
     <None Remove="ClientApp\src\app\pipefilter.ts" />
     <None Remove="ClientApp\src\app\pipefilter2.ts" />
@@ -40,6 +41,9 @@
     <Folder Include="wwwroot\" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="21.1.5" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\formula-lookup\addphystability-test\Datepickerstability.ts" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
