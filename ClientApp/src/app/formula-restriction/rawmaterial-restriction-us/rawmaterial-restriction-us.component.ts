@@ -104,51 +104,65 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       this.username = item.username
     }
   }
-
+  blurmaxper(event: any) {
+    this.maximumconclusion = event.target.value;
+  
+    if (Number(this.maximumconclusion) < 0.00000 || isNaN(Number(this.maximumconclusion))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.maximumconclusion = '0';
+      }
+ 
+  }
   Restriction_SaveUpdateUS() {
-    this.Oper = this.country;
-    this.Restrictiondatalist[0] = ([{
+    if (this.Maximumusedforconclusion == "" || this.Maximumusedforconclusion == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter atleast one restriction." } });
+    }
+    else {
+      this.Oper = this.country;
+      this.Restrictiondatalist[0] = ([{
 
-      txtInciid: this.inciid,
-      txtPercentage: this.maximumconclusion,
-      txtCountry: this.country,
-      txtFieldofAppln: '',
-      txtInciName: this.restrictionformulaname,
-      IngredientCode: this.IngredientCodedata,
-      username: this.username,
-      txtJournal: this.journalconclusion,           //
-      txtIngredientCode: this.IngredientCodedata,
-      txtMaximum: this.Maximumusedforconclusion,       //
-      txtOtherLimitations: this.concentrationconclusion,       //
-      txtConditions: this.safetuconclusion,
-      txtSourceinfo: this.internalSource,        //
-      txtmaxpercentage: this.maximumconclusion,      //
-      txtRegNotes: '',
-      txtDocument: this.SourceRegulationconclusion,      //
-      txtInternalComments: this.internalconclusion,     //
-      txtTypeofToxicity: '',
-      txtNSRL: '',
-      txtListingMechanism: '',
-      ChkSafeIn: "false",
-      ChkSafeQualifi: "false",
-      ChkInsufficient: "false",
-      ChkUnSafe: "false",
+        txtInciid: this.inciid,
+        txtPercentage: this.maximumconclusion,
+        txtCountry: this.country,
+        txtFieldofAppln: '',
+        txtInciName: this.restrictionformulaname,
+        IngredientCode: this.IngredientCodedata,
+        username: this.username,
+        txtJournal: this.journalconclusion,           //
+        txtIngredientCode: this.IngredientCodedata,
+        txtMaximum: this.Maximumusedforconclusion,       //
+        txtOtherLimitations: this.concentrationconclusion,       //
+        txtConditions: this.safetuconclusion,
+        txtSourceinfo: this.internalSource,        //
+        txtmaxpercentage: this.maximumconclusion,      //
+        txtRegNotes: '',
+        txtDocument: this.SourceRegulationconclusion,      //
+        txtInternalComments: this.internalconclusion,     //
+        txtTypeofToxicity: '',
+        txtNSRL: '',
+        txtListingMechanism: '',
+        ChkSafeIn: "false",
+        ChkSafeQualifi: "false",
+        ChkInsufficient: "false",
+        ChkUnSafe: "false",
 
-    }]);
+      }]);
 
-    this.Restrictionus_saveupdateup().subscribe((restriction_save_up) => {
-      console.warn("restriction_save_up", restriction_save_up)
-      this.restriction_save_up_data = restriction_save_up
+      this.Restrictionus_saveupdateup().subscribe((restriction_save_up) => {
+        console.warn("restriction_save_up", restriction_save_up)
+        this.restriction_save_up_data = restriction_save_up
 
-      if (this.restriction_save_up_data == "Inserted") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details saved Successfully" } });
-        this.restriction_save_up_data = ""
-      }
-      else if (this.restriction_save_up_data == "Updated") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
-        this.restriction_save_up_data = ""
-      }
-    })
+        if (this.restriction_save_up_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details saved Successfully" } });
+          this.restriction_save_up_data = ""
+        }
+        else if (this.restriction_save_up_data == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
+          this.restriction_save_up_data = ""
+        }
+      })
+    }
+
   }
   Restrictionus_saveupdateup() {
 
