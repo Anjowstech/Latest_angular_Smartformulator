@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-rawmaterial-restriction-prop65',
@@ -29,7 +30,7 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
   sourceregdoc: string;
   restrictionformulaname: string;
   isChanged: string;
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
 
 
 
@@ -71,10 +72,14 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
       console.warn("restriction_save_up", restriction_save_up)
       this.restriction_save_up_data = restriction_save_up
 
-      //if (this.rawmaterial_save_data == "Inserted") {
-      //  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-      //  this.rawmaterial_save_data = ""
-      //}
+      if (this.restriction_save_up_data == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
+      else if (this.restriction_save_up_data == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
     })
   }
   Restriction_saveupdateup() {

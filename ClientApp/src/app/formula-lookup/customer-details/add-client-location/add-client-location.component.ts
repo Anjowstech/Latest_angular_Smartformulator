@@ -44,7 +44,10 @@ export class AddClientLocationComponent implements OnInit {
 
         if (this.client_loc_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Client Location is added successfully.' } });
+          this.isclienthiddensa = true;
+          this.isclienthiddenup = false;
         }
+        
       })
     }
     
@@ -56,6 +59,8 @@ export class AddClientLocationComponent implements OnInit {
       //this.wait(2000);
       if (this.client_loc_updata == "Updated") {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Client Location is updated successfully.' } });
+        this.isclienthiddensa = true;
+        this.isclienthiddenup = false;
       }
     })
   }
@@ -136,8 +141,7 @@ export class AddClientLocationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isclienthiddensa = false;
-    this.isclienthiddenup = true;
+    
     this.addclientlocationload = this.datashare.getclientlocation()
     this.location = this.addclientlocationload[0];
     this.address = this.addclientlocationload[1];
@@ -157,6 +161,10 @@ export class AddClientLocationComponent implements OnInit {
     if (this.location != "") {
       this.isclienthiddensa = true;
       this.isclienthiddenup = false;
+    }
+    else {
+      this.isclienthiddensa = false;
+      this.isclienthiddenup = true;
     }
 
   }

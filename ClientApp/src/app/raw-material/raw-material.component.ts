@@ -116,6 +116,7 @@ export class RawMaterialComponent implements OnInit {
   defaultUnit: string='Kg';
   LastPOUnit: string = 'Kg';
   reorderQty: string = '0';
+  oldreorderqty: string;
   origin: string='';
   concentration: string='0';
   RMSource: string='';
@@ -289,6 +290,7 @@ export class RawMaterialComponent implements OnInit {
   INNName: string = '';
   RMAbbreviation: string = '';
   MOQunit: string = '';
+  oldmoq: string;
   NPAExpiry: string = '';
   PreviousVenderCode: string = '';
   SupplierRMNo: string = '';
@@ -520,30 +522,90 @@ export class RawMaterialComponent implements OnInit {
     })
 
   }
+  blurmoq(event: any) {
+    this.MOQ = event.target.value;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.MOQ) < 0.00000 || isNaN(Number(this.MOQ))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.MOQ = '0.00';
+      }
+    }
+    else {
+      if (Number(this.MOQ) < 0.00000 || isNaN(Number(this.MOQ))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.MOQ = this.oldmoq;
+      }
+    }
+
+
+  }
+  blurreorder(event: any) {
+    this.reorderQty = event.target.value;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.reorderQty) < 0.00000 || isNaN(Number(this.reorderQty))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.reorderQty = '0.00';
+      }
+    }
+    else {
+      if (Number(this.reorderQty) < 0.00000 || isNaN(Number(this.reorderQty))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.reorderQty = this.oldreorderqty;
+      }
+    }
+   
+   
+  }
   blurEventpreload(event: any) {
     this.preloadtime = event.target.value;
-    if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-      this.preloadtime = this.oldpreloadtime ;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.preloadtime = '0';
+      }
     }
+    else {
+      if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.preloadtime = this.oldpreloadtime;
+      }
+    }
+   
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurEventprolead(event: any) {
     this.proleadtime = event.target.value;
-    if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-      this.proleadtime = this.oldproleadtime ;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.proleadtime = '0';
+      }
     }
+    else {
+      if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.proleadtime = this.oldproleadtime;
+      }
+    }
+    
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurEventpostlead(event: any) {
     this.postleadtime = event.target.value;
-    if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-      this.postleadtime = this.oldpostleadtime ;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.postleadtime = '0';
+      }
     }
+    else {
+      if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.postleadtime = this.oldpostleadtime;
+      }
+    } 
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
@@ -646,6 +708,19 @@ export class RawMaterialComponent implements OnInit {
     const dialogRef = this.dialog.open(RawmaterialRestrictionUsComponent, {
       width: '70%', height: '80%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendUs }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
+        console.warn("loadrawmaterialus", loadrawmaterialus)
+        this.usload = loadrawmaterialus
+      })
+
+
+
+    });
+   
   }
 
   OpenRawmaterialRestrictionEU(): void {
@@ -775,9 +850,9 @@ export class RawMaterialComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
 
-      this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
-        console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
-        this.CAprop65load = loadrawmaterialCAPROP65
+      this.CAproprestrictionsloadloaddata(this.inciname).subscribe((loadrawmaterialCAproprestrictions) => {
+        console.warn("loadrawmaterialCAproprestrictions", loadrawmaterialCAproprestrictions)
+        this.CAproprestrictionsload = loadrawmaterialCAproprestrictions
       })
 
 
@@ -1205,9 +1280,11 @@ export class RawMaterialComponent implements OnInit {
 
         if (this.Blend_save_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions saved successfully.' } });
+          this.Clearblend();
         }
-        else if (this.Blend_save_data == "Updated") {
+        else if (this.Blend_save_data == "Update") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions updated successfully.' } });
+          this.Clearblend();
         }
         this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
           console.warn("Blenddetailslload", Blenddetailslload)
@@ -1440,6 +1517,8 @@ export class RawMaterialComponent implements OnInit {
       this.LastPOUnit = item.LastPOUnit;
       this.lastpounit = item.LastPOUnit;
       this.reorderQty = item.ReOrderQty;
+      this.oldreorderqty = item.ReOrderQty;
+     
       this.origin = item.Origin;
       this.concentration = item.RMConcentration;
       this.RMSource = item.RawMatSource;
@@ -1531,6 +1610,7 @@ export class RawMaterialComponent implements OnInit {
       this.Exemptornot = item.Exemptornot;
       this.PhEurName = item.PhEurName;
       this.MOQ = item.MOQ;
+      this.oldmoq = item.MOQ;
       this.Approved = item.Approved;
       this.VOCContributor = item.VOCContributor;
       this.PreviousCost = item.PreviousCost;
@@ -2096,6 +2176,7 @@ export class RawMaterialComponent implements OnInit {
     this.Deletejapanweb().subscribe((Deletejapan) => {
       console.warn("Deletejapan", Deletejapan)
       this.delclientjapan_loaddata = Deletejapan
+
       this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
         console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
         this.japanload = loadrawmaterialjapan
@@ -2503,12 +2584,16 @@ export class RawMaterialComponent implements OnInit {
         if (this.rawmaterial_update_data == "Updated") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
 
+          this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+            console.warn("auditload", auditload)
+            this.auditdata = auditload
+          })
           this.rawmaterial_update_data = ""
         }
-        this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
-          console.warn("auditload", auditload)
-          this.auditdata = auditload
-        })
+        //this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+        //  console.warn("auditload", auditload)
+        //  this.auditdata = auditload
+        //})
       })
     }
    
@@ -2788,6 +2873,8 @@ export class RawMaterialComponent implements OnInit {
 
   ClearData() {
     this.doc1 = "";
+    this.oldmoq = '';
+    this.oldreorderqty = '';
     //this.doc2 = "";
     //this.doc3 = "";
     //this.doc4 = "";

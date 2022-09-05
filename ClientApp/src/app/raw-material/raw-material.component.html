@@ -102,7 +102,7 @@
               <div class="form-row" style="width:72.5%">
                 <div class="form-group col-md-6">
                   <input style="width: 100%;text-align:right" type="text" class="form-control" :placeholder="0.00" [(ngModel)]="reorderQty" #orderqty
-                         name="reorderqtyval" value="">
+                         name="reorderqtyval" value="" (blur)=" blurreorder($event);" >
                 </div>
                 <div class="form-group col-md-6">
                   <select id="PRD" class="form-control" style="width:100%;">
@@ -156,6 +156,7 @@
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select id="PRD" class="form-control" style="width:22.5%;" [(ngModel)]="standardpriceunit" (change)="stdpriceChange($event)" name="uomnameval" value="">
                 <option selected>{{changeunit}}</option>
+                <!--<option selected>Kg</option>-->
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -166,6 +167,7 @@
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select disabled id="PRD" class="form-control" style="width:22.5%;" name="shipco" value="" [(ngModel)]="shippingpriceunit">
                 <option selected>{{changeunit}}</option>
+                
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -205,8 +207,8 @@
             </div>
             <div class="form-inline">
               <label for="inputcust">Min Order Qty</label>
-              <input style="width: 34%;text-align:right" type="text" class="form-control" placeholder="0.00" [(ngModel)]="MOQ" #Minorder name="minodrq" value="">
-              <select id="PRD" class="form-control" style="width:25%;">
+              <input style="width: 34%;text-align:right" type="text" class="form-control" placeholder="0.00" [(ngModel)]="MOQ" #Minorder name="minodrq" value="" (blur)=" blurmoq($event);">
+              <select id="PRD" class="form-control" style="width:25%;" >
                 <option selected>Kg</option>
                 <option>Lb</option>
                 <option>Gal</option>
@@ -679,7 +681,7 @@
                         </div>
                         <div class="col form-inline" style="margin-top:1%">
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="Deletecanada_dt();">Delete Restriction</button>
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionEU();">Add Restriction</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionCA();">Add Restriction</button>
 
                         </div>
                       </ng-template>
@@ -805,7 +807,7 @@
                         </div>
                         <div class="col form-inline" style="margin-top:1%">
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="Deletejapan_dt();">Delete Restriction</button>
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionEU();">Add Restriction</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionAUS();">Add Restriction</button>
 
                         </div>
                       </ng-template>
@@ -849,7 +851,7 @@
                         </div>
                         <div class="col form-inline" style="margin-top:1%">
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="DeleteChina_dt();">Delete Restriction</button>
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionEU();">Add Restriction</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionCHINA();">Add Restriction</button>
 
                         </div>
                       </ng-template>

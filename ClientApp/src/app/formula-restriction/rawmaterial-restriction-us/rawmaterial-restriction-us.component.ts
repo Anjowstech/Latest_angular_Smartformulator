@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-rawmaterial-restriction-us',
@@ -55,7 +56,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
   I: string = "";
   basedetails: string[];
   usdetails: string[];
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
 
   pdrupdatemain() {
     this.dataList1[0] = ([{
@@ -139,10 +140,14 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       console.warn("restriction_save_up", restriction_save_up)
       this.restriction_save_up_data = restriction_save_up
 
-      //if (this.rawmaterial_save_data == "Inserted") {
-      //  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-      //  this.rawmaterial_save_data = ""
-      //}
+      if (this.restriction_save_up_data == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
+      else if (this.restriction_save_up_data == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
     })
   }
   Restrictionus_saveupdateup() {
@@ -156,7 +161,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.country = this.data.displaydata1;
     var countryname = this.data.displaydata1;
     if (countryname == "tab1") {
       this.country = "US";
