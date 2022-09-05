@@ -553,7 +553,7 @@
               </thead>
 
               <tbody>
-                <tr *ngFor="let cas_detail of casdata; let i=index;" (click)="dltdata(cas_detail);">
+                <tr *ngFor="let cas_detail of casdata; let i=index;" (click)="dltdata(cas_detail);onRowClick(i);"[class.table-active]="i == currentRowIndex" >
                   <td hidden style="width:10%">{{ cas_detail.itemCode}}</td>
                   <td style="width:20%">{{ cas_detail.CASNo}}</td>
                   <td>{{ cas_detail.Description}}</td>

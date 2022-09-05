@@ -40,6 +40,7 @@ export class RawMaterialComponent implements OnInit {
   activeTab: string = "tab1";
   activeca: string = "catab1";
   activeIdString: any;
+  currentRowIndex: number = -1;
   tabid: string = '';
   issearchRM: boolean = true;
   issearchRMsave: boolean = false;
@@ -504,6 +505,9 @@ export class RawMaterialComponent implements OnInit {
       this.LastPOUnit = this.defaultUnit;
     })
    
+  }
+  onRowClick(index: number) {
+    this.currentRowIndex = index;
   }
   stdpriceChange(event) {
     this.standardpriceunit = event.target.value;
