@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-rawmaterial-restriction-us',
@@ -32,6 +33,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
   FieldofApplndata: string = '';
   INCINamedata: string;
   Inciiddata: string;
+  oldmaxper: string;
   IngredientCodedata: string;
   Maximumdata: string = "";
   OtherLimitationsdata: string = "";
@@ -55,7 +57,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
   I: string = "";
   basedetails: string[];
   usdetails: string[];
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
 
   pdrupdatemain() {
     this.dataList1[0] = ([{
@@ -92,6 +94,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       this.Maximumusedforconclusion = item.Maximum
       this.concentrationconclusion = item.OtherLimitations
       this.maximumconclusion = item.maxpercentage
+      this.oldmaxper = item.maxpercentage
       this.S = item.S
       this.SQ = item.SQ
       this.I = item.I
@@ -103,7 +106,23 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       this.username = item.username
     }
   }
+  blurmaxpercentage(event: any) {
+    this.maximumconclusion = event.target.value;
+    if (this.restrictionformulaname == "" || this.restrictionformulaname == undefined) {
+      if (Number(this.maximumconclusion) < 0.00000 || isNaN(Number(this.maximumconclusion))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.maximumconclusion = '0';
+      }
+    }
+    else {
+      if (Number(this.maximumconclusion) < 0.00000 || isNaN(Number(this.maximumconclusion))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.maximumconclusion = this.oldmaxper;
+      }
+    }
 
+
+  }
   Restriction_SaveUpdateUS() {
     this.Oper = this.country;
     this.Restrictiondatalist[0] = ([{
@@ -139,10 +158,14 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       console.warn("restriction_save_up", restriction_save_up)
       this.restriction_save_up_data = restriction_save_up
 
-      //if (this.rawmaterial_save_data == "Inserted") {
-      //  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-      //  this.rawmaterial_save_data = ""
-      //}
+      if (this.restriction_save_up_data == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
+      else if (this.restriction_save_up_data == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
     })
   }
   Restrictionus_saveupdateup() {
@@ -152,11 +175,42 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
     let params1 = new HttpParams().set('Rawmaterialrestrctnjson', datalistrestriction).set('operation', operation);
     return this.http.get("https://smartformulatorformulalookupwebservice5.azurewebsites.net/RawMtrlRestrictionBtnSave", { params: params1, responseType: 'text' })
   }
-
+  Cleardata() {
+    this.country = '';
+    this.FieldofApplndata = '';
+    this.inciname = '';
+    this.IngredientCodedata = '';
+    this.username = '';
+    this.journal = '';
+    this.IngredientCodedata = '';
+    this.Maximumdata = '';
+    this.OtherLimitationsdata = '';
+    this.Conditionsdata = '';
+    this.Sourceinfodata = '';
+    this.maxpercentagedata = '';
+    this.internalReg = '';
+    this.restrictionformulaname = '';
+    this.Maximumusedforconclusion = '';
+    //txtTypeofToxicity: '',
+    //txtNSRL: '',
+    //txtListingMechanism: '',
+    //ChkSafeIn: '',
+    //ChkSafeQualifi: '',
+    //ChkInsufficient: '',
+    //  ChkUnSafe: '',
+    this.concentrationconclusion = '';
+    this.maximumconclusion = '';
+    this.safetuconclusion = '';
+    this.conditionconclusion = '';
+    this.journalconclusion = '';
+    this.internalconclusion = '';
+    this.internalSource = '';
+    this.SourceRegulationconclusion = '';
+  }
 
 
   ngOnInit() {
-
+    this.country = this.data.displaydata1;
     var countryname = this.data.displaydata1;
     if (countryname == "tab1") {
       this.country = "US";

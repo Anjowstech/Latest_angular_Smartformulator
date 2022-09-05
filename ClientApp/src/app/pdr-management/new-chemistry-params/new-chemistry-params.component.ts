@@ -60,15 +60,19 @@ export class NewChemistryParamsComponent implements OnInit {
       this.chemdlt_data = dlt_chem
       if (this.chemdlt_data == "Parameter is deleted successfully.") {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Parameter is deleted successfully.' } });
+        this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
+          console.warn("loadchemdata", loadchemdata)
+          this.datachem = loadchemdata
+        })
       }
     })
-    this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
-      console.warn("loadchemdata", loadchemdata)
-      this.datachem = loadchemdata
+    //this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
+    //  console.warn("loadchemdata", loadchemdata)
+    //  this.datachem = loadchemdata
 
 
 
-    })
+    //})
 
 
 

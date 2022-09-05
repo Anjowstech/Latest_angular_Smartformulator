@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-rawmaterial-restriction-prop65',
@@ -29,7 +30,7 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
   sourceregdoc: string;
   restrictionformulaname: string;
   isChanged: string;
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
 
 
 
@@ -66,15 +67,21 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
       txtppm: '',
       isChanged: this.isChanged,
     }]);
+    if (this.IngredientCodedata == "" || this.sourceinfo == "" || this.toxicity == "" || this.nsdl == "" || this.listing == "" || this.isChanged == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Atleast one Restriction" } });
 
+    }
     this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
       console.warn("restriction_save_up", restriction_save_up)
       this.restriction_save_up_data = restriction_save_up
-
-      //if (this.rawmaterial_save_data == "Inserted") {
-      //  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-      //  this.rawmaterial_save_data = ""
-      //}
+      if (this.restriction_save_up_data == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
+      else if (this.restriction_save_up_data == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
     })
   }
   Restriction_saveupdateup() {
@@ -83,6 +90,30 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
     var operation: string = "CA_PROP_65 Direct";
     let params1 = new HttpParams().set('Rawmaterialrestrctnjson', datalistrestriction).set('operation', operation);
     return this.http.get("https://smartformulatorformulalookupwebservice5.azurewebsites.net/RawMtrlRestrictionBtnSave", { params: params1, responseType: 'text' })
+  }
+  Cleardata() {
+    this.country = '';
+    this.restrictionformulaname = '';
+    this.inciname = '';
+    this.IngredientCodedata = '';
+    this.username = '';
+    this.toxicity = '';
+    this.IngredientCodedata = '';
+    this.listing = '';
+    this.cadate = '';
+    this.nsdl = '';
+    this.sourceinfo = '';
+    this.sourceregdoc = '';
+    this.internalreg = '';
+   
+    //txtTypeofToxicity: '',
+    //txtNSRL: '',
+    //txtListingMechanism: '',
+    //ChkSafeIn: '',
+    //ChkSafeQualifi: '',
+    //ChkInsufficient: '',
+    //  ChkUnSafe: '',
+    
   }
 
 

@@ -1234,11 +1234,9 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.pdapprovalend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-
-
-
     this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
     this.taskcountdurationdays = this.DiffDate + 1;
+    this.stagestartDate = formatDate((this.currentDate), 'dd/MM/yyyy', 'en-US');
   }
   datechangeclick(event) {
     var date = this.currentDate;
@@ -1552,6 +1550,10 @@ this.loadformulationsassign = loadformulations
       this.productapprovaldays1 = this.DiffDate + 1;
       this.productapprovaldays = this.productapprovaldays1;
     }
+    var tenatativestartdate1 = moment(this.currentDate);
+    this.DiffDate = Math.abs(tenatativestartdate1.diff(tentaviveenddate, 'days'));
+    this.taskcountdurationdays = this.DiffDate + 1;
+    this.stageendDate = formatDate((this.pdapprovalend), 'dd/MM/yyyy', 'en-US');
   }
   setvaluepdrapproval(workflow_pdr) {
     this.taskid = "2";

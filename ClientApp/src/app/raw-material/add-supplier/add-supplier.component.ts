@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DxDataGridModule, DxDataGridComponent } from 'devextreme-angular';
 import themes from 'devextreme/ui/themes';
+
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 
@@ -113,6 +114,8 @@ export class AddSupplierComponent implements OnInit {
   //  dialogConfig.width = '1900%';
   //  const dialogRef = this.dialog.open(SearchSupplierComponent)
   //}
+  setvaluescomponent(): void {
+  }
   Searchsupplierpopup(): void {
     this.active = '1';
     const dialogRef = this.dialog.open(SearchSupplierComponent, {
@@ -250,6 +253,7 @@ export class AddSupplierComponent implements OnInit {
     });
   }
   deleteRow() {
+
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     this.dataGrid.instance.deselectAll();
   }
@@ -270,27 +274,31 @@ export class AddSupplierComponent implements OnInit {
   }
 
   selectedChanged(e) {
-    this.selectedRowIndex = e.component.getRowIndexBykey(e.selectedRowKeys[0]);
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);;
 
   }
   deletesupplier(suppliername) {
-    this.Supplier_delete(suppliername).subscribe((Supplierr_dlt) => {
-      console.warn("Supplierr_deletedata", Supplierr_dlt)
-      this.Supplier_deletedata = Supplierr_dlt
-      if (this.Supplier_deletedata == "Deleted") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
-      }
-      else if (this.Supplier_deletedata != null)
-      {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
-      }
-      else if (this.Supplier_deletedata == "failed") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Failed to Delete" });
-      }
-      else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Not able to Delete" });
-      }
-    })
+    if (suppliername == null || suppliername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Nothing to Delete" } });
+    }
+    else {
+      this.Supplier_delete(suppliername).subscribe((Supplierr_dlt) => {
+        console.warn("Supplierr_deletedata", Supplierr_dlt)
+        this.Supplier_deletedata = Supplierr_dlt
+        if (this.Supplier_deletedata == "Deleted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
+        }
+        else if (this.Supplier_deletedata == null) {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Failed to Delete"  } });
+        }
+        else if (this.Supplier_deletedata == "failed") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Failed to Delete" });
+        }
+        else {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Not able to Delete" });
+        }
+      })
+    }
   }
   updatesupplier(supplierkey: string, suppliername: string, supplieraddress: string) {
     var a = supplierkey;
@@ -683,6 +691,9 @@ export class AddSupplierComponent implements OnInit {
           this.wait(2000);
           if (this.Supplier_save_data != "") {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
+          }
+          else if (this.Supplier_save_data == null) {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Failed to Save " } });
           }
           this.loadallrm(this.SupplierCode).subscribe((loadrmsupplierall) => {
             console.warn("loadrmsupplierall", loadrmsupplierall)

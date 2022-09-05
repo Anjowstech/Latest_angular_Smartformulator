@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-rawmaterial-restriction',
@@ -24,6 +25,8 @@ export class RawmaterialRestrictionComponent implements OnInit {
   Inciiddata: string;
   IngredientCodedata: string;
   Maximumdata: string = "";
+  oldminper: string;
+  oldppm: string;
   OtherLimitationsdata: string = "";
   Percentagedata: string;
   Sourceinfodata: string = "";
@@ -46,7 +49,9 @@ export class RawmaterialRestrictionComponent implements OnInit {
   ppm: string = '';
   doclink: string = '';
   sourceregulation: string = '';
-  constructor(private Datashare: DataShareServiceService, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  oldmaxperc: string;
+  constructor(private Datashare: DataShareServiceService, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,) { }
 
   restrictionloadpopup(username: string, fieldname: string, inciname: string, operation: string) {
     var user: string = username;
@@ -75,16 +80,74 @@ export class RawmaterialRestrictionComponent implements OnInit {
       this.Maximumdata = item.Maximum
       this.OtherLimitationsdata = item.OtherLimitations
       this.Percentagedata = item.Percentage
+      this.oldminper = item.Percentage
       this.Sourceinfodata = item.Sourceinfo
       this.maxpercentagedata = item.maxpercentage
+      this.oldmaxperc = item.maxpercentage,
       this.ppm = item.ppm
       this.sourceregulation = item.DocLink
       this.internalcomm = item.internalcomments
     }
   }
+  blurmaxpercentage(event: any) {
+    this.maxpercentagedata = event.target.value;
+    if (this.INCINamedata == "" || this.INCINamedata == undefined) {
+      if (Number(this.maxpercentagedata) < 0.00000 || isNaN(Number(this.maxpercentagedata))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.maxpercentagedata = '0';
+      }
+    }
+    else {
+      if (Number(this.maxpercentagedata) < 0.00000 || isNaN(Number(this.maxpercentagedata))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.maxpercentagedata = this.oldmaxperc;
+      }
+    }
 
+
+  }
+  blurpercentage(event: any) {
+    this.minpercent = event.target.value;
+    if (this.INCINamedata == "" || this.INCINamedata == undefined) {
+      if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.minpercent = '0';
+      }
+    }
+    else {
+      if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.minpercent = this.oldminper;
+      }
+    }
+
+
+  }
+  ppmpercentage(event: any) {
+    this.ppm = event.target.value;
+    if (this.INCINamedata == "" || this.INCINamedata == undefined) {
+      if (Number(this.ppm) < 0.00000 || isNaN(Number(this.ppm))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.minpercent = '0';
+      }
+    }
+    else {
+      if (Number(this.ppm) < 0.00000 || isNaN(Number(this.ppm))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.ppm = this.oldppm;
+      }
+    }
+
+
+  }
   Restriction_SaveUpdate() {
     this.Oper = this.data.displaydata1;
+    if (this.ppm == "" || this.ppm == undefined) {
+      var perc: string = "0";
+    }
+    else {
+      var perc: string = (Number(this.ppm) / 1000).toString()
+    }
     this.Restrictiondatalist[0] = ([{
 
       txtInciid: this.inciid,
@@ -101,6 +164,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
       txtConditions: this.Conditionsdata,
       txtSourceinfo: this.Sourceinfodata,
       txtmaxpercentage: this.maxpercentagedata,
+      
       txtRegNotes: this.internalReg,
       txtDocument: this.sourceregulation,
       txtInternalComments: this.internalcomm,
@@ -114,19 +178,50 @@ export class RawmaterialRestrictionComponent implements OnInit {
       txtChinestInciName: this.chineseinci,
       txtMinPercent: this.minpercent,
       txtppm: this.ppm,
-      txtPercentage: (Number(this.ppm) / 1000).toString(),
+      txtPercentage: perc,
       isChanged: '1',
     }]);
 
     this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
       console.warn("restriction_save_up", restriction_save_up)
       this.restriction_save_up_data = restriction_save_up
-
-      //if (this.rawmaterial_save_data == "Inserted") {
-      //  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-      //  this.rawmaterial_save_data = ""
-      //}
+      if (this.restriction_save_up_data == "Inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
+      else if (this.restriction_save_up_data == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+        this.restriction_save_up_data = ""
+      }
     })
+  }
+  Cleardata() {
+    this.country = '';
+    this.FieldofApplndata = '';
+    this.inciname = '';
+    this.IngredientCodedata = '';
+    this.username = '';
+    this.journal = '';
+    this.IngredientCodedata = '';
+    this.Maximumdata = '';
+    this.OtherLimitationsdata = '';
+    this.Conditionsdata = '';
+    this.Sourceinfodata = '';
+    this.maxpercentagedata = '';
+    this.internalReg = '';
+    this.sourceregulation = '';
+    this.internalcomm = '';
+    //txtTypeofToxicity: '',
+    //txtNSRL: '',
+    //txtListingMechanism: '',
+    //ChkSafeIn: '',
+    //ChkSafeQualifi: '',
+    //ChkInsufficient: '',
+    //  ChkUnSafe: '',
+    this.chineseinci = '';
+    this.minpercent = '';
+    this.ppm = '';
+
   }
   Restriction_saveupdateup() {
 
@@ -141,7 +236,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
     var countryname = this.data.displaydata1;
     this.Eudetails = this.data.displaydata2;
     this.basedetails = this.data.displaydata0;
-    this.country = this.basedetails[2];
+    this.country = countryname;
 
     this.inciid = this.Eudetails[0];
     if (this.inciid == undefined) {

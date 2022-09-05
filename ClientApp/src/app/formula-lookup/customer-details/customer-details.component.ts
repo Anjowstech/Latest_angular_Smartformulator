@@ -76,7 +76,7 @@ export class CustomerDetailsComponent implements OnInit {
   cuskey: string;
   /* custnam: string;*/
   address: string = "";
-  customertype: string;
+  customertype: string ="Retail";
   phone: string = "";
   emailref: string = "";
   addeddt: string = "";
@@ -329,6 +329,16 @@ export class CustomerDetailsComponent implements OnInit {
     var filebrowse = files.item.length;
     this.FillingAttachment2 = files.item(0).name;
   }
+  blurEventtier2(event: any) {
+    this.Tier2 = event.target.value;
+    if (Number(this.Tier2) < Number(this.Tier1)) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier2 should be greater than tier1' } });
+      this.Tier2 = '0';
+    }
+  }
+
+
+
  
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
@@ -473,11 +483,27 @@ export class CustomerDetailsComponent implements OnInit {
     const dialogRef = this.dialog.open(SalesRepNameComponent, {
       width: '60%', height: '70%', disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.Salesperson().subscribe((salespersondata) => {
+        console.warn("salespersondata", salespersondata)
+        this.salespersondatalo_data = salespersondata
+      })
+    });
   }
   OpenTermsMaster(): void {
     const dialogRef = this.dialog.open(TermsMasterComponent, {
       width: '60%', height: '70%', disableClose: true
+    }); dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.termsdataload().subscribe((termsdatalo) => {
+        console.warn("termsdatalo", termsdatalo)
+        this.termsdatalo_data = termsdatalo
+      })
     });
+
   }
   onRowPrepared2(e) {
 
@@ -663,9 +689,17 @@ export class CustomerDetailsComponent implements OnInit {
     this.OpenAddClientLocation();
   }
 
-  insert_tier4() {
-    this.Tier4Range = 'Above ' + this.Tier3;
-    this.Tier4 = 'Above ' + this.Tier3;
+  insert_tier4(event: any) {
+    this.Tier3 = event.target.value;
+    if (Number(this.Tier3) < Number(this.Tier2)) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier3 should be greater than tier2' } });
+      this.Tier3 = '0';
+    }
+    else {
+      this.Tier4Range = 'Above ' + this.Tier3;
+      this.Tier4 = 'Above ' + this.Tier3;
+    }
+
   }
   setvalues2(customer_searchdata2: any) {
     this.i = 0;
@@ -1342,9 +1376,11 @@ export class CustomerDetailsComponent implements OnInit {
               this.dataloadaudittrialcustomer = loadcustomeraudittrial
             })
             if (this.Customer_save_data == "Inserted") {
+             
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer " + " " + this.customername + " is " + this.Customer_save_data + " " + "Successfully" } });
               
-             
+              this.issearchcustomer = false;
+              this.issearchcustomersave = true;
               this.Customer_save_data = ""
             }
             else if (this.Customer_save_data == "Customer Key") {
@@ -1564,6 +1600,8 @@ export class CustomerDetailsComponent implements OnInit {
 
             if (this.Customer_save_data == "Updated") {
               this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'updated successfully' } });
+              this.issearchcustomer = false;
+              this.issearchcustomersave = true;
             }
 
           })
@@ -1724,7 +1762,7 @@ ClearData()
   this.customercode = '';
   this.customername = '';
   this.address = '';
-  this.customertype ='';
+  this.customertype ='Retail';
   this.phone = '';
   this.emailref = '';
   this.fax = '';
