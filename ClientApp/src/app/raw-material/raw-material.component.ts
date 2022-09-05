@@ -2500,15 +2500,16 @@ export class RawMaterialComponent implements OnInit {
       this.Rawmaterial_updateup().subscribe((rawmaterial_update) => {
         console.warn("rawmaterial_update", rawmaterial_update)
         this.rawmaterial_update_data = rawmaterial_update
+        this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+          console.warn("auditload", auditload)
+          this.auditdata = auditload
+        })
         if (this.rawmaterial_update_data == "Updated") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
 
           this.rawmaterial_update_data = ""
         }
-        this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
-          console.warn("auditload", auditload)
-          this.auditdata = auditload
-        })
+        
       })
     }
    
@@ -2753,15 +2754,16 @@ export class RawMaterialComponent implements OnInit {
       this.Rawmaterial_saveupdateup().subscribe((rawmaterial_save) => {
         console.warn("rawmaterial_save", rawmaterial_save)
         this.rawmaterial_save_data = rawmaterial_save
-
-        if (this.rawmaterial_save_data == "Inserted") {
-          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-          this.rawmaterial_save_data = ""
-        }
+        
         this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
           console.warn("auditload", auditload)
           this.auditdata = auditload
         })
+        if (this.rawmaterial_save_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
+          this.rawmaterial_save_data = ""
+        }
+        
       })
     }
     

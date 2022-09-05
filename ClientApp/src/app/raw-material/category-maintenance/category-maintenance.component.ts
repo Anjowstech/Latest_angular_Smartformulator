@@ -141,6 +141,9 @@ export class CategoryMaintenanceComponent implements OnInit {
     if (CategoryNam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
     }
+    else if (Descriptio == "") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
+    }
    
     else {
       this.savecategory(this.classifiedvalue, CategoryNam, Descriptio).subscribe((resultraw_cate_save) => {

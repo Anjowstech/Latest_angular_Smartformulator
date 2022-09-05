@@ -3038,7 +3038,24 @@ this.loadformulationsassign = loadformulations
       console.warn("loadformula", loadformulations)
       this.loadformulationsassign = loadformulations
     })
-   
+    this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
+      console.warn("loadchemdata", loadchemdata)
+      this.datachem = loadchemdata
+      this.pdrnodata = this.pdrno;
+      this.datashare.sendpdrno(this.pdrnodata);
+    })
+    this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
+      console.warn("loadmicrobiologydata", loadmicrobiologydata)
+      this.datamicro = loadmicrobiologydata
+      this.pdrnodata = this.pdrno;
+      this.datashare.sendpdrno(this.pdrnodata);
+    })
+    this.loadspecification(this.pdrno).subscribe((loadspec) => {
+      console.warn("loadspec", loadspec)
+      this.loadspecdata = loadspec
+      this.pdrnosend = this.pdrno
+      this.datashare.sendpdrno(this.pdrnosend)
+    })
     //this.currentstartDate = new Date().toISOString().substring(0, 10);
     //this.currentendDate = new Date().toISOString().substring(0, 10);
     //this.currentDate = new Date().toISOString().substring(0, 10);
@@ -3052,7 +3069,7 @@ this.loadformulationsassign = loadformulations
     //this.stageendDate = formatDate(new Date(futureDateend), 'MM/dd/yyyy', 'en-US');
     this.projectapprovalcheck = true;
     this.datecheck = false;
-    this.isLoadingspec = true;
+    this.isLoadingspec = false;
   }
 }
 export class Data {

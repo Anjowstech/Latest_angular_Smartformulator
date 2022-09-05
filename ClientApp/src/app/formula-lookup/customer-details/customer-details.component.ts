@@ -148,6 +148,7 @@ export class CustomerDetailsComponent implements OnInit {
   searchitems: any = [];
   shippingdata: any;
   Customer_pref_data: any;
+  currentRowIndex: number = -1;
   locationname: string = "";
   Address: string = "";
   City: string = "";
@@ -399,7 +400,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.volumePricingloadlistdetails_data = volumePricingloadlistdetails
 
       })
-      this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+      this.audittrialloadfunction(this.customername).subscribe((loadcustomeraudittrial) => {
         console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
         this.dataloadaudittrialcustomer = loadcustomeraudittrial
       })
@@ -407,6 +408,9 @@ export class CustomerDetailsComponent implements OnInit {
 
     });
 
+  }
+  onRowClick(index: number) {
+    this.currentRowIndex = index;
   }
   deletetierrange() {
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
@@ -1332,13 +1336,15 @@ export class CustomerDetailsComponent implements OnInit {
           this.Customer_saveup(custcode, custnam, custkey, operation).subscribe((Customer_save) => {
             console.warn("Customer_save", Customer_save)
             this.Customer_save_data = Customer_save
+            this.wait(3000);
+            this.audittrialloadfunction(custnam).subscribe((loadcustomeraudittrial) => {
+              console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+              this.dataloadaudittrialcustomer = loadcustomeraudittrial
+            })
             if (this.Customer_save_data == "Inserted") {
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer " + " " + this.customername + " is " + this.Customer_save_data + " " + "Successfully" } });
               
-              this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
-                console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
-                this.dataloadaudittrialcustomer = loadcustomeraudittrial
-              })
+             
               this.Customer_save_data = ""
             }
             else if (this.Customer_save_data == "Customer Key") {
@@ -1551,7 +1557,7 @@ export class CustomerDetailsComponent implements OnInit {
             this.Customer_save_data = Customer_update
 
             this.wait(3000);
-            this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+            this.audittrialloadfunction(custnam).subscribe((loadcustomeraudittrial) => {
               console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
               this.dataloadaudittrialcustomer = loadcustomeraudittrial
             })

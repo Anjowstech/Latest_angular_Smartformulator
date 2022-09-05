@@ -25,6 +25,7 @@ export class AddSupplierComponent implements OnInit {
   Suppliername: string;
   SupplierCode: string;
   supData: any;
+  selectedallsupp: boolean = true;
   issearchsupplierupdate: boolean = true;
   issearchsuppliersave: boolean = false;
   code: string ="";
@@ -49,12 +50,15 @@ export class AddSupplierComponent implements OnInit {
   Zip: string="";
   SupplierKey: string;
   Rating: string;
-  Approved: string="false";
+  Approved: string = "false";
+  rawapproved: string = "false";
   Approv: boolean;
+  rawapprov: boolean;
   Prefered: string;
   Prefer: boolean;
   FOB: string="";
-  fob: string="";
+  fob: string = "";
+  unselectsupp: boolean = true;
   Supplier_deletedata: any;
   Terms: string ="No Terms";
   ShipVia: string="";
@@ -164,7 +168,7 @@ export class AddSupplierComponent implements OnInit {
           this.dataloadsupplierapprovedrmlength = this.dataloadsupplierapprovedrm.length
         })
         this.loadUnapprovedrm(this.SupplierCode).subscribe((loadrmsupplierunapproved) => {
-          console.warn("loadrmsupplierall", loadrmsupplierunapproved)
+          console.warn("loadrmsupplierunappro", loadrmsupplierunapproved)
           this.dataloadsupplierunapprovedrm = loadrmsupplierunapproved
           this.dataloadsupplierunapprovedrmlength = this.dataloadsupplierunapprovedrm.length
         })
@@ -202,9 +206,13 @@ export class AddSupplierComponent implements OnInit {
       this.Approved = item.Approved;
       if (this.Approved == "True") {
         this.Approv = true
+        this.selectedallsupp = false;
+        this.unselectsupp = false;
       }
       else {
         this.Approv = false
+        this.selectedallsupp = true;
+        this.unselectsupp = true;
       }
       this.Prefered = item.Prefered;
       if (this.Prefered == "true") {
@@ -225,12 +233,12 @@ export class AddSupplierComponent implements OnInit {
   }
   isAllSelected() {
     for (var i = 0; i < this.dataloadsupplierallrm.length; i++) {
-      this.dataloadsupplierallrm[i].oldvalue = "true";
+      this.dataloadsupplierallrm[i].Approved = "True";
     }
   }
   isAllunSelected() {
   for(var i = 0; i < this.dataloadsupplierallrm.length; i++) {
-  this.dataloadsupplierallrm[i].oldvalue = "false";
+    this.dataloadsupplierallrm[i].Approved = "False";
 }
   }
   statuschange(event) {
@@ -270,6 +278,10 @@ export class AddSupplierComponent implements OnInit {
       console.warn("Supplierr_deletedata", Supplierr_dlt)
       this.Supplier_deletedata = Supplierr_dlt
       if (this.Supplier_deletedata == "Deleted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
+      }
+      else if (this.Supplier_deletedata != null)
+      {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
       }
       else if (this.Supplier_deletedata == "failed") {
@@ -356,7 +368,7 @@ export class AddSupplierComponent implements OnInit {
     this.Suppliername = '';
     this.address = '';
     this.emailsup = '';
-    
+    this.componentData = "";
     this.phoneNumber ='';
     this.fax = '';
     this.website = '';
@@ -568,16 +580,42 @@ export class AddSupplierComponent implements OnInit {
         this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
           console.warn("Supplierr_update", Supplierr_save)
           this.Supplier_save_data = Supplierr_save
-          this.Audittrialload(this.SupplierCode).subscribe((Auditdataload) => {
-            console.warn("Auditdataload", Auditdataload)
-            this.auditrialdetails = Auditdataload
-
-
-
-          })
+          this.wait(2000);
           if (this.Supplier_save_data != "") {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
           }
+          this.loadallrm(this.SupplierCode).subscribe((loadrmsupplierall) => {
+            console.warn("loadrmsupplierall", loadrmsupplierall)
+            this.dataloadsupplierallrm = loadrmsupplierall
+            this.dataloadsupplierallrmlength = this.dataloadsupplierallrm.length
+          })
+          this.loadallrmApproved(this.SupplierCode).subscribe((loadrmsupplierapproved) => {
+            console.warn("loadrmsupplierapproved", loadrmsupplierapproved)
+            this.dataloadsupplierapprovedrm = loadrmsupplierapproved
+            this.dataloadsupplierapprovedrmlength = this.dataloadsupplierapprovedrm.length
+          })
+          this.loadUnapprovedrm(this.SupplierCode).subscribe((loadrmsupplierunapproved) => {
+            console.warn("loadrmsupplierunappro", loadrmsupplierunapproved)
+            this.dataloadsupplierunapprovedrm = loadrmsupplierunapproved
+            this.dataloadsupplierunapprovedrmlength = this.dataloadsupplierunapprovedrm.length
+          })
+          this.finishedproductload(this.SupplierCode).subscribe((finishedpdctload) => {
+            console.warn("finishedpdctload", finishedpdctload)
+            this.finishedproductData = finishedpdctload
+            this.finishedproductDatalength = this.finishedproductData.length
+            this.rowData = this.finishedproductData
+
+          })
+
+
+          this.Audittrialload(this.SupplierCode).subscribe((Auditdataload) => {
+            console.warn("Auditdataload", Auditdataload)
+            this.auditrialdetails = Auditdataload
+           
+
+
+          })
+         
 
         })
 
@@ -642,16 +680,42 @@ export class AddSupplierComponent implements OnInit {
         this.Supplier_saveup(operat).subscribe((Supplierr_save) => {
           console.warn("Supplierr_save", Supplierr_save)
           this.Supplier_save_data = Supplierr_save
+          this.wait(2000);
+          if (this.Supplier_save_data != "") {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
+          }
+          this.loadallrm(this.SupplierCode).subscribe((loadrmsupplierall) => {
+            console.warn("loadrmsupplierall", loadrmsupplierall)
+            this.dataloadsupplierallrm = loadrmsupplierall
+            this.dataloadsupplierallrmlength = this.dataloadsupplierallrm.length
+          })
+          this.loadallrmApproved(this.SupplierCode).subscribe((loadrmsupplierapproved) => {
+            console.warn("loadrmsupplierapproved", loadrmsupplierapproved)
+            this.dataloadsupplierapprovedrm = loadrmsupplierapproved
+            this.dataloadsupplierapprovedrmlength = this.dataloadsupplierapprovedrm.length
+          })
+          this.loadUnapprovedrm(this.SupplierCode).subscribe((loadrmsupplierunapproved) => {
+            console.warn("loadrmsupplierunappro", loadrmsupplierunapproved)
+            this.dataloadsupplierunapprovedrm = loadrmsupplierunapproved
+            this.dataloadsupplierunapprovedrmlength = this.dataloadsupplierunapprovedrm.length
+          })
+          this.finishedproductload(this.SupplierCode).subscribe((finishedpdctload) => {
+            console.warn("finishedpdctload", finishedpdctload)
+            this.finishedproductData = finishedpdctload
+            this.finishedproductDatalength = this.finishedproductData.length
+            this.rowData = this.finishedproductData
+
+          })
+
           this.Audittrialload(this.SupplierCode).subscribe((Auditdataload) => {
             console.warn("Auditdataload", Auditdataload)
             this.auditrialdetails = Auditdataload
 
+          
 
 
           })
-          if (this.Supplier_save_data != "") {
-            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
-          }
+         
         })
 
       }
@@ -678,6 +742,7 @@ export class AddSupplierComponent implements OnInit {
   termsdataload() {
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/loadterms");
   }
+
   countStar(star) {
 
     this.selectedValuerating = star;
@@ -689,10 +754,46 @@ export class AddSupplierComponent implements OnInit {
     if (this.Approved == "true") {
       this.Approved="true"
       this.Approv = true
+      this.selectedallsupp = false;
+      this.unselectsupp = false;
     }
     else {
       this.Approved = "false"; 
       this.Approv = false
+      this.selectedallsupp = true;
+      this.unselectsupp = true;
+    }
+  }
+  ckeckrawappro(option,event) {
+    var eventval1: any = event.target.checked;
+    if (eventval1 == true) {
+      var appr: string = "True"
+    }
+    else {
+      var appr: string = "False"
+    }
+    for (let Rmsupplier_rmall of this.dataloadsupplierallrm) {
+      if (Rmsupplier_rmall.GeneralItemCode == option.GeneralItemCode) {
+       
+        Rmsupplier_rmall.Description = option.Description;
+        Rmsupplier_rmall.IngredientTradeName = option.IngredientTradeName;
+        Rmsupplier_rmall.INNName = option.INNName;
+        Rmsupplier_rmall.SupplierRMNo = option.SupplierRMNo;
+        Rmsupplier_rmall.UnitCost = option.UnitCost;
+        Rmsupplier_rmall.UnitName = option.UnitName;
+        Rmsupplier_rmall.oldvalue = eventval1;
+        Rmsupplier_rmall.Approved = appr;
+        Rmsupplier_rmall.ApprovalCode = option.ApprovalCode;
+      }
+
+    }
+    
+  }
+  wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
     }
   }
 

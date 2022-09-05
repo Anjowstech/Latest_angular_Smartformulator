@@ -679,7 +679,7 @@
               <tbody>
                 <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent" mode="indeterminate">
                 </mat-progress-spinner>
-                <tr *ngFor="let shippingdata_search of shippingdata " (click)="setvalues3(shippingdata_search)" (dblclick)="setvalues(shippingdata_search);">
+                <tr [class.table-active]="i == currentRowIndex" *ngFor="let shippingdata_search of shippingdata;let i = index " (click)="setvalues3(shippingdata_search);onRowClick(i)" (dblclick)="setvalues(shippingdata_search);">
 
                   <td class="tabledatasize"></td>
                   <td class="tabledatasize">{{ shippingdata_search.LocationName}}</td>

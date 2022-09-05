@@ -36,6 +36,7 @@ export class LoadPropertyComponent implements OnInit {
   WebvProperty: string = '';
   WebvValue: string = '';
   setClickedRow: Function;
+  currentRowIndex: number = -1;
   HighlightRow: Number;
   finalproperty: any;
   selectedproperty: any;
@@ -91,6 +92,9 @@ export class LoadPropertyComponent implements OnInit {
 
 
     });
+  }
+  onRowClick(index: number) {
+    this.currentRowIndex = index;
   }
   loadProperty() {
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/loadproperty");

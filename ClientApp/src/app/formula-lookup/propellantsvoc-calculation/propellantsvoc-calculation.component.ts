@@ -53,7 +53,7 @@ export class PropellantsvocCalculationComponent implements OnInit {
       resizable: true,
       // <-- HERE
       autoHeight: true,
-      editable: false,
+      editable: true,
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
       headerName: "INCI Name",
       minWidth: 800,

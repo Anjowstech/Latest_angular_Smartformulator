@@ -97,7 +97,7 @@ Please provide a valid zip.
 
 
 
-              <tr *ngFor="let raw_cate_search of dataloadsearchproducts| filter:prod|filter:formu|filter:produname|filter:formuname |slice:pageStart:pageEnd; let i=index;" (dblclick)="setvalues(raw_cate_search);close();" #conten>
+              <tr *ngFor="let raw_cate_search of dataloadsearchproducts| filter:prod:filterMetadata|filter:formu:filterMetadata|filter:produname:filterMetadata|filter:formuname:filterMetadata |slice:pageStart:pageEnd; let i=index;" (dblclick)="setvalues(raw_cate_search);close();" #conten>
                 <td hidden class="tabledatasize">{{ raw_cate_search.ProductCode}}</td>
                 <td class="tabledatasize">{{ raw_cate_search.Productno }}</td>
                 <td class="tabledatasize">{{ raw_cate_search.ProductName }}</td>
@@ -121,7 +121,7 @@ Please provide a valid zip.
 
 
   <button type="submit" class="btn btn-primary buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
 
 </div>

@@ -246,7 +246,7 @@
                           <td class="tabledatasize">{{ Rmsupplier_rmall.SupplierRMNo}}</td>
                           <td style="text-align:right" class="tabledatasize">{{ Rmsupplier_rmall.UnitCost}}</td>
                           <td class="tabledatasize">{{ Rmsupplier_rmall.UnitName}}</td>
-                          <td class="tabledatasize"><input type="checkbox" style="margin-left:20%;color:black" [checked]="Rmsupplier_rmall.oldvalue == 'true'" /></td>
+                          <td class="tabledatasize"><input type="checkbox" style="margin-left:20%;color:black"(change)="ckeckrawappro(Rmsupplier_rmall,$event)" [checked]="Rmsupplier_rmall.Approved == 'True'?true:false" /></td>
                           <td class="tabledatasize">{{ Rmsupplier_rmall.ApprovalCode}}</td>
                         </tr>
 
@@ -260,8 +260,8 @@
                       <h5 style="float:left;margin-top:10px;color:maroon">{{dataloadsupplierallrmlength}} Record(s)</h5>
                     </div>
                     <div class="col">
-                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 400px; height: 50px; width: 190px;margin-top:10px;"  (click)="isAllSelected();">Select All</button>
-                      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 190px;margin-top:10px;"   (click)="isAllunSelected();">Deselect All</button>
+                      <button type="submit" [disabled]="selectedallsupp" class="btn btn-primary buttoncolor" style="margin-left: 400px; height: 50px; width: 190px;margin-top:10px;"  (click)="isAllSelected();">Select All</button>
+                      <button type="submit" [disabled]="unselectsupp" class="btn btn-primary buttoncolor" style="margin-left: 10px; height: 50px; width: 190px;margin-top:10px;"   (click)="isAllunSelected();">Deselect All</button>
                     </div>
                   </div>
                 </ng-template>
@@ -335,7 +335,7 @@
               </ngb-tab>
               <ngb-tab title="Formula Details">
                 <ng-template ngbTabContent>
-                  <h4>Double Click to Select a Raw Material</h4>
+                  <h4>Double Click to Select a Formula</h4>
                   <div style="margin-left:1%;margin-top:1%;  overflow-y: auto;height:500px;background-color:white">
                     <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
                       <thead>
@@ -371,7 +371,7 @@
       <ng-container ngbNavItem="3" style="margin-left:20px">
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Component(s)</a>
         <ng-template ngbNavContent>
-          <h4>Double Click to Select a Raw Material</h4>
+          <h4>Double Click to Select a Component</h4>
           <div style="margin-left:1%;margin-top:1%; height:35rem;background-color: white; overflow-y: auto;">
             <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
               <thead>
