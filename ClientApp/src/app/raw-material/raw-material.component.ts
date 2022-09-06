@@ -2351,9 +2351,9 @@ export class RawMaterialComponent implements OnInit {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
         this.delclientjapan_loaddata = ""
 
-        this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
-          console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
-          this.japanload = loadrawmaterialjapan
+        this.AUSloaddata(this.inciname).subscribe((loadrawmaterialAUS) => {
+          console.warn("loadrawmaterialAUS", loadrawmaterialAUS)
+          this.austriliaload = loadrawmaterialAUS
         })
       }
 
@@ -2415,7 +2415,11 @@ export class RawMaterialComponent implements OnInit {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
         this.Deleteifra_loaddata = ""
 
-        
+        this.IFRAload(this.inciname, this.itemli).subscribe((ifraload) => {
+          console.warn("ifraload", ifraload)
+          this.ifradata = ifraload
+          this.ifradetails(this.ifradata)
+        })
       }
 
     })
@@ -2823,6 +2827,8 @@ export class RawMaterialComponent implements OnInit {
         this.rawmaterial_update_data = rawmaterial_update
         if (this.rawmaterial_update_data == "Updated") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
+          this.issearchRM = false;
+          this.issearchRMsave = true;
 
           this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
             console.warn("auditload", auditload)
@@ -3081,6 +3087,8 @@ export class RawMaterialComponent implements OnInit {
 
         if (this.rawmaterial_save_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
+          this.issearchRM = false;
+          this.issearchRMsave = true;
           this.rawmaterial_save_data = ""
         }
         this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
@@ -3231,8 +3239,8 @@ export class RawMaterialComponent implements OnInit {
     this.PreviousVenderCode = '';
     this.SupplierRMNo = '';
     this.StatusReason = '';
-    this.CurrSupplierPriority = '';
-    this.PrevSupplierPriority = '';
+    this.CurrSupplierPriority = '0';
+    this.PrevSupplierPriority = '0';
     this.LastPODt = '';
     this.IsBlend = '';
     this.Hazardous = '';

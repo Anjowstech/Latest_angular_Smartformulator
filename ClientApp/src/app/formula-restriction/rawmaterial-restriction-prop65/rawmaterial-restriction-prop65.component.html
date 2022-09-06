@@ -30,7 +30,7 @@
     </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Date Listed</label>
-      <input style="margin-left: 1%; width: 15%;" type="date" [(ngModel)]="cadate" class="form-control" name="dat" value="">
+      <input style="margin-left: 1%; width: 15%;" type="date" [(ngModel)]="cadate" class="form-control" name="dat" value="" (change)="dateChange($event)" >
 
     </div>
 

@@ -114,7 +114,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
  
   }
   Restriction_SaveUpdateUS() {
-    if (this.Maximumusedforconclusion == "" || this.Maximumusedforconclusion == undefined) {
+    if ((this.Maximumusedforconclusion == "" || this.Maximumusedforconclusion == undefined) && (this.concentrationconclusion == "" || this.concentrationconclusion == undefined) && (this.safetuconclusion == "" || this.safetuconclusion == undefined) && (this.conditionconclusion == "" || this.conditionconclusion == undefined) && (this.journalconclusion == "" || this.journalconclusion == undefined)) {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter atleast one restriction." } });
     }
     else {
@@ -194,19 +194,38 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
     this.restrictionformulaname = usdetails[1];
     //this.FieldofApplndata = this.usdetails[2];
     this.Maximumusedforconclusion = usdetails[2];
+    if (this.Maximumusedforconclusion == "" || this.Maximumusedforconclusion == undefined) {
+      this.Maximumusedforconclusion = "";
+    }
     if (this.Maximumdata == undefined) {
       this.Maximumdata = '';
     }
     this.maximumconclusion = usdetails[3];
     this.maximumconclusion = usdetails[4];
+   
     this.concentrationconclusion = usdetails[5];
+    if (this.concentrationconclusion == "" || this.concentrationconclusion == undefined) {
+      this.concentrationconclusion = "";
+    }
     this.S = usdetails[6];
     this.SourceRegulationconclusion = usdetails[7]; //sq
+    if (this.SourceRegulationconclusion == "" || this.SourceRegulationconclusion == undefined) {
+      this.SourceRegulationconclusion = "";
+    }
     this.safetuconclusion = usdetails[8];
+    if (this.safetuconclusion == "" || this.safetuconclusion == undefined) {
+      this.safetuconclusion = "";
+    }
     this.U = usdetails[9];
     this.internalSource = usdetails[10];
+    if (this.internalSource == "" || this.internalSource == undefined) {
+      this.internalSource = "";
+    }
 
     this.journalconclusion = usdetails[11];
+    if (this.journalconclusion == "" || this.journalconclusion == undefined) {
+      this.journalconclusion = "";
+    }
     this.internalconclusion = usdetails[12];
     this.username = usdetails[13];
 

@@ -42,11 +42,11 @@ export class RawmaterialRestrictionComponent implements OnInit {
   ifchina: boolean = true;
   ifCArestriction: boolean = true;
   ifchinamax: boolean = false;
-  chineseinci: string = '';
-  minpercent: string = '';
-  ppm: string = '';
-  doclink: string = '';
-  sourceregulation: string = '';
+  chineseinci: string = "";
+  minpercent: string = "";
+  ppm: string = "";
+  doclink: string = "";
+  sourceregulation: string = "";
 
   oldmaxperc: string;
   constructor(private Datashare: DataShareServiceService, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,) { }
@@ -106,58 +106,133 @@ export class RawmaterialRestrictionComponent implements OnInit {
 
   Restriction_SaveUpdate() {
     this.Oper = this.data.displaydata1;
-    if (this.ppm == "" ||this.ppm==undefined) {
-      var perc: string = "0";
+    
+    if (this.Oper == "CA_PROP_65 Restriction") {
+      if (this.ppm == "0") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter ppm" } });
+      }
+      else {
+        if (this.ppm == "" || this.ppm == undefined) {
+          var perc: string = "0";
+        }
+        else {
+          var perc: string = (Number(this.ppm) / 1000).toString()
+        }
+        this.Restrictiondatalist[0] = ([{
+
+          txtInciid: this.inciid,
+
+          txtCountry: this.country,
+          txtFieldofAppln: this.FieldofApplndata,
+          txtInciName: this.inciname,
+          IngredientCode: this.IngredientCodedata,
+          username: this.username,
+          txtJournal: this.journal,
+          txtIngredientCode: this.IngredientCodedata,
+          txtMaximum: this.Maximumdata,
+          txtOtherLimitations: this.OtherLimitationsdata,
+          txtConditions: this.Conditionsdata,
+          txtSourceinfo: this.Sourceinfodata,
+          txtmaxpercentage: this.maxpercentagedata,
+          txtRegNotes: this.internalReg,
+          txtDocument: this.sourceregulation,
+          txtInternalComments: this.internalcomm,
+          txtTypeofToxicity: '',
+          txtNSRL: '',
+          txtListingMechanism: '',
+          ChkSafeIn: '',
+          ChkSafeQualifi: '',
+          ChkInsufficient: '',
+          ChkUnSafe: '',
+          txtChinestInciName: this.chineseinci,
+          txtMinPercent: this.minpercent,
+          txtppm: this.ppm,
+          txtPercentage: perc,
+          isChanged: '1',
+        }]);
+
+        this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
+          console.warn("restriction_save_up", restriction_save_up)
+          this.restriction_save_up_data = restriction_save_up
+
+          if (this.restriction_save_up_data == "Inserted") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
+            this.restriction_save_up_data = ""
+          }
+          else if (this.restriction_save_up_data == "Updated") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+            this.restriction_save_up_data = ""
+          }
+        })
+      }
     }
     else {
-      var perc: string = (Number(this.ppm) / 1000).toString()
+      if ((this.FieldofApplndata == "" || this.FieldofApplndata == undefined) && (this.Maximumdata == "" || this.Maximumdata == undefined) && (this.OtherLimitationsdata == "" || this.OtherLimitationsdata == undefined) && (this.Conditionsdata == "" || this.Conditionsdata == undefined)) {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter atleast one restriction" } });
+      }
+      else {
+        if (this.minpercent > this.maxpercentagedata) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Min percentage should be less than max percentage" } });
+        }
+        else {
+
+          if (this.ppm == "" || this.ppm == undefined) {
+            var perc: string = "0";
+          }
+          else {
+            var perc: string = (Number(this.ppm) / 1000).toString()
+          }
+          this.Restrictiondatalist[0] = ([{
+
+            txtInciid: this.inciid,
+
+            txtCountry: this.country,
+            txtFieldofAppln: this.FieldofApplndata,
+            txtInciName: this.inciname,
+            IngredientCode: this.IngredientCodedata,
+            username: this.username,
+            txtJournal: this.journal,
+            txtIngredientCode: this.IngredientCodedata,
+            txtMaximum: this.Maximumdata,
+            txtOtherLimitations: this.OtherLimitationsdata,
+            txtConditions: this.Conditionsdata,
+            txtSourceinfo: this.Sourceinfodata,
+            txtmaxpercentage: this.maxpercentagedata,
+            txtRegNotes: this.internalReg,
+            txtDocument: this.sourceregulation,
+            txtInternalComments: this.internalcomm,
+            txtTypeofToxicity: '',
+            txtNSRL: '',
+            txtListingMechanism: '',
+            ChkSafeIn: '',
+            ChkSafeQualifi: '',
+            ChkInsufficient: '',
+            ChkUnSafe: '',
+            txtChinestInciName: this.chineseinci,
+            txtMinPercent: this.minpercent,
+            txtppm: this.ppm,
+            txtPercentage: perc,
+            isChanged: '1',
+          }]);
+
+          this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
+            console.warn("restriction_save_up", restriction_save_up)
+            this.restriction_save_up_data = restriction_save_up
+
+            if (this.restriction_save_up_data == "Inserted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
+              this.restriction_save_up_data = ""
+            }
+            else if (this.restriction_save_up_data == "Updated") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+              this.restriction_save_up_data = ""
+            }
+          })
+        }
+      }
+     
+      
     }
-    this.Restrictiondatalist[0] = ([{
-
-      txtInciid: this.inciid,
-
-      txtCountry: this.country,
-      txtFieldofAppln: this.FieldofApplndata,
-      txtInciName: this.inciname,
-      IngredientCode: this.IngredientCodedata,
-      username: this.username,
-      txtJournal: this.journal,
-      txtIngredientCode: this.IngredientCodedata,
-      txtMaximum: this.Maximumdata,
-      txtOtherLimitations: this.OtherLimitationsdata,
-      txtConditions: this.Conditionsdata,
-      txtSourceinfo: this.Sourceinfodata,
-      txtmaxpercentage: this.maxpercentagedata,
-      txtRegNotes: this.internalReg,
-      txtDocument: this.sourceregulation,
-      txtInternalComments: this.internalcomm,
-      txtTypeofToxicity: '',
-      txtNSRL: '',
-      txtListingMechanism: '',
-      ChkSafeIn: '',
-      ChkSafeQualifi: '',
-      ChkInsufficient: '',
-      ChkUnSafe: '',
-      txtChinestInciName: this.chineseinci,
-      txtMinPercent: this.minpercent,
-      txtppm: this.ppm,
-      txtPercentage: perc,
-      isChanged: '1',
-    }]);
-
-    this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
-      console.warn("restriction_save_up", restriction_save_up)
-      this.restriction_save_up_data = restriction_save_up
-
-      if (this.restriction_save_up_data == "Inserted") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
-        this.restriction_save_up_data = ""
-      }
-      else if (this.restriction_save_up_data == "Updated") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
-        this.restriction_save_up_data = ""
-      }
-    })
   }
   Restriction_saveupdateup() {
 
@@ -178,7 +253,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
     this.OtherLimitationsdata = '';
     this.Conditionsdata = '';
     this.Sourceinfodata = '';
-    this.maxpercentagedata = '';
+    this.maxpercentagedata = '0';
     this.internalReg = '';
     this.sourceregulation = '';
     this.internalcomm = '';
@@ -229,20 +304,57 @@ export class RawmaterialRestrictionComponent implements OnInit {
       this.chineseinci = '';
     }
     this.minpercent = this.Eudetails[10];
+
     this.chineseinci = this.Eudetails[11];
+    if (this.chineseinci == "" || this.chineseinci == undefined) {
+      this.chineseinci = "";
+    }
     this.INCINamedata = this.Eudetails[1];
     this.FieldofApplndata = this.Eudetails[2];
+    if (this.FieldofApplndata == "" || this.FieldofApplndata == undefined) {
+      this.FieldofApplndata = "";
+    }
     this.Maximumdata = this.Eudetails[3];
     if (this.Maximumdata == undefined) {
       this.Maximumdata = '';
 
     }
     this.maxpercentagedata = this.Eudetails[4];
+    if (this.maxpercentagedata == "" || this.maxpercentagedata == undefined) {
+      this.maxpercentagedata = "0";
+    }
     this.OtherLimitationsdata = this.Eudetails[5];
+    if (this.OtherLimitationsdata == undefined || this.OtherLimitationsdata == "") {
+      this.OtherLimitationsdata = "";
+    }
+    else {
+      this.OtherLimitationsdata = this.Eudetails[5];
+    }
     this.Conditionsdata = this.Eudetails[6];
+    if (this.Conditionsdata == "" || this.Conditionsdata == undefined) {
+      this.Conditionsdata = "";
+    }
+    else {
+      this.Conditionsdata = this.Eudetails[6];
+    }
     this.Sourceinfodata = this.Eudetails[7];
+    if (this.Sourceinfodata == "" || this.Sourceinfodata == undefined) {
+      this.Sourceinfodata = "";
+    }
+    else {
+      this.Sourceinfodata = this.Eudetails[7];
+    }
     this.journal = this.Eudetails[8];
+    if (this.journal == "" || this.journal == undefined) {
+      this.journal = "";
+    }
+    else {
+      this.journal = this.Eudetails[8];
+    }
     this.internalReg = this.Eudetails[9];
+    if (this.internalReg == "" || this.internalReg == undefined) {
+      this.internalReg = "";
+    }   
     this.username = this.Eudetails[10];
     if (this.ppm == undefined) {
       this.ppm = '';
@@ -251,8 +363,13 @@ export class RawmaterialRestrictionComponent implements OnInit {
       this.doclink = '';
     }
     this.ppm = this.Eudetails[11];
+    if (this.ppm == "" || this.ppm == undefined) {
+      this.ppm = "0";
+    }
     this.doclink = this.Eudetails[12];
-
+    if (this.doclink == "" || this.doclink == undefined) {
+      this.doclink = "";
+    }
     this.restrictiondetails = this.Datashare.getrestrictiondetails()
     //this.restrictioncountryname = this.restrictiondetails[0];
     //this.restrictioncountryname = countryname;
