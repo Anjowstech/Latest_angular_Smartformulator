@@ -6,7 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DxDataGridModule, DxDataGridComponent } from 'devextreme-angular';
 import themes from 'devextreme/ui/themes';
-
+import { FormulaLookupComponent} from 'src/app/formula-lookup/formula-lookup.component'
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 
@@ -115,6 +115,14 @@ export class AddSupplierComponent implements OnInit {
   //  const dialogRef = this.dialog.open(SearchSupplierComponent)
   //}
   setvaluescomponent(): void {
+    const dialogRef = this.dialog.open(FormulaLookupComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+      disableClose: true
+    });
   }
   Searchsupplierpopup(): void {
     this.active = '1';
@@ -285,7 +293,7 @@ export class AddSupplierComponent implements OnInit {
       this.Supplier_delete(suppliername).subscribe((Supplierr_dlt) => {
         console.warn("Supplierr_deletedata", Supplierr_dlt)
         this.Supplier_deletedata = Supplierr_dlt
-        if (this.Supplier_deletedata == "Deleted") {
+        if (this.Supplier_deletedata ) {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
         }
         else if (this.Supplier_deletedata == null) {
@@ -591,6 +599,7 @@ export class AddSupplierComponent implements OnInit {
           this.wait(2000);
           if (this.Supplier_save_data != "") {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
+           
           }
           this.loadallrm(this.SupplierCode).subscribe((loadrmsupplierall) => {
             console.warn("loadrmsupplierall", loadrmsupplierall)
@@ -691,6 +700,8 @@ export class AddSupplierComponent implements OnInit {
           this.wait(2000);
           if (this.Supplier_save_data != "") {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_save_data } });
+            this.issearchsupplierupdate = false;
+            this.issearchsuppliersave = true;
           }
           else if (this.Supplier_save_data == null) {
             this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Failed to Save " } });

@@ -15,9 +15,15 @@ export class AddMicrobiologyComponent implements OnInit {
 
   microbiologyparamsave: any;
   Claim: string = "";
-
-
+  Method: string = "";
+  Clear() {
+    this.Claim = '';
+    this.Method = '';
+  }
   Addmicrobioparams(tst: string, mthd: string) {
+    if (tst == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter parameter' } });
+    }
     this.microparamsave(tst, mthd).subscribe((microbiologyparam) => {
       console.warn("microbiologyparam", microbiologyparam)
       this.microbiologyparamsave = microbiologyparam

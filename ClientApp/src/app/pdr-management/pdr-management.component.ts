@@ -2611,7 +2611,7 @@ this.loadformulationsassign = loadformulations
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Project follow up notes added successfully' } });
       }
       else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the note' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the Subject and note before Adding!' } });
       }
     })
     this.wait(2000);
@@ -2796,7 +2796,7 @@ this.loadformulationsassign = loadformulations
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'communication notes added successfully' } });
       }
       else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the note' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the subject and note before Adding!' } });
       }
     })
     this.wait(3000);

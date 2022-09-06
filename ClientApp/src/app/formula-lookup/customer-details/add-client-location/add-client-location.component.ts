@@ -157,13 +157,13 @@ export class AddClientLocationComponent implements OnInit {
     this.fax = this.addclientlocationload[11];
     this.notes = this.addclientlocationload[12];
     this.telephone = this.addclientlocationload[13];
-    if (this.location != "") {
-      this.isclienthiddensa = true;
-      this.isclienthiddenup = false;
-    }
-    else {
+    if (this.location == "" || this.location==undefined) {
       this.isclienthiddensa = false;
       this.isclienthiddenup = true;
+    }
+    else {
+      this.isclienthiddensa = true;
+      this.isclienthiddenup = false;
     }
 
   }

@@ -661,7 +661,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let CAND of canadaLoad; let i=index;" (dblclick)="setCANvalues(CAND)">
+                              <tr *ngFor="let CAND of canadaLoad; let i=index;" (dblclick)="setCANvalues(CAND)"  (click)="setCANvalues2(CAND)">
                                 <td></td>
                                 <td>{{ CAND.FieldOfAppln}}</td>
                                 <td>{{ CAND.Maximum}}</td>
@@ -705,7 +705,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let EUvalues of euload; let i=index;" (dblclick)="setEUvalues(EUvalues)">
+                              <tr *ngFor="let EUvalues of euload; let i=index;" (dblclick)="setEUvalues(EUvalues)"  (click)="setEUvalues2(EUvalues)">
                                 <td></td>
                                 <td>{{ EUvalues.FieldOfAppln}}</td>
                                 <td>{{ EUvalues.Maximum}}</td>
@@ -747,7 +747,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let jpn of japanload; let i=index;" (dblclick)="setJPNvalues(jpn)">
+                              <tr *ngFor="let jpn of japanload; let i=index;" (dblclick)="setJPNvalues(jpn)"(click)="setJPNvalues2(jpn)">
                                 <td></td>
                                 <td>{{ jpn.FieldOfAppln}}</td>
                                 <td>{{ jpn.Maximum}}</td>
@@ -763,7 +763,7 @@
                         </div>
                         <div class="col form-inline" style="margin-top:1%">
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="Deletejapan_dt();">Delete Restriction</button>
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionEU();">Add Restriction</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionJPN();">Add Restriction</button>
 
                         </div>
                       </ng-template>
@@ -788,7 +788,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let aus of austriliaload; let i=index;" (dblclick)="setAusvalues(aus)">
+                              <tr *ngFor="let aus of austriliaload; let i=index;" (dblclick)="setAusvalues(aus)"(click)="setAusvalues2(aus)">
                                 <td></td>
                                 <td>{{ aus.FieldOfAppln}}</td>
                                 <td>{{ aus.Maximum}}</td>
@@ -804,7 +804,7 @@
                           </table>
                         </div>
                         <div class="col form-inline" style="margin-top:1%">
-                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="Deletejapan_dt();">Delete Restriction</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="DeleteAUS_dt();">Delete Restriction</button>
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictionAUS();">Add Restriction</button>
 
                         </div>
@@ -831,7 +831,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let cload of chinaload; let i=index;" (dblclick)="setchinavalues(cload)">
+                              <tr *ngFor="let cload of chinaload; let i=index;" (dblclick)="setchinavalues(cload)" (click)="setchinavalues2(cload)">
                                 <td></td>
                                 <td>{{ cload.FieldOfAppln}}</td>
                                 <td>{{ cload.Maximum}}</td>
@@ -880,7 +880,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let audit_pdr of CAprop65load; let i=index;" (dblclick)="setcapropvaluesDirect(audit_pdr);">
+                                      <tr *ngFor="let audit_pdr of CAprop65load; let i=index;" (dblclick)="setcapropvaluesDirect(audit_pdr);" (click)="setcapropvaluesDirect2(audit_pdr);">
                                         <td></td>
                                         <td>{{ audit_pdr.TypeOfToxicity}}</td>
                                         <td>{{ audit_pdr.ListingMechanism}}</td>
@@ -960,7 +960,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let caprop of CAproprestrictionsload; let i=index;" (dblclick)="setcapropvaluesrestriction(caprop)">
+                                      <tr *ngFor="let caprop of CAproprestrictionsload; let i=index;" (dblclick)="setcapropvaluesrestriction(caprop)"(click)="setcapropvaluesrestriction2(caprop)">
                                         <td></td>
                                         <td>{{ caprop.FieldOfAppln}}</td>
                                         <td>{{ caprop.Maximum}}</td>
@@ -976,7 +976,7 @@
                                   </table>
                                 </div>
                                 <div class="col form-inline" style="margin-top:1%">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="DeleteCAPROP65_restrictiondt();">Delete Restriction</button>
                                   <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:3%;height:40px;width:165px;" (click)="OpenRawmaterialRestrictioncaprop65Restriction();">Add Restriction</button>
 
                                 </div>
@@ -1069,7 +1069,7 @@
                             </fieldset>
                           </div>
                           <div class="col form-inline" style="margin-top:1%">
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;">Delete Restriction</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:60%;height:40px;width:165px;" (click)="deleteIFRA();">Delete Restriction</button>
                           </div>
                         </form>
                       </ng-template>
