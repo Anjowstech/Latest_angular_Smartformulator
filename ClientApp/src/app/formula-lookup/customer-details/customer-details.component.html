@@ -688,7 +688,7 @@
                   <td class="tabledatasize">{{ shippingdata_search.State}}</td>
                   <td class="tabledatasize">{{ shippingdata_search.Country}}</td>
                   <td class="tabledatasize">{{ shippingdata_search.ZipCode}}</td>
-                  <td class="tabledatasize"> <input type="checkbox" [checked]="shippingdata_search.DefaultLocation=='True'"></td>
+                  <td class="tabledatasize"> <input type="checkbox" [checked]="shippingdata_search.DefaultLocation=='True'" (change)="checkchange($event)"></td>
                 </tr>
               </tbody>
             </table>

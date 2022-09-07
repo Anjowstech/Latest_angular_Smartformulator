@@ -79,9 +79,26 @@ export class RawmaterialRestrictionComponent implements OnInit {
     else {
       if (Number(this.maxpercentagedata) < 0.00000 || isNaN(Number(this.maxpercentagedata))) {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-        this.maxpercentagedata = this.oldmaxperc;
+        this.maxpercentagedata = '0';
       }
     }
+
+
+  }
+  blurminpercentage(event: any) {
+    this.minpercent = event.target.value;
+    /*if (this.INCINamedata == "" || this.INCINamedata == undefined) {*/
+      if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.minpercent = '0';
+      }
+   /* }*/
+    //else {
+    //  if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+    //    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+    //    this.minpercent = this.oldmaxperc;
+    //  }
+    //}
 
 
   }
