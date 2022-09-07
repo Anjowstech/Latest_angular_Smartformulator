@@ -78,7 +78,10 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       .set('operation', operat);
     return this.http.get("https://formularestrictionwebservice.azurewebsites.net/RestrictionDoubleClick", { params: params1 })
   }
-
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.SourceRegulationconclusion = files.item(0).name;
+  }
   restrictiondata(restrictdata: any) {
 
     for (let item of restrictdata) {

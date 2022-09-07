@@ -64,6 +64,10 @@ export class RawmaterialRestrictionComponent implements OnInit {
       .set('operation', operat);
     return this.http.get("https://formularestrictionwebservice.azurewebsites.net/RestrictionDoubleClick", { params: params1 })
   }
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.sourceregulation = files.item(0).name;
+  }
   blurmaxpercentage(event: any) {
     this.maxpercentagedata = event.target.value;
     if (this.INCINamedata == "" || this.INCINamedata == undefined) {

@@ -83,8 +83,15 @@
     </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Source Regulation Doc Link</label>
-      <input style="margin-left: 1%; width: 45%;" type="text" rows="2"
+      <input style="margin-left: 1%; width: 30%;" type="text" rows="2"
              class="form-control" [(ngModel)]="SourceRegulationconclusion" value="" name="doclink">
+      <div class="form-group">
+        <label for="doc1" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:40px;min-width:50px">..</label>
+        <input type="file"
+               id="doc1"
+               (change)="handleFileInput($event.target.files)">
+      </div>
+      <button type="submit" class="btn btn-primary buttoncolor" style="height:38px;width:90px;">Open</button>
 
     </div>
   </form>

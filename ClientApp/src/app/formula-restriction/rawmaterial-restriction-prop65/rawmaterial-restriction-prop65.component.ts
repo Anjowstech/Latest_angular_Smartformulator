@@ -37,6 +37,10 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
     this.cadate = event.target.value;
 
   }
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.sourceregdoc = files.item(0).name;
+  }
   Restriction_SaveUpdate() {
     // this.Oper = this.data.displaydata1;
     if ((this.toxicity == "" || this.toxicity == undefined) && (this.listing == "" || this.listing == undefined) && (this.nsdl == "" || this.nsdl == undefined)) {
