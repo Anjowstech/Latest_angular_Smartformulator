@@ -405,6 +405,7 @@ export class RawMaterialComponent implements OnInit {
   cadtdlt: string;
   carestdlt: string;
   ifdlt: string;
+  impudlt: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -2252,39 +2253,62 @@ export class RawMaterialComponent implements OnInit {
     this.ppm = impurities.ppm;
   }
   capropsaveimpurities() {
-   
+    if ((this.doc1 == "" || this.doc1 == undefined) && (this.ppm == "" || this.ppm == undefined)) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "To search ingredient" } });
+    }
+    else if (this.ppm == "" || this.ppm == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter ppm" } });
+    }
     /* this.ppm = "Save";*/
     //this.termcode1 = termcode;
 
     this.saveupimpurities(this.itemli, this.inciname, this.subitemcode, this.subinciname, this.ppm, this.supp_name).subscribe((saveimpurities_Details) => {
       console.warn("saveimpurities_Details", saveimpurities_Details)
       this.savecapropimpu = saveimpurities_Details
+      this.Clearimpurities();
+
+      this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+        console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
+        this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+      })
 
     })
     //this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
     // console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
     // this.CAprop65load = loadrawmaterialCAPROP65
     //})
-    this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
-      console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
-      this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
-    })
+   
+  }
+  Clearimpurities() {
+    this.doc1 = '';
+    this.ppm = '';
   }
   DeleteCAPROPimpuritiesdt() {
-    this.DeleteCAPROPimpuritiesweb().subscribe((DeleteCAPROPimpurities) => {
-      console.warn("DeleteCAPROPimpurities", DeleteCAPROPimpurities)
-      this.delclientus_loaddata = DeleteCAPROPimpurities
-      if (this.delclientus_loaddata == "Inserted") {
-        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details saved Successfully" } });
-        this.delclientus_loaddata = ""
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '35%', height: '15%', data: { displaydatagrid: 'Are you sure you want to delete this impurity?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.impudlt = result;
 
-        this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
-          console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
-          this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+      if (this.impudlt == "false") { }
+      else {
+        this.DeleteCAPROPimpuritiesweb().subscribe((DeleteCAPROPimpurities) => {
+          console.warn("DeleteCAPROPimpurities", DeleteCAPROPimpurities)
+          this.delclientus_loaddata = DeleteCAPROPimpurities
+          if (this.delclientus_loaddata == "Deleted") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "impurity deleted Successfully" } });
+            this.delclientus_loaddata = ""
+
+            this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+              console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
+              this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+            })
+          }
+
         })
+
       }
-      
-    })
+    });
+    
 
   }
   

@@ -915,7 +915,7 @@
                                   <div class="form-inline" style="margin-top:1%">
                                     <label for="inputcust">PPM</label>
                                     <input style="width: 30%;" type="text" class="form-control" id="datappm" [(ngModel)]="ppm" #ppmval name="dp" value="">
-                                    <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px">Clear</button>
+                                    <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)=" Clearimpurities();">Clear</button>
                                     <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="capropsaveimpurities();">Save Impurities</button>
                                     <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)=" DeleteCAPROPimpuritiesdt()">Delete Ingredient</button>
                                   </div>
@@ -1010,63 +1010,63 @@
 
                               <div class="form-inline">
                                 <label for="inputcust">Category-1A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category1A" name="c1" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category1A" name="c1" value="">
                                 <label for="inputcust">Category-3D</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category3D" name="3d" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category3D" name="3d" value="">
                                 <label for="inputcust">Category-6</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category6A" name="c6" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category6A" name="c6" value="">
                                 <label for="inputcust">Category-9B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category9B" name="c9b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category9B" name="c9b" value="">
                               </div>
                               <div class="form-inline">
                                 <label for="inputcust">Category-1B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category1B" name="c1b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category1B" name="c1b" value="">
                                 <label for="inputcust">Category-4A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category4A" name="c4a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category4A" name="c4a" value="">
                                 <label for="inputcust">Category-7A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category7A" name="c7a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category7A" name="c7a" value="">
                                 <label for="inputcust">Category-9C</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category9C" name="c9c" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category9C" name="c9c" value="">
                               </div>
                               <div class="form-inline">
                                 <label for="inputcust">Category-2</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category2A" name="c2a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category2A" name="c2a" value="">
                                 <label for="inputcust">Category-4B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category4B" name="c4b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category4B" name="c4b" value="">
                                 <label for="inputcust">Category-7B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category7B" name="c7b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category7B" name="c7b" value="">
                                 <label for="inputcust">Category-10A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category10A" name="c10a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category10A" name="c10a" value="">
                               </div>
                               <div class="form-inline">
                                 <label for="inputcust">Category-3A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category3A" name="c3a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category3A" name="c3a" value="">
                                 <label for="inputcust">Category-4C</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category4C" name="c4c" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category4C" name="c4c" value="">
                                 <label for="inputcust">Category-8A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category8A" name="c8a" value="">
+                                <input style="width: 10%;"type="number" class="form-control" id="data1" [(ngModel)]="Category8A" name="c8a" value="">
                                 <label for="inputcust">Category-10B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category10B" name="c10b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category10B" name="c10b" value="">
                               </div>
                               <div class="form-inline">
                                 <label for="inputcust">Category-3B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category3B" name="c3b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category3B" name="c3b" value="">
                                 <label for="inputcust">Category-4D</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category4D" name="c4d" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category4D" name="c4d" value="">
                                 <label for="inputcust">Category-8B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category8B" name="c8b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category8B" name="c8b" value="">
                                 <label for="inputcust">Category-11A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category11A" name="c11a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category11A" name="c11a" value="">
                               </div>
                               <div class="form-inline">
                                 <label for="inputcust">Category-3C</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category3C" name="c3c" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category3C" name="c3c" value="">
                                 <label for="inputcust">Category-5</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category5A" name="c5a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category5A" name="c5a" value="">
                                 <label for="inputcust">Category-9A</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category9A" name="c9a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category9A" name="c9a" value="">
                                 <label for="inputcust">Category-11B</label>
-                                <input style="width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="Category11B" name="c11b" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category11B" name="c11b" value="">
                               </div>
                             </fieldset>
                           </div>
@@ -1503,33 +1503,33 @@
         <form>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputEmail4">Address</label>
-<textarea class="form-control" id="exampleFormControlTextarea1" rows="2" style="width: 70%; margin-left: 10px;" [(ngModel)]="address" #addname name="add" value=""></textarea>
+<textarea disabled class="form-control" id="exampleFormControlTextarea1" rows="2" style="width: 70%; margin-left: 10px;" [(ngModel)]="address" #addname name="add" value=""></textarea>
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;height:45px;margin-top:40px;" disabled>Approve Supplier</button>
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress">Phone Number</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="" style="width:70%;" [(ngModel)]="phoneno" #phno name="ph" value="">
+            <input disabled type="text" class="form-control" id="inputAddress" placeholder="" style="width:70%;" [(ngModel)]="phoneno" #phno name="ph" value="">
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress2">Fax</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width:70%;" [(ngModel)]="Fax" #fax name="fx" value="">
+            <input disabled type="text" class="form-control" id="inputAddress2" placeholder="" style="width:70%;" [(ngModel)]="Fax" #fax name="fx" value="">
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress2">Email</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;" [(ngModel)]="Email" #mail name="eml" value="">
+            <input disabled type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;" [(ngModel)]="Email" #mail name="eml" value="">
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress2">Distributor</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;" [(ngModel)]="distributor" #dstr name="dstbtr" value="">
+            <input disabled type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;" [(ngModel)]="distributor" #dstr name="dstbtr" value="">
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress2">Contact Person</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 30%;" [(ngModel)]="contactperson" #ctctper name="ctct" value="">
+            <input disabled type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 30%;" [(ngModel)]="contactperson" #ctctper name="ctct" value="">
 
 
 
             <label for="inputAddress2">Contact #</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 35%;" [(ngModel)]="contactno" #ctctno name="ctct" value="">
+            <input disabled type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 35%;" [(ngModel)]="contactno" #ctctno name="ctct" value="">
           </div>
 
 
@@ -1539,12 +1539,12 @@
 
 
             <label for="inputCity">Web Address</label>
-            <input type="text" class="form-control" id="inputCity" style="width: 70%;" [(ngModel)]="web" #webname name="wb" value="">
+            <input disabled type="text" class="form-control" id="inputCity" style="width: 70%;" [(ngModel)]="web" #webname name="wb" value="">
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10%;height:45px;width:8%; margin-top:20px;">Go Online</button>
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress2">Previous Supplier</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
+            <input disabled type="text" class="form-control" id="inputAddress2" placeholder="" style="width: 70%;">
           </div>
           <div class="form-inline" style="margin-top:0.1%;">
             <label for="inputAddress2">Supplier RM#</label>
