@@ -1685,10 +1685,24 @@ export class FormulaLookupComponent implements OnInit {
     }
   }
   AddproductTesting(): void {
-    var billdata: any = [this.PDRno, this.formulaname, this.formulacode, this.customername]
-    const dialogRef = this.dialog.open(AddproductTestingComponent, {
-      width: '80%', height: '90%', data: { displaydata2: billdata }, disableClose: true
-    });
+    if (this.formulacode == "" || this.formulacode == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Code' } });
+    } else {
+      var billdata: any = [this.PDRno, this.formulaname, this.formulacode, this.customername]
+      const dialogRef = this.dialog.open(AddproductTestingComponent, {
+        width: '80%', height: '90%', data: { displaydata2: billdata }, disableClose: true
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.BindFormulaProduct_load(this.formulacode).subscribe((BindFormulaProduct_load) => {
+          console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
+          this.BindFormulaProduct_data_load = BindFormulaProduct_load;
+        })
+      });
+
+
+    }
   }
   OpenAddproductTesting(binddetails): void {
     this.tsname = binddetails.TestName

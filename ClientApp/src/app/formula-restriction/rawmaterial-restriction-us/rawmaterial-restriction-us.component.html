@@ -4,7 +4,7 @@
 
   <div class="form-inline" style="padding-top:1%;">
     <label class="label1" for="inputcust" style="color:maroon">INCI NAME</label>
-    <input style="margin-left: 1%; width: 60%; color:maroon" [(ngModel)]="restrictionformulaname" type="text" class="form-control">
+    <input  disabled style="margin-left: 1%; width: 60%; color:maroon" [(ngModel)]="restrictionformulaname" type="text" class="form-control">
   </div>
   <fieldset class="border p-2">
     <legend class="w-auto" style="font-size:15px;color:maroon">Review Conclusion</legend>
@@ -49,7 +49,7 @@
     </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Maximum Percentage</label>
-      <input style="margin-left: 1%; width: 15%;" type="text" class="form-control" [(ngModel)]="maximumconclusion" value="" name="maxper" (blur)=" blurmaxpercentage($event);">%
+      <input style="margin-left: 1%; width: 15%;" type="text" class="form-control" [(ngModel)]="maximumconclusion" value="" name="maxper" (blur)=" blurmaxpercentage($event);">
 
     </div>
     <div class="form-inline" style="padding-top:1%;">
@@ -83,8 +83,15 @@
     </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Source Regulation Doc Link</label>
-      <input style="margin-left: 1%; width: 45%;" type="text" rows="2"
+      <input style="margin-left: 1%; width: 30%;" type="text" rows="2"
              class="form-control" [(ngModel)]="SourceRegulationconclusion" value="" name="doclink">
+      <div class="form-group">
+        <label for="doc1" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:40px;min-width:50px">..</label>
+        <input type="file"
+               id="doc1"
+               (change)="handleFileInput($event.target.files)">
+      </div>
+      <button type="submit" class="btn btn-primary buttoncolor" style="height:38px;width:90px;">Open</button>
 
     </div>
   </form>

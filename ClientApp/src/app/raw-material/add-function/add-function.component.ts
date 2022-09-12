@@ -20,6 +20,9 @@ export class AddFunctionComponent implements OnInit {
  
 
   Functionsave(fun: string, des: string) {
+    if (fun == '') {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Function name' } });
+    }
 
     this.funsaveup(fun, des).subscribe((Blenddatasaveup) => {
       console.warn("Blenddatasaveup", Blenddatasaveup)

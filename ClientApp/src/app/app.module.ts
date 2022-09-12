@@ -171,6 +171,24 @@ import { UnapprovedRawmaterialComponent } from './sample-management/unapproved-r
 import { SearchFormulalistComponent } from './sample-management/search-formulalist/search-formulalist.component';
 import { AddLabnameComponent } from './formula-lookup/addproduct-testing/add-labname/add-labname.component';
 import { AddTestnameComponent } from './formula-lookup/addproduct-testing/add-testname/add-testname.component';
+import { ProductizationComponent } from './productization/productization.component';
+import { AddApplicationComponent } from './productization/add-application/add-application.component';
+import { AddBrandComponent } from './productization/add-brand/add-brand.component';
+import { AddClasscodeComponent } from './productization/add-classcode/add-classcode.component';
+import { AddClassificationComponent } from './productization/add-classification/add-classification.component';
+import { AddComponentComponent } from './productization/add-component/add-component.component';
+import { AddOemComponent } from './productization/add-oem/add-oem.component';
+import { AddProductcategoryComponent } from './productization/add-productcategory/add-productcategory.component';
+import { AddProductlineComponent } from './productization/add-productline/add-productline.component';
+import { CmoComponent } from './productization/cmo/cmo.component';
+import { NewCheComponent } from './productization/new-che/new-che.component';
+import { NewMicrobComponent } from './productization/new-microb/new-microb.component';
+import { SearchProductComponent } from './productization/search-product/search-product.component';
+import { AddComponentcategoryComponent } from './productization/add-component/add-componentcategory/add-componentcategory.component';
+import { SearchComponentComponent } from './productization/add-component/search-component/search-component.component';
+import { SearchCmoComponent } from './productization/cmo/search-cmo/search-cmo.component';
+import { AddcheComponent } from './productization/new-che/addche/addche.component';
+import { AddmicroComponent } from './productization/new-microb/addmicro/addmicro.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -257,7 +275,27 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'SampleManagementComponent', component: SampleManagementComponent },
       { path: 'formulastatus', component: FormulaStatusComponent },
       { path: 'AddTestname', component: AddTestnameComponent },
-      { path: 'AddLabname', component: AddLabnameComponent }
+      { path: 'AddLabname', component: AddLabnameComponent },
+      { path: 'Productization', component: ProductizationComponent },
+      { path: 'AddProductline', component: AddProductlineComponent },
+      { path: 'AddClasscode', component: AddClasscodeComponent },
+
+      { path: 'AddClassification', component: AddClassificationComponent },
+      { path: 'AddApplication', component: AddApplicationComponent },
+      { path: 'AddOem', component: AddOemComponent },
+      { path: 'AddBrand', component: AddBrandComponent },
+      { path: 'AddProductcategory', component: AddProductcategoryComponent },
+      { path: 'AddComponent', component: AddComponentComponent },
+      { path: 'SearchComponent', component: SearchComponentComponent },
+      { path: 'AddComponentcategory', component: AddComponentcategoryComponent },
+      { path: 'NewChe', component: NewCheComponent },
+      { path: 'NewMicrob', component: NewMicrobComponent },
+      { path: 'Addche', component: AddcheComponent },
+      { path: 'Addmicro', component: AddmicroComponent },
+
+      { path: 'Cmo', component: CmoComponent },
+      { path: 'SearchCmo', component: SearchCmoComponent },
+      { path: 'SearchProduct', component: SearchProductComponent }
     ]
   }
 ];
@@ -394,6 +432,24 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     SearchFormulalistComponent,
     AddLabnameComponent,
     AddTestnameComponent,
+    ProductizationComponent,
+    AddApplicationComponent,
+    AddBrandComponent,
+    AddClasscodeComponent,
+    AddClassificationComponent,
+    AddComponentComponent,
+    AddOemComponent,
+    AddProductcategoryComponent,
+    AddProductlineComponent,
+    CmoComponent,
+    NewCheComponent,
+    NewMicrobComponent,
+    SearchProductComponent,
+    AddComponentcategoryComponent,
+    SearchComponentComponent,
+    SearchCmoComponent,
+    AddcheComponent,
+    AddmicroComponent,
     
   ],
   imports: [
@@ -435,7 +491,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
+  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, ProductizationComponent,AddProductlineComponent,AddClasscodeComponent, AddClassificationComponent, AddApplicationComponent, AddOemComponent,AddBrandComponent,AddProductcategoryComponent,AddComponentComponent,SearchComponentComponent, AddComponentcategoryComponent, NewCheComponent, NewMicrobComponent,AddcheComponent, AddmicroComponent,CmoComponent,SearchCmoComponent,SearchProductComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, AddLabnameComponent,AddTestnameComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
     MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent, PDRListSearchComponent, SearchSubmissionComponent, UnapprovedRawmaterialComponent, SearchFormulalistComponent]
 })

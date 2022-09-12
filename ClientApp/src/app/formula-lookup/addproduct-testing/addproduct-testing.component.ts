@@ -14,6 +14,12 @@ export class AddproductTestingComponent implements OnInit {
   pdrno: any;
   isproductsave: boolean = false;
   isproductupdate: boolean = true;
+  
+  labnamedis: boolean = false;
+
+
+  tesnamedis: boolean = false;
+
 
   formulacode: any;
   formulaname: string;
@@ -64,7 +70,7 @@ export class AddproductTestingComponent implements OnInit {
   Comment: any = '';
   Costone: any = '0.000';
   Time: any = '';
-  Set: any = '';
+  Set: any = '1';
   TotalCost = '0.000';
   PaymentLab = '0.000';
   TotalBalpaylb = '0.000';
@@ -415,16 +421,16 @@ export class AddproductTestingComponent implements OnInit {
       PDRNo: this.pdrno,
       FormulaCode: this.formulacode,
       FormulaName: this.formulaname,
-      //TestName: this.Testname,
+      cbTestName: this.Testname,
       //LabName: this.labname,
       Status: 'open',
-      //priptstartdt: this.Startdate,
-      //tpriptcompdt: this.Completeddate,
+      dtpriptstartdt: this.Startdate,
+      dtpriptcompdt: this.Completeddate,
       CustomerName: this.customername,
       OTC: '1',
       ProductType: this.PType,
       Claim: this.claim,
-      TotalCost: this.TotalC,
+      TotalCost: this.Costone,
       DTPProductTestingDate: ''
 
     }]);
@@ -491,8 +497,17 @@ export class AddproductTestingComponent implements OnInit {
       this.info_data = Savedata
       if (this.info_data == "Inserted") {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "test name details saved successfully" } });
+        this.billdetails_load(this.formulacode).subscribe((bill_load) => {
+          console.warn("bill_load", bill_load)
+          this.bill_data_load = bill_load;
+          this.rowDatasproductbilling = this.bill_data_load;
+        })
         //this.rawmaterial_update_data = ""
       }
+      else if (this.info_data == "Updated") {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "test name details updated successfully" } });
+      }
+
       this.billdetails_load(this.formulacode).subscribe((bill_load) => {
         console.warn("bill_load", bill_load)
         this.bill_data_load = bill_load;
@@ -744,13 +759,13 @@ export class AddproductTestingComponent implements OnInit {
       console.warn("test_load", test_load)
       this.test_data_load = test_load;
     })
-    this.Quatationdate = new Date().toISOString().split('T')[0];
-    this.opendate = new Date().toISOString().split('T')[0];
-    this.Due = new Date().toISOString().split('T')[0];
-    this.Submitteddate = new Date().toISOString().split('T')[0];
-    this.Customerdate = new Date().toISOString().split('T')[0];
-    this.Startdate = new Date().toISOString().split('T')[0];
-    this.Completeddate = new Date().toISOString().split('T')[0];
+    //this.Quatationdate = new Date().toISOString().split('T')[0];
+    //this.opendate = new Date().toISOString().split('T')[0];
+    //this.Due = new Date().toISOString().split('T')[0];
+    //this.Submitteddate = new Date().toISOString().split('T')[0];
+    //this.Customerdate = new Date().toISOString().split('T')[0];
+    //this.Startdate = new Date().toISOString().split('T')[0];
+    //this.Completeddate = new Date().toISOString().split('T')[0];
 
     if (this.data.displaydata == undefined) {
       this.pdrno = this.data.displaydata2[0];
@@ -758,37 +773,46 @@ export class AddproductTestingComponent implements OnInit {
       this.formulacode = this.data.displaydata2[2];
       this.customername = this.data.displaydata2[3];
       this.Testname = this.data.displaydata2[4];
-      this.Startdate = this.data.displaydata2[5];
-      this.Completeddate = this.data.displaydata2[6];
+      // this.Startdate = this.data.displaydata2[5];
+      // this.Completeddate = this.data.displaydata2[6];
+      this.Quatationdate = new Date().toISOString().split('T')[0];
+      this.opendate = new Date().toISOString().split('T')[0];
+      this.Due = new Date().toISOString().split('T')[0];
+      this.Submitteddate = new Date().toISOString().split('T')[0];
+      this.Customerdate = new Date().toISOString().split('T')[0];
+      this.Startdate = new Date().toISOString().split('T')[0];
+      this.Completeddate = new Date().toISOString().split('T')[0];
       this.isproductsave = false;
       this.isproductupdate = true;
     }
-    else {
-      
-  this.pdrno = this.data.displaydata[0];
-  this.formulaname = this.data.displaydata[1];
-  this.formulacode = this.data.displaydata[2];
-  this.customername = this.data.displaydata[3];
-  this.Testname = this.data.displaydata[4];
-  this.Startdate = this.data.displaydata[5];
-  this.Completeddate = this.data.displaydata[6];
-  this.labname = this.data.displaydata[7];
-  this.Costone = this.data.displaydata[8];
-  this.Quatationdate = this.data.displaydata[9];
-  this.opendate = this.data.displaydata[10];
-  this.Due = this.data.displaydata[11];
-  this.Submitteddate = this.data.displaydata[12];
-  this.Customerdate = this.data.displaydata[13];
-  this.Purchaseorder = this.data.displaydata[14];
+    else
+
+    {
+      this.pdrno = this.data.displaydata[0];
+      this.formulaname = this.data.displaydata[1];
+      this.formulacode = this.data.displaydata[2];
+      this.customername = this.data.displaydata[3];
+      this.Testname = this.data.displaydata[4];
+      this.Startdate = new Date(this.data.displaydata[5]).toISOString().split('T')[0];
+
+      this.Completeddate = new Date(this.data.displaydata[6]).toISOString().split('T')[0];
+      this.labname = this.data.displaydata[7];
+      this.Costone = this.data.displaydata[8];
+      this.TotalC = this.Costone;
+      this.Quatationdate = new Date(this.data.displaydata[9]).toISOString().split('T')[0];
+      this.opendate = new Date(this.data.displaydata[10]).toISOString().split('T')[0];
+      this.Due = new Date(this.data.displaydata[11]).toISOString().split('T')[0];
+      this.Submitteddate = new Date(this.data.displaydata[12]).toISOString().split('T')[0];
+      this.Customerdate = new Date(this.data.displaydata[13]).toISOString().split('T')[0];
+      this.Purchaseorder = this.data.displaydata[14];
+      this.tesnamedis = true;
+      this.labnamedis = true;
+      this.isproductsave = true;
+      this.isproductupdate = false;
 
 
 
-
-  this.isproductsave = true;
-  this.isproductupdate = false;
-}
-
-    
+    }
 
 
     // this.otcdetails_load(this.formulacode).subscribe((otc_load) => {
@@ -818,13 +842,14 @@ export class AddproductTestingComponent implements OnInit {
   }
 }
 export class Datasave {
+  
   PDRNo: string;
   FormulaCode: string;
   FormulaName: string;
-  //TestName: string;
+  cbTestName: string;
   //LabName: string;
-  //priptstartdt: string;
-  //priptcompdt: string;
+  dtpriptstartdt: string;
+  dtpriptcompdt: string;
   Status: string;
   CustomerName: string;
   OTC: string;
@@ -832,6 +857,7 @@ export class Datasave {
   Claim: string;
   TotalCost: string;
   DTPProductTestingDate: string;
+
 
 
 

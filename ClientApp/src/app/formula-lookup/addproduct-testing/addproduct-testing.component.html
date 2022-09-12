@@ -78,7 +78,7 @@ add product testing html
                 <div class="form-group col-md-9">
                   <div class="form-inline">
                     <label for="inputcust" style="margin-top:15px;margin-left: 12%;margin-right:10px;">Test Name</label>
-                    <select id="tes" class="form-control" style="width:45%;margin-left:0.5%;margin-top:1%" [(ngModel)]="Testname" name="tesn" value="">
+                    <select [disabled]="tesnamedis" id="tes" class="form-control" style="width:45%;margin-left:0.5%;margin-top:1%" [(ngModel)]="Testname" name="tesn" value="">
                       <option selected>{{Testname}}</option>
                       <option *ngFor="let testdetails of test_data_load ">{{testdetails.Testname}}</option>
                     </select>
@@ -86,11 +86,11 @@ add product testing html
                   </div>
                   <div class="form-inline">
                     <label for="inputcust" style=" margin-left: 12%;margin-right:10px">Lab</label>
-                    <select id="PRD" class="form-control" style="width:45%;margin-left:5%;margin-top:1%" [(ngModel)]="labname" #fn name="labn" value="">
+                    <select [disabled]="labnamedis" id="PRD" class="form-control" style="width:45%;margin-left:5%;margin-top:1%" [(ngModel)]="labname" #fn name="labn" value="">
                       <option selected>{{labname}}</option>
                       <option *ngFor="let labdetails of lab_data_load">{{labdetails.labname}}</option>
                     </select>
-                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 0.9%; padding-top: 10px;">Add Lab Name</button>
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 0.9%; padding-top: 10px;"(click)=" Openlabname();">Add Lab Name</button>
                   </div>
                   <div class="form-inline" style="margin-top:5px">
                     <label for="inputcust" style=" margin-left: 7.5%;margin-right:10px">Purchase Order</label>

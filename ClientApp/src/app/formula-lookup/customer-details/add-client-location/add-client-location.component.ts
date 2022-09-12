@@ -15,20 +15,20 @@ export class AddClientLocationComponent implements OnInit {
   isclienthiddensa: boolean = false;
   isclienthiddenup: boolean = true;
   location: string;
-  address: string;
-  state: string;
-  city: string;
-  country: string;
-  zipcode: string;
-  clid: string;
+  address: string = "";
+  state: string = "";
+  city: string = "";
+  country: string = "";
+  zipcode: string = "";
+  clid: string = "";
   client_loc_data: any;
   cuscode: string;
-  contactno: string;
-  contactperson: string;
-  email: string;
-  fax: string;
-  notes: string;
-  telephone: string;
+  contactno: string = "";
+  contactperson: string = "";
+  email: string = "";
+  fax: string = "";
+  notes: string = "";
+  telephone: string = "";
   client_loc_updata: any;
 
   constructor(public dialog: MatDialog,public datashare: DataShareServiceService, private http: HttpClient) { }
@@ -157,7 +157,7 @@ export class AddClientLocationComponent implements OnInit {
     this.fax = this.addclientlocationload[11];
     this.notes = this.addclientlocationload[12];
     this.telephone = this.addclientlocationload[13];
-    if (this.location == "" || this.location==undefined) {
+    if (this.location == "" || this.location == undefined) {
       this.isclienthiddensa = false;
       this.isclienthiddenup = true;
     }
@@ -165,7 +165,6 @@ export class AddClientLocationComponent implements OnInit {
       this.isclienthiddensa = true;
       this.isclienthiddenup = false;
     }
-
   }
 
 }

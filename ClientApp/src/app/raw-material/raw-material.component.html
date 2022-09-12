@@ -616,7 +616,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let usd of usload; let i=index;" (click)="setvalues3(usd)" (dblclick)="setUsvalues(usd)">
+                              <tr *ngFor="let usd of usload; let i=index;" (click)="setvalues3(usd);onRowClick(i);" (dblclick)="setUsvalues(usd)" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ usd.Maximum}}</td>
                                 <td>{{ usd.Percentage}}</td>
@@ -661,11 +661,11 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let CAND of canadaLoad; let i=index;" (dblclick)="setCANvalues(CAND)"  (click)="setCANvalues2(CAND)">
+                              <tr *ngFor="let CAND of canadaLoad; let i=index;" (dblclick)="setCANvalues(CAND)"  (click)="setCANvalues2(CAND);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ CAND.FieldOfAppln}}</td>
                                 <td>{{ CAND.Maximum}}</td>
-                                <td>{{ CAND.Percentage}}</td>
+                                <td>{{ CAND.maxpercentage}}</td>
                                 <td>{{ CAND.OtherLimitations}}</td>
                                 <td>{{ CAND.ConditionsOfUse}}</td>
                                 <td>{{ CAND.SourceofInfo}}</td>
@@ -705,11 +705,11 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let EUvalues of euload; let i=index;" (dblclick)="setEUvalues(EUvalues)"  (click)="setEUvalues2(EUvalues)">
+                              <tr *ngFor="let EUvalues of euload; let i=index;" (dblclick)="setEUvalues(EUvalues)"  (click)="setEUvalues2(EUvalues);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ EUvalues.FieldOfAppln}}</td>
                                 <td>{{ EUvalues.Maximum}}</td>
-                                <td>{{ EUvalues.Percentage}}</td>
+                                <td>{{ EUvalues.maxpercentage}}</td>
                                 <td>{{ EUvalues.OtherLimitations}}</td>
                                 <td>{{ EUvalues.ConditionsOfUse}}</td>
                                 <td>{{ EUvalues.SourceofInfo}}</td>
@@ -747,11 +747,11 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let jpn of japanload; let i=index;" (dblclick)="setJPNvalues(jpn)"(click)="setJPNvalues2(jpn)">
+                              <tr *ngFor="let jpn of japanload; let i=index;" (dblclick)="setJPNvalues(jpn)"(click)="setJPNvalues2(jpn);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ jpn.FieldOfAppln}}</td>
                                 <td>{{ jpn.Maximum}}</td>
-                                <td>{{ jpn.Percentage}}</td>
+                                <td>{{ jpn.maxpercentage}}</td>
                                 <td>{{ jpn.OtherLimitations}}</td>
                                 <td>{{ jpn.ConditionsOfUse}}</td>
                                 <td>{{ jpn.SourceofInfo}}</td>
@@ -788,11 +788,11 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let aus of austriliaload; let i=index;" (dblclick)="setAusvalues(aus)"(click)="setAusvalues2(aus)">
+                              <tr *ngFor="let aus of austriliaload; let i=index;" (dblclick)="setAusvalues(aus)"(click)="setAusvalues2(aus)"[class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ aus.FieldOfAppln}}</td>
                                 <td>{{ aus.Maximum}}</td>
-                                <td>{{ aus.Percentage}}</td>
+                                <td>{{ aus.maxpercentage}}</td>
                                 <td>{{ aus.OtherLimitations}}</td>
                                 <td>{{ aus.ConditionsOfUse}}</td>
                                 <td>{{ aus.SourceofInfo}}</td>
@@ -831,12 +831,12 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let cload of chinaload; let i=index;" (dblclick)="setchinavalues(cload)" (click)="setchinavalues2(cload)">
+                              <tr *ngFor="let cload of chinaload; let i=index;" (dblclick)="setchinavalues(cload)" (click)="setchinavalues2(cload);onRowClick(i);"[class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ cload.FieldOfAppln}}</td>
                                 <td>{{ cload.Maximum}}</td>
                                 <td>{{ cload.minpercentage}}</td>
-                                <td>{{ cload.Percentage}}</td>
+                                <td>{{ cload.maxpercentage}}</td>
                                 <td>{{ cload.OtherLimitations}}</td>
                                 <td>{{ cload.ConditionsOfUse}}</td>
                                 <td>{{ cload.SourceofInfo}}</td>
@@ -880,7 +880,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let audit_pdr of CAprop65load; let i=index;" (dblclick)="setcapropvaluesDirect(audit_pdr);" (click)="setcapropvaluesDirect2(audit_pdr);">
+                                      <tr *ngFor="let audit_pdr of CAprop65load; let i=index;" (dblclick)="setcapropvaluesDirect(audit_pdr);" (click)="setcapropvaluesDirect2(audit_pdr);onRowClick(i);"[class.table-active]="i == currentRowIndex">
                                         <td></td>
                                         <td>{{ audit_pdr.TypeOfToxicity}}</td>
                                         <td>{{ audit_pdr.ListingMechanism}}</td>
@@ -928,7 +928,7 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr *ngFor="let impurities of capropimpuritiestableload; let i=index;" (click)="settextboximpuries(impurities)">
+                                        <tr *ngFor="let impurities of capropimpuritiestableload; let i=index;" (click)="settextboximpuries(impurities);onRowClick(i);"[class.table-active]="i == currentRowIndex">
                                           <td>{{ impurities.INCIName}}</td>
                                           <td>{{ impurities.ppm}}</td>
                                         </tr>
@@ -960,7 +960,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let caprop of CAproprestrictionsload; let i=index;" (dblclick)="setcapropvaluesrestriction(caprop)"(click)="setcapropvaluesrestriction2(caprop)">
+                                      <tr *ngFor="let caprop of CAproprestrictionsload; let i=index;" (dblclick)="setcapropvaluesrestriction(caprop)"(click)="setcapropvaluesrestriction2(caprop);onRowClick(i);"[class.table-active]="i == currentRowIndex">
                                         <td></td>
                                         <td>{{ caprop.FieldOfAppln}}</td>
                                         <td>{{ caprop.Maximum}}</td>
@@ -1090,7 +1090,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let auditregulatory of regulatoryaudittrackingload; let i=index;">
+                              <tr *ngFor="let auditregulatory of regulatoryaudittrackingload; let i=index;"[class.table-active]="i == currentRowIndex" (click)="onRowClick(i);">
                                 <td></td>
                                 <td>{{ auditregulatory.Date}}</td>
                                 <td>{{ auditregulatory.Task}}</td>
@@ -1568,7 +1568,7 @@
       <ng-template ngbNavContent>
         <div class="form-inline">
           <label for="inputPassword6" style="margin-left:1%">Function Name</label>
-          <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="pa" style="width:950px;" [(ngModel)]="functioncode" #funa name="funnam" value="">
+          <input disabled type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="pa" style="width:950px;" [(ngModel)]="functioncode" #funa name="funnam" value="">
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="opensearchfunction()">Function Search</button>
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="Clearfuntion()">Function Clear</button>
         </div>

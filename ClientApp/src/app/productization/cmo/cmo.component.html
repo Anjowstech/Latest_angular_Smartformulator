@@ -1,0 +1,116 @@
+<div style="    background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:90vh;width:100%">
+
+    <h2 style="    margin-top:50px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">CMO Details</h2>
+
+
+    <div class="row">
+
+      <div class="form-group col-md-12">
+
+
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="CMONAME" style="margin-left: 100px; margin-top: 50px; font-size: medium; font-family: Verdana;">CMO Name</label>
+          <input type="text" style="margin-left: 10px; margin-top: 50px;" class="form-control" placeholder="" id="CMNA" size="80" [(ngModel)]="CMOname" name="cmna" value="">
+
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; margin-top: 50px; padding-top: 10px; width: 170px; height: 46px" (click)=" searchcmo()">Search CMO </button>
+
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; margin-top: 50px; padding-top: 10px; width: 170px; height: 46px" (click)=" clearcmo()">Clear</button>
+        </form>
+
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="CMON" style="margin-left: 100px; margin-top: 50px; font-size: medium; font-family: Verdana;">CMO Number</label>
+          <input type="text" style="margin-left: 10px; margin-top: 50px;" class="form-control" placeholder="" id="CMNo" size="80" [(ngModel)]="CMOnumber" name="cmno" value="">
+        </form>
+
+
+
+      </div>
+
+
+
+    </div>
+
+    <h2 style=" margin-top:50px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:left">Contact Details</h2>
+
+    <div class="row">
+
+      <div class="form-group col-md-4">
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="STREET1" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">Street 1</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="STR1" size="40" [(ngModel)]="street1" name="str1" value="">
+
+        </form>
+
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="STREET2" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">Street 2</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="STR2" size="40" [(ngModel)]="street2" name="str2" value="">
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="COUNTRY" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">Country </label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="CNTRY" size="40" [(ngModel)]="country" name="cntry" value="">
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="PHONENUMBER" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">Phone Number</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="PHNUMBR" size="40" [(ngModel)]="phonenumber" name="phnumbr" value="">
+        </form>
+
+
+
+      </div>
+
+      <div class="form-group col-md-4">
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">City</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="formlno" size="40" [(ngModel)]="city" name="cit" value="">
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">State</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="formlno" size="40" [(ngModel)]="state" name="stte" value="">
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">Zip Code</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="formlno" size="40" [(ngModel)]="zip" name="zp" value="">
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left: 50px; margin-top: 30px; font-size: medium; font-family: Verdana;">Email</label>
+          <input type="text" style="margin-left: 10px; margin-top: 30px;" class="form-control" placeholder="" id="formlno" size="40" [(ngModel)]="email" name="mail" value="">
+        </form>
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+
+    <form class="form-inline" style="    background-color: #f6f5f1">
+
+      <label class="label1" for="inputcust" style="margin-left:50px;font-size: medium;font-family: Verdana;">Notes </label>
+      <textarea class="form-control" id="Formulanote" rows="3" style="width: 53%; height: 200PX; margin-left: 10px; margin-top: 30px;margin-bottom:40px" [(ngModel)]="notes" name="not" value=""></textarea>
+    </form>
+
+
+
+
+
+
+
+
+
+
+    <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 200px; height: 50px; width: 150px; margin-top: 1%" matDialogClose>Back</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:5px;height:50px;width:150px;margin-top:1%" (click)="savecmo();">Save</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 150px; margin-top: 1%" (click)="update();">Update</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 150px; margin-top: 1%" (click)="clearcmo();">New</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 200px; margin-top: 1%" (click)="deletecmo();">Delete CMO</button>
+
+
+    </div>
+  </div>
+</div>
