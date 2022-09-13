@@ -83,7 +83,7 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
           this.restriction_save_up_data = ""
         }
         else if (this.restriction_save_up_data == "Updated") {
-          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details Updated Successfully" } });
           this.restriction_save_up_data = ""
         }
       })

@@ -5,6 +5,7 @@ import { AddTestnameComponent } from './add-testname/add-testname.component';
 import { MessageBoxComponent } from '../../message-box/message-box.component';
 import { AddLabnameComponent } from './add-labname/add-labname.component';
 import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-yesno.component';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-addproduct-testing',
   templateUrl: './addproduct-testing.component.html',
@@ -793,22 +794,27 @@ export class AddproductTestingComponent implements OnInit {
       this.formulacode = this.data.displaydata[2];
       this.customername = this.data.displaydata[3];
       this.Testname = this.data.displaydata[4];
-      this.Startdate = new Date(this.data.displaydata[5]).toISOString().split('T')[0];
+      this.Startdate = formatDate((this.data.displaydata[5]), 'yyyy-MM-dd', 'en-US');
+      //this.Startdate = new Date(this.data.displaydata[5]).toISOString().split('T')[0];
+      this.Completeddate = formatDate((this.data.displaydata[6]), 'yyyy-MM-dd', 'en-US');
+      //this.Completeddate=date.setDate(date.getDate() + 1);
 
-      this.Completeddate = new Date(this.data.displaydata[6]).toISOString().split('T')[0];
+      //this.Completeddate = new Date(this.data.displaydata[6]).toISOString().split('T')[0];
       this.labname = this.data.displaydata[7];
       this.Costone = this.data.displaydata[8];
       this.TotalC = this.Costone;
-      this.Quatationdate = new Date(this.data.displaydata[9]).toISOString().split('T')[0];
-      this.opendate = new Date(this.data.displaydata[10]).toISOString().split('T')[0];
-      this.Due = new Date(this.data.displaydata[11]).toISOString().split('T')[0];
-      this.Submitteddate = new Date(this.data.displaydata[12]).toISOString().split('T')[0];
-      this.Customerdate = new Date(this.data.displaydata[13]).toISOString().split('T')[0];
+      this.Quatationdate = formatDate((this.data.displaydata[9]), 'yyyy-MM-dd', 'en-US');
+      this.opendate = formatDate((this.data.displaydata[10]), 'yyyy-MM-dd', 'en-US');
+      this.Due = formatDate((this.data.displaydata[11]), 'yyyy-MM-dd', 'en-US');
+      this.Submitteddate = formatDate((this.data.displaydata[12]), 'yyyy-MM-dd', 'en-US');
+      this.Customerdate = formatDate((this.data.displaydata[13]), 'yyyy-MM-dd', 'en-US');
       this.Purchaseorder = this.data.displaydata[14];
       this.tesnamedis = true;
       this.labnamedis = true;
       this.isproductsave = true;
       this.isproductupdate = false;
+
+
 
 
 

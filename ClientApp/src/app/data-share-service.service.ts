@@ -39,7 +39,9 @@ export class DataShareServiceService {
   itemcodetoraw: any;
   labelvalues: string;
   itemcodeval: string;
-  suppna: any
+  suppna: any;
+  samplelist: any = [];
+   searchpdritems: any=[];
   datashareitemcode: any;
   datasharecasdata: any;
   FormulaCode: any;
@@ -112,6 +114,15 @@ export class DataShareServiceService {
    
 
 
+  }
+  sendsampledetails(samplevalues: string[]) {
+    this.samplelist = samplevalues
+  }
+
+
+
+  sendpdrlist(listvalues: string[]) {
+    this.searchpdritems = listvalues
   }
 
   searchItemlist(item1: any) {
@@ -187,6 +198,19 @@ getitemtosupplier(): string {
   }
   getcasdata(): string[] {
     return this.datasharecasdata;
+  }
+  getsample(): any {
+    return this.samplelist;
+
+
+
+  }
+
+
+
+
+  getpdrlist(): any {
+    return this.searchpdritems;
   }
   getpdrno(): string {
     return this.datasharepdr;

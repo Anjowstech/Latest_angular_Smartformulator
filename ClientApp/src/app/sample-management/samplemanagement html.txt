@@ -8,7 +8,7 @@
           <form class="form-inline" style="background-color: #f6f5f1">
 
             <label for="" style="margin-left:50px;font-size: medium;
-              font-family: Verdana;">PDR #</label>
+              font-family: Verdana;">PDR #</label>    
 
             <input disabled type="text" [(ngModel)]="PDRno" #pdrnum name="pdrno" value="" style="margin-top: 10px;margin-left: 70px;" class="form-control" size="40">
             <label for="" style="margin-left:40px;font-size: medium;
@@ -60,7 +60,7 @@
             </select>
             <label for="" style="margin-left: 20px;font-size: medium;
           font-family: Verdana;">Sample Status</label>
-            <select id="PdrStatus" [(ngModel)]="PDRStatus" #PdrStat name="PDRStatus" [disabled]="datedisabled" class="form-control" style="width:40%;margin-left:10px">
+            <select id="PdrStatus" [(ngModel)]="PDRStatus" #PdrStat name="PDRStatus"  [disabled]="datedisabled" class="form-control" style="width:40%;margin-left:10px">
               <option selected>N-New</option>
               <option>R-Redirect(customer sending back for enhancements)</option>
               <option>BT-Bulk Transfer(more of the same samples)</option>
@@ -152,7 +152,7 @@
 
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()">{{btnval}}</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  (click)="SaveSample();ChangeText()">{{btnval}}</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)=" ClearData()">New/Clear</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
 
@@ -303,14 +303,14 @@
                     filter:cstmrname:filterMetadata|filter:formulaname:filterMetadata|filter:formulacode:filterMetadata|
                     filter:submissionno:filterMetadata|filter:PDRStatus:filterMetadata|filter:LabopenStatus:filterMetadata|
                     filter:UserNamea:filterMetadata; let i=index;" (click)="setvalues(ProductList_search);navpdrvalues();" #conten>
-                  <td class="tabledatasize">{{ProductList_search.PDRNo}}</td>
+                  <td class="tabledatasize" >{{ProductList_search.PDRNo}}</td>
                   <td width="15%" class="tabledatasize"> {{ProductList_search.CusName}}</td>
                   <td width="15%" class="tabledatasize">{{ProductList_search.Description}} </td>
-                  <td width="15%" class="tabledatasize" hidden>{{ProductList_search.FormulaCode}} </td>
-                  <td class="tabledatasize"> {{ProductList_search.SubmissionNo}}</td>
+                  <td width="15%" class="tabledatasize" hidden >{{ProductList_search.FormulaCode}} </td>
+                  <td class="tabledatasize" > {{ProductList_search.SubmissionNo}}</td>
                   <td width="15%" class="tabledatasize">{{ProductList_search.PDRStatus}} </td>
-                  <td class="tabledatasize">{{ProductList_search.LabOpenStatus}} </td>
-                  <td class="tabledatasize">{{ProductList_search.UserName}} </td>
+                  <td class="tabledatasize" >{{ProductList_search.LabOpenStatus}} </td>
+                  <td class="tabledatasize" >{{ProductList_search.UserName}} </td>
 
                 </tr>
 
@@ -323,9 +323,9 @@
 
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)="SaveSample();ChangeText()">{{btnval}}</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)="SaveSample();ChangeText()">{{btnval}}</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)=" ClearData()">New/Clear</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate" >Sample Submission Form</button>
 
           </div>
         </ng-template>
@@ -384,9 +384,9 @@
 
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)="SaveSample();ChangeText()">{{btnval}}</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)="SaveSample();ChangeText()">{{btnval}}</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)=" ClearData()">New/Clear</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate" >Sample Submission Form</button>
 
           </div>
         </ng-template>
@@ -480,8 +480,8 @@
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()">{{btnval}}</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate"  (click)=" ClearData()">New/Clear</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate" >Sample Submission Form</button>
 
           </div>
         </ng-template>
@@ -499,8 +499,8 @@
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()">{{btnval}}</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)=" ClearData()">New/Clear</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate" >Sample Submission Form</button>
 
           </div>
         </ng-template>
@@ -543,8 +543,8 @@
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()">{{btnval}}</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)=" ClearData()">New/Clear</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate" >Sample Submission Form</button>
 
           </div>
         </ng-template>
@@ -589,20 +589,20 @@
 
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()">{{btnval}}</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate"  (click)=" ClearData()">New/Clear</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%"  [disabled]="btndisstate" >Sample Submission Form</button>
 
           </div>
         </ng-template>
       </ng-container>
+      
+                                   
 
-
-
-
+       
     </nav>
 
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>
-
+ 
 </div>
 

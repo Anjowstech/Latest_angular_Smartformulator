@@ -61,12 +61,13 @@
              (change)="handleFileInput($event.target.files)">
     </div>
     <button type="submit" class="btn btn-primary buttoncolor" style="height:38px;width:90px;">Open</button>
+    </div>
     <div class="form-inline" style="padding-top:1%;">
       <label>Internal Reg.Notes</label>
       <textarea style="margin-left:1%; width: 45%;" type="text" rows="2" class="form-control" [(ngModel)]="internalReg" name="internal" value=""></textarea>
 
     </div>
-
+  </div>
     <style>
 
       label {
@@ -76,13 +77,14 @@
       }
     </style>
 
-
+    
     <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
       <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px" matDialogClose>Close</button>
       <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px" (click)=" Cleardata();">New</button>
 
-      <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-top:1%;margin-left:10px" (click)="Restriction_SaveUpdate();">Save / Update</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-top:1%;margin-left:10px" (click)="Restriction_SaveUpdate();"matDialogClose>Save / Update</button>
 
     </div>
-  </div>
+  
+  

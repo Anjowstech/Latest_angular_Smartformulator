@@ -45,7 +45,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
   ifCArestriction: boolean = true;
   ifchinamax: boolean = false;
   chineseinci: string = "";
-  minpercent: string = "";
+  minpercent: string = "0";
   ppm: string = "0";
   doclink: string = "";
   sourceregulation: string = "";
@@ -284,7 +284,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
               this.restriction_save_up_data = ""
             }
             else if (this.restriction_save_up_data == "Updated") {
-              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details Updated Successfully" } });
               this.restriction_save_up_data = ""
             }
           })
@@ -319,7 +319,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
     //  ChkUnSafe: '',
     this.chineseinci = '';
     this.minpercent = '';
-    this.ppm = '0';
+    this.ppm = "0";
 
   }
   Restriction_saveupdateup() {
@@ -344,6 +344,8 @@ export class RawmaterialRestrictionComponent implements OnInit {
     }
     if (countryname == "CHINA") {
       this.ifchina = false;
+      this.minpercent = this.Eudetails[10]
+      this.chineseinci = this.Eudetails[11];
     }
     else {
       this.ifchina = true;
@@ -363,8 +365,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
     if (this.chineseinci == undefined) {
       this.chineseinci = '';
     }
-    this.minpercent = this.Eudetails[10];
-    this.chineseinci = this.Eudetails[11];
+    
     if (this.chineseinci == "" || this.chineseinci == undefined) {
       this.chineseinci = "";
     }
@@ -416,7 +417,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
     }
     this.username = this.Eudetails[10];
     if (this.ppm == undefined) {
-      this.ppm = '';
+      this.ppm = "0";
     }
     if (this.doclink == undefined) {
       this.doclink = '';
@@ -429,8 +430,8 @@ export class RawmaterialRestrictionComponent implements OnInit {
     if (this.doclink == "" || this.doclink == undefined) {
       this.doclink = "";
     }
-    this.ppm = this.Eudetails[11];
-    this.doclink = this.Eudetails[12];
+    //this.ppm = this.Eudetails[11];
+    //this.doclink = this.Eudetails[12];
 
     this.restrictiondetails = this.Datashare.getrestrictiondetails()
     //this.restrictioncountryname = this.restrictiondetails[0];
