@@ -22,16 +22,16 @@ import { formatDate } from '@angular/common';
 })
 export class AddComponentComponent implements OnInit {
   suPliername: any;
-  loadcomponentcategory: any;
-  componentitemnumber: any;
-  Comp_Data: any;
-  bommultiplier: any = '';
+    loadcomponentcategory: any;
+    componentitemnumber: any;
+    Comp_Data: any;
+    bommultiplier: any='';
   cumleadtime: any = '';
   status: any = '';
   categorytype: any = '';
   color: any = '';
   componentname: any = '';
-  date: Date;
+  date: any='';
   finish: any = '';
   lastpocost: any = '';
   moq: any = '';
@@ -59,23 +59,23 @@ export class AddComponentComponent implements OnInit {
   weightofcomp: any = '';
   Comp_Data3: any = '';
   Comp_Data4: any = '';
-  dataformList: any = [];
-  component_save_data: any;
+  dataformList : any =[];
+    component_save_data: any;
   dataformList2: data2[][] = [];
-  fillablecomponent: string = 'No';
+  fillablecomponent: string='No';
   bulkcontaine: boolean;
   biodegradable: any = '0';
   bioplastic: any = '0';
 
 
-  bulkcontainer: string = 'N';
+  bulkcontainer: string='N' ;
   mcplastic: any = '0';
   mcaluminium: any = '0';
   mcrecycledplastic: any = '0';
   mcpaper: any = '0';
   mcother: any = '0';
 
-
+  
   mcplasti: boolean;
   mcaluminiu: boolean;
   mcrecycledplasti: boolean;
@@ -93,7 +93,7 @@ export class AddComponentComponent implements OnInit {
   pmpet: any = '0';
   pmpp: any = '0';
 
-
+  
   pmaluminiu: boolean;
   pmstee: boolean;
   pmglas: boolean;
@@ -115,10 +115,20 @@ export class AddComponentComponent implements OnInit {
   pcorrugate: boolean;
 
 
-  suppliercode: any;
-  bulkcontainer1: string;
-  component_update_data: any;
-  Data: any;
+    suppliercode: any;
+    bulkcontainer1: string;
+    component_update_data: any;
+    Data: any;
+    count: any;
+    size: any;
+    noofunits: any;
+    defsg: any;
+    defs: number;
+    def: number;
+    counts: any;
+  showDateInput = false;
+    showDateInpu= false;
+  owDateInput = false;
 
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
@@ -138,11 +148,11 @@ export class AddComponentComponent implements OnInit {
       console.log('The dialog was closed', result);
       if (result != "") {
         this.componentitemnumber = result[0];
-        //    this.projectname = result[1];
-        //    this.customername = result[2];
-
+    //    this.projectname = result[1];
+    //    this.customername = result[2];
+       
       }
-
+     
       this.compdataload().subscribe((compload) => {
         console.warn("compload", compload)
         this.Comp_Data = compload
@@ -158,7 +168,8 @@ export class AddComponentComponent implements OnInit {
       this.compdataload3().subscribe((compload3) => {
         console.warn("compload3", compload3)
         this.Comp_Data3 = compload3
-
+        this.counts = this.Comp_Data3.length
+        
       })
       this.compdataload4().subscribe((compload4) => {
         console.warn("compload4", compload4)
@@ -175,6 +186,38 @@ export class AddComponentComponent implements OnInit {
 
 
   }
+
+
+  radioValueChec(x) {
+    this.owDateInput = (x === 1);
+  }
+
+  radioValueCheck(x) {
+    this.showDateInput = (x === 1);
+  }
+  radioValueChe(x) {
+    this.showDateInpu = (x === 1);
+  }
+
+  blurEventsg(event: any) {
+    var defsg = Number(event.target.value);
+    this.defsg = defsg
+
+  
+
+  }
+  blurEvents(event: any) {
+    var defs = Number(event.target.value);
+    this.defs=defs
+  }
+  blurEvent(event: any) {
+    var def = Number(event.target.value);
+    this.def = def
+
+    this.cumleadtime = this.defsg+this.defs+def
+  }
+
+
   COMPdata2(compdatas2: any) {
     for (let item of compdatas2) {
 
@@ -185,13 +228,13 @@ export class AddComponentComponent implements OnInit {
       this.percentage = item.Biodegradeperc;
       this.bioplastic = item.Bioplastic;
       this.pboxboard = item.Boxboard;
-      this.cartons = item.Cartons;
+      this.cartons= item. Cartons;
       //this. = item. ComponentItemNo;
       //this. = item. ComponentName;
       this.pcorrugated = item.Corrugated;
       this.mcaluminium = item.MCAluminium;
       this.mcother = item.MCOther;
-      this.othedetail = item.MCOtherDetail;
+      this.othedetail = item. MCOtherDetail;
       this.mcpaper = item.MCPaper;
       this.mcplastic = item.MCPlastic;
       this.mcrecycledplastic = item.MCRecycledPlastic;
@@ -201,19 +244,19 @@ export class AddComponentComponent implements OnInit {
       this.pmglass = item.PMGlass;
       this.pmhdpe = item.PMHDPE;
       this.pmlldpe = item.PMLLDPE;
-      this.pmpet = item.PMPET;
+      this. pmpet= item. PMPET;
       this.pmpp = item.PMPP;
       this.pmpaper = item.PMPaper;
-      this.pmsteel = item.PMsteel;
-      /*  *//*  this. = item. PackagingCompNo;*/
+      this. pmsteel= item. PMsteel;
+  /*  *//*  this. = item. PackagingCompNo;*/
       this.addinfo = item.PlantBasedAdd;
       this.plantbased = item.PlantBasedYes;
-      this.reason = item.Reason;
-      this.height = item.SizeH;
-      this.length = item.SizeL;
-      this.width = item.SizeW;
-      this.vrs = item.VRSProcess;
-      this.weightofcomp = item.WeightofComp;
+      this.reason = item. Reason;
+      this.height= item. SizeH;
+      this.length = item. SizeL;
+      this.width= item. SizeW;
+      this.vrs = item. VRSProcess;
+      this.weightofcomp= item. WeightofComp;
 
 
 
@@ -228,32 +271,32 @@ export class AddComponentComponent implements OnInit {
       this.bommultiplier = item.BOMMultiplier;
       this.cumleadtime = item.CMLeadTime;
       this.status = item.CStatus;
-      /* item.CSupplierCode*/
+     /* item.CSupplierCode*/
       this.categorytype = item.CategoryType;
       this.color = item.Color;
       /*item.ComponentItemNo*/
       this.componentname = item.ComponentName;
       this.date = item.Date;
       this.fillablecomponent = item.FillableComponent;
-      this.finish = item.Finish;
-      /* this. = item.ItemNO;*/
-      this.lastpocost = item.LastPOCost;
-      /* this. =  item.LastPODt;*/
+      this.finish =  item.Finish;
+     /* this. = item.ItemNO;*/
+      this.lastpocost =  item.LastPOCost;
+     /* this. =  item.LastPODt;*/
       this.moq = item.MOQ;
-      this.componentdescription = item.MiscellaneousInfo;
-      this.postprocess = item.PostprocessLeadTime;
-      this.preprocessing = item.PreprocessLeadTime;
+      this.componentdescription= item.MiscellaneousInfo;
+      this.postprocess =  item.PostprocessLeadTime;
+      this.preprocessing =  item.PreprocessLeadTime;
       this.processing = item.ProcessLeadTime;
-      this.reorder = item.Reorder;
-      /*  this. =  item.Size;*/
+      this.reorder =  item.Reorder;
+    /*  this. =  item.Size;*/
       this.specification = item.Specification;
       this.bulkcontainer = item.StorageContainer;
-      this.stdprice = item.UnitCost;
+      this.stdprice= item.UnitCost;
       //this. =  item.UpdatedBy;
       //this. =  item.UpdatedDt;
-      /*  this. = item.componentimage;*/
-      this.compimage = item.imagepath;
-      this.suPliername = item.name;
+    /*  this. = item.componentimage;*/
+      this.compimage =  item.imagepath;
+      this.suPliername =  item.name;
 
 
 
@@ -323,7 +366,7 @@ export class AddComponentComponent implements OnInit {
 
     });
   }
-
+ 
   componentcategory_load() {
     return this.http.get("https://formulaproductizationwebservice.azurewebsites.net/loadComponentcat")
   }
@@ -660,7 +703,7 @@ export class AddComponentComponent implements OnInit {
 
       if (this.component_save_data == "updated") {
         this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component Details updated Successfully' } });
-
+        
       }
       else {
         this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component item # already exists. Choose another one.' } });
@@ -700,8 +743,8 @@ export class AddComponentComponent implements OnInit {
 
 
 
-  //   var productdate1 = result[4];
-  //this.productdate = formatDate(new Date(productdate1), 'yyyy-MM-dd', 'en-US');
+//   var productdate1 = result[4];
+//this.productdate = formatDate(new Date(productdate1), 'yyyy-MM-dd', 'en-US');
 
   dateformat(event) {
     var newdate = this.date
@@ -711,113 +754,126 @@ export class AddComponentComponent implements OnInit {
   }
 
   savecomponent() {
+    if (this.componentitemnumber == "" || this.componentitemnumber == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Enter ComponentItem NO.' } });
+    }
+    else if (this.componentname == "" || this.componentname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Enter Component Name' } });
+    }
+    else if (this.suPliername == "" || this.suPliername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Select Supplier ' } });
+    }
+    else if (this.categorytype == "" || this.categorytype == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Select categorytype' } });
+    }
+    else {
+      this.dataformList[0] = ([{
 
-    this.dataformList[0] = ([{
-
-      ComponentItemNo: this.componentitemnumber,
-      ComponentName: this.componentname,
-      Specification: this.specification,
-      CategoryType: this.categorytype,
-      ItemNO: this.componentitemnumber,
-      /* Date: formatDate(new Date(this.date), 'dd-MM-yyyy', 'en-US'),*/
-      Size: '8',
-      Finish: this.finish,
-      Color: this.color,
-      CSupplierCode: this.suppliercode,
-      MiscellaneousInfo: this.componentdescription,
-      AddedBy: 'admin',
-      /*AddedDt: '',*/
-      /*   componentimage: ,*/
-      imagepath: this.compimage,
-      FillableComponent: this.fillablecomponent,
-      StorageContainer: this.bulkcontainer,
-      BOMMultiplier: this.bommultiplier,
-      MOQ: this.moq,
-      Reorder: this.reorder,
-      ProcessLeadTime: this.processing,
-      PreprocessLeadTime: this.preprocessing,
-      PostprocessLeadTime: this.postprocess,
-      CMLeadTime: this.cumleadtime,
-      LastPOCost: this.lastpocost,
-      LastPODt: '',
-      CStatus: this.status,
-      username: 'admin',
-      UnitCost: this.stdprice
+        ComponentItemNo: this.componentitemnumber,
+        ComponentName: this.componentname,
+        Specification: this.specification,
+        CategoryType: this.categorytype,
+        ItemNO: this.componentitemnumber,
+        /* Date: formatDate(new Date(this.date), 'dd-MM-yyyy', 'en-US'),*/
+        Size: '8',
+        Finish: this.finish,
+        Color: this.color,
+        CSupplierCode: this.suppliercode,
+        MiscellaneousInfo: this.componentdescription,
+        AddedBy: 'admin',
+        /*AddedDt: '',*/
+        /*   componentimage: ,*/
+        imagepath: this.compimage,
+        FillableComponent: this.fillablecomponent,
+        StorageContainer: this.bulkcontainer,
+        BOMMultiplier: this.bommultiplier,
+        MOQ: this.moq,
+        Reorder: this.reorder,
+        ProcessLeadTime: this.processing,
+        PreprocessLeadTime: this.preprocessing,
+        PostprocessLeadTime: this.postprocess,
+        CMLeadTime: this.cumleadtime,
+        LastPOCost: this.lastpocost,
+        LastPODt: '',
+        CStatus: this.status,
+        username: 'admin',
+        UnitCost: this.stdprice
 
 
-    }]);
-
-
-
-
-
-    this.dataformList2[0] = ([{
-
-
-
-      ComponentItemNo: this.componentitemnumber,
-      ComponentName: this.componentname,
-      Biodegrade: this.biodegradable,
-      Biodegradeperc: this.percentage,
-      Bioplastic: this.bioplastic,
-      PlantBasedYes: this.plantbased,
-      MCPlastic: this.mcplastic,
-      MCAluminium: this.mcaluminium,
-      MCRecycledPlastic: this.mcrecycledplastic,
-      MCPaper: this.mcpaper,
-      MCOther: this.mcother,
-      MCOtherDetail: this.othedetail,
-      PMPP: this.pmpp,
-      PMPET: this.pmpet,
-      PMLLDPE: this.pmlldpe,
-      PMHDPE: this.pmhdpe,
-      PMPaper: this.pmpaper,
-      PMGlass: this.pmglass,
-      PMsteel: this.pmsteel,
-      PMAluminium: this.pmaluminium,
-      Corrugated: this.pcorrugated,
-      Boxboard: this.pboxboard,
-      OtherPaper: this.pother,
-      OtherPaperDetail: this.otherpaper,
-      SizeH: this.height,
-      SizeL: this.length,
-      SizeW: this.width,
-      WeightofComp: this.weightofcomp,
-      VRSProcess: this.vrs,
-      Cartons: this.cartons,
-      Reason: this.reason,
-      PlantBasedAdd: this.addinfo,
-      PackagingCompNo: '',
-      AtatchQuestDoc1: this.attachresponsible,
-      AdditionalDoc: this.additionaldoc,
+      }]);
 
 
 
 
 
-    }]);
-
-    this.compsave().subscribe((componentsave) => {
-      console.warn("componentsave", componentsave)
-      this.component_save_data = componentsave
+      this.dataformList2[0] = ([{
 
 
 
-      if (this.component_save_data == "Component details saved successfully.") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component details saved successfully.' } });
-      }
-      else if (this.component_save_data == "Component item # already exists. Choose another one.") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component item # already exists. Choose another one.' } });
-      }
+        ComponentItemNo: this.componentitemnumber,
+        ComponentName: this.componentname,
+        Biodegrade: this.biodegradable,
+        Biodegradeperc: this.percentage,
+        Bioplastic: this.bioplastic,
+        PlantBasedYes: this.plantbased,
+        MCPlastic: this.mcplastic,
+        MCAluminium: this.mcaluminium,
+        MCRecycledPlastic: this.mcrecycledplastic,
+        MCPaper: this.mcpaper,
+        MCOther: this.mcother,
+        MCOtherDetail: this.othedetail,
+        PMPP: this.pmpp,
+        PMPET: this.pmpet,
+        PMLLDPE: this.pmlldpe,
+        PMHDPE: this.pmhdpe,
+        PMPaper: this.pmpaper,
+        PMGlass: this.pmglass,
+        PMsteel: this.pmsteel,
+        PMAluminium: this.pmaluminium,
+        Corrugated: this.pcorrugated,
+        Boxboard: this.pboxboard,
+        OtherPaper: this.pother,
+        OtherPaperDetail: this.otherpaper,
+        SizeH: this.height,
+        SizeL: this.length,
+        SizeW: this.width,
+        WeightofComp: this.weightofcomp,
+        VRSProcess: this.vrs,
+        Cartons: this.cartons,
+        Reason: this.reason,
+        PlantBasedAdd: this.addinfo,
+        PackagingCompNo: '',
+        AtatchQuestDoc1: this.attachresponsible,
+        AdditionalDoc: this.additionaldoc,
 
-    })
+
+
+
+
+      }]);
+
+      this.compsave().subscribe((componentsave) => {
+        console.warn("componentsave", componentsave)
+        this.component_save_data = componentsave
+
+
+
+        if (this.component_save_data == "Component details saved successfully.") {
+          this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component details saved successfully.' } });
+        }
+        else if (this.component_save_data == "Component item # already exists. Choose another one.") {
+          this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component item # already exists. Choose another one.' } });
+        }
+
+      })
+    }
 
   }
 
   compsave() {
 
 
-    var cat: string = this.categorytype
+    var cat:string = this.categorytype
     var datalistform: any = JSON.stringify(this.dataformList);
     var datalistform2: any = JSON.stringify(this.dataformList2);
 
@@ -831,19 +887,110 @@ export class AddComponentComponent implements OnInit {
 
 
 
+  clear() {
+    this.componentitemnumber = ""
+    this.componentname = ""
+    this.specification = ""
+    this.categorytype = ""
+    this.componentitemnumber = ""
+    this.date=""
+    this.size =""
+    this.finish = ""
+    this.color = ""
+    this.suppliercode = ""
+    this.componentdescription = ""
+
+    this.compimage = ""
+    this.fillablecomponent = "No"
+    this.bulkcontainer = "N"
+    this.bommultiplier = ""
+    this.moq = ""
+    this.reorder = ""
+    this.processing = ""
+    this.preprocessing = ""
+    this.postprocess = ""
+    this.cumleadtime = ""
+    this.lastpocost = ""
+   
+      this.status = ""
+
+    this.stdprice = ""
 
 
 
+    this.componentitemnumber = ""
+    this.componentname = ""
+    this.biodegradable = "0"
+    this.percentage = ""
+
+    this.suPliername = ""
+    this.noofunits=""
+
+
+    this.bioplastic = "0"
+    this.plantbased = "No"
+    this.mcplastic = "0"
+    this.mcaluminium = "0"
+    this.mcrecycledplastic = "0"
+    this.mcpaper = "0"
+    this.mcother = "0"
+    this.othedetail = ""
+    this.pmpp = "0"
+    this.pmpet = "0"
+    this.pmlldpe = "0"
+    this.pmhdpe = "0"
+    this.pmpaper = "0"
+    this.pmglass = "0"
+    this.pmsteel = "0"
+    this.pmaluminium = "0"
+    this.pcorrugated = "0"
+    this.pboxboard = "0"
+    this.pother = "0"
+    this.otherpaper = ""
+    this.height = ""
+    this.length = ""
+    this.width = ""
+    this.weightofcomp = ""
+    this.vrs = ""
+    this.cartons = "0"
+    this.reason = ""
+    this.addinfo = ""
+ 
+    this.attachresponsible = ""
+    this.additionaldoc = ""
+  }
+
+
+  handleFileInput1(files: FileList) {
+    var filebrowse = files.item.length;
+    this.attachresponsible = files.item(0).name;
 
 
 
+  }
 
+
+  handleFileInput2(files: FileList) {
+    var filebrowse = files.item.length;
+    this.additionaldoc = files.item(0).name;
+
+
+
+  }
+  handleFileInput6(files: FileList) {
+    var filebrowse = files.item.length;
+    this.compimage = files.item(0).name;
+
+
+
+  }
 
 
   ngOnInit() {
     this.componentcategory_load().subscribe((componentcategory_load) => {
       console.warn("componentcategory_load", componentcategory_load)
       this.loadcomponentcategory = componentcategory_load
+    
     })
   }
 

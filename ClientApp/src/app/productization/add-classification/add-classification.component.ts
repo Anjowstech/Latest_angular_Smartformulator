@@ -18,32 +18,62 @@ export class AddClassificationComponent implements OnInit {
   loadclassification: any;
   classification_delete_data: any;
   id: any;
-
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    classification_update_data: any;
+    count: any;
 
 
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
-  saveclassification() {
+  updateclassification() {
     this.classificationdata[0] = ([{
-      Procedurestatus: '',
-      ID: '',
+      Procedurestatus: this.id,
+      ID: this.id,
       ProductLine: this.classification,
 
 
     }])
-    this.classificationsave().subscribe((classificationsave) => {
-      console.warn("classificationsave", classificationsave)
-      this.classification_save_data = classificationsave
+    this.classificationsave().subscribe((classificationupdate) => {
+      console.warn("classificationupdate", classificationupdate)
+      this.classification_update_data = classificationupdate
 
       if (this.classification_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updatedsuccessfully' } });
       }
       this.classification_load().subscribe((classification_load) => {
         console.warn("classification_load", classification_load)
         this.loadclassification = classification_load
       })
     })
+  }
+
+  saveclassification() {
+    if (this.classification == "" || this.classification == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Classification' } });
+    }
+    else {
+      this.classificationdata[0] = ([{
+        Procedurestatus: '',
+        ID: '',
+        ProductLine: this.classification,
+
+
+      }])
+      this.classificationsave().subscribe((classificationsave) => {
+        console.warn("classificationsave", classificationsave)
+        this.classification_save_data = classificationsave
+
+        if (this.classification_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.classification_load().subscribe((classification_load) => {
+          console.warn("classification_load", classification_load)
+          this.loadclassification = classification_load
+        })
+      })
+    }
   }
 
   classificationsave() {
@@ -67,26 +97,31 @@ export class AddClassificationComponent implements OnInit {
 
   }
   deleteclassification() {
-    this.classificationdata[0] = ([{
-      Procedurestatus: '',
-      ID: this.id
+    if (this.classification == "" || this.classification == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Classification' } });
+    }
+    else {
+      this.classificationdata[0] = ([{
+        Procedurestatus: '',
+        ID: this.id
 
 
 
-    }])
-    this.classificationdelete().subscribe((classification_delete) => {
-      console.warn("classification_delete", classification_delete)
-      this.classification_delete_data = classification_delete
+      }])
+      this.classificationdelete().subscribe((classification_delete) => {
+        console.warn("classification_delete", classification_delete)
+        this.classification_delete_data = classification_delete
 
-      if (this.classification_delete_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
-      }
-      this.classification_load().subscribe((classification_load) => {
-        console.warn("classification_load", classification_load)
-        this.loadclassification = classification_load
+        if (this.classification_delete_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
+        }
+        this.classification_load().subscribe((classification_load) => {
+          console.warn("classification_load", classification_load)
+          this.loadclassification = classification_load
+        })
+
       })
-
-    })
+    }
 
   }
 
@@ -99,14 +134,32 @@ export class AddClassificationComponent implements OnInit {
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
 
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
 
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  clear() {
+    this.classification = "";
+
+
+  }
 
   ngOnInit() {
 
     this.classification_load().subscribe((classification_load) => {
       console.warn("classification_load", classification_load)
       this.loadclassification = classification_load
+      this.count = this.loadclassification.length
     })
+
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
 
 }

@@ -172,7 +172,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
           this.restriction_save_up_data = ""
         }
         else if (this.restriction_save_up_data == "Updated") {
-          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details Updated Successfully" } });
           this.restriction_save_up_data = ""
         }
       })
@@ -300,14 +300,14 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       if (this.fieldname == undefined || this.fieldname == "") {
         this.fieldname = '';
       }
-      this.restrictionloadpopup(this.username, this.fieldname, this.inciname, 'US').subscribe((restrictionload) => {
+      //this.restrictionloadpopup(this.username, this.fieldname, this.inciname, 'US').subscribe((restrictionload) => {
 
 
 
-        console.warn("restrictionload", restrictionload)
-        this.restrictionload = restrictionload
-        this.restrictiondata(this.restrictionload)
-      })
+      //  console.warn("restrictionload", restrictionload)
+      //  this.restrictionload = restrictionload
+      //  this.restrictiondata(this.restrictionload)
+      //})
 
 
 

@@ -228,7 +228,17 @@ export class CustomerDetailsComponent implements OnInit {
   loadsalesrepinitial: any;
   deleteddata: string;
   deleterowdelete: string;
+  onRowClick: any;
+  checkIfOthersAreSelected: boolean;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
+    this.onRowClick = function (index) {
+      if (this.currentRowIndex == index) {
+        this.currentRowIndex = -1;
+      }
+      else {
+        this.currentRowIndex = index;
+      }
+    }
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
       'custoname': ['', Validators.required],
@@ -338,7 +348,30 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
 
+  shippingchange(event) {
+    for (let item of this.shippingdata) {
+      if (item.DefaultLocation == "True") {
+        this.default = item.DefaultLocation;
+        this.locationname = item.LocationName;
+        this.Address = item.Address;
+        this.City = item.City;
+        this.State = item.State;
+        this.Country = item.Country;
+        this.zipcode = item.ZipCode;
+        this.contactno = item.Contactno;
+        this.contactperson = item.Contactperson;
+        this.Email = item.Emailid;
+        this.Fax = item.Fax;
+        this.locationnote = item.LocationNotes;
+        this.telepho = item.Telephone;
+      }
+      else {
 
+
+
+      }
+    }
+  }
  
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
@@ -419,9 +452,7 @@ export class CustomerDetailsComponent implements OnInit {
     });
 
   }
-  onRowClick(index: number) {
-    this.currentRowIndex = index;
-  }
+  
   deletetierrange() {
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     if (this.selectedRowIndex == -1) {
@@ -505,6 +536,7 @@ export class CustomerDetailsComponent implements OnInit {
     });
 
   }
+  
   onRowPrepared2(e) {
 
   }

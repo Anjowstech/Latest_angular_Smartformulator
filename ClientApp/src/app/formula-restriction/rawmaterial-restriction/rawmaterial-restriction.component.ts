@@ -214,7 +214,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
         this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
           console.warn("restriction_save_up", restriction_save_up)
           this.restriction_save_up_data = restriction_save_up
-
+        
           if (this.restriction_save_up_data == "Inserted") {
             this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
             this.restriction_save_up_data = ""
@@ -278,7 +278,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
           this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
             console.warn("restriction_save_up", restriction_save_up)
             this.restriction_save_up_data = restriction_save_up
-
+ 
             if (this.restriction_save_up_data == "Inserted") {
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
               this.restriction_save_up_data = ""
@@ -292,6 +292,13 @@ export class RawmaterialRestrictionComponent implements OnInit {
       }
 
 
+    }
+  }
+  wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
     }
   }
   Cleardata() {

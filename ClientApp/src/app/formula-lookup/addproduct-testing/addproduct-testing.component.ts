@@ -85,7 +85,7 @@ export class AddproductTestingComponent implements OnInit {
   FormulagridList: addproducttestData[][] = [];
   mySum: any;
   public gridApione;
-
+  adf: any;
 
   constructor(public dialogRef: MatDialogRef<AddproductTestingComponent>, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) {
 
@@ -628,6 +628,38 @@ export class AddproductTestingComponent implements OnInit {
     this.lname = labdetails.labname
     this.lid = labdetails.labId
     this.sl = labdetails.status
+  }
+  clear() {
+    //this.pdrno = "";
+    //this.formulaname = "";
+    //this.formulacode = "";
+    // this.customername = "";
+    //this.Testname = "";
+    this.Startdate = new Date().toISOString().split('T')[0];
+    //this.Startdate = new Date(this.data.displaydata[5]).toISOString().split('T')[0];
+    this.Completeddate = new Date().toISOString().split('T')[0];
+    //this.Completeddate=date.setDate(date.getDate() + 1);
+
+
+
+    //this.Completeddate = new Date(this.data.displaydata[6]).toISOString().split('T')[0];
+    //this.labname = this.data.displaydata[7];
+    this.Costone = "";
+    //this.TotalC = this.Costone;
+    this.Quatationdate = new Date().toISOString().split('T')[0];
+    this.opendate = new Date().toISOString().split('T')[0];
+    this.Due = new Date().toISOString().split('T')[0];
+    this.Submitteddate = new Date().toISOString().split('T')[0];
+    this.Customerdate = new Date().toISOString().split('T')[0];
+    this.Purchaseorder = "";
+    this.Time = "";
+    this.Result = "";
+    this.Comment = "";
+    this.adf = "";
+    this.tesnamedis = true;
+    this.labnamedis = true;
+    this.isproductsave = true;
+    this.isproductupdate = false;
   }
   savebillgrid() {
     this.savemmainbillgridup().subscribe((Savebilldata) => {

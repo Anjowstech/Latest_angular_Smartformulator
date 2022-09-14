@@ -19,7 +19,7 @@
           <div class="form-group row">
             <label for="formulacode" class="col-sm-2 col-form-label">Product #</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="inputformulacode" placeholder="" [(ngModel)]="productnumber" name="prdno" value="">
+              <input type="text" class="form-control" id="inputformulacode" placeholder="" [(ngModel)]="productnumber"  name="prdno" value="">
             </div>
           </div>
           <div class="form-group row">
@@ -57,14 +57,14 @@
             <th class="header" scope="col">Formula Name</th>
             <th class="header" scope="col">Product Date</th>
             <th class="header" scope="col">Brand Name</th>
-
+           
           </tr>
         </thead>
         <tbody>
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let raw_search of dataraw_search | filter:productnumber|filter:formulaname|filter:productname|filter:productdate ; let i=index;" (click)="setvalues( raw_search);close();" #conten>
+          <tr *ngFor="let raw_search of dataraw_search | filter:productnumber:filterMetadata|filter:formulaname:filterMetadata|filter:productname:filterMetadata|filter:productdate:filterMetadata ; let i=index;" (click)="setvalues( raw_search);close();" #conten>
             <td class="tabledatasize  ">{{ raw_search.ProductNumber }}</td>
             <td class="tabledatasize ">{{ raw_search.ProductName}}</td>
             <td class="tabledatasize ">{{ raw_search.FillSize }}</td>
@@ -85,7 +85,7 @@
 
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
 
 

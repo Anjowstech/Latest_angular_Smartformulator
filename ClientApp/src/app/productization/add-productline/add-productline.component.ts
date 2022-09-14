@@ -11,38 +11,67 @@ import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
   styleUrls: ['./add-productline.component.css']
 })
 export class AddProductlineComponent implements OnInit {
-  productline: any;
+    productline: any;
   productdata: any = [];
-  product_save_data: any;
-  loadproduct: any;
-  product_delete_data: any;
-  id: any;
+    product_save_data: any;
+    loadproduct: any;
+    product_delete_data: any;
+    id: any;
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    product_update_data: any;
+    count: any;
 
 
 
+ constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
-  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
-
-  saveproduct() {
+  updateproduct() {
     this.productdata[0] = ([{
       Procedurestatus: '',
-      ID: '',
+      ID: this.id,
       ProductLine: this.productline,
 
 
     }])
-    this.productsave().subscribe((productsave) => {
-      console.warn("productsave", productsave)
-      this.product_save_data = productsave
+    this.productsave().subscribe((productupdate) => {
+      console.warn("productsave", productupdate)
+      this.product_update_data = productupdate
 
-      if (this.product_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+      if (this.product_update_data == "success") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated  successfully' } });
       }
       this.product_load().subscribe((product_load) => {
         console.warn("product_load", product_load)
         this.loadproduct = product_load
       })
     })
+  }
+  saveproduct() {
+    if (this.productline == "" || this.productline == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Product Line' } });
+    }
+    else {
+      this.productdata[0] = ([{
+        Procedurestatus: '',
+        ID: '',
+        ProductLine: this.productline,
+
+
+      }])
+      this.productsave().subscribe((productsave) => {
+        console.warn("productsave", productsave)
+        this.product_save_data = productsave
+
+        if (this.product_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.product_load().subscribe((product_load) => {
+          console.warn("product_load", product_load)
+          this.loadproduct = product_load
+        })
+      })
+    }
   }
 
   productsave() {
@@ -60,16 +89,20 @@ export class AddProductlineComponent implements OnInit {
 
 
   setvalues(product_Details) {
-
+    
     this.productline = product_Details.ProductLine1
     this.id = product_Details.ID
-
+    
   }
   deleteproduct() {
+    if(this.productline == "" || this.productline == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Product Line' } });
+    }
+
     this.productdata[0] = ([{
       Procedurestatus: '',
       ID: this.id
-
+      
 
 
     }])
@@ -86,7 +119,7 @@ export class AddProductlineComponent implements OnInit {
       })
 
     })
-
+    
   }
 
   productdelete() {
@@ -100,12 +133,35 @@ export class AddProductlineComponent implements OnInit {
 
 
 
+
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
+
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  clear() {
+    this.productline = "";
+
+
+  }
+
   ngOnInit() {
 
     this.product_load().subscribe((product_load) => {
       console.warn("product_load", product_load)
       this.loadproduct = product_load
+      this.count = this.loadproduct.length
     })
+
+    this.isproductsave = false;
+    this.isproductupdate = true;
+  
+
   }
 
 }

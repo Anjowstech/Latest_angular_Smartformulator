@@ -19,21 +19,24 @@ import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 })
 export class AddComponentcategoryComponent implements OnInit {
 
-
+  filterMetadata = { count: 0 };
   componentcategory: any;
   componentcategorydata: any = [];
   componentcategorydata1: any = [];
   componentcategorydata2: any = [];
   componentcategory_save_data: any;
-
+  
   loadcomponentcategory: any;
   componentcategory_delete_data: any;
   id: any;
-  Categorytype: any;
-  Description: any;
-  Categorytypes: any;
-  Descriptions: any;
-  componentcategory_update_data: any;
+    Categorytype: any;
+    Description: any;
+    Categorytypes: any;
+    Descriptions: any;
+    componentcategory_update_data: any;
+  count: any;
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
@@ -48,29 +51,40 @@ export class AddComponentcategoryComponent implements OnInit {
     this.Descriptions = details_cattype.description
 
   }
+  clear() {
+    this.Descriptions = "";
+    this.Categorytypes = "";
+  }
+
   savecomponentcategory() {
-    this.componentcategorydata[0] = ([{
 
-      CategoryID: '',
-      CategoryType: this.Categorytypes,
-      Description: this.Descriptions,
-      OldCategoryType: '',
-      Procedurestatus: ''
+    if (this.Categorytypes == "" || this.Categorytypes == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Categorytype' } });
+    }
+    else {
+      this.componentcategorydata[0] = ([{
+
+        CategoryID: '',
+        CategoryType: this.Categorytypes,
+        Description: this.Descriptions,
+        OldCategoryType: '',
+        Procedurestatus: ''
 
 
-    }])
-    this.componentcategorysave().subscribe((componentcategorysave) => {
-      console.warn("componentcategorysave", componentcategorysave)
-      this.componentcategory_save_data = componentcategorysave
+      }])
+      this.componentcategorysave().subscribe((componentcategorysave) => {
+        console.warn("componentcategorysave", componentcategorysave)
+        this.componentcategory_save_data = componentcategorysave
 
-      if (this.componentcategory_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
-      }
-      this.componentcategory_load().subscribe((componentcategory_load) => {
-        console.warn("componentcategory_load", componentcategory_load)
-        this.loadcomponentcategory = componentcategory_load
+        if (this.componentcategory_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.componentcategory_load().subscribe((componentcategory_load) => {
+          console.warn("componentcategory_load", componentcategory_load)
+          this.loadcomponentcategory = componentcategory_load
+        })
       })
-    })
+    }
   }
   componentcategorysave() {
     var jsonprams: any = JSON.stringify(this.componentcategorydata);
@@ -112,29 +126,44 @@ export class AddComponentcategoryComponent implements OnInit {
     let params1 = new HttpParams().set('JSONFileparams', jsonprams).set('spname', spsname);
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
 
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  
 
   deletecomponentcategory() {
-    this.componentcategorydata1[0] = ([{
+    if (this.Categorytypes == "" || this.Categorytypes == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Select Categorytype' } });
+    }
+    else {
+      this.componentcategorydata1[0] = ([{
 
-      CategoryID: this.id,
-      CategoryType: this.Categorytypes,
-      Procedurestatus: ''
+        CategoryID: this.id,
+        CategoryType: this.Categorytypes,
+        Procedurestatus: ''
 
 
-    }])
-    this.componentcategorydelete().subscribe((componentcategorydelete) => {
-      console.warn("componentcategorydelete", componentcategorydelete)
-      this.componentcategory_delete_data = componentcategorydelete
+      }])
+      this.componentcategorydelete().subscribe((componentcategorydelete) => {
+        console.warn("componentcategorydelete", componentcategorydelete)
+        this.componentcategory_delete_data = componentcategorydelete
 
-      if (this.componentcategory_delete_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'deleted successfully' } });
-      }
-      this.componentcategory_load().subscribe((componentcategory_load) => {
-        console.warn("componentcategory_load", componentcategory_load)
-        this.loadcomponentcategory = componentcategory_load
+        if (this.componentcategory_delete_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'deleted successfully' } });
+        }
+        this.componentcategory_load().subscribe((componentcategory_load) => {
+          console.warn("componentcategory_load", componentcategory_load)
+          this.loadcomponentcategory = componentcategory_load
+        })
       })
-    })
+    }
   }
   componentcategorydelete() {
     var jsonprams: any = JSON.stringify(this.componentcategorydata1);
@@ -160,7 +189,10 @@ export class AddComponentcategoryComponent implements OnInit {
     this.componentcategory_load().subscribe((componentcategory_load) => {
       console.warn("componentcategory_load", componentcategory_load)
       this.loadcomponentcategory = componentcategory_load
+      this.count = this.loadcomponentcategory.length;
     })
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
 
 }

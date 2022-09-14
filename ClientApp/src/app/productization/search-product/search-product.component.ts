@@ -11,6 +11,7 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 })
 export class SearchProductComponent implements OnInit {
   dataraw_search: any;
+  lcount: string;
   formulacodedata: string = '';
   formulanamedata: string = '';
   lbnotedata: string = '';
@@ -99,12 +100,15 @@ export class SearchProductComponent implements OnInit {
   Ausdoc: any = '';
   Chinadoc: any = '';
   Notes: any = '';
+  filterMetadata = { count:0 };
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchProductComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
 
   Loadsearchformula() {
 
     return this.http.get("https://formulaproductization3.azurewebsites.net/loadproduct");
   }
+  
+
 
   //setvaluessingle(raw_search) {
 
@@ -190,7 +194,7 @@ export class SearchProductComponent implements OnInit {
     this.FillingAttachment = raw_search.FillingAttachment;
     this.LabelAttachment = raw_search.LabelAttachment;
     this.LabelAttachment = raw_search.LabelAttachment;
-
+ 
 
     this.productimage = raw_search.productimage;
     this.ImageDescription = raw_search.ImageDescription;
@@ -200,85 +204,85 @@ export class SearchProductComponent implements OnInit {
 
     this.searchitems = [
       this.FormulaCode,
-      this.FormulaName,
-      this.ProductNumber,
-      this.ProductName,
-      this.ProductDate,
-      this.BrandName,
-      this.Warnings,
-      this.Directions,
-      this.Questions,
-      this.Miscellaneous,
-      this.BarCodeImage,
-      this.BarCodeNumber,
-      this.Uses,
-      this.artworkI,
-      this.artworkIPath,
-      this.artworkII,
-      this.artworkIIPath,
-      this.artworkIII,
-      this.artworkIIIPath,
-      this.artworkIV,
-      this.artworkIVPath,
-      this.artworkV,
-      this.artworkVPath,
-      this.US,
-      this.EU,
-      this.California,
-      this.Japan,
-      this.Australia,
-      this.China,
-      this.USDoc,
-      this.EUDoc,
-      this.Caldoc,
-      this.Japandoc,
-      this.Ausdoc,
-      this.Chinadoc,
-      this.Notes,
+    this.FormulaName,
+     this.ProductNumber,
+    this.ProductName,
+    this.ProductDate,
+    this.BrandName,
+    this.Warnings,
+    this.Directions,
+    this.Questions,
+    this.Miscellaneous,
+    this.BarCodeImage,
+    this.BarCodeNumber,
+    this.Uses,
+    this.artworkI,
+    this.artworkIPath,
+    this.artworkII,
+    this.artworkIIPath,
+    this.artworkIII,
+    this.artworkIIIPath,
+    this.artworkIV,
+    this.artworkIVPath,
+    this.artworkV,
+    this.artworkVPath,
+    this.US,
+    this.EU,
+    this.California,
+    this.Japan,
+    this.Australia,
+    this.China,
+    this.USDoc,
+    this.EUDoc,
+    this.Caldoc,
+    this.Japandoc,
+    this.Ausdoc,
+    this.Chinadoc,
+    this.Notes,
 
-      this.CASNo,
-      this.EinecsNo,
-      this.FillSize,
-      this.ProductDescription,
-      this.Applications,
-      this.Technicalinformation,
-      this.CompanyProductNo,
-      this.ProductNumber,
-      this.PdtDescription,
-      this.CosmeticPdtReport,
-      this.ManuFacturingDesc,
-      this.ProofandClaims,
-      this.AnimalTestData,
-      this.ResponsiblePerson,
-      this.File1,
-      this.File2,
-      this.File3,
-      this.File4,
-      this.File5,
-      this.File6,
-      this.active,
-      this.Attachment,
-      this.FillingInstruction,
-      this.LabelingInstruction,
-      this.SpecialInstruction,
-      this.ProductLineId,
-      this.OEMId,
-      this.ClassId,
-      this.Classificationid,
-      this.catid,
-      this.brandid,
-      this.applicationid,
-      this.LastExported,
-      this.LastExportedDate,
-      this.ExportedBy,
-      this.FillingAttachment,
-      this.LabelAttachment,
-      this.FillingAttachment2,
-
-      this.productimage,
-      this.ImageDescription,
-      this.SpecificGravity,
-      this.FillWeight]
+    this.CASNo,
+    this.EinecsNo,
+    this.FillSize,
+    this.ProductDescription,
+    this.Applications,
+    this.Technicalinformation,
+    this.CompanyProductNo,
+    this.ProductNumber,
+    this.PdtDescription,
+    this.CosmeticPdtReport,
+    this.ManuFacturingDesc,
+    this.ProofandClaims,
+    this.AnimalTestData,
+    this.ResponsiblePerson,
+    this.File1,
+    this.File2,
+    this.File3,
+    this.File4,
+    this.File5,
+    this.File6,
+    this.active,
+    this.Attachment,
+    this.FillingInstruction,
+    this.LabelingInstruction,
+    this.SpecialInstruction,
+    this.ProductLineId,
+    this.OEMId,
+    this.ClassId,
+    this.Classificationid,
+    this.catid,
+    this.brandid,
+    this.applicationid,
+    this.LastExported,
+    this.LastExportedDate,
+    this.ExportedBy,
+    this.FillingAttachment,
+    this.LabelAttachment,
+    this.FillingAttachment2,
+   
+    this.productimage,
+    this.ImageDescription,
+    this.SpecificGravity,
+    this.FillWeight    ]
   }
   close() {
     // this.searchitems = [this.formulacodedata, this.formulanamedata, this.lbnotedata]
@@ -303,6 +307,7 @@ export class SearchProductComponent implements OnInit {
       this.isLoading = false;
       console.warn("resultraw_search", resultraw_search)
       this.dataraw_search = resultraw_search
+      this.lcount = this.dataraw_search.length;
     })
   }
 

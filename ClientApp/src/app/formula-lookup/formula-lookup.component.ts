@@ -1722,7 +1722,7 @@ export class FormulaLookupComponent implements OnInit {
 
 
 
-    this.binddata = [this.PDRno, this.formulaname, this.formulacode, this.customername, this.tsname, this.sdate, this.cmdate, this.lbname, this.csst, this.qtsdate, this.odsate, this.ddate, this.ssddate, this.cussdate, this.porder, this.adaate, this.qtsdate, this.apd, this.apby]
+    this.binddata = [this.PDRno, this.formulaname, this.formulacode, this.customername, this.tsname, this.sdate, this.cmdate, this.lbname, this.csst, this.qtsdate, this.odsate, this.dsdate, this.ssddate, this.cussdate, this.porder, this.adaate, this.qtsdate, this.apd, this.apby]
     const dialogRef = this.dialog.open(AddproductTestingComponent, {
       width: '80%', height: '90%', data: { displaydata: this.binddata }, disableClose: true
     });
@@ -6795,6 +6795,10 @@ export class FormulaLookupComponent implements OnInit {
   
   onGridReadyone(params) {
     this.gridApione = params.api;
+    
+    this.rowDatascalability = this.rowData;
+
+
     if (this.scalefactor != null && this.scalefactor != undefined && this.flag1 == 1) {
       this.gridApione.setRowData(this.rowDatascalability);
       this.gridApione.getModel();

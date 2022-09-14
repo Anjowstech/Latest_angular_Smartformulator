@@ -20,30 +20,69 @@ export class AddApplicationComponent implements OnInit {
   application_delete_data: any;
   id: any;
 
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    application_update_data: any;
+    count: any;
+
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
-
-
-  saveapplication() {
+  updateapplication() {
     this.applicationdata[0] = ([{
       Procedurestatus: '',
-      ID: '',
+      ID: this.id,
       ProductLine: this.application,
 
 
     }])
-    this.applicationsave().subscribe((applicationsave) => {
-      console.warn("applicationsave", applicationsave)
-      this.application_save_data = applicationsave
+    this.applicationupdate().subscribe((applicationupdate) => {
+      console.warn("applicationupdate", applicationupdate)
+      this.application_update_data = applicationupdate
 
-      if (this.application_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+      if (this.application_update_data == "success") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated successfully' } });
       }
       this.application_load().subscribe((application_load) => {
         console.warn("application_load", application_load)
         this.loadapplication = application_load
       })
     })
+  }
+  applicationupdate() {
+    var jsonprams: any = JSON.stringify(this.applicationdata);
+    //JSON.stringify(this.FormulagridList);
+    var spsname = "[dbo].[sp_InsertUpdate_ProductApplicationMST]";
+
+    let params1 = new HttpParams().set('JSONFileparams', jsonprams).set('spname', spsname);
+    return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
+  }
+
+  saveapplication() {
+    if (this.application == "" || this.application == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Application' } });
+    }
+    else {
+
+      this.applicationdata[0] = ([{
+        Procedurestatus: '',
+        ID: '',
+        ProductLine: this.application,
+
+
+      }])
+      this.applicationsave().subscribe((applicationsave) => {
+        console.warn("applicationsave", applicationsave)
+        this.application_save_data = applicationsave
+
+        if (this.application_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.application_load().subscribe((application_load) => {
+          console.warn("application_load", application_load)
+          this.loadapplication = application_load
+        })
+      })
+    }
   }
 
   applicationsave() {
@@ -67,27 +106,33 @@ export class AddApplicationComponent implements OnInit {
 
   }
   deleteapplication() {
-    this.applicationdata[0] = ([{
-      Procedurestatus: '',
-      ID: this.id
+
+    if (this.application == "" || this.application == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Application' } });
+    }
+    else {
+      this.applicationdata[0] = ([{
+        Procedurestatus: '',
+        ID: this.id
 
 
 
-    }])
-    this.applicationdelete().subscribe((application_delete) => {
-      console.warn("application_delete", application_delete)
-      this.application_delete_data = application_delete
+      }])
+      this.applicationdelete().subscribe((application_delete) => {
+        console.warn("application_delete", application_delete)
+        this.application_delete_data = application_delete
 
-      if (this.application_delete_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
-      }
-      this.application_load().subscribe((application_load) => {
-        console.warn("application_load", application_load)
-        this.loadapplication = application_load
+        if (this.application_delete_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
+        }
+        this.application_load().subscribe((application_load) => {
+          console.warn("application_load", application_load)
+          this.loadapplication = application_load
+        })
+
       })
 
-    })
-
+    }
   }
 
   applicationdelete() {
@@ -98,15 +143,34 @@ export class AddApplicationComponent implements OnInit {
     let params1 = new HttpParams().set('JSONFileparams', jsonprams).set('spname', spsname);
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
 
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
 
+  }
+ clear() {
+   this.application = "";
+    
+
+  }
 
   ngOnInit() {
 
     this.application_load().subscribe((application_load) => {
       console.warn("application_load", application_load)
       this.loadapplication = application_load
+      this.count = this.loadapplication.length
     })
+
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
   }
 
 }
+

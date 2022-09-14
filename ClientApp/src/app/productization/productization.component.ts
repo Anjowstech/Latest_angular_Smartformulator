@@ -74,10 +74,10 @@ export class ProductizationComponent implements OnInit {
   loadapplication: any;
   datamicro: any;
   propertydata: any;
-  incicode: any;
+    incicode:any;
   dataformList: productizationData[][] = [];
-  productization_save_data: any;
-  formulacode: any = '';
+    productization_save_data: any;
+    formulacode: any='';
   formulaname: any = '';
   productcode: any = '';
   productname: any = '';
@@ -137,44 +137,54 @@ export class ProductizationComponent implements OnInit {
   SG: any = '';
   customername: any = '';
   application: any = '';
-  productsavedata: any;
+    productsavedata: any;
   pdrno: any = '';
-  cmoname: any;
+    cmoname: any;
   cmonumber: any = '';
   notes: any = '';
+
   DataListcmo: any = [];
   cmo_save_data: any;
+
   DataListbatch: any = [];
   batchhistory_save_data: any;
+
   DataListpcc: any = [];
-  objname: any;
-  pcc_save_data: any;
-  componentitemno1: any;
-  componentname1: any;
-  suppliercode: any;
-  fillablecomp: any;
-  compsize: any;
-  specification: any;
-  unitcost: any;
+    objname: any;
+    pcc_save_data: any;
+    componentitemno1: any;
+    componentname1: any;
+    suppliercode: any;
+    fillablecomp: any;
+    compsize: any;
+    specification: any;
+    unitcost: any;
   ItemNo: any;
+
   DataListpackage: any = [];
-  package_save_data: any;
-  productpack: any;
-  bindproductpip_data: any;
+    package_save_data: any;
+    productpack: any;
+    bindproductpip_data: any;
   bindBOMaudit_data: any;
-  bindCMO_data: any;
+    bindCMO_data: any;
   BindProductProperty_data: any;
-  BindProductBatchHistory_data: any;
-  bindproductpackaging_data: any;
-  bindproductartwork_data: any;
-  MainAudit_data: any;
+    BindProductBatchHistory_data: any;
+    bindproductpackaging_data: any;
+    bindproductartwork_data: any;
+    MainAudit_data: any;
   AudittrackData1: any;
-  mainauditdata: any;
-  delete_pack_data: any;
-  productization_update_data: any;
-  productupdatedata: any;
-  isproductsave: boolean;
-  isproductupdate: boolean;
+    mainauditdata: any;
+    delete_pack_data: any;
+    productization_update_data: any;
+    productupdatedata: any;
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    pdrcusload_data: any;
+    pp_data: any;
+    ppautogenerate_data: any;
+    active: any;
+    doc1: any;
+    labeling_instructions: string;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
 
@@ -210,7 +220,7 @@ export class ProductizationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
-        /* this.customerkey = result[0];*/
+       /* this.customerkey = result[0];*/
         this.customername = result[1];
         //this.customercode = result[2];
         //this.sendcustcode(this.customercode);
@@ -229,6 +239,7 @@ export class ProductizationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
+        
         //this.issearchform = true;
         //this.active = "1";
         this.formulacode = result[0];
@@ -247,13 +258,13 @@ export class ProductizationComponent implements OnInit {
         this.uses = result[12];
         /*this.artworkI = result[13];*/
         this.picturefile1 = result[14];
-        /*  this.artworkII = result[15];*/
+      /*  this.artworkII = result[15];*/
         this.picturefile2 = result[16];
-        /*        this.artworkIII = result[17];*/
+/*        this.artworkIII = result[17];*/
         this.picturefile3 = result[18];
-        /*        this.artworkIV = result[19];*/
+/*        this.artworkIV = result[19];*/
         this.picturefile4 = result[20];
-        /*        this.artworkV = result[21];*/
+/*        this.artworkV = result[21];*/
         this.picturefile5 = result[22];
         //this.US = result[23];
         //this.EU = result[24];
@@ -305,17 +316,32 @@ export class ProductizationComponent implements OnInit {
         //this.LastExportedDate = result[69];
         //this.ExportedBy = result[70];
         this.filling_instructions = result[71];
-        /*   this.LabelAttachment = result[72];*/
+     /*   this.LabelAttachment = result[72];*/
         this.filling_instructions = result[73];
 
         /*  this.productimage = result[74];*/
         this.imagedescription = result[75];
         this.SG = result[76];
         this.fillweight = result[77];
-        this.isproductsave = false;
-        this.isproductupdate = true;
+        this.isproductsave = true;
+        this.isproductupdate = false;
 
       }
+     
+
+      this.pdrcusload(this.productcode).subscribe((pdrcusload) => {
+        console.warn("pdrcusload", pdrcusload)
+        this.pdrcusload_data = pdrcusload
+        this.PDRdata(this.pdrcusload_data)
+      })
+
+
+      this.ppload(this.productcode).subscribe((ppload) => {
+        console.warn("ppload", ppload)
+        this.pp_data = ppload
+        this.PPdata(this.pp_data)
+      })
+
 
 
       this.productpip(this.productcode).subscribe((bindproductpip) => {
@@ -368,10 +394,143 @@ export class ProductizationComponent implements OnInit {
 
     });
 
+    
+
+  }
+  PDRdata(pdrdatas: any) {
+    for (let item of pdrdatas) {
+      this.pdrno = item.pdrno;
+      this.customername = item.cusname;
+
+
+
+    }
+
+
+
+
+
+  }
+  PPdata(pdrdatas: any) {
+    for (let item of pdrdatas) {
+      this.productpack = item.PPacketNo;
+     
+
+
+
+    }
+
+
+
 
 
   }
 
+
+  clearprd() {
+    this.pdrno = "";
+    this.formulacode = "";
+    this.formulaname = "";
+    this.productcode = "";
+    this.productname = "";
+    this.customername = "";
+    this.productdate = "";
+    this.brandname = "";
+    this.warnings = "";
+    this.directions = "";
+    this.questions = "";
+    this.miscellaneous = "";
+    this.barcodeimage = "";
+    this.barcodenumber = "";
+    this.uses = "";
+    /* this.artworkI ="";*/
+    this.picturefile1 = "";
+    /* this.artworkII = "";*/
+    this.picturefile2 = "";
+    /*this.artworkIII = "";*/
+    this.picturefile3 = "";
+    /*this.artworkIV = "";*/
+    this.picturefile4 = "";
+    /*this.artworkV = "";*/
+    this.picturefile5 = "";
+    //this.US = "";
+    //this.EU = "";
+    //this.California = "";
+    //this.Japan = "";
+    //this.Australia = "";
+    //this.China = "";
+    this.us = "";
+    this.eu = "";
+    this.cal = "";
+    this.japan = "";
+    this.australia = "";
+    this.china = "";
+    this.Prdnotes = "";
+
+    this.casnumber = "";
+    this.einecsnumber = "";
+    this.fillsize = "";
+    this.productdescription = "";
+    this.applications = "";
+    this.technicalinformation = "";
+    this.companyproduct = "";
+    this.productcode = "";
+    this.descriptionproduct = "";
+    this.cosprdrpd = "";
+    this.manufacturingdescription = "";
+    this.proof = "";
+    this.animaldata = "";
+    this.responsibleperson = "";
+    this.file1 = "";
+    this.file2 = "";
+    this.file3 = "";
+    this.file4 = "";
+    this.file5 = "";
+    this.file6 = "";
+    //this.active = "";
+    //this.Attachment = "";
+    this.fillinginstructions = "";
+    this.labelinginstructions = "";
+    this.specialinstructions = "";
+    this.productlin = "";
+    this.oem = "";
+    this.classcode = "";
+    this.classification = "";
+    this.category = "";
+    this.brand = "";
+    this.application = "";
+    //this.LastExported = "";
+    //this.LastExportedDate = "";
+    //this.ExportedBy = "";
+    this.filling_instructions = "";
+    /* this.LabelAttachment = "";*/
+    this.filling_instructions = "";
+
+    /*this.productimage ="";*/
+    this.imagedescription = "";
+    this.SG = "";
+    this.fillweight = "";
+    this.datacmo = [];
+    this.data_product = [];
+
+
+    
+    this.dataprodbatch = [];
+    
+    this.datapcc = [];
+   this. dataartcheck= [];
+  
+  }
+  ppload(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/loadpp", { params: params1, })
+  }
+  pdrcusload(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/loadpdr", { params: params1, })
+  }
   productpip(productcode: string) {
     var prdcode = productcode;
     let params1 = new HttpParams().set('ProductCode', prdcode);
@@ -403,7 +562,7 @@ export class ProductizationComponent implements OnInit {
     let params1 = new HttpParams().set('PPackageNo', pp);
     return this.http.get("https://formulaproductization3.azurewebsites.net/bindproductpackaging", { params: params1, })
   }
-  productartwork(productcode: string) {
+ productartwork(productcode: string) {
     var prdcode = productcode;
     let params1 = new HttpParams().set('ProductCode', prdcode);
     return this.http.get("https://formulaproductization3.azurewebsites.net/bindproductartwork", { params: params1, })
@@ -426,25 +585,25 @@ export class ProductizationComponent implements OnInit {
 
         this.componentitemno1 = result[0];
         this.componentname1 = result[1];
-
+     
         this.fillablecomp = result[3];
         this.compsize = result[4];
         this.specification = result[5];
         this.unitcost = result[6];
         this.ItemNo = result[7];
 
-
+        
 
         this.selectedRowIndex = indexdataprod;
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ComponentItemNo", this.componentitemno1);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ComponentName", this.componentname1);
-
+        
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "FillableComponent", this.fillablecomp);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "Size", this.compsize);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "Specification", this.specification);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitCost", this.unitcost);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ItemNo", this.ItemNo);
-
+        
 
         this.dataGrid.instance.saveEditData();
       }
@@ -471,12 +630,12 @@ export class ProductizationComponent implements OnInit {
         this.cmoname = result[0];
         this.cmonumber = result[1];
         this.notes = result[10];
-
+       
         this.selectedRowIndex = indexdataprod;
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "CMOName", this.cmoname);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "CMONumber", this.cmonumber);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "Notes", this.notes);
-
+       
         this.dataGrid.instance.saveEditData();
       }
     });
@@ -495,7 +654,7 @@ export class ProductizationComponent implements OnInit {
       this.DataListbatch[this.i] = ([{
 
         LineNumber: search.LineNumber,
-        Date: search.Date,
+        Date: search.Date  ,
         Source: search.Source,
         BF: search.BF,
         Qty: search.Qty,
@@ -508,7 +667,7 @@ export class ProductizationComponent implements OnInit {
         Specificgravity: search.Specificgravity,
         Solids: search.Solids,
         Remarks: search.Remarks,
-
+      
       }]);
       this.i++;
 
@@ -519,11 +678,11 @@ export class ProductizationComponent implements OnInit {
 
 
     this.objname = obj.length;
+    
 
+    
 
-
-
-
+   
 
   }
   setvaluespcc(pccdata: any) {
@@ -538,11 +697,11 @@ export class ProductizationComponent implements OnInit {
 
         Information: search.Information,
 
-
+        
 
         CheckOff: search.CheckOff,
-        /* ProductCode: search.CMONumber,*/
-
+       /* ProductCode: search.CMONumber,*/
+        
         UserName: search.UserName,
         // DateFormatOld: search.DateFormatOld,
       }]);
@@ -561,17 +720,17 @@ export class ProductizationComponent implements OnInit {
 
 
 
-        ComponentItemNo: search.ComponentItemNo,
+        ComponentItemNo: search.ComponentItemNo ,
         ComponentName: search.ComponentName,
-        Specification: search.Specification,
-        Size: search.Size,
+        Specification: search.Specification ,
+        Size: search.Size ,
         UnitCost: search.UnitCost,
-        Linenumber: search.Linenumber,
-        FillableComponent: search.FillableComponent,
-        ItemNo: search.ItemNo,
+        Linenumber: search.Linenumber ,
+        FillableComponent: search.FillableComponent ,
+        ItemNo: search.ItemNo ,
 
 
-
+        
       }]);
       this.i++;
 
@@ -588,7 +747,7 @@ export class ProductizationComponent implements OnInit {
       this.DataListcmo[this.i] = ([{
         linenumber: search.LineNumber,
         cmonumber: search.CMONumber,
-
+        
         // DateFormatOld: search.DateFormatOld,
       }]);
       this.i++;
@@ -599,7 +758,7 @@ export class ProductizationComponent implements OnInit {
 
 
   deletepackaging() {
-
+    
 
     this.deletepackage().subscribe((deletepackaging) => {
       console.warn("deletepackaging", deletepackaging)
@@ -633,6 +792,9 @@ export class ProductizationComponent implements OnInit {
     this.savecmo().subscribe((savecmod) => {
       console.warn("savecmod", savecmod)
       this.cmo_save_data = savecmod
+
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'CMO information saved Successfully ' } });
+
 
     })
 
@@ -686,15 +848,15 @@ export class ProductizationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result != "") {
-        //this.issearchform = true;
-        //this.active = "1";
-        this.formulacode = result[0];
-        this.formulaname = result[1];
-        /* this.labref = result[2];*/
-        this.pdrno = result[3];
-        //this.rowData = null;
+    console.log('The dialog was closed', result);
+    if (result != "") {
+      //this.issearchform = true;
+      //this.active = "1";
+      this.formulacode = result[0];
+      this.formulaname = result[1];
+     /* this.labref = result[2];*/
+      this.pdrno = result[3];
+      //this.rowData = null;
 
       }
 
@@ -731,13 +893,18 @@ export class ProductizationComponent implements OnInit {
 
 
   productpriceadd() {
-    const dialogRef = this.dialog.open(CustomerDetailsComponent, {
+    
+    const dialogRef = this.dialog.open(CustomerDetailsComponent,  {
+     
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',
       width: '100%',
       panelClass: 'full-screen-modal'
-    });
+    }
+       /*this.active = "4";*/
+    );
+    
   }
   componentadd() {
     const dialogRef = this.dialog.open(AddComponentComponent, {
@@ -755,6 +922,7 @@ export class ProductizationComponent implements OnInit {
   }
   classcodeadd(): void {
     const dialogRef = this.dialog.open(AddClasscodeComponent, {
+
       width: '60%', height: '70%', disableClose: true
     });
   }
@@ -799,8 +967,10 @@ export class ProductizationComponent implements OnInit {
 
   }
 
-
-
+ 
+  ppauto() {
+    return this.http.get("https://formulaproductization4.azurewebsites.net/ppnumbergenerate", { responseType: 'text' });
+  }
 
 
   product_load() {
@@ -860,105 +1030,6 @@ export class ProductizationComponent implements OnInit {
 
     });
   }
-  clearprd() {
-    this.pdrno = "";
-    this.formulacode = "";
-    this.formulaname = "";
-    this.productcode = "";
-    this.productname = "";
-
-
-
-    this.productdate = "";
-    this.brandname = "";
-    this.warnings = "";
-    this.directions = "";
-    this.questions = "";
-    this.miscellaneous = "";
-    this.barcodeimage = "";
-    this.barcodenumber = "";
-    this.uses = "";
-    /* this.artworkI ="";*/
-    this.picturefile1 = "";
-    /* this.artworkII = "";*/
-    this.picturefile2 = "";
-    /*this.artworkIII = "";*/
-    this.picturefile3 = "";
-    /*this.artworkIV = "";*/
-    this.picturefile4 = "";
-    /*this.artworkV = "";*/
-    this.picturefile5 = "";
-    //this.US = "";
-    //this.EU = "";
-    //this.California = "";
-    //this.Japan = "";
-    //this.Australia = "";
-    //this.China = "";
-    this.us = "";
-    this.eu = "";
-    this.cal = "";
-    this.japan = "";
-    this.australia = "";
-    this.china = "";
-    this.Prdnotes = "";
-
-
-
-    this.casnumber = "";
-    this.einecsnumber = "";
-    this.fillsize = "";
-    this.productdescription = "";
-    this.applications = "";
-    this.technicalinformation = "";
-    this.companyproduct = "";
-    this.productcode = "";
-    this.descriptionproduct = "";
-    this.cosprdrpd = "";
-    this.manufacturingdescription = "";
-    this.proof = "";
-    this.animaldata = "";
-    this.responsibleperson = "";
-    this.file1 = "";
-    this.file2 = "";
-    this.file3 = "";
-    this.file4 = "";
-    this.file5 = "";
-    this.file6 = "";
-    //this.active = "";
-    //this.Attachment = "";
-    this.fillinginstructions = "";
-    this.labelinginstructions = "";
-    this.specialinstructions = "";
-    this.productlin = "";
-    this.oem = "";
-    this.classcode = "";
-    this.classification = "";
-    this.category = "";
-    this.brand = "";
-    this.application = "";
-    //this.LastExported = "";
-    //this.LastExportedDate = "";
-    //this.ExportedBy = "";
-    this.filling_instructions = "";
-    /* this.LabelAttachment = "";*/
-    this.filling_instructions = "";
-
-
-
-    /*this.productimage ="";*/
-    this.imagedescription = "";
-    this.SG = "";
-    this.fillweight = "";
-
-
-
-
-  }
-
-
-
-
-
 
   productisation_update() {
 
@@ -1105,150 +1176,159 @@ export class ProductizationComponent implements OnInit {
 
   productisation_Save() {
 
+    if (this.formulaname == "" || this.formulaname == undefined) {
+
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Enter Formula Name' } });
+
+    }
+    else if (this.productcode == "" || this.productcode == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Enter Product/SKU #' } });
+    }
+    else if (this.productname == "" || this.productname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Enter Product Name #' } });
+    }
+
+    else {
+
+
+      this.dataformList[0] = ([{
+        FormulaCode: this.formulacode,
+        FormulaName: this.formulaname,
+        ProductCode: this.productcode,
+        ProductName: this.productname,
+        ProductDate: this.productdate,
+        BrandName: this.brandname,
+        Warnings: this.warnings,
+        Directions: this.directions,
+        Questions: this.questions,
+        Miscellaneous: this.miscellaneous,
+        BarCodeImage: this.barcodeimage,
+        BarCodeNumber: this.barcodenumber,
+        Uses: this.uses,
+        Imagepath: '',
+        artworkI: '',
+        artworkIPath: this.picturefile1,
+        artworkII: '',
+        artworkIIPath: this.picturefile2,
+        artworkIII: '',
+        artworkIIIPath: this.picturefile3,
+        artworkIV: '',
+        artworkIVPath: this.picturefile4,
+        artworkV: '',
+        artworkVPath: this.picturefile5,
+        US: '',
+        EU: '',
+        California: '',
+        Japan: '',
+        Australia: '',
+        China: '',
+        USDoc: this.us,
+        EUDoc: this.eu,
+        Caldoc: this.cal,
+        Japandoc: this.japan,
+        Ausdoc: this.australia,
+        Chinadoc: this.china,
+        Notes: this.Prdnotes,
+        CASNo: this.casnumber,
+        EinecsNo: this.einecsnumber,
+        FillSize: this.fillsize,
+        ProductDescription: this.productdescription,
+        Applications: this.applications,
+        Technicalinformation: this.technicalinformation,
+        CompanyProductNo: this.companyproduct,
+        ProductNumber: this.productcode,
+        PdtDescription: this.descriptionproduct,
+        CosmeticPdtReport: this.cosprdrpd,
+        ManuFacturingDesc: this.manufacturingdescription,
+        ProofandClaims: this.proof,
+        AnimalTestData: this.animaldata,
+        ResponsiblePerson: this.responsibleperson,
+        File1: this.file1,
+        File2: this.file2,
+        File3: this.file3,
+        File4: this.file4,
+        File5: this.file5,
+        File6: this.file6,
+        active: '',
+        Attachment: '',
+        FillingInstruction: this.fillinginstructions,
+        LabelingInstruction: this.labelinginstructions,
+        SpecialInstruction: this.specialinstructions,
+
+        LastExported: '',
+        LastExportedDate: '',
+        ExportedBy: '',
+        FillingAttachment: this.filling_instructions,
+        LabelAttachment: '',
+        FillingAttachment2: this.filling_instructions2,
+        ImageDescription: this.imagedescription,
 
 
 
 
 
 
-    this.dataformList[0] = ([{
-      FormulaCode: this.formulacode,
-      FormulaName: this.formulaname,
-      ProductCode: this.productcode,
-      ProductName: this.productname,
-      ProductDate: this.productdate,
-      BrandName: this.brandname,
-      Warnings: this.warnings,
-      Directions: this.directions,
-      Questions: this.questions,
-      Miscellaneous: this.miscellaneous,
-      BarCodeImage: this.barcodeimage,
-      BarCodeNumber: this.barcodenumber,
-      Uses: this.uses,
-      Imagepath: '',
-      artworkI: '',
-      artworkIPath: this.picturefile1,
-      artworkII: '',
-      artworkIIPath: this.picturefile2,
-      artworkIII: '',
-      artworkIIIPath: this.picturefile3,
-      artworkIV: '',
-      artworkIVPath: this.picturefile4,
-      artworkV: '',
-      artworkVPath: this.picturefile5,
-      US: '',
-      EU: '',
-      California: '',
-      Japan: '',
-      Australia: '',
-      China: '',
-      USDoc: this.us,
-      EUDoc: this.eu,
-      Caldoc: this.cal,
-      Japandoc: this.japan,
-      Ausdoc: this.australia,
-      Chinadoc: this.china,
-      Notes: this.Prdnotes,
-      CASNo: this.casnumber,
-      EinecsNo: this.einecsnumber,
-      FillSize: this.fillsize,
-      ProductDescription: this.productdescription,
-      Applications: this.applications,
-      Technicalinformation: this.technicalinformation,
-      CompanyProductNo: this.companyproduct,
-      ProductNumber: this.productcode,
-      PdtDescription: this.descriptionproduct,
-      CosmeticPdtReport: this.cosprdrpd,
-      ManuFacturingDesc: this.manufacturingdescription,
-      ProofandClaims: this.proof,
-      AnimalTestData: this.animaldata,
-      ResponsiblePerson: this.responsibleperson,
-      File1: this.file1,
-      File2: this.file2,
-      File3: this.file3,
-      File4: this.file4,
-      File5: this.file5,
-      File6: this.file6,
-      active: '',
-      Attachment: '',
-      FillingInstruction: this.fillinginstructions,
-      LabelingInstruction: this.labelinginstructions,
-      SpecialInstruction: this.specialinstructions,
 
-      LastExported: '',
-      LastExportedDate: '',
-      ExportedBy: '',
-      FillingAttachment: this.filling_instructions,
-      LabelAttachment: '',
-      FillingAttachment2: this.filling_instructions2,
-      ImageDescription: this.imagedescription,
+
+
+      }]);
+
+      this.setvaluesproductbatch(this.dataprodbatch);
+      this.setvaluespcc(this.datapcc);
+      this.objectnumber(this.datapcc);
+      this.setvaluespackage(this.data_product);
+
+      this.productization_saveup().subscribe((productization_saveup) => {
+        console.warn("productization_saveup", productization_saveup)
+        this.productization_save_data = productization_saveup
+        this.productsavedata = productization_saveup
+
+
+        if (this.productsavedata == " productized ") {
+
+          this.package_saveup().subscribe((package_saveup) => {
+            console.warn("package_saveup", package_saveup)
+            this.package_save_data = package_saveup
+
+
+
+          })
+
+          this.pcc_saveup().subscribe((pcc_saveup) => {
+            console.warn("pcc_saveup", pcc_saveup)
+            this.pcc_save_data = pcc_saveup
+
+
+
+          })
+
+
+          this.batch_saveup().subscribe((batch_saveup) => {
+            console.warn("batch_saveup", batch_saveup)
+            this.batchhistory_save_data = batch_saveup
+
+
+
+
+          })
 
 
 
 
 
 
+          this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Formula productized successfully.Now you can go to Packaging tab and select packaging BOM components to show how the finished product is packaged.' } });
 
 
 
-    }]);
+        }
 
-    this.setvaluesproductbatch(this.dataprodbatch);
-    this.setvaluespcc(this.datapcc);
-    this.objectnumber(this.datapcc);
-    this.setvaluespackage(this.data_product);
-
-    this.productization_saveup().subscribe((productization_saveup) => {
-      console.warn("productization_saveup", productization_saveup)
-      this.productization_save_data = productization_saveup
-      this.productsavedata = productization_saveup
-
-
-      if (this.productsavedata == " productized ") {
-
-        this.package_saveup().subscribe((package_saveup) => {
-          console.warn("package_saveup", package_saveup)
-          this.package_save_data = package_saveup
-
-
-
-        })
-
-        this.pcc_saveup().subscribe((pcc_saveup) => {
-          console.warn("pcc_saveup", pcc_saveup)
-          this.pcc_save_data = pcc_saveup
-
-
-
-        })
-
-
-        this.batch_saveup().subscribe((batch_saveup) => {
-          console.warn("batch_saveup", batch_saveup)
-          this.batchhistory_save_data = batch_saveup
+      })
 
 
 
 
-        })
-
-
-
-
-
-
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Formula productized successfully.Now you can go to Packaging tab and select packaging BOM components to show how the finished product is packaged.' } });
-
-
-
-      }
-
-    })
-
-
-
-
-
+    }
 
   }
 
@@ -1257,9 +1337,9 @@ export class ProductizationComponent implements OnInit {
     var productcode = this.productcode;
     var cus = this.customername;
     var pp = this.productpack;
+    
 
-
-
+    
     var datalistform4: any = JSON.stringify(this.DataListpackage);
 
     let params1 = new HttpParams().set('packaginggridjson', datalistform4)
@@ -1290,11 +1370,11 @@ export class ProductizationComponent implements OnInit {
     var productname = this.productname;
     var formulacode = this.formulacode;
     var formulaname = this.formulaname;
-    var productnumber = this.productcode
+    var productnumber =this.productcode
     var usrnam = 'admin';
     var datalistform2: any = JSON.stringify(this.DataListbatch);
 
-
+    
 
     let params1 = new HttpParams().set('batchgridjson', datalistform2).set('username', usrnam)
       .set('ProductCode', productcode).set('ProductName', productname)
@@ -1306,7 +1386,7 @@ export class ProductizationComponent implements OnInit {
 
   productization_saveup() {
 
-    var PPackageNo = this.productpack;
+    var PPackageNo = "2596";
     var ProductLine = this.productlin;
     var OEM = this.oem;
     var category = this.category;
@@ -1327,7 +1407,7 @@ export class ProductizationComponent implements OnInit {
     var cusname = this.customername;
 
 
-    var datalistform: any = JSON.stringify(this.dataformList);
+      var datalistform: any = JSON.stringify(this.dataformList);
     /*var datalistform2: any = JSON.stringify(this.DataListbatch);*/
 
 
@@ -1342,7 +1422,7 @@ export class ProductizationComponent implements OnInit {
       .set('username', username).set('SpecificGravity', SpecificGravity).set('FillWeight', FillWeight)
       .set('cusname', cusname);
     return this.http.get("https://formulaproductization1.azurewebsites.net/saveproductization", { params: params1, responseType: 'text' })
-
+    
   }
 
 
@@ -1356,7 +1436,7 @@ export class ProductizationComponent implements OnInit {
     var classcode1 = this.classcode;
     var classification = this.classification;
     var application = this.application;
-
+   
     var username = "admin";
 
     var SpecificGravity = this.SG;
@@ -1382,27 +1462,172 @@ export class ProductizationComponent implements OnInit {
   }
 
 
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc1 = files.item(0).name;
 
 
 
+  }
+  handleFileInput3(files: FileList) {
+    var filebrowse = files.item.length;
+    this.filling_instructions = files.item(0).name;
 
 
 
+  }
+  handleFileInput4(files: FileList) {
+    var filebrowse = files.item.length;
+    this.filling_instructions2 = files.item(0).name;
 
 
 
+  }
+  handleFileInput5(files: FileList) {
+    var filebrowse = files.item.length;
+    this.labeling_instructions = files.item(0).name;
 
 
 
+  }
+
+  handleFileInput7(files: FileList) {
+    var filebrowse = files.item.length;
+    this.barcodeimage = files.item(0).name;
 
 
 
+  }
+  handleFileInput8(files: FileList) {
+    var filebrowse = files.item.length;
+    this.picturefile1 = files.item(0).name;
 
 
 
+  }
+
+  handleFileInput9(files: FileList) {
+    var filebrowse = files.item.length;
+    this.picturefile2 = files.item(0).name;
 
 
 
+  }
+  handleFileInput10(files: FileList) {
+    var filebrowse = files.item.length;
+    this.picturefile3 = files.item(0).name;
+
+
+
+  }
+
+  handleFileInput11(files: FileList) {
+    var filebrowse = files.item.length;
+    this.picturefile4 = files.item(0).name;
+
+
+
+  }
+  handleFileInput12(files: FileList) {
+    var filebrowse = files.item.length;
+    this.picturefile5 = files.item(0).name;
+
+
+
+  }
+
+  handleFileInput13(files: FileList) {
+    var filebrowse = files.item.length;
+    this.us = files.item(0).name;
+
+
+
+  }
+  handleFileInput14(files: FileList) {
+    var filebrowse = files.item.length;
+    this.eu = files.item(0).name;
+
+
+
+  }
+
+
+  handleFileInput15(files: FileList) {
+    var filebrowse = files.item.length;
+    this.cal = files.item(0).name;
+
+
+
+  }
+
+  handleFileInput16(files: FileList) {
+    var filebrowse = files.item.length;
+    this.japan = files.item(0).name;
+
+
+
+  }
+  handleFileInput17(files: FileList) {
+    var filebrowse = files.item.length;
+    this.australia = files.item(0).name;
+
+
+
+  }
+
+
+
+  handleFileInput18(files: FileList) {
+    var filebrowse = files.item.length;
+    this.china = files.item(0).name;
+
+
+
+  }
+
+  handleFileInput19(files: FileList) {
+    var filebrowse = files.item.length;
+    this.file1 = files.item(0).name;
+
+
+
+  }
+
+  handleFileInput20(files: FileList) {
+    var filebrowse = files.item.length;
+    this.file2 = files.item(0).name;
+
+
+
+  }
+  handleFileInput21(files: FileList) {
+    var filebrowse = files.item.length;
+    this.file3 = files.item(0).name;
+
+
+
+  }
+  handleFileInput22(files: FileList) {
+    var filebrowse = files.item.length;
+    this.file4 = files.item(0).name;
+
+
+
+  }
+  handleFileInput23(files: FileList) {
+    var filebrowse = files.item.length;
+    this.file5 = files.item(0).name;
+
+
+
+  }
+  handleFileInput24(files: FileList) {
+    var filebrowse = files.item.length;
+    this.file6 = files.item(0).name;
+
+
+
+  }
 
 
 
@@ -1417,29 +1642,37 @@ export class ProductizationComponent implements OnInit {
 
   ngOnInit() {
     this.datapcc = [{ Itemno: "1", Information: "Product Description & Codes or Formulation Code", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "2", Information: "Product formula including %'s, INCI names, Trade Names and Suppliers", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "3", Information: "Perfumes - 26 potential allergens content list from perfume supplie", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "4", Information: "INCI list with %'s", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "5", Information: "Stability Summary,  with reference to methods(this usually shows the stability at ambient 30C, 40C, freeze-thaw etc.)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "6", Information: "Manufacturing Procedure summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "7", Information: "Specification - Viscosity, pH and other test data listed", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "2", Information: "Product formula including %'s, INCI names, Trade Names and Suppliers", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "3", Information: "Perfumes - 26 potential allergens content list from perfume supplie", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "4", Information: "INCI list with %'s", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "5", Information: "Stability Summary,  with reference to methods(this usually shows the stability at ambient 30C, 40C, freeze-thaw etc.)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "6", Information: "Manufacturing Procedure summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "7", Information: "Specification - Viscosity, pH and other test data listed", CheckOff: false, checked: "", UserName: "", locked: "E" },
 
-    { Itemno: "8", Information: "Labeling requirements", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "9", Information: "Product Testing Results - Microbiological Challenge test records for products that contain water", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "10", Information: "Content - declare in g. or ml.", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "11", Information: "Claim Substantiation summary with refererences (this is proof that pack claims are able to be substantiated)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "12", Information: "Proposed pack copy or artwork for each carton and label (make sure claims in Pack copy are checked)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "13", Information: "PAO (Product After Opening) time or best before date (Minimum Durability)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "14", Information: "Product Safety Assessment Statement - Executive Summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "15", Information: "Legal Compliance for Annex III restricted materials, colors & preservatives and sunscreen (CIR Panel review, preservative, sunscreen and color legal compliance check)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "16", Information: "A picture of the final product should appear in the PCC (as this will be required when on-line registration is available)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "17", Information: "Perfumes and Flavors should have IFRA and/or RFIM compliance statements from the perfume shop", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "18", Information: "Raw Material ingredient specifications and technical data sheets", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "19", Information: "Summary of GMP statement(a statement on company letter head declaring ISO standards and/or GMP compliance)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "20", Information: "The product must not have been tested on animals", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
+      { Itemno: "8", Information: "Labeling requirements", CheckOff: false, checked: "", UserName: "", locked: "E"},
+      { Itemno: "9", Information: "Product Testing Results - Microbiological Challenge test records for products that contain water", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "10", Information: "Content - declare in g. or ml.", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "11", Information: "Claim Substantiation summary with refererences (this is proof that pack claims are able to be substantiated)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "12", Information: "Proposed pack copy or artwork for each carton and label (make sure claims in Pack copy are checked)", CheckOff: false, checked: "", UserName: "", locked: "E"},
+      { Itemno: "13", Information: "PAO (Product After Opening) time or best before date (Minimum Durability)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "14", Information: "Product Safety Assessment Statement - Executive Summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "15", Information: "Legal Compliance for Annex III restricted materials, colors & preservatives and sunscreen (CIR Panel review, preservative, sunscreen and color legal compliance check)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "16", Information: "A picture of the final product should appear in the PCC (as this will be required when on-line registration is available)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "17", Information: "Perfumes and Flavors should have IFRA and/or RFIM compliance statements from the perfume shop", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "18", Information: "Raw Material ingredient specifications and technical data sheets", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "19", Information: "Summary of GMP statement(a statement on company letter head declaring ISO standards and/or GMP compliance)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "20", Information: "The product must not have been tested on animals", CheckOff: false, checked: "", UserName: "", locked:"E" },
+      { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
     ]
+
+    this.ppauto().subscribe((pdrautogenerate) => {
+      console.warn("pdrautogenerate", pdrautogenerate)
+      this.ppautogenerate_data = pdrautogenerate
+      this.productpack = this.ppautogenerate_data
+    })
+
+
     this.product_load().subscribe((product_load) => {
       console.warn("product_load", product_load)
       this.loadproduct = product_load
@@ -1479,10 +1712,12 @@ export class ProductizationComponent implements OnInit {
       console.warn("loadmicrobiologydata", loadmicrobiologydata)
       this.datamicro = loadmicrobiologydata
     })
+    this.isproductsave = false;
+    this.isproductupdate = true;
 
   }
 
-
+  
 
 }
 export class productizationData {

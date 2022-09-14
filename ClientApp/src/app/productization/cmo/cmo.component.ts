@@ -18,7 +18,8 @@ import { SearchCmoComponent } from './search-cmo/search-cmo.component';
   styleUrls: ['./cmo.component.css']
 })
 export class CmoComponent implements OnInit {
-
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
   cmodata: any = [];
   cmodata2: any = [];
   cmodata3: any = [];
@@ -54,20 +55,21 @@ export class CmoComponent implements OnInit {
         this.CMOname = result[0];
         this.CMOnumber = result[1];
 
-
+        
         this.street1 = result[2];
         this.street2 = result[3];
-        this.city = result[4];
+        this.city = result[4]; 
         this.country = result[5];
         this.state = result[6];
-
+      
         this.zip = result[7];
         this.phonenumber = result[8];
         this.email = result[9];
         this.notes = result[10];
+        this.isproductsave = true;
+        this.isproductupdate = false;
 
-
-
+    
 
 
 
@@ -102,7 +104,7 @@ export class CmoComponent implements OnInit {
         ContactNo: this.phonenumber,
         Email: this.email,
         Notes: this.notes,
-
+        
 
 
 
@@ -128,27 +130,57 @@ export class CmoComponent implements OnInit {
     let params1 = new HttpParams().set('JSONFileparams', jsonprams).set('spname', spsname);
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
+
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  clear() {
+   
+   this.CMOname=""
+    this.CMOnumber = ""
+    this.street1 = ""
+    this.street2 = ""
+    this.city = ""
+    this.state = ""
+    this.country = ""
+    this.zip = ""
+    this.phonenumber = ""
+    this.email = ""
+    this.notes = ""
 
 
+
+  }
   deletecmo() {
-    this.cmodata3[0] = ([{
+    if (this.CMOname == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Select  CMO ' } });
+    }
+    else {
+      this.cmodata3[0] = ([{
 
 
-      CMONumber: this.CMOnumber,
-      ProcedureStatus: '',
+        CMONumber: this.CMOnumber,
+        ProcedureStatus: '',
 
-    }])
+      }])
 
 
-    this.cmodelete().subscribe((cmodelete) => {
-      console.warn("cmodelete", cmodelete)
-      this.cmo_delete_data = cmodelete
+      this.cmodelete().subscribe((cmodelete) => {
+        console.warn("cmodelete", cmodelete)
+        this.cmo_delete_data = cmodelete
 
-      if (this.cmo_delete_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted' + this.CMOname + 'successfully' } });
-      }
+        if (this.cmo_delete_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted' + this.CMOname + 'successfully' } });
+        }
 
-    })
+      })
+    }
   }
   cmodelete() {
     var jsonprams: any = JSON.stringify(this.cmodata3);
@@ -161,7 +193,7 @@ export class CmoComponent implements OnInit {
 
 
   savecmo() {
-    if (this.CMOname == "") {
+    if ( this.CMOname == "") {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter CMO Name' } });
     }
     else {
@@ -181,7 +213,7 @@ export class CmoComponent implements OnInit {
         ContactNo: this.phonenumber,
         Email: this.email,
         Notes: this.notes,
-
+       
 
 
 
@@ -211,6 +243,8 @@ export class CmoComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
 
 }

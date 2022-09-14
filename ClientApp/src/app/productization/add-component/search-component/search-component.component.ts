@@ -1,3 +1,4 @@
+
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 
 import { Component, OnInit } from '@angular/core';
@@ -15,21 +16,23 @@ import { SearchSupplierComponent } from '../../../raw-material/add-supplier/sear
 })
 export class SearchComponentComponent implements OnInit {
   loadcomponentdata: any;
-  loadcomponentcategory: any;
-  supplierse: any;
-  componentitemno: any;
-  componentname: any;
+    loadcomponentcategory: any;
+    supplierse: any;
+    componentitemno: any;
+    componentname: any;
   suppliercode: string = "";
   fillablecomp: string = "";
   compsize: any = '';
-  searchitems: any[];
+    searchitems: any[];
   componentitemno1: string = "";
   componentname1: string = "";
   specification: string = "";
   unitcost: any = "";
   ItemNo: string = "";
+    count: any;
+    categorytype: any;
 
-  constructor(public dialog: MatDialog, private http: HttpClient, public dialogRef: MatDialogRef<SearchComponentComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
+  constructor(public dialog: MatDialog,private http: HttpClient, public dialogRef: MatDialogRef<SearchComponentComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
 
 
   componentdata_load() {
@@ -47,7 +50,7 @@ export class SearchComponentComponent implements OnInit {
 
   //}
 
-  setvalues(details_comp) {
+  setvalues(details_comp){
     this.componentitemno1 = details_comp.componentitemno;
     this.componentname1 = details_comp.componentname;
     this.suppliercode = details_comp.supplier;
@@ -57,16 +60,22 @@ export class SearchComponentComponent implements OnInit {
     this.unitcost = details_comp.UnitCost;
     this.ItemNo = details_comp.ItemNo;
     this.searchitems = [this.componentitemno1, this.componentname1, this.suppliercode, this.fillablecomp, this.compsize, this.specification, this.unitcost, this.ItemNo]
-
+    
   }
   Close() {
-
+   
     this.dialogRef.close(this.searchitems);
 
   }
+  clear() {
+    this.componentitemno = "";
+    this.componentname = "";
+    this.supplierse = "";
+    this.categorytype = "";
 
+  }
 
-
+  
 
   searchhsupplier(): void {
     const dialogRef = this.dialog.open(SearchSupplierComponent, {
@@ -87,6 +96,7 @@ export class SearchComponentComponent implements OnInit {
     this.componentdata_load().subscribe((componentdata_load) => {
       console.warn("componentdata_load", componentdata_load)
       this.loadcomponentdata = componentdata_load
+      this.count = this.loadcomponentdata.length
     })
     this.componentcategory_load().subscribe((componentcategory_load) => {
       console.warn("componentcategory_load", componentcategory_load)

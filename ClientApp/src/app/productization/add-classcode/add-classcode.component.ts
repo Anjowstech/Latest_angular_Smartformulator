@@ -14,30 +14,33 @@ import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 export class AddClasscodeComponent implements OnInit {
   class: any;
   classdata: any = [];
-  class_save_data: any;
+ class_save_data: any;
   loadclass: any;
   class_delete_data: any;
   id: any;
-
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    class_update_data: any;
+    count: any;
 
 
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
-  saveclass() {
+  updateclass() {
     this.classdata[0] = ([{
       Procedurestatus: '',
-      ID: '',
+      ID: this.id,
       ProductLine: this.class,
 
 
     }])
-    this.classsave().subscribe((classsave) => {
-      console.warn("classsave", classsave)
-      this.class_save_data = classsave
+    this.classsave().subscribe((classupdate) => {
+      console.warn("classupdate", classupdate)
+      this.class_update_data = classupdate
 
       if (this.class_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated successfully' } });
       }
       this.class_load().subscribe((product_load) => {
         console.warn("product_load", product_load)
@@ -46,17 +49,44 @@ export class AddClasscodeComponent implements OnInit {
     })
   }
 
-  classsave() {
+  saveclass() {
+    if (this.class == "" || this.class == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter ClassCode' } });
+    }
+    else {
+      this.classdata[0] = ([{
+        Procedurestatus: '',
+        ID: '',
+        ProductLine: this.class,
+
+
+      }])
+      this.classsave().subscribe((classsave) => {
+        console.warn("classsave", classsave)
+        this.class_save_data = classsave
+
+        if (this.class_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.class_load().subscribe((product_load) => {
+          console.warn("product_load", product_load)
+          this.loadclass = product_load
+        })
+      })
+    }
+  }
+
+ classsave() {
     var jsonprams: any = JSON.stringify(this.classdata);
     //JSON.stringify(this.FormulagridList);
-    var spsname = "[dbo].[sp_InsertUpdate_ProductClassMST]";
+   var spsname = "[dbo].[sp_InsertUpdate_ProductClassMST]";
 
     let params1 = new HttpParams().set('JSONFileparams', jsonprams).set('spname', spsname);
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
 
-  class_load() {
-    return this.http.get("https://formulaproductizationwebservice.azurewebsites.net/loadclasscode")
+class_load() {
+  return this.http.get("https://formulaproductizationwebservice.azurewebsites.net/loadclasscode")
   }
 
 
@@ -67,6 +97,10 @@ export class AddClasscodeComponent implements OnInit {
 
   }
   deleteclass() {
+
+    if (this.class == "" || this.class == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter ClassCode' } });
+    }
     this.classdata[0] = ([{
       Procedurestatus: '',
       ID: this.id
@@ -99,14 +133,32 @@ export class AddClasscodeComponent implements OnInit {
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
 
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
 
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  clear() {
+    this.class = "";
+
+
+  }
 
   ngOnInit() {
 
     this.class_load().subscribe((class_load) => {
       console.warn("class_load", class_load)
       this.loadclass = class_load
+      this.count = this.loadclass.length
     })
+
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
 
 }

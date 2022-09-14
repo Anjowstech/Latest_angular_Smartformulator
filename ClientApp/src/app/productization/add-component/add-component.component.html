@@ -21,18 +21,22 @@
           <label for="PDR" style="margin-left: 3%;font-size: medium;font-family: Verdana;">Status</label>
           <select id="Assigned_to" class="form-control" style="margin-left: 10px; margin-top: 8px; width: 15%" [(ngModel)]="status" name="stat" value="">
             <option selected>Active</option>
-            <option>InActive</option>
-
+            <option >InActive</option>
+            
           </select>
         </form>
 
         <form class="form-inline" style="    background-color: #f6f5f1">
           <label for="formulanumber" style="margin-left:50px;font-size: medium;font-family: Verdana;">Specification</label>
           <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="specif" size="40" [(ngModel)]="specification" name="spcf" value="">
+
+          <label for="siz" style="margin-left: 3%;font-size: medium;font-family: Verdana;">Size</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="six" size="25" [(ngModel)]="size" name="sz" value="">
+
         </form>
         <form class="form-inline" style="    background-color: #f6f5f1">
           <label for="formulanumber" style="margin-left:50px;font-size: medium;font-family: Verdana;">Category Type</label>
-          <select id="Assigned_to" class="form-control" style="margin-left: 20px; margin-top: 8px; width: 22%" [(ngModel)]="categorytype" name="cate" value="">
+          <select id="Assigned_to" class="form-control" style="margin-left: 20px; margin-top: 8px; width: 22%" [(ngModel)]="categorytype" name="cate" value="" >
             <option selected>---select---</option>
             <option *ngFor="let details_cattype of loadcomponentcategory">{{details_cattype.categorytype }}</option>
           </select>
@@ -45,14 +49,14 @@
           <mat-radio-button value="No" [checked]="fillablecomponent == 'No' ? yes : no" style="margin-left: 30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">No</mat-radio-button>
 
           <Label class="label1" for="inputcust" style="margin-left: 10px; margin-top: 15px; font-size: medium; font-family: Verdana;">Bulk Container</Label>
-          <input class="form-check-input" style="margin-top:15px;" type="checkbox" id="check1" placeholder="" [checked]="bulkcontainer == 'Y' ? Y : N" (change)="bulkcontainerChange($event)" name="bulk" value="">
-
+          <input class="form-check-input" style="margin-top:15px;" type="checkbox" id="check1" placeholder=""  [checked]="bulkcontainer == 'Y' ? Y : N" (change)="bulkcontainerChange($event)" name="bulk" value="">
+         
           <label style="margin-top:15px;color:red;"><i>(For drums and pails click on bulk container flag)</i></label>
         </form>
         <form class="form-inline" style="    background-color: #f6f5f1">
 
           <label for="formulanumber" style="margin-left: 50px; margin-top: 15px;font-size: medium;color:darkred; font-family: Verdana;">No of Units Filled</label>
-          <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="formlno" size="10" [(ngModel)]="formulano" name="frmln" value="">
+          <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="formlno" size="10" [(ngModel)]="noofunits" name="frmln" value="">
           <label for="PDR" style="margin-left: 5px; margin-top: 15px; font-size: medium; color: darkred; font-family: Verdana;">BOM Multiplier</label>
 
           <input type="text" style="margin-left: 10px; margin-top: 15px;" size="10" class="form-control" id="bmul" [(ngModel)]="bommultiplier" name="bom" value="">
@@ -85,7 +89,7 @@
 
 
     <div class="row">
-
+      
 
       <div class="form-group col-md-12" style="margin-top:20px;">
         <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
@@ -112,7 +116,10 @@
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="formulanumber" style="margin-left: 25px; margin-top: 15px;font-size: medium; font-family: Verdana;">Component Image</label>
                     <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="comp" size="55" [(ngModel)]="compimage" name="cmpim" value="">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 5px; margin-top: 15px; width: 125px; height: 38px" (click)=" searchhformula()">Browse </button>
+                    <label for="file3" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file3"
+                           (change)="handleFileInput6($event.target.files)">
 
 
                   </form>
@@ -126,11 +133,11 @@
                 <div class="form-group col-md-6">
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="formulanumber" style=" margin-top: 15px;font-size: medium;color:blue; font-family: Verdana;">Last PO Price $</label>
-                    <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="lst" size="10" [(ngModel)]="lastpocost" name="poc" value="">
+                    <input type="number" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="lst" size="10" [(ngModel)]="lastpocost" name="poc" value="">
                   </form>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="formulanumber" style="margin-left: 40px; margin-top: 15px; color: green; font-size: medium; font-family: Verdana;">Std Price $</label>
-                    <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="prstd" size="10" [(ngModel)]="stdprice" name="prstd" value="">
+                    <input type="number" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="prstd" size="10" [(ngModel)]="stdprice" name="prstd" value="">
                   </form>
 
 
@@ -142,13 +149,13 @@
               <form class="form-inline" style="    background-color: #f6f5f1">
                 <label style="margin-left: 50px; margin-top: 16px; font-size: medium; color: black; font-family: Verdana;"><b>Lead Time (Weeks)</b></label>
                 <label for="formulanumber" style="margin-left:-20px;margin-top: 15px;font-size: medium; font-family: Verdana;">Pre Processing</label>
-                <input type="text" style="margin-left: 1px; margin-top: 15px;" class="form-control" placeholder="" id="ppr" size="5" [(ngModel)]="preprocessing" name="prpros" value="">
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control"(blur)="blurEventsg($event)" placeholder="" id="ppr" size="5" [(ngModel)]="preprocessing" name="prpros" value="">
                 <label for="formulanumber" style=" margin-left: -40px; margin-top: 15px; font-size: medium; font-family: Verdana;">Processing</label>
-                <input type="text" style="margin-left: 1px; margin-top: 15px;" class="form-control" placeholder="" id="prg" size="5" [(ngModel)]="processing" name="prcss" value="">
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control" (blur)="blurEvents($event)" placeholder="" id="prg" size="5" [(ngModel)]="processing" name="prcss" value="">
                 <label for="formulanumber" style="margin-left: -20px; margin-top: 15px; font-size: medium; font-family: Verdana;">Post Processing</label>
-                <input type="text" style="margin-left: 1px; margin-top: 15px;" class="form-control" placeholder="" id="process" size="5" [(ngModel)]="postprocess" name="post" value="">
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control"(blur)="blurEvent($event)" placeholder="" id="process" size="5" [(ngModel)]="postprocess" name="post" value="">
                 <label for="formulanumber" style=" margin-left: -20px; margin-top: 15px; font-size: medium; color: darkred; font-family: Verdana;">CUM.Lead Time</label>
-                <input type="text" style="margin-left: 1px; margin-top: 15px;" class="form-control" placeholder="" id="clt" size="5" [(ngModel)]="cumleadtime" name="cum" value="">
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control" placeholder="" id="clt" size="5" [(ngModel)]="cumleadtime" disabled name="cum" value="">
                 <p style="margin-left: 3px; margin-top: 30px; font-size: medium; color: darkred; font-family: Verdana;">Weeks</p>
               </form>
 
@@ -190,8 +197,12 @@
 
                     </tbody>
                   </table>
+                  
 
 
+                </div>
+                <div>
+                  <h5 style="float:left;margin-top:10px;color:maroon">{{counts}} Record(s)</h5>
                 </div>
 
               </form>
@@ -208,11 +219,11 @@
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Bio-Degradable</legend>
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <mat-radio-button value="true" [checked]="biodegradable == 'Yes' ? true : false" style="margin-left:5px;margin-top:15px;" (change)="radioChangebiodegradable($event)">Yes</mat-radio-button>
-                      <mat-radio-button value="false" [checked]="biodegradable == 'No' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebiodegradable($event)">No</mat-radio-button>
+                      <mat-radio-button value="true" [checked]="!showDateInput" style="margin-left:5px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(1)" >Yes</mat-radio-button>
+                      <mat-radio-button value="false" [checked]="showDateInput" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(2)" >No</mat-radio-button>
 
                       <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">%</label>
-                      <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:30%;" class="form-control" placeholder="" id="per" [(ngModel)]="percentage" name="prc" value="">
+                      <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:30%;" class="form-control" placeholder="" id="per" [(ngModel)]="percentage"[disabled]="!showDateInput" name="prc" value="">
                     </form>
                   </fieldset>
                 </div>
@@ -220,16 +231,16 @@
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Material Composition</legend>
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" id="mc1" placeholder="" [checked]="mcplastic == 'True' ? true : false" (change)="mcplasticChange($event)" name="bottle" value="">
-                      <label class="form-check-label" style="margin-left:-20px;" for="defaultCheck1">Plastic</label>
-                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" iid="mc2" placeholder="" [checked]="mcaluminium == 'True' ? true : false" (change)="mcaluminiumChange($event)" name="alu" value="">
+                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" id="mc1" placeholder="" [checked]="mcplastic == 'True' ? true : false" (change)="mcplasticChange($event)"name="bottle" value="">
+                      <label class="form-check-label" style="margin-left:-20px;"  for="defaultCheck1">Plastic</label>
+                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" iid="mc2" placeholder=""   [checked]="mcaluminium == 'True' ? true : false" (change)="mcaluminiumChange($event)"  name="alu" value="">
                       <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">Aluminium</label>
-                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc3" placeholder="" [checked]="mcrecycledplastic == 'True' ? true : false" (change)="mcrecycledplasticChange($event)" name="recy" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc3" placeholder=""  [checked]="mcrecycledplastic == 'True' ? true : false" (change)="mcrecycledplasticChange($event)" name="recy" value="">
                       <label class="form-check-label" for="defaultCheck3" style="margin-left:-2px;">Recycled Plastic</label>
-                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc4" placeholder="" [checked]="mcpaper == 'True' ? true : false" (change)="mcpaperChange($event)" name="pape" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc4" placeholder=""  [checked]="mcpaper == 'True' ? true : false" (change)="mcpaperChange($event)"  name="pape" value="">
                       <label class="form-check-label" for="defaultCheck4" style="margin-left:-25px;">Paper</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc5" placeholder="" [checked]="mcother == 'True' ? true : false" (change)="mcotherChange($event)" name="bottle" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc5" placeholder=""   (change)="mcotherChange($event)" name="bottle" value="">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left:-30px;">Other</label>
 
 
@@ -291,15 +302,15 @@
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Bio-Plastic or not</legend>
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <mat-radio-button value="true" [checked]="bioplastic == 'Yes' ? true : false" style="margin-left:5px;margin-top:15px;" (change)="radioChangebioplastic($event)">Yes</mat-radio-button>
-                      <mat-radio-button value="false" [checked]="bioplastic == 'No' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebioplastic($event)">No</mat-radio-button>
+                      <mat-radio-button value="true" [checked]="howDateInput" style="margin-left:5px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(1)">Yes</mat-radio-button>
+                      <mat-radio-button value="false" [checked]="owDateInput" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(2)">No</mat-radio-button>
 
                       <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">(If No Specify)</label>
-                      <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:35%;" class="form-control" placeholder="" id="specify" [(ngModel)]="ifnospecify" name="ifno" value="">
+                      <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:35%;" class="form-control" placeholder="" id="specify"[disabled]="howDateInput" [(ngModel)]="ifnospecify" name="ifno" value="">
                     </form>
                   </fieldset>
                   <form class="form-inline" style="    background-color: #f6f5f1">
-                    <input class="form-check-input" style="margin-left: 1px; margin-top: 20px;" type="checkbox" id="defaultCheck1" placeholder="" [checked]="plantbased == 'True' ? true : false" (change)="plantbasedChange($event)" name="bottle" value="">
+                    <input class="form-check-input" style="margin-left: 1px; margin-top: 20px;" type="checkbox" id="defaultCheck1" placeholder="" [checked]="plantbased == 'True' ? true : false" (change)="plantbasedChange($event)"    name="bottle" value="">
                     <label class="form-check-label" style="margin-left: 10px; margin-top: 20px;" for="defaultCheck1">Plant Based Y</label>
                     <label for="formoir" style="margin-left:5px;margin-top: 15px;font-size: medium; font-family: Verdana;">(Add info: )</label>
                     <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:40%;" class="form-control" placeholder="" id="info" [(ngModel)]="addinfo" name="info" value="">
@@ -328,30 +339,30 @@
                     <legend class="w-auto" style="font-size:15px;color:maroon">Packaging Material</legend>
                     <form class="form-inline" style="    background-color: #f6f5f1">
 
-                      <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="pm1" placeholder="" [checked]="pmpp == 'True' ? true : false" (change)="pmppChange($event)" name="poly" value="">
+                      <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="pm1" placeholder=""  [checked]="pmpp == 'True' ? true : false" (change)="pmppChange($event)" name="poly" value="">
                       <label class="form-check-label" style="margin-left:2px;" for="defaultCheck1">PP (Poly Propylene)</label>
 
-                      <input class="form-check-input" style="margin-left:10px;" type="checkbox" id="pm2" placeholder="" [checked]="pmpet == 'True' ? true : false" (change)="pmpetChange($event)" name="polyethy" value="">
+                      <input class="form-check-input" style="margin-left:10px;" type="checkbox" id="pm2" placeholder="" [checked]="pmpet == 'True' ? true : false" (change)="pmpetChange($event)"  name="polyethy" value="">
                       <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">PET (PolyEthylene Teraphalate)</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left:10px;" id="pm3" placeholder="" [checked]="pmlldpe == 'True' ? true : false" (change)="pmlldpeChange($event)" name="lld" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:10px;" id="pm3" placeholder=""  [checked]="pmlldpe == 'True' ? true : false" (change)="pmlldpeChange($event)" name="lld" value="">
                       <label class="form-check-label" for="defaultCheck3" style="margin-left:-7px;">LLDPE</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left:10px;" id="pm4" placeholder="" [checked]="pmhdpe == 'True' ? true : false" (change)="pmhdpeChange($event)" name="hdp" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:10px;" id="pm4" placeholder=""  [checked]="pmhdpe == 'True' ? true : false" (change)="pmhdpeChange($event)" name="hdp" value="">
                       <label class="form-check-label" for="defaultCheck4" style="margin-left:-20px;">HDPE</label>
 
                     </form>
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <input class="form-check-input" type="checkbox" style="margin-left:5px;margin-top:15px;" id="pm5" placeholder="" [checked]="pmpaper == 'True' ? true : false" (change)="pmpaperChange($event)" name="paprr" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:5px;margin-top:15px;" id="pm5" placeholder=""  [checked]="pmpaper == 'True' ? true : false" (change)="pmpaperChange($event)" name="paprr" value="">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Paper(Corrugated Paper)</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm6" placeholder="" [checked]="pmglass == 'True' ? true : false" (change)="pmglassChange($event)" name="gls" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm6" placeholder=""  [checked]="pmglass == 'True' ? true : false" (change)="pmglassChange($event)" name="gls" value="">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left: -10px; margin-top: 15px;">Glass</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm7" placeholder="" [checked]="pmsteel == 'True' ? true : false" (change)="pmsteelChange($event)" name="stl" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm7" placeholder=""  [checked]="pmsteel == 'True' ? true : false" (change)="pmsteelChange($event)" name="stl" value="">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Steel(Tin Can)</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm8" placeholder="" [checked]="pmaluminium == 'True' ? true : false" (change)="pmaluminiumChange($event)" name="almn" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm8" placeholder=""  [checked]="pmaluminium == 'True' ? true : false" (change)="pmaluminiumChange($event)" name="almn" value="">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Aluminium</label>
 
 
@@ -368,7 +379,7 @@
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Paper</legend>
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="p1" placeholder="" [checked]="pcorrugated == 'True' ? true : false" (change)="pcorrugatedChange($event)" name="coru" value="">
+                      <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="p1" placeholder=""  [checked]="pcorrugated == 'True' ? true : false" (change)="pcorrugatedChange($event)" name="coru" value="">
                       <label class="form-check-label" style="margin-left:2px;" for="defaultCheck1">Corrugated</label>
 
                       <input class="form-check-input" style="margin-left:40px;" type="checkbox" id="p2" placeholder="" [checked]="pother == 'True' ? true : false" (change)="potherChange($event)" name="pther" value="">
@@ -378,7 +389,7 @@
                     </form>
 
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <input class="form-check-input" type="checkbox" style="margin-left:5px;margin-top:15px;" id="p3" placeholder="" [checked]="pboxboard == 'True' ? true : false" (change)="pboxboardChange($event)" name="pbox" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:5px;margin-top:15px;" id="p3" placeholder=""  [checked]="pboxboard == 'True' ? true : false" (change)="pboxboardChange($event)"  name="pbox" value="">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Boxboard & Carton </label>
                     </form>
 
@@ -393,16 +404,24 @@
                 <div class="form-group col-md-10" style="margin-top:2px;">
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="formoir" style="margin-left:20px;margin-top: 10px;font-size: medium; font-family: Verdana;">Attach Responsible Sourcing Questionnare</label>
-                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="attach" [(ngModel)]="attachresponsible" name="atr" value="">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" (click)=" searchhformula()">... </button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" (click)=" searchhformula()">Open </button>
+                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="data2" [(ngModel)]="attachresponsible" name="atr" value="">
+                   
+
+                    <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file"
+                           (change)="handleFileInput1($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" >Open </button>
 
 
                   </form>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="formoir" style="margin-left:185px;margin-top: 10px;font-size: medium; font-family: Verdana;">Additional Documents</label>
-                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="addc" [(ngModel)]="additionaldoc" name="doc" value="">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" (click)=" searchhformula()">... </button>
+                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="data3" [(ngModel)]="additionaldoc" name="doc" value="">
+                    <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file"
+                           (change)="handleFileInput2($event.target.files)">
                     <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" (click)=" searchhformula()">Open </button>
 
 
@@ -485,13 +504,13 @@
       <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%;width:145px;" matDialogClose>Back</button>
       <button type="submit" class="btn btn-primary buttoncolor " style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" (click)="savecomponent();">Save</button>
       <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" (click)="Updatecomponent();">Update</button>
-      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;">New</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;"(click)="clear();">New</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Delete Component</button>
       <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Report</button>
-
+     
 
     </div>
 
   </div>
 
-</div>
+    </div>

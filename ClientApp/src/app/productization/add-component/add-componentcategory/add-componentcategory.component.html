@@ -4,7 +4,7 @@
 
     <div class="form-row">
       <div class="form-group col-md-7">
-
+        
 
         <div class="form-inline">
           <label for="inputCategory Name">Category Type</label>
@@ -33,9 +33,9 @@
       </div>
 
     </div>
-
-
-
+    
+    
+   
 
 
     <div style="margin-top:1%">
@@ -46,19 +46,19 @@
         <thead>
           <tr>
 
-            <th scope="col" width="5%"></th>
+            <th  scope="col" width="5%"></th>
             <th scope="col">Category Type</th>
             <th scope="col">Description</th>
-
+           
           </tr>
         </thead>
 
         <tbody>
-          <tr height="20px" *ngFor="let details_cattype of loadcomponentcategory; let i=index;" (click)="setvalues( details_cattype);">
+          <tr height="20px" *ngFor="let details_cattype of loadcomponentcategory; let i=index;" (click)="setvalues( details_cattype);target();">
             <td></td>
             <td>{{details_cattype.categorytype }}</td>
             <td>{{ details_cattype.description}}</td>
-
+           
 
           </tr>
         </tbody>
@@ -66,7 +66,7 @@
       </table>
 
     </div>
-
+    
   </div>
 
 
@@ -75,13 +75,15 @@
 
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);" matDialogClose>Back </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savecomponentcategory();">Save</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatecomponentcategory();">Update</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);" matDialogClose>New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletecomponentcategory();">Delete Category Type</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px"  [hidden]="isproductsave"(click)=" savecomponentcategory();clear();">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" [hidden]="isproductupdate" (click)="updatecomponentcategory();clear();target2();">Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="clear();target2();">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deletecomponentcategory();clear();clear();target2();">Delete Category Type</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Create Report</button>
 
-
+    <h5 style="float:left;margin-top:10px;color:maroon">{{count}} Record(s)</h5>
   </div>
 
 </div>
+
+

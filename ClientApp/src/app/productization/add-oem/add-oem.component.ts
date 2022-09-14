@@ -17,31 +17,59 @@ export class AddOemComponent implements OnInit {
   loadoem: any;
   oem_delete_data: any;
   id: any;
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    oem_update_data: any;
+    count: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
 
-
-  saveoem() {
+  updateoem() {
     this.oemdata[0] = ([{
       Procedurestatus: '',
-      ID: '',
+      ID: this.id,
       ProductLine: this.oem,
 
 
     }])
-    this.oemsave().subscribe((oemsave) => {
-      console.warn("oemsave", oemsave)
-      this.oem_save_data = oemsave
+    this.oemsave().subscribe((oemupdate) => {
+      console.warn("oemupdate", oemupdate)
+      this.oem_update_data = oemupdate
 
       if (this.oem_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated Successfully' } });
       }
       this.oem_load().subscribe((oem_load) => {
         console.warn("oem_load", oem_load)
         this.loadoem = oem_load
       })
     })
+  }
+
+  saveoem() {
+    if (this.oem == "" || this.oem == undefined) { this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter OEM' } }); }
+    else {
+      this.oemdata[0] = ([{
+        Procedurestatus: '',
+        ID: '',
+        ProductLine: this.oem,
+
+
+      }])
+      this.oemsave().subscribe((oemsave) => {
+        console.warn("oemsave", oemsave)
+        this.oem_save_data = oemsave
+
+        if (this.oem_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.oem_load().subscribe((oem_load) => {
+          console.warn("oem_load", oem_load)
+          this.loadoem = oem_load
+        })
+      })
+    }
   }
 
   oemsave() {
@@ -65,30 +93,33 @@ export class AddOemComponent implements OnInit {
 
   }
   deleteoem() {
-    this.oemdata[0] = ([{
-      Procedurestatus: '',
-      ID: this.id
+    if (this.oem == "" || this.oem == undefined) { this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter OEM' } }); }
+    else {
+      this.oemdata[0] = ([{
+        Procedurestatus: '',
+        ID: this.id
 
 
 
-    }])
-    this.oemdelete().subscribe((oem_delete) => {
-      console.warn("oem_delete", oem_delete)
-      this.oem_delete_data = oem_delete
+      }])
+      this.oemdelete().subscribe((oem_delete) => {
+        console.warn("oem_delete", oem_delete)
+        this.oem_delete_data = oem_delete
 
-      if (this.oem_delete_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
-      }
-      this.oem_load().subscribe((oem_load) => {
-        console.warn("oem_load", oem_load)
-        this.loadoem = oem_load
+        if (this.oem_delete_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
+        }
+        this.oem_load().subscribe((oem_load) => {
+          console.warn("oem_load", oem_load)
+          this.loadoem = oem_load
+        })
+
       })
-
-    })
+    }
 
   }
 
-  oemdelete() {
+ oemdelete() {
     var jsonprams: any = JSON.stringify(this.oemdata);
     //JSON.stringify(this.FormulagridList);
     var spsname = "[dbo].[sp_Delete_ProductOEMMST]";
@@ -97,14 +128,32 @@ export class AddOemComponent implements OnInit {
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
 
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
 
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  clear() {
+    this.oem = "";
+
+
+  }
 
   ngOnInit() {
 
     this.oem_load().subscribe((oem_load) => {
       console.warn("oem_load", oem_load)
       this.loadoem = oem_load
+      this.count = this.loadoem.length
     })
+
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
 
 }

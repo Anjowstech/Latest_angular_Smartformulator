@@ -17,31 +17,60 @@ export class AddBrandComponent implements OnInit {
   loadbrand: any;
   brand_delete_data: any;
   id: any;
+  isproductsave: boolean = false;
+  isproductupdate: boolean = true;
+    count: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
-
-
-  savebrand() {
+  updatebrand() {
     this.branddata[0] = ([{
       Procedurestatus: '',
-      ID: '',
+      ID: this.id,
       ProductLine: this.brand,
 
 
     }])
-    this.brandsave().subscribe((brandsave) => {
-      console.warn("brandsave", brandsave)
-      this.brand_save_data = brandsave
+    this.brandsave().subscribe((brandupdate) => {
+      console.warn("brandupdate", brandupdate)
+      this.brand_save_data = brandupdate
 
       if (this.brand_save_data == "success") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'updated successfully' } });
       }
       this.brand_load().subscribe((brand_load) => {
         console.warn("brand_load", brand_load)
         this.loadbrand = brand_load
       })
     })
+  }
+
+  savebrand() {
+    if (this.brand == "" || this.brand == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Brand' } });
+    }
+    else {
+
+      this.branddata[0] = ([{
+        Procedurestatus: '',
+        ID: '',
+        ProductLine: this.brand,
+
+
+      }])
+      this.brandsave().subscribe((brandsave) => {
+        console.warn("brandsave", brandsave)
+        this.brand_save_data = brandsave
+
+        if (this.brand_save_data == "success") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Saved successfully' } });
+        }
+        this.brand_load().subscribe((brand_load) => {
+          console.warn("brand_load", brand_load)
+          this.loadbrand = brand_load
+        })
+      })
+    }
   }
 
   brandsave() {
@@ -65,6 +94,9 @@ export class AddBrandComponent implements OnInit {
 
   }
   deletebrand() {
+    if (this.brand == "" || this.brand == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Brand' } });
+    }
     this.branddata[0] = ([{
       Procedurestatus: '',
       ID: this.id
@@ -97,14 +129,33 @@ export class AddBrandComponent implements OnInit {
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
 
+  target() {
+    this.isproductsave = true;
+    this.isproductupdate = false;
 
+  }
+  target2() {
+    this.isproductsave = false;
+    this.isproductupdate = true;
+
+  }
+  clear() {
+    this.brand = "";
+
+
+  }
 
   ngOnInit() {
 
     this.brand_load().subscribe((brand_load) => {
       console.warn("brand_load", brand_load)
       this.loadbrand = brand_load
+      this.count = this.loadbrand.length
+
     })
+
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
 
 }

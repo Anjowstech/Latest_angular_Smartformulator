@@ -4,14 +4,14 @@
     <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Product Line</h2>
 
     <fieldset class="border p-2">
-
+      
       <div style="margin-top:5px;">
 
         <div class="form-inline">
           <label for="PDR #">Product Line</label>
           <input style="width:50%" type="text" class="form-control" id="PDR #" [(ngModel)]="productline">
         </div>
-
+        
 
       </div>
     </fieldset>
@@ -23,17 +23,17 @@
           <tr>
             <th scope="col" style="width:3%"></th>
             <th scope="col" style="width:90%">Product line</th>
-
+           
           </tr>
         </thead>
         <tbody>
-
-          <tr *ngFor="let product_Details of loadproduct" (click)="setvalues(product_Details);" #conten>
+  
+          <tr *ngFor="let product_Details of loadproduct" (click)="setvalues(product_Details);target();" #conten>
 
             <td class="tabledatasize"></td>
             <td class="tabledatasize">{{ product_Details.ProductLine1}}</td>
 
-
+       
 
           </tr>
         </tbody>
@@ -49,10 +49,10 @@
 <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:5px;height:50px;width:100px;margin-top:1%" (click)="saveproduct();">Save</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%">Update</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%">New</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="deleteproduct();">Delete</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:5px;height:50px;width:100px;margin-top:1%" [hidden]="isproductsave" (click)="saveproduct();clear();">Save</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" [hidden]="isproductupdate" (click)="updateproduct();clear();target2();">Update</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="clear();target2();">New</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="deleteproduct();target2();clear();">Delete</button>
 
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{count}} Record(s)</h5>
 </div>

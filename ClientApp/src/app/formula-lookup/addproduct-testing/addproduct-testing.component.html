@@ -45,8 +45,8 @@ add product testing html
             <div class="form-inline">
               <mat-radio-group aria-label="Select an option" style="margin-left:6%">
                 <Label>status</Label><br>
-                <mat-radio-button value="true" [checked]="status == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChangestatus($event)">Yes</mat-radio-button>
-                <mat-radio-button value="false" [checked]="status == 'No' ? true : false" style="margin-left:20px" (change)="radioChangestatus($event)">No</mat-radio-button>
+                <mat-radio-button value="true" [checked]="status == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChangestatus($event)">open</mat-radio-button>
+                <mat-radio-button value="false" [checked]="status == 'No' ? true : false" style="margin-left:20px" (change)="radioChangestatus($event)">closed</mat-radio-button>
               </mat-radio-group>
             </div>
             <div class="form-inline">
@@ -98,7 +98,7 @@ add product testing html
                   </div>
                   <div class="form-inline" style="margin-top:5px">
                     <label for="inputcust" style=" margin-left: 12%;">Cost</label>
-                    <input style="width: 45%;margin-left:5.3%" type="text" class="form-control"
+                    <input style="width: 45%;margin-left:5.3%" type="number" class="form-control"
                            [(ngModel)]="Costone" name="Costs" value="">
                   </div>
                   <div class="form-inline" style="margin-top:5px">
@@ -169,7 +169,7 @@ add product testing html
                     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">Next</button>
                     <button type="submit" [hidden]="isproductsave" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px" (click)="savemmain();">Save</button>
                     <button type="submit" [hidden]="isproductupdate" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px" (click)="savemmain();">Update</button>
-                    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px">New</button>
+                    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px"(click)="clear();">New</button>
                     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px"
                             (click)="deletetestinfo();">
                       Delete

@@ -29,7 +29,7 @@
         </thead>
         <tbody>
 
-          <tr *ngFor="let cmo_Details of loadcmo | filter:cmoname ; let i=index;" (dblclick)="setvalues(cmo_Details);Close();" #conten>
+          <tr *ngFor="let cmo_Details of loadcmo | filter:cmoname:filterMetadata ; let i=index;" (dblclick)="setvalues(cmo_Details);Close();" #conten>
 
             <td class="tabledatasize"></td>
             <td class="tabledatasize">{{ cmo_Details.CMOName}}</td>
@@ -51,8 +51,9 @@
 <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
 
 </div>
+
 

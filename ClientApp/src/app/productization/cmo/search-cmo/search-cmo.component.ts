@@ -12,8 +12,8 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 })
 export class SearchCmoComponent implements OnInit {
   loadcmo: any;
-  cmoname: any = '';
-  cmostate: any = '';
+  cmoname: any='';
+  cmostate: any='';
   cmonumber: any = '';
   street1: any = '';
   street2: any = '';
@@ -24,6 +24,7 @@ export class SearchCmoComponent implements OnInit {
   email: any = '';
   notes: any = '';
   searchitems: any = [];
+  filterMetadata = { count: 0 };
 
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchCmoComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
 
@@ -61,11 +62,11 @@ export class SearchCmoComponent implements OnInit {
       this.contactnumber,
       this.email,
       this.notes,
-
+      
 
     ]
 
-
+      
 
 
 

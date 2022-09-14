@@ -28,7 +28,7 @@
         </thead>
         <tbody>
 
-          <tr *ngFor="let class_Details of loadclass" (click)="setvalues(class_Details);" #conten>
+          <tr *ngFor="let class_Details of loadclass" (click)="setvalues(class_Details);target();" #conten>
 
             <td class="tabledatasize"></td>
             <td class="tabledatasize">{{ class_Details.classcode1}}</td>
@@ -49,10 +49,11 @@
 <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
   <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:5px;height:50px;width:100px;margin-top:1%" (click)="saveclass();">Save</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%">Update</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%">New</button>
-  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="deleteclass();">Delete</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:5px;height:50px;width:100px;margin-top:1%" [hidden]="isproductsave" (click)="saveclass();clear();">Save</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" [hidden]="isproductupdate" (click)="updateclass();clear();target2();">Update</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="clear();target2();">New</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="deleteclass();target2();clear();">Delete</button>
 
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{count}} Record(s)</h5>
 </div>
+

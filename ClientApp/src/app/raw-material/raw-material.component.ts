@@ -26,6 +26,7 @@ import { RmsaveasComponent } from './rmsaveas/rmsaveas.component';
 import { RawmaterialRestrictionComponent } from '../formula-restriction/rawmaterial-restriction/rawmaterial-restriction.component';
 import { RawmaterialRestrictionProp65Component } from '../formula-restriction/rawmaterial-restriction-prop65/rawmaterial-restriction-prop65.component';
 import { RawmaterialRestrictionUsComponent } from '../formula-restriction/rawmaterial-restriction-us/rawmaterial-restriction-us.component';
+import { DxoIndentComponent } from 'devextreme-angular/ui/nested';
 export interface DialogData {
   itemlist: string;
   name: string;
@@ -43,7 +44,7 @@ export class RawMaterialComponent implements OnInit {
   Deleteifra_loaddata: any;
   delclientaus_loaddata: any;
   delclientcappro65restrct_loaddata: any;
-  currentRowIndex: number = -1;
+  currentRowIndex: number ;
   tabid: string = '';
   issearchRM: boolean = true;
   issearchRMsave: boolean = false;
@@ -223,7 +224,7 @@ export class RawMaterialComponent implements OnInit {
   caasno: string;
   descptn: string;
   elinc: string;
-  newtotalvalue: Number = 0;;
+  newtotalvalue: Number = 0;
   savecapropimpu: string;
 
   Sourceinfo: string='';
@@ -271,6 +272,31 @@ export class RawMaterialComponent implements OnInit {
   CAprop65load: any;
   CAproprestrictionsload: any;
   doc1: any;
+  doc2: any;
+  doc3: any;
+  doc4: any;
+  doc5: any;
+  doc6: any;
+  doc7: any;
+  doc8: any;
+  doc9: any;
+  doc10: any;
+  doc11: any;
+  doc12: any;
+  doc13: any;
+  doc14: any;
+  doc15: any;
+  doc16: any;
+  doc17: any;
+  doc18: any;
+  doc19: any;
+  doc20: any;
+  doc21: any;
+  doc22: any;
+  doc23: any;
+  doc24: any;
+  doc25: any;
+  doc26: any;
   subitemcode: any;
   subinciname: any;
   capropimpuritiestableload: any;
@@ -407,8 +433,17 @@ export class RawMaterialComponent implements OnInit {
   ifdlt: string;
   impudlt: string;
   cadlt: string = "";
+  onRowClick: any;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
+    this.onRowClick = function (index) {
+      if (this.currentRowIndex == index) {
+        this.currentRowIndex = -1;
+      }
+      else {
+        this.currentRowIndex = index;
+      }
+    }
     this.login_form = fb.group({
       'ingricode': ['', Validators.required],
       'incinam': ['', Validators.required],
@@ -429,6 +464,9 @@ export class RawMaterialComponent implements OnInit {
   radioChangeIncidIngredient(event) {
     this.IncidIngredient = event.value;
 
+  }
+  deselect() {
+    this.currentRowIndex = -1;
   }
   radioChangemonograph(event) {
     this.monograph = event.value;
@@ -520,9 +558,7 @@ export class RawMaterialComponent implements OnInit {
     })
    
   }
-  onRowClick(index: number) {
-    //this.currentRowIndex = index;
-  }
+ 
   stdpriceChange(event) {
     this.standardpriceunit = event.target.value;
     this.shippingpriceunit = this.standardpriceunit;
@@ -738,7 +774,10 @@ export class RawMaterialComponent implements OnInit {
           console.warn("loadrawmaterialus", loadrawmaterialus)
           this.usload = loadrawmaterialus
         })
-
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
+        })
         this.sendUs = [];
 
       });
@@ -766,7 +805,10 @@ export class RawMaterialComponent implements OnInit {
           console.warn("loadrawmaterialEU", loadrawmaterialEU)
           this.euload = loadrawmaterialEU
         })
-
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
+        })
         this.sendEU = [];
 
       });
@@ -789,15 +831,26 @@ export class RawMaterialComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
-
+        
         this.canadadataaload(this.inciname).subscribe((loadrawmaterialcanada) => {
           console.warn("loadcanada", loadrawmaterialcanada)
           this.canadaLoad = loadrawmaterialcanada
+        })
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
         })
         this.sendCAN = [];
 
 
       });
+    }
+  }
+  wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
     }
   }
   OpenRawmaterialRestrictionCHINA(): void {
@@ -821,6 +874,10 @@ export class RawMaterialComponent implements OnInit {
         this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
           console.warn("loadrawmaterialChina", loadrawmaterialChina)
           this.chinaload = loadrawmaterialChina
+        })
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
         })
         this.sendCHINA = [];
 
@@ -850,7 +907,10 @@ export class RawMaterialComponent implements OnInit {
           console.warn("loadrawmaterialAUS", loadrawmaterialAUS)
           this.austriliaload = loadrawmaterialAUS
         })
-
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
+        })
         this.sendAUS = [];
 
       });
@@ -878,7 +938,10 @@ export class RawMaterialComponent implements OnInit {
           console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
           this.japanload = loadrawmaterialjapan
         })
-
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
+        })
         this.sendJPN = [];
       });
     }
@@ -906,7 +969,10 @@ export class RawMaterialComponent implements OnInit {
           console.warn("loadrawmaterialCAproprestrictions", loadrawmaterialCAproprestrictions)
           this.CAproprestrictionsload = loadrawmaterialCAproprestrictions
         })
-
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
+        })
         this.sendcaproprestriction = [];
       });
     }
@@ -933,6 +999,10 @@ export class RawMaterialComponent implements OnInit {
         this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
           console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
           this.CAprop65load = loadrawmaterialCAPROP65
+        })
+        this.regulatoryaudittracking(this.inciname).subscribe((loadrawmaterialregulatoryaudit) => {
+          console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+          this.regulatoryaudittrackingload = loadrawmaterialregulatoryaudit
         })
         this.sendcaprop = [];
 
@@ -1577,24 +1647,29 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/LoadPhysicalProperty", { params: params1, })
   }
   opensearchincinameforimpurities(): void {
-    const dialogRef = this.dialog.open(SearchINCINameComponent, {
-      width: '80%', height: '90%', disableClose: true
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      this.doc1 = result[0];
-    // this.subitemcode= result[1];
-      this.supp_nameimp = result[3];
-      this.subitemcode = result[4];
-      this.subinciname = result[0];
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter INCI Name' } });
+    }
+    else {
+      const dialogRef = this.dialog.open(SearchINCINameComponent, {
+        width: '80%', height: '90%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.doc1 = result[0];
+        // this.subitemcode= result[1];
+        this.supp_nameimp = result[3];
+        this.subitemcode = result[4];
+        this.subinciname = result[0];
 
 
 
-      //this.capropimpuritiesload(this.itemli, this.doc1, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
-      // console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
-      // this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
-      //})
-    });
+        //this.capropimpuritiesload(this.itemli, this.doc1, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+        // console.warn("loadrawmaterialregulatoryaudit", loadrawmaterialregulatoryaudit)
+        // this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+        //})
+      });
+    }
   }
   
   saveupimpurities(BlendCde, BName, ingrdient, INCINames, ppms, suupname) {
@@ -2026,9 +2101,16 @@ export class RawMaterialComponent implements OnInit {
 
 
 
+
+
       this.FunctionCode = result[0];
       this.FunctionName = result[1];
-      if (this.functioncode == "") { this.functioncode = this.FunctionCode }
+
+      if (this.functioncode == "" || this.functioncode == undefined) { this.functioncode = this.FunctionCode }
+
+      else if (this.functioncode.includes(this.FunctionCode)) {
+        this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: this.FunctionCode + " " + "is already selected" } });
+      }
       else {
         this.functioncode = this.functioncode + "/" + this.FunctionCode;
       }
@@ -2036,10 +2118,14 @@ export class RawMaterialComponent implements OnInit {
         console.warn("Functiondetailslload", Functiondetailslload)
         this.Functiondata = Functiondetailslload
 
+
+
       })
     });
 
-  
+
+
+
   }
   Clearfuntion() {
     this.functioncode = '';
@@ -2060,6 +2146,115 @@ export class RawMaterialComponent implements OnInit {
   //    var che
   //  }
   //}
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc1 = files.item(0).name;
+  }
+  handleFileInputattachment1(files: FileList) {
+    var filebrowse1 = files.item.length;
+    this.doc2 = files.item(0).name;
+  }
+  handleFileInputattachment2(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc3 = files.item(0).name;
+  }
+  handleFileInputattachment3(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc4 = files.item(0).name;
+  }
+  handleFileInputattachment4(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc5 = files.item(0).name;
+  }
+  handleFileInputattachment5(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc6 = files.item(0).name;
+  }
+  handleFileInputattachment6(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc7 = files.item(0).name;
+  }
+  handleFileInputattachment7(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc8 = files.item(0).name;
+  }
+  handleFileInputattachment8(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc9 = files.item(0).name;
+  }
+  handleFileInputattachment9(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc10 = files.item(0).name;
+  }
+  handleFileInputattachment10(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc11 = files.item(0).name;
+  }
+  handleFileInputattachment11(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc12 = files.item(0).name;
+  }
+  handleFileInputattachment12(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc13 = files.item(0).name;
+  }
+  handleFileInputattachment13(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc14 = files.item(0).name;
+  }
+  handleFileInputattachment14(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc15 = files.item(0).name;
+  }
+  handleFileInputattachment15(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc16 = files.item(0).name;
+  }
+  handleFileInputattachment16(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc17 = files.item(0).name;
+  }
+  handleFileInputattachment17(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc18 = files.item(0).name;
+  }
+  handleFileInputattachment18(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc19 = files.item(0).name;
+  }
+  handleFileInputattachment19(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc20 = files.item(0).name;
+  }
+  handleFileInputattachment20(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc21 = files.item(0).name;
+  }
+  handleFileInputattachment21(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc22 = files.item(0).name;
+  }
+  handleFileInputattachment22(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc23 = files.item(0).name;
+  }
+  handleFileInputattachment23(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc24 = files.item(0).name;
+  }
+  handleFileInputattachment24(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc25 = files.item(0).name;
+  }
+  handleFileInputattachment25(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc26 = files.item(0).name;
+  }
+  handleFileInputattachment26(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc26 = files.item(0).name;
+  }
+
   Functionload(funname: string) {
     var Funname = funname;
     let params1 = new HttpParams().set('funname', Funname);
@@ -2083,25 +2278,31 @@ export class RawMaterialComponent implements OnInit {
 
 
 
+
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed: ${result}');
       this.functdlt = result;
 
 
 
+
+
       if (this.functdlt == "false") { }
       else {
-        if ((this.funcddlt == "" || this.funcddlt == undefined) ) {
+        if ((this.funcddlt == "" || this.funcddlt == undefined)) {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
         }
         else {
-          if (this.funcddlt == "ACTIVES") {
-          }
-          else {
-
+          //if (this.funcddlt == "ACTIVES") {
+          //}
+          //else {
+          if (this.functioncode.includes("/")) {
             this.function1 = this.functioncode.split(this.funcddlt)
             this.functioncode = this.function1[0] + this.function1[1]
             this.functioncode = this.functioncode.replace("//", "/").replace("undefined", "");
+
+
 
 
 
@@ -2109,22 +2310,60 @@ export class RawMaterialComponent implements OnInit {
               console.warn("Functiondetailslload", Functiondetailslload)
               this.Functiondata = Functiondetailslload
 
+
+
               if (this.functioncode != "/") {
                 this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted Successfully' } });
+
+
 
               }
               else {
                 this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Nothing to delete' } });
               }
 
+
+
             })
-
-
-
           }
+          else {
+            this.functioncode = this.functioncode.replace("//", "/").replace("undefined", "");
+
+
+
+
+
+            this.Functionload(this.functioncode).subscribe((Functiondetailslload) => {
+              console.warn("Functiondetailslload", Functiondetailslload)
+              this.Functiondata = Functiondetailslload
+
+
+
+              if (this.functioncode != "/") {
+                this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted Successfully' } });
+                this.Clearfuntion();
+              }
+              else {
+                this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Nothing to delete' } });
+              }
+
+
+
+            })
+          }
+
+
+
+
+
+
+
+          /* }*/
         }
       }
     })
+
+
 
   }
   openAddfunction(): void {
@@ -3464,6 +3703,31 @@ export class RawMaterialComponent implements OnInit {
 
   ClearData() {
     this.doc1 = "";
+    this.doc2 = "";
+    this.doc3 = "";
+    this.doc4 = "";
+    this.doc5 = "";
+    this.doc6 = "";
+    this.doc7 = "";
+    this.doc8 = "";
+    this.doc9 = "";
+    this.doc10 = "";
+    this.doc11 = "";
+    this.doc12 = "";
+    this.doc13 = "";
+    this.doc14 = "";
+    this.doc15 = "";
+    this.doc16 = "";
+    this.doc17 = "";
+    this.doc18 = "";
+    this.doc19 = "";
+    this.doc20 = "";
+    this.doc21 = "";
+    this.doc22 = "";
+    this.doc23 = "";
+    this.doc24 = "";
+    this.doc25 = "";
+    this.doc26 = "";
     //this.doc2 = "";
     //this.doc3 = "";
     //this.doc4 = "";
@@ -3471,6 +3735,7 @@ export class RawMaterialComponent implements OnInit {
     //this.doc6 = "";
     this.oldmoq = '';
     this.CAprop65load = '';
+    this.capropimpuritiestableload = "";
     this.CAproprestrictionsload = '';
     this.regulatoryaudittrackingload = '';
     this.oldreorderqty = '';
