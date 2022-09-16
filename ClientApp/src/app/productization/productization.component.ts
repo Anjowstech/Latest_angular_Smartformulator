@@ -63,6 +63,7 @@ export class ProductizationComponent implements OnInit {
   i: number;
   j: number;
  // sample nihal test
+  //nihal cjhanes
   datachem: any;
   loadpdrno: string;
   Approvedproductinfo: string;
