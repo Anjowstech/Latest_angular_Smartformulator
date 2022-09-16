@@ -19,7 +19,7 @@ export class AddproductTestingComponent implements OnInit {
   activeproductTab: string = "tab1";
   labnamedis: boolean = false;
 //testing githubsample1231234
-
+  //final test resaults
   tesnamedis: boolean = false;
 
 
