@@ -294,8 +294,6 @@
     </tbody>
   </table>-->
                       <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
-                                    
-                                   
                                     (onSelectionChanged)="selectedChanged($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="rowData"
@@ -305,24 +303,21 @@
                                     [showBorders]="true"
                                     (onCellClick)="openrawmaterialserach($event)"
                                     (rowprepared)="rowprepared">
-                        <dxo-editing mode="row"
+                        <dxo-editing mode="cell"
                                      [allowUpdating]="true"
+                                      [allowDeleting]="true"
                                      [useIcons]="true">
                         </dxo-editing>-->
                         <dxo-column-chooser [enabled]="false">
                           <!-- or "select" -->
                         </dxo-column-chooser>
-                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-selection mode="multiple"></dxo-selection>
+
                         <dxo-scrolling mode="virtual"></dxo-scrolling>
 
                         <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                         <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-                        <dxi-column dataField=""></dxi-column>
                         
-                        <dxi-column dataField="check" headerCellTemplate="addressHeaderTemplatecheck" dataType="boolean" value="false"></dxi-column>
-                        <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
-                          <b style="color: black"></b>
-                        </div>
                         <dxi-column dataField="CusCode"
                                     [visible]="false"></dxi-column>
                         <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
