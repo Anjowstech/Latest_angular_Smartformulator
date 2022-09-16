@@ -21,7 +21,7 @@ export class AddproductTestingComponent implements OnInit {
 //testing githubsample1231234
   //final test resaults
   tesnamedis: boolean = false;
-
+  //sdhfhdnbf
 
   formulacode: any;
   formulaname: string;
