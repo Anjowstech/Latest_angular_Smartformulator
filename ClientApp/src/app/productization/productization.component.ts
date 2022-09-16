@@ -32,6 +32,7 @@ import { SearchProductComponent } from './search-product/search-product.componen
 import { formatDate } from '@angular/common';
 import { SearchCmoComponent } from './cmo/search-cmo/search-cmo.component';
 import { SearchComponentComponent } from './add-component/search-component/search-component.component';
+import { ComponentlistingComponent } from './componentlisting/componentlisting.component';
 
 @Component({
   selector: 'app-productization',
@@ -925,6 +926,11 @@ export class ProductizationComponent implements OnInit {
       height: '100%',
       width: '100%',
       panelClass: 'full-screen-modal'
+    });
+  }
+  complisting(): void {
+    const dialogRef = this.dialog.open(ComponentlistingComponent, {
+      width: '80%', height: '90%', disableClose: true
     });
   }
   productadd(): void {

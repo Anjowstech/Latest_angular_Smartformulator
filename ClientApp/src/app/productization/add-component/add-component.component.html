@@ -234,24 +234,24 @@
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Material Composition</legend>
                     <form class="form-inline" style="    background-color: #f6f5f1">
-                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" id="mc1" placeholder="" [checked]="mcplastic == 'True' ? true : false" (change)="mcplasticChange($event)"name="bottle" value="">
-                      <label class="form-check-label" style="margin-left:-20px;"  for="defaultCheck1">Plastic</label>
-                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" iid="mc2" placeholder=""   [checked]="mcaluminium == 'True' ? true : false" (change)="mcaluminiumChange($event)"  name="alu" value="">
+                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" id="mc1" placeholder="" [checked]="mcplastic == 'True' ? true : false" (change)="mcplasticChange($event)" name="bottle" value="">
+                      <label class="form-check-label" style="margin-left:-20px;" for="defaultCheck1">Plastic</label>
+                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" iid="mc2" placeholder="" [checked]="mcaluminium == 'True' ? true : false" (change)="mcaluminiumChange($event)" name="alu" value="">
                       <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">Aluminium</label>
-                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc3" placeholder=""  [checked]="mcrecycledplastic == 'True' ? true : false" (change)="mcrecycledplasticChange($event)" name="recy" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc3" placeholder="" [checked]="mcrecycledplastic == 'True' ? true : false" (change)="mcrecycledplasticChange($event)" name="recy" value="">
                       <label class="form-check-label" for="defaultCheck3" style="margin-left:-2px;">Recycled Plastic</label>
-                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc4" placeholder=""  [checked]="mcpaper == 'True' ? true : false" (change)="mcpaperChange($event)"  name="pape" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc4" placeholder="" [checked]="mcpaper == 'True' ? true : false" (change)="mcpaperChange($event)" name="pape" value="">
                       <label class="form-check-label" for="defaultCheck4" style="margin-left:-25px;">Paper</label>
 
-                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc5" placeholder=""   (change)="mcotherChange($event)" name="bottle" value="">
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc5" placeholder="" (change)="mcotherChange($event)"     [checked]="mcother == '1' ? true : false" [(ngModel)]="checkboxStatu" (click)="check_en1(value)" name="bottle" value="1">
                       <label class="form-check-label" for="defaultCheck5" style="margin-left:-30px;">Other</label>
 
 
-                      <input for="formoir" type="text" style="margin-left:-2px; width:25%;" class="form-control" placeholder="" id="oth" [(ngModel)]="othedetail" name="detail" value="">
+                      <input for="formoir" type="text" style="margin-left:-2px; width:25%;" class="form-control" placeholder="" id="oth"  [disabled]="!checkboxStatu" [(ngModel)]="othedetail" name="detail" value="">
 
 
                     </form>
-
+                   
 
 
                   </fieldset>
@@ -387,10 +387,10 @@
                       <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="p1" placeholder=""  [checked]="pcorrugated == 'True' ? true : false" (change)="pcorrugatedChange($event)" name="coru" value="">
                       <label class="form-check-label" style="margin-left:2px;" for="defaultCheck1">Corrugated</label>
 
-                      <input class="form-check-input" style="margin-left:40px;" type="checkbox" id="p2" placeholder="" [checked]="pother == '1' ? true : false" (change)="potherChange($event)"   (click)="radioValueChe(1)" name="pther" value="1">
+                      <input class="form-check-input" style="margin-left:40px;" type="checkbox" id="p2" placeholder="" [checked]="pother == '1' ? true : false" [(ngModel)]="checkboxStatus" (change)="potherChange($event)"   (click)="check_en(value)" name="pther" value="1">
                       <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">Other</label>
                       <input class="form-control" style="margin-left:5px;" type="text" id="othpper" size="30" placeholder=""
-                         [disabled]="!showDateInp"       [(ngModel)]="otherpaper" name="pper" value="">
+                         [disabled]="!checkboxStatus"       [(ngModel)]="otherpaper" name="pper" value="">
 
                     </form>
 
