@@ -18,11 +18,11 @@ export class AddproductTestingComponent implements OnInit {
   isproductupdate: boolean = true;
   activeproductTab: string = "tab1";
   labnamedis: boolean = false;
-
-
+//testing githubsample1231234
+  //final test resaults
   tesnamedis: boolean = false;
-
-
+  //sdhfhdnbf
+  //samplwtest master checking
   formulacode: any;
   formulaname: string;
   customername: string;
