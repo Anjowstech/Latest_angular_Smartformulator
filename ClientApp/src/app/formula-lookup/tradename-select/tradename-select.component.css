@@ -15,7 +15,11 @@ p.test {
   text-align: left;
   font-family: Haettenschweiler
 }
-
+.header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
 .margindesign {
   border: 0.5px solid maroon;
   padding: 50px;

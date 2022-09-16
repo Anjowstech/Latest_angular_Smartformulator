@@ -22,7 +22,9 @@ export class AddproductTestingComponent implements OnInit {
   //final test resaults
   tesnamedis: boolean = false;
   //sdhfhdnbf
-  //samplwtest master checking123
+  //samplwtest master checking
+//samp test
+  //nihal changes noon
   formulacode: any;
   formulaname: string;
   customername: string;
@@ -40,11 +42,10 @@ export class AddproductTestingComponent implements OnInit {
   otcdata_load: any;
   testname: any = '';
   tname: any = '';
-  statuss: string = 'open';
-  status: string;
+  status: any = '';
   tid: any = '';
   lname: any = '';
-  OTC: string = 'NO';
+  OTC: any = '';
   PType: any = '';
   lid: any = '';
   TotalC: any = '';
@@ -484,14 +485,6 @@ export class AddproductTestingComponent implements OnInit {
   frameworkComponents = {
     myDateEditor: MyDateEditor
   }
-  radioChangeOTC(event) {
-    this.OTC = event.value;
-
-  }
-  radioChangestatus(event) {
-    this.statuss = event.value;
-
-  }
   savemmain() {
     this.dataListsave[0] = ([{
       PDRNo: this.pdrno,
@@ -499,11 +492,11 @@ export class AddproductTestingComponent implements OnInit {
       FormulaName: this.formulaname,
       cbTestName: this.Testname,
       //LabName: this.labname,
-      Status: this.statuss,
+      Status: 'open',
       dtpriptstartdt: this.Startdate,
       dtpriptcompdt: this.Completeddate,
       CustomerName: this.customername,
-      OTC: this.OTC,
+      OTC: '1',
       ProductType: this.PType,
       Claim: this.claim,
       TotalCost: this.Costone,
