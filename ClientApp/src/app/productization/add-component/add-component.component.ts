@@ -889,9 +889,21 @@ export class AddComponentComponent implements OnInit {
   }
 
 
+  check_en(v1: any) {
+    if (v1 == true) {
+      document.getElementById('text1').setAttribute("disabled", "false");
+    } else {
+      document.getElementById('text1').removeAttribute("disabled")
+    }
+  }
 
-
-
+  check_en1(v2: any) {
+    if (v2 == true) {
+      document.getElementById('text1').setAttribute("disabled", "false");
+    } else {
+      document.getElementById('text1').removeAttribute("disabled")
+    }
+  }
 
   clear() {
     this.componentitemnumber = ""

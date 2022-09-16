@@ -189,6 +189,7 @@ import { SearchComponentComponent } from './productization/add-component/search-
 import { SearchCmoComponent } from './productization/cmo/search-cmo/search-cmo.component';
 import { AddcheComponent } from './productization/new-che/addche/addche.component';
 import { AddmicroComponent } from './productization/new-microb/addmicro/addmicro.component';
+import { ComponentlistingComponent } from './productization/componentlisting/componentlisting.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -295,7 +296,9 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
 
       { path: 'Cmo', component: CmoComponent },
       { path: 'SearchCmo', component: SearchCmoComponent },
-      { path: 'SearchProduct', component: SearchProductComponent }
+      { path: 'SearchProduct', component: SearchProductComponent },
+      { path: 'Componentlisting', component: ComponentlistingComponent }
+      
     ]
   }
 ];
@@ -450,6 +453,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     SearchCmoComponent,
     AddcheComponent,
     AddmicroComponent,
+    ComponentlistingComponent,
     
   ],
   imports: [
@@ -491,7 +495,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, ProductizationComponent,AddProductlineComponent,AddClasscodeComponent, AddClassificationComponent, AddApplicationComponent, AddOemComponent,AddBrandComponent,AddProductcategoryComponent,AddComponentComponent,SearchComponentComponent, AddComponentcategoryComponent, NewCheComponent, NewMicrobComponent,AddcheComponent, AddmicroComponent,CmoComponent,SearchCmoComponent,SearchProductComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
+  entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, QualityControlComponent, AddQctestComponent, ProductizationComponent, AddProductlineComponent, AddClasscodeComponent, AddClassificationComponent, AddApplicationComponent, AddOemComponent, AddBrandComponent, AddProductcategoryComponent, AddComponentComponent, SearchComponentComponent, AddComponentcategoryComponent, NewCheComponent, NewMicrobComponent, AddcheComponent, ComponentlistingComponent,AddmicroComponent,CmoComponent,SearchCmoComponent,SearchProductComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, AddLabnameComponent,AddTestnameComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
     MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent, PDRListSearchComponent, SearchSubmissionComponent, UnapprovedRawmaterialComponent, SearchFormulalistComponent]
 })
