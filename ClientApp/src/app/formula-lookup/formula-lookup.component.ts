@@ -1767,6 +1767,10 @@ export class FormulaLookupComponent implements OnInit {
           console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
           this.BindFormulaProduct_data_load = BindFormulaProduct_load;
         })
+        this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+          console.warn("Audittrackingload", Audittrackingload)
+          this.AudittrackData = Audittrackingload
+        })
       });
 
 
@@ -1796,7 +1800,10 @@ export class FormulaLookupComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
+      })
       this.BindFormulaProduct_load(this.formulacode).subscribe((BindFormulaProduct_load) => {
         console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
         this.BindFormulaProduct_data_load = BindFormulaProduct_load;
