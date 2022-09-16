@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
         var detail: any = [user, comp];
         this.Datashare.sendlogindetails(user);
         this.Datashare.sendcompdetails(comp);
+        this.Datashare.sendconnection(this.connectionstr);
       } else {
         alert("Invalid credentials");
       }

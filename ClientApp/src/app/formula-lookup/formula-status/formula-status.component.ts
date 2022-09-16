@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
+import { Router, RouterModule, Routes } from '@angular/router';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SearchFormulaComponent } from 'src/app/formula-lookup/search-formula/search-formula.component';
-
+import { AddQCComponent } from 'src/app/formula-lookup/add-qc/add-qc.component';
+import { AddproductTestingComponent } from 'src/app/formula-lookup/addproduct-testing/addproduct-testing.component'
+import { AddphystabilityTestComponent } from 'src/app/formula-lookup/addphystability-test/addphystability-test.component'
 @Component({
   selector: 'app-formula-status',
   templateUrl: './formula-status.component.html',
@@ -13,7 +17,7 @@ export class FormulaStatusComponent implements OnInit {
   issearchform: boolean = false;
   active: string = '';
   formulacode: string = '';
-  formulaname: string = '';
+  formulaname: any;
   labref: string = '';
   isLoading = true;
   PDRno: string = '';
@@ -62,7 +66,7 @@ export class FormulaStatusComponent implements OnInit {
   SupercededBy: any;
   SupercededDate: any;
   MayProduce: any;
-  FormulaCost: any;
+  FormulaCost: string ="0.00";
   ManualSG: any;
   ShelfLife: any;
   ShelfLifeUnit: any;
@@ -73,45 +77,51 @@ export class FormulaStatusComponent implements OnInit {
   CompanyOwned: any;
   Locked: any;
   dataresultLoadformulalock: Object;
-  LabBatchsize: any;
-  Unit: any;
-  packingCost: any;
-  labourCost: any;
-  overheadCost: any;
-  miscost: any;
-  facost: any;
-  transAir: any;
-  transWater: any;
-  transRoad: any;
-  artworkcost: any;
-  labelcost: any;
-  Totalcost: any;
-  twentyfivemargin: any;
-  twentyfivemargincost: any;
-  thirtymargin: any;
-  thirtymargincost: any;
-  fortymargin: any;
-  fortymargincost: any;
-  fiftymargin: any;
-  fiftymargincost: any;
-  hundredmargin: any;
-  hundredmargincost: any;
-  customperc: any;
-  custommargin: any;
-  custommargincost: any;
+  LabBatchsize: string= "0.00000";
+  Unit: string ="0.00";
+  packingCost: string = "0.00";
+  labourCost: string = "0.00";
+  overheadCost: string = "0.00";
+  miscost: string = "0.00";
+  facost: string = "0.00";
+  transAir: string = "0.00";
+  transWater: string = "0.00";
+  transRoad: string = "0.00";
+  artworkcost: string = "0.00";
+  labelcost: string = "0.00";
+  Totalcost: string = "0.00";
+  twentyfivemargin: string = "0.00";
+  twentyfivemargincost: string = "0.00";
+  thirtymargin: string = "0.00";
+  thirtymargincost: string = "0.00";
+  fortymargin: string = "0.00";
+  fortymargincost: string = "0.00";
+  fiftymargin: string = "0.00";
+  fiftymargincost: string = "0.00";
+  hundredmargin: string = "0.00";
+  hundredmargincost: string = "0.00";
+  customperc: string = "0.00";
+  custommargin: string = "0.00";
+  custommargincost: string = "0.00";
   addeBy: any;
   addedDt: any;
   Activity: any;
   approveddt: any;
+    btnstate: boolean = false;
+    Qclist: any[];
+    Phystabilitylist: string[];
+    producttestlist: string[];
+    stabno: string;
+    formulaName: any;
 
 
 
-  constructor(public dialog: MatDialog, private http: HttpClient) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, public router: Router) { }
 
   FormulaLockdata(formuladata: any) {
     for (let item of formuladata) {
       this.formulacode = item.FormulaCode;
-      this.formulaname = item.FormulaName;
+      this.formulaName = item.FormulaName;
       this.AdminName = item.AdminName;
       this.LockedDate = item.LockedDate;
       this.Status = item.Status;
@@ -122,7 +132,7 @@ export class FormulaStatusComponent implements OnInit {
   Formulamaindata(formuladata: any) {
     for (let item of formuladata) {
       this.formulacode = item.FormulaCode;
-      this.formulaname = item.FormulaName;
+      this.formulaName = item.FormulaName;
       this.TradeName = item.TradeName;
       this.Class = item.Class;
       this.SubClass = item.SubClass;
@@ -249,7 +259,7 @@ export class FormulaStatusComponent implements OnInit {
 
   setvalues(loadQC_search) {
     this.SeqNo = loadQC_search.SeqNo;
-    this.formulaname = loadQC_search.Description;
+    //this.formulaName = loadQC_search.Description;
     this.noOfDays = loadQC_search.noOfDays;
     this.startDate = loadQC_search.startDate;
     this.endDate = loadQC_search.endDate;
@@ -257,7 +267,14 @@ export class FormulaStatusComponent implements OnInit {
     this.AddedBy = loadQC_search.AddedBy;
     this.approved = loadQC_search.approved;
     this.ApprovedBy = loadQC_search.ApprovedBy;
-    this.searchitems = [this.SeqNo, this.formulaname, this.noOfDays, this.startDate, this.endDate, this.Results, this.AddedBy, this.approved, this.ApprovedBy]
+    this.searchitems = [this.SeqNo, this.formulaName, this.noOfDays, this.startDate, this.endDate, this.Results, this.AddedBy, this.approved, this.ApprovedBy]
+
+    this.Qclist = [this.SeqNo, this.formulaname, this.noOfDays,
+      this.startDate, this.endDate, this.Results,this.formulacode]
+    this.Datashare.sendQCdetails(this.Qclist);
+    const dialogRef = this.dialog.open(AddQCComponent, {
+      width: '80%', height: '90%', disableClose: true
+    });
   }
   close() {
 
@@ -330,7 +347,9 @@ export class FormulaStatusComponent implements OnInit {
     this.endDate = loadPHY_search.EndDate;
     this.approved = loadPHY_search.Approved;
     this.ApprovedBy = loadPHY_search.ApprovedBy;
-    this.searchitems = [this.StorageCondition, this.LabBatchNo, this.BatchType, this.startDate, this.endDate, this.AddedBy, this.approved, this.ApprovedBy]
+    this.stabno = loadPHY_search.STABNumber;
+    this.searchitems = [this.StorageCondition, this.LabBatchNo, this.BatchType,
+      this.startDate, this.endDate, this.AddedBy, this.approved, this.ApprovedBy, this.stabno]
   }
   closephystability() {
 
@@ -346,13 +365,13 @@ export class FormulaStatusComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       console.log('The dialog was closed', result);
-      if (result != "") {
-        this.issearchform = true;
+      this.issearchform = true;
         this.active = "1";
         this.formulacode = result[0];
         this.formulaname = result[1];
         this.labref = result[2];
         this.PDRno = result[3];
+
 
         this.Loadsearchformulamain().subscribe((resultLoadsearchformulamain) => {
           this.isLoading = false;
@@ -361,7 +380,7 @@ export class FormulaStatusComponent implements OnInit {
           this.Formulamaindata(this.dataresultLoadsearchformulamain)
         })
         this.msdsload().subscribe((resultmsdsload) => {
-          this.isLoading = false;
+         
           console.warn("resultmsdsload", resultmsdsload)
           this.dataresultmsdsload = resultmsdsload
           this.msdsdata(this.dataresultmsdsload)
@@ -374,7 +393,7 @@ export class FormulaStatusComponent implements OnInit {
 
         })
         this.loadQC().subscribe((resultloadQC) => {
-          this.isLoading = false;
+       
           console.warn("resultloadQC", resultloadQC)
           this.dataresultloadQC = resultloadQC
         })
@@ -411,13 +430,16 @@ export class FormulaStatusComponent implements OnInit {
           this.dataresultLoadPhystability = resultLoadPhystability
         })
 
-      }
+      
     });
   }
 
   ClearData() {
-
+    this.active = "1";
     this.issearchform = false;
+    this.Qclist = [];
+    this.Phystabilitylist = [];
+    this.producttestlist= [];
     this.ProjectName = '';
     this.formulacode = '';
     this.formulaname = '';
@@ -441,6 +463,7 @@ export class FormulaStatusComponent implements OnInit {
     this.updatedDt = '';
     this.CompanyOwned = '';
     this.Locked = '';
+    this.LockedDate = '';
     this.CusCode = '';
     this.address = '';
     this.addeBy = '';
@@ -484,7 +507,38 @@ export class FormulaStatusComponent implements OnInit {
     this.dataresultAuditList = '';
 
 
+
   }
+ 
+
+
+
+  Phystabilityopen() {
+    this.Phystabilitylist = [this.StorageCondition, this.LabBatchNo, this.BatchType,
+      this.startDate, this.endDate,
+      this.formulacode, this.formulaname, this.stabno]
+    this.Datashare.sendPhystability(this.Phystabilitylist);
+    const dialogRef = this.dialog.open(AddphystabilityTestComponent, {
+      width: '80%', height: '90%', disableClose: true,
+
+    });
+  }
+
+
+  Producttestingopen() {
+    this.producttestlist = [this.TestName, this.OpenDate, this.DueDate, this.approved, this.ApprovedBy,
+    this.PDRno, this.formulacode,this.formulaname]
+    this.Datashare.sendproducttest(this.producttestlist);
+    const dialogRef = this.dialog.open(AddproductTestingComponent, {
+      width: '80%', height: '90%', disableClose: true
+    });
+  }
+
+  gotoback() {
+    this.router.navigateByUrl('/Home');
+  }
+
+
 
   ngOnInit() {
 

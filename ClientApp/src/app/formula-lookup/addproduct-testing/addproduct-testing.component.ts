@@ -6,6 +6,7 @@ import { MessageBoxComponent } from '../../message-box/message-box.component';
 import { AddLabnameComponent } from './add-labname/add-labname.component';
 import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-yesno.component';
 import { formatDate } from '@angular/common';
+import { MyDateEditor } from './my-date-editor.component';
 @Component({
   selector: 'app-addproduct-testing',
   templateUrl: './addproduct-testing.component.html',
@@ -15,7 +16,7 @@ export class AddproductTestingComponent implements OnInit {
   pdrno: any;
   isproductsave: boolean = false;
   isproductupdate: boolean = true;
-  
+  activeproductTab: string = "tab1";
   labnamedis: boolean = false;
 
 
@@ -86,11 +87,28 @@ export class AddproductTestingComponent implements OnInit {
   mySum: any;
   public gridApione;
   adf: any;
-
+    doc1: string;
+  onRowClick2: any;
+  onRowClick3: any;
   constructor(public dialogRef: MatDialogRef<AddproductTestingComponent>, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) {
 
 
-
+    this.onRowClick2 = function (index) {
+      if (this.currentRowIndex2 == index) {
+        this.currentRowIndex2 = -1;
+      }
+      else {
+        this.currentRowIndex2 = index;
+      }
+    }
+    this.onRowClick3 = function (index) {
+      if (this.currentRowIndex3 == index) {
+        this.currentRowIndex3 = -1;
+      }
+      else {
+        this.currentRowIndex3 = index;
+      }
+    }
 
 
     //radiovalue: string="1";
@@ -196,6 +214,21 @@ export class AddproductTestingComponent implements OnInit {
 
 
     },
+    
+   {      // flex: 1,      // resizable: true,
+
+      //wrapText: true,     // <-- HERE      autoHeight: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+     minWidth: 100, maxWidth: 140,
+     headerName: "DueDt", field: 'DueDt', type: 'numericColumn'
+
+    },
+
+
     {
       // flex: 1,
       // resizable: true,
@@ -245,8 +278,8 @@ export class AddproductTestingComponent implements OnInit {
       //aggFunc: this.mySum.bind(this),
       minWidth: 70,
       maxWidth: 130,
-      type: 'numericColumn',
-
+      
+      cellEditor: 'myDateEditor', editable: true,
       autoHeight: true,
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
     },
@@ -287,6 +320,36 @@ export class AddproductTestingComponent implements OnInit {
       maxWidth: 120, type: 'numericColumn',
       autoHeight: true,
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+      //hide: "true",
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "clientInvoice#", field: 'clientInvoice#', width: 70,
+      minWidth: 60,
+      maxWidth: 120, type: 'numericColumn',
+      autoHeight: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
+
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+      //hide: "true",
+      //wrapText: true,     // <-- HERE
+      // autoHeight: true,
+      headerName: "clientInvoiceDt", field: 'clientInvoiceDt', width: 70,
+      minWidth: 60,
+      maxWidth: 120, type: 'numericColumn',
+      autoHeight: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal", 'text-align': "right" },
+
+
 
     },
 
@@ -416,6 +479,9 @@ export class AddproductTestingComponent implements OnInit {
     var formulcod: string = formulcode;
     let params1 = new HttpParams().set('Formulacode', formulcod)
     return this.http.get("https://formulalookupwebservice9.azurewebsites.net/BindActive", { params: params1 })
+  }
+  frameworkComponents = {
+    myDateEditor: MyDateEditor
   }
   savemmain() {
     this.dataListsave[0] = ([{
@@ -584,32 +650,86 @@ export class AddproductTestingComponent implements OnInit {
       .set('PurchaseOrderNo', PurchaseOrderNos)
       .set('dtpriptcompdt', dtpriptcompdts).set('dtpriptstartdt', dtpriptstartdts)
       .set('cbTestName', cbTestNames).set('FormulaCode', FormulaCodes);
-    return this.http.get("https://formulalookupwebservice14.azurewebsites.net/Deletetestinfo", { params: params1, responseType: 'text' })
+    return this.http.get("https://formulalookupwebservice14.azurewebsites.net/Deleteinfo", { params: params1, responseType: 'text' })
   }
 
 
   Opentestname(): void {
-    const dialogRef = this.dialog.open(AddTestnameComponent, {
-      width: '35%', height: '15%', disableClose: true
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+   
+      this.activeproductTab = "testname";
+      const dialogRef = this.dialog.open(AddTestnameComponent, {
+        width: '35%', height: '15%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
 
-      this.testdetails_load().subscribe((test_load) => {
-        console.warn("test_load", test_load)
-        this.test_data_load = test_load;
-      })
+        this.testdetails_load().subscribe((test_load) => {
+          console.warn("test_load", test_load)
+          this.test_data_load = test_load;
+        })
 
-    });
+      });
+  }
+  Opentestname2(): void {
+    
+      this.activeproductTab = "testname";
+      const dialogRef = this.dialog.open(AddTestnameComponent, {
+        width: '35%', height: '15%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+
+
+        this.testdetails_load().subscribe((test_load) => {
+          console.warn("test_load", test_load)
+          this.test_data_load = test_load;
+        })
+
+      });
+    
 
   }
+  handleFileInput1(files: FileList) {
+    var filebrowse = files.item.length;
+    this.doc1 = files.item(0).name;
+  }
+  rowDoubleClicked(event: any) {
+    this.activeproductTab = "tab1";
+  }
+  dateChange($event) {
+    if (this.opendate > this.Due) {
+      this.dialog.open(MessageBoxComponent, { width: '15%', height: '10%', data: { displaydata: 'Due Date Should not be less than open date' } });
+    }
+  }
   Openlabname(): void {
+   
+      this.activeproductTab = "labname";
+      const dialogRef = this.dialog.open(AddLabnameComponent, {
+        width: '35%', height: '15%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+
+        this.labdetails_load().subscribe((lab_load) => {
+          console.warn("lab_load", lab_load)
+          this.lab_data_load = lab_load;
+        })
+
+      });
+    
+
+  }
+  Openlabname2(): void {
+
+    this.activeproductTab = "labname";
     const dialogRef = this.dialog.open(AddLabnameComponent, {
       width: '35%', height: '15%', disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
+
+
 
       this.labdetails_load().subscribe((lab_load) => {
         console.warn("lab_load", lab_load)
@@ -617,6 +737,7 @@ export class AddproductTestingComponent implements OnInit {
       })
 
     });
+
 
   }
   setvalues(testdetails) {
@@ -658,8 +779,8 @@ export class AddproductTestingComponent implements OnInit {
     this.adf = "";
     this.tesnamedis = true;
     this.labnamedis = true;
-    this.isproductsave = true;
-    this.isproductupdate = false;
+    this.isproductsave = false;
+    this.isproductupdate = true;
   }
   savebillgrid() {
     this.savemmainbillgridup().subscribe((Savebilldata) => {
@@ -787,6 +908,7 @@ export class AddproductTestingComponent implements OnInit {
   }
   ngOnInit() {
 
+    var senddata = this.activeproductTab;
     //var dataarray = this.data.displaydata;
     this.testdetails_load().subscribe((test_load) => {
       console.warn("test_load", test_load)

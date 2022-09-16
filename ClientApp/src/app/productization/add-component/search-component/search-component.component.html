@@ -34,9 +34,9 @@
         </div>
         <div class="form-inline">
           <Label class="label1" for="inputcust" style="margin-left: 10px; margin-top: 15px; font-size: medium; font-family: Verdana;">*Fillable Component</Label>
-          <mat-radio-button value="true" [checked]="fill == 'Yes' ? true : false" style="margin-left:10px;margin-top:15px;" (change)="radioChangeIncidfill($event)">Yes</mat-radio-button>
-          <mat-radio-button value="false" [checked]="fill == 'No' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangeIncidfill($event)">No</mat-radio-button>
-          <mat-radio-button value="false" [checked]="Incidfill == 'Yes/No' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangeIncidfill($event)">Both</mat-radio-button>
+          <mat-radio-button value="Yes" [checked]="fillablecomponent == 'Yes' ? true : false" style="margin-left:10px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">Yes</mat-radio-button>
+          <mat-radio-button value="No" [checked]="fillablecomponent == 'No' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">No</mat-radio-button>
+          <mat-radio-button value="No" [checked]="fillablecomponent == 'Yes/No' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">Both</mat-radio-button>
         </div>
 
         <div class="form-inline">

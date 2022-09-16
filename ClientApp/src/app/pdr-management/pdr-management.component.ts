@@ -453,7 +453,34 @@ export class PdrManagementComponent implements OnInit {
   //assign_save_data: any;
   //uservalue: string = "admin";
   //login_formpdr: FormGroup;
+  onRowClick: any;
+  onRowClick2: any;
+  onRowClick3: any;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, public router: Router) {
+    this.onRowClick = function (index) {
+      if (this.currentRowIndex == index) {
+        this.currentRowIndex = -1;
+      }
+      else {
+        this.currentRowIndex = index;
+      }
+    }
+    this.onRowClick2 = function (index) {
+      if (this.currentRowIndex2 == index) {
+        this.currentRowIndex2 = -1;
+      }
+      else {
+        this.currentRowIndex2 = index;
+      }
+    }
+    this.onRowClick3 = function (index) {
+      if (this.currentRowIndex3 == index) {
+        this.currentRowIndex3 = -1;
+      }
+      else {
+        this.currentRowIndex3 = index;
+      }
+    }
     this.login_formpdr = fb.group({
       'projname': ['', Validators.required],
 

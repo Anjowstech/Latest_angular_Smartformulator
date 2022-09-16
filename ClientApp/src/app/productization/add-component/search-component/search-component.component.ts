@@ -8,6 +8,7 @@ import { DialogData } from 'src/app/formula-lookup/formula-lookup.component';
 import { Inject } from '@angular/core';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { SearchSupplierComponent } from '../../../raw-material/add-supplier/search-supplier/search-supplier.component';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 @Component({
   selector: 'app-search-component',
@@ -31,6 +32,8 @@ export class SearchComponentComponent implements OnInit {
   ItemNo: string = "";
     count: any;
     categorytype: any;
+  quick_savedata: any;
+  fillablecomponent: string = 'No';
 
   constructor(public dialog: MatDialog,private http: HttpClient, public dialogRef: MatDialogRef<SearchComponentComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
 
@@ -41,7 +44,10 @@ export class SearchComponentComponent implements OnInit {
   componentcategory_load() {
     return this.http.get("https://formulaproductizationwebservice.azurewebsites.net/loadComponentcat")
   }
+  radioChangefillablecomponent(event) {
+    this.fillablecomponent = event.value;
 
+  }
   //setvalues(details_comp) {
   //  this.componentitemno = details_comp.componentitemno;
   //  this.componentname = details_comp.componentname;
@@ -75,7 +81,47 @@ export class SearchComponentComponent implements OnInit {
 
   }
 
-  
+  quicksave() {
+    this.quick_save().subscribe((quick_save) => {
+      console.warn("quicksavedata", quick_save)
+      this.quick_savedata = quick_save
+
+      if (this.quick_savedata == "Component details saved successfully.") {
+
+        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component details saved successfully.' } });
+
+      }
+      else if (this.quick_savedata == "Component item # already exists. Choose another one.") {
+
+        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component item # already exists. Choose another one.' } });
+
+      }
+      this.componentdata_load().subscribe((componentdata_load) => {
+        console.warn("componentdata_load", componentdata_load)
+        this.loadcomponentdata = componentdata_load
+        this.count = this.loadcomponentdata.length
+      })
+    })
+  }
+
+  quick_save()
+  {
+    var sup: string = this.supplierse
+    var compitemno: string = this.componentitemno
+    var cat: string = this.categorytype
+    var compnam: string = this.componentname
+    var user: string = "admin"
+    var fill: string = this.fillablecomponent
+   
+
+    let params1 = new HttpParams().set('suppliername', sup).set('ComponentItemNo', compitemno).set('CategoryType', cat).set('ComponentName', compnam).set('username', user).set('FillableComponent', fill);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/Quicksavecomponent", { params: params1, responseType: 'text' })
+
+  }
+
+
+
+
 
   searchhsupplier(): void {
     const dialogRef = this.dialog.open(SearchSupplierComponent, {

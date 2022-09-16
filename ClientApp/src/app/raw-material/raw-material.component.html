@@ -217,7 +217,8 @@
             <div class="form-inline" style="margin-top:5px">
               <label for="inputcust">Sub-Category</label>
 
-              <select id="PRD" class="form-control" style="width: 51%; margin-left: 1%" [(ngModel)]="SubCategoryName" name="subcateg" value="">
+              <select id="PRD" class="form-control" style="width: 51%; margin-left: 1%" [(ngModel)]="SubCategoryName" name="subcateg"  (change)="onChange($event.target.value)">
+                <option selected>Choose..</option>
                 <option *ngFor="let optionsub of datarawsubcategoryload ">{{optionsub.SubCategory}}</option>
 
               </select>

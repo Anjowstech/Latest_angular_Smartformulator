@@ -66,6 +66,7 @@ export class RawMaterialComponent implements OnInit {
   searchdata = [];
   kgm3: any;
   lb_gal: any;
+  SubCategoryName1: string="";
   risklistdata: string = '';
   inciname: string;
   itemli: string = '';
@@ -735,8 +736,27 @@ export class RawMaterialComponent implements OnInit {
     const dialogRef = this.dialog.open(SubCategoryMaintenanceComponent , {
       width: '80%', height: '90%', disableClose: true
     });
-  }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
 
+
+      this.rawsubcategoryload(this.CategoryName).subscribe((rawsubcategoryload) => {
+        console.warn("rawsubcategoryload", rawsubcategoryload)
+        this.datarawsubcategoryload = rawsubcategoryload
+        this.datarawsubcategoryload.forEach(item => {
+          if (item.SubCategory == this.SubCategoryName1) {
+            this.SubCategoryName = item.SubCategory;
+          }
+        })
+
+
+      });
+
+    });
+  }
+  onChange(val) {
+    this.SubCategoryName = val;
+  }
   Addsupplierpopup() {
     const dialogRef = this.dialog.open(AddSupplierComponent, { maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%', panelClass: 'full-screen-modal' });
 
@@ -1773,6 +1793,11 @@ export class RawMaterialComponent implements OnInit {
       this.incicode = item.ItemCode;
       this.generalitemcod = item.GeneralItemCode;
       this.itemli = item.GeneralItemCode;
+      
+      this.CategoryName = item.CategoryName;
+      this.SubCategoryName = item.SubCategoryName;
+      this.SubCategoryName1  = this.SubCategoryName 
+      this.rawsubcateload();
       this.inciname = item.Description;
       this.tradn = item.IngredientTradeName;
       this.ebsNumber = item.EBSNumber;
@@ -1819,8 +1844,7 @@ export class RawMaterialComponent implements OnInit {
       this.IUPACName = item.IUPACName;
       this.Restriction = item.Restriction
       this.MSDSPath = item.MSDSPath
-      this.CategoryName = item.CategoryName;
-      this.SubCategoryName = item.SubCategoryName;
+      
       this.Status = item.Status;
       this.suppkey = item.SupplierKey;
       this.BlendProcedure = item.BlendProcedure;
@@ -2010,6 +2034,16 @@ export class RawMaterialComponent implements OnInit {
     const dialogRef = this.dialog.open(CategoryMaintenanceComponent , {
       width: '80%', height: '90%', disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+
+      this.rawcategoryload().subscribe((rawcategoryload) => {
+        console.warn("rawcategoryload", rawcategoryload)
+        this.datarawcategoryload = rawcategoryload
+      })
+
+    });
   }
   openloadproperty(): void {
     if (this.inciname == "" || this.inciname == undefined) {
@@ -2176,84 +2210,86 @@ export class RawMaterialComponent implements OnInit {
   }
   handleFileInputattachment7(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc8 = files.item(0).name;
+    this.doc7 = files.item(0).name;
   }
   handleFileInputattachment8(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc9 = files.item(0).name;
+    this.doc8 = files.item(0).name;
   }
   handleFileInputattachment9(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc10 = files.item(0).name;
+    this.doc9 = files.item(0).name;
   }
   handleFileInputattachment10(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc11 = files.item(0).name;
+    this.doc10 = files.item(0).name;
   }
   handleFileInputattachment11(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc12 = files.item(0).name;
+    this.doc11 = files.item(0).name;
   }
   handleFileInputattachment12(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc13 = files.item(0).name;
+    this.doc12 = files.item(0).name;
   }
   handleFileInputattachment13(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc14 = files.item(0).name;
+    this.doc13 = files.item(0).name;
   }
   handleFileInputattachment14(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc15 = files.item(0).name;
+    this.doc14 = files.item(0).name;
   }
   handleFileInputattachment15(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc16 = files.item(0).name;
+    this.doc15 = files.item(0).name;
   }
   handleFileInputattachment16(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc17 = files.item(0).name;
+    this.doc16 = files.item(0).name;
   }
   handleFileInputattachment17(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc18 = files.item(0).name;
+    this.doc17 = files.item(0).name;
   }
   handleFileInputattachment18(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc19 = files.item(0).name;
+    this.doc18 = files.item(0).name;
   }
   handleFileInputattachment19(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc20 = files.item(0).name;
+    this.doc19 = files.item(0).name;
   }
   handleFileInputattachment20(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc21 = files.item(0).name;
+    this.doc20 = files.item(0).name;
   }
   handleFileInputattachment21(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc22 = files.item(0).name;
+    this.doc21 = files.item(0).name;
   }
   handleFileInputattachment22(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc23 = files.item(0).name;
+    this.doc22 = files.item(0).name;
   }
   handleFileInputattachment23(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc24 = files.item(0).name;
+    this.doc23 = files.item(0).name;
   }
   handleFileInputattachment24(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc25 = files.item(0).name;
+    this.doc24 = files.item(0).name;
   }
   handleFileInputattachment25(files: FileList) {
     var filebrowse = files.item.length;
-    this.doc26 = files.item(0).name;
+    this.doc25 = files.item(0).name;
   }
   handleFileInputattachment26(files: FileList) {
     var filebrowse = files.item.length;
     this.doc26 = files.item(0).name;
+  
   }
+ 
 
   Functionload(funname: string) {
     var Funname = funname;
@@ -3734,6 +3770,7 @@ export class RawMaterialComponent implements OnInit {
     //this.doc5 = "";
     //this.doc6 = "";
     this.oldmoq = '';
+    this.SubCategoryName1 = "";
     this.CAprop65load = '';
     this.capropimpuritiestableload = "";
     this.CAproprestrictionsload = '';
@@ -3931,6 +3968,8 @@ export class RawMaterialComponent implements OnInit {
         console.warn("rawmaterialload", rawmaterialload)
         this.Rawdata = rawmaterialload
         this.Rawmaterialdataload(this.Rawdata)
+        this.issearchRM = false;
+        this.issearchRMsave = true;
       })
 
     }

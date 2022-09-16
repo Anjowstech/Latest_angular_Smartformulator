@@ -325,7 +325,7 @@
                         </div>
                         <dxi-column dataField="CusCode"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black">item #</b>
                         </div>
@@ -1078,6 +1078,7 @@
                                   [showColumnLines]="true"
                                   [showRowLines]="true"
                                   [showBorders]="true"
+                                   (onCellDblClick)="Opensearchproducts2($event)"
                                    (onRowPrepared)="onRowPreparedtierlist($event)" >
                       <dxo-editing mode="row"
                                    [allowAdding]="true"

@@ -39,11 +39,18 @@ export class AddQCComponent implements OnInit {
   loadcode: string;
   loadqcunit: string;
   qcdataload: any;
+  loadqctest: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
 
+  handleFileInput3(files: FileList) {
+    var filebrowse = files.item.length;
+    this.addfile = files.item(0).name;
 
+
+
+  }
 
   addqc() {
     const dialogRef = this.dialog.open(QualityControlComponent, {
@@ -53,6 +60,30 @@ export class AddQCComponent implements OnInit {
       width: '100%',
       panelClass: 'full-screen-modal'
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.QCtest_load().subscribe((QCtest_load) => {
+        this.isLoading = false;
+        console.warn("QCtest_load", QCtest_load)
+        this.loadqctest = QCtest_load
+      })
+      this.QCtests_load(this.TESTNAME).subscribe((QCtests_load) => {
+        this.isLoading = false;
+        console.warn("QCtest_load", QCtests_load)
+        this.loadqctests = QCtests_load
+      })
+      
+    });
+
+
+
+
+  }
+
+  QCtest_load() {
+    return this.http.get("https://formulalookupwebservice11.azurewebsites.net/loadqctest")
   }
 
   QCtests_load(TESTNAME: string) {
@@ -154,6 +185,10 @@ export class AddQCComponent implements OnInit {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Number Of Days cannot be 0' } });
 
     }
+    else if (this.startdate>this.enddate) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Start Date should be less than End Date' } });
+
+    }
 
     else {
 
@@ -216,7 +251,8 @@ export class AddQCComponent implements OnInit {
   ngOnInit() {
     this.formulacode = this.data.displaydata[0];
     this.formulaname = this.data.displaydata[1];
-    this.TESTNAME = this.data.displaydata[2];
+
+
 
 
     this.QCtests_load(this.TESTNAME).subscribe((QCtests_load) => {
@@ -224,11 +260,21 @@ export class AddQCComponent implements OnInit {
       console.warn("QCtest_load", QCtests_load)
       this.loadqctests = QCtests_load
     })
-
-    this.startdate = formatDate(new Date(), 'MM/dd/yyyy', 'en-US');
-
-
-
   }
+
+
+
+
+
+    //this.formulacode = this.data.displaydata1[0];
+    //this.formulaname = this.data.displaydata1[1];
+    //this.TESTNAME = this.data.displaydata1[2];
+    //this.startdate = this.data.displaydata1[3];
+    //this.startdate = this.data.displaydata1[4];
+    //this.noofday = this.data.displaydata1[5];
+    //this.enddate = this.data.displaydata1[6];
+    //this.Results = this.data.displaydata1[7];
+    //this.approve = this.data.displaydata1[8];
+
 
 }

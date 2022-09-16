@@ -14,21 +14,31 @@ export class AddLabnameComponent implements OnInit {
   constructor(public dialog: MatDialog, private http: HttpClient) { }
 
   labnamesave() {
-    this.labnamesaveup().subscribe((Savelabname) => {
-      console.warn("Savelabname", Savelabname)
-      this.labame_data = Savelabname
-
-      if (this.labame_data == "Inserted") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Labname' + this.labame_data + ' is saved successfully.' } });
-      }
-
-      else {
-        (this.labame_data == "labname")
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'lab name already exists!' } });
-      }
+    if (this.labname == "" || this.labname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter lab name' } });
+    } else {
+      this.labnamesaveup().subscribe((Savelabname) => {
+        console.warn("Savelabname", Savelabname)
+        this.labame_data = Savelabname
 
 
-    })
+
+        if (this.labame_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Labname' + this.labame_data + ' is saved successfully.' } });
+        }
+
+
+
+        else {
+          (this.labame_data == "labname")
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'lab name already exists!' } });
+        }
+
+
+
+
+      })
+    }
   }
 
   labnamesaveup() {

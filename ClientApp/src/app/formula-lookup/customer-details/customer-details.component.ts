@@ -36,6 +36,7 @@ import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-ye
 })
 export class CustomerDetailsComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid2: DxDataGridComponent;
   Dateforma = [
     { dateform: "MM/dd/yyyy" },
     { dateform: "MM/dd/yyy" },
@@ -229,6 +230,12 @@ export class CustomerDetailsComponent implements OnInit {
   deleteddata: string;
   deleterowdelete: string;
   onRowClick: any;
+  ProductCode2: any;
+
+ProductName2: any;
+FormulaCode2 : any;
+  FormulaName2: any;
+  item2:any
   checkIfOthersAreSelected: boolean;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.onRowClick = function (index) {
@@ -955,12 +962,12 @@ export class CustomerDetailsComponent implements OnInit {
         this.FormulaCode = result[4];
         this.FormulaName = result[5];
         // this.COADTFORMAT = result[2];
-        this.item = result[1];
+        this.item2= result[1];
         this.selectedRowIndex = indexdataprod;
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode2);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "COADTFORMAT", 'MM/dd/yyyy');
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
@@ -971,6 +978,38 @@ export class CustomerDetailsComponent implements OnInit {
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
         this.dataGrid.instance.saveEditData();
+      }
+    });
+
+
+
+
+  }
+  Opensearchproducts2(e): void {
+    var indexdataprod: any = e.rowIndex;
+
+    const dialogRef = this.dialog.open(SearchProductsComponent, {
+      width: '70%', height: '80%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result != "") {
+
+
+
+        this.ProductCode2 = result[0];
+
+        this.ProductName2 = result[2];
+        this.FormulaCode2 = result[4];
+        this.FormulaName2 = result[5];
+        // this.COADTFORMAT = result[2];
+        this.item2 = result[1];
+        this.selectedRowIndex = indexdataprod;
+       
+        this.dataGrid2.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
+        this.dataGrid2.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName2);
+        
+        this.dataGrid2.instance.saveEditData();
       }
     });
 

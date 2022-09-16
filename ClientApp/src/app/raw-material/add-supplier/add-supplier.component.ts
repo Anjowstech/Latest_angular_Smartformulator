@@ -8,8 +8,8 @@ import { DxDataGridModule, DxDataGridComponent } from 'devextreme-angular';
 import themes from 'devextreme/ui/themes';
 import { FormulaLookupComponent} from 'src/app/formula-lookup/formula-lookup.component'
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
-
-
+import { DataShareServiceService } from 'src/app/data-share-service.service';
+import { RawMaterialComponent } from 'src/app/raw-material/raw-material.component';
 
 
 @Component({
@@ -97,7 +97,7 @@ export class AddSupplierComponent implements OnInit {
   finished_save_data: any;
   login_formsupp: FormGroup;
   selectedRowIndex = -1;
-  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder) {
+  constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private Datashare: DataShareServiceService) {
     this.checkBoxesMode = themes.current().startsWith('material') ? 'always' : 'always';
     this.login_formsupp = fb.group({
       'suppokey': ['', Validators.required],
@@ -193,6 +193,21 @@ export class AddSupplierComponent implements OnInit {
       }
 
     });
+  }
+  rowDoubleClicked(event: any) {
+    var selectd: any = event.ItemCode;
+  //  var suppname: any = event.data.SupplierName;
+   // var unitdata: any = event.data.UnitName;
+        this.Datashare.senditemtoraw(selectd);
+      //this.Datashare.senditemtosupplier(suppname);
+      const dialogRef = this.dialog.open(RawMaterialComponent, {
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        height: '100%',
+        width: '100%',
+        panelClass: 'full-screen-modal'
+      });
+    
   }
   Supplierdata(suplrdata: any) {
     for (let item of suplrdata) {

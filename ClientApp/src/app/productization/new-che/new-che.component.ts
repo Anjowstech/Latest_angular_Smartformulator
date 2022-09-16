@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { DxDataGridModule, DxDataGridComponent } from "devextreme-angular";
 import { AddcheComponent } from './addche/addche.component';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 
 
 @Component({
@@ -14,7 +15,6 @@ import { AddcheComponent } from './addche/addche.component';
 })
 export class NewCheComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-  selectedRowIndex = -1;
   loadpdrno: string;
   datachem: any;
   claimdlt: string;
@@ -22,6 +22,7 @@ export class NewCheComponent implements OnInit {
   Claim: string;
   Method: string;
   username: string;
+  selectedRowIndex = -1;
   constructor(public dialog: MatDialog, private http: HttpClient, public datashare: DataShareServiceService) { }
 
 
@@ -60,14 +61,21 @@ export class NewCheComponent implements OnInit {
     this.Chem_delete().subscribe((dlt_chem) => {
       console.warn("dlt_chem", dlt_chem)
       this.chemdlt_data = dlt_chem
+      if (this.chemdlt_data == "Parameter is deleted successfully.") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Parameter is deleted successfully.' } });
+        this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
+          console.warn("loadchemdata", loadchemdata)
+          this.datachem = loadchemdata
+        })
+      }
     })
-    this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
-      console.warn("loadchemdata", loadchemdata)
-      this.datachem = loadchemdata
+    //this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
+    //  console.warn("loadchemdata", loadchemdata)
+    //  this.datachem = loadchemdata
 
 
 
-    })
+    //})
 
 
 
@@ -76,9 +84,13 @@ export class NewCheComponent implements OnInit {
     var clmvalue: string = this.dataGrid.instance.cellValue(this.selectedRowIndex, "Claim");
     var CLaim = clmvalue;
     let params1 = new HttpParams().set('claim', CLaim);
-    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/deletechemistryparams", { params: params1 })
+    return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/deletechemistryparams", { params: params1, responseType: 'text' })
   }
+  SaveProperty() {
 
+    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'parameter saved Successfully' } });
+
+  }
 
 
   ngOnInit() {

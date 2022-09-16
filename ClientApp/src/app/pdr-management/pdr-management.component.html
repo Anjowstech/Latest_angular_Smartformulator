@@ -518,11 +518,11 @@
                   <div class="card-body" style="width: 30rem;height:40rem;overflow-y:auto">
                     
                     <form>
-                      <div class="checkbox form-inline" *ngFor="let loadassignedusers of loadassignedusersdata" style="font-size:larger">
+                      <div class="checkbox form-inline" *ngFor="let loadassignedusers of loadassignedusersdata;let i=index;" style="font-size:larger"(click)="onRowClick(i);" [class.table-active]="i == currentRowIndex">
                         <label>
                           <input class="form-check-input2" style="margin-top:1%;" type="checkbox" id="user1" name="user1" value={{loadassignedusers.UserName}} [checked]="loadassignedusers.UserCheck=='true'" (change)="userdatacheck(loadassignedusers,$event)">
                         </label>
-                        <h5 (click)="selectvalue(loadassignedusers.UserName)"> {{loadassignedusers.UserName}}</h5>
+                        <h5 (click)="selectvalue(loadassignedusers.UserName);"> {{loadassignedusers.UserName}}</h5>
                       </div>
                     </form>
                     
@@ -550,7 +550,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let workflow_pdr of loadformulationsassign; let i=index;" style="height:2rem" [ngStyle]="{'background-color':workflow_pdr.Task === 'PDR Creation'|| workflow_pdr.Task === 'Formula Creation'||workflow_pdr.Task === 'Sample Creation'||workflow_pdr.Task === 'Productization (to scale up & manufacture)' ? 'lightblue' : 'white' }">
+                  <tr *ngFor="let workflow_pdr of loadformulationsassign; let i=index;" style="height:2rem" [ngStyle]="{'background-color':workflow_pdr.Task === 'PDR Creation'|| workflow_pdr.Task === 'Formula Creation'||workflow_pdr.Task === 'Sample Creation'||workflow_pdr.Task === 'Productization (to scale up & manufacture)' ? 'lightblue' : 'white' }"(click)="onRowClick2(i);" [class.table-active]="i == currentRowIndex2">
 
                     <td class="textsize2"> <input class="form-check-input2" [checked]=" workflow_pdr.Assign=='True' ? true : false" type="checkbox" (change)="selectfavalue(workflow_pdr,$event)"></td>
                     <td class="textsize2">{{ workflow_pdr.TaskID}}</td>
@@ -583,7 +583,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let workflow_pdr of datatask; let i=index;"(click)="setvaluespdr(workflow_pdr)" style="height:2rem"  [ngStyle]="{'background-color':workflow_pdr.Task === 'PDR Creation'|| workflow_pdr.Task === 'Formula Creation'||workflow_pdr.Task === 'Sample Creation'||workflow_pdr.Task === 'Productization (to scale up & manufacture)' ? 'lightblue' : 'white' }">
+                  <tr *ngFor="let workflow_pdr of datatask; let i=index;"(click)="setvaluespdr(workflow_pdr);onRowClick3(i);" style="height:2rem"  [ngStyle]="{'background-color':workflow_pdr.Task === 'PDR Creation'|| workflow_pdr.Task === 'Formula Creation'||workflow_pdr.Task === 'Sample Creation'||workflow_pdr.Task === 'Productization (to scale up & manufacture)' ? 'lightblue' : 'white' }"[class.table-active]="i == currentRowIndex3">
                     <td class="textsize2">{{ workflow_pdr.Taskid}}</td>
                     <td class="textsize2">{{ workflow_pdr.Task}}</td>
                   </tr>

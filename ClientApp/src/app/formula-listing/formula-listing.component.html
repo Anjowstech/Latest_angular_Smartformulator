@@ -995,7 +995,7 @@
                     </thead>
                     <tbody>
 
-                      <tr *ngFor="let load_custom of loadstabilitydata| filter:t9stab|filter:t9formulacodecust| filter:t9pdr|filter:t9labnb|filter:t9formulanamecust|filter:t9projectnamecust|filter:t9customername;let i=index;">
+                      <tr *ngFor="let load_custom of loadstabilitydata| filter:t9stab:filterMetadata|filter:t9formulacodecust:filterMetadata| filter:t9pdr:filterMetadata|filter:t9labnb:filterMetadata|filter:t9formulanamecust:filterMetadata|filter:t9projectnamecust:filterMetadata|filter:t9customername:filterMetadata;let i=index;">
                         <td>{{ load_custom.stab}}</td>
                         <td>{{ load_custom.formulacode }}</td>
                         <td>{{ load_custom.description }}</td>

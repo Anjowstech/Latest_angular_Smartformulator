@@ -44,22 +44,23 @@
           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 13px; padding-top: 10px; width: 170px; height: 46px" (click)=" addcomponenentcat()">Add Category </button>
         </form>
         <form class="form-inline" style="    background-color: #f6f5f1">
-          <Label class="label1" for="inputcust" style="margin-left: 50px; margin-top: 15px; font-size: medium; font-family: Verdana;">Fillable Component</Label>
-          <mat-radio-button value="Yes" [checked]="fillablecomponent == 'Yes' ? yes : no" style="margin-left:30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">Yes</mat-radio-button>
-          <mat-radio-button value="No" [checked]="fillablecomponent == 'No' ? yes : no" style="margin-left: 30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">No</mat-radio-button>
+          <mat-radio-group aria-label="Select an option" >
+            <Label class="label1" for="inputcust" style="margin-left: 50px; margin-top: 15px; font-size: medium; font-family: Verdana;">Fillable Component</Label>
+            <mat-radio-button value="Yes" [checked]="fillablecomponent == 'Yes' ? true : false" style="margin-left:30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">Yes</mat-radio-button>
+            <mat-radio-button value="No" [checked]="fillablecomponent == 'No' ? true : false" style="margin-left: 30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">No</mat-radio-button>
+          </mat-radio-group>
+            <Label class="label1" for="inputcust" style="margin-left: 10px; margin-top: 15px; font-size: medium; font-family: Verdana;">Bulk Container</Label>
+            <input class="form-check-input" style="margin-top:15px;" type="checkbox" id="check1" placeholder="" [checked]="bulkcontainer == 'Yes' ? true : false" (change)="bulkcontainerChange($event)" name="bulk" value="">
 
-          <Label class="label1" for="inputcust" style="margin-left: 10px; margin-top: 15px; font-size: medium; font-family: Verdana;">Bulk Container</Label>
-          <input class="form-check-input" style="margin-top:15px;" type="checkbox" id="check1" placeholder=""  [checked]="bulkcontainer == 'Y' ? Y : N" (change)="bulkcontainerChange($event)" name="bulk" value="">
-         
-          <label style="margin-top:15px;color:red;"><i>(For drums and pails click on bulk container flag)</i></label>
+            <label style="margin-top:15px;color:red;"><i>(For drums and pails click on bulk container flag)</i></label>
         </form>
         <form class="form-inline" style="    background-color: #f6f5f1">
 
           <label for="formulanumber" style="margin-left: 50px; margin-top: 15px;font-size: medium;color:darkred; font-family: Verdana;">No of Units Filled</label>
-          <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="formlno" size="10" [(ngModel)]="noofunits" name="frmln" value="">
+          <input type="number" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="formlno" size="10" [(ngModel)]="noofunits" name="frmln"  (click)="msg();"  value="">
           <label for="PDR" style="margin-left: 5px; margin-top: 15px; font-size: medium; color: darkred; font-family: Verdana;">BOM Multiplier</label>
 
-          <input type="text" style="margin-left: 10px; margin-top: 15px;" size="10" class="form-control" id="bmul" [(ngModel)]="bommultiplier" name="bom" value="">
+          <input type="number" style="margin-left: 10px; margin-top: 15px;" size="10" class="form-control" id="bmul" [(ngModel)]="bommultiplier" (click)="msg();" name="bom" value="">
           <label style="margin-top:15px;color:red;"><i>(Enter either no of units or BOM multiplier)</i></label>
         </form>
         <form class="form-inline" style="    background-color: #f6f5f1">
@@ -218,13 +219,15 @@
                 <div class="form-group col-md-2" style="margin-top:20px;">
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Bio-Degradable</legend>
-                    <form class="form-inline" style="    background-color: #f6f5f1">
-                      <mat-radio-button value="true" [checked]="!showDateInput" style="margin-left:5px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(1)" >Yes</mat-radio-button>
-                      <mat-radio-button value="false" [checked]="showDateInput" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(2)" >No</mat-radio-button>
+                    <mat-radio-group aria-label="Select  option">
+                      <form class="form-inline" style="    background-color: #f6f5f1">
+                        <mat-radio-button value="1" [checked]="biodegradable == '1' ? true : false" style="margin-left:5px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(1)">Yes</mat-radio-button>
+                        <mat-radio-button value="0" [checked]="biodegradable == '0' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(2)">No</mat-radio-button>
 
-                      <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">%</label>
-                      <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:30%;" class="form-control" placeholder="" id="per" [(ngModel)]="percentage"[disabled]="!showDateInput" name="prc" value="">
-                    </form>
+                        <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">%</label>
+                        <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:30%;" class="form-control" placeholder="" id="per" [(ngModel)]="percentage" [disabled]="!showDateInput" name="prc" value="">
+                      </form>
+                      </mat-radio-group>
                   </fieldset>
                 </div>
                 <div class="form-group col-md-6" style="margin-top:25px;">
@@ -301,13 +304,15 @@
                   </form>
                   <fieldset class="border p-2">
                     <legend class="w-auto" style="font-size:15px;color:maroon">Bio-Plastic or not</legend>
-                    <form class="form-inline" style="    background-color: #f6f5f1">
-                      <mat-radio-button value="true" [checked]="howDateInput" style="margin-left:5px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(1)">Yes</mat-radio-button>
-                      <mat-radio-button value="false" [checked]="owDateInput" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(2)">No</mat-radio-button>
+                    <mat-radio-group aria-label="Select  ption">
+                      <form class="form-inline" style="    background-color: #f6f5f1">
+                        <mat-radio-button value="1" [checked]="bioplastic == '1' ? true : false" style="margin-left:5px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(1)">Yes</mat-radio-button>
+                        <mat-radio-button value="0" [checked]="bioplastic == '0' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(2)">No</mat-radio-button>
 
-                      <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">(If No Specify)</label>
-                      <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:35%;" class="form-control" placeholder="" id="specify"[disabled]="howDateInput" [(ngModel)]="ifnospecify" name="ifno" value="">
-                    </form>
+                        <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">(If No Specify)</label>
+                        <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:35%;" class="form-control" placeholder="" id="specify" [disabled]="!showDateInpu" [(ngModel)]="ifnospecify" name="ifno" value="">
+                      </form>
+                      </mat-radio-group>
                   </fieldset>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <input class="form-check-input" style="margin-left: 1px; margin-top: 20px;" type="checkbox" id="defaultCheck1" placeholder="" [checked]="plantbased == 'True' ? true : false" (change)="plantbasedChange($event)"    name="bottle" value="">
@@ -382,9 +387,10 @@
                       <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="p1" placeholder=""  [checked]="pcorrugated == 'True' ? true : false" (change)="pcorrugatedChange($event)" name="coru" value="">
                       <label class="form-check-label" style="margin-left:2px;" for="defaultCheck1">Corrugated</label>
 
-                      <input class="form-check-input" style="margin-left:40px;" type="checkbox" id="p2" placeholder="" [checked]="pother == 'True' ? true : false" (change)="potherChange($event)" name="pther" value="">
+                      <input class="form-check-input" style="margin-left:40px;" type="checkbox" id="p2" placeholder="" [checked]="pother == '1' ? true : false" (change)="potherChange($event)"   (click)="radioValueChe(1)" name="pther" value="1">
                       <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">Other</label>
-                      <input class="form-control" style="margin-left:5px;" type="text" id="othpper" size="30" placeholder="" [(ngModel)]="otherpaper" name="pper" value="">
+                      <input class="form-control" style="margin-left:5px;" type="text" id="othpper" size="30" placeholder=""
+                         [disabled]="!showDateInp"       [(ngModel)]="otherpaper" name="pper" value="">
 
                     </form>
 

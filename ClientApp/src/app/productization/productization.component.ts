@@ -65,6 +65,10 @@ export class ProductizationComponent implements OnInit {
 
   datachem: any;
   loadpdrno: string;
+  Approvedproductinfo: string;
+  Approvinfo: boolean;
+  Approvedbrand: string;
+  brandcheck: boolean;
   loadproduct: any;
   loadclass: any;
   loadbrand: any;
@@ -510,6 +514,7 @@ export class ProductizationComponent implements OnInit {
     this.imagedescription = "";
     this.SG = "";
     this.fillweight = "";
+    this.active = "1";
     this.datacmo = [];
     this.data_product = [];
 
@@ -644,6 +649,12 @@ export class ProductizationComponent implements OnInit {
 
 
   }
+
+  savechemistryparamlist() { this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Chemistry parameter saved Successfully' } }); }
+
+  savemicrobioparamlist() { this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Micro params saved Successfully' } }); }
+
+
 
   setvaluesproductbatch(batchdata: any) {
     this.i = 0;
@@ -952,14 +963,65 @@ export class ProductizationComponent implements OnInit {
     });
   }
   opennewchemistry(): void {
-    const dialogRef = this.dialog.open(NewCheComponent, {
-      width: '60%', height: '60%', disableClose: true
-    });
+    if (this.formulaname == "" && this.formulacode == "" && this.pdrno == "" && this.customername == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'save product details before adding parameters' } });
+    } else {
+      const dialogRef = this.dialog.open(NewCheComponent, {
+        width: '60%', height: '60%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.loadpdrno = this.datashare.getpdrno();
+        this.loadchemistry(this.loadpdrno).subscribe((loadchemdata) => {
+          console.warn("loadchemdata", loadchemdata)
+          this.datachem = loadchemdata
+
+        })
+
+      });
+    }
+  }
+  triggerSomeEvent(event) {
+    this.Approvedbrand = event.target.checked.toString();    
+    if (this.Approvedbrand == "true") {
+      this.brandcheck = true;
+    } else {
+      this.brandcheck = false;
+    }
+
+  }
+  approvedinfofile(event) {
+    if (this.descriptionproduct == "" && this.cosprdrpd == "" && this.manufacturingdescription == "" && this.proof == "" && this.animaldata == "" && this.responsibleperson == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter at least one PIF information' } });
+    } else {
+      this.Approvedproductinfo = event.target.checked.toString();
+      if (this.Approvedproductinfo == "true") {
+        this.Approvedproductinfo = "true"
+        this.Approvinfo = true
+        //Method approve
+      } else {
+        this.Approvedproductinfo = "false";
+        this.Approvinfo = false
+      }
+    }
   }
   opennewmicrobiology(): void {
-    const dialogRef = this.dialog.open(NewMicrobComponent, {
-      width: '60%', height: '60%', disableClose: true
-    });
+    if (this.formulaname == "" && this.formulacode == "" && this.pdrno == "" && this.customername == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'save product details before adding parameters' } });
+    } else {
+      const dialogRef = this.dialog.open(NewMicrobComponent, {
+        width: '60%', height: '60%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.loadpdrno = this.datashare.getpdrno();
+        this.loadmicrobiology(this.loadpdrno).subscribe((loadmicrobiologydata) => {
+          console.warn("loadmicrobiologydata", loadmicrobiologydata)
+          this.datamicro = loadmicrobiologydata
+        })
+
+      });
+    }
   }
 
   selectedChanged(e) {
@@ -1465,23 +1527,14 @@ export class ProductizationComponent implements OnInit {
   handleFileInput(files: FileList) {
     var filebrowse = files.item.length;
     this.doc1 = files.item(0).name;
-
-
-
   }
   handleFileInput3(files: FileList) {
     var filebrowse = files.item.length;
     this.filling_instructions = files.item(0).name;
-
-
-
   }
   handleFileInput4(files: FileList) {
     var filebrowse = files.item.length;
     this.filling_instructions2 = files.item(0).name;
-
-
-
   }
   handleFileInput5(files: FileList) {
     var filebrowse = files.item.length;
@@ -1665,7 +1718,7 @@ export class ProductizationComponent implements OnInit {
       { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
       { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
     ]
-
+    this.brandcheck = true;
     this.ppauto().subscribe((pdrautogenerate) => {
       console.warn("pdrautogenerate", pdrautogenerate)
       this.ppautogenerate_data = pdrautogenerate

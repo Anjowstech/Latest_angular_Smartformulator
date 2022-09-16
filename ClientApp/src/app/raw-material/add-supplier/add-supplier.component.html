@@ -221,7 +221,7 @@
                 <ng-template ngbTabContent>
                   <h4>Double Click to Select a Raw Material</h4>
                   <div style="margin-left:1%;margin-top:1%; height:500px; overflow-y: auto;background-color:white">
-                    <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                    <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%" >
                       <thead>
                         <tr>
                           <th hidden scope="col">Itemcode </th>
@@ -237,7 +237,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let Rmsupplier_rmall of dataloadsupplierallrm; let i=index;">
+                        <tr *ngFor="let Rmsupplier_rmall of dataloadsupplierallrm; let i=index;"(dblclick)=" rowDoubleClicked(Rmsupplier_rmall)">
                           <td hidden class="tabledatasize">{{ Rmsupplier_rmall.ItemCode}}</td>
                           <td class="tabledatasize">{{ Rmsupplier_rmall.GeneralItemCode}}</td>
                           <td class="tabledatasize">{{ Rmsupplier_rmall.Description}}</td>
@@ -283,7 +283,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let Rmsupplier_rmapproved of dataloadsupplierapprovedrm; let i=index;">
+                        <tr *ngFor="let Rmsupplier_rmapproved of dataloadsupplierapprovedrm; let i=index;"(dblclick)=" rowDoubleClicked(Rmsupplier_rmapproved)">
                           <td>{{ Rmsupplier_rmapproved.ItemCode}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmapproved.Description}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmapproved.IngredientTradeName}}</td>
@@ -315,7 +315,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let Rmsupplier_rmall of dataloadsupplierunapprovedrm; let i=index;">
+                        <tr *ngFor="let Rmsupplier_rmall of dataloadsupplierunapprovedrm; let i=index;"(dblclick)=" rowDoubleClicked(Rmsupplier_rmall)">
                           <td>{{ Rmsupplier_rmall.ItemCode}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmall.Description}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmall.IngredientTradeName}}</td>

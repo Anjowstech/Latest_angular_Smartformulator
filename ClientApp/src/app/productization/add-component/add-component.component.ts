@@ -64,8 +64,8 @@ export class AddComponentComponent implements OnInit {
   dataformList2: data2[][] = [];
   fillablecomponent: string='No';
   bulkcontaine: boolean;
-  biodegradable: any = '0';
-  bioplastic: any = '0';
+  biodegradable: string = '0';
+  bioplastic: string = '1';
 
 
   bulkcontainer: string='N' ;
@@ -105,7 +105,7 @@ export class AddComponentComponent implements OnInit {
 
 
   pboxboard: any = '0';
-  pother: any = '0';
+  pother: string = '0';
   pcorrugated: any = '0';
   plantbased: any = 'No';
 
@@ -129,7 +129,7 @@ export class AddComponentComponent implements OnInit {
   showDateInput = false;
     showDateInpu= false;
   owDateInput = false;
-
+  showDateInp : boolean;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
 
@@ -189,26 +189,30 @@ export class AddComponentComponent implements OnInit {
 
 
   radioValueChec(x) {
-    this.owDateInput = (x === 1);
+    this.showDateInpu = (x === 2);
   }
 
   radioValueCheck(x) {
-    this.showDateInput = (x === 1);
+       this.showDateInput = (x === 1);
   }
   radioValueChe(x) {
-    this.showDateInpu = (x === 1);
-  }
+    this.showDateInp = (x === 1);
+
+   
+   }
 
   blurEventsg(event: any) {
     var defsg = Number(event.target.value);
     this.defsg = defsg
+    this.cumleadtime = this.defsg + this.defs + this.def
 
   
 
   }
   blurEvents(event: any) {
     var defs = Number(event.target.value);
-    this.defs=defs
+    this.defs = defs
+    this.cumleadtime = this.defsg + this.defs + this.def
   }
   blurEvent(event: any) {
     var def = Number(event.target.value);
@@ -388,10 +392,13 @@ export class AddComponentComponent implements OnInit {
     if (this.bulkcontainer == "true") {
       this.bulkcontainer = "Y"
       this.bulkcontaine = true
+      this.fillablecomponent = 'Yes';    
     }
     else {
       this.bulkcontainer = "N";
       this.bulkcontaine = false
+      this.fillablecomponent = 'No';
+
     }
   }
   mcplasticChange(event) {
@@ -584,12 +591,12 @@ export class AddComponentComponent implements OnInit {
   potherChange(event) {
     this.pother = event.target.checked.toString();
     if (this.pother == "true") {
-      this.pother = "1"
-      this.pothe = true
+     this.pother = "1"
+    //  this.pothe = true
     }
-    else {
+   else {
       this.pother = "0";
-      this.pothe = false
+    //  this.pothe = false
     }
   }
 
@@ -619,10 +626,10 @@ export class AddComponentComponent implements OnInit {
       CategoryType: this.categorytype,
       ItemNO: this.componentitemnumber,
       Date: this.date,
-      Size: '8z',
+      Size: this.size,
       Finish: this.finish,
       Color: this.color,
-      CSupplierCode: this.suppliercode,
+      CSupplierCode: "CSC: 10",
       MiscellaneousInfo: this.componentdescription,
       UpdatedBy: 'admin',
       /*UpdatedDt: '',*/
@@ -639,6 +646,7 @@ export class AddComponentComponent implements OnInit {
       CMLeadTime: this.cumleadtime,
       LastPOCost: this.lastpocost,
       LastPODt: '',
+      UnitCost:"1",
       CStatus: this.status,
       username: 'admin'
 
@@ -701,13 +709,11 @@ export class AddComponentComponent implements OnInit {
 
 
 
-      if (this.component_save_data == "updated") {
+      if (this.component_update_data == "Component Details updated Successfully.") {
         this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component Details updated Successfully' } });
         
       }
-      else {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component item # already exists. Choose another one.' } });
-      }
+      
 
     })
 
@@ -984,7 +990,10 @@ export class AddComponentComponent implements OnInit {
 
 
   }
+  msg() {
+    this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Please double check the no of units filled and BOM Multiplier is accurate' } });
 
+  }
 
   ngOnInit() {
     this.componentcategory_load().subscribe((componentcategory_load) => {
@@ -992,6 +1001,10 @@ export class AddComponentComponent implements OnInit {
       this.loadcomponentcategory = componentcategory_load
     
     })
+    this.bommultiplier = "1";
+    this.noofunits = "1";
+    this.biodegradable = "0";
+    
   }
 
 }

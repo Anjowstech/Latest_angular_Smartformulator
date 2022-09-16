@@ -406,7 +406,7 @@
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="brand" style="margin-left:32px;font-size: medium;font-family: Verdana;">Brand Name</label>
                     <input type="text" style="margin-left: 20px;width:50%;" class="form-control" placeholder="" id="bdr" [(ngModel)]="brandname"  name="brnd" value="">
-                    <input class="form-check-input" style="margin-left:1%" type="checkbox" name="Chkplt" id="Chkplt" (change)="triggerSomeEvent($event)"
+                    <input class="form-check-input" style="margin-left:1%" type="checkbox" name="Chkplt" id="Chkplt" [(ngModel)]="brandcheck" (change)="triggerSomeEvent($event)"
                            [checked]="okpilot=='1'?true:false">
                     <label for="male" style="color:darkred;">Active</label><br>
                   </form>
@@ -969,7 +969,7 @@
                             </thead>
                             <tbody>
                               <tr *ngFor="let load_raw_prop of propertydata; let i=index;">
-                                <td> {{load_raw_prop.PropertyName}}</td>
+                                <td> {{load_raw_prop.Description}}</td>
                                 <td> {{load_raw_prop.PropertyValue}}</td>
                               </tr>
 
@@ -1139,7 +1139,7 @@
                         <div style="margin-left: 50px; ">
                           <form class="form-inline" style="    background-color: #f6f5f1">
                             <p style="font-family:Verdana;margin-top:2%;margin-left:60px;color:darkred;font-size:large;">( As Per (EC) No: 1229/229 Regulations)</p>
-                            <input style="margin-left: 1%; margin-top: 1.5%;" class="form-check-input" type="checkbox">
+                            <input style="margin-left: 1%; margin-top: 1.5%;" class="form-check-input" type="checkbox" [(ngModel)]="Approv" name="apprv" (change)="approvedinfofile($event)">
                             <p style="font-family:Verdana;margin-top:2%;margin-left:5px;font-size:large;">Approve Product Information File</p>
 
                           </form>

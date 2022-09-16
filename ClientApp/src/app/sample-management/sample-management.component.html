@@ -45,15 +45,15 @@
           font-family: Verdana;">Submission Date</label>
             <input type="date" [(ngModel)]="submissiondate" #submissionDt name="submissiondate" [disabled]="btnstate" style="margin-left:30px" class="form-control">
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;"
-                    (click)="searchsubmission();actionMethod();">
+                    (click)="searchsubmission()">
               Search Submission
             </button>
 
           </form>
           <form class="form-inline" style="    background-color: #f6f5f1">
-            <label for="" style="margin-top: 10px; margin-left: 30px; font-size: medium; font-family: Verdana;">Lab open status</label>
+            <label for="" style="margin-top: 10px; margin-left: 28px; font-size: medium; font-family: Verdana;">Lab open status</label>
             <select id="" [(ngModel)]="LabopenStatus" #LabopenStat name="LabopenStatus" [disabled]="btnstate" class="form-control" style="width:13%;margin-left:15px">
-              <option selected>O-open</option>
+              <option selected>O-Open</option>
               <option>C-Closed</option>
               <option>S-Sales(Back to Sales)</option>
 
@@ -91,7 +91,7 @@
           </form>
           <form class="form-inline" style="    background-color: #f6f5f1">
 
-            <label for="" style="margin-left:40px;font-size: medium;
+            <label for="" style="margin-left:39px;font-size: medium;
             font-family: Verdana;">Priority</label>
             <input type="text" [(ngModel)]="Priority" #Prior name="Priority" style="margin-top: 10px; margin-left: 75px;" class="form-control" id="" size="80">
           </form>
@@ -113,11 +113,11 @@
             <label for="" style="margin-top: 10px; margin-left: 60px; font-size: medium; font-family: Verdana;">Quantity</label>
             <input type="number" [(ngModel)]="qty" #qt name="qty" [disabled]="datedisabled" style="margin-top: 10px; margin-left: 45px; " class="form-control" id="" size="2">
             <label for="" style="margin-left: 10px; font-size: medium; font-family: Verdana; ">Unit</label>
-            <input type="number" [(ngModel)]="unit" #unt name="unit" [disabled]="datedisabled" style="margin-top: 10px; margin-left: 5px; " class="form-control" id="" size="2">
+            <input type="text" [(ngModel)]="unit" #unt name="unit" [disabled]="datedisabled" style="margin-top: 10px; margin-left: 5px; " class="form-control" id="" size="5">
             <label for="" style="margin-left: 10px; font-size: medium; font-family: Verdana; ">Sample Cost $</label>
             <input type="number" value="0.00" [(ngModel)]="Price" #Prc name="Price" [disabled]="datedisabled" style="margin-top: 10px; margin-left: 5px; " class="form-control" id="" size="2">
             <label for="" style="margin-left: 10px; font-size: medium; font-family: Verdana; "># of Pieces</label>
-            <input type="number" [(ngModel)]="noofpieces" #noofpie name="noofpieces" style="margin-top: 10px; margin-left: 5px;" class="form-control" id="" size="2">
+            <input type="text" [(ngModel)]="noofpieces" #noofpie name="noofpieces" style="margin-top: 10px; margin-left: 5px;" class="form-control" id="" size="5">
 
           </form>
           <form class="form-inline" style="    background-color: #f6f5f1">
@@ -135,18 +135,18 @@
           <form class="form-inline">
             <label for="" style="margin-left:40px;font-size: medium;
           font-family: Verdana;">Fax Person</label>
-            <input type="text" [(ngModel)]="FaxPerson" #FaxPer name="FaxPerson" style="margin-top: 10px; margin-left: 45px;" class="form-control" id="Contact Person 1" size="30">
+            <input type="text" [(ngModel)]="FaxPerson" #FaxPer name="FaxPerson" style="margin-top: 10px; margin-left: 45px;" class="form-control" id="Contact Person 1" size="40">
             <label for="" style="margin-left:40px;font-size: medium;
           font-family: Verdana;">Fax No</label>
-            <input type="text" [(ngModel)]="fax" #fa name="fax" style="margin-top: 10px; margin-left: 40px;" class="form-control" size="30">
+            <input type="text" [(ngModel)]="fax" #fa name="fax" style="margin-top: 10px; margin-left: 40px;" class="form-control" size="40">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Approved By</label>
-            <input type="text" [(ngModel)]="ApprovedBy" #apprvby name="ApprovedBy" style="margin-top: 10px; margin-left: 50px;" class="form-control" id="Contact Person 1" size="30">
+            <input type="text" [(ngModel)]="ApprovedBy" #apprvby name="ApprovedBy" style="margin-top: 10px; margin-left: 50px;" class="form-control" id="Contact Person 1" size="40">
             <label for="" style="margin-left:50px;font-size: medium;
           font-family: Verdana;">Title</label>
-            <input type="text" [(ngModel)]="PersonTitle" #PersonTit name="PersonTitle" style="margin-top: 10px; margin-left: 50px;" class="form-control" size="30">
+            <input type="text" [(ngModel)]="PersonTitle" #PersonTit name="PersonTitle" style="margin-top: 10px; margin-left: 50px;" class="form-control" size="40">
           </form>
           <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
@@ -166,56 +166,56 @@
           <form class="form-inline">
             <label for="" style="margin-left:15px;font-size: medium;
           font-family: Verdana;">Customer Name</label>
-            <input disabled type="text" style="margin-top: 10px; margin-left: 40px;" class="form-control" placeholder="Enter Customer Name" [(ngModel)]="cstmrname" #customer name="cstmrname" id="" size="70">
+            <input disabled type="text" style="margin-top: 10px; margin-left: 40px;" class="form-control" placeholder="Enter Customer Name" [(ngModel)]="cstmrname" #customer name="cstmrname" id="" size="78">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:35px;font-size: medium;
           font-family: Verdana;">Address</label>
-            <textarea disabled class="form-control" [(ngModel)]="address" #addr name="address" rows="3" style="width:60%; height: 30%; margin-left: 7%;margin-top:1%;"></textarea>
+            <textarea disabled class="form-control" [(ngModel)]="address" #addr name="address" rows="3" style="width:51%; height: 30%; margin-left: 7%;margin-top:1%;"></textarea>
           </form>
           <form class="form-inline">
-            <label for="" style="margin-left:45px;font-size: medium;
+            <label for="" style="margin-left:42px;font-size: medium;
           font-family: Verdana;">TelePhone</label>
             <input disabled type="text" style="margin-top: 10px; margin-left: 65px;" class="form-control" placeholder="Enter TelePhone No" id="Telephone" [(ngModel)]="phone" #pho name="phone" size="20">
-            <label for="" style="margin-left:20px;font-size: medium;
+            <label for="" style="margin-left:15px;font-size: medium;
           font-family: Verdana;">Fax</label>
-            <input disabled type="text" style="margin-top: 10px; margin-left: 30px;" [(ngModel)]="fax" #fa name="fax" class="form-control" placeholder="Enter Fax" id="" size="30">
+            <input disabled type="text" style="margin-top: 10px; margin-left: 10px;" [(ngModel)]="fax" #fa name="fax" class="form-control" placeholder="Enter Fax" id="" size="42">
           </form>
           <form class="form-inline">
-            <label for="" style="margin-left:55px;font-size: medium;
+            <label for="" style="margin-left:54px;font-size: medium;
           font-family: Verdana;">Email</label>
-            <input disabled type="email" style=" margin-left: 90px;" class="form-control" [(ngModel)]="emailref" #emrf name="emailref" placeholder="Enter Email" id="" size="75">
+            <input disabled type="email" style=" margin-left: 90px;" class="form-control" [(ngModel)]="emailref" #emrf name="emailref" placeholder="Enter Email" id="" size="78">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:5px;font-size: medium;
           font-family: Verdana;">Customer Comments</label>
-            <textarea class="form-control" [(ngModel)]="CustomerComments" #CustomerCmt name="CustomerComments" id="" rows="3" style="width:60%; height: 30%; margin-left: 1%;margin-top:1%;"></textarea>
+            <textarea class="form-control" [(ngModel)]="CustomerComments" #CustomerCmt name="CustomerComments" id="" rows="3" style="width:51%; height: 30%; margin-left: 1%;margin-top:1%;"></textarea>
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Contacts Person 1</label>
-            <input disabled type="text" [(ngModel)]="contactfperson" #contactfper name="contactfperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input disabled type="text" [(ngModel)]="contactfperson" #contactfper name="contactfperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="25">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Email 1</label>
-            <input disabled type="text" [(ngModel)]="contactfmail" #contactfem name="contactfmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input disabled type="text" [(ngModel)]="contactfmail" #contactfem name="contactfmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="30">
             <input type="checkbox" style="margin-top: 10px; margin-left: 20px;" class="form-control">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Contacts Person 2</label>
-            <input disabled type="text" [(ngModel)]="contactsperson" #contactsper name="contactsperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input disabled type="text" [(ngModel)]="contactsperson" #contactsper name="contactsperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="25">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Email 2</label>
-            <input disabled type="text" [(ngModel)]="contactsmail" #contactsem name="contactsmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input disabled type="text" [(ngModel)]="contactsmail" #contactsem name="contactsmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="30">
             <input type="checkbox" style="margin-top: 10px; margin-left: 20px;" class="form-control">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Contacts Person 3</label>
-            <input disabled type="text" [(ngModel)]="contacttperson" #contacttper name="contacttperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" id="Contact Person 3" size="20">
+            <input disabled type="text" [(ngModel)]="contacttperson" #contacttper name="contacttperson" style="margin-top: 10px; margin-left: 20px;" class="form-control" id="Contact Person 3" size="25">
             <label for="" style="margin-left:20px;font-size: medium;
           font-family: Verdana;">Email 3</label>
-            <input disabled type="text" [(ngModel)]="contacttmail" #contacttem name="contacttmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="20">
+            <input disabled type="text" [(ngModel)]="contacttmail" #contacttem name="contacttmail" style="margin-top: 10px; margin-left: 20px;" class="form-control" size="30">
             <input type="checkbox" style="margin-top: 10px; margin-left: 20px;" class="form-control">
           </form>
           <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
@@ -236,39 +236,39 @@
 
             <label for="" style="margin-left:80px;font-size: medium;
               font-family: Verdana;">PDR #</label>
-            <input type="text" style="margin-top: 10px;margin-left: 35px;" [(ngModel)]="PDRno" #pdrnum name="PDRno" value="" class="form-control" id="" size="60">
+            <input type="text" style="margin-top: 10px;margin-left: 38px;" [(ngModel)]="PDRno" #pdrnum name="PDRno" value="" class="form-control" id="" size="61">
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchPDRlisting()">Search</button>
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearData()">Clear</button>
           </form>
           <form class="form-inline">
-            <label for="" style="margin-left:40px;font-size: medium;
+            <label for="" style="margin-left:42px;font-size: medium;
                   font-family: Verdana;">Formula Name</label>
-            <input type="text" style="margin-left:10px" [(ngModel)]="formulaname" #formula name="formulaname" value="" class="form-control" size="60">
+            <input type="text" style="margin-left:10px" [(ngModel)]="formulaname" #formula name="formulaname" value="" class="form-control" size="61">
           </form>
           <form class="form-inline">
-            <label for="" style="margin-left:45px;font-size: medium;
+            <label for="" style="margin-left:50px;font-size: medium;
                   font-family: Verdana;">Submission #</label>
-            <input type="text" [(ngModel)]="submissionno" #subnum name="submissionno" style="margin-left:10px" class="form-control" size="60">
+            <input type="text" [(ngModel)]="submissionno" #subnum name="submissionno" style="margin-left:10px" class="form-control" size="61">
           </form>
           <form class="form-inline">
-            <label for="" style="margin-left:30px;font-size: medium;
+            <label for="" style="margin-left:28px;font-size: medium;
                   font-family: Verdana;">Customer Name</label>
-            <input type="text" style="margin-left:10px" [(ngModel)]="cstmrname" #customer name="cstmrname" class="form-control" value="" size="60">
+            <input type="text" style="margin-left:10px" [(ngModel)]="cstmrname" #customer name="cstmrname" class="form-control" value="" size="61">
           </form>
-          <form class="form-row form-inline">
-            <label for="" style=" margin-left: 10px; font-size: medium; font-family: Verdana;">Lab open status</label>
-            <select id="" [(ngModel)]="LabopenStatus" #labop name="LabopenStatus" class="form-control" style="width:52%;margin-left:30px">
-              <option selected>O-open</option>
+          <form class="form-inline">
+            <label for="" style=" margin-left: 15px; font-size: medium; font-family: Verdana;">Lab open status</label>
+            <select id="" [(ngModel)]="LabopenStatus" #labop name="LabopenStatus" class="form-control" style="width:42%;margin-left:26px">
+              <option selected>O-Open</option>
               <option>C-Closed</option>
               <option>S-Sales(Back to Sales)</option>
 
             </select>
           </form>
 
-          <form class="form-row form-inline">
+          <form class="form-inline">
             <label for="" style="margin-left: 45px;font-size: medium;
           font-family: Verdana;">PDR Status</label>
-            <select id="" [(ngModel)]="PDRStatus" #PdrStatus name="PDRStatus" class="form-control" style="width:52%;margin-left:40px">
+            <select id="" [(ngModel)]="PDRStatus" #PdrStatus name="PDRStatus" class="form-control" style="width:42%;margin-left:35px">
               <option selected>N-New</option>
               <option>R-Redirect(customer sending back for enhancements)</option>
               <option>BT-Bulk Transfer(more of the same samples)</option>

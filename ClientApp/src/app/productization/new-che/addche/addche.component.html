@@ -6,9 +6,9 @@
     <div class="form-row">
       <div class="form-inline">
         <label style="margin-left:10px;">Claim</label>
-        <input type="text" class="form-control" size="12" style="margin-left:10px;" id="clmdetail" name="clmdata" #clm>
+        <input type="text" class="form-control" size="12" style="margin-left:10px;" id="clmdetail" name="clmdata" #clm [(ngModel)]="Claim">
         <label style="margin-left:10px;">Method</label>
-        <input type="text" class="form-control" size="12" style="margin-left:10px;" id="mtddetail" name="mthddata" #mtd>
+        <input type="text" class="form-control" size="12" style="margin-left:10px;" id="mtddetail" name="mthddata" #mtd [(ngModel)]="Method">
       </div>
 
     </div>
@@ -24,7 +24,7 @@
         <div style="margin-top:1%">
           <div class="form-inline">
             <mat-dialog-actions>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:40px;">New</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:40px;" (click)="Clear();">New</button>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Addchemistryparams(clm.value,mtd.value);" matDialogClose>Add</button>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
             </mat-dialog-actions>
