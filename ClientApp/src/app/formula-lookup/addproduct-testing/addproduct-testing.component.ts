@@ -24,6 +24,7 @@ export class AddproductTestingComponent implements OnInit {
   //sdhfhdnbf
   //samplwtest master checking
 //samp test
+  //nihal changes
   formulacode: any;
   formulaname: string;
   customername: string;
