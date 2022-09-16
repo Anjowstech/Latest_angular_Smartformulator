@@ -22,7 +22,7 @@ export class AddproductTestingComponent implements OnInit {
   //final test resaults
   tesnamedis: boolean = false;
   //sdhfhdnbf
-
+  //samplwtest master checking
   formulacode: any;
   formulaname: string;
   customername: string;
