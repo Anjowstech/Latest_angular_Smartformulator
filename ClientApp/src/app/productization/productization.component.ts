@@ -62,7 +62,7 @@ export class ProductizationComponent implements OnInit {
   safety_test_rowdata: any = [];
   i: number;
   j: number;
-
+ // sample nihal test
   datachem: any;
   loadpdrno: string;
   Approvedproductinfo: string;
