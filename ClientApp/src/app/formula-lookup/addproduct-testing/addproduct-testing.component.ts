@@ -23,6 +23,8 @@ export class AddproductTestingComponent implements OnInit {
   tesnamedis: boolean = false;
   //sdhfhdnbf
   //samplwtest master checking
+
+  // to riya changes by nihal
   formulacode: any;
   formulaname: string;
   customername: string;
