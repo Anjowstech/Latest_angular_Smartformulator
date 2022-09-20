@@ -519,9 +519,10 @@ export class FormulaLookupComponent implements OnInit {
 
   {
     onCellClicked: this.makeCellClickeditem.bind(this),
+    onCellDoubleClicked: this.rowDoubleClicked.bind(this),
     //flex: 1,
     //resizable: true,
-
+  
     //wrapText: true,     // <-- HERE
     autoHeight: true,
     //autoWidth: true,
@@ -1975,20 +1976,24 @@ export class FormulaLookupComponent implements OnInit {
   }
   makeCellClickedinci(event) {
     this.incilabel = "INCI Name";
+
     this.Datashare.sendlabel(this.incilabel);
     this.editcellgridinci(event)
   }
   makeCellClickeditem(event) {
     this.incilabel = "Item"
     this.Datashare.sendlabel(this.incilabel);
+
     this.editcellgriditem(event)
   }
   makeCellClickedtrade(event) {
     this.incilabel = "Trade Name"
+    
     this.Datashare.sendlabel(this.incilabel);
     this.editcellgridtrade(event)
   }
   makeCellClickedstep(event) {
+    
     this.editcellgriddata2(event)
   }
   editcellgriditem(event) {
@@ -1996,7 +2001,7 @@ export class FormulaLookupComponent implements OnInit {
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
-
+    this.wait(2000);
     const dialogRef = this.dialog.open(ItemnameSelectComponent, {
       width: '80%', height: '40%', data: { displaydata: event.data.GeneralItemcode}, disableClose: true
     });
@@ -3279,6 +3284,7 @@ export class FormulaLookupComponent implements OnInit {
   //  this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
     var rowin6: any = event.rowIndex;
+    this.wait(2000);
     const dialogRef = this.dialog.open(TradenameSelectComponent, {
       width: '80%', height: '40%', data: { displaydata: event.data.TradeName }, disableClose: true
     });
@@ -4570,7 +4576,7 @@ export class FormulaLookupComponent implements OnInit {
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
-   
+    this.wait(2000);
     const dialogRef = this.dialog.open(IncinameSelectComponent, {
       width: '80%', height: '40%', data: { displaydata: event.data.INCIName }, disableClose: true
     });
@@ -5970,6 +5976,7 @@ export class FormulaLookupComponent implements OnInit {
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
+    this.wait(2000);
     const dialogRef = this.dialog.open(FormulaInstructionComponent, {
       width: '60%', height: '70%', disableClose: true
     });
