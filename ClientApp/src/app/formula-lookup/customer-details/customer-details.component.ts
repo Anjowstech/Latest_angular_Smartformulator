@@ -964,8 +964,12 @@ export class CustomerDetailsComponent implements OnInit {
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductNumber);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitSize", '0.00');
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Value", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Value", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Value", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Value", '0.00');
         this.dataGrid.instance.saveEditData();
       }
     });
