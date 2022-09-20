@@ -27,7 +27,7 @@
         <div class="form-inline">
           <label for="inputCategory Name">Category Name</label>
 
-          <input type="text" class="form-control" [(ngModel)]="CategoryNam " id="inputCategory Name" placeholder="" style="margin-top:10px; width: 70%;" name="description" #categoryname value="">
+          <input [disabled]="categorydisabled" type="text" class="form-control" [(ngModel)]="CategoryNam " id="inputCategory Name" placeholder="" style="margin-top:10px; width: 70%;" name="description" #categoryname value="">
 
         </div>
         <div class="form-inline">
@@ -128,18 +128,18 @@
   </div>
 
   
-    <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
-     
-      
-          <button type="submit" class="btn btn-primary  buttoncolor"  style="float:right;height:40px;margin-top:1%"  (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);">Delete Category </button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px"(click)="cleardata();">New</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);" [hidden]="iscategorysave" >Save</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata(classify.value, categoryname.value,description.value,categorymainval.value);" [hidden]="iscategoryupdate" >Update</button>
-          <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Close</button>
-        
-     
-    </div>
+
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%" (click)="deletedata(classify.value, categoryname.value,description.value,categorymainval.value);">Delete Category </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="cleardata();">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)=" savedata(classify.value, categoryname.value,description.value);cleardata();" [hidden]="iscategorysave">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata(classify.value, categoryname.value,description.value,categorymainval.value);cleardata();" [hidden]="iscategoryupdate">Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Close</button>
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
+
+  </div>
 
 </div>
  

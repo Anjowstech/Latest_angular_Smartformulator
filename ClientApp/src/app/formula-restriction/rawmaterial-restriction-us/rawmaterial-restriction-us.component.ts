@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-rawmaterial-restriction-us',
@@ -55,7 +56,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
   I: string = "";
   basedetails: string[];
   usdetails: string[];
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
 
   pdrupdatemain() {
     this.dataList1[0] = ([{
@@ -77,7 +78,10 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       .set('operation', operat);
     return this.http.get("https://formularestrictionwebservice.azurewebsites.net/RestrictionDoubleClick", { params: params1 })
   }
-
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.SourceRegulationconclusion = files.item(0).name;
+  }
   restrictiondata(restrictdata: any) {
 
     for (let item of restrictdata) {
@@ -103,47 +107,65 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
       this.username = item.username
     }
   }
-
+  blurmaxper(event: any) {
+    this.maximumconclusion = event.target.value;
+  
+    if (Number(this.maximumconclusion) < 0.00000 || isNaN(Number(this.maximumconclusion))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.maximumconclusion = '0';
+      }
+ 
+  }
   Restriction_SaveUpdateUS() {
-    this.Oper = this.country;
-    this.Restrictiondatalist[0] = ([{
+    if ((this.Maximumusedforconclusion == "" || this.Maximumusedforconclusion == undefined) && (this.concentrationconclusion == "" || this.concentrationconclusion == undefined) && (this.safetuconclusion == "" || this.safetuconclusion == undefined) && (this.conditionconclusion == "" || this.conditionconclusion == undefined) && (this.journalconclusion == "" || this.journalconclusion == undefined)) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter atleast one restriction." } });
+    }
+    else {
+      this.Oper = this.country;
+      this.Restrictiondatalist[0] = ([{
 
-      txtInciid: this.inciid,
-      txtPercentage: this.maximumconclusion,
-      txtCountry: this.country,
-      txtFieldofAppln: '',
-      txtInciName: this.restrictionformulaname,
-      IngredientCode: this.IngredientCodedata,
-      username: this.username,
-      txtJournal: this.journalconclusion,           //
-      txtIngredientCode: this.IngredientCodedata,
-      txtMaximum: this.Maximumusedforconclusion,       //
-      txtOtherLimitations: this.concentrationconclusion,       //
-      txtConditions: this.safetuconclusion,
-      txtSourceinfo: this.internalSource,        //
-      txtmaxpercentage: this.maximumconclusion,      //
-      txtRegNotes: '',
-      txtDocument: this.SourceRegulationconclusion,      //
-      txtInternalComments: this.internalconclusion,     //
-      txtTypeofToxicity: '',
-      txtNSRL: '',
-      txtListingMechanism: '',
-      ChkSafeIn: "false",
-      ChkSafeQualifi: "false",
-      ChkInsufficient: "false",
-      ChkUnSafe: "false",
+        txtInciid: this.inciid,
+        txtPercentage: this.maximumconclusion,
+        txtCountry: this.country,
+        txtFieldofAppln: '',
+        txtInciName: this.restrictionformulaname,
+        IngredientCode: this.IngredientCodedata,
+        username: this.username,
+        txtJournal: this.journalconclusion,           //
+        txtIngredientCode: this.IngredientCodedata,
+        txtMaximum: this.Maximumusedforconclusion,       //
+        txtOtherLimitations: this.concentrationconclusion,       //
+        txtConditions: this.safetuconclusion,
+        txtSourceinfo: this.internalSource,        //
+        txtmaxpercentage: this.maximumconclusion,      //
+        txtRegNotes: '',
+        txtDocument: this.SourceRegulationconclusion,      //
+        txtInternalComments: this.internalconclusion,     //
+        txtTypeofToxicity: '',
+        txtNSRL: '',
+        txtListingMechanism: '',
+        ChkSafeIn: "false",
+        ChkSafeQualifi: "false",
+        ChkInsufficient: "false",
+        ChkUnSafe: "false",
 
-    }]);
+      }]);
 
-    this.Restrictionus_saveupdateup().subscribe((restriction_save_up) => {
-      console.warn("restriction_save_up", restriction_save_up)
-      this.restriction_save_up_data = restriction_save_up
+      this.Restrictionus_saveupdateup().subscribe((restriction_save_up) => {
+        console.warn("restriction_save_up", restriction_save_up)
+        this.restriction_save_up_data = restriction_save_up
 
-      //if (this.rawmaterial_save_data == "Inserted") {
-      //  this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
-      //  this.rawmaterial_save_data = ""
-      //}
-    })
+        if (this.restriction_save_up_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details saved Successfully" } });
+          this.restriction_save_up_data = ""
+        }
+        else if (this.restriction_save_up_data == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
+          this.restriction_save_up_data = ""
+        }
+      })
+    }
+
   }
   Restrictionus_saveupdateup() {
 
@@ -156,7 +178,7 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.country = this.data.displaydata1;
     var countryname = this.data.displaydata1;
     if (countryname == "tab1") {
       this.country = "US";
@@ -175,19 +197,38 @@ export class RawmaterialRestrictionUsComponent implements OnInit {
     this.restrictionformulaname = usdetails[1];
     //this.FieldofApplndata = this.usdetails[2];
     this.Maximumusedforconclusion = usdetails[2];
+    if (this.Maximumusedforconclusion == "" || this.Maximumusedforconclusion == undefined) {
+      this.Maximumusedforconclusion = "";
+    }
     if (this.Maximumdata == undefined) {
       this.Maximumdata = '';
     }
     this.maximumconclusion = usdetails[3];
     this.maximumconclusion = usdetails[4];
+   
     this.concentrationconclusion = usdetails[5];
+    if (this.concentrationconclusion == "" || this.concentrationconclusion == undefined) {
+      this.concentrationconclusion = "";
+    }
     this.S = usdetails[6];
     this.SourceRegulationconclusion = usdetails[7]; //sq
+    if (this.SourceRegulationconclusion == "" || this.SourceRegulationconclusion == undefined) {
+      this.SourceRegulationconclusion = "";
+    }
     this.safetuconclusion = usdetails[8];
+    if (this.safetuconclusion == "" || this.safetuconclusion == undefined) {
+      this.safetuconclusion = "";
+    }
     this.U = usdetails[9];
     this.internalSource = usdetails[10];
+    if (this.internalSource == "" || this.internalSource == undefined) {
+      this.internalSource = "";
+    }
 
     this.journalconclusion = usdetails[11];
+    if (this.journalconclusion == "" || this.journalconclusion == undefined) {
+      this.journalconclusion = "";
+    }
     this.internalconclusion = usdetails[12];
     this.username = usdetails[13];
 

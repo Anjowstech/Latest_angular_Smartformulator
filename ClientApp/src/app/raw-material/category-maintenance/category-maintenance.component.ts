@@ -9,6 +9,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 })
 export class CategoryMaintenanceComponent implements OnInit {
   dataraw_sup_cate: any;
+  categorydisabled:boolean=false;
   filterMetadata = { count: 0 };
   firsttimeloadcate: string = "Cosmetics";
   classifi: string ='';
@@ -17,7 +18,7 @@ export class CategoryMaintenanceComponent implements OnInit {
   fortyp: string = '';
   classificat: string = '';
   CategoryNam: string = '';
-  Descriptio: string = '';
+  Descriptio: string = "";
   fotyp: string = '';
   classify: string = 'Cosmetics';
   classifiedvalue: string = 'Cosmetics';
@@ -104,6 +105,7 @@ export class CategoryMaintenanceComponent implements OnInit {
     this.Descriptio = "";
     this.cateid = "";
     this.classify = "Cosmetics";
+    this.categorydisabled = false;
     this.iscategorysave = false;
     this.iscategoryupdate = true;
     this.Loadcategory(this.firsttimeloadcate).subscribe((resultraw_sup_cate) => {
@@ -139,9 +141,7 @@ export class CategoryMaintenanceComponent implements OnInit {
     if (CategoryNam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
     }
-    else if (Descriptio == "") {
-      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
-    }
+   
     else {
       this.savecategory(this.classifiedvalue, CategoryNam, Descriptio).subscribe((resultraw_cate_save) => {
         console.warn("resultraw_cate_save", resultraw_cate_save)
@@ -206,7 +206,7 @@ export class CategoryMaintenanceComponent implements OnInit {
   selectitem(raw_sup_cate) {
     this.iscategorysave = true;
     this.iscategoryupdate = false;
-
+    this.categorydisabled = true;
     this.classifiedvalue = this.classifi = raw_sup_cate.Classification;
     this.CategoryNam = this.categoname = raw_sup_cate.CategoryName;
     this.Descriptio = this.descript= raw_sup_cate.Description;

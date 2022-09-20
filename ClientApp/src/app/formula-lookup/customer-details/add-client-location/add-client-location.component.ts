@@ -15,20 +15,20 @@ export class AddClientLocationComponent implements OnInit {
   isclienthiddensa: boolean = false;
   isclienthiddenup: boolean = true;
   location: string;
-  address: string;
-  state: string;
-  city: string;
-  country: string;
-  zipcode: string;
-  clid: string;
+  address: string="";
+  state: string="";
+  city: string="";
+  country: string="";
+  zipcode: string="";
+  clid: string="";
   client_loc_data: any;
   cuscode: string;
-  contactno: string;
-  contactperson: string;
-  email: string;
-  fax: string;
-  notes: string;
-  telephone: string;
+  contactno: string="";
+  contactperson: string="";
+  email: string="";
+  fax: string="";
+  notes: string="";
+  telephone: string="";
   client_loc_updata: any;
 
   constructor(public dialog: MatDialog,public datashare: DataShareServiceService, private http: HttpClient) { }
@@ -44,7 +44,10 @@ export class AddClientLocationComponent implements OnInit {
 
         if (this.client_loc_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Client Location is added successfully.' } });
+          this.isclienthiddensa = true;
+          this.isclienthiddenup = false;
         }
+        
       })
     }
     
@@ -56,6 +59,8 @@ export class AddClientLocationComponent implements OnInit {
       //this.wait(2000);
       if (this.client_loc_updata == "Updated") {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Client Location is updated successfully.' } });
+        this.isclienthiddensa = true;
+        this.isclienthiddenup = false;
       }
     })
   }
@@ -136,8 +141,7 @@ export class AddClientLocationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isclienthiddensa = false;
-    this.isclienthiddenup = true;
+    
     this.addclientlocationload = this.datashare.getclientlocation()
     this.location = this.addclientlocationload[0];
     this.address = this.addclientlocationload[1];
@@ -154,7 +158,11 @@ export class AddClientLocationComponent implements OnInit {
     this.fax = this.addclientlocationload[11];
     this.notes = this.addclientlocationload[12];
     this.telephone = this.addclientlocationload[13];
-    if (this.location != "") {
+    if (this.location == "" || this.location == undefined) {
+      this.isclienthiddensa = false;
+      this.isclienthiddenup = true;
+    }
+    else {
       this.isclienthiddensa = true;
       this.isclienthiddenup = false;
     }

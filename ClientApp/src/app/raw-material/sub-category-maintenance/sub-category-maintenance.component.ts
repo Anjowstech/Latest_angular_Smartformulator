@@ -14,6 +14,7 @@ import {  MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materi
 })
 export class SubCategoryMaintenanceComponent implements OnInit {
   dataraw_sup: any;
+  issubcategorydisabled: boolean = false;
   filterMetadata = { count: 0 };
   selectedrow: string = '';
   subcategoryid: any;
@@ -66,7 +67,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
     this.subcategorynam = this.subcatenam = raw_supp.SubCategoryName;
     this.descript = this.descr = raw_supp.Description;
     this.subcateid = raw_supp.SubCategoryId;
-
+    this.issubcategorydisabled = true;
     // declare variable in component.
   }
   selectcate(catesearch: string) {
@@ -235,6 +236,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
     this.descript = "";
     this.issubcategorysave = false;
     this.issubcategoryupdate = true;
+    this.issubcategorydisabled = false;
   }
   ngOnInit() {
     this.Loadsubcategory().subscribe((resultraw_sup) => {

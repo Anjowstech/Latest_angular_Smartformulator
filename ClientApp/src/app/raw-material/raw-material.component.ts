@@ -116,6 +116,7 @@ export class RawMaterialComponent implements OnInit {
   defaultUnit: string='Kg';
   LastPOUnit: string = 'Kg';
   reorderQty: string = '0';
+  oldreorderqty: string;
   origin: string='';
   concentration: string='0';
   RMSource: string='';
@@ -182,6 +183,7 @@ export class RawMaterialComponent implements OnInit {
   suppstatus: string;
   prefered: string;
   othershipvia: string;
+
   rating: string;
   IUPACName: string='';
   Shipto: string;
@@ -268,12 +270,15 @@ export class RawMaterialComponent implements OnInit {
   subinciname: any;
   capropimpuritiestableload: any;
   ppm: any;
+  Deleteifra_loaddata: any;
   delclientus_loaddata: any;
   delclientcappro65_loaddata: any;
   delclientchina_loaddata: any;
   delclientjapan_loaddata: any;
   delclienteu_loaddata: any;
   delclientcanada_loaddata: any;
+  delclientaus_loaddata: any;
+  delclientcappro65restrct_loaddata: any;
   Inciid: any;
   username1: any;
   INCIName1: any;
@@ -289,6 +294,7 @@ export class RawMaterialComponent implements OnInit {
   INNName: string = '';
   RMAbbreviation: string = '';
   MOQunit: string = '';
+  oldmoq: string;
   NPAExpiry: string = '';
   PreviousVenderCode: string = '';
   SupplierRMNo: string = '';
@@ -390,6 +396,16 @@ export class RawMaterialComponent implements OnInit {
   IngredientCode: string = "";
   Country: string = "";
 
+  usdlt: string;
+  cadlt: string;
+  eudlt: string;
+  jpndlt: string;
+  ausdlt: string;
+  chdlt: string;
+  cadtdlt: string;
+  carestdlt: string;
+  ifdlt: string;
+  impudlt: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.login_form = fb.group({
@@ -520,30 +536,90 @@ export class RawMaterialComponent implements OnInit {
     })
 
   }
+  blurmoq(event: any) {
+    this.MOQ = event.target.value;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.MOQ) < 0.00000 || isNaN(Number(this.MOQ))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.MOQ = '0.00';
+      }
+    }
+    else {
+      if (Number(this.MOQ) < 0.00000 || isNaN(Number(this.MOQ))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.MOQ = this.oldmoq;
+      }
+    }
+
+
+  }
+  blurreorder(event: any) {
+    this.reorderQty = event.target.value;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.reorderQty) < 0.00000 || isNaN(Number(this.reorderQty))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.reorderQty = '0.00';
+      }
+    }
+    else {
+      if (Number(this.reorderQty) < 0.00000 || isNaN(Number(this.reorderQty))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.reorderQty = this.oldreorderqty;
+      }
+    }
+   
+   
+  }
   blurEventpreload(event: any) {
     this.preloadtime = event.target.value;
-    if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-      this.preloadtime = this.oldpreloadtime ;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.preloadtime = '0';
+      }
     }
+    else {
+      if (Number(this.preloadtime) < 0.00000 || isNaN(Number(this.preloadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.preloadtime = this.oldpreloadtime;
+      }
+    }
+   
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurEventprolead(event: any) {
     this.proleadtime = event.target.value;
-    if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-      this.proleadtime = this.oldproleadtime ;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.proleadtime = '0';
+      }
     }
+    else {
+      if (Number(this.proleadtime) < 0.00000 || isNaN(Number(this.proleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.proleadtime = this.oldproleadtime;
+      }
+    }
+    
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
   blurEventpostlead(event: any) {
     this.postleadtime = event.target.value;
-    if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-      this.postleadtime = this.oldpostleadtime ;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.postleadtime = '0';
+      }
     }
+    else {
+      if (Number(this.postleadtime) < 0.00000 || isNaN(Number(this.postleadtime))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.postleadtime = this.oldpostleadtime;
+      }
+    } 
     var total = Number(this.preloadtime) + Number(this.proleadtime) + Number(this.postleadtime);
     this.rmleadtime = total.toString();
   }
@@ -638,6 +714,10 @@ export class RawMaterialComponent implements OnInit {
   }
 
   OpenRawmaterialRestrictionUs(): void {
+    if (this.inciname == "" || this.inciname==undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
     this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
     var senddata = this.activeTab;
     this.fetchtabid(this.activeIdString);
@@ -646,165 +726,213 @@ export class RawMaterialComponent implements OnInit {
     const dialogRef = this.dialog.open(RawmaterialRestrictionUsComponent, {
       width: '70%', height: '80%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendUs }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+      this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
+        console.warn("loadrawmaterialus", loadrawmaterialus)
+        this.usload = loadrawmaterialus
+      })
+
+
+
+    });
+   }
   }
 
   OpenRawmaterialRestrictionEU(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    var senddata = this.activeTab;
-    this.fetchtabid(this.activeTab);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
-      width: '70%', height: '80%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendEU }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      var senddata = this.activeTab;
+      this.fetchtabid(this.activeTab);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
+        width: '70%', height: '80%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendEU }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.EUloaddata(this.inciname).subscribe((loadrawmaterialEU) => {
-        console.warn("loadrawmaterialEU", loadrawmaterialEU)
-        this.euload = loadrawmaterialEU
-      })
+        this.EUloaddata(this.inciname).subscribe((loadrawmaterialEU) => {
+          console.warn("loadrawmaterialEU", loadrawmaterialEU)
+          this.euload = loadrawmaterialEU
+        })
 
 
 
-    });
+      });
+    }
   }
   OpenRawmaterialRestrictionCA(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    var senddata = this.activeTab;
-    this.fetchtabid(this.activeTab);
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
-      width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendCAN }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      var senddata = this.activeTab;
+      this.fetchtabid(this.activeTab);
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
+        width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendCAN }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.canadadataaload(this.inciname).subscribe((loadrawmaterialcanada) => {
-        console.warn("loadcanada", loadrawmaterialcanada)
-        this.canadaLoad = loadrawmaterialcanada
-      })
+        this.canadadataaload(this.inciname).subscribe((loadrawmaterialcanada) => {
+          console.warn("loadcanada", loadrawmaterialcanada)
+          this.canadaLoad = loadrawmaterialcanada
+        })
 
 
 
-    });
+      });
+    }
   }
   OpenRawmaterialRestrictionCHINA(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    var senddata = this.activeTab;
-    this.fetchtabid(this.activeTab);
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
-      width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendCHINA }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      var senddata = this.activeTab;
+      this.fetchtabid(this.activeTab);
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
+        width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendCHINA }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
-        console.warn("loadrawmaterialChina", loadrawmaterialChina)
-        this.chinaload = loadrawmaterialChina
-      })
+        this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
+          console.warn("loadrawmaterialChina", loadrawmaterialChina)
+          this.chinaload = loadrawmaterialChina
+        })
 
 
 
-    });
+      });
+    }
   }
   OpenRawmaterialRestrictionAUS(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    var senddata = this.activeTab;
-    this.fetchtabid(this.activeTab);
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
-      width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendAUS }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      var senddata = this.activeTab;
+      this.fetchtabid(this.activeTab);
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
+        width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendAUS }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.AUSloaddata(this.inciname).subscribe((loadrawmaterialAUS) => {
-        console.warn("loadrawmaterialAUS", loadrawmaterialAUS)
-        this.austriliaload = loadrawmaterialAUS
-      })
+        this.AUSloaddata(this.inciname).subscribe((loadrawmaterialAUS) => {
+          console.warn("loadrawmaterialAUS", loadrawmaterialAUS)
+          this.austriliaload = loadrawmaterialAUS
+        })
 
 
 
-    });
+      });
+    }
   }
   OpenRawmaterialRestrictionJPN(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    var senddata = this.activeTab;
-    this.fetchtabid(this.activeTab);
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
-      width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendJPN }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      var senddata = this.activeTab;
+      this.fetchtabid(this.activeTab);
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
+        width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeTab, displaydata2: this.sendJPN }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
-        console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
-        this.japanload = loadrawmaterialjapan
-      })
+        this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
+          console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
+          this.japanload = loadrawmaterialjapan
+        })
 
 
-    });
+      });
+    }
   }
   OpenRawmaterialRestrictioncaprop65Restriction(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    // var senddata = this.activeTab;
-    var sendinnertabid = this.activeca;
-    this.fetchtabid(this.activeTab);
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
-      width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeca, displaydata2: this.sendcaproprestriction }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      // var senddata = this.activeTab;
+      var sendinnertabid = this.activeca;
+      this.fetchtabid(this.activeTab);
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionComponent, {
+        width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeca, displaydata2: this.sendcaproprestriction }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
-        console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
-        this.CAprop65load = loadrawmaterialCAPROP65
-      })
+        this.CAproprestrictionsloadloaddata(this.inciname).subscribe((loadrawmaterialCAproprestrictions) => {
+          console.warn("loadrawmaterialCAproprestrictions", loadrawmaterialCAproprestrictions)
+          this.CAproprestrictionsload = loadrawmaterialCAproprestrictions
+        })
 
 
-    });
+      });
+    }
   }
   OpenRawmaterialRestrictioncaprop65direct(): void {
-    this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    // var senddata = this.activeTab;
-    var sendinnertabid = this.activeca;
-    this.fetchtabid(this.activeTab);
-    //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
-    //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
-    const dialogRef = this.dialog.open(RawmaterialRestrictionProp65Component, {
-      width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeca, displaydata2: this.sendcaprop }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Inciname" } });
+    }
+    else {
+      this.basedata = [this.Inciid, this.inciname, this.countryname, this.incicode];
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      // var senddata = this.activeTab;
+      var sendinnertabid = this.activeca;
+      this.fetchtabid(this.activeTab);
+      //this.formularestrictiondetails = [this.restcountryname, this.formulaname];
+      //this.Datashare.sendrestrictiondetails(this.formularestrictiondetails);
+      const dialogRef = this.dialog.open(RawmaterialRestrictionProp65Component, {
+        width: '70%', height: '70%', disableClose: true, data: { displaydata0: this.basedata, displaydata1: this.activeca, displaydata2: this.sendcaprop }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
 
-      this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
-        console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
-        this.CAprop65load = loadrawmaterialCAPROP65
-      })
+        this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
+          console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
+          this.CAprop65load = loadrawmaterialCAPROP65
+        })
 
 
-    });
+      });
+    }
   }
   setUsvalues(usd) {
     //this.ingredientcode = this.incicode;
@@ -846,6 +974,24 @@ export class RawMaterialComponent implements OnInit {
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictionEU();
   }
+  setEUvalues2(EUvalues) {
+    // this.ingredientcode = this.incicode;
+    this.Inciid = EUvalues.INCIId;
+    this.inciname = this.inciname;
+    this.FieldApplicationuse = EUvalues.FieldOfAppln;
+    this.maxauthorisedconcentration = EUvalues.Maximum;
+    this.maxpercentage = EUvalues.Percentage;
+    this.limitations = EUvalues.OtherLimitations;
+    this.conditionofuse = EUvalues.ConditionsOfUse;
+    this.sourceinfo = EUvalues.SourceofInfo;
+    this.journalcitation = EUvalues.Journal;
+    this.internalcomments = EUvalues.internalcomments;
+    this.username = EUvalues.username;
+
+    this.sendEU = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username];
+    //this.datashare.sendaddlocation(this.searchitems);
+   // this.OpenRawmaterialRestrictionEU();
+  }
   setcapropvaluesDirect(caprop) {
     this.Inciid = caprop.INCIId;
     this.typeoftoxicity = caprop.TypeOfToxicity;
@@ -863,6 +1009,24 @@ export class RawMaterialComponent implements OnInit {
     this.sendcaprop = [this.Inciid, this.typeoftoxicity, this.listingmechanism, this.cadate, this.nsrl, this.sourceinfo, this.internalcomments, this.username, this.DocLink, this.IngredientCode, this.INCIName, this.Country];
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictioncaprop65direct();
+  }
+  setcapropvaluesDirect2(caprop) {
+    this.Inciid = caprop.INCIId;
+    this.typeoftoxicity = caprop.TypeOfToxicity;
+    this.listingmechanism = caprop.ListingMechanism;
+    this.cadate = caprop.Date;
+    this.nsrl = caprop.NSRL;
+    this.sourceinfo = caprop.SourceofInfo;
+    this.internalcomments = caprop.internalcomments;
+    this.username = caprop.username;
+    this.DocLink = caprop.DocLink;
+    this.IngredientCode = caprop.IngredientCode;
+    this.INCIName = caprop.INCIName;
+    this.Country = caprop.Country;
+
+    this.sendcaprop = [this.Inciid, this.typeoftoxicity, this.listingmechanism, this.cadate, this.nsrl, this.sourceinfo, this.internalcomments, this.username, this.DocLink, this.IngredientCode, this.INCIName, this.Country];
+    //this.datashare.sendaddlocation(this.searchitems);
+    //this.OpenRawmaterialRestrictioncaprop65direct();
   }
   setJPNvalues(jpn) {
     // this.ingredientcode = this.incicode;
@@ -882,6 +1046,24 @@ export class RawMaterialComponent implements OnInit {
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictionJPN();
   }
+  setJPNvalues2(jpn) {
+    // this.ingredientcode = this.incicode;
+    this.Inciid = jpn.INCIId;
+    this.inciname = this.inciname;
+    this.FieldApplicationuse = jpn.FieldOfAppln;
+    this.maxauthorisedconcentration = jpn.Maximum;
+    this.maxpercentage = jpn.Percentage;
+    this.limitations = jpn.OtherLimitations;
+    this.conditionofuse = jpn.ConditionsOfUse;
+    this.sourceinfo = jpn.SourceofInfo;
+    this.journalcitation = jpn.Journal;
+    this.internalcomments = jpn.internalcomments;
+    this.username = jpn.username;
+
+    this.sendJPN = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username];
+    //this.datashare.sendaddlocation(this.searchitems);
+   // this.OpenRawmaterialRestrictionJPN();
+  }
   setCANvalues(CAND) {
     // this.ingredientcode = this.incicode;
     this.Inciid = CAND.INCIId;
@@ -900,6 +1082,24 @@ export class RawMaterialComponent implements OnInit {
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictionCA();
   }
+  setCANvalues2(CAND) {
+    // this.ingredientcode = this.incicode;
+    this.Inciid = CAND.INCIId;
+    this.inciname = this.inciname;
+    this.FieldApplicationuse = CAND.FieldOfAppln;
+    this.maxauthorisedconcentration = CAND.Maximum;
+    this.maxpercentage = CAND.Percentage;
+    this.limitations = CAND.OtherLimitations;
+    this.conditionofuse = CAND.ConditionsOfUse;
+    this.sourceinfo = CAND.SourceofInfo;
+    this.journalcitation = CAND.Journal;
+    this.internalcomments = CAND.internalcomments;
+    this.username = CAND.username;
+
+    this.sendCAN = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username];
+    //this.datashare.sendaddlocation(this.searchitems);
+   // this.OpenRawmaterialRestrictionCA();
+  }
   setAusvalues(AUS) {
     // this.ingredientcode = this.incicode;
     this.Inciid = AUS.INCIId;
@@ -917,6 +1117,24 @@ export class RawMaterialComponent implements OnInit {
     this.sendAUS = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username];
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictionAUS();
+  }
+  setAusvalues2(AUS) {
+    // this.ingredientcode = this.incicode;
+    this.Inciid = AUS.INCIId;
+    this.inciname = this.inciname;
+    this.FieldApplicationuse = AUS.FieldOfAppln;
+    this.maxauthorisedconcentration = AUS.Maximum;
+    this.maxpercentage = AUS.Percentage;
+    this.limitations = AUS.OtherLimitations;
+    this.conditionofuse = AUS.ConditionsOfUse;
+    this.sourceinfo = AUS.SourceofInfo;
+    this.journalcitation = AUS.Journal;
+    this.internalcomments = AUS.internalcomments;
+    this.username = AUS.username;
+
+    this.sendAUS = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username];
+    //this.datashare.sendaddlocation(this.searchitems);
+   // this.OpenRawmaterialRestrictionAUS();
   }
   setchinavalues(CHN) {
     // this.ingredientcode = this.incicode;
@@ -937,6 +1155,26 @@ export class RawMaterialComponent implements OnInit {
     this.sendCHINA = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.internalcomments, this.username, this.minpercentage, this.chineseinci];
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictionCHINA();
+  }
+  setchinavalues2(CHN) {
+    // this.ingredientcode = this.incicode;
+    this.Inciid = CHN.INCIId;
+    this.inciname = this.inciname;
+    this.FieldApplicationuse = CHN.FieldOfAppln;
+    this.maxauthorisedconcentration = CHN.Maximum;
+    this.maxpercentage = CHN.maxpercentage;
+    this.minpercentage = CHN.minpercentage;
+    this.limitations = CHN.OtherLimitations;
+    this.conditionofuse = CHN.ConditionsOfUse;
+    this.sourceinfo = CHN.SourceofInfo;
+    //this.journalcitation = CHN.Journal;
+    this.internalcomments = CHN.internalcomments;
+    this.username = CHN.username;
+    this.chineseinci = CHN.ChineseINCIName;
+
+    this.sendCHINA = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.maxpercentage, this.limitations, this.conditionofuse, this.sourceinfo, this.internalcomments, this.username, this.minpercentage, this.chineseinci];
+    //this.datashare.sendaddlocation(this.searchitems);
+   // this.OpenRawmaterialRestrictionCHINA();
   }
   setcapropvaluesrestriction(caprop) {
 
@@ -959,6 +1197,28 @@ export class RawMaterialComponent implements OnInit {
     this.sendcaproprestriction = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.percentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username, this.ppm, this.doclink];
     //this.datashare.sendaddlocation(this.searchitems);
     this.OpenRawmaterialRestrictioncaprop65Restriction();
+  }
+  setcapropvaluesrestriction2(caprop) {
+
+    // this.ingredientcode = this.incicode;
+    this.Inciid = caprop.INCIId;
+    this.inciname = this.inciname;
+    this.FieldApplicationuse = caprop.FieldOfAppln;
+    this.maxauthorisedconcentration = caprop.Maximum;
+
+    this.percentage = caprop.Percentage;
+    this.limitations = caprop.OtherLimitations;
+    this.conditionofuse = caprop.ConditionsOfUse;
+    this.sourceinfo = caprop.SourceofInfo;
+    this.journalcitation = caprop.Journal;
+    this.internalcomments = caprop.internalcomments;
+    this.username = caprop.username;
+    this.ppm = caprop.ppm;
+    this.doclink = caprop.DocLink;
+
+    this.sendcaproprestriction = [this.Inciid, this.inciname, this.FieldApplicationuse, this.maxauthorisedconcentration, this.percentage, this.limitations, this.conditionofuse, this.sourceinfo, this.journalcitation, this.internalcomments, this.username, this.ppm, this.doclink];
+    //this.datashare.sendaddlocation(this.searchitems);
+   // this.OpenRawmaterialRestrictioncaprop65Restriction();
   }
   fetchtabid(id: string) {
     this.tabid = id;
@@ -1205,9 +1465,11 @@ export class RawMaterialComponent implements OnInit {
 
         if (this.Blend_save_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions saved successfully.' } });
+          this.Clearblend();
         }
-        else if (this.Blend_save_data == "Updated") {
+        else if (this.Blend_save_data == "Update") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions updated successfully.' } });
+          this.Clearblend();
         }
         this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
           console.warn("Blenddetailslload", Blenddetailslload)
@@ -1440,6 +1702,8 @@ export class RawMaterialComponent implements OnInit {
       this.LastPOUnit = item.LastPOUnit;
       this.lastpounit = item.LastPOUnit;
       this.reorderQty = item.ReOrderQty;
+      this.oldreorderqty = item.ReOrderQty;
+     
       this.origin = item.Origin;
       this.concentration = item.RMConcentration;
       this.RMSource = item.RawMatSource;
@@ -1531,6 +1795,7 @@ export class RawMaterialComponent implements OnInit {
       this.Exemptornot = item.Exemptornot;
       this.PhEurName = item.PhEurName;
       this.MOQ = item.MOQ;
+      this.oldmoq = item.MOQ;
       this.Approved = item.Approved;
       this.VOCContributor = item.VOCContributor;
       this.PreviousCost = item.PreviousCost;
@@ -1988,33 +2253,62 @@ export class RawMaterialComponent implements OnInit {
     this.ppm = impurities.ppm;
   }
   capropsaveimpurities() {
-   
+    if ((this.doc1 == "" || this.doc1 == undefined) && (this.ppm == "" || this.ppm == undefined)) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "To search ingredient" } });
+    }
+    else if (this.ppm == "" || this.ppm == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter ppm" } });
+    }
     /* this.ppm = "Save";*/
     //this.termcode1 = termcode;
 
     this.saveupimpurities(this.itemli, this.inciname, this.subitemcode, this.subinciname, this.ppm, this.supp_name).subscribe((saveimpurities_Details) => {
       console.warn("saveimpurities_Details", saveimpurities_Details)
       this.savecapropimpu = saveimpurities_Details
+      this.Clearimpurities();
+
+      this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+        console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
+        this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+      })
 
     })
     //this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
     // console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
     // this.CAprop65load = loadrawmaterialCAPROP65
     //})
-    this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
-      console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
-      this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
-    })
+   
+  }
+  Clearimpurities() {
+    this.doc1 = '';
+    this.ppm = '';
   }
   DeleteCAPROPimpuritiesdt() {
-    this.DeleteCAPROPimpuritiesweb().subscribe((DeleteCAPROPimpurities) => {
-      console.warn("DeleteCAPROPimpurities", DeleteCAPROPimpurities)
-      this.delclientus_loaddata = DeleteCAPROPimpurities
-      this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
-        console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
-        this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
-      })
-    })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '35%', height: '15%', data: { displaydatagrid: 'Are you sure you want to delete this impurity?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.impudlt = result;
+
+      if (this.impudlt == "false") { }
+      else {
+        this.DeleteCAPROPimpuritiesweb().subscribe((DeleteCAPROPimpurities) => {
+          console.warn("DeleteCAPROPimpurities", DeleteCAPROPimpurities)
+          this.delclientus_loaddata = DeleteCAPROPimpurities
+          if (this.delclientus_loaddata == "Deleted") {
+            this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "impurity deleted Successfully" } });
+            this.delclientus_loaddata = ""
+
+            this.capropimpuritiesload(this.itemli, this.inciname, this.supp_name).subscribe((loadrawmaterialregulatoryaudit) => {
+              console.warn("loadrawmaterialcapr", loadrawmaterialregulatoryaudit)
+              this.capropimpuritiestableload = loadrawmaterialregulatoryaudit
+            })
+          }
+
+        })
+
+      }
+    });
+    
 
   }
   
@@ -2073,54 +2367,260 @@ export class RawMaterialComponent implements OnInit {
     
   }
   Deletecanada_dt() {
-    this.Deletecanadaweb().subscribe((Deletecanada) => {
-      console.warn("Deletecanada", Deletecanada)
-      this.delclientcanada_loaddata = Deletecanada
-      this.canadadataload(this.inciname).subscribe((loadrawmaterialcanada) => {
-        console.warn("loadcanada", loadrawmaterialcanada)
-        this.canadaLoad = loadrawmaterialcanada
-      })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.cadlt = result;
+
+      if (this.cadlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid== undefined) && (this.inciname == "" || this.inciname == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.Deletecanadaweb().subscribe((Deletecanada) => {
+            console.warn("Deletecanada", Deletecanada)
+            this.delclientcanada_loaddata = Deletecanada
+            if (this.delclientcanada_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclientcanada_loaddata = ""
+
+              this.canadadataaload(this.inciname).subscribe((loadrawmaterialcanada) => {
+                console.warn("loadcanada", loadrawmaterialcanada)
+                this.canadaLoad = loadrawmaterialcanada
+              })
+            }
+
+          })
+        }
+      }
     })
+    
   }
   DeleteEU_dt() {
-    this.DeleteEUweb().subscribe((DeleteEU) => {
-      console.warn("DeleteEU", DeleteEU)
-      this.delclienteu_loaddata = DeleteEU
-      this.EUloaddata(this.inciname).subscribe((loadrawmaterialEU) => {
-        console.warn("loadrawmaterialEU", loadrawmaterialEU)
-        this.euload = loadrawmaterialEU
-      })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.eudlt = result;
+
+      if (this.eudlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.inciname == "" || this.inciname  == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.DeleteEUweb().subscribe((DeleteEU) => {
+            console.warn("DeleteEU", DeleteEU)
+            this.delclienteu_loaddata = DeleteEU
+            if (this.delclienteu_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclienteu_loaddata = ""
+
+              this.EUloaddata(this.inciname).subscribe((loadrawmaterialEU) => {
+                console.warn("loadrawmaterialEU", loadrawmaterialEU)
+                this.euload = loadrawmaterialEU
+              })
+            }
+
+          })
+        }
+      }
     })
+    
   }
   Deletejapan_dt() {
-    this.Deletejapanweb().subscribe((Deletejapan) => {
-      console.warn("Deletejapan", Deletejapan)
-      this.delclientjapan_loaddata = Deletejapan
-      this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
-        console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
-        this.japanload = loadrawmaterialjapan
-      })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.jpndlt = result;
+
+      if (this.jpndlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.inciname == "" || this.inciname == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.Deletejapanweb().subscribe((Deletejapan) => {
+            console.warn("Deletejapan", Deletejapan)
+            this.delclientjapan_loaddata = Deletejapan
+
+            if (this.delclientjapan_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclientjapan_loaddata = ""
+
+              this.japanloaddata(this.inciname).subscribe((loadrawmaterialjapan) => {
+                console.warn("loadrawmaterialjapan", loadrawmaterialjapan)
+                this.japanload = loadrawmaterialjapan
+              })
+            }
+
+          })
+        }
+      }
     })
+    
+  }
+  DeleteAUS_dt() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.ausdlt = result;
+
+      if (this.ausdlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.inciname == "" || this.inciname == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.DeleteAUSweb().subscribe((DeleteAUS) => {
+            console.warn("DeleteAUS", DeleteAUS)
+            this.delclientaus_loaddata = DeleteAUS
+
+            if (this.delclientaus_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclientjapan_loaddata = ""
+
+              this.AUSloaddata(this.inciname).subscribe((loadrawmaterialAUS) => {
+                console.warn("loadrawmaterialAUS", loadrawmaterialAUS)
+                this.austriliaload = loadrawmaterialAUS
+              })
+            }
+
+          })
+        }
+      }
+    })
+    
   }
   DeleteChina_dt() {
-    this.Deletechinaweb().subscribe((DeleteChina) => {
-      console.warn("DeleteChina", DeleteChina)
-      this.delclientchina_loaddata = DeleteChina
-      this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
-        console.warn("loadrawmaterialChina", loadrawmaterialChina)
-        this.chinaload = loadrawmaterialChina
-      })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.chdlt = result;
+
+      if (this.chdlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.inciname == "" || this.inciname  == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.Deletechinaweb().subscribe((DeleteChina) => {
+            console.warn("DeleteChina", DeleteChina)
+            this.delclientchina_loaddata = DeleteChina
+            if (this.delclientchina_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclientchina_loaddata = ""
+
+              this.Chinaloaddata(this.inciname).subscribe((loadrawmaterialChina) => {
+                console.warn("loadrawmaterialChina", loadrawmaterialChina)
+                this.chinaload = loadrawmaterialChina
+              })
+            }
+
+          })
+        }
+      }
     })
+    
   }
   DeleteCAPROP65_dt() {
-    this.DeleteCAPROP65web().subscribe((DeleteCAPROP65) => {
-      console.warn("DeleteCAPROP65", DeleteCAPROP65)
-      this.delclientcappro65_loaddata = DeleteCAPROP65
-      this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
-        console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
-        this.CAprop65load = loadrawmaterialCAPROP65
-      })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.cadtdlt = result;
+
+      if (this.cadtdlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.INCIName == "" || this.INCIName == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.DeleteCAPROP65web().subscribe((DeleteCAPROP65) => {
+            console.warn("DeleteCAPROP65", DeleteCAPROP65)
+            this.delclientcappro65_loaddata = DeleteCAPROP65
+            if (this.delclientcappro65_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclientcappro65_loaddata = ""
+
+              this.CAPROP65loaddata(this.inciname).subscribe((loadrawmaterialCAPROP65) => {
+                console.warn("loadrawmaterialCAPROP65", loadrawmaterialCAPROP65)
+                this.CAprop65load = loadrawmaterialCAPROP65
+              })
+            }
+
+          })
+        }
+      }
     })
+    
+  }
+  DeleteCAPROP65_restrictiondt() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.carestdlt = result;
+
+      if (this.carestdlt == "false") { }
+      else {
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.inciname == "" || this.inciname == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.DeleteCAPROP65webrestriction().subscribe((DeleteCAPROP65rest) => {
+            console.warn("DeleteCAPROP65rest", DeleteCAPROP65rest)
+            this.delclientcappro65restrct_loaddata = DeleteCAPROP65rest
+            if (this.delclientcappro65restrct_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.delclientcappro65restrct_loaddata = ""
+
+              this.CAproprestrictionsloadloaddata(this.inciname).subscribe((loadrawmaterialCAproprestrictions) => {
+                console.warn("loadrawmaterialCAproprestrictions", loadrawmaterialCAproprestrictions)
+                this.CAproprestrictionsload = loadrawmaterialCAproprestrictions
+              })
+            }
+
+          })
+        }
+      }
+    })
+    
+  }
+  deleteIFRA() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.ifdlt = result;
+
+      if (this.ifdlt == "false") { }
+      else {
+       
+          this.IFRAdelete().subscribe((Deleteifra) => {
+            console.warn("Deleteifra", Deleteifra)
+            this.Deleteifra_loaddata = Deleteifra
+            if (this.Deleteifra_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction details deleted Successfully" } });
+              this.Deleteifra_loaddata = ""
+
+              this.IFRAload(this.inciname, this.itemli).subscribe((ifraload) => {
+                console.warn("ifraload", ifraload)
+                this.ifradata = ifraload
+                this.ifradetails(this.ifradata)
+              })
+            }
+
+          })
+        
+      }
+    })
+    
   }
   setvalues3(usd) {
     this.Inciid = usd.INCIId;
@@ -2128,13 +2628,28 @@ export class RawMaterialComponent implements OnInit {
     this.INCIName1 = usd.INCIName;
     this.Itemcode1 = usd.Itemcode;
   }
+  IFRAdelete() {
+    var username = this.userna;
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('Itemcode', Itemcode).set('INCIName', INCIName).set('username', username);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/IFRADELRESTRICTION", { params: params1, responseType: 'text' })
+  }
   DeleteCAPROP65web() {
     var clid = this.Inciid;
     var username = this.userna;
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
-    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/CAPROPDELRESTRICTION", { params: params1 })
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/CAPROPDELRESTRICTION", { params: params1, responseType: 'text' })
+  }
+  DeleteCAPROP65webrestriction() {
+    var clid = this.Inciid;
+    var username = this.userna;
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smartformulatorrawmaterialvolumepricingwebservice.azurewebsites.net/RMregrestrictiondelet", { params: params1, responseType: 'text' })
   }
   Deletechinaweb() {
     var clid = this.Inciid;
@@ -2142,7 +2657,7 @@ export class RawMaterialComponent implements OnInit {
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
-    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/CHINADELRESTRICTION", { params: params1 })
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/CHINADELRESTRICTION", { params: params1, responseType: 'text' })
   }
   Deletejapanweb() {
     var clid = this.Inciid;
@@ -2150,7 +2665,15 @@ export class RawMaterialComponent implements OnInit {
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
-    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/JPNDELRESTRICTION", { params: params1 })
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/JPNDELRESTRICTION", { params: params1, responseType: 'text'})
+  }
+  DeleteAUSweb() {
+    var clid = this.Inciid;
+    var username = this.userna;
+    var INCIName = this.inciname;
+    var Itemcode = this.incicode;
+    let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/AUSDELRESTRICTION", { params: params1, responseType: 'text' })
   }
   DeleteEUweb() {
     var clid = this.Inciid;
@@ -2158,7 +2681,7 @@ export class RawMaterialComponent implements OnInit {
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
-    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/EUDELRESTRICTION", { params: params1 })
+    return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/EUDELRESTRICTION", { params: params1, responseType: 'text'})
   }
   Deletecanadaweb() {
     var clid = this.Inciid;
@@ -2166,7 +2689,7 @@ export class RawMaterialComponent implements OnInit {
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
-    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/CNDDELRESTRICTION", { params: params1 })
+    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/CNDDELRESTRICTION", { params: params1, responseType: 'text' })
   }
   Deleteusweb() {
     var clid = this.Inciid;
@@ -2174,7 +2697,7 @@ export class RawMaterialComponent implements OnInit {
     var INCIName = this.inciname;
     var Itemcode = this.incicode;
     let params1 = new HttpParams().set('INCIId', clid).set('username', username).set('INCIName', INCIName).set('Itemcode', Itemcode);
-    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/USDELRESTRICTION", { params: params1 })
+    return this.http.get("https://smarformulatorrawmaterialwebservice5.azurewebsites.net/USDELRESTRICTION", { params: params1, responseType: 'text' })
   }
   //deletermmain() {
   //  this.deletermweb().subscribe((deletermmain) => {
@@ -2502,13 +3025,19 @@ export class RawMaterialComponent implements OnInit {
         this.rawmaterial_update_data = rawmaterial_update
         if (this.rawmaterial_update_data == "Updated") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_update_data + " " + "Successfully" } });
+          this.issearchRM = false;
+          this.issearchRMsave = true;
 
+          this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+            console.warn("auditload", auditload)
+            this.auditdata = auditload
+          })
           this.rawmaterial_update_data = ""
         }
-        this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
-          console.warn("auditload", auditload)
-          this.auditdata = auditload
-        })
+        //this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+        //  console.warn("auditload", auditload)
+        //  this.auditdata = auditload
+        //})
       })
     }
    
@@ -2756,6 +3285,8 @@ export class RawMaterialComponent implements OnInit {
 
         if (this.rawmaterial_save_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial:" + " " + this.inciname + " is " + this.rawmaterial_save_data + " " + "Successfully" } });
+          this.issearchRM = false;
+          this.issearchRMsave = true;
           this.rawmaterial_save_data = ""
         }
         this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
@@ -2776,18 +3307,41 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/saverawmaterials", { params: params1, responseType: 'text' })
   }
   Deleteus_dt() {
-    this.Deleteusweb().subscribe((Deleteus) => {
-      console.warn("Deleteus", Deleteus)
-      this.delclientus_loaddata = Deleteus
-      this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
-        console.warn("loadrawmaterialus", loadrawmaterialus)
-        this.usload = loadrawmaterialus
-      })
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you want to delete this restriction?' }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.usdlt = result;
+
+      if (this.usdlt == "false") { }
+      else { 
+        if ((this.Inciid == "" || this.Inciid == undefined) && (this.INCIName1 == "" || this.INCIName1 == undefined)) {
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "select a row to delete" } });
+        }
+        else {
+          this.Deleteusweb().subscribe((Deleteus) => {
+            console.warn("Deleteus", Deleteus)
+            this.delclientus_loaddata = Deleteus
+            if (this.delclientus_loaddata == "Deleted") {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Raw material Regulatory restriction details deleted Successfully" } });
+              this.delclientus_loaddata = ""
+
+              this.usloaddata(this.inciname).subscribe((loadrawmaterialus) => {
+                console.warn("loadrawmaterialus", loadrawmaterialus)
+                this.usload = loadrawmaterialus
+              })
+            }
+
+          })
+        }
+      }
     })
   }
 
   ClearData() {
     this.doc1 = "";
+    this.oldmoq = '';
+    this.oldreorderqty = '';
     //this.doc2 = "";
     //this.doc3 = "";
     //this.doc4 = "";
@@ -2898,8 +3452,8 @@ export class RawMaterialComponent implements OnInit {
     this.PreviousVenderCode = '';
     this.SupplierRMNo = '';
     this.StatusReason = '';
-    this.CurrSupplierPriority = '';
-    this.PrevSupplierPriority = '';
+    this.CurrSupplierPriority = '0';
+    this.PrevSupplierPriority = '0';
     this.LastPODt = '';
     this.IsBlend = '';
     this.Hazardous = '';

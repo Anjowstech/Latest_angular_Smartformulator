@@ -49,7 +49,7 @@
           <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                 mode="indeterminate">
           </mat-progress-spinner>
-          <tr *ngFor="let functionsearch of function_searchdata|filter:functioncode|filter:functiondiscription|pipefiltersorting:'Description'; let i=index;" (click)="setvalues( functionsearch);close();" #conten>
+          <tr *ngFor="let functionsearch of function_searchdata|filter:functioncode:filterMetadata|filter:functiondiscription:filterMetadata|pipefiltersorting:'Description'; let i=index;" (click)="setvalues( functionsearch);close();" #conten>
             <td class="tabledatasize">{{ functionsearch.FunctionCode }}</td>
             <td class="tabledatasize">{{ functionsearch.FunctionName}}</td>
           </tr>
@@ -72,7 +72,7 @@
 
   <button type="submit" class="btn btn-primary buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
 
-
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
 
 

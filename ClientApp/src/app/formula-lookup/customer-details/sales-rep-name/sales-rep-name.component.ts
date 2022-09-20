@@ -14,6 +14,7 @@ import { MessageBoxYesnoComponent } from 'src/app/message-box-yesno/message-box-
 })
 export class SalesRepNameComponent implements OnInit {
   Sales_person: any;
+  filterMetadata = { count: 0 };
   searchitems: any = [];
   ID: string;
   SalesRepInit: string="";

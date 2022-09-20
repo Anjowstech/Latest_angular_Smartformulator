@@ -4,7 +4,7 @@
 
   <div class="form-inline" style="padding-top:1%;">
     <label class="label1" for="inputcust" style="color:maroon">INCI NAME</label>
-    <input style="margin-left: 1%; width: 60%; color:maroon" [(ngModel)]="INCINamedata" type="text" class="form-control">
+    <input disabled style="margin-left: 1%; width: 60%; color:maroon" [(ngModel)]="INCINamedata" type="text" class="form-control">
   </div>
 
 
@@ -25,10 +25,10 @@
   </div>
   <div class="form-inline" style="padding-top:1%;">
     <label [hidden]="ifchina">Minimum Percentage</label>
-    <input [hidden]="ifchina" style="width: 15%;" type="text" class="form-control" [(ngModel)]="minpercent" name="minper" value="">
+    <input [hidden]="ifchina" style="width: 15%;" type="text" class="form-control" [(ngModel)]="minpercent" name="minper" value="" (blur)=" blurminpercentage($event);">
 
     <label [hidden]="ifchinamax">Maximum Percentage</label>
-    <input [hidden]="ifchinamax" style="margin-left: 1%; width: 15%;" type="text" class="form-control" [(ngModel)]="maxpercentagedata" name="maxperc" value="">%
+    <input [hidden]="ifchinamax" style="margin-left: 1%; width: 15%;" type="text" class="form-control" [(ngModel)]="maxpercentagedata" name="maxperc" value="" (blur)=" blurmaxpercentage($event);">%
 
   </div>
   <div class="form-inline" style="padding-top:1%;">
@@ -53,7 +53,14 @@
   </div>
   <div class="form-inline" style="padding-top:1%;">
     <label>Source Regulation Doc Link</label>
-    <input style="margin-left: 1%; width: 45%;" type="text" rows="2" class="form-control" [(ngModel)]="sourceregulation" name="source reg" value="">
+    <input style="margin-left: 1%; width: 25%;" type="text" rows="2" class="form-control" [(ngModel)]="sourceregulation" name="source reg" value="">
+    <div class="form-group">
+      <label for="doc1" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:40px;min-width:50px">..</label>
+      <input type="file"
+             id="doc1"
+             (change)="handleFileInput($event.target.files)">
+    </div>
+    <button type="submit" class="btn btn-primary buttoncolor" style="height:38px;width:90px;">Open</button>
 
   </div>
   <div class="form-inline" style="padding-top:1%;">
@@ -75,7 +82,7 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px" matDialogClose>Close</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%;margin-left:10px" (click)=" Cleardata()();">New</button>
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;margin-top:1%;margin-left:10px" (click)="Restriction_SaveUpdate();">Save / Update</button>
 

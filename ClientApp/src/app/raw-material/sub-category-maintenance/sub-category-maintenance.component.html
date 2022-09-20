@@ -7,7 +7,7 @@
       <div class="col-7 form-inline">
         <label>Category Name</label>
 
-        <input type="text" [(ngModel)]="categorynam" #categoryname name="categoryname" value="" list="catename" class="form-control" size="60">
+        <input disabled type="text" [(ngModel)]="categorynam" #categoryname name="categoryname" value="" list="catename" class="form-control" size="60">
         <input type="hidden" [(ngModel)]="categoryidval " #categoryid name="categoryid" value="" list="catename" class="form-control" size="60">
 
 
@@ -22,7 +22,7 @@
     <div class="form-row">
       <div class="col-7 form-inline">
         <label>Sub Category Name</label>
-        <input type="text" [(ngModel)]="subcategorynam" class="form-control" size="60" #subcategoryname name="subcategoryname" value="" list="catename">
+        <input [disabled]="issubcategorydisabled" type="text" [(ngModel)]="subcategorynam" class="form-control" size="60" #subcategoryname name="subcategoryname" value="" list="catename">
 
       </div>
       <div class="col-5 form-inline">
@@ -59,7 +59,7 @@
         </thead>
         <tbody>
         <tbody>
-          <tr *ngFor="let raw_supp of dataraw_sup; let i=index;" (click)="selectitem( raw_supp); changetext();">
+          <tr *ngFor="let raw_supp of dataraw_sup | filter:subcategorynam:filterMetadata|filter:descript:filterMetadata | filter:categorynam:filterMetadata;let i=index; " (click)="selectitem( raw_supp); changetext();">
             <td>{{ raw_supp.CategoryName }}</td>
             <td>{{ raw_supp.SubCategoryName}}</td>
             <td>{{ raw_supp.Description }}</td>
@@ -77,12 +77,12 @@
 
 
 
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%" (click)="deletedata();" >Delete Category </button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px"(click)="Cleardata();">New</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="savedata();"[hidden]="issubcategorysave">Save</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata();" [hidden]="issubcategoryupdate">Update</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%" (click)="deletedata();">Delete Category </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="Cleardata();">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="savedata();Cleardata();" [hidden]="issubcategorysave">Save</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="updatedata();Cleardata();" [hidden]="issubcategoryupdate">Update</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" matDialogClose>Close</button>
-
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
 
   </div>
 </div>

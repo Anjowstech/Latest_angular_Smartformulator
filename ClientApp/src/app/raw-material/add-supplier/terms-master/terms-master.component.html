@@ -42,7 +42,7 @@
         <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                               mode="indeterminate">
         </mat-progress-spinner>
-        <tr *ngFor="let Termmastersdata of Termsdata let i=index; " (click)="setvalues(Termmastersdata);" #conten>
+        <tr *ngFor="let Termmastersdata of Termsdata  | filter:TermCode:filterMetadata|filter:Terms:filterMetadata; let i=index; " (click)="setvalues(Termmastersdata);" #conten>
 
 
 
@@ -63,7 +63,7 @@
         <form>
           <div class="form-row">
             <div class="col-7">
-              <h5 style="float:left;margin-top:10px;color:maroon">{{TermsdataLength}} Record(s)</h5>
+              <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
               <!--<input type="text" class="form-control" placeholder="First name">-->
             </div>
             <div class="col-5">
