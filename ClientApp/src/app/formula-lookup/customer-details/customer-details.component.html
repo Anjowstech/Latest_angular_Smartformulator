@@ -301,7 +301,8 @@
                                     [showColumnLines]="true"
                                     [showRowLines]="true"
                                     [showBorders]="true"
-                                    (onCellClick)="openrawmaterialserach($event)"
+                                    (onCellDblClick)="openrawmaterialserach($event)"
+                                    (onCellClick)="customerprefclick($event)"
                                     (rowprepared)="rowprepared">
                         <dxo-editing mode="cell"
                                      [allowUpdating]="true"
@@ -807,6 +808,7 @@
                             [dataSource]="rowData6"
                             [wordWrapEnabled]="true"
                             (onCellDblClick)="Opensearchproducts($event)"
+                            (onCellClick)="erpclick($event)"
                             [showColumnLines]="true"
                             [showRowLines]="true"
                             [showBorders]="true"
@@ -921,6 +923,7 @@
                                     (onRowPrepared)="onRowPrepared2($event)"
                                     (onSelectionChanged)="selectedChanged($event)"
                                     (onCellDblClick)="Opensearchproductspricing($event)"
+                                     (onCellClick)="pricingclick($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="retail_wholesale_rowdata"
                                     [wordWrapEnabled]="true"
@@ -991,7 +994,7 @@
                     </div>
                     <div style="margin-top: 2%;">
                       <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="addRow();">Insert Row</button>
-                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="deleteRow();">Delete Row</button>
+                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="retailwholsaledelete();">Delete Row</button>
                       <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Print Preview</button>
                     </div>
                   </form>
@@ -1073,7 +1076,7 @@
                                   [showColumnLines]="true"
                                   [showRowLines]="true"
                                   [showBorders]="true"
-                                   (onCellDblClick)="Opensearchproducts2($event)"
+                                   (onCellDblClick)="Opentiredvolumepricing($event)"
                                    (onRowPrepared)="onRowPreparedtierlist($event)" >
                       <dxo-editing mode="row"
                                    [allowAdding]="true"
