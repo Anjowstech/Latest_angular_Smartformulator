@@ -32,9 +32,14 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
   isChanged: string;
   constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
 
+
   dateChange(event) {
     this.cadate = event.target.value;
 
+  }
+  handleFileInput(files: FileList) {
+    var filebrowse = files.item.length;
+    this.sourceregdoc = files.item(0).name;
   }
   Restriction_SaveUpdate() {
     // this.Oper = this.data.displaydata1;
@@ -83,15 +88,11 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
           this.restriction_save_up_data = ""
         }
         else if (this.restriction_save_up_data == "Updated") {
-          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details Updated Successfully" } });
+          this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatory restriction Details saved Successfully" } });
           this.restriction_save_up_data = ""
         }
       })
     }
-  }
-  handleFileInput(files: FileList) {
-    var filebrowse = files.item.length;
-    this.sourceregdoc = files.item(0).name;
   }
   Restriction_saveupdateup() {
 
@@ -99,29 +100,6 @@ export class RawmaterialRestrictionProp65Component implements OnInit {
     var operation: string = "CA_PROP_65 Direct";
     let params1 = new HttpParams().set('Rawmaterialrestrctnjson', datalistrestriction).set('operation', operation);
     return this.http.get("https://smartformulatorformulalookupwebservice5.azurewebsites.net/RawMtrlRestrictionBtnSave", { params: params1, responseType: 'text' })
-  }
-  Cleardata() {
-    this.country = '';
-    this.inciname = '';
-    this.IngredientCodedata = '';
-    this.username = '';
-    this.toxicity = '';
-    this.IngredientCodedata = '';
-    this.listing = '';
-    this.cadate = '';
-    this.nsdl = '';
-    this.sourceinfo = '';
-    this.sourceregdoc = '';
-    this.internalreg = '';
-   
-    //txtTypeofToxicity: '',
-    //txtNSRL: '',
-    //txtListingMechanism: '',
-    //ChkSafeIn: '',
-    //ChkSafeQualifi: '',
-    //ChkInsufficient: '',
-    //  ChkUnSafe: '',
-    
   }
 
 
