@@ -40,11 +40,11 @@ export class AddproductTestingComponent implements OnInit {
   otcdata_load: any;
   testname: any = '';
   tname: any = '';
-  statuss: string = 'open';
+  statuss: string = 'true';
   status: string;
   tid: any = '';
   lname: any = '';
-  OTC: string = 'NO';
+  OTC: string = 'true';
   PType: any = '';
   lid: any = '';
   TotalC: any = '';
