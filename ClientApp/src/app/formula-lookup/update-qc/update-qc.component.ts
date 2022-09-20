@@ -43,6 +43,7 @@ export class UpdateQcComponent implements OnInit {
   qc_update_data: any;
   qc_Delete_data: any;
   deletedata: any;
+  userna: string = "";
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -80,7 +81,7 @@ export class UpdateQcComponent implements OnInit {
     var operat: string = "update";
     var formulacodes: string = this.formulacode;
     var sqqno: string = this.data.displaydata[7];
-    var updtedby: string = "admin";
+    var updtedby: string = this.userna;
     var result: string = this.Results;
     var remark: string = this.remark;
     var notes: string = this.note;
@@ -89,7 +90,7 @@ export class UpdateQcComponent implements OnInit {
     var end: string = this.enddate;
     var files: string = this.addfile;
     var tsetname: string = this.data.displaydata[2];
-    var usrname: string = "Admin";
+    var usrname: string = this.userna;
 
     let params1 = new HttpParams().set('operation', operat).set('FormulaCode', formulacodes).set('SeqNo', sqqno).set('UpdatedBy', updtedby).set('Results', result).set('Remarks', remark).set('Note', notes).set('noOfDays', numbrofdays).set('StartDate', start).set('EndDate', end).set('SOPFile', files).set('testname', tsetname).set('username', usrname);
     return this.http.get("https://formulalookupwebservice11.azurewebsites.net/Saveupdate", { params: params1, responseType: 'text' })
@@ -124,7 +125,7 @@ export class UpdateQcComponent implements OnInit {
     var sqqnoD: string = this.data.displaydata[7];
     var desctask: string = this.data.displaydata[2];
     var tstname: string = this.data.displaydata[2];
-    var usrnam: string = "Admin";
+    var usrnam: string = this.userna;
 
     let params1 = new HttpParams().set('FormulaCode', formulacodesD).set('seqNo', sqqnoD).set('DescriptionTask', desctask).set('testname', tstname).set('username', usrnam);
     return this.http.get("https://formulalookupwebservice15.azurewebsites.net/DELETEQCTAB", { params: params1, responseType: 'text' })
@@ -159,6 +160,7 @@ export class UpdateQcComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userna = this.datashare.getlogin();
     this.formulacode = this.data.displaydata[0];
     this.formulaname = this.data.displaydata[1];
     this.TESTNAME = this.data.displaydata[2];

@@ -10,8 +10,10 @@ import { FormulaLookupComponent} from 'src/app/formula-lookup/formula-lookup.com
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { RawMaterialComponent } from 'src/app/raw-material/raw-material.component';
-
-
+import { AgGridModule } from 'ag-grid-angular';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { ColDef, GridApi, GridReadyEvent, RowDragEndEvent, GridOptions, Color } from 'ag-grid-community';
 @Component({
   selector: 'app-add-supplier',
   templateUrl: './add-supplier.component.html',
@@ -26,6 +28,11 @@ export class AddSupplierComponent implements OnInit {
   Suppliername: string;
   SupplierCode: string;
   supData: any;
+  rowindex: any = 0;
+  public rowSelection;
+  public rowStyle;
+  public gridApi;
+  private columnDefs1;
   selectedallsupp: boolean = true;
   issearchsupplierupdate: boolean = true;
   issearchsuppliersave: boolean = false;
@@ -93,11 +100,26 @@ export class AddSupplierComponent implements OnInit {
   searchitems: any = [];
   Starrating: string = "0";
   finishedproductData: any;
+  public rowHeight;
   rowData: any = [];
+  gridOptions: GridOptions = {
+    //deltaRowDataMode: true,
+    //onRowDragEnd: this.onRowDragEnd,
+    // suppressScrollOnNewData: true,
+    //immutableData:true
+    //getRowHeight: function (params) {
+    //  // assuming 50 characters per line, working how how many lines we need
+    //  return 18 * (Math.floor(params.data.INCIName.length / 45) + 2);
+    //}
+  };
   finished_save_data: any;
   login_formsupp: FormGroup;
   selectedRowIndex = -1;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private Datashare: DataShareServiceService) {
+    this.rowSelection = 'multiple';
+    this.rowStyle = { fontFamily: 'Verdana', color: 'black' };
+    this.columnDefs1 = this.columnDefs1forper;
+    this.rowHeight = 10;
     this.checkBoxesMode = themes.current().startsWith('material') ? 'always' : 'always';
     this.login_formsupp = fb.group({
       'suppokey': ['', Validators.required],
@@ -106,6 +128,66 @@ export class AddSupplierComponent implements OnInit {
       'terms': [false]
     });
   }
+  columnDefs1forper = [
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+
+      headerStyle: { border: 'solid', borderColor: 'black', borderRightWidth: '0.1px', borderLeftWidth: '0.1px', borderBottomWidth: '0.1px', },
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+       checkboxSelection: true,
+      suppressSizeToFit: true,
+      field: '', width: 20,
+      minWidth: 20,
+      maxWidth: 40,
+    },
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      
+      headerName: "Product Number", field: 'ProductNumber'
+    },
+    {
+
+      // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      headerName: "Product Name",
+
+      field: "ProductName"
+    },
+
+
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      
+      headerName: "Category", field: 'Category',
+
+
+    },
+   
+
+
+  ];
 
   //Searchsupplierpopup() {
   //  //width: '940px', height: '850px', disableClose: true
@@ -195,7 +277,7 @@ export class AddSupplierComponent implements OnInit {
     });
   }
   rowDoubleClicked(event: any) {
-    var selectd: any = event.ItemCode;
+    var selectd: any = [event.ItemCode, this.Suppliername];
   //  var suppname: any = event.data.SupplierName;
    // var unitdata: any = event.data.UnitName;
         this.Datashare.senditemtoraw(selectd);
@@ -275,14 +357,29 @@ export class AddSupplierComponent implements OnInit {
       width: '60%', height: '70%', disableClose: true
     });
   }
+  onGridReadyone(params) {
+    this.gridApi = params.api;
+    this.gridApi.ensureIndexVisible(60, 'bottom');
+    // this.columnApi = params.columnApi;
+  }
   deleteRow() {
-
-    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
+    const selectedrows = this.gridApi.getSelectedRows();
+    this.gridApi.applyTransaction({ remove: selectedrows })
+    let { rowsToDisplay1 } = this.gridApi.getModel();
+    this.rowData = [];
+    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+    //  this.gridApi.refreshClientSideRowModel();
+    this.gridApi.setRowData(this.rowData);
+    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+    //this.dataGrid.instance.deselectAll();
   }
   addRow() {
-    this.dataGrid.instance.addRow();
-    this.dataGrid.instance.saveEditData();
+    var rowdatacount1 = this.gridApi.getDisplayedRowCount();
+    this.gridApi.updateRowData({ add: [{ ProductNumber: '', ProductName: '', Category: '' }], addIndex: rowdatacount1 });
+    const selectedrows = this.gridApi.getSelectedRows();
+    this.gridApi.getRowNode(rowdatacount1);
+    //this.dataGrid.instance.addRow();
+    //this.dataGrid.instance.saveEditData();
   }
   onValueChanged(e) {
     this.selectedRowIndex = e.rowIndex;
@@ -509,6 +606,9 @@ export class AddSupplierComponent implements OnInit {
   }
   savefinishedpdt() {
     this.finisheddataList = [];
+    let { rowsToDisplay1 } = this.gridApi.getModel();
+    this.rowData = [];
+    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
     this.setvalues(this.rowData);
     this.finished_saveup().subscribe((finished_save) => {
       console.warn("finished_save", finished_save)
