@@ -1,0 +1,1490 @@
+<div style="background-color: #f6f5f1">
+
+  <div style="overflow-y:auto;overflow-x:hidden; height:100vh;width:100%">
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Productization</h2>
+   
+    <form class="form-inline" style="    background-color: #f6f5f1">
+      <label for="formulanumber" style="margin-left:5px;font-size: medium;font-family: Verdana;">Formula #</label>
+      <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="formlno" size="58"disabled [(ngModel)]="formulacode"  name="frlmcode" value="">
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; width:50px;"(click)="formuladd()">...</button>
+
+      <label for="PDR" style="margin-left: 2%;font-size: medium;font-family: Verdana;">Formula Name</label>
+
+      <input type="text" style="margin-left:20px;width:38%" class="form-control" id="formlna" disabled [(ngModel)]="formulaname"  name="formlnam"   value="">
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 13px; padding-top: 10px; width: 170px; height: 46px" (click)=" searchhformula()">Search Formula</button>
+      </form>
+
+      <form class="form-inline" style="    background-color: #f6f5f1">
+        <label for="PDRno" style="margin-left:32px;font-size: medium;font-family: Verdana;">PDR #</label>
+        <input type="text" style="margin-left: 24px;" class="form-control" placeholder="" id="PDR" size="58" disabled [(ngModel)]="pdrno"  name="pdrn" value="">
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:50px;"(click)="pdradd()">...</button>
+
+        <label for="custmrname" style="margin-left:1%;font-size: medium;font-family: Verdana;">Customer Name</label>
+        <input type="text" style="margin-left:25px;width:35%" class="form-control" id="custmname" disabled [(ngModel)]="customername"  name="custnme" value="">
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width:50px;"(click)=" Opencustomer();">...</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; padding-top: 10px; width: 170px; height: 46px" (click)="clearprd();">Clear</button>
+      </form>
+                
+      <form class="form-inline" style="    background-color: #f6f5f1">
+        <label for="sku" style="margin-left:5px;font-size: medium;font-family: Verdana;color:darkred;">Product/SKU #</label>
+        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="skuno" size="45" [(ngModel)]="productcode"  name="prdctsku" value="">
+
+        <label for="prdctname" style="margin-left: 25px; font-size: medium; font-family: Verdana; color: darkred;">Product Name</label>
+        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="productnam" size="50" [(ngModel)]="productname"  name="prdctnam" value="">
+
+        <label for="fsize" style="margin-left: 25px; font-size: medium; font-family: Verdana; ">Fill Size</label>
+        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="size" size="21" [(ngModel)]="fillsize" name="filsize" value="">
+
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 12px; padding-top: 10px; width: 170px; height: 46px" (click)="searchprd();">Search Product</button>
+      </form>
+
+      <form class="form-inline" style="    background-color: #f6f5f1">
+        <label for="prdate" style="margin-left:12px;font-size: medium;font-family: Verdana;">Product Date</label>
+        <input type="date" style="margin-left: 26px;width:15%;" class="form-control" placeholder="" id="prdctdate" [(ngModel)]="productdate"  name="pdate" value="">
+
+        <label for="company" style="margin-left: 20px; font-size: medium; font-family: Verdana; ">Company Product#</label>
+        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="coprdct" size="35" [(ngModel)]="companyproduct"  name="cmpnyprno" value="">
+
+        <label for="sg" style="margin-left: 17px; font-size: medium; font-family: Verdana; ">SG</label>
+        <input type="number" style="margin-left: 20px;" class="form-control" placeholder="" id="sg" size="17" [(ngModel)]="SG"  name="s_g" value="">
+
+        <label for="weight" style="margin-left: 40px; font-size: medium; font-family: Verdana; ">Fill Wt</label>
+        <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="filwt" size="21" disabled [(ngModel)]="fillweight"  name="filweght" value="">
+
+        <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 12px; padding-top: 10px; width: 170px; height: 46px" (click)="productpriceadd()">Product Pricing</button>
+      </form>
+
+      <form class="form-inline" style="    background-color: #f6f5f1">
+
+
+        <label for="PDR" style="margin-left:14px;margin-top:8px;font-size: medium;font-family: Verdana;">Product Line</label>
+        <select id="Assigned_to" class="form-control" style="margin-left: 28px; margin-top: 8px; width: 16.5% " [(ngModel)]="productlin" name="prdctln"  value="">
+          <option selected>N/A</option>
+          <option *ngFor="let product_Details of loadproduct">{{ product_Details.ProductLine1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px ;margin-top: 8px;width:50px;" (click)="productadd()">...</button>
+
+        <label for="PDR" style="margin-left: 55px; margin-top: 8px; font-size: medium; font-family: Verdana; ">Class Code</label>
+        <select id="classco" class="form-control" style="margin-left: 21px; width: 10%" [(ngModel)]="classcode" name="clscode"  value="">
+          <option selected>N/A</option>
+          <option *ngFor="let class_Details of loadclass">{{ class_Details.classcode1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 7px; width: 50px; " (click)="classcodeadd()">...</button>
+
+
+
+        <label for="PDR" style="margin-left: 25px; margin-top: 8px; font-size: medium; font-family: Verdana; ">Brand</label>
+        <select id="Assigned_to" class="form-control" style="margin-left: 20px; width: 14.5%" [(ngModel)]="brand" name="brnd" value="">
+          <option selected>N/A</option>
+          <option *ngFor="let brand_Details of loadbrand">{{ brand_Details.brand1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 8px; width: 50px; " (click)="brandadd()">...</button>
+
+
+        <label for="PDR" style="margin-left: 30px; margin-top: 8px; font-size: medium; font-family: Verdana; ">OEM</label>
+        <select id="Assigned_to" class="form-control" style="margin-left: 20px; margin-top: 8px; width: 15.5%" [(ngModel)]="oem" name="oemm" value="">
+          <option selected>N/A</option>
+          <option *ngFor="let oem_Details of loadoem">{{ oem_Details.OEM1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 8px; width: 50px; " (click)="oemadd()">...</button>
+
+      </form>
+
+      <form class="form-inline" style="    background-color: #f6f5f1">
+        <label for="PDR" style="margin-left: 22px; margin-top: 8px; font-size: medium; font-family: Verdana;">P-Category</label>
+        <select id="Assigned_to" class="form-control" style="margin-left: 29px; margin-top: 8px; width: 16.5%" [(ngModel)]="category" name="ctgry" value="">
+          <option selected>N/A</option>
+          <option *ngFor="let category_Details of loadcategory">{{ category_Details.cat1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 8px; width: 50px; " (click)="categoryadd()">...</button>
+
+        <label for="PDR" style="margin-left: 22px; margin-top: 8px; font-size: medium; font-family: Verdana; ">P-Classification</label>
+        <select id="Assigned_to" class="form-control" style="margin-left: 20px; margin-top: 8px; width: 29%" [(ngModel)]="classification" name="clasfiction" value="">
+          <option selected>N/A</option>
+          <option *ngFor="let classification_Details of loadclassification">{{ classification_Details.classification1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 8px; width: 50px; " (click)="classificationadd()">...</button>
+
+        <label for="PDR" style="margin-left: 23px; margin-top: 8px; font-size: medium; font-family: Verdana; ">P-Application</label>
+        <select id="Assigned_to" class="form-control" style="margin-left: 20px; margin-top: 8px; width: 15.5%" [(ngModel)]="application" name="aplction" value="">
+          <option selected>N/A</option>
+          <option *ngFor="let application_Details of loadapplication">{{  application_Details.application1}}</option>
+        </select>
+        <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 8px; width: 50px; " (click)="applicationadd()">...</button>
+
+
+      </form>
+
+
+
+      <div class="row">
+        <div class="form-group col-md-2">
+          <div style="margin-left: 10%; margin-top: 5%; height: 700px; overflow-y: auto; background-color: white; text-align: center;">
+            <div style=" text-align: center; border: solid 0.1px darkgrey;background-color:">
+              <label for="PDR" style="margin-left: 5px; margin-top: 20px; font-size: large; font-family: Verdana;"><b>Poduct Image</b></label><br />
+              <input type="image" src="" alt="" width="200" height="200" style="margin-left: 5px;margin-top:40px;" placeholder="NO IMAGE AVIALABLE" />
+            </div>
+            <div style=" text-align: center; border: solid 0.1px darkgrey">
+              <label for="PDR" style="margin-left: 5px; margin-top: 20px; font-size: large; font-family: Verdana;"><b>Dscriptions</b></label><br />
+              <textarea class="form-control" id="imdes" rows="3" style="width: 90%; height: 330PX; margin-left: 15px; margin-top: 10px;" [(ngModel)]="imagedescription" name="ima" value=""></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group col-md-10" style="margin-top:20px;">
+          <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+            <ng-container ngbNavItem="1" style="margin-left:20px;">
+              <a class="tabcolor tabbutto tabrowli textsize " style="width:7%;" ngbNavLink>Packaging</a>
+              <ng-template ngbNavContent>
+                <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                <ng-template #innerTabset class="nav-tabs ">
+                  <ngb-tabset>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">List of Preferred Components</span></ng-template>
+                      <ng-template ngbTabContent>
+
+                        <form class="form-inline" style="    background-color: #f6f5f1">
+                          <label for="prpack" style="margin-left:5px;font-size: medium;font-family: Verdana;">Product Pack #</label>
+                          <input type="text" style="margin-left: 20px;color:darkred;" class="form-control" placeholder="" id="PDR" size="40"  disabled [(ngModel)]="productpack" name="prdctpack" value="">
+                          <label for="cus" style="margin-left: 4%;font-size: medium;font-family: Verdana;">BOM Customer</label>
+                          <input type="text" style="margin-left:30px;width:20%" class="form-control" id="bom" [(ngModel)]="bomcustomer"  name="bomcus" value="">
+
+                        </form>
+                        <label style="margin-left:1%;margin-top:10px;color:green;">Type in grid to search for component to add it.</label>
+
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <div style="height:32rem;background-color:white">
+
+                              <dx-data-grid id="gridContainer " style="width: 100%; height: 30rem;font-family:Verdana;font-style:normal;background-color:white"
+                                            (onRowPrepared)="onRowPrepared2($event)"
+                                            
+                                     (onSelectionChanged)="selectedChanged($event)"
+                                     [columnAutoWidth]="true"
+                                     [dataSource]="data_product"
+                                     [wordWrapEnabled]="true"
+                                     [showColumnLines]="true"
+                                     [showRowLines]="true"
+                                     (onCellDblClick)="opencomponentsearch($event)"
+                                     [showBorders]="true"
+                                     (onCellClick)="openrawmaterialserac($event)"
+
+                                            (rowprepared)="rowprepared">
+                                <dxo-editing mode="row"
+                                             [allowUpdating]="true"
+                                             [useIcons]="true">
+                                </dxo-editing>-->
+
+                                <dxo-selection [selectAllMode]="allMode"
+                                               [showCheckBoxesMode]="checkBoxesMode"
+                                               mode="multiple"></dxo-selection>
+                                <dxo-row-dragging [allowReordering]="true"
+                                                  [showDragIcons]="showDragIcons"></dxo-row-dragging>
+                                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                                <dxo-sorting mode="none"></dxo-sorting>
+
+                                <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                                <dxi-column type="buttons" [width]="50">
+                                </dxi-column>
+
+                                <dxi-column dataField="" [width]="50"></dxi-column>
+                                <dxi-column dataField="ItemNo"
+  [visible]="false"></dxi-column>
+                                <dxi-column dataField="Linenumber" headerCellTemplate="addressHeaderTemplatecheck"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
+                                  <b style="color: black">NO.</b>
+                                </div>
+                                <dxi-column dataField="Image" headerCellTemplate="addressHeaderTemplateimage"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateimage'">
+                                  <b style="color: black">Image</b>
+                                </div>
+                                <dxi-column dataField="ComponentItemNo" headerCellTemplate="addressHeaderTemplatecomponent"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatecomponent'">
+                                  <b style="color: black">Component Item #</b>
+                                </div>
+                                <dxi-column dataField="ComponentName" headerCellTemplate="addressHeaderTemplatename"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatename'">
+                                  <b style="color: black">Component Name</b>
+                                </div>
+                                <dxi-column dataField="Specification" headerCellTemplate="addressHeaderTemplatespecs"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatespecs'">
+                                  <b style="color: black">Specs</b>
+                                </div>
+
+                                <dxi-column dataField="Size" headerCellTemplate="addressHeaderTemplatesize" [allowEditing]="false"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatesize'">
+                                  <b style="color: black">Size</b>
+                                </div>
+                                <dxi-column dataField="UnitCost" headerCellTemplate="addressHeaderTemplateunicost" [allowEditing]="false"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateunicost'">
+                                  <b style="color: black">Unit Cost $</b>
+                                </div>
+                                <dxi-column dataField="FillableComponent" headerCellTemplate="addressHeaderTemplatefillable" [allowEditing]="false"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatefillable'">
+                                  <b style="color: black">Fillable</b>
+                                </div>
+                                <dxi-column dataField="BOMMultiplier" headerCellTemplate="addressHeaderTemplatebom" [allowEditing]="false"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatebom'">
+                                  <b style="color: black">BOM Multiplier</b>
+                                </div>
+                                <dxi-column dataField="Comp"   headerCellTemplate="addressHeaderTemplatecomp">COMP Search</dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplatecomp'">
+                                  <b style="color: black">COMP Search</b>
+                                  
+                                </div>
+
+                              </dx-data-grid>
+                            </div>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="addRow();">Insert Row</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="deleteRow();">Delete Row</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" >BOM Report</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" >Import COMP</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="deletepackaging();">Delete Packaging</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;"(click)="complisting();" >COMP Listing </button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="componentadd();">Add Component</button>
+   
+                          </div>
+                        </div>
+                        <!--<div style="margin-left:1%;margin-top:1%;height:500px;background-color:white;overflow-y:auto ">
+                    <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align:center;"></th>
+                          <th scope="col" style="text-align: center;">Image</th>
+                          <th scope="col" style="text-align: center;">Component Item #</th>
+                          <th scope="col" style="text-align:center;">Component Name</th>
+                          <th scope="col" style="text-align: center;">Specs</th>
+                          <th scope="col" style="text-align: center;">Size</th>
+                          <th scope="col" style="text-align:center;">Unit Cost $</th>
+                          <th scope="col" style="text-align: center;">Fillable</th>
+                          <th scope="col" style="text-align: center;">BOM Multiplier</th>
+                          <th scope="col" style="text-align: center;">COMP Search</th>
+
+                        </tr>
+                      </thead>
+
+                    </table>
+                    </div>-->
+
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Filling/Packing Instructions</span></ng-template>
+                      <!--<ngb-tab id="tab-2" title="Formula Procedure-Text" class="textsize">-->
+                      <ng-template ngbTabContent>
+
+                        <div class="form-inline" style="overflow-y:scroll;">
+                          <label class="label1" for="inputcust">Filling/Packing Instructions</label>
+                          <textarea class="form-control" id="filins" rows="3" style="width:85%; height:300PX;margin-top:1%" [(ngModel)]="fillinginstructions" name="ins" value=""></textarea>
+                        </div>
+                        <div class="form-inline">
+                          <label class="label1" for="inputcust" style="margin-left:68px;font-size: medium;font-family: Verdana;">Browse</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="data4" [(ngModel)]="filling_instructions" name="fiin" value="">
+                          <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file"
+                                 (change)="handleFileInput3($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+
+                        </div>
+                        <div class="form-inline">
+                          <label class="label1" for="inputcust" style="margin-left:68px;font-size: medium;font-family: Verdana;">Browse</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="data5" [(ngModel)]="filling_instructions2" name="fiin2" value="">
+                          <label for="file1" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file1"
+                                 (change)="handleFileInput4($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Labeling Instructions</span></ng-template>
+                      <!--<ngb-tab id="tab-2" title="Formula Procedure-Text" class="textsize">-->
+                      <ng-template ngbTabContent>
+
+                        <div class="form-inline" style="overflow-y:scroll;">
+                          <label class="label1" for="inputcust">Labeling Instructions</label>
+                          <textarea class="form-control" id="labelins" rows="3" style="width:85%; height:300PX;margin-top:1%" [(ngModel)]="labelinginstructions" name="li" value=""></textarea>
+                        </div>
+                        <div class="form-inline">
+                          <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Browse</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="data6" [(ngModel)]="labeling_instructions" #formu name="frmln" value="">
+                          <label for="file2" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file2"
+                                 (change)="handleFileInput5($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Special Instructions</span></ng-template>
+                      <!--<ngb-tab id="tab-2" title="Formula Procedure-Text" class="textsize">-->
+                      <ng-template ngbTabContent>
+
+                        <div class="form-inline" style="overflow-y:scroll;">
+                          <label class="label1" for="inputcust">Special Instructions</label>
+                          <textarea class="form-control" id="sp" rows="3" style="width:85%; height:300PX;margin-top:1%" [(ngModel)]="specialinstructions" name="si" value=""></textarea>
+                        </div>
+                        <div class="form-inline">
+                          <label class="label1" for="inputcust" style="margin-left:15px;font-size: medium;font-family: Verdana;">Browse</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="data1" [(ngModel)]="doc1" name="dc" value="">
+
+                          <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file"
+                                 (change)="handleFileInput($event.target.files)">
+                        
+                          <!--<button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:100px;">...</button>-->
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Audit Tracking</span></ng-template>
+                      <!--<ngb-tab id="tab-2" title="Formula Procedure-Text" class="textsize">-->
+                      <ng-template ngbTabContent>
+                        <form>
+
+                          <div class="col-1">
+
+                          </div>
+                          <div style="margin-left:1%;margin-top:1%;height:500px;background-color:white;overflow-y:auto ">
+                            <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                              <thead>
+                                <tr>
+                                  <th scope="col" style="text-align:center;width:20%;">Date</th>
+                                  <th scope="col" style="text-align: center;; width: 60%;">Task</th>
+                                  <th scope="col" style="text-align: center;; width: 20%;">Username</th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor=" let values of AudittrackData1;">
+
+
+                                  <td width="15%" class="tabledatasize">{{values.Date}}</td>
+                                  <td class="tabledatasize">{{values.Task}}</td>
+                                  <td width="15%" class="tabledatasize"> {{values.Username}}</td>
+
+                                </tr>
+
+                              </tbody>
+                            </table>
+
+
+                          </div>
+
+                        </form>
+
+
+                      </ng-template>
+                    </ngb-tab>
+
+                  </ngb-tabset>
+
+                </ng-template>
+
+              </ng-template>
+
+
+
+            </ng-container>
+            <ng-container ngbNavItem="2">
+              <a class="tabcolor tabbutto tabrowli textsize" style="width:7%;" ngbNavLink>Label</a>
+              <ng-template ngbNavContent>
+                <div style="background-color: #f6f5f1; border: 1px solid black">
+                  <p style="font-family:Verdana;margin-top:10px;margin-left:5px;background-color:white;font-size:large;"><i><b>Product Label Information</b></i></p>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="brand" style="margin-left:32px;font-size: medium;font-family: Verdana;">Brand Name</label>
+                    <input type="text" style="margin-left: 20px;width:50%;" class="form-control" placeholder="" id="bdr" [(ngModel)]="brandname"  name="brnd" value="">
+                    <input class="form-check-input" style="margin-left:1%" type="checkbox" name="Chkplt" id="Chkplt" [(ngModel)]="brandcheck" (change)="triggerSomeEvent($event)"
+                           [checked]="okpilot=='1'?true:false">
+                    <label for="male" style="color:darkred;">Active</label><br>
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="use" style="margin-left:93px;font-size: medium;font-family: Verdana;">Uses</label>
+                    <!--<input type="text" style="margin-left: 20px; width: 50%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="formulano" #formu name="frmln" value="">-->
+                    <textarea class="form-control" id="usenote" rows="3" style="width: 50%; height: 75PX; margin-left: 20px; margin-top: 5px;" [(ngModel)]="uses" name="us" value=""></textarea>
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="warning" style="margin-left:58px;font-size: medium;font-family: Verdana;">Warnings</label>
+                    <textarea class="form-control" id="warnnote" rows="3" style="width:50%; height:75PX;margin-left:20px;margin-top:10px;" [(ngModel)]="warnings" name="warn" value=""></textarea>
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="direction" style="margin-left:50px;font-size: medium;font-family: Verdana;">Directions</label>
+                    <textarea class="form-control" id="direction" rows="3" style="width: 50%; height: 75PX; margin-left: 20px; margin-top: 10px;" [(ngModel)]="directions" name="direct" value=""></textarea>
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="qtn" style="margin-left:50px;font-size: medium;font-family: Verdana;">Questions</label>
+                    <input type="text" style="margin-left: 20px; margin-top: 10px; width: 50%;" class="form-control" placeholder="" id="question" [(ngModel)]="questions"  name="qtns" value="">
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="misc" style="margin-left:20px;font-size: medium;font-family: Verdana;">Miscellaneous</label>
+                    <textarea class="form-control" id="miscnote" rows="3" style="width: 50%; height: 75PX; margin-left: 20px; margin-top: 5px;" [(ngModel)]="miscellaneous" name="Misc" value=""></textarea>
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="bar" style="margin-left:45px;font-size: medium;font-family: Verdana;">Barcode #</label>
+                    <input type="text" style="margin-left: 20px; margin-top: 10px; width: 50%;" class="form-control" placeholder="" id="Bar" [(ngModel)]="barcodenumber" name="brnum" value="">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 10px; margin-top: 6px; width: 175px;">Generate Barcode</button>
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="barim" style="margin-left:15px;font-size: medium;font-family: Verdana;">Product Image</label>
+                    <input type="text" style="margin-left: 15px; margin-top: 5px; width: 50%; " class="form-control" placeholder="" id="PDR" [(ngModel)]="barcodeimage" name="brim" value="">
+                    <label for="file7" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file7"
+                           (change)="handleFileInput7($event.target.files)">
+                  </form>
+
+                </div>
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="3">
+              <a class="tabcolor tabbutto tabrowli textsize" style="width:7%;" ngbNavLink>Artwork</a>
+              <ng-template ngbNavContent>
+                <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                <ng-template #innerTabset class="nav-tabs ">
+                  <ngb-tabset>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Artwork I</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:40px;">
+                          <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Picture File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="picturefile1" name="pt1" value="">
+                          <label for="file8" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file8"
+                                 (change)="handleFileInput8($event.target.files)">
+
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Artwork II</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:40px;">
+                          <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Picture File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="picturefile2" name="pt2" value="">
+                          <label for="file9" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file9"
+                                 (change)="handleFileInput9($event.target.files)">
+
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Artwork III</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:40px;">
+                          <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Picture File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="picturefile3" name="pt3" value="">
+                          <label for="file10" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file10"
+                                 (change)="handleFileInput10($event.target.files)">
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Artwork IV</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:40px;">
+                          <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Picture File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="picturefile4" name="pt4" value="">
+                          <label for="file11" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file11"
+                                 (change)="handleFileInput11($event.target.files)">
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Artwork V</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:40px;">
+                          <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Picture File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="picturefile5" name="pt5" value="">
+                          <label for="file12" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file12"
+                                 (change)="handleFileInput12($event.target.files)">
+
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Artwork CheckList</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <p style="font-family:Verdana;margin-top:10px;margin-left:5px;background-color:white;font-size:large"><i><b>Artwork CheckList</b></i></p>
+
+
+
+
+
+                        </div>
+                        <div class=" form-row">
+                          <div class="form-group col-md-12">
+
+                            <div style="margin-left: 1%; margin-top: 2px; height: 400px; overflow-y: auto; background-color: white ">
+                              <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                            (onSelectionChanged)="selectedChanged($event)"
+                                            [columnAutoWidth]="false"
+                                            [dataSource]="dataartcheck"
+                                            [wordWrapEnabled]="true"
+                                            [showColumnLines]="true"
+                                            [showRowLines]="true"
+                                            [showBorders]="true"
+                                            (onCellClick)="openrawmaterialserach($event)"
+                                            (rowprepared)="rowprepared">
+                                <dxo-editing mode="row"
+                                             [allowUpdating]="true"
+                                             [useIcons]="true">
+                                </dxo-editing>
+                                <dxo-column-chooser [enabled]="false">
+                                  or "select"
+                                </dxo-column-chooser>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                                <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                                <!--<dxi-column dataField="ParamId"
+          [visible]="false"></dxi-column>-->
+                                <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem" [width]="50"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                                  <b style="color: black"></b>
+                                </div>
+
+
+                                <dxi-column dataField="Itemno" headerCellTemplate="addressHeaderTemplateitemno"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateitemno'">
+                                  <b style="color: black">ItemNO</b>
+                                </div>
+                                <dxi-column dataField="Item" headerCellTemplate="addressHeaderTemplateInformation" [width]="600"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateInformation'">
+                                  <b style="color: black">Item</b>
+                                </div>
+                                <dxi-column dataField="CheckOff" headerCellTemplate="addressHeaderTemplateCheckOff" dataType="boolean"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateCheckOff'">
+                                  <b style="color: black">Check Off (completed Y/N)</b>
+                                </div>
+                                <dxi-column dataField="UserName" headerCellTemplate="addressHeaderTemplateUserName"></dxi-column>
+                                <div *dxTemplate="let info of 'addressHeaderTemplateUserName'">
+                                  <b style="color: black;">Username</b>
+                                </div>
+
+                              </dx-data-grid>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class=" form-inline" style="margin-left:3%">
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
+                          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
+
+
+
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Audit Tracking</span></ng-template>
+                      <!--<ngb-tab id="tab-2" title="Formula Procedure-Text" class="textsize">-->
+                      <ng-template ngbTabContent>
+                        <form>
+
+                          <div class="col-1">
+
+                          </div>
+                          <div style="margin-left:1%;margin-top:1%;height:500px;background-color:white;overflow-y:auto ">
+                            <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                              <thead>
+                                <tr>
+                                  <th scope="col" style="text-align:center;width:20%;">Date</th>
+                                  <th scope="col" style="text-align: center;; width: 60%;">Task</th>
+                                  <th scope="col" style="text-align: center;; width: 20%;">Username</th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor=" let values of AudittrackData;">
+
+
+                                  <td width="15%" class="tabledatasize">{{values.date}}</td>
+                                  <td class="tabledatasize">{{values.Task}}</td>
+                                  <td width="15%" class="tabledatasize"> {{values.UserName}}</td>
+
+                                </tr>
+
+                              </tbody>
+                            </table>
+
+
+                          </div>
+
+                        </form>
+
+
+                      </ng-template>
+                    </ngb-tab>
+
+                  </ngb-tabset>
+                </ng-template>
+              </ng-template>
+            </ng-container>
+
+
+            <ng-container ngbNavItem="4">
+              <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>BULK/FG COA Param</a>
+              <ng-template ngbNavContent>
+
+
+                <div class=" form-row">
+                  <div class="form-group col-md-6">
+                    <h4 style="color: maroon; text-align:center; background-color: lightyellow; font-style: oblique; font-size: xx-large; margin-left: 1%;">CHEMISTRY</h4>
+                    <div style="margin-left: 1%; margin-top: 1%; height: 400px; overflow-y: auto; background-color: white ">
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                    (onSelectionChanged)="selectedChanged($event)"
+                                    [columnAutoWidth]="true"
+                                    [dataSource]="datachem"
+                                    [wordWrapEnabled]="true"
+                                    [showColumnLines]="true"
+                                    [showRowLines]="true"
+                                    [showBorders]="true"
+                                    (onCellClick)="openrawmaterialserach($event)"
+                                    (rowprepared)="rowprepared">
+                        <dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [useIcons]="true">
+                        </dxo-editing>
+                        <dxo-column-chooser [enabled]="false">
+                          or "select"
+                        </dxo-column-chooser>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                        <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                        <dxi-column dataField="ParamId"
+                                    [visible]="false"></dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                          <b style="color: black"></b>
+                        </div>
+                        <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+                          <b style="color: black">Claim</b>
+                        </div>
+                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
+                          <b style="color: black">Method</b>
+                        </div>
+                        <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplatefoa"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
+                          <b style="color: black;">Limits</b>
+                        </div>
+                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+                          <b style="color: black">Username</b>
+                        </div>
+
+
+
+                      </dx-data-grid>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <h4 style="color: maroon; background-color: lightyellow; font-style: oblique; font-size: xx-large; margin-left: 1%; text-align:center; ">MICROBIOLOGY</h4>
+                    <div style="margin-left: 1%; margin-top: 1%; height: 400px; overflow-y: auto; background-color: white">
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                    (onSelectionChanged)="selectedChanged($event)"
+                                    [columnAutoWidth]="true"
+                                    [dataSource]="datamicro"
+                                    [wordWrapEnabled]="true"
+                                    [showColumnLines]="true"
+                                    [showRowLines]="true"
+                                    [showBorders]="true"
+                                    (onCellClick)="openrawmaterialserach($event)"
+                                    (rowprepared)="rowprepared">
+                        <dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [useIcons]="true">
+                        </dxo-editing>
+                        <dxo-column-chooser [enabled]="false">
+                          or "select"
+                        </dxo-column-chooser>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                        <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                        <dxi-column dataField="ParamId"
+                                    [visible]="false"></dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                          <b style="color: black"></b>
+                        </div>
+                        <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplatetest"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatetest'">
+                          <b style="color: black">Test</b>
+                        </div>
+                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplatemethod"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatemethod'">
+                          <b style="color: black">Method</b>
+                        </div>
+                        <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplatelimiy" cssClass="cell-highlighted"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatelimiy'">
+                          <b style="color: black; ">Limits</b>
+                        </div>
+                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplateuser"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateuser'">
+                          <b style="color: black">Username</b>
+                        </div>
+
+
+
+                      </dx-data-grid>
+                    </div>
+                  </div>
+                </div>
+                <div class=" form-inline" style="margin-left:3%">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="opennewchemistry();">New Chemistry params</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="savechemistryparamlist();">Save Chemistry params </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px;">Print C&M Params </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="savemicrobioparamlist();">Save micro Params </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px;" (click)="opennewmicrobiology()">New Microbiology Params </button>
+                </div>
+
+
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="5">
+              <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Prod. Regn Approvals</a>
+              <ng-template ngbNavContent>
+                <p style="font-family:Verdana;margin-top:10px;margin-left:5px;font-size:large"><b><u>Product Registration Approvals</u></b></p>
+                <div>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <Label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">EPA (US)</Label>
+                    <mat-radio-button value="true" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">Yes</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">No</mat-radio-button>
+
+
+                    <label class="label1" for="inputcust" style="margin-left:5px;font-size: medium;font-family: Verdana;">Browse</label>
+                    <input type="text" style="width:50%;" class="form-control" placeholder="" id="us" [(ngModel)]="us" name="usa" value="">
+                    <label for="file13" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file13"
+                           (change)="handleFileInput13($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+                  </form>
+                </div>
+                <div>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <Label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">BPD (Europe)</Label>
+                    <mat-radio-button value="true" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">Yes</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">No</mat-radio-button>
+
+
+                    <label class="label1" for="inputcust" style="margin-left:5px;font-size: medium;font-family: Verdana;">Browse</label>
+                    <input type="text" style="width:50%;" class="form-control" placeholder="" id="eu" [(ngModel)]="eu" name="eur" value="">
+                    <label for="file14" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file14"
+                           (change)="handleFileInput14($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+                  </form>
+                </div>
+                <div>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <Label class="label1" for="inputcust" style="font-size: medium;font-family: Verdana;">California (Biocides)</Label>
+                    <mat-radio-button value="true" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:20px" (change)="radioChangeIncidIngredient($event)">Yes</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:27px" (change)="radioChangeIncidIngredient($event)">No</mat-radio-button>
+
+
+                    <label class="label1" for="inputcust" style="margin-left:4px;font-size: medium;font-family: Verdana;">Browse</label>
+                    <input type="text" style="width:50%;" class="form-control" placeholder="" id="cal" [(ngModel)]="cal" name="caL" value="">
+                    <label for="file15" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file15"
+                           (change)="handleFileInput15($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+                  </form>
+                </div>
+                <div>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <Label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">Japan</Label>
+                    <mat-radio-button value="true" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">Yes</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">No</mat-radio-button>
+
+
+                    <label class="label1" for="inputcust" style="margin-left:5px;font-size: medium;font-family: Verdana;">Browse</label>
+                    <input type="text" style="width:50%;" class="form-control" placeholder="" id="jpn" [(ngModel)]="japan" name="japn" value="">
+                    <label for="file16" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file16"
+                           (change)="handleFileInput16($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+                  </form>
+                </div>
+                <div>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <Label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">Australia</Label>
+                    <mat-radio-button value="true" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">Yes</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">No</mat-radio-button>
+
+
+                    <label class="label1" for="inputcust" style="margin-left:5px;font-size: medium;font-family: Verdana;">Browse</label>
+                    <input type="text" style="width:50%;" class="form-control" placeholder="" id="aus" [(ngModel)]="australia" name="aust" value="">
+                    <label for="file17" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file17"
+                           (change)="handleFileInput17($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+                  </form>
+                </div>
+                <div>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <Label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">China</Label>
+                    <mat-radio-button value="true" [checked]="IncidIngredient == 'Yes' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">Yes</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="IncidIngredient == 'No' ? true : false" style="margin-left:30px" (change)="radioChangeIncidIngredient($event)">No</mat-radio-button>
+
+
+                    <label class="label1" for="inputcust" style="margin-left:5px;font-size: medium;font-family: Verdana;">Browse</label>
+                    <input type="text" style="width:50%;" class="form-control" placeholder="" id="chin" [(ngModel)]="china" name="China" value="">
+                    <label for="file18" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file18"
+                           (change)="handleFileInput18($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;width:150px;">Open</button>
+                  </form>
+                </div>
+                <div class="form-inline" style="overflow-y:scroll;">
+                  <label class="label1" for="inputcust">Notes</label>
+                  <textarea class="form-control" id="prdnote" rows="3" style="width:85%; height:300PX;margin-top:1%;margin-left:3%;" [(ngModel)]="Prdnotes" name="notespr" value=""></textarea>
+                </div>
+
+              </ng-template>
+            </ng-container>
+
+
+
+            <ng-container ngbNavItem="6">
+              <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Prod. Tech Data Specs</a>
+              <ng-template ngbNavContent>
+
+                <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                <ng-template #innerTabset class="nav-tabs ">
+                  <ngb-tabset>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">General Information</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left: 88px; margin-top: 2%; font-size: medium; font-family: Verdana;">CAS #</label>
+                            <input type="text" style="width: 30%; margin-top: 2%;" class="form-control" placeholder="" id="cas" [(ngModel)]="casnumber"  name="csno" value="">
+
+                            <label class="label1" for="inputcust" style="margin-left: 5px; margin-top: 2%; font-size: medium; font-family: Verdana;">EINECS #</label>
+                            <input type="text" style="width: 30%; margin-top: 2%;" class="form-control" placeholder="" id="einecs" [(ngModel)]="einecsnumber"  name="ein" value="">
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:25px;font-size: medium;font-family: Verdana;">Product Description</label>
+                            <textarea class="form-control" id="prddes" rows="3" style="width:80%; height:150PX;margin-top:1%;margin-left:3%;" [(ngModel)]="productdescription" name="prddesc" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:40px;font-size: medium;font-family: Verdana;">Applications</label>
+                            <textarea class="form-control" id="appli" rows="3" style="width:80%; height:150PX;margin-top:1%;margin-left:3%;" [(ngModel)]="applications" name="app" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:5px;font-size: medium;font-family: Verdana;">Technical Informationm</label>
+                            <textarea class="form-control" id="tech" rows="3" style="width:80%; height:150PX;margin-top:1%;margin-left:2%;" [(ngModel)]="technicalinformation" name="techinfo" value=""></textarea>
+                          </form>
+                        </div>
+
+
+
+
+                      </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">Product Properties</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div style="margin-left: 1%; margin-top: 1%; height: 28rem; overflow-y: auto; background-color: white;border:solid;border-width:0.1px">
+                          <table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white;width:99%;" id="rawmaterial table">
+                            <thead>
+                              <tr>
+
+                                <th scope="col">Property</th>
+                                <th scope="col">Value</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let load_raw_prop of propertydata; let i=index;">
+                                <td> {{load_raw_prop.Description}}</td>
+                                <td> {{load_raw_prop.PropertyValue}}</td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+                          <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%"(click)="openloadproperty()">Load Property</button>
+
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+
+
+
+
+
+
+                  </ngb-tabset>
+                </ng-template>
+
+
+
+
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="7">
+              <a class="tabcolor tabbutto tabrowli textsize" style="width:5%;" ngbNavLink>PCC</a>
+              <ng-template ngbNavContent>
+                <div class=" form-row">
+                  <div class="form-group col-md-4">
+                    <p style="font-family:Verdana;margin-top:5px;margin-bottom:5px;margin-left:5px;font-size:large;"><i><b>PCC-Product Commercialization Checklist</b></i></p>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <p style="font-family: Verdana; margin-top: 5px; margin-left: 5px; margin-bottom: 5px; color: darkred; font-size: large;"><b>(Select last row and click on insert row button to add new row )</b></p>
+                  </div>
+
+                  </div>
+                  <div class=" form-row">
+                    <div class="form-group col-md-12">
+
+                      <div style="margin-left: 1%; margin-top: 2px; height: 400px; overflow-y: auto; background-color: white ">
+                        <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                      (onSelectionChanged)="selectedChanged($event)"
+                                      [columnAutoWidth]="false"
+                                      [dataSource]="datapcc"
+                                      [wordWrapEnabled]="true"
+                                      [showColumnLines]="true"
+                                      [showRowLines]="true"
+                                      [showBorders]="true"
+                                      (onCellClick)="openrawmaterialserach($event)"
+                                      (rowprepared)="rowprepared">
+                          <dxo-editing mode="row"
+                                       [allowUpdating]="true"
+                                       [useIcons]="true">
+                          </dxo-editing>
+                          <dxo-column-chooser [enabled]="false">
+                            or "select"
+                          </dxo-column-chooser>
+                          <dxo-selection mode="single"></dxo-selection>
+                          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                          <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                          <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                          <!--<dxi-column dataField="ParamId"
+          [visible]="false"></dxi-column>-->
+                          <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem" [width]="50"></dxi-column>
+                          <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+                            <b style="color: black"></b>
+                          </div>
+
+
+                          <dxi-column dataField="Itemno" headerCellTemplate="addressHeaderTemplateitemno"></dxi-column>
+                          <div *dxTemplate="let info of 'addressHeaderTemplateitemno'">
+                            <b style="color: black">Item Number</b>
+                          </div>
+                          <dxi-column dataField="Information" headerCellTemplate="addressHeaderTemplateInformation" [width]="600"></dxi-column>
+                          <div *dxTemplate="let info of 'addressHeaderTemplateInformation'">
+                            <b style="color: black">Information that makes up a PCC</b>
+                          </div>
+                          <dxi-column dataField="CheckOff" headerCellTemplate="addressHeaderTemplateCheckOff" dataType="boolean" ></dxi-column>
+                          <div *dxTemplate="let info of 'addressHeaderTemplateCheckOff'"   >
+                            <b style="color: black">Check Off (completed Y/N)</b>
+                          </div>
+                          <dxi-column dataField="UserName" headerCellTemplate="addressHeaderTemplateUserName"></dxi-column>
+                          <div *dxTemplate="let info of 'addressHeaderTemplateUserName'">
+                            <b style="color: black;">Username</b>
+                          </div>
+
+                        </dx-data-grid>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class=" form-inline" style="margin-left:3%">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
+
+
+
+                  </div>
+</ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="8">
+              <a class="tabcolor tabbutto tabrowli textsize" style="width:5%;" ngbNavLink>PIF</a>
+              <ng-template ngbNavContent>
+
+                <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+                <ng-template #innerTabset class="nav-tabs ">
+                  <ngb-tabset>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">PIF-Product Information File</span></ng-template>
+                      <ng-template ngbTabContent>
+
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:78px;font-size: medium;font-family: Verdana;">Description of Product:</label>
+                            <textarea class="form-control" id="decs" rows="3" style="width:80%; height:70PX;margin-top:1%;margin-left:1%;" [(ngModel)]="descriptionproduct" name="decsprod" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:0px;font-size: medium;font-family: Verdana;">Cosmetic Product Safety Report:</label>
+                            <textarea class="form-control" id="cpsr" rows="3" style="width:80%; height:70PX;margin-top:1%;margin-left:1%;" [(ngModel)]="cosprdrpd" name="rep" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">
+                              A Description of the method of<br />
+                              Manufacturing and a statement<br />
+                              on Compilance:<br />
+                            </label>
+                            <textarea class="form-control" id="manudecs" rows="3" style="width:80%; height:70PX;margin-top:1%;margin-left:1%;" [(ngModel)]="manufacturingdescription" name="manu" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:40px;font-size: medium;font-family: Verdana;">Proof of Effects and Claims:</label>
+                            <textarea class="form-control" id="poec" rows="3" style="width:80%; height:70PX;margin-top:1%;margin-left:1%;" [(ngModel)]="proof" name="effect" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:35px;font-size: medium;font-family: Verdana;">Data on Any Animal Testing:</label>
+                            <textarea class="form-control" id="Data" rows="3" style="width:80%; height:70PX;margin-top:1%;margin-left:1%;" [(ngModel)]="animaldata" name="ani" value=""></textarea>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <label class="label1" for="inputcust" style="margin-left:100px;font-size: medium;font-family: Verdana;">Responsible Person:</label>
+                            <input type="text" style="width: 80%; margin-top: 1%; margin-left: 1%;" class="form-control" placeholder="" id="rp" [(ngModel)]="responsibleperson"  name="respons" value="">
+                          </form>
+                        </div>
+
+                        <div style="margin-left: 50px; ">
+                          <form class="form-inline" style="    background-color: #f6f5f1">
+                            <p style="font-family:Verdana;margin-top:2%;margin-left:60px;color:darkred;font-size:large;">( As Per (EC) No: 1229/229 Regulations)</p>
+                            <input style="margin-left: 1%; margin-top: 1.5%;" class="form-check-input" type="checkbox" [(ngModel)]="Approv" name="apprv" (change)="approvedinfofile($event)">
+                            <p style="font-family:Verdana;margin-top:2%;margin-left:5px;font-size:large;">Approve Product Information File</p>
+
+                          </form>
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><span class="textsize">PIF Worksheet Docs</span></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <label class="label1" for="inputcust" style="margin-left:20px;font-size: medium;font-family: Verdana;">Browse File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="fil1" [(ngModel)]="file1" name="f1" value="">
+                          <label for="file19" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file19"
+                                 (change)="handleFileInput19($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;width:100px;">Open</button>
+
+                        </div>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <label class="label1" for="inputcust" style="margin-left:20px;font-size: medium;font-family: Verdana;">Browse File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="fil2" [(ngModel)]="file2" name="f2" value="">
+                          <label for="file20" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file20"
+                                 (change)="handleFileInput20($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;width:100px;">Open</button>
+
+                        </div>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <label class="label1" for="inputcust" style="margin-left:20px;font-size: medium;font-family: Verdana;">Browse File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="fil3" [(ngModel)]="file3" name="f3" value="">
+                          <label for="file21" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file21"
+                                 (change)="handleFileInput21($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;width:100px;">Open</button>
+
+                        </div>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <label class="label1" for="inputcust" style="margin-left:20px;font-size: medium;font-family: Verdana;">Browse File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="fil4" [(ngModel)]="file4" name="f4" value="">
+                          <label for="file22" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file22"
+                                 (change)="handleFileInput22($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;width:100px;">Open</button>
+
+                        </div>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <label class="label1" for="inputcust" style="margin-left:20px;font-size: medium;font-family: Verdana;">Browse File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="fil5" [(ngModel)]="file5" name="f5" value="">
+                          <label for="file23" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file23"
+                                 (change)="handleFileInput23($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;width:100px;">Open</button>
+
+                        </div>
+                        <div class="form-inline" style="margin-top:20px;">
+                          <label class="label1" for="inputcust" style="margin-left:20px;font-size: medium;font-family: Verdana;">Browse File</label>
+                          <input type="text" style="width:60%;" class="form-control" placeholder="" id="fil6" [(ngModel)]="file6" name="f6" value="">
+                          <label for="file24" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                          <input type="file" style="display:none"
+                                 id="file24"
+                                 (change)="handleFileInput24($event.target.files)">
+                          <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;width:100px;">Open</button>
+
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+
+
+
+
+                  </ngb-tabset>
+                </ng-template>
+
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="9">
+              <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Prod.Batch History</a>
+              <ng-template ngbNavContent>
+                <div class=" form-row">
+                  <div class="form-group col-md-12">
+
+                    <div style="margin-left: 1%; margin-top: 2px; height: 400px; overflow-y: auto; background-color: white ">
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                    (onSelectionChanged)="selectedChanged($event)"
+                                    [columnAutoWidth]="True"
+                                    [dataSource]="dataprodbatch"
+                                    [wordWrapEnabled]="true"
+                                    [showColumnLines]="true"
+                                    [showRowLines]="true"
+                                    [showBorders]="true"
+                                    (onCellClick)="openrawmaterialserach($event)"
+                                    (rowprepared)="rowprepared">
+                        <dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [useIcons]="true">
+                        </dxo-editing>
+                        <dxo-column-chooser [enabled]="false">
+                          or "select"
+                        </dxo-column-chooser>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                        <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                        <!--<dxi-column dataField="ParamId"
+          [visible]="false"></dxi-column>-->
+                        <dxi-column dataField="LineNumber" headerCellTemplate="addressHeaderTemplateline"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateline'">
+                          <b style="color: black">NO.</b>
+                        </div>
+                        <dxi-column dataField="Date" headerCellTemplate="addressHeaderTemplatedate" dataType="date" format="shortDate"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatedate'">
+                          <b style="color: black">Date</b>
+                        </div>
+                        <dxi-column dataField="Source" headerCellTemplate="addressHeaderTemplatesource"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatesource'">
+                          <b style="color: black">Source</b>
+                        </div>
+                        <dxi-column dataField="BF" headerCellTemplate="addressHeaderTemplatebf"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatebf'">
+                          <b style="color: black">B/F</b>
+                        </div>
+                        <dxi-column dataField="Qty" headerCellTemplate="addressHeaderTemplateqty"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateqty'">
+                          <b style="color: black;">Qty</b>
+
+                        </div>
+                        <dxi-column dataField="Code" headerCellTemplate="addressHeaderTemplatecode"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatecode'">
+                          <b style="color: black">Code</b>
+                        </div>
+                        <dxi-column dataField="Color" headerCellTemplate="addressHeaderTemplatecolor"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatecolor'">
+                          <b style="color: black">Color</b>
+                        </div>
+                        <dxi-column dataField="Odor" headerCellTemplate="addressHeaderTemplateodor"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateodor'">
+                          <b style="color: black">Odor</b>
+                        </div>
+                        <dxi-column dataField="Texture" headerCellTemplate="addressHeaderTemplatetexture"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatetexture'">
+                          <b style="color: black;">Texture</b>
+
+                        </div>
+                        <dxi-column dataField="pH" headerCellTemplate="addressHeaderTemplateph"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateph'">
+                          <b style="color: black">pH</b>
+                        </div>
+                        <dxi-column dataField="Viscosity" headerCellTemplate="addressHeaderTemplateviscosity"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateviscosity'">
+                          <b style="color: black">Viscosity</b>
+                        </div>
+                        <dxi-column dataField="Specificgravity" headerCellTemplate="addressHeaderTemplatespecific"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatespecific'">
+                          <b style="color: black">SpecificGravity</b>
+                        </div>
+                        <dxi-column dataField="Solids" headerCellTemplate="addressHeaderTemplatesolids"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatesolids'">
+                          <b style="color: black;">Solids</b>
+
+                        </div>
+                        <dxi-column dataField="Remarks" headerCellTemplate="addressHeaderTemplateremarks"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateremarks'">
+                          <b style="color: black;">Remarks</b>
+
+                        </div>
+
+                      </dx-data-grid>
+                    </div>
+                  </div>
+
+                </div>
+                <div class=" form-inline" style="margin-left:3%">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
+                  
+
+                </div>
+
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="10">
+              <a class="tabcolor tabbutto tabrowli textsize" style="width:5%;" ngbNavLink>CMO</a>
+              <ng-template ngbNavContent>
+
+
+
+                <div class=" form-row">
+                  <div class="form-group col-md-12">
+
+                    <div style="margin-left: 1%; margin-top: 1%; height: 400px; overflow-y: auto; background-color: white ">
+                      <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                                    (onSelectionChanged)="selectedChanged($event)"
+                                    [columnAutoWidth]="true"
+                                    [dataSource]="datacmo"
+                                    [wordWrapEnabled]="true"
+                                    [showColumnLines]="true"
+                                    [showRowLines]="true"
+                                    (onCellDblClick)="opencmoserach($event)"
+                                    [showBorders]="true"
+                                    (onCellClick)="openrawmaterialserac($event)"
+                                    (rowprepared)="rowprepared">
+                        <dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [useIcons]="true">
+                        </dxo-editing>
+                        <dxo-column-chooser [enabled]="false">
+                          or "select"
+                        </dxo-column-chooser>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+                        <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+                        <dxi-column dataField="CMONumber"
+                                    [visible]="false"></dxi-column>
+                        <!--<dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+  <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+    <b style="color: black"></b>
+  </div>-->
+                        <!--<dxi-column dataField="Clai" headerCellTemplate="addressHeaderTemplateincinam"></dxi-column>
+  <div *dxTemplate="let info of 'addressHeaderTemplateincinam'">
+    <b style="color: black"></b>
+  </div>-->
+                        <!--<dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+  <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+    <b style="color: black">No</b>
+  </div>-->
+                        <dxi-column dataField="LineNumber" headerCellTemplate="addressHeaderTemplateline"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateline'">
+                          <b style="color: black">NO.</b>
+                        </div>
+                        <dxi-column dataField="CMOName" headerCellTemplate="addressHeaderTemplatecmoname"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatecmoname'">
+                          <b style="color: black">CMO Name</b>
+                        </div>
+                        <dxi-column dataField="Notes" headerCellTemplate="addressHeaderTemplatenotes"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplatenotes'">
+                          <b style="color: black;">Notes</b>
+                        </div>
+
+                      </dx-data-grid>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class=" form-inline" style="margin-left:3%">
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px;" (click)="addcmo()">Add New CMO</button>
+                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="savecmodetails();">Save CMO Details </button>
+                  
+                </div>
+
+
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="11">
+              <a class="tabcolor tabbutto tabrowli textsize" style="width:7%;" ngbNavLink>Audit</a>
+              <ng-template ngbNavContent>
+                <form>
+
+
+                  <div style="margin-left:1%;margin-top:1%;height:600px;background-color:white;overflow-y:auto ">
+                    <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align:center;width:20%;">Date</th>
+                          <th scope="col" style="text-align: center;width: 60%;">Task</th>
+                          <th scope="col" style="text-align: center; width: 20%;">Username</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor=" let values of mainauditdata;">
+
+
+                          <td width="15%" class="tabledatasize">{{values.Date}}</td>
+                          <td class="tabledatasize">{{values.Task}}</td>
+                          <td width="15%" class="tabledatasize"> {{values.UserName}}</td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+
+
+                  </div>
+
+                </form>
+              </ng-template>
+            </ng-container>
+
+          </nav>
+
+
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+        <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%;width:145px;">Back</button>
+        <button type="submit" class="btn btn-primary buttoncolor " style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" [hidden]="isproductsave" (click)="productisation_Save();">SAVE</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" [hidden]="isproductupdate"  (click)="productisation_update();">Update</button>
+        <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" (click)="clearprd();">New</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Create Label</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Export Formula</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 230px;">Mfg.Procedure Editor</button>
+        <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Formula Print</button>
+
+        <input type="checkbox" style="float:left;margin-left:50px;margin-top:.8%;width:50px;">
+        <label style="float:left;margin-left:0px;margin-top:.5%;color:darkred;font-size:large;"><b>Approve Product</b></label>
+      </div>
+   </div>
+
+ </div>
+

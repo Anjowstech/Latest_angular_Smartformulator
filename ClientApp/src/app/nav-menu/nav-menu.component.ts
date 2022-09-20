@@ -274,6 +274,13 @@ export class NavMenuComponent {
 
       children: [
         {
+          displayName: 'Formula-Productization',
+          route: 'Productization'
+
+
+
+        },
+        {
           displayName: 'Product',
 
         },

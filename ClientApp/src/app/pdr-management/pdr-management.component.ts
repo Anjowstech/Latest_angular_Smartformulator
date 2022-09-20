@@ -453,7 +453,34 @@ export class PdrManagementComponent implements OnInit {
   //assign_save_data: any;
   //uservalue: string = "admin";
   //login_formpdr: FormGroup;
+  onRowClick: any;
+  onRowClick2: any;
+  onRowClick3: any;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, public router: Router) {
+    this.onRowClick = function (index) {
+      if (this.currentRowIndex == index) {
+        this.currentRowIndex = -1;
+      }
+      else {
+        this.currentRowIndex = index;
+      }
+    }
+    this.onRowClick2 = function (index) {
+      if (this.currentRowIndex2 == index) {
+        this.currentRowIndex2 = -1;
+      }
+      else {
+        this.currentRowIndex2 = index;
+      }
+    }
+    this.onRowClick3 = function (index) {
+      if (this.currentRowIndex3 == index) {
+        this.currentRowIndex3 = -1;
+      }
+      else {
+        this.currentRowIndex3 = index;
+      }
+    }
     this.login_formpdr = fb.group({
       'projname': ['', Validators.required],
 
@@ -462,9 +489,22 @@ export class PdrManagementComponent implements OnInit {
     });
   }
   openloadnewmicrobiologyparams(): void {
-    const dialogRef = this.dialog.open(NewMicrobiologyParamsComponent, {
-      width: '60%', height: '60%', disableClose: true
-    });
+    if (this.projectname == undefined || this.projectname == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Save PDR details before adding parameters' } });
+    } else {
+      const dialogRef = this.dialog.open(NewMicrobiologyParamsComponent, {
+        width: '60%', height: '60%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
+          console.warn("loadmicrobiologydata", loadmicrobiologydata)
+          this.datamicro = loadmicrobiologydata
+          this.pdrnodata = this.pdrno;
+          this.datashare.sendpdrno(this.pdrnodata);
+        })
+      });
+    }
   }
   openloadspecificationparameter(): void {
     const dialogRef = this.dialog.open(LoadspecificationParameterComponent, {
@@ -484,9 +524,22 @@ export class PdrManagementComponent implements OnInit {
   
   }
   openloadnewchemistryparams(): void {
-    const dialogRef = this.dialog.open(NewChemistryParamsComponent, {
-      width: '60%', height: '60%', disableClose: true
-    });
+    if (this.projectname == undefined || this.projectname == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Save PDR details before adding parameters' } });
+    } else {
+      const dialogRef = this.dialog.open(NewChemistryParamsComponent, {
+        width: '60%', height: '60%', disableClose: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
+          console.warn("loadchemdata", loadchemdata)
+          this.datachem = loadchemdata
+          this.pdrnodata = this.pdrno;
+          this.datashare.sendpdrno(this.pdrnodata);
+        })
+      });
+    }
   }
   //openProjectRequirements(): void {
   //  const dialogRef = this.dialog.open(ProjectRequirementsComponent, {
@@ -1234,11 +1287,9 @@ this.loadformulationsassign = loadformulations
     var pdrend = this.pdapprovalend;
     var tenatativestartdate = moment(curr);
     var tentaviveenddate = moment(pdrend);
-
-
-
     this.DiffDate = Math.abs(tenatativestartdate.diff(tentaviveenddate, 'days'));
     this.taskcountdurationdays = this.DiffDate + 1;
+    this.stagestartDate = formatDate((this.currentDate), 'dd/MM/yyyy', 'en-US');
   }
   datechangeclick(event) {
     var date = this.currentDate;
@@ -1552,6 +1603,10 @@ this.loadformulationsassign = loadformulations
       this.productapprovaldays1 = this.DiffDate + 1;
       this.productapprovaldays = this.productapprovaldays1;
     }
+    var tenatativestartdate1 = moment(this.currentDate);
+    this.DiffDate = Math.abs(tenatativestartdate1.diff(tentaviveenddate, 'days'));
+    this.taskcountdurationdays = this.DiffDate + 1;
+    this.stageendDate = formatDate((this.pdapprovalend), 'dd/MM/yyyy', 'en-US');
   }
   setvaluepdrapproval(workflow_pdr) {
     this.taskid = "2";
@@ -2353,29 +2408,31 @@ this.loadformulationsassign = loadformulations
       console.warn("assign_save", assign_save)
       this.assign_save_data = assign_save
     })
+    if (this.currentstartDate > this.currentendDate) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Start Date Should be less than completion date' } });
+    } else {
+      this.pdr_updateup().subscribe((pdr_updatemain) => {
+        console.warn("pdrupdatemain", pdr_updatemain)
 
-    this.pdr_updateup().subscribe((pdr_updatemain) => {
-      console.warn("pdrupdatemain", pdr_updatemain)
-      
-      this.pdrsavedatas = pdr_updatemain
-      this.wait(5000);
-      if (this.pdrsavedatas == "Updated") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated successfully' } });
-        this.issearchpdr = false;
-        this.issearchpdrsave = true;
-        this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
-          console.warn("loadpdraudittrack", loadpdraudittrack)
-          this.dataloadaudittrackpdr = loadpdraudittrack
-        })
-      }
-      else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
-        this.issearchpdr = true;
-        this.issearchpdrsave = false
-      }
+        this.pdrsavedatas = pdr_updatemain
+        this.wait(5000);
+        if (this.pdrsavedatas == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Updated successfully' } });
+          this.issearchpdr = false;
+          this.issearchpdrsave = true;
+          this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+            console.warn("loadpdraudittrack", loadpdraudittrack)
+            this.dataloadaudittrackpdr = loadpdraudittrack
+          })
+        }
+        else {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
+          this.issearchpdr = true;
+          this.issearchpdrsave = false
+        }
 
-    })
-   
+      })
+    }
   
   };
   pdrgrid(Formuladata2: any) {
@@ -2609,7 +2666,7 @@ this.loadformulationsassign = loadformulations
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Project follow up notes added successfully' } });
       }
       else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the note' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the Subject and note before Adding!' } });
       }
     })
     this.wait(2000);
@@ -2794,7 +2851,7 @@ this.loadformulationsassign = loadformulations
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'communication notes added successfully' } });
       }
       else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the note' } });
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter the subject and note before Adding!' } });
       }
     })
     this.wait(3000);
@@ -3038,7 +3095,24 @@ this.loadformulationsassign = loadformulations
       console.warn("loadformula", loadformulations)
       this.loadformulationsassign = loadformulations
     })
-   
+    this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
+      console.warn("loadchemdata", loadchemdata)
+      this.datachem = loadchemdata
+      this.pdrnodata = this.pdrno;
+      this.datashare.sendpdrno(this.pdrnodata);
+    })
+    this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
+      console.warn("loadmicrobiologydata", loadmicrobiologydata)
+      this.datamicro = loadmicrobiologydata
+      this.pdrnodata = this.pdrno;
+      this.datashare.sendpdrno(this.pdrnodata);
+    })
+    this.loadspecification(this.pdrno).subscribe((loadspec) => {
+      console.warn("loadspec", loadspec)
+      this.loadspecdata = loadspec
+      this.pdrnosend = this.pdrno
+      this.datashare.sendpdrno(this.pdrnosend)
+    })
     //this.currentstartDate = new Date().toISOString().substring(0, 10);
     //this.currentendDate = new Date().toISOString().substring(0, 10);
     //this.currentDate = new Date().toISOString().substring(0, 10);
@@ -3052,7 +3126,7 @@ this.loadformulationsassign = loadformulations
     //this.stageendDate = formatDate(new Date(futureDateend), 'MM/dd/yyyy', 'en-US');
     this.projectapprovalcheck = true;
     this.datecheck = false;
-    this.isLoadingspec = true;
+    this.isLoadingspec = false;
   }
 }
 export class Data {

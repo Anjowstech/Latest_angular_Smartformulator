@@ -102,7 +102,7 @@
               <div class="form-row" style="width:72.5%">
                 <div class="form-group col-md-6">
                   <input style="width: 100%;text-align:right" type="text" class="form-control" :placeholder="0.00" [(ngModel)]="reorderQty" #orderqty
-                         name="reorderqtyval" value="" (blur)=" blurreorder($event);" >
+                         name="reorderqtyval" value=""  (blur)=" blurreorder($event);" >
                 </div>
                 <div class="form-group col-md-6">
                   <select id="PRD" class="form-control" style="width:100%;">
@@ -156,7 +156,6 @@
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select id="PRD" class="form-control" style="width:22.5%;" [(ngModel)]="standardpriceunit" (change)="stdpriceChange($event)" name="uomnameval" value="">
                 <option selected>{{changeunit}}</option>
-                <!--<option selected>Kg</option>-->
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -167,7 +166,6 @@
               <h4 for="inputcust" style="font-weight:400;margin-left:20px;margin-right:10px">Per</h4>
               <select disabled id="PRD" class="form-control" style="width:22.5%;" name="shipco" value="" [(ngModel)]="shippingpriceunit">
                 <option selected>{{changeunit}}</option>
-                
                 <option *ngFor="let defaultUOM of defaultUOMload_data" value={{defaultUOM.Unitid}}>{{defaultUOM.Unitname}}</option>
               </select>
             </div>
@@ -208,7 +206,7 @@
             <div class="form-inline">
               <label for="inputcust">Min Order Qty</label>
               <input style="width: 34%;text-align:right" type="text" class="form-control" placeholder="0.00" [(ngModel)]="MOQ" #Minorder name="minodrq" value="" (blur)=" blurmoq($event);">
-              <select id="PRD" class="form-control" style="width:25%;" >
+              <select id="PRD" class="form-control" style="width:25%;">
                 <option selected>Kg</option>
                 <option>Lb</option>
                 <option>Gal</option>
@@ -219,7 +217,8 @@
             <div class="form-inline" style="margin-top:5px">
               <label for="inputcust">Sub-Category</label>
 
-              <select id="PRD" class="form-control" style="width: 51%; margin-left: 1%" [(ngModel)]="SubCategoryName" name="subcateg" value="">
+              <select id="PRD" class="form-control" style="width: 51%; margin-left: 1%" [(ngModel)]="SubCategoryName" name="subcateg"  (change)="onChange($event.target.value)">
+                <option selected>Choose..</option>
                 <option *ngFor="let optionsub of datarawsubcategoryload ">{{optionsub.SubCategory}}</option>
 
               </select>
@@ -555,7 +554,7 @@
               </thead>
 
               <tbody>
-                <tr *ngFor="let cas_detail of casdata; let i=index;" (click)="dltdata(cas_detail);">
+                <tr *ngFor="let cas_detail of casdata; let i=index;" (click)="dltdata(cas_detail);onRowClick(i);"[class.table-active]="i == currentRowIndex" >
                   <td hidden style="width:10%">{{ cas_detail.itemCode}}</td>
                   <td style="width:20%">{{ cas_detail.CASNo}}</td>
                   <td>{{ cas_detail.Description}}</td>
@@ -598,8 +597,8 @@
                     <ngb-tab class="" id="US" title="US">
                       <ng-template ngbTabContent>
                         <!--<div style="color: #bb2205">
-                        <p class="font-weight-bold"> Double click for more details</p>
-                      </div>-->
+                <p class="font-weight-bold"> Double click for more details</p>
+              </div>-->
                         <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
                           <table class=" table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
 
@@ -618,7 +617,8 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let usd of usload; let i=index;" (click)="setvalues3(usd)" (dblclick)="setUsvalues(usd)">
+                              <!--[class.table-active]="i == currentRowIndex"-->
+                              <tr *ngFor="let usd of usload; let i=index;" (click)="setvalues3(usd);onRowClick(i);" (dblclick)="setUsvalues(usd)" [class.table-active]="i == currentRowIndex" (blur)="deselect();">
                                 <td></td>
                                 <td>{{ usd.Maximum}}</td>
                                 <td>{{ usd.Percentage}}</td>
@@ -644,8 +644,8 @@
                     <ngb-tab class="" title="Canada" id="CAN">
                       <ng-template ngbTabContent>
                         <!--<div style="color: #bb2205">
-                        <p class="font-weight-bold"> Double click for more details</p>
-                      </div>-->
+                <p class="font-weight-bold"> Double click for more details</p>
+              </div>-->
                         <div style="margin-left: 1%; margin-top: 1%; height: 20rem; overflow-y: auto; background-color: white">
                           <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
 
@@ -663,7 +663,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let CAND of canadaLoad; let i=index;" (dblclick)="setCANvalues(CAND)" (click)="setCANvalues2(CAND)">
+                              <tr *ngFor="let CAND of canadaLoad; let i=index;" (dblclick)="setCANvalues(CAND)" (click)="setCANvalues2(CAND);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ CAND.FieldOfAppln}}</td>
                                 <td>{{ CAND.Maximum}}</td>
@@ -707,7 +707,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let EUvalues of euload; let i=index;" (dblclick)="setEUvalues(EUvalues)" (click)="setEUvalues2(EUvalues)">
+                              <tr *ngFor="let EUvalues of euload; let i=index;" (dblclick)="setEUvalues(EUvalues)" (click)="setEUvalues2(EUvalues);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ EUvalues.FieldOfAppln}}</td>
                                 <td>{{ EUvalues.Maximum}}</td>
@@ -749,7 +749,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let jpn of japanload; let i=index;" (dblclick)="setJPNvalues(jpn)" (click)="setJPNvalues2(jpn)">
+                              <tr *ngFor="let jpn of japanload; let i=index;" (dblclick)="setJPNvalues(jpn)" (click)="setJPNvalues2(jpn);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ jpn.FieldOfAppln}}</td>
                                 <td>{{ jpn.Maximum}}</td>
@@ -790,7 +790,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let aus of austriliaload; let i=index;" (dblclick)="setAusvalues(aus)" (click)="setAusvalues2(aus)">
+                              <tr *ngFor="let aus of austriliaload; let i=index;" (dblclick)="setAusvalues(aus)" (click)="setAusvalues2(aus)" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ aus.FieldOfAppln}}</td>
                                 <td>{{ aus.Maximum}}</td>
@@ -833,7 +833,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let cload of chinaload; let i=index;" (dblclick)="setchinavalues(cload)" (click)="setchinavalues2(cload)">
+                              <tr *ngFor="let cload of chinaload; let i=index;" (dblclick)="setchinavalues(cload)" (click)="setchinavalues2(cload);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                 <td></td>
                                 <td>{{ cload.FieldOfAppln}}</td>
                                 <td>{{ cload.Maximum}}</td>
@@ -882,7 +882,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let audit_pdr of CAprop65load; let i=index;" (dblclick)="setcapropvaluesDirect(audit_pdr);" (click)="setcapropvaluesDirect2(audit_pdr);">
+                                      <tr *ngFor="let audit_pdr of CAprop65load; let i=index;" (dblclick)="setcapropvaluesDirect(audit_pdr);" (click)="setcapropvaluesDirect2(audit_pdr);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                         <td></td>
                                         <td>{{ audit_pdr.TypeOfToxicity}}</td>
                                         <td>{{ audit_pdr.ListingMechanism}}</td>
@@ -909,7 +909,7 @@
                                 <form>
                                   <div class="form-inline" style="margin-top:1%">
                                     <label for="inputcust">INCI Name</label>
-                                    <input style="width: 60%;" type="text" class="form-control" id="data17" [(ngModel)]="doc1" #INcn name="d1" value="">
+                                    <input disabled style="width: 60%;" type="text" class="form-control" id="data17" [(ngModel)]="doc1" #INcn name="d1" value="">
                                     <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="opensearchincinameforimpurities()">Ingredient Search</button>
                                   </div>
                                   <div class="form-inline" style="margin-top:1%">
@@ -919,7 +919,7 @@
                                     <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)="capropsaveimpurities();">Save Impurities</button>
                                     <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;margin-left:10px; width:180px" (click)=" DeleteCAPROPimpuritiesdt()">Delete Ingredient</button>
                                   </div>
-                                  <div style="margin-left: 1%; margin-top: 1%; height: 12rem; overflow-y: auto; background-color: white">
+                                  <div style="margin-left: 1%; margin-top: 1%; height: 14rem; overflow-y: auto; background-color: white">
                                     <table class="table table-hover table-bordered" style="width:100%;background-color:white" width="96%">
 
                                       <thead>
@@ -930,9 +930,10 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr *ngFor="let impurities of capropimpuritiestableload; let i=index;" (click)="settextboximpuries(impurities)">
+                                        <tr *ngFor="let impurities of capropimpuritiestableload; let i=index;" (click)="settextboximpuries(impurities);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                           <td>{{ impurities.INCIName}}</td>
                                           <td>{{ impurities.ppm}}</td>
+                                          <td hidden>{{ impurities.IngredientCode}}</td>
                                         </tr>
 
                                       </tbody>
@@ -962,7 +963,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let caprop of CAproprestrictionsload; let i=index;" (dblclick)="setcapropvaluesrestriction(caprop)" (click)="setcapropvaluesrestriction2(caprop)">
+                                      <tr *ngFor="let caprop of CAproprestrictionsload; let i=index;" (dblclick)="setcapropvaluesrestriction(caprop)" (click)="setcapropvaluesrestriction2(caprop);onRowClick(i);" [class.table-active]="i == currentRowIndex">
                                         <td></td>
                                         <td>{{ caprop.FieldOfAppln}}</td>
                                         <td>{{ caprop.Maximum}}</td>
@@ -1044,7 +1045,7 @@
                                 <label for="inputcust">Category-4C</label>
                                 <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category4C" name="c4c" value="">
                                 <label for="inputcust">Category-8A</label>
-                                <input style="width: 10%;"type="number" class="form-control" id="data1" [(ngModel)]="Category8A" name="c8a" value="">
+                                <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category8A" name="c8a" value="">
                                 <label for="inputcust">Category-10B</label>
                                 <input style="width: 10%;" type="number" class="form-control" id="data1" [(ngModel)]="Category10B" name="c10b" value="">
                               </div>
@@ -1092,7 +1093,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let auditregulatory of regulatoryaudittrackingload; let i=index;">
+                              <tr *ngFor="let auditregulatory of regulatoryaudittrackingload; let i=index;" [class.table-active]="i == currentRowIndex" (click)="onRowClick(i);">
                                 <td></td>
                                 <td>{{ auditregulatory.Date}}</td>
                                 <td>{{ auditregulatory.Task}}</td>
@@ -1125,14 +1126,24 @@
                   <div class="form-inline" style="margin-top:1%">
                     <label for="inputcust">SDS Path</label>
                     <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="MSDSPath" name="msdspa" value="">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:40px;">...</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:20px; width:90px;">Open</button>
+                    <div class="form-group">
+                      <label for="doc1" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:40px;min-width:50px">..</label>
+                      <input type="file"
+                             id="doc1"
+                             (change)="handleFileInput($event.target.files)">
+                    </div>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="height:38px;width:90px;">Open</button>
                   </div>
                   <div class="form-inline" style="margin-top:1%">
                     <label for="inputcust">COA File</label>
                     <input style="width: 60%;" type="text" class="form-control" id="data1" [(ngModel)]="COAPath" name="coapath" value="">
-                    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:10px; width:40px;">...</button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;margin-left:20px; width:90px;">Open</button>
+                    <div class="form-group">
+                      <label for="doc1" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:40px;min-width:50px">..</label>
+                      <input type="file"
+                             id="doc1"
+                             (change)="handleFileInput($event.target.files)">
+                    </div>
+                    <button type="submit" class="btn btn-primary buttoncolor" style="height:38px;width:90px;">Open</button>
                   </div>
                   <div class="form-inline" style="margin-top:1%">
                     <label for="inputcust">Flash Point (C)</label>
@@ -1233,34 +1244,60 @@
                                     <label for="fildoc1" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
                                     <input type="file"
                                            id="fildoc1"
-                                           (change)="handleFileInputattachment($event.target.files)">
+                                           (change)="handleFileInput($event.target.files)">
                                   </div>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Open</button>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
+
                                 <div class="form-inline" style="margin-top:5px">
                                   <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <div class="form-group">
+                                    <label for="fildoc2" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc2"
+                                           (change)="handleFileInputattachment1($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
                                   <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <div class="form-group">
+                                    <label for="fildoc3" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc3"
+                                           (change)="handleFileInputattachment2($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
                                   <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <div class="form-group">
+                                    <label for="fildoc4" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc4"
+                                           (change)="handleFileInputattachment3($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
                                   <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <div class="form-group">
+                                    <label for="fildoc5" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc5"
+                                           (change)="handleFileInputattachment4($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc6" name="d6" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc6" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc6"
+                                           (change)="handleFileInputattachment5($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                               </fieldset>
                             </div>
@@ -1277,34 +1314,64 @@
                               <fieldset class="border p-2">
                                 <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc7" name="d7" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc7" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc7"
+                                           (change)="handleFileInputattachment7($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc8" name="d8" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc8" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc8"
+                                           (change)="handleFileInputattachment8($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc9" name="d9" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc9" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc9"
+                                           (change)="handleFileInputattachment9($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc10" name="d10" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc10" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc10"
+                                           (change)="handleFileInputattachment10($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc11" name="d11" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc11" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc111"
+                                           (change)="handleFileInputattachment11($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc12" name="d12" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc12" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc12"
+                                           (change)="handleFileInputattachment12($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                               </fieldset>
                             </div>
@@ -1321,39 +1388,74 @@
                               <fieldset class="border p-2">
                                 <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc13" name="d13" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc13" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc13"
+                                           (change)="handleFileInputattachment13($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc14" name="d14" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc14" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc14"
+                                           (change)="handleFileInputattachment14($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc15" name="d15" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc15" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc15"
+                                           (change)="handleFileInputattachment15($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc16" name="d16" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc16" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc16"
+                                           (change)="handleFileInputattachment16($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc17" name="d17" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc17" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc17"
+                                           (change)="handleFileInputattachment17($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc18" name="d18" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc18" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc18"
+                                           (change)="handleFileInputattachment18($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc19" name="d19" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc19" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc19"
+                                           (change)="handleFileInputattachment19($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                               </fieldset>
                             </div>
@@ -1370,39 +1472,74 @@
                               <fieldset class="border p-2">
                                 <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Browse Files</legend>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc1" name="d1" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="width: 80%;" type="text" class="form-control" id="data1" [(ngModel)]="doc20" name="d20" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc20" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc20"
+                                           (change)="handleFileInputattachment20($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc2" name="d2" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data2" [(ngModel)]="doc21" name="d21" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc21" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc21"
+                                           (change)="handleFileInputattachment21($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc3" name="d3" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data3" [(ngModel)]="doc22" name="d22" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc22" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc22"
+                                           (change)="handleFileInputattachment22($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc4" name="d4" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data4" [(ngModel)]="doc23" name="d23" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc23" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc23"
+                                           (change)="handleFileInputattachment23($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data5" [(ngModel)]="doc24" name="d24" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc24" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc24"
+                                           (change)="handleFileInputattachment24($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc25" name="d25" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc25" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc25"
+                                           (change)="handleFileInputattachment25($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                                 <div class="form-inline" style="margin-top:5px">
-                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc5" name="d5" value="">
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Browse</button>
-                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;width:90px;">Open</button>
+                                  <input style="    width: 80%;" type="text" class="form-control" id="data6" [(ngModel)]="doc26" name="d26" value="">
+                                  <div class="form-group">
+                                    <label for="fildoc26" class="btn btn-primary buttoncolor " style="margin-left:10px;margin-right:10px;width:70px;min-width:80px">Browse</label>
+                                    <input type="file"
+                                           id="fildoc26"
+                                           (change)="handleFileInputattachment26($event.target.files)">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:38px;width:90px;">Upload</button>
                                 </div>
                               </fieldset>
                             </div>
@@ -1570,7 +1707,7 @@
       <ng-template ngbNavContent>
         <div class="form-inline">
           <label for="inputPassword6" style="margin-left:1%">Function Name</label>
-          <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="pa" style="width:950px;" [(ngModel)]="functioncode" #funa name="funnam" value="">
+          <input disabled type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="pa" style="width:950px;" [(ngModel)]="functioncode" #funa name="funnam" value="">
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="opensearchfunction()">Function Search</button>
           <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:30px;height:45px;width:200px;" (click)="Clearfuntion()">Function Clear</button>
         </div>

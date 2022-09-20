@@ -8,6 +8,7 @@ import { MessageBoxYesnoComponent } from 'src/app/message-box-yesno/message-box-
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { PdrManagementComponent } from '../../pdr-management/pdr-management.component';
 import * as moment from 'moment';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { Datepickerstability } from 'src/app/formula-lookup/addphystability-test/Datepickerstability';
 @Component({
   selector: 'app-addphystability-test',
@@ -108,7 +109,7 @@ export class AddphystabilityTestComponent implements OnInit {
   msgdata: string;
   isDisabledappr: boolean = true;
   stabilityapproval_load: any;
-  constructor(@Inject(MAT_DIALOG_DATA,) public data: any, private http: HttpClient, public dialog: MatDialog) {
+  constructor(@Inject(MAT_DIALOG_DATA,) public data: any, private datashare: DataShareServiceService, private http: HttpClient, public dialog: MatDialog) {
 
     this.rowSelection = 'single';
     this.rowStyle = { fontFamily: 'Verdana', color: 'black' };
@@ -911,6 +912,18 @@ export class AddphystabilityTestComponent implements OnInit {
     this.duration10date = this.enddate;
   }
   ngOnInit() {
+    var Phystabilitylist: any = this.datashare.getPhystability();
+    console.log(Phystabilitylist);
+
+
+    this.storagecondition = Phystabilitylist[0];
+    this.labbatchno =Phystabilitylist[1];
+    this.batchtype = Phystabilitylist[2];
+    this.startdate = formatDate((Phystabilitylist[3]), 'yyyy-MM-dd', 'en-US');
+    this.enddate = formatDate((Phystabilitylist[4]), 'yyyy-MM-dd', 'en-US');
+    this.formulacode = Phystabilitylist[5];
+    this.formulaname = Phystabilitylist[6];
+    this.stabno = Phystabilitylist[7];
     this.startdate = new Date().toISOString().split('T')[0];
     this.enddate=new Date().toISOString().split('T')[0];
   //  this.enddate = new Date(formatDate((this.startdate.setFullYear(this.startdate.getFullYear() + 1)), 'yyyy-MM-dd', 'en-US'));

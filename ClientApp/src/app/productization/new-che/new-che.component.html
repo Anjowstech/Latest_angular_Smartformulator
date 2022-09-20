@@ -1,0 +1,101 @@
+<div style="background-color: #f6f5f1;  height:50vh;">
+
+
+  <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">Chemistry Params</h2>
+
+
+
+  <div style="margin-left:1%;margin-top:1%; height:450px; overflow-y: auto;">
+    <!--<table class="table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+    <thead>
+    <tr>
+    <th hidden scope="col">ParamId</th>
+    <th scope="col">Claim</th>
+    <th scope="col">Method</th>
+    <th scope="col">Limits</th>
+    <th scope="col">User Name</th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+
+    <tr *ngFor="let chem_load of datachem; let i=index;" (click)="setchemvalues(chem_load)">
+    <td hidden>{{ chem_load.ParamId}}</td>
+    <td>{{ chem_load.Claim}}</td>
+    <td>{{ chem_load.Method}}</td>
+    <td style="background-color:lightblue" contenteditable="true">{{ chem_load.Limits}}</td>
+    <td>{{ chem_load.username}}</td>
+    </tr>
+    </tbody>
+    </table>-->
+    <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                  (onSelectionChanged)="selectedChanged($event)"
+                  [columnAutoWidth]="true"
+                  [dataSource]="datachem"
+                  [wordWrapEnabled]="true"
+                  [showColumnLines]="true"
+                  [showRowLines]="true"
+                  [showBorders]="true"
+                  (onCellClick)="openrawmaterialserach($event)"
+                  (rowprepared)="rowprepared">
+      <dxo-editing mode="row"
+                   [allowUpdating]="true"
+                   [useIcons]="true">
+      </dxo-editing>
+      <dxo-column-chooser [enabled]="false">
+        or "select"
+      </dxo-column-chooser>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+
+
+      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+
+
+      <dxi-column dataField="ParamId"
+                  [visible]="false"></dxi-column>
+      <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+      <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
+        <b style="color: black"></b>
+      </div>
+      <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+      <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
+        <b style="color: black">Claim</b>
+      </div>
+      <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+      <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
+        <b style="color: black">Method</b>
+      </div>
+      <dxi-column dataField="Limits" headerCellTemplate="addressHeaderTemplatefoa"></dxi-column>
+      <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
+        <b style="color: black;">Limits</b>
+      </div>
+      <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+      <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
+        <b style="color: black">Username</b>
+      </div>
+
+
+
+    </dx-data-grid>
+  </div>
+  <div style="background-color: #f6f5f1;">
+    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:170px;margin-left:14%;" (click)="openaddchemistry()">Add New Param</button>
+    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:70px;margin-left:1%;" (click)="SaveProperty()">Save</button>
+    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:170px;margin-left:1%;" (click)="chemparamdelete()">Delete Param</button>
+    <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:70px;margin-left:1%;" matDialogClose>Back</button>
+  </div>
+</div>
+<!--<div style="background-color: #f6f5f1;" >
+
+
+            <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:170px;margin-left:14%;" (click)="openaddchemistry()">Add New Param</button>
+            <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:70px;margin-left:1%;" (click)="SaveProperty()">Save</button>
+            <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:170px;margin-left:1%;" (click)="chemparamdelete()">Delete Param</button>
+            <button type="submit" class="btn btn-primary buttoncolor" style="height:50px;width:70px;margin-left:1%;" matDialogClose>Back</button>
+
+        </div>-->

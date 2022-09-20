@@ -36,6 +36,7 @@ import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-ye
 })
 export class CustomerDetailsComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid2: DxDataGridComponent;
   Dateforma = [
     { dateform: "MM/dd/yyyy" },
     { dateform: "MM/dd/yyy" },
@@ -76,7 +77,7 @@ export class CustomerDetailsComponent implements OnInit {
   cuskey: string;
   /* custnam: string;*/
   address: string = "";
-  customertype: string='Retail';
+  customertype: string ="Retail";
   phone: string = "";
   emailref: string = "";
   addeddt: string = "";
@@ -148,6 +149,7 @@ export class CustomerDetailsComponent implements OnInit {
   searchitems: any = [];
   shippingdata: any;
   Customer_pref_data: any;
+  currentRowIndex: number = -1;
   locationname: string = "";
   Address: string = "";
   City: string = "";
@@ -227,7 +229,23 @@ export class CustomerDetailsComponent implements OnInit {
   loadsalesrepinitial: any;
   deleteddata: string;
   deleterowdelete: string;
+  onRowClick: any;
+  ProductCode2: any;
+
+ProductName2: any;
+FormulaCode2 : any;
+  FormulaName2: any;
+  item2:any
+  checkIfOthersAreSelected: boolean;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
+    this.onRowClick = function (index) {
+      if (this.currentRowIndex == index) {
+        this.currentRowIndex = -1;
+      }
+      else {
+        this.currentRowIndex = index;
+      }
+    }
     this.login_form = fb.group({
       'custokey': ['', Validators.required],
       'custoname': ['', Validators.required],
@@ -328,18 +346,40 @@ export class CustomerDetailsComponent implements OnInit {
     var filebrowse = files.item.length;
     this.FillingAttachment2 = files.item(0).name;
   }
-
   blurEventtier2(event: any) {
-    this.Tier2 = event.target.value;  
-    if (Number(this.Tier2) < Number(this.Tier1) ) {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier2 should be greater than tier1' } });
+    this.Tier2 = event.target.value;
+    if (Number(this.Tier2) < Number(this.Tier1)) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier2 should be greater than tier1' } });
       this.Tier2 = '0';
-      }
+    }
   }
 
 
+  shippingchange(event) {
+    for (let item of this.shippingdata) {
+      if (item.DefaultLocation == "True") {
+        this.default = item.DefaultLocation;
+        this.locationname = item.LocationName;
+        this.Address = item.Address;
+        this.City = item.City;
+        this.State = item.State;
+        this.Country = item.Country;
+        this.zipcode = item.ZipCode;
+        this.contactno = item.Contactno;
+        this.contactperson = item.Contactperson;
+        this.Email = item.Emailid;
+        this.Fax = item.Fax;
+        this.locationnote = item.LocationNotes;
+        this.telepho = item.Telephone;
+      }
+      else {
 
 
+
+      }
+    }
+  }
+ 
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
       width: '60%', height: '70%', disableClose: true
@@ -410,7 +450,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.volumePricingloadlistdetails_data = volumePricingloadlistdetails
 
       })
-      this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+      this.audittrialloadfunction(this.customername).subscribe((loadcustomeraudittrial) => {
         console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
         this.dataloadaudittrialcustomer = loadcustomeraudittrial
       })
@@ -419,6 +459,7 @@ export class CustomerDetailsComponent implements OnInit {
     });
 
   }
+  
   deletetierrange() {
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     if (this.selectedRowIndex == -1) {
@@ -492,8 +533,7 @@ export class CustomerDetailsComponent implements OnInit {
   OpenTermsMaster(): void {
     const dialogRef = this.dialog.open(TermsMasterComponent, {
       width: '60%', height: '70%', disableClose: true
-    });
-    dialogRef.afterClosed().subscribe(result => {
+    }); dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
 
       this.termsdataload().subscribe((termsdatalo) => {
@@ -503,6 +543,7 @@ export class CustomerDetailsComponent implements OnInit {
     });
 
   }
+  
   onRowPrepared2(e) {
 
   }
@@ -687,7 +728,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.OpenAddClientLocation();
   }
 
-  insert_tier4(event:any) {
+  insert_tier4(event: any) {
     this.Tier3 = event.target.value;
     if (Number(this.Tier3) < Number(this.Tier2)) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier3 should be greater than tier2' } });
@@ -697,7 +738,7 @@ export class CustomerDetailsComponent implements OnInit {
       this.Tier4Range = 'Above ' + this.Tier3;
       this.Tier4 = 'Above ' + this.Tier3;
     }
-    
+
   }
   setvalues2(customer_searchdata2: any) {
     this.i = 0;
@@ -921,12 +962,12 @@ export class CustomerDetailsComponent implements OnInit {
         this.FormulaCode = result[4];
         this.FormulaName = result[5];
         // this.COADTFORMAT = result[2];
-        this.item = result[1];
+        this.item2= result[1];
         this.selectedRowIndex = indexdataprod;
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode2);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "COADTFORMAT", 'MM/dd/yyyy');
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
@@ -944,35 +985,37 @@ export class CustomerDetailsComponent implements OnInit {
 
 
   }
-  Opentiredvolumepricing(e): void {
+  Opensearchproducts2(e): void {
     var indexdataprod: any = e.rowIndex;
 
     const dialogRef = this.dialog.open(SearchProductsComponent, {
-      width: '60%', height: '70%', disableClose: true
+      width: '70%', height: '80%', disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
-        this.ProductNumber = result[0];
-        this.ProductName = result[2];
-        this.ValidatedSize = result[3];
-        this.FormulaCode = result[4];
-        this.FormulaName = result[5];
-        //this.item = result[1];
-        this.item = result[1];
+
+
+
+        this.ProductCode2 = result[0];
+
+        this.ProductName2 = result[2];
+        this.FormulaCode2 = result[4];
+        this.FormulaName2 = result[5];
+        // this.COADTFORMAT = result[2];
+        this.item2 = result[1];
         this.selectedRowIndex = indexdataprod;
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductNumber);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitSize", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Value", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Value", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Value", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Value", '0.00');
-        this.dataGrid.instance.saveEditData();
+       
+        this.dataGrid2.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
+        this.dataGrid2.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName2);
+        
+        this.dataGrid2.instance.saveEditData();
       }
     });
+
+
+
+
   }
   wait(ms) {
     var start = new Date().getTime();
@@ -1233,9 +1276,6 @@ export class CustomerDetailsComponent implements OnInit {
     //  }
     //});
   }
-
- 
-
   selectedChanged(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
@@ -1251,10 +1291,6 @@ export class CustomerDetailsComponent implements OnInit {
 
   dateChangeexp(event) {
     this.expirydate = event.target.value;
-
-  }
-  checkchange(event:any) {
-    this.default = "false";
 
   }
 
@@ -1405,14 +1441,17 @@ export class CustomerDetailsComponent implements OnInit {
           this.Customer_saveup(custcode, custnam, custkey, operation).subscribe((Customer_save) => {
             console.warn("Customer_save", Customer_save)
             this.Customer_save_data = Customer_save
+            this.wait(3000);
+            this.audittrialloadfunction(custnam).subscribe((loadcustomeraudittrial) => {
+              console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
+              this.dataloadaudittrialcustomer = loadcustomeraudittrial
+            })
             if (this.Customer_save_data == "Inserted") {
+             
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Customer " + " " + this.customername + " is " + this.Customer_save_data + " " + "Successfully" } });
+              
               this.issearchcustomer = false;
               this.issearchcustomersave = true;
-              this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
-                console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
-                this.dataloadaudittrialcustomer = loadcustomeraudittrial
-              })
               this.Customer_save_data = ""
             }
             else if (this.Customer_save_data == "Customer Key") {
@@ -1625,7 +1664,7 @@ export class CustomerDetailsComponent implements OnInit {
             this.Customer_save_data = Customer_update
 
             this.wait(3000);
-            this.audittrialloadfunction(this.customercode).subscribe((loadcustomeraudittrial) => {
+            this.audittrialloadfunction(custnam).subscribe((loadcustomeraudittrial) => {
               console.warn("loadcustomeraudittrial", loadcustomeraudittrial)
               this.dataloadaudittrialcustomer = loadcustomeraudittrial
             })

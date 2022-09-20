@@ -302,6 +302,47 @@ export class FormulaLookupComponent implements OnInit {
   };
   sendqc: any[];
   sendpropellenetvoc: any[];
+    word1: string;
+    word2: string;
+    word3: string;
+    word4: string;
+    word5: string;
+    word6: string;
+    word7: string;
+    word8: string;
+    word9: string;
+  word10: string;
+  word11: string;
+  word12: string;
+  word13: string;
+  word14: string;
+  word15: string;
+  word16: string;
+  word17: string;
+  word18: string;
+  word19: string;
+  word20: string;
+  word21: string;
+  word22: string;
+  word23: string;
+  word24: string;
+  word25: string;
+  word26: string;
+  word27: string;
+  word28: string;
+  word29: string;
+  word30: string;
+  word31: string;
+  word32: string;
+  word33: string;
+  word34: string;
+  word35: string;
+  word36: string;
+  word37: string;
+  word38: string;
+  word39: string;
+  word40: string;
+
  
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) {
 
@@ -1022,10 +1063,37 @@ export class FormulaLookupComponent implements OnInit {
     const dialogRef = this.dialog.open(CategoryMaintenanceComponent, {
       width: '80%', height: '90%', disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      
+
+        this.rawcategoryload().subscribe((rawcategoryload) => {
+          console.warn("rawcategoryload", rawcategoryload)
+          this.datarawcategoryload = rawcategoryload
+        })
+      
+    });
   }
   OpenSubCategoryformula(): void {
     const dialogRef = this.dialog.open(SubCategoryMaintenanceComponent, {
       width: '80%', height: '90%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+
+      this.rawsubcategoryload(this.Class).subscribe((rawsubcategoryload) => {
+        console.warn("rawsubcategoryload", rawsubcategoryload)
+        this.datarawsubcategoryload = rawsubcategoryload
+        this.datarawsubcategoryload.forEach(item => {
+          if (item.SubCategory == this.SubClass1) {
+            this.SubClass = item.SubCategory;
+          }
+        })
+
+
+      });
+
     });
   }
   AddPrefixPopUp(): void {
@@ -1685,10 +1753,28 @@ export class FormulaLookupComponent implements OnInit {
     }
   }
   AddproductTesting(): void {
-    var billdata: any = [this.PDRno, this.formulaname, this.formulacode, this.customername]
-    const dialogRef = this.dialog.open(AddproductTestingComponent, {
-      width: '80%', height: '90%', data: { displaydata2: billdata }, disableClose: true
-    });
+    if (this.formulacode == "" || this.formulacode == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Code' } });
+    } else {
+      var billdata: any = [this.PDRno, this.formulaname, this.formulacode, this.customername]
+      const dialogRef = this.dialog.open(AddproductTestingComponent, {
+        width: '80%', height: '90%', data: { displaydata2: billdata }, disableClose: true
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.BindFormulaProduct_load(this.formulacode).subscribe((BindFormulaProduct_load) => {
+          console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
+          this.BindFormulaProduct_data_load = BindFormulaProduct_load;
+        })
+        this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+          console.warn("Audittrackingload", Audittrackingload)
+          this.AudittrackData = Audittrackingload
+        })
+      });
+
+
+    }
   }
   OpenAddproductTesting(binddetails): void {
     this.tsname = binddetails.TestName
@@ -1708,10 +1794,184 @@ export class FormulaLookupComponent implements OnInit {
 
 
 
-    this.binddata = [this.PDRno, this.formulaname, this.formulacode, this.customername, this.tsname, this.sdate, this.cmdate, this.lbname, this.csst, this.qtsdate, this.odsate, this.ddate, this.ssddate, this.cussdate, this.porder, this.adaate, this.qtsdate, this.apd, this.apby]
+    this.binddata = [this.PDRno, this.formulaname, this.formulacode, this.customername, this.tsname, this.sdate, this.cmdate, this.lbname, this.csst, this.qtsdate, this.odsate, this.dsdate, this.ssddate, this.cussdate, this.porder, this.adaate, this.qtsdate, this.apd, this.apby]
     const dialogRef = this.dialog.open(AddproductTestingComponent, {
       width: '80%', height: '90%', data: { displaydata: this.binddata }, disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
+      })
+      this.BindFormulaProduct_load(this.formulacode).subscribe((BindFormulaProduct_load) => {
+        console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
+        this.BindFormulaProduct_data_load = BindFormulaProduct_load;
+      })
+
+
+
+    });
+  }
+  handleFileInput1(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word1 = files.item(0).name;
+  }
+  handleFileInput2(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word2 = files.item(0).name;
+  }
+  handleFileInput3(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word3 = files.item(0).name;
+  }
+  handleFileInput4(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word4 = files.item(0).name;
+  }
+  handleFileInput5(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word5 = files.item(0).name;
+  }
+  handleFileInput6(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word6 = files.item(0).name;
+  }
+  handleFileInput7(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word7 = files.item(0).name;
+  }
+  handleFileInput8(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word8 = files.item(0).name;
+  }
+  handleFileInput9(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word9 = files.item(0).name;
+  }
+  handleFileInput10(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word10 = files.item(0).name;
+  }
+  handleFileInput11(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word11 = files.item(0).name;
+  }
+  handleFileInput12(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word12 = files.item(0).name;
+  }
+  handleFileInput13(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word13 = files.item(0).name;
+  }
+  handleFileInput14(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word14 = files.item(0).name;
+  }
+  handleFileInput15(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word15 = files.item(0).name;
+  }
+  handleFileInput16(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word16 = files.item(0).name;
+  }
+  handleFileInput17(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word17 = files.item(0).name;
+  }
+  handleFileInput18(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word18 = files.item(0).name;
+  }
+  handleFileInput19(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word19 = files.item(0).name;
+  }
+  handleFileInput20(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word20 = files.item(0).name;
+  }
+  handleFileInput21(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word21 = files.item(0).name;
+  }
+  handleFileInput22(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word22 = files.item(0).name;
+  }
+  handleFileInput23(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word23 = files.item(0).name;
+  }
+  handleFileInput24(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word24 = files.item(0).name;
+  }
+  handleFileInput25(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word25 = files.item(0).name;
+  }
+  handleFileInput26(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word26 = files.item(0).name;
+  }
+  handleFileInput27(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word27 = files.item(0).name;
+  }
+  handleFileInput28(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word28 = files.item(0).name;
+  }
+  handleFileInput29(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word29 = files.item(0).name;
+  }
+  handleFileInput30(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word30 = files.item(0).name;
+  }
+  handleFileInput31(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word31 = files.item(0).name;
+  }
+  handleFileInput32(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word32 = files.item(0).name;
+  }
+  handleFileInput33(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word33 = files.item(0).name;
+  }
+  handleFileInput34(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word34 = files.item(0).name;
+  }
+  handleFileInput35(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word35 = files.item(0).name;
+  }
+  handleFileInput36(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word36 = files.item(0).name;
+  }
+  handleFileInput37(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word37 = files.item(0).name;
+  }
+  handleFileInput38(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word38 = files.item(0).name;
+  }
+  handleFileInput39(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word39 = files.item(0).name;
+  }
+  handleFileInput40(files: FileList) {
+    var filebrowse = files.item.length;
+    this.word40 = files.item(0).name;
   }
   makeCellClickedinci(event) {
     this.incilabel = "INCI Name";
@@ -6781,6 +7041,10 @@ export class FormulaLookupComponent implements OnInit {
   
   onGridReadyone(params) {
     this.gridApione = params.api;
+    
+    this.rowDatascalability = this.rowData;
+
+
     if (this.scalefactor != null && this.scalefactor != undefined && this.flag1 == 1) {
       this.gridApione.setRowData(this.rowDatascalability);
       this.gridApione.getModel();

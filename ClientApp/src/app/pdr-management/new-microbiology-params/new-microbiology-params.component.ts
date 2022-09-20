@@ -52,12 +52,16 @@ export class NewMicrobiologyParamsComponent implements OnInit {
       this.microdlt_data = dlt_microbio
       if (this.microdlt_data == "Parameter is deleted successfully.") {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Parameter is deleted successfully.' } });
+        this.loadmicrobiology(this.loadpdrno).subscribe((loadmicrobiologydata) => {
+          console.warn("loadmicrobiologydata", loadmicrobiologydata)
+          this.datamicro = loadmicrobiologydata
+        })
       }
     })
-    this.loadmicrobiology(this.loadpdrno).subscribe((loadmicrobiologydata) => {
-      console.warn("loadmicrobiologydata", loadmicrobiologydata)
-      this.datamicro = loadmicrobiologydata
-    })
+    //this.loadmicrobiology(this.loadpdrno).subscribe((loadmicrobiologydata) => {
+    //  console.warn("loadmicrobiologydata", loadmicrobiologydata)
+    //  this.datamicro = loadmicrobiologydata
+    //})
   }
   micro_delete() {
     var testvalue: string = this.dataGrid.instance.cellValue(this.selectedRowIndex, "Test");

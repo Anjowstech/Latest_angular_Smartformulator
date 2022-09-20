@@ -90,8 +90,8 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', subcategoryidval).
       set('categoryid', categoryidval);
 
-    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType: "text"  });
-
+    return this.http.get("https://rawmaterialsupliermodule8.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType: "text"  });
+   // "https://rawmaterialsupliermodulesample.azurewebsites.net"
   }
   savesubcategory(subcategoryname: string, description: string,  categoryid: string) {
     var subcategorynameval: string = subcategoryname;
@@ -104,7 +104,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
       set('subcategoryid', "0").
       set('categoryid', categoryidval );
 
-    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType:"text" });
+    return this.http.get("https://rawmaterialsupliermodule8.azurewebsites.net/delete_insert_new_subcatogory", { params: params1, responseType:"text" });
 
   }
   addRow(row: { name: string; items: string; items1: string; items2: string; items3: string;  }): void {
@@ -128,9 +128,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
     if (this.categorynam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
     }
-    else if (this.descript == "") {
-      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
-    }
+   
     else if (this.subcategorynam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Subcategory Name" } });
     }
@@ -155,9 +153,7 @@ export class SubCategoryMaintenanceComponent implements OnInit {
     if (this.categorynam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Category Name" } });
     }
-    else if (this.descript == "") {
-      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Description" } });
-    }
+   
     else if (this.subcategorynam == "") {
       this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter Subcategory Name" } });
     }

@@ -40,7 +40,7 @@ export class UnapprovedRawmaterialComponent implements OnInit {
 
 
 
-  constructor(public dialog: MatDialog, private http: HttpClient, public dialogRef: MatDialogRef<UnapprovedRawmaterialComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData,) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, public dialogRef: MatDialogRef<UnapprovedRawmaterialComponent>, @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
 
   unapproverawmaterials() {
@@ -95,10 +95,20 @@ export class UnapprovedRawmaterialComponent implements OnInit {
         });
       }
 
+   
     });
   }
 
-  
+  Onclick(event:any) {
+    var checkedrawmat = event.checked;
+    if (checkedrawmat == false) {
+      this.dialog.open(MessageBoxComponent, {
+        width: '40%', height: '15%', data: {
+          displaydata: "Sample cant be created without approving all raw materials."
+        }
+      });
+    }
+  }
 
 
 
@@ -154,7 +164,7 @@ export class UnapprovedRawmaterialComponent implements OnInit {
   }
   ngOnInit() {
 
-  //  this.formulacode = this.data.displaydata[0];
+  this.formulacode = this.data.displaydata[0];
 
     this.Loadunapproverawmatlist().subscribe((resultLoadunapproverawmatlist) => {
       this.isLoading = false;

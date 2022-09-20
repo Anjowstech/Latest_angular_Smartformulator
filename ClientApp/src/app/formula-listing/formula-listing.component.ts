@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 export interface FormulaList {
   name: string;
   position: string;
@@ -10,7 +10,7 @@ export interface FormulaList {
   status: string;
   createdby: string;
   date: string;
-
+ 
 
 }
 export interface FormulaList1 {
@@ -85,7 +85,9 @@ productDatetofisrt:string = "";
   t10formulanamecust: string = "";
   t10productname: string = "";
   t10customername: string = "";
-  constructor(private http: HttpClient) { }
+  clientid: string = "";
+  loadprodatacount: any;
+  constructor(private http: HttpClient, private Datashare: DataShareServiceService) { }
   helloWorld() {
     alert('Hello world!');
   }
@@ -96,6 +98,7 @@ productDatetofisrt:string = "";
     this.loadproduct(this.productDatefrom, this.productDateto, this.checkedvalue, this.searchflag).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
+      this.loadprodatacount = this.loadprodata.length;
     })
   }
   triggerSomeEvent2(event: any) {
@@ -108,6 +111,7 @@ productDatetofisrt:string = "";
     this.loadproduct(this.productDatefrom, this.productDateto, this.checkedvalue, this.searchflag).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
+      this.loadprodatacount = this.loadprodata.length;
     })
   }
   triggerSomeEvent1(event: any) {
@@ -120,6 +124,7 @@ productDatetofisrt:string = "";
     this.loadproduct(this.productDatefrom, this.productDateto, this.checkedvalue, this.searchflag).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
+      this.loadprodatacount = this.loadprodata.length;
     })
   }
   triggerSomeEvent3(event: any) {
@@ -132,6 +137,7 @@ productDatetofisrt:string = "";
     this.loadproduct(this.productDatefrom, this.productDateto, this.checkedvalue, this.searchflag).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
+      this.loadprodatacount = this.loadprodata.length;
     })
   }
   triggerSomeEvent4(event: any) {
@@ -144,6 +150,7 @@ productDatetofisrt:string = "";
     this.loadproduct(this.productDatefrom, this.productDateto, this.checkedvalue, this.searchflag).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
+      this.loadprodatacount = this.loadprodata.length;
     })
   }
   ClearData() {
@@ -152,69 +159,74 @@ productDatetofisrt:string = "";
     this.inactiveproducts = "0";
     this.pendingproducts = "0";
     this.productDatefrom = new Date().toISOString().split('T')[0];
-      
+    this.loadprodatacount = "";
     this.productDateto = new Date().toISOString().split('T')[0];
     this.checkedvalue= "all"
     this.searchflag = "0";
     this.productDatefromfisrt = "";
     this.productDatetofisrt = "";
-    this.loadproduct(this.productDatefromfisrt, this.productDatetofisrt, this.checkedvalue, this.searchflag).subscribe((loadpro) => {
+    this.loadproduct(this.productDatefromfisrt, this.productDatetofisrt, this.checkedvalue, this.searchflag, ).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
     })
   }
   loadcustomer() {
 
-  
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/CustomerLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/CustomerLoad", { params: params1 })
   }
   loadgeneric() {
 
-
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/GenericLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/GenericLoad", { params: params1 })
   }
   loadlabref() {
 
-
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/LabLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/LabLoad", { params: params1 })
   }
   loadformula() {
 
-
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/FormulaLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/FormulaLoad", { params: params1 })
   }
   loadcompany_owned() {
 
-
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/CompanyLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/CompanyLoad", { params: params1 })
   }
   loadcust() {
 
-
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/CustLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/CustLoad", { params: params1 })
   }
   loadall() {
 
-
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/AllLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/AllLoad", { params: params1 })
   }
   loadusername() {
-    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/UsernameLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/UsernameLoad", { params: params1 })
   }
   loadprojectname() {
-    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/ProjectnameLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/ProjectnameLoad", { params: params1 })
 
   }
   loadcustomername() {
-    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/customernameLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/customernameLoad", { params: params1 })
 
   }
   loadstability() {
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/stabilityLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/stabilityLoad", { params: params1 })
 
   }
   loadcompat() {
-    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/compLoad")
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice1.azurewebsites.net/compLoad", { params: params1 })
   }
   loadproduct(datefrom:string, dateto:string, checkedvalue:string, searchflag:string) {
     var datf: string = datefrom;
@@ -222,10 +234,11 @@ productDatetofisrt:string = "";
     var checkvalue: string = checkedvalue;
     var serachva: string = searchflag;
 
-    let params1 = new HttpParams().set('datefrom', datf).set('dateto', datt).set('checkvalue', checkvalue).set('searchflag',serachva);
+    let params1 = new HttpParams().set('datefrom', datf).set('dateto', datt).set('checkvalue', checkvalue).set('searchflag', serachva).set('clientid', this.clientid);
     return this.http.get("https://formulalistingwebservice1.azurewebsites.net/ProLoad", { params: params1 })
   }
   ngOnInit() {
+    this.clientid = this.Datashare.getconnection();
     this.allproduct = "1";
     this.searchflag = "0";
     if (this.allproduct == "1") {
@@ -241,34 +254,42 @@ productDatetofisrt:string = "";
     this.loadcustomer().subscribe((loadcust) => {
       console.warn("loadcustomer", loadcust)
       this.loadcustom = loadcust
+      this.loadprodatacount = this.loadcustom.length;
     })
     this.loadgeneric().subscribe((loadgene) => {
       console.warn("loadgeneric", loadgene)
       this.loadgenericdata = loadgene
+      this.loadprodatacount = this.loadgenericdata.length;
     })
     this.loadlabref().subscribe((loadlab) => {
       console.warn("loadlab", loadlab)
       this.loadlarefdata = loadlab
+      this.loadprodatacount = this.loadlarefdata.length;
     })
     this.loadformula().subscribe((loadform) => {
       console.warn("loadform", loadform)
       this.loadformuladata = loadform
+      this.loadprodatacount = this.loadformuladata.length;
     })
     this.loadcompany_owned().subscribe((loadcomp_load) => {
       console.warn("loadcomp_load", loadcomp_load)
       this.loadcmpanydata = loadcomp_load
+      this.loadprodatacount = this.loadcmpanydata.length;
     })
     this.loadcust().subscribe((loadcusto) => {
       console.warn("loadcust", loadcusto)
       this.loadcustdata = loadcusto
+      this.loadprodatacount = this.loadcustdata.length;
     })
     this.loadall().subscribe((loadall) => {
       console.warn("loadall", loadall)
       this.loadalldata = loadall
+      this.loadprodatacount = this.loadalldata.length;
     })
-    this.loadproduct(this.productDatefromfisrt, this.productDatetofisrt,this.checkedvalue,this.searchflag).subscribe((loadpro) => {
+    this.loadproduct(this.productDatefromfisrt, this.productDatetofisrt, this.checkedvalue, this.searchflag, ).subscribe((loadpro) => {
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
+      this.loadprodatacount = this.loadprodata.length;
     })
     this.loadusername().subscribe((loaduser) => {
       console.warn("loaduser", loaduser)
@@ -285,10 +306,12 @@ productDatetofisrt:string = "";
     this.loadstability().subscribe((loadstability) => {
       console.warn("loadstability", loadstability)
       this.loadstabilitydata = loadstability
+      this.loadprodatacount = this.loadstabilitydata.length;
     })
     this.loadcompat().subscribe((loadcompat) => {
       console.warn("loadstability", loadcompat)
       this.loadcompatdata = loadcompat
+      this.loadprodatacount = this.loadcompatdata.length;
     })
   }
 

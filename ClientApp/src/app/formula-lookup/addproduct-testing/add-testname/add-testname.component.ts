@@ -21,20 +21,30 @@ export class AddTestnameComponent implements OnInit {
   //}
 
   testnamesave() {
-    this.testnamesaveup().subscribe((Savetestname) => {
-      console.warn("Savetestname", Savetestname)
-      this.testname_data = Savetestname
+    if (this.testname == "" || this.testname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter test name' } });
+    } else {
+      this.testnamesaveup().subscribe((Savetestname) => {
+        console.warn("Savetestname", Savetestname)
+        this.testname_data = Savetestname
 
-      if (this.testname_data == "Inserted") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Testname' + this.testname + ' is saved successfully.' } });
-      }
 
-      else {
-        (this.testname_data == "testname")
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Test name already exists!' } });
-      }
 
-    })
+        if (this.testname_data == "Inserted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Testname' + this.testname + ' is saved successfully.' } });
+        }
+
+
+
+        else {
+          (this.testname_data == "testname")
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Test name already exists!' } });
+        }
+
+
+
+      })
+    }
   }
 
   testnamesaveup() {

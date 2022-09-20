@@ -1,0 +1,60 @@
+<div style="    background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:60vh;width:100%">
+
+    <h2 style="    margin-bottom: 5px; margin-top:5px;font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">OEM</h2>
+
+    <fieldset class="border p-2">
+
+      <div style="margin-top:5px;">
+
+        <div class="form-inline">
+          <label for="PDR #">OEM</label>
+          <input style="width:50%" type="text" class="form-control" id="PDR #" [(ngModel)]="oem">
+        </div>
+
+
+      </div>
+    </fieldset>
+    <p style="color:maroon">Click to edit value in grid</p>
+
+    <div style="margin-left:1%;margin-top:1%; height:400px; overflow-y: auto;">
+      <table class="table-hover table-bordered" style="margin-left: 10px; background-color: white" id="serach_project" width="98%">
+        <thead>
+          <tr>
+            <th scope="col" style="width:3%"></th>
+            <th scope="col" style="width:90%">OEM</th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let oem_Details of loadoem" (click)="setvalues(oem_Details);target();" #conten>
+
+            <td class="tabledatasize"></td>
+            <td class="tabledatasize">{{ oem_Details.OEM1}}</td>
+
+
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+
+
+</div>
+<div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:5px;height:50px;width:100px;margin-top:1%" [hidden]="isproductsave" (click)="saveoem();clear();">Save</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" [hidden]="isproductupdate" (click)="updateoem();clear();target2();">Update</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="clear();target2();">New</button>
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 5px; height: 50px; width: 100px; margin-top: 1%" (click)="deleteoem();target2();clear();">Delete</button>
+
+  <h5 style="float:left;margin-top:10px;color:maroon">{{count}} Record(s)</h5>
+</div>
+
+

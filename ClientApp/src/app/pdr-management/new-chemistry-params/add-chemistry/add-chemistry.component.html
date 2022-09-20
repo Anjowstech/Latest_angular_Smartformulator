@@ -24,7 +24,7 @@
         <div style="margin-top:1%">
           <div class="form-inline">
             <mat-dialog-actions>
-              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:40px;">New</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:40px;" (click)="Clear();">New</button>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="Addchemistryparams(clm.value,mtd.value);" matDialogClose>Add</button>
               <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
             </mat-dialog-actions>

@@ -25,6 +25,8 @@ export class RawmaterialRestrictionComponent implements OnInit {
   Inciiddata: string;
   IngredientCodedata: string;
   Maximumdata: string = "";
+  oldminper: string;
+  oldppm: string;
   OtherLimitationsdata: string = "";
   Percentagedata: string;
   Sourceinfodata: string = "";
@@ -43,8 +45,8 @@ export class RawmaterialRestrictionComponent implements OnInit {
   ifCArestriction: boolean = true;
   ifchinamax: boolean = false;
   chineseinci: string = "";
-  minpercent: string = "";
-  ppm: string = "";
+  minpercent: string = "0";
+  ppm: string = "0";
   doclink: string = "";
   sourceregulation: string = "";
 
@@ -63,6 +65,29 @@ export class RawmaterialRestrictionComponent implements OnInit {
       .set('INCIName', inci)
       .set('operation', operat);
     return this.http.get("https://formularestrictionwebservice.azurewebsites.net/RestrictionDoubleClick", { params: params1 })
+  }
+  restrictiondata(restrictdata: any) {
+
+    for (let item of restrictdata) {
+
+
+      this.Conditionsdata = item.Conditions
+      this.Countrydata = item.Country
+      this.FieldofApplndata = item.FieldofAppln
+      this.INCINamedata = item.INCIName
+      this.Inciiddata = item.Inciid
+      this.IngredientCodedata = item.IngredientCode
+      this.Maximumdata = item.Maximum
+      this.OtherLimitationsdata = item.OtherLimitations
+      this.Percentagedata = item.Percentage
+      this.oldminper = item.Percentage
+      this.Sourceinfodata = item.Sourceinfo
+      this.maxpercentagedata = item.maxpercentage
+      this.oldmaxperc = item.maxpercentage,
+      this.ppm = item.ppm
+      this.sourceregulation = item.DocLink
+      this.internalcomm = item.internalcomments
+    }
   }
   handleFileInput(files: FileList) {
     var filebrowse = files.item.length;
@@ -84,15 +109,18 @@ export class RawmaterialRestrictionComponent implements OnInit {
     }
 
 
+   
+
+
   }
   blurminpercentage(event: any) {
     this.minpercent = event.target.value;
     /*if (this.INCINamedata == "" || this.INCINamedata == undefined) {*/
-      if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
-        this.minpercent = '0';
-      }
-   /* }*/
+    if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.minpercent = '0';
+    }
+    /* }*/
     //else {
     //  if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
     //    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
@@ -102,32 +130,43 @@ export class RawmaterialRestrictionComponent implements OnInit {
 
 
   }
-  restrictiondata(restrictdata: any) {
-
-    for (let item of restrictdata) {
-
-
-      this.Conditionsdata = item.Conditions
-      this.Countrydata = item.Country
-      this.FieldofApplndata = item.FieldofAppln
-      this.INCINamedata = item.INCIName
-      this.Inciiddata = item.Inciid
-      this.IngredientCodedata = item.IngredientCode
-      this.Maximumdata = item.Maximum
-      this.OtherLimitationsdata = item.OtherLimitations
-      this.Percentagedata = item.Percentage
-      this.Sourceinfodata = item.Sourceinfo
-      this.maxpercentagedata = item.maxpercentage
-      this.oldmaxperc = item.maxpercentage
-      this.ppm = item.ppm
-      this.sourceregulation = item.DocLink
-      this.internalcomm = item.internalcomments
+  blurpercentage(event: any) {
+    this.minpercent = event.target.value;
+    if (this.INCINamedata == "" || this.INCINamedata == undefined) {
+      if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.minpercent = '0';
+      }
     }
-  }
+    else {
+      if (Number(this.minpercent) < 0.00000 || isNaN(Number(this.minpercent))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.minpercent = '0';
+      }
+    }
 
+
+  }
+  ppmpercentage(event: any) {
+    this.ppm = event.target.value;
+    if (this.INCINamedata == "" || this.INCINamedata == undefined) {
+      if (Number(this.ppm) < 0.00000 || isNaN(Number(this.ppm))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.ppm = '0';
+      }
+    }
+    else {
+      if (Number(this.ppm) < 0.00000 || isNaN(Number(this.ppm))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.ppm = '0';
+      }
+    }
+
+
+  }
   Restriction_SaveUpdate() {
     this.Oper = this.data.displaydata1;
-    
+
     if (this.Oper == "CA_PROP_65 Restriction") {
       if (this.ppm == "0") {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Enter ppm" } });
@@ -175,7 +214,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
         this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
           console.warn("restriction_save_up", restriction_save_up)
           this.restriction_save_up_data = restriction_save_up
-
+        
           if (this.restriction_save_up_data == "Inserted") {
             this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
             this.restriction_save_up_data = ""
@@ -239,28 +278,28 @@ export class RawmaterialRestrictionComponent implements OnInit {
           this.Restriction_saveupdateup().subscribe((restriction_save_up) => {
             console.warn("restriction_save_up", restriction_save_up)
             this.restriction_save_up_data = restriction_save_up
-
+ 
             if (this.restriction_save_up_data == "Inserted") {
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction details saved Successfully" } });
               this.restriction_save_up_data = ""
             }
             else if (this.restriction_save_up_data == "Updated") {
-              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details saved Successfully" } });
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "RawMaterial Regulatoryrestriction Details Updated Successfully" } });
               this.restriction_save_up_data = ""
             }
           })
         }
       }
-     
-      
+
+
     }
   }
-  Restriction_saveupdateup() {
-
-    var datalistrestriction: any = JSON.stringify(this.Restrictiondatalist);
-    var operation: string = this.Oper;
-    let params1 = new HttpParams().set('Rawmaterialrestrctnjson', datalistrestriction).set('operation', operation);
-    return this.http.get("https://smartformulatorformulalookupwebservice5.azurewebsites.net/RawMtrlRestrictionBtnSave", { params: params1, responseType: 'text' })
+  wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
   }
   Cleardata() {
     this.country = '';
@@ -278,25 +317,32 @@ export class RawmaterialRestrictionComponent implements OnInit {
     this.internalReg = '';
     this.sourceregulation = '';
     this.internalcomm = '';
-//txtTypeofToxicity: '',
-//txtNSRL: '',
-//txtListingMechanism: '',
-//ChkSafeIn: '',
-//ChkSafeQualifi: '',
-//ChkInsufficient: '',
-//  ChkUnSafe: '',
+    //txtTypeofToxicity: '',
+    //txtNSRL: '',
+    //txtListingMechanism: '',
+    //ChkSafeIn: '',
+    //ChkSafeQualifi: '',
+    //ChkInsufficient: '',
+    //  ChkUnSafe: '',
     this.chineseinci = '';
     this.minpercent = '';
-    this.ppm = '';
+    this.ppm = "0";
 
   }
+  Restriction_saveupdateup() {
+
+    var datalistrestriction: any = JSON.stringify(this.Restrictiondatalist);
+    var operation: string = this.Oper;
+    let params1 = new HttpParams().set('Rawmaterialrestrctnjson', datalistrestriction).set('operation', operation);
+    return this.http.get("https://smartformulatorformulalookupwebservice5.azurewebsites.net/RawMtrlRestrictionBtnSave", { params: params1, responseType: 'text' })
+  }
+
 
   ngOnInit() {
     var countryname = this.data.displaydata1;
     this.Eudetails = this.data.displaydata2;
     this.basedetails = this.data.displaydata0;
     this.country = countryname;
-    //this.country = this.basedetails[2];
 
     this.inciid = this.Eudetails[0];
     if (this.inciid == undefined) {
@@ -305,6 +351,8 @@ export class RawmaterialRestrictionComponent implements OnInit {
     }
     if (countryname == "CHINA") {
       this.ifchina = false;
+      this.minpercent = this.Eudetails[10]
+      this.chineseinci = this.Eudetails[11];
     }
     else {
       this.ifchina = true;
@@ -324,9 +372,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
     if (this.chineseinci == undefined) {
       this.chineseinci = '';
     }
-    this.minpercent = this.Eudetails[10];
-
-    this.chineseinci = this.Eudetails[11];
+    
     if (this.chineseinci == "" || this.chineseinci == undefined) {
       this.chineseinci = "";
     }
@@ -375,10 +421,10 @@ export class RawmaterialRestrictionComponent implements OnInit {
     this.internalReg = this.Eudetails[9];
     if (this.internalReg == "" || this.internalReg == undefined) {
       this.internalReg = "";
-    }   
+    }
     this.username = this.Eudetails[10];
     if (this.ppm == undefined) {
-      this.ppm = '';
+      this.ppm = "0";
     }
     if (this.doclink == undefined) {
       this.doclink = '';
@@ -391,6 +437,9 @@ export class RawmaterialRestrictionComponent implements OnInit {
     if (this.doclink == "" || this.doclink == undefined) {
       this.doclink = "";
     }
+    //this.ppm = this.Eudetails[11];
+    //this.doclink = this.Eudetails[12];
+
     this.restrictiondetails = this.Datashare.getrestrictiondetails()
     //this.restrictioncountryname = this.restrictiondetails[0];
     //this.restrictioncountryname = countryname;

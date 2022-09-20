@@ -39,7 +39,9 @@ export class DataShareServiceService {
   itemcodetoraw: any;
   labelvalues: string;
   itemcodeval: string;
-  suppna: any
+  suppna: any;
+  samplelist: any = [];
+   searchpdritems: any=[];
   datashareitemcode: any;
   datasharecasdata: any;
   FormulaCode: any;
@@ -47,6 +49,30 @@ export class DataShareServiceService {
   compa: any;
   custocod
   datashareclientlocation: any = [];
+  productlist: string[];
+  Qclist: string[];
+  Phystabilitylist: string[];
+  producttestlist: string[];
+  clientid: string;
+
+  sendproductdetails(productvalues: string[]) {
+    this.productlist = productvalues
+  }
+
+  sendQCdetails(QCvalues: string[]) {
+    this.Qclist = QCvalues
+  }
+
+  sendPhystability(Phystabilityvalues: string[]) {
+    this.Phystabilitylist = Phystabilityvalues
+  }
+  sendproducttest(producttestvalues: string[]) {
+    this.producttestlist = producttestvalues
+
+  }
+  sendconnection(clientd: string) {
+    this.clientid = clientd;
+  }
   sendlogindetails(username: string) {
     this.usern = username;
   }
@@ -113,6 +139,15 @@ export class DataShareServiceService {
 
 
   }
+  sendsampledetails(samplevalues: string[]) {
+    this.samplelist = samplevalues
+  }
+
+
+
+  sendpdrlist(listvalues: string[]) {
+    this.searchpdritems = listvalues
+  }
 
   searchItemlist(item1: any) {
     this.itemrisklist = item1;
@@ -150,6 +185,10 @@ export class DataShareServiceService {
   //}
   getcompany(): string {
     return this.compa;
+
+  }
+  getconnection(): string {
+    return this.clientid;
   }
   getlogin(): string {
     return this.usern;
@@ -187,6 +226,19 @@ getitemtosupplier(): string {
   }
   getcasdata(): string[] {
     return this.datasharecasdata;
+  }
+  getsample(): any {
+    return this.samplelist;
+
+
+
+  }
+
+
+
+
+  getpdrlist(): any {
+    return this.searchpdritems;
   }
   getpdrno(): string {
     return this.datasharepdr;
@@ -246,12 +298,23 @@ getitemtosupplier(): string {
 
 
     var itemList: [string, string, string, string, string, string, string, string, string] = [this.itemvalue, this.itemvalue1, this.itemvalue2, this.itemvalue3, this.itemvalue4, this.itemvalue5, this.itemvalue6, this.itemvalue7, this.itemvalue8]
-    return
-
-    itemList;
+    return itemList;
 
 
 
+  }
+  getproduct(): any {
+    return this.productlist;
+
+  }
+  getQC(): any {
+    return this.Qclist;
+  }
+  getPhystability(): any {
+    return this.Phystabilitylist;
+  }
+  getproducttest(): any {
+    return this.producttestlist;
   }
   constructor(private http: HttpClient) {
     this.Url = 'http://localhost:52060';

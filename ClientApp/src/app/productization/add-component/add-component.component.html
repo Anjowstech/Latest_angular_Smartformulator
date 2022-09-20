@@ -1,0 +1,522 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:100vh;width:100%">
+
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Component Creation</h2>
+
+
+    <div class="row">
+      <div class="form-group col-md-10">
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="component" style="margin-left:50px;font-size: medium;font-family: Verdana;">Component Item #</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="comp" size="40" [(ngModel)]="componentitemnumber" name="cino" value="">
+          <label for="date" style="margin-left: 3%;font-size: medium;font-family: Verdana;">Date</label>
+
+          <input type="date" style="margin-left:10px;width:10%" class="form-control" id="dat" [(ngModel)]="date" name="dte" (change)="dateformat($event)" value="">
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px; padding-top: 10px; width: 170px; height: 46px" (click)=" searchcomponent1()">Search </button>
+        </form>
+
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left:50px;font-size: medium;font-family: Verdana;">Component Name</label>
+          <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="compname" size="40" [(ngModel)]="componentname" name="cnam" value="">
+          <label for="PDR" style="margin-left: 3%;font-size: medium;font-family: Verdana;">Status</label>
+          <select id="Assigned_to" class="form-control" style="margin-left: 10px; margin-top: 8px; width: 15%" [(ngModel)]="status" name="stat" value="">
+            <option selected>Active</option>
+            <option >InActive</option>
+            
+          </select>
+        </form>
+
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left:50px;font-size: medium;font-family: Verdana;">Specification</label>
+          <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="specif" size="40" [(ngModel)]="specification" name="spcf" value="">
+
+          <label for="siz" style="margin-left: 3%;font-size: medium;font-family: Verdana;">Size</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" placeholder="" id="six" size="25" [(ngModel)]="size" name="sz" value="">
+
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="formulanumber" style="margin-left:50px;font-size: medium;font-family: Verdana;">Category Type</label>
+          <select id="Assigned_to" class="form-control" style="margin-left: 20px; margin-top: 8px; width: 22%" [(ngModel)]="categorytype" name="cate" value="" >
+            <option selected>---select---</option>
+            <option *ngFor="let details_cattype of loadcomponentcategory">{{details_cattype.categorytype }}</option>
+          </select>
+
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 13px; padding-top: 10px; width: 170px; height: 46px" (click)=" addcomponenentcat()">Add Category </button>
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <mat-radio-group aria-label="Select an option" >
+            <Label class="label1" for="inputcust" style="margin-left: 50px; margin-top: 15px; font-size: medium; font-family: Verdana;">Fillable Component</Label>
+            <mat-radio-button value="Yes" [checked]="fillablecomponent == 'Yes' ? true : false" style="margin-left:30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">Yes</mat-radio-button>
+            <mat-radio-button value="No" [checked]="fillablecomponent == 'No' ? true : false" style="margin-left: 30px;margin-top:15px;" (change)="radioChangefillablecomponent($event)">No</mat-radio-button>
+          </mat-radio-group>
+            <Label class="label1" for="inputcust" style="margin-left: 10px; margin-top: 15px; font-size: medium; font-family: Verdana;">Bulk Container</Label>
+            <input class="form-check-input" style="margin-top:15px;" type="checkbox" id="check1" placeholder="" [checked]="bulkcontainer == 'Yes' ? true : false" (change)="bulkcontainerChange($event)" name="bulk" value="">
+
+            <label style="margin-top:15px;color:red;"><i>(For drums and pails click on bulk container flag)</i></label>
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+
+          <label for="formulanumber" style="margin-left: 50px; margin-top: 15px;font-size: medium;color:darkred; font-family: Verdana;">No of Units Filled</label>
+          <input type="number" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="formlno" size="10" [(ngModel)]="noofunits" name="frmln"  (click)="msg();"  value="">
+          <label for="PDR" style="margin-left: 5px; margin-top: 15px; font-size: medium; color: darkred; font-family: Verdana;">BOM Multiplier</label>
+
+          <input type="number" style="margin-left: 10px; margin-top: 15px;" size="10" class="form-control" id="bmul" [(ngModel)]="bommultiplier" (click)="msg();" name="bom" value="">
+          <label style="margin-top:15px;color:red;"><i>(Enter either no of units or BOM multiplier)</i></label>
+        </form>
+        <form class="form-inline" style="    background-color: #f6f5f1">
+          <label for="suplier_name" style="margin-left:5px;font-size: medium;font-family: Verdana;">Manufacturer/Supplier</label>
+          <input type="text" style="margin-left: 20px;" class="form-control" placeholder="" id="sup" size="50" [(ngModel)]="suPliername" name="suplrnam" value="">
+
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 13px; padding-top: 10px; width: 170px; height: 46px" (click)=" searchhsupplier()">Search </button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 13px; padding-top: 10px; width: 170px; height: 46px" (click)=" addsupplierformula()">Add Supplier </button>
+        </form>
+      </div>
+
+
+
+
+      <div class="form-group col-md-2">
+
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="row">
+      
+
+      <div class="form-group col-md-12" style="margin-top:20px;">
+        <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+          <ng-container ngbNavItem="1" style="margin-left:20px;">
+            <a class="tabcolor tabbutto tabrowli textsize " style="width:7%;" ngbNavLink>General</a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style="margin-left: 100px; margin-top: 15px;font-size: medium; font-family: Verdana;">Finish</label>
+                    <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="finis" size="20" [(ngModel)]="finish" name="fnsh" value="">
+                    <label for="PDR" style="margin-left: 5px; margin-top: 15px; font-size: medium; font-family: Verdana;">Re-Order Quantity</label>
+
+                    <input type="text" style="margin-left: 10px; margin-top: 15px;" size="20" class="form-control" id="reod" [(ngModel)]="reorder" name="rorder" value="">
+                  </form>
+
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style="margin-left: 100px; margin-top: 15px;font-size: medium; font-family: Verdana;">Color</label>
+                    <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="colr" size="20" [(ngModel)]="color" name="clr" value="">
+                    <label for="PDR" style="margin-left: 75px; margin-top: 15px; font-size: medium; font-family: Verdana;">MOQ</label>
+
+                    <input type="text" style="margin-left: 10px; margin-top: 15px;" size="20" class="form-control" id="mo" [(ngModel)]="moq" name="mq" value="">
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style="margin-left: 25px; margin-top: 15px;font-size: medium; font-family: Verdana;">Component Image</label>
+                    <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="comp" size="55" [(ngModel)]="compimage" name="cmpim" value="">
+                    <label for="file3" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file3"
+                           (change)="handleFileInput6($event.target.files)">
+
+
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <label class="label1" for="inputcust" style="margin-left:80px;font-size: medium;font-family: Verdana;">Description </label>
+                    <textarea class="form-control" id="descri" rows="3" style="width: 65%; height: 200PX; margin-left: 12px; margin-top: 15px" [(ngModel)]="componentdescription" name="codes" value=""></textarea>
+                  </form>
+
+                </div>
+                <div class="form-group col-md-6">
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style=" margin-top: 15px;font-size: medium;color:blue; font-family: Verdana;">Last PO Price $</label>
+                    <input type="number" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="lst" size="10" [(ngModel)]="lastpocost" name="poc" value="">
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style="margin-left: 40px; margin-top: 15px; color: green; font-size: medium; font-family: Verdana;">Std Price $</label>
+                    <input type="number" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="prstd" size="10" [(ngModel)]="stdprice" name="prstd" value="">
+                  </form>
+
+
+                </div>
+
+
+              </div>
+
+              <form class="form-inline" style="    background-color: #f6f5f1">
+                <label style="margin-left: 50px; margin-top: 16px; font-size: medium; color: black; font-family: Verdana;"><b>Lead Time (Weeks)</b></label>
+                <label for="formulanumber" style="margin-left:-20px;margin-top: 15px;font-size: medium; font-family: Verdana;">Pre Processing</label>
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control"(blur)="blurEventsg($event)" placeholder="" id="ppr" size="5" [(ngModel)]="preprocessing" name="prpros" value="">
+                <label for="formulanumber" style=" margin-left: -40px; margin-top: 15px; font-size: medium; font-family: Verdana;">Processing</label>
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control" (blur)="blurEvents($event)" placeholder="" id="prg" size="5" [(ngModel)]="processing" name="prcss" value="">
+                <label for="formulanumber" style="margin-left: -20px; margin-top: 15px; font-size: medium; font-family: Verdana;">Post Processing</label>
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control"(blur)="blurEvent($event)" placeholder="" id="process" size="5" [(ngModel)]="postprocess" name="post" value="">
+                <label for="formulanumber" style=" margin-left: -20px; margin-top: 15px; font-size: medium; color: darkred; font-family: Verdana;">CUM.Lead Time</label>
+                <input type="number" style="margin-left: 1px; margin-top: 15px;" class="form-control" placeholder="" id="clt" size="5" [(ngModel)]="cumleadtime" disabled name="cum" value="">
+                <p style="margin-left: 3px; margin-top: 30px; font-size: medium; color: darkred; font-family: Verdana;">Weeks</p>
+              </form>
+
+            </ng-template>
+          </ng-container>
+          <ng-container ngbNavItem="2" style="margin-left:20px;">
+            <a class="tabcolor tabbutto tabrowli textsize " style="width:15%;" ngbNavLink>Used in BOM Listing</a>
+            <ng-template ngbNavContent>
+
+              <form>
+
+
+                <div style="margin-left:1%;margin-top:1%;height:600px;background-color:white;overflow-y:auto ">
+                  <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="text-align:center;width:2%;"></th>
+                        <th scope="col" style="text-align: center;width: 15%;">Product Pack #</th>
+                        <th scope="col" style="text-align: center; width: 15%;">Customer</th>
+                        <th scope="col" style="text-align:center;width:15%;">Product #</th>
+                        <th scope="col" style="text-align: center;width: 15%;">Product Name</th>
+                        <th scope="col" style="text-align:center;width:15%;">Formula #</th>
+                        <th scope="col" style="text-align: center;width: 15%;">Formula Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor=" let valuess of Comp_Data3;">
+
+                        <td class="tabledatasize"></td>
+                        <td class="tabledatasize">{{valuess.PPackageNo}}</td>
+                        <td class="tabledatasize">{{valuess.CusName}}</td>
+                        <td class="tabledatasize"> {{values.ProductCode}}</td>
+                        <td class="tabledatasize">{{valuess.ProductNumber}}</td>
+                        <td class="tabledatasize">{{valuess.ProductName}}</td>
+                        <td class="tabledatasize"> {{valuess.FormulaCode}}</td>
+                        <td class="tabledatasize"> {{valuess.FormulaName}}</td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  
+
+
+                </div>
+                <div>
+                  <h5 style="float:left;margin-top:10px;color:maroon">{{counts}} Record(s)</h5>
+                </div>
+
+              </form>
+
+            </ng-template>
+          </ng-container>
+          <ng-container ngbNavItem="3" style="margin-left:20px;">
+            <a class="tabcolor tabbutto tabrowli textsize " style="width:15%;" ngbNavLink>Sustainable Packaging Attributes</a>
+            <ng-template ngbNavContent>
+
+
+              <div class="row">
+                <div class="form-group col-md-2" style="margin-top:20px;">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;color:maroon">Bio-Degradable</legend>
+                    <mat-radio-group aria-label="Select  option">
+                      <form class="form-inline" style="    background-color: #f6f5f1">
+                        <mat-radio-button value="1" [checked]="biodegradable == '1' ? true : false" style="margin-left:5px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(1)">Yes</mat-radio-button>
+                        <mat-radio-button value="0" [checked]="biodegradable == '0' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebiodegradable($event)" (click)="radioValueCheck(2)">No</mat-radio-button>
+
+                        <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">%</label>
+                        <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:30%;" class="form-control" placeholder="" id="per" [(ngModel)]="percentage" [disabled]="!showDateInput" name="prc" value="">
+                      </form>
+                      </mat-radio-group>
+                  </fieldset>
+                </div>
+                <div class="form-group col-md-6" style="margin-top:25px;">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;color:maroon">Material Composition</legend>
+                    <form class="form-inline" style="    background-color: #f6f5f1">
+                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" id="mc1" placeholder="" [checked]="mcplastic == 'True' ? true : false" (change)="mcplasticChange($event)" name="bottle" value="">
+                      <label class="form-check-label" style="margin-left:-20px;" for="defaultCheck1">Plastic</label>
+                      <input class="form-check-input" style="margin-left:20px;" type="checkbox" iid="mc2" placeholder="" [checked]="mcaluminium == 'True' ? true : false" (change)="mcaluminiumChange($event)" name="alu" value="">
+                      <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">Aluminium</label>
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc3" placeholder="" [checked]="mcrecycledplastic == 'True' ? true : false" (change)="mcrecycledplasticChange($event)" name="recy" value="">
+                      <label class="form-check-label" for="defaultCheck3" style="margin-left:-2px;">Recycled Plastic</label>
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc4" placeholder="" [checked]="mcpaper == 'True' ? true : false" (change)="mcpaperChange($event)" name="pape" value="">
+                      <label class="form-check-label" for="defaultCheck4" style="margin-left:-25px;">Paper</label>
+
+                      <input class="form-check-input" type="checkbox" style="margin-left:20px;" id="mc5" placeholder="" (change)="mcotherChange($event)"     [checked]="mcother == '1' ? true : false" [(ngModel)]="checkboxStatu" (click)="check_en1(value)" name="bottle" value="1">
+                      <label class="form-check-label" for="defaultCheck5" style="margin-left:-30px;">Other</label>
+
+
+                      <input for="formoir" type="text" style="margin-left:-2px; width:25%;" class="form-control" placeholder="" id="oth"  [disabled]="!checkboxStatu" [(ngModel)]="othedetail" name="detail" value="">
+
+
+                    </form>
+                   
+
+
+                  </fieldset>
+
+
+
+                </div>
+
+
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6" style="margin-top:20px;">
+
+
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label style="margin-left: 15px; margin-top: 15px; font-size: medium;  font-family: Verdana;">Size and Dimention of Component</label>
+                    <label for="formulanumber" style=" margin-left: -30px; margin-top: 15px; font-size: medium;  font-family: Verdana;">H</label>
+                    <input type="text" style="margin-left: -10px; margin-top: 15px;" class="form-control" placeholder="" id="heigh" size="8" [(ngModel)]="height" name="heit" value="">
+                    <label for="formulanumber" style=" margin-left: -30px; margin-top: 15px; font-size: medium;  font-family: Verdana;">L</label>
+                    <input type="text" style="margin-left: -10px; margin-top: 15px;" class="form-control" placeholder="" id="lengh" size="8" [(ngModel)]="length" name="leng" value="">
+                    <label for="formulanumber" style=" margin-left: -30px; margin-top: 15px; font-size: medium;  font-family: Verdana;">W</label>
+                    <input type="text" style="margin-left: -10px; margin-top: 15px;" class="form-control" placeholder="" id="with" size="8" [(ngModel)]="width" name="wid" value="">
+                  </form>
+
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+
+                    <label class="label1" for="inputcust" style="margin-left:10px;font-size: medium;font-family: Verdana;">Verified Responsible Sourcing(VRS)<br />Procurement Verification Process </label>
+                    <textarea class="form-control" id="respons" rows="3" style="width: 55%; height: 90PX; margin-left: 25px; margin-top: 15px" [(ngModel)]="vrs" name="vr" value=""></textarea>
+
+
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style=" margin-left: 95px; margin-top: 15px; font-size: medium;  font-family: Verdana;">Cartons and Decorations</label>
+                    <input type="text" style="margin-left: 25px; margin-top: 15px;" class="form-control" placeholder="" id="cartns" size="58" [(ngModel)]="cartons" name="crtns" value="">
+
+
+                  </form>
+
+
+                </div>
+
+
+                <div class="form-group col-md-3" style="margin-top:20px;">
+
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formulanumber" style=" margin-left:1px; margin-top: 15px; font-size: medium;  font-family: Verdana;">Weight of Component</label>
+                    <input type="text" style="margin-left: 10px; margin-top: 15px;" class="form-control" placeholder="" id="compw" size="23" [(ngModel)]="weightofcomp" name="weicomp" value="">
+
+                  </form>
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;color:maroon">Bio-Plastic or not</legend>
+                    <mat-radio-group aria-label="Select  ption">
+                      <form class="form-inline" style="    background-color: #f6f5f1">
+                        <mat-radio-button value="1" [checked]="bioplastic == '1' ? true : false" style="margin-left:5px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(1)">Yes</mat-radio-button>
+                        <mat-radio-button value="0" [checked]="bioplastic == '0' ? true : false" style="margin-left: 10px;margin-top:15px;" (change)="radioChangebioplastic($event)" (click)="radioValueChec(2)">No</mat-radio-button>
+
+                        <label for="formoir" style="margin-left:20px;margin-top: 15px;font-size: medium; font-family: Verdana;">(If No Specify)</label>
+                        <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:35%;" class="form-control" placeholder="" id="specify" [disabled]="!showDateInpu" [(ngModel)]="ifnospecify" name="ifno" value="">
+                      </form>
+                      </mat-radio-group>
+                  </fieldset>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <input class="form-check-input" style="margin-left: 1px; margin-top: 20px;" type="checkbox" id="defaultCheck1" placeholder="" [checked]="plantbased == 'True' ? true : false" (change)="plantbasedChange($event)"    name="bottle" value="">
+                    <label class="form-check-label" style="margin-left: 10px; margin-top: 20px;" for="defaultCheck1">Plant Based Y</label>
+                    <label for="formoir" style="margin-left:5px;margin-top: 15px;font-size: medium; font-family: Verdana;">(Add info: )</label>
+                    <input for="formoir" type="text" style="margin-left: -10px; margin-top: 15px;width:40%;" class="form-control" placeholder="" id="info" [(ngModel)]="addinfo" name="info" value="">
+
+
+
+                  </form>
+
+
+                </div>
+
+
+              </div>
+              <div class="row">
+                <div class="form-group col-md-8" style="margin-top:20px;">
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formoir" style="margin-left:20px;margin-top: 10px;font-size: medium; font-family: Verdana;">How much $ of the packaging component is reusable or compostable?</label>
+                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="rsn" [(ngModel)]="reason" name="reson" value="">
+                  </form>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-5" style="margin-top:20px;">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;color:maroon">Packaging Material</legend>
+                    <form class="form-inline" style="    background-color: #f6f5f1">
+
+                      <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="pm1" placeholder=""  [checked]="pmpp == 'True' ? true : false" (change)="pmppChange($event)" name="poly" value="">
+                      <label class="form-check-label" style="margin-left:2px;" for="defaultCheck1">PP (Poly Propylene)</label>
+
+                      <input class="form-check-input" style="margin-left:10px;" type="checkbox" id="pm2" placeholder="" [checked]="pmpet == 'True' ? true : false" (change)="pmpetChange($event)"  name="polyethy" value="">
+                      <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">PET (PolyEthylene Teraphalate)</label>
+
+                      <input class="form-check-input" type="checkbox" style="margin-left:10px;" id="pm3" placeholder=""  [checked]="pmlldpe == 'True' ? true : false" (change)="pmlldpeChange($event)" name="lld" value="">
+                      <label class="form-check-label" for="defaultCheck3" style="margin-left:-7px;">LLDPE</label>
+
+                      <input class="form-check-input" type="checkbox" style="margin-left:10px;" id="pm4" placeholder=""  [checked]="pmhdpe == 'True' ? true : false" (change)="pmhdpeChange($event)" name="hdp" value="">
+                      <label class="form-check-label" for="defaultCheck4" style="margin-left:-20px;">HDPE</label>
+
+                    </form>
+                    <form class="form-inline" style="    background-color: #f6f5f1">
+                      <input class="form-check-input" type="checkbox" style="margin-left:5px;margin-top:15px;" id="pm5" placeholder=""  [checked]="pmpaper == 'True' ? true : false" (change)="pmpaperChange($event)" name="paprr" value="">
+                      <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Paper(Corrugated Paper)</label>
+
+                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm6" placeholder=""  [checked]="pmglass == 'True' ? true : false" (change)="pmglassChange($event)" name="gls" value="">
+                      <label class="form-check-label" for="defaultCheck5" style="margin-left: -10px; margin-top: 15px;">Glass</label>
+
+                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm7" placeholder=""  [checked]="pmsteel == 'True' ? true : false" (change)="pmsteelChange($event)" name="stl" value="">
+                      <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Steel(Tin Can)</label>
+
+                      <input class="form-check-input" type="checkbox" style="margin-left: 10px; margin-top: 15px;" id="pm8" placeholder=""  [checked]="pmaluminium == 'True' ? true : false" (change)="pmaluminiumChange($event)" name="almn" value="">
+                      <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Aluminium</label>
+
+
+
+
+
+                    </form>
+
+
+
+                  </fieldset>
+                </div>
+                <div class="form-group col-md-4" style="margin-top:20px;">
+                  <fieldset class="border p-2">
+                    <legend class="w-auto" style="font-size:15px;color:maroon">Paper</legend>
+                    <form class="form-inline" style="    background-color: #f6f5f1">
+                      <input class="form-check-input" style="margin-left:5px;" type="checkbox" id="p1" placeholder=""  [checked]="pcorrugated == 'True' ? true : false" (change)="pcorrugatedChange($event)" name="coru" value="">
+                      <label class="form-check-label" style="margin-left:2px;" for="defaultCheck1">Corrugated</label>
+
+                      <input class="form-check-input" style="margin-left:40px;" type="checkbox" id="p2" placeholder="" [checked]="pother == '1' ? true : false" [(ngModel)]="checkboxStatus" (change)="potherChange($event)"   (click)="check_en(value)" name="pther" value="1">
+                      <label class="form-check-label" for="defaultCheck2" style="margin-left:2px;">Other</label>
+                      <input class="form-control" style="margin-left:5px;" type="text" id="othpper" size="30" placeholder=""
+                         [disabled]="!checkboxStatus"       [(ngModel)]="otherpaper" name="pper" value="">
+
+                    </form>
+
+                    <form class="form-inline" style="    background-color: #f6f5f1">
+                      <input class="form-check-input" type="checkbox" style="margin-left:5px;margin-top:15px;" id="p3" placeholder=""  [checked]="pboxboard == 'True' ? true : false" (change)="pboxboardChange($event)"  name="pbox" value="">
+                      <label class="form-check-label" for="defaultCheck5" style="margin-left: 2px; margin-top: 15px;">Boxboard & Carton </label>
+                    </form>
+
+
+
+                  </fieldset>
+                </div>
+
+
+              </div>
+              <div class="row">
+                <div class="form-group col-md-10" style="margin-top:2px;">
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formoir" style="margin-left:20px;margin-top: 10px;font-size: medium; font-family: Verdana;">Attach Responsible Sourcing Questionnare</label>
+                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="data2" [(ngModel)]="attachresponsible" name="atr" value="">
+                   
+
+                    <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file"
+                           (change)="handleFileInput1($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" >Open </button>
+
+
+                  </form>
+                  <form class="form-inline" style="    background-color: #f6f5f1">
+                    <label for="formoir" style="margin-left:185px;margin-top: 10px;font-size: medium; font-family: Verdana;">Additional Documents</label>
+                    <input for="formoir" type="text" style="margin-left: 10px; margin-top: 10px;width:40%;" class="form-control" placeholder="" id="data3" [(ngModel)]="additionaldoc" name="doc" value="">
+                    <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+                    <input type="file" style="display:none"
+                           id="file"
+                           (change)="handleFileInput2($event.target.files)">
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 10px;  width: 145px;" (click)=" searchhformula()">Open </button>
+
+
+                  </form>
+                </div>
+              </div>
+
+
+
+
+
+            </ng-template>
+          </ng-container>
+
+          <ng-container ngbNavItem="4" style="margin-left:20px;">
+            <a class="tabcolor tabbutto tabrowli textsize " style="width:15%;" ngbNavLink>Custom Attributes</a>
+            <ng-template ngbNavContent>
+
+              <p style="margin-left: 400px; margin-top: 100px; font-size: large; color: darkred; font-family: Verdana;">To Add or Edit The Custom Attribute Go to ERP Admin > Component Lot Tab</p>
+
+            </ng-template>
+          </ng-container>
+          <ng-container ngbNavItem="5" style="margin-left:20px;">
+            <a class="tabcolor tabbutto tabrowli textsize " style="width:7%;" ngbNavLink>Audit Tracking</a>
+            <ng-template ngbNavContent>
+
+              <form>
+
+
+                <div style="margin-left:1%;margin-top:1%;height:600px;background-color:white;overflow-y:auto ">
+                  <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="text-align:center;width:20%;">Date</th>
+                        <th scope="col" style="text-align: center;width: 60%;">Task</th>
+                        <th scope="col" style="text-align: center; width: 20%;">Username</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor=" let values of Comp_Data4;">
+
+
+                        <td width="15%" class="tabledatasize">{{values.Date}}</td>
+                        <td class="tabledatasize">{{values.Task}}</td>
+                        <td width="15%" class="tabledatasize"> {{values.UserName}}</td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+
+                </div>
+
+              </form>
+
+            </ng-template>
+          </ng-container>
+
+
+
+        </nav>
+
+
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+    <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+      <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-right:60px;margin-top:.5%;width:145px;" matDialogClose>Back</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" (click)="savecomponent();">Save</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;" (click)="Updatecomponent();">Update</button>
+      <button type="submit" class="btn btn-primary  buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 145px;"(click)="clear();">New</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Delete Component</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="float: right; margin-right: 15px; margin-top: .5%; width: 180px;">Report</button>
+     
+
+    </div>
+
+  </div>
+
+    </div>

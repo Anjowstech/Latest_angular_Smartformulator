@@ -20,12 +20,21 @@ export class AddFunctionComponent implements OnInit {
  
 
   Functionsave(fun: string, des: string) {
+    if (fun == '') {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Enter Function name' } });
+    }
 
     this.funsaveup(fun, des).subscribe((Blenddatasaveup) => {
       console.warn("Blenddatasaveup", Blenddatasaveup)
       this.Function_save_data = Blenddatasaveup
+      if (this.Function_save_data == "Inserted") { 
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Function is saved successfully.' } });
+    }
+      else {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
+      }
     })
-    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Function is saved successfully.' } });
+  
   }
   clearfunc() {
     this.functioncodes = '';

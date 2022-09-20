@@ -15,13 +15,19 @@ export class AddChemistryComponent implements OnInit {
 
   chemistryparamsave: any;
   Claim: any;
+  Method: string = "";
 
 
 
-
-
+  Clear() {
+    this.Claim = '';
+    this.Method = '';
+  }
 
   Addchemistryparams(clmdata: string, mthddata: string) {
+    if (clmdata == "") {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter parameter' } });
+    }
     this.chemparamsave(clmdata, mthddata).subscribe((chemistryparam) => {
       console.warn("chemistryparam", chemistryparam)
       this.chemistryparamsave = chemistryparam

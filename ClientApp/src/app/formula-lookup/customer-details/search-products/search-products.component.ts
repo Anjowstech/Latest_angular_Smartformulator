@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class SearchProductsComponent implements OnInit {
   dataloadsearchproducts: any;
+  filterMetadata = { count: 0 };
   Productno: string = '';
   ProductName: string = '';
   Fillsize: string = '';

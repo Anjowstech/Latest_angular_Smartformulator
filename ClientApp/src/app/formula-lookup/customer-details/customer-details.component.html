@@ -294,8 +294,6 @@
     </tbody>
   </table>-->
                       <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
-                                    
-                                   
                                     (onSelectionChanged)="selectedChanged($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="rowData"
@@ -305,37 +303,34 @@
                                     [showBorders]="true"
                                     (onCellClick)="openrawmaterialserach($event)"
                                     (rowprepared)="rowprepared">
-                        <dxo-editing mode="row"
+                        <dxo-editing mode="cell"
                                      [allowUpdating]="true"
+                                      [allowDeleting]="true"
                                      [useIcons]="true">
                         </dxo-editing>-->
                         <dxo-column-chooser [enabled]="false">
                           <!-- or "select" -->
                         </dxo-column-chooser>
-                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-selection mode="multiple"></dxo-selection>
+
                         <dxo-scrolling mode="virtual"></dxo-scrolling>
 
                         <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                         <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-                        <dxi-column dataField=""></dxi-column>
                         
-                        <dxi-column dataField="check" headerCellTemplate="addressHeaderTemplatecheck" dataType="boolean" value="false"></dxi-column>
-                        <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
-                          <b style="color: black"></b>
-                        </div>
                         <dxi-column dataField="CusCode"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black">item #</b>
                         </div>
-                        <dxi-column dataField="INCIName" headerCellTemplate="addressHeaderTemplateinciname" ></dxi-column>
+                        <dxi-column dataField="INCIName" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
                           <b style="color: black">INCI Name</b>
                         </div>
-                        <dxi-column dataField="usage" headerCellTemplate="addressHeaderTemplateusage" dataType="number" ></dxi-column>
+                        <dxi-column dataField="usage" headerCellTemplate="addressHeaderTemplateusage" dataType="number"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
-                          <b style="color: black" >Usage %</b>
+                          <b style="color: black">Usage %</b>
                         </div>
                         <dxi-column dataField="foa" headerCellTemplate="addressHeaderTemplatefoa"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
@@ -662,7 +657,7 @@
             <p class="font-weight-bold"> Double click for more details</p>
           </div>
           <div style="margin-left:1%;margin-top:1%; height:300px; background-color:white">
-            <table class="table-hover table-bordered" style="margin-left: 10px;width:100%;background-color:white" width="96%">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px;width:100%;background-color:white" width="96%">
 
               <thead>
                 <tr>
@@ -679,7 +674,7 @@
               <tbody>
                 <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent" mode="indeterminate">
                 </mat-progress-spinner>
-                <tr *ngFor="let shippingdata_search of shippingdata " (click)="setvalues3(shippingdata_search)" (dblclick)="setvalues(shippingdata_search);">
+                <tr [class.table-active]="i == currentRowIndex" *ngFor="let shippingdata_search of shippingdata;let i = index " (click)="setvalues3(shippingdata_search);onRowClick(i)" (dblclick)="setvalues(shippingdata_search);">
 
                   <td class="tabledatasize"></td>
                   <td class="tabledatasize">{{ shippingdata_search.LocationName}}</td>
@@ -688,7 +683,11 @@
                   <td class="tabledatasize">{{ shippingdata_search.State}}</td>
                   <td class="tabledatasize">{{ shippingdata_search.Country}}</td>
                   <td class="tabledatasize">{{ shippingdata_search.ZipCode}}</td>
-                  <td class="tabledatasize"> <input type="checkbox" [checked]="shippingdata_search.DefaultLocation=='True'" (change)="checkchange($event)"></td>
+                  <td class="tabledatasize">
+
+                    <input type="checkbox"  [checked]="shippingdata_search.DefaultLocation=='True'" (change)="checkSelected($event)">
+                  </td>
+                 
                 </tr>
               </tbody>
             </table>
@@ -958,7 +957,7 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
                           <b style="color: black">Product Name</b>
                         </div>
-                        <dxi-column dataField="UnitSize" [width]="100" headerCellTemplate="addressHeaderTemplateunitsize"  dataType="number"></dxi-column>
+                        <dxi-column dataField="UnitSize" [width]="100" headerCellTemplate="addressHeaderTemplateunitsize" dataType="number"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateunitsize'">
                           <b style="color: black">Unit Size</b>
                         </div>
@@ -971,19 +970,19 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplateunit'">
                           <b style="color: black">Unit</b>
                         </div>
-                        <dxi-column dataField="RetailCost" [width]="250" headerCellTemplate="addressHeaderTemplateRetailPriceUnit"  dataType="number" ></dxi-column>
+                        <dxi-column dataField="RetailCost" [width]="250" headerCellTemplate="addressHeaderTemplateRetailPriceUnit" dataType="number"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateRetailPriceUnit'">
                           <b style="color: black">Retail $ Price/Unit</b>
                         </div>
-                        <dxi-column dataField="DistributorCost" [width]="250" headerCellTemplate="addressHeaderTemplateDistributorPriceUnit"  dataType="number" ></dxi-column>
+                        <dxi-column dataField="DistributorCost" [width]="250" headerCellTemplate="addressHeaderTemplateDistributorPriceUnit" dataType="number"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateDistributorPriceUnit'">
                           <b style="color: black">Distributor $ Price/Unit</b>
                         </div>
-                        <dxi-column dataField="SoleDistributorCost" [width]="250" headerCellTemplate="addressHeaderTemplateSoleDistributorPriceUnit"  dataType="number"></dxi-column>
-                        <div *dxTemplate="let info of 'addressHeaderTemplateSoleDistributorPriceUnit'"  >
+                        <dxi-column dataField="SoleDistributorCost" [width]="250" headerCellTemplate="addressHeaderTemplateSoleDistributorPriceUnit" dataType="number"></dxi-column>
+                        <div *dxTemplate="let info of 'addressHeaderTemplateSoleDistributorPriceUnit'">
                           <b style="color: black">Sole Distributor $Price/Unit</b>
                         </div>
-                        <dxi-column dataField="WholesaleCost" [width]="250" headerCellTemplate="addressHeaderTemplateWholesalePriceUnit"  dataType="number" ></dxi-column>
+                        <dxi-column dataField="WholesaleCost" [width]="250" headerCellTemplate="addressHeaderTemplateWholesalePriceUnit" dataType="number"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateWholesalePriceUnit'">
                           <b style="color: black">Wholesale $ Price/Unit</b>
                         </div>
@@ -1005,7 +1004,7 @@
                     <label for="inputcust" style="margin-left:2%" >Tier 1</label>
                     <input style="width: 7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier1" name="t1" value="">
                     <label for="inputcust" style="margin-left:2%">Tier 2</label>
-                    <input style="width: 7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier2" name="t2" value="" (blur)=" blurEventtier2($event);">
+                    <input style="width: 7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier2" name="t2" value="">
                     <label for="inputcust" style="margin-left:2%">Tier 3</label>
                     <input  style="width:7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier3" name="t3" value="" (blur)="insert_tier4($event)">
                     <label for="inputcust" style="margin-left:2%">Tier 4</label>
@@ -1026,7 +1025,7 @@
                                   [showBorders]="true"
                                   (rowprepared)="rowprepared">
                       <dxo-editing mode="row"
-                                   [allowUpdating]="false"
+                                  [allowUpdating]="false"
                                    [useIcons]="true">
                       </dxo-editing>-->
                       <dxo-column-chooser [enabled]="false">
@@ -1043,7 +1042,7 @@
 
                       </dxi-column>
                       <dxi-column dataField="Tier1Range" headerCellTemplate="addressHeaderTemplatetier1" dataType="number"></dxi-column>
-                      <div *dxTemplate="let info of 'addressHeaderTemplatetier1'" dataType="number">
+                      <div *dxTemplate="let info of 'addressHeaderTemplatetier1'">
                         <b style="color: black">Tier 1</b>
                       </div>
                       <dxi-column dataField="Tier2Range" headerCellTemplate="addressHeaderTemplatetier2" dataType="number"></dxi-column>
@@ -1066,6 +1065,7 @@
                   <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-left:1%;margin-top:1%; ">
 
                     <dx-data-grid id="gridContainer " style="width: 100%; height: 12rem;font-family:Verdana;font-style:normal;background-color:white"
+                                 
                                   (onSelectionChanged)="selectedRowIndexListinggridData($event)"
                                   [columnAutoWidth]="true"
                                   [dataSource]="pricedetailgrid_data"
@@ -1073,7 +1073,8 @@
                                   [showColumnLines]="true"
                                   [showRowLines]="true"
                                   [showBorders]="true"
-                                  (onRowPrepared)="onRowPreparedtierlist($event)">
+                                   (onCellDblClick)="Opensearchproducts2($event)"
+                                   (onRowPrepared)="onRowPreparedtierlist($event)" >
                       <dxo-editing mode="row"
                                    [allowAdding]="true"
                                    [allowDeleting]="true"
@@ -1094,7 +1095,7 @@
                       <dxi-column type="buttons" [width]="110">
 
                       </dxi-column>
-                      <dxi-column [width]="200" dataField="ProductNumber" headerCellTemplate="addressHeaderTemplate2Product"></dxi-column>
+                      <dxi-column [width]="200"  dataField="ProductNumber" headerCellTemplate="addressHeaderTemplate2Product"></dxi-column>
                       <div *dxTemplate="let info of 'addressHeaderTemplate2Product'">
                         <b style="color: black">Product #</b>
                       </div>
@@ -1115,22 +1116,20 @@
                       <div *dxTemplate="let info of 'addressHeaderTemplate2unit'">
                         <b style="color: black">Unit</b>
                       </div>
-
-                  
-
-                      <dxi-column [width]="200" dataField="Tier1Value" headerCellTemplate="addressHeaderTemplate2tier1" dataType="number"></dxi-column>
+                
+                      <dxi-column [width]="200" dataField="Tier1Value" headerCellTemplate="addressHeaderTemplate2tier1"  dataType="number"></dxi-column>
                       <div *dxTemplate="let info of 'addressHeaderTemplate2tier1'">
                         <b style="color: black"> {{this.selectedtier1}} </b>
                       </div>
-                      <dxi-column [width]="200" dataField="Tier2Value" headerCellTemplate="addressHeaderTemplate2tier2" dataType="number"></dxi-column>
+                      <dxi-column [width]="200" dataField="Tier2Value" headerCellTemplate="addressHeaderTemplate2tier2"  dataType="number"></dxi-column>
                       <div *dxTemplate="let info of 'addressHeaderTemplate2tier2'">
                         <b style="color: black;"> {{this.selectedtier2}} </b>
                       </div>
-                      <dxi-column [width]="200" dataField="Tier3Value" headerCellTemplate="addressHeaderTemplate2tier3" dataType="number"></dxi-column>
+                      <dxi-column [width]="200" dataField="Tier3Value" headerCellTemplate="addressHeaderTemplate2tier3"  dataType="number"></dxi-column>
                       <div *dxTemplate="let info of 'addressHeaderTemplate2tier3'">
                         <b style="color: black"> {{this.selectedtier3}} </b>
                       </div>
-                      <dxi-column [width]="200" dataField="Tier4Value" headerCellTemplate="addressHeaderTemplate2tier4" dataType="number"></dxi-column>
+                      <dxi-column [width]="200" dataField="Tier4Value" headerCellTemplate="addressHeaderTemplate2tier4"  dataType="number"></dxi-column>
                       <div *dxTemplate="let info of 'addressHeaderTemplate2tier4'">
                         <b style="color: black">  {{this.selectedtier4}} </b>
                       </div>
@@ -1265,15 +1264,15 @@
                   <dxi-button name="delete"></dxi-button>
                 </dxi-column>
                 <dxi-column [visible]="false" dataField="ProductCode"></dxi-column>
-                <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodnumber" [allowEditing]="false" ></dxi-column>
+                <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodnumber"  [allowEditing]="false"></dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateprodnumber'">
                   <b style="color: black">Product #</b>
                 </div>
-                <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname"  [allowEditing]="false"></dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
                   <b style="color: black">Product Name</b>
                 </div>
-                <dxi-column dataField="ValidatedSize" headerCellTemplate="addressHeaderTemplateValidated" dataType="number"></dxi-column>
+                <dxi-column dataField="ValidatedSize" headerCellTemplate="addressHeaderTemplateValidated"dataType="number"></dxi-column>
                 <div *dxTemplate="let info of 'addressHeaderTemplateValidated'">
                   <b style="color: black">Validated Batch Size</b>
                 </div>

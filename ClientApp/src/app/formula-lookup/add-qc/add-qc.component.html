@@ -77,7 +77,10 @@
     <div class="form-inline" style="margin-top:10px">
       <label class="label1" for="PDR">Add File</label>
       <input style=" width: 58%;" type="text" class="form-control" [(ngModel)]="addfile" name="fil" value="">
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; height: 40px; width: 150px;">...</button>
+      <label for="file" class="btn btn-primary buttoncolor" style="margin-left:10px;width:100px;">Browse</label>
+      <input type="file" style="display:none"
+             id="file"
+             (change)="handleFileInput3($event.target.files)">
       <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;">Open</button>
     </div>
 
