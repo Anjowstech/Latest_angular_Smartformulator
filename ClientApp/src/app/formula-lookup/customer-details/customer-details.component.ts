@@ -908,6 +908,32 @@ export class CustomerDetailsComponent implements OnInit {
 
 
   }
+  Opentiredvolumepricing(e): void {
+    var indexdataprod: any = e.rowIndex;
+
+    const dialogRef = this.dialog.open(SearchProductsComponent, {
+      width: '60%', height: '70%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result != "") {
+        this.ProductNumber = result[0];
+        this.ProductName = result[2];
+        this.ValidatedSize = result[3];
+        this.FormulaCode = result[4];
+        this.FormulaName = result[5];
+        //this.item = result[1];
+        this.item = result[1];
+        this.selectedRowIndex = indexdataprod;
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductNumber);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        this.dataGrid.instance.saveEditData();
+      }
+    });
+  }
   wait(ms) {
     var start = new Date().getTime();
     var end = start;
@@ -1167,6 +1193,9 @@ export class CustomerDetailsComponent implements OnInit {
     //  }
     //});
   }
+
+ 
+
   selectedChanged(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
