@@ -273,6 +273,7 @@
                     <table class=" table table-hover table-bordered" style="margin-left: 10px; " id="table" width="98%">
                       <thead>
                         <tr>
+                          <th hidden scope="col">Itemcode </th>
                           <th scope="col">Item # </th>
                           <th scope="col">INCI Name</th>
                           <th scope="col">Trade Name</th>
@@ -283,8 +284,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let Rmsupplier_rmapproved of dataloadsupplierapprovedrm; let i=index;"(dblclick)=" rowDoubleClicked(Rmsupplier_rmapproved)">
-                          <td>{{ Rmsupplier_rmapproved.ItemCode}}</td>
+                        <tr *ngFor="let Rmsupplier_rmapproved of dataloadsupplierapprovedrm; let i=index;" (dblclick)=" rowDoubleClicked(Rmsupplier_rmapproved)">
+                          <td hidden>{{ Rmsupplier_rmapproved.ItemCode}}</td>
+                          <td class="tabledatasize">{{ Rmsupplier_rmapproved.GeneralItemCode}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmapproved.Description}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmapproved.IngredientTradeName}}</td>
                           <td class="tabledatasize">{{ Rmsupplier_rmapproved.INNName}}</td>
@@ -305,6 +307,7 @@
                     <table class=" table table-hover table-bordered" style="margin-left: 10px; " id="table" width="98%">
                       <thead>
                         <tr>
+                          <th hidden scope="col">Itemcode </th>
                           <th scope="col">Item # </th>
                           <th scope="col">INCI Name</th>
                           <th scope="col">Trade Name</th>
@@ -315,8 +318,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let Rmsupplier_rmall of dataloadsupplierunapprovedrm; let i=index;"(dblclick)=" rowDoubleClicked(Rmsupplier_rmall)">
-                          <td>{{ Rmsupplier_rmall.ItemCode}}</td>
+                        <tr *ngFor="let Rmsupplier_rmall of dataloadsupplierunapprovedrm; let i=index;" (dblclick)=" rowDoubleClicked(Rmsupplier_rmall)">
+                          <td hidden>{{ Rmsupplier_rmall.ItemCode}}</td>
+                          <td class="tabledatasize">{{ Rmsupplier_rmall.GeneralItemCode}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmall.Description}}</td>
                           <td class="tabledatasize" style="width:17%">{{ Rmsupplier_rmall.IngredientTradeName}}</td>
                           <td class="tabledatasize">{{ Rmsupplier_rmall.INNName}}</td>
@@ -404,58 +408,79 @@
         <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Finished Product(s)</a>
         <ng-template ngbNavContent>
           <h4>Double Click to Select a Raw Material</h4>
-    
-          <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
-                      
-                        (onRowPrepared)="onRowPrepared($event)"
-                        (onRowInserted)=" onRowInserted($event)"
-                        (onValueChanged)="onValueChanged($event)"
-                        (onSelectionChanged)="selectedChanged($event)"
-                        (onCellPrepared)="onCellPrepared($event)"
-                        [allowColumnReordering]="true"
-                        [allowColumnResizing]="true"
-                        [columnAutoWidth]="true"
-                        [dataSource]="rowData"
-                        [wordWrapEnabled]="true"
-                        [showColumnLines]="true"
-                        [showRowLines]="true"
-                        [showBorders]="true">
+          <ag-grid-angular style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+                           class="ag-theme-alpine"
+                           [rowHeight]="rowHeight"
+                           [columnDefs]="columnDefs1"
+                           [rowClassRules]="rowClassRules"
+                           (columnResized)="onColumnResized($event)"
+                           (columnVisible)="onColumnVisible($event)"
+                           #agGrid
+                           [applyColumnDefOrder]="true"
+                           [getRowStyle]="getRowStyle"
+                           [rowStyle]="rowStyle"
+                           [getRowNodeId]="getRowNodeId"
+                           [rowSelection]="rowSelection"
+                           [enableRangeSelection]="true"
+                           [suppressScrollOnNewData]="true"
+                           [gridOptions]="gridOptions"
+                           [defaultColDef]="defaultColDef"
+                           [rowData]="rowData"
+                           [overlayLoadingTemplate]="overlayLoadingTemplate"
+                           (gridReady)="onGridReadyone($event)">
+
+          </ag-grid-angular>
+
+          <!--<dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
+
+                (onRowPrepared)="onRowPrepared($event)"
+                (onRowInserted)=" onRowInserted($event)"
+                (onValueChanged)="onValueChanged($event)"
+                (onSelectionChanged)="selectedChanged($event)"
+                (onCellPrepared)="onCellPrepared($event)"
+                [allowColumnReordering]="true"
+                [allowColumnResizing]="true"
+                [columnAutoWidth]="true"
+                [dataSource]="rowData"
+                [wordWrapEnabled]="true"
+                [showColumnLines]="true"
+                [showRowLines]="true"
+                [showBorders]="true">
 
 
 
-            <dxo-editing mode="row"
-                         [allowUpdating]="true">
+    <dxo-editing mode="row"
+                 [allowUpdating]="true">
 
 
 
-            </dxo-editing>
-            <dxo-selection [selectAllMode]="allMode"
-                           [showCheckBoxesMode]="checkBoxesMode"
-                           mode="multiple"></dxo-selection>
-            <dxo-row-dragging [allowReordering]="true"
-                              [showDragIcons]="showDragIcons"></dxo-row-dragging>
-            <dxo-scrolling mode="virtual"></dxo-scrolling>
-            <dxo-sorting mode="none"></dxo-sorting>
-            <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
-            <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-
-            <!--<dxi-column dataField="check" headerCellTemplate="addressHeaderTemplatecheck" dataType="boolean" value="false"></dxi-column>
-    <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
-    <b style="color: black"></b>
-    </div>-->
-            <dxi-column dataField="ProductNumber" [width]="200" headerCellTemplate="addressHeaderTemplatefinishedprodname"></dxi-column>
-            <div *dxTemplate="let info of 'addressHeaderTemplatefinishedprodname'">
-              <b style="color: black">Finished Product #</b>
-            </div>
-            <dxi-column dataField="ProductName" [width]="200" style="color:black" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
-            <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
-              <b style="color: black">Product Name</b>
-            </div>
-            <dxi-column dataField="Category" [width]="200" style="color:black" headerCellTemplate="addressHeaderTemplatecategory"></dxi-column>
-            <div *dxTemplate="let info of 'addressHeaderTemplatecategory'">
-              <b style="color: black">Category</b>
-            </div>
-          </dx-data-grid>
+    </dxo-editing>
+    <dxo-selection [selectAllMode]="allMode"
+                   [showCheckBoxesMode]="checkBoxesMode"
+                   mode="multiple"></dxo-selection>
+    <dxo-row-dragging [allowReordering]="true"
+                      [showDragIcons]="showDragIcons"></dxo-row-dragging>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-sorting mode="none"></dxo-sorting>
+    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>-->
+          <!--<dxi-column dataField="check" headerCellTemplate="addressHeaderTemplatecheck" dataType="boolean" value="false"></dxi-column>
+  <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
+  <b style="color: black"></b>
+  </div>-->
+          <!--<dxi-column dataField="ProductNumber" [width]="200" headerCellTemplate="addressHeaderTemplatefinishedprodname"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplatefinishedprodname'">
+      <b style="color: black">Finished Product #</b>
+    </div>
+    <dxi-column dataField="ProductName" [width]="200" style="color:black" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
+      <b style="color: black">Product Name</b>
+    </div>
+    <dxi-column dataField="Category" [width]="200" style="color:black" headerCellTemplate="addressHeaderTemplatecategory"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplatecategory'">
+      <b style="color: black">Category</b>
+    </div>
+  </dx-data-grid>-->
 
           <div class="form-row">
             <div class="col">
@@ -487,7 +512,7 @@
                 <mat-progress-spinner class="center" style="display: flex; justify-content: center; align-items: center; " *ngIf="isLoading;else conten" color="accent"
                                       mode="indeterminate">
                 </mat-progress-spinner>
-                <tr *ngFor="let Audit_Details of auditrialdetails" (click)="setvaluescomponent(Audit_Details);" #conten>
+                <tr *ngFor="let Audit_Details of auditrialdetails"  #conten>
                   <td class="tabledatasize">{{ Audit_Details.Date }}</td>
                   <td class="tabledatasize">{{ Audit_Details.Task}}</td>
                   <td class="tabledatasize">{{ Audit_Details.username}}</td>

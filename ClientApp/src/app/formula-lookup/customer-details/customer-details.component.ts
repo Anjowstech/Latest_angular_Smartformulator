@@ -235,7 +235,16 @@ export class CustomerDetailsComponent implements OnInit {
 ProductName2: any;
 FormulaCode2 : any;
   FormulaName2: any;
-  item2:any
+  item2: any
+  prefincinam: any;
+  prefincicode: any;
+  customerpreferencedltload: any;
+  erpdltload: any;
+  erppdctname: any;
+  erppdctcode: any;
+  pricingdltload: any;
+  pricingpdctname: any;
+  pricingcppid: any;
   checkIfOthersAreSelected: boolean;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
     this.onRowClick = function (index) {
@@ -964,19 +973,19 @@ FormulaCode2 : any;
         // this.COADTFORMAT = result[2];
         this.item2= result[1];
         this.selectedRowIndex = indexdataprod;
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName2);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode2);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName );
         this.dataGrid.instance.cellValue(this.selectedRowIndex, "COADTFORMAT", 'MM/dd/yyyy');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "RetailCost", '0.00000');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "DistributorCost", '0.00000');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "SoleDistributorCost", '0.00000');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "WholesaleCost", '0.00000');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "RetailCost", '0.00000');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "DistributorCost", '0.00000');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "SoleDistributorCost", '0.00000');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "WholesaleCost", '0.00000');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
         this.dataGrid.instance.saveEditData();
       }
     });
@@ -1066,7 +1075,42 @@ FormulaCode2 : any;
 
 
   }
+  Opentiredvolumepricing(e): void {
+    var indexdataprod: any = e.rowIndex;
 
+    const dialogRef = this.dialog.open(SearchProductsComponent, {
+      width: '70%', height: '80%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result != "") {
+
+
+
+        this.ProductCode = result[0];
+        this.ProductName = result[2];
+        this.FormulaCode = result[4];
+        this.FormulaName = result[5];
+        // this.COADTFORMAT = result[2];
+        this.item2 = result[1];
+        this.selectedRowIndex = indexdataprod;
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitSize", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Value", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Value", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Value", '0.00');
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Value", '0.00');
+        this.dataGrid.instance.saveEditData();
+      }
+    });
+
+
+
+
+  }
   Opensearchproductsforotcvalidate(e): void {
     var indexdataprod: any = e.rowIndex;
 
@@ -1107,29 +1151,38 @@ FormulaCode2 : any;
 
     // this.dataGrid.instance.cellValue(this.selectedRowIndex, "check", false);
   }
+  erpclick(e): void {
+    // this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);2-cus-ProductCode,4-incicode-ProductName,5-incinam-INCIName
+    this.selectedRowsData = this.dataGrid.instance.getSelectedRowsData();
+    this.erppdctname = this.dataGrid.instance.getSelectedRowsData()[0].ProductName;
+    this.erppdctcode = this.dataGrid.instance.getSelectedRowsData()[0].ProductCode;
+  }
   deleteRowerp() {
+    this.Deleteerpdlt().subscribe((erpdlt) => {
+      console.warn("erpdlt", erpdlt)
+      this.erpdltload = erpdlt
+    })
+
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     if (this.selectedRowIndex == -1) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
     }     
     this.dataGrid.instance.deselectAll();
-    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    //dialogRef.afterClosed().subscribe(result => {
-    //  console.log('The dialog was closed: ${result}');
-    //  this.deleterowdelete = result;
-    //  if (this.deleterowdelete == "false") { }
-    //  else {
-    //    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //    if (this.selectedRowIndex == -1) {
-    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //    }
-    //    this.dataGrid.instance.deselectAll();
-    //  }
-    //});
+    
+  }
+  Deleteerpdlt() {
+    var cuscode = this.customercode;
+    var pdctcode = this.erppdctcode;
+    var cusname = this.customername;
+    var pdctname = this.erppdctname;
+    var username = 'admin';
+    let params1 = new HttpParams().set('cuscode', cuscode).set('productcode', pdctcode).set('cusname', cusname).set('productname', pdctname).set('username', username);
+    return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deleteerp", { params: params1, responseType: 'text' })
   }
   selectedChangederp(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
+ 
   openrawmaterialserach(e): void {
     if (e.column.dataField === "INCIName") {
       const dialogRef = this.dialog.open(SearchINCINameComponent, {
@@ -1230,30 +1283,52 @@ FormulaCode2 : any;
     this.dataGrid.instance.saveEditData();
 
   }
+  pricingclick(e): void {
+    // this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);2-cus-ProductCode,4-incicode-ProductName,5-incinam-INCIName
+    this.selectedRowsData = this.dataGrid.instance.getSelectedRowsData();
+    this.pricingpdctname = this.dataGrid.instance.getSelectedRowsData()[0].ProductName;
+    this.pricingcppid = this.dataGrid.instance.getSelectedRowsData()[0].CPP_Id;
+  }
   retailwholsaledelete() {
+    this.Deletepricingdlt().subscribe((pricingdlt) => {
+      console.warn("pricingdlt", pricingdlt)
+      this.pricingdltload = pricingdlt
+    })
+
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     (this.selectedRowIndex);
     if (this.selectedRowIndex == -1) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
     }
     this.dataGrid.instance.deselectAll();
-    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    //dialogRef.afterClosed().subscribe(result => {
-    //  console.log('The dialog was closed: ${result}');
-    //  this.deleterowdelete = result;
-    //  if (this.deleterowdelete == "false") { }
-    //  else {
-    //    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //    if (this.selectedRowIndex == -1) {
-    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //    }
-    //    this.dataGrid.instance.deselectAll();
-    //  }
-    //});
+   
   }
+  Deletepricingdlt() {
+    var cuscode = this.customercode;
+    var cppid = this.pricingcppid;
+    var cusname = this.customername;
+    var pdctname = this.pricingpdctname;
+    var username = 'admin';
+    let params1 = new HttpParams().set('cuscode', cuscode).set('cppid', cppid).set('cusname', cusname).set('productname', pdctname).set('username', username);
+    return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deletepricing", { params: params1, responseType: 'text' })
+  }
+
   selectedChangedwholeretail(e) { this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]); }
 
+  customerprefclick(e): void {
+    // this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);2-cus-CusCode,4-incicode-incicode,5-incinam-INCIName
+    this.selectedRowsData = this.dataGrid.instance.getSelectedRowsData();
+    var prefcuscode: any = this.dataGrid.instance.getSelectedRowsData()[0].CusCode;
+     this.prefincinam= this.dataGrid.instance.getSelectedRowsData()[0].INCIName;
+     this.prefincicode=this.dataGrid.instance.getSelectedRowsData()[0].incicode;
+  }
   deleteRow() {
+
+    this.Deletecustomerpreference().subscribe((customerpreferencedlt) => {
+      console.warn("customerpreferencedlt", customerpreferencedlt)
+      this.customerpreferencedltload = customerpreferencedlt
+    })
+
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     (this.selectedRowIndex);
     if (this.selectedRowIndex == -1) {
@@ -1261,21 +1336,19 @@ FormulaCode2 : any;
     }
     this.dataGrid.instance.saveEditData();
     this.dataGrid.instance.deselectAll();
-    //let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure you want to DELETE?' }, disableClose: true });
-    //dialogRef.afterClosed().subscribe(result => {
-    //  console.log('The dialog was closed: ${result}');
-    //  this.deleterowdelete = result;
-    //  if (this.deleterowdelete == "false") { }
-    //  else {
-    //    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //    if (this.selectedRowIndex == -1) {
-    //      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    //    }
-    //     this.dataGrid.instance.saveEditData();
-    //     this.dataGrid.instance.deselectAll();
-    //  }
-    //});
+   
+    
   }
+  Deletecustomerpreference() {
+    var cuscode = this.customercode;
+    var ingcode = this.prefincicode;
+    var cusname = this.customername;
+    var inciname = this.prefincinam;
+    var username = 'admin';
+    let params1 = new HttpParams().set('cuscode', cuscode).set('ingredientcode', ingcode).set('cusname', cusname).set('Inciname', inciname).set('username', username);
+    return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deletecustomerpreference", { params: params1, responseType:'text' })
+  }
+
   selectedChanged(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }

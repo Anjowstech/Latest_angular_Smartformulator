@@ -40,7 +40,7 @@ export class AddQCComponent implements OnInit {
   loadqcunit: string;
   qcdataload: any;
   loadqctest: any;
-
+  userna: string = "";
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
 
@@ -227,7 +227,7 @@ export class AddQCComponent implements OnInit {
     var sqqno: string = "";
     var updtedby: string = "";
     var testcode = this.loadcode;
-    var addedby: string = "admin";
+    var addedby: string = this.userna;
     var unit: string = this.loadqcunit;
     var result: string = this.Results;
     var remark: string = this.remark;
@@ -237,7 +237,7 @@ export class AddQCComponent implements OnInit {
     var end: string = this.enddate;
     var files: string = this.addfile;
     var tsetname: string = this.TESTNAME;
-    var usrname: string = "Admin";
+    var usrname: string = this.userna;
 
     let params1 = new HttpParams().set('operation', operat).set('FormulaCode', formulacodes).set('SeqNo', sqqno).set('QCTest', testcode).set('UpdatedBy', updtedby).set('AddedBy', addedby).set('Unit', unit).set('Results', result).set('Remarks', remark).set('Note', notes).set('noOfDays', numbrofdays).set('StartDate', start).set('EndDate', end).set('SOPFile', files).set('testname', tsetname).set('username', usrname);
     return this.http.get("https://formulalookupwebservice11.azurewebsites.net/Saveupdate", { params: params1, responseType: 'text' })
@@ -251,7 +251,7 @@ export class AddQCComponent implements OnInit {
   ngOnInit() {
     this.formulacode = this.data.displaydata[0];
     this.formulaname = this.data.displaydata[1];
-
+    this.userna = this.datashare.getlogin();
 
 
 

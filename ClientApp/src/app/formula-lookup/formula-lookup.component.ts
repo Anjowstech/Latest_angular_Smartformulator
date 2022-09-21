@@ -71,6 +71,7 @@ export class FormulaLookupComponent implements OnInit {
   columnApi: any;
   newData: any = [];
   active: any;
+ back: any;
    olddatalistraw: string = "";
   datalistraw: string = "";
   olddatalistgirdformula: string = "";
@@ -115,7 +116,7 @@ export class FormulaLookupComponent implements OnInit {
   loading:boolean ;
   formulaCost: string;
   formulaCost1: any;
-  impurityload_data: any;
+  backsave: any;
   formulaNetQty: string = "0.00000";
   SupercededBy: string = "admin";
   supercededdate: string = "";
@@ -127,11 +128,8 @@ export class FormulaLookupComponent implements OnInit {
   manuprocreviewdata: any;
   useFormulation: string="";
   market_indi_data: any;
-  shipload_data: any;
-  otcdetails: any;
-  regulatoryAudit_data: any;
+
   BindFormulaProduct_data_load: any;
-  finalILload_data: any;
   ph: string="";
   odor: string="";
   oldlabvalue: string;
@@ -220,11 +218,6 @@ export class FormulaLookupComponent implements OnInit {
   Isformatstorage2: boolean = true;
   labatchnumber: any;
   qcdataload: any;
-  ILinciname: string;
-  ILQtyinperc: string;
-  ildata: any;
-  ildet: any;
-  ildetails: any = '';
   //operation3: string = 'Labatchchange';
   //onAddRow() {
   //  this.agGrid.api.updateRowData({
@@ -350,32 +343,6 @@ export class FormulaLookupComponent implements OnInit {
   word38: string;
   word39: string;
   word40: string;
-    word01: string;
-    word02: string;
-    word03: string;
-    word04: string;
-    word05: string;
-    word06: string;
-    word07: string;
-    word08: string;
-    word09: string;
-    word010: string;
-    word011: string;
-    word012: string;
-    word013: string;
-    word014: string;
-    word015: string;
-    word016: string;
-    word017: string;
-    word018: string;
-    word019: string;
-    word020: string;
-    word021: string;
-    word022: string;
-    word023: string;
-    word024: string;
-    word025: string;
-    word026: string;
 
  
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) {
@@ -553,9 +520,10 @@ export class FormulaLookupComponent implements OnInit {
 
   {
     onCellClicked: this.makeCellClickeditem.bind(this),
+    onCellDoubleClicked: this.rowDoubleClicked.bind(this),
     //flex: 1,
     //resizable: true,
-
+  
     //wrapText: true,     // <-- HERE
     autoHeight: true,
     //autoWidth: true,
@@ -1275,26 +1243,6 @@ export class FormulaLookupComponent implements OnInit {
             this.qcdataload = qcdetailslload
 
           })
-          this.fillshipload(this.formulacode).subscribe((shipload) => {
-            console.warn("shipdataload", shipload)
-            this.shipload_data = shipload
-          })
-          this.RegAuditload(this.formulacode, this.formulaname).subscribe((auditload) => {
-            console.warn("regulatoryphycompload", auditload)
-            this.regulatoryAudit_data = auditload
-          })
-          this.finalILload(this.formulacode).subscribe((ILload) => {
-            console.warn("impurityload", ILload)
-            this.finalILload_data = ILload
-          })
-          this.otcLload(this.formulacode).subscribe((otcload) => {
-            console.warn("otcdetailsload", otcload)
-            this.otcdetails = otcload
-          })
-          this.Impurityload(this.formulacode).subscribe((impurityload) => {
-            console.warn("impurityload", impurityload)
-            this.impurityload_data = impurityload
-          })
 
 
 
@@ -1406,23 +1354,6 @@ export class FormulaLookupComponent implements OnInit {
     this.percentscalabilitygrid()
   }
 
-  setILvalues(ildetails) {
-    this.ILinciname = ildetails.inciname
-    this.ILQtyinperc = ildetails.qtyinperc
-    this.ildata = [this.ILinciname, this.ILQtyinperc];
-  }
-  singleFarrow() {
-    this.ildetails = this.ildata;
-  }
-  doubleFarrow() {
-    this.ildetails = this.finalILload_data;
-  }
-  singleRarrow() {
-    this.ildetails = this.ildata;
-  }
-  doubleRarrow() {
-    this.ildetails = this.finalILload_data;
-  }
   Procedure(proceduredata: string) {
     this.proceduretextlist = proceduredata;
   }
@@ -1633,7 +1564,11 @@ export class FormulaLookupComponent implements OnInit {
           console.warn("qcdetailslload", qcdetailslload)
           this.qcdataload = qcdetailslload
         })
+        this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+          console.warn("Audittrackingload", Audittrackingload)
+          this.AudittrackData = Audittrackingload
 
+        })
       });
     }
 
@@ -1674,6 +1609,11 @@ export class FormulaLookupComponent implements OnInit {
       this.qctabload(this.formulacode).subscribe((qcdetailslload) => {
         console.warn("qcdetailslload", qcdetailslload)
         this.qcdataload = qcdetailslload
+      })
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
+
       })
 
     });
@@ -1755,57 +1695,52 @@ export class FormulaLookupComponent implements OnInit {
     });
   }
   ScalabilityFactor(): void {
-    if (this.formulacode == "" || this.formulacode == undefined) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Code' } });
-    }
-    else {
 
-      this.flag1 = 1;
+    this.flag1 = 1;
 
-      const dialogRef = this.dialog.open(ScalabilityFactorComponent, {
-        width: '35%', height: '26%', disableClose: true
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed', result);
+    const dialogRef = this.dialog.open(ScalabilityFactorComponent, {
+      width: '35%', height: '26%', disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
 
 
-        //var rowdatacount = this.gridApi.getDisplayedRowCount();
+      //var rowdatacount = this.gridApi.getDisplayedRowCount();
 
-        var val = result[0];
-        this.units = result[1];
-        if (val != null) {
-          this.scalefactor = val
+      var val = result[0];
+      this.units = result[1];
+      if (val != null) {
+        this.scalefactor = val
 
-          this.scalefactnew = Number(this.scalefactor) / Number(this.labbatch);
-          this.scalef = String(this.scalefactnew.toFixed(5));
+        this.scalefactnew = Number(this.scalefactor) / Number(this.labbatch);
+        this.scalef = String(this.scalefactnew.toFixed(5));
 
 
-          this.dialog.open(MessageBoxComponent, {
-            width: '25%', height: '15%',
-            data: { displaydata: "Scalability Factor" + " " + "=" + "Qty needed" + " " + this.scalefactor + " " + " / " + "Net quantity" + this.labbatch + " = " + "   " + this.scalef }
-          });
-          this.active = "3";
-        }
+        this.dialog.open(MessageBoxComponent, {
+          width: '25%', height: '15%',
+          data: { displaydata: "Scalability Factor" + " " + "=" + "Qty needed" + " " + this.scalefactor + " " + " / " + "Net quantity" + this.labbatch + " = " + "   " + this.scalef }
+        });
+        this.active = "3";
 
-        //this.onGridReadyone(params);
-        //this.gridApione.setRowData(this.rowDatascalability);
-        //this.gridApione.getModel();
-        //this.rowDatascalability = [];
-        //this.gridApione.forEachNode(RowNode => this.rowDatascalability.push(RowNode.data));
-        //this.gridApione.setRowData(this.rowDatascalability);
-        //var rowdatacount = this.rowDatascalability.length;
-        ////var scalfact = (val / Number(this.labbatch));
-        //for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
-        //  var rowNode = this.gridApione.getRowNode(rowin);
-        //  var qtynew: any = (Number(val) * Number(rowNode.data.Quantity)).toFixed(5);
-        //  rowNode.setDataValue('Quantity', String(qtynew));
-        //  var costnew: any = (Number(val) * Number(rowNode.data.Cost)).toFixed(5);
-        //  rowNode.setDataValue('Cost', String(costnew));
-        //}
-        // rowNode.setDataValue('Quantity', String(qtynew));
+      }
+      //this.onGridReadyone(params);
+      //this.gridApione.setRowData(this.rowDatascalability);
+      //this.gridApione.getModel();
+      //this.rowDatascalability = [];
+      //this.gridApione.forEachNode(RowNode => this.rowDatascalability.push(RowNode.data));
+      //this.gridApione.setRowData(this.rowDatascalability);
+      //var rowdatacount = this.rowDatascalability.length;
+      ////var scalfact = (val / Number(this.labbatch));
+      //for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+      //  var rowNode = this.gridApione.getRowNode(rowin);
+      //  var qtynew: any = (Number(val) * Number(rowNode.data.Quantity)).toFixed(5);
+      //  rowNode.setDataValue('Quantity', String(qtynew));
+      //  var costnew: any = (Number(val) * Number(rowNode.data.Cost)).toFixed(5);
+      //  rowNode.setDataValue('Cost', String(costnew));
+      //}
+      // rowNode.setDataValue('Quantity', String(qtynew));
 
-      });
-    }
+    });
   }
   CoaCompare(): void {
     const dialogRef = this.dialog.open(CoaCompareComponent, {
@@ -1884,7 +1819,11 @@ export class FormulaLookupComponent implements OnInit {
         console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
         this.BindFormulaProduct_data_load = BindFormulaProduct_load;
       })
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
 
+      })
 
 
     });
@@ -2049,127 +1988,26 @@ export class FormulaLookupComponent implements OnInit {
     var filebrowse = files.item.length;
     this.word40 = files.item(0).name;
   }
-  handleFileInput01(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word01 = files.item(0).name;
-  }
-  handleFileInput02(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word02 = files.item(0).name;
-  }
-  handleFileInput03(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word03 = files.item(0).name;
-  }
-  handleFileInput04(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word04 = files.item(0).name;
-  }
-  handleFileInput05(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word05 = files.item(0).name;
-  }
-  handleFileInput06(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word06 = files.item(0).name;
-  }
-  handleFileInput07(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word07 = files.item(0).name;
-  }
-  handleFileInput08(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word08 = files.item(0).name;
-  }
-  handleFileInput09(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word09 = files.item(0).name;
-  }
-  handleFileInput010(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word010 = files.item(0).name;
-  }
-  handleFileInput011(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word011 = files.item(0).name;
-  }
-  handleFileInput012(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word012 = files.item(0).name;
-  }
-  handleFileInput013(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word013 = files.item(0).name;
-  }
-  handleFileInput014(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word014 = files.item(0).name;
-  }
-  handleFileInput015(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word015 = files.item(0).name;
-  }
-  handleFileInput016(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word016 = files.item(0).name;
-  }
-  handleFileInput017(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word017 = files.item(0).name;
-  }
-  handleFileInput018(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word018 = files.item(0).name;
-  }
-  handleFileInput019(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word019 = files.item(0).name;
-  }
-  handleFileInput020(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word020 = files.item(0).name;
-  }
-  handleFileInput021(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word021 = files.item(0).name;
-  }
-  handleFileInput022(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word022 = files.item(0).name;
-  }
-  handleFileInput023(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word023 = files.item(0).name;
-  }
-  handleFileInput024(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word024 = files.item(0).name;
-  }
-  handleFileInput025(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word025 = files.item(0).name;
-  }
-  handleFileInput026(files: FileList) {
-    var filebrowse = files.item.length;
-    this.word026 = files.item(0).name;
-  }
-
   makeCellClickedinci(event) {
     this.incilabel = "INCI Name";
+
     this.Datashare.sendlabel(this.incilabel);
     this.editcellgridinci(event)
   }
   makeCellClickeditem(event) {
     this.incilabel = "Item"
     this.Datashare.sendlabel(this.incilabel);
+
     this.editcellgriditem(event)
   }
   makeCellClickedtrade(event) {
     this.incilabel = "Trade Name"
+    
     this.Datashare.sendlabel(this.incilabel);
     this.editcellgridtrade(event)
   }
   makeCellClickedstep(event) {
+    
     this.editcellgriddata2(event)
   }
   editcellgriditem(event) {
@@ -2177,7 +2015,7 @@ export class FormulaLookupComponent implements OnInit {
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
-
+    this.wait(2000);
     const dialogRef = this.dialog.open(ItemnameSelectComponent, {
       width: '80%', height: '40%', data: { displaydata: event.data.GeneralItemcode}, disableClose: true
     });
@@ -3460,6 +3298,7 @@ export class FormulaLookupComponent implements OnInit {
   //  this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
     var rowin6: any = event.rowIndex;
+    this.wait(2000);
     const dialogRef = this.dialog.open(TradenameSelectComponent, {
       width: '80%', height: '40%', data: { displaydata: event.data.TradeName }, disableClose: true
     });
@@ -4751,7 +4590,7 @@ export class FormulaLookupComponent implements OnInit {
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
-   
+    this.wait(2000);
     const dialogRef = this.dialog.open(IncinameSelectComponent, {
       width: '80%', height: '40%', data: { displaydata: event.data.INCIName }, disableClose: true
     });
@@ -6151,6 +5990,7 @@ export class FormulaLookupComponent implements OnInit {
     this.gridApi.forEachNode(RowNode => rowData.push(RowNode.data));
     this.gridApi.setRowData(rowData);
     this.rowindex = event.rowIndex;
+    this.wait(2000);
     const dialogRef = this.dialog.open(FormulaInstructionComponent, {
       width: '60%', height: '70%', disableClose: true
     });
@@ -6405,6 +6245,7 @@ export class FormulaLookupComponent implements OnInit {
     var selectedData = this.gridApi.getSelectedRows();
     var qua: any = selectedData[0].Quantity;
     this.gridApi.updateRowData({ remove: selectedData });
+
   
    let { rowsToDisplay1 } = this.gridApi.getModel();
     this.rowData = [];
@@ -7346,32 +7187,6 @@ export class FormulaLookupComponent implements OnInit {
     let params1 = new HttpParams().set('FormulaCode', Formula);
     return this.http.get("https://formulalookupwebservice15.azurewebsites.net/loadQCTABLE", { params: params1, })
 
-  }
-  finalILload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('FormulaCode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/originallist", { params: params1 })
-  }
-  otcLload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('FormulaCode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/otcload", { params: params1 })
-  }
-  RegAuditload(formcode: string, formname: string) {
-    var formulacode: string = formcode;
-    var formulaname: string = formname;
-    let params1 = new HttpParams().set('Formulacode', formulacode).set('Formulaname', formulaname);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/regauditdocload", { params: params1 })
-  }
-  fillshipload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('Formulacode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/fillship", { params: params1 })
-  }
-  Impurityload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('FormulaCode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/impurityload", { params: params1 })
   }
   BindFormulaProduct_load(formulcode: string) {
     var formulcod: string = formulcode;
@@ -8726,6 +8541,10 @@ onCellfirstValueChanged(params)
                 this.loading = false;
                 this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + "  " +this.lookupdate2data + " " + "Successfully" } });
                 this.lookupdate1data = ""
+                if (this.back == 1) {
+                  this.back = 0;
+                  this.router.navigate(['/Home']);
+                }
               }
               else if (this.lookupdate2data == "") {
                 this.loading = false;
@@ -8763,6 +8582,10 @@ onCellfirstValueChanged(params)
             this.loading = false;
             this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:"+" "+this.formulaname +" "+ this.lookupdate2data +" "+"Successfully" } });
             this.lookupdate1data = ""
+            if (this.back == 1) {
+              this.back = 0;
+              this.router.navigate(['/Home']);
+            }
           }
           else if (this.lookupdate2data == "") {
             this.loading = false;
@@ -8997,6 +8820,10 @@ onCellfirstValueChanged(params)
                   this.loading = false;
                   this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " is " + this.lookupdate1data + " " + "Successfully" } });
                   this.lookupdate1data = ""
+                  if (this.back == 1) {
+                    this.back = 0;
+                    this.router.navigate(['/Home']);
+                  }
                 }
                 else if (this.lookupdate1data == "") {
                   this.loading = false;
@@ -9035,6 +8862,10 @@ onCellfirstValueChanged(params)
               this.loading = false;
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " " + this.lookupdate1data + " " + "Successfully" } });
               this.lookupdate1data = ""
+              if (this.back == 1) {
+                this.back = 0;
+                this.router.navigate(['/Home']);
+              }
             }
             else if (this.lookupdate1data == "") {
               this.loading = false;
@@ -9072,6 +8903,31 @@ onCellfirstValueChanged(params)
     var lookupdate:any;
     lookupdate = this.http.get("https://smartformulatorformulallokupwebservice8.azurewebsites.net/formulalookupupdate", { params: params1, responseType: 'text' })
     return lookupdate
+  }
+  backclick() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: "Do you want to SAVE/UPDATE Formula?" }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.backsave = result;
+      this.back = 1;
+      if (this.backsave == "false") {
+        this.router.navigate(['/Home']);}
+      else {
+        if (this.issearchformulasave == true) {
+          this.formulalookupupdatemain();
+          
+        }
+
+        
+        else {
+          this.FormulationLookup_Save();
+          
+       
+      }
+
+        }
+      
+    });
   }
   //addmarketingindicator(): void {
   //  const dialogRef = this.dialog.open(AddMarketingIndicatorComponent, {

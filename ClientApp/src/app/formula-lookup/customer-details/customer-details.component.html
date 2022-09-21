@@ -294,8 +294,6 @@
     </tbody>
   </table>-->
                       <dx-data-grid id="gridContainer " style="width: 100%; height: 35rem;font-family:Verdana;font-style:normal;background-color:white"
-                                    
-                                   
                                     (onSelectionChanged)="selectedChanged($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="rowData"
@@ -303,26 +301,24 @@
                                     [showColumnLines]="true"
                                     [showRowLines]="true"
                                     [showBorders]="true"
-                                    (onCellClick)="openrawmaterialserach($event)"
+                                    (onCellDblClick)="openrawmaterialserach($event)"
+                                    (onCellClick)="customerprefclick($event)"
                                     (rowprepared)="rowprepared">
-                        <dxo-editing mode="row"
+                        <dxo-editing mode="cell"
                                      [allowUpdating]="true"
+                                      [allowDeleting]="true"
                                      [useIcons]="true">
                         </dxo-editing>-->
                         <dxo-column-chooser [enabled]="false">
                           <!-- or "select" -->
                         </dxo-column-chooser>
-                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-selection mode="multiple"></dxo-selection>
+
                         <dxo-scrolling mode="virtual"></dxo-scrolling>
 
                         <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
                         <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-                        <dxi-column dataField=""></dxi-column>
                         
-                        <dxi-column dataField="check" headerCellTemplate="addressHeaderTemplatecheck" dataType="boolean" value="false"></dxi-column>
-                        <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
-                          <b style="color: black"></b>
-                        </div>
                         <dxi-column dataField="CusCode"
                                     [visible]="false"></dxi-column>
                         <dxi-column dataField="incicode" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
@@ -812,6 +808,7 @@
                             [dataSource]="rowData6"
                             [wordWrapEnabled]="true"
                             (onCellDblClick)="Opensearchproducts($event)"
+                            (onCellClick)="erpclick($event)"
                             [showColumnLines]="true"
                             [showRowLines]="true"
                             [showBorders]="true"
@@ -926,6 +923,7 @@
                                     (onRowPrepared)="onRowPrepared2($event)"
                                     (onSelectionChanged)="selectedChanged($event)"
                                     (onCellDblClick)="Opensearchproductspricing($event)"
+                                     (onCellClick)="pricingclick($event)"
                                     [columnAutoWidth]="true"
                                     [dataSource]="retail_wholesale_rowdata"
                                     [wordWrapEnabled]="true"
@@ -996,7 +994,7 @@
                     </div>
                     <div style="margin-top: 2%;">
                       <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="addRow();">Insert Row</button>
-                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="deleteRow();">Delete Row</button>
+                      <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="retailwholsaledelete();">Delete Row</button>
                       <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Print Preview</button>
                     </div>
                   </form>
@@ -1078,7 +1076,7 @@
                                   [showColumnLines]="true"
                                   [showRowLines]="true"
                                   [showBorders]="true"
-                                   (onCellDblClick)="Opensearchproducts2($event)"
+                                   (onCellDblClick)="Opentiredvolumepricing($event)"
                                    (onRowPrepared)="onRowPreparedtierlist($event)" >
                       <dxo-editing mode="row"
                                    [allowAdding]="true"
