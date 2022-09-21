@@ -6,6 +6,7 @@ import { MessageBoxComponent } from '../../message-box/message-box.component';
 import { AddLabnameComponent } from './add-labname/add-labname.component';
 import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-yesno.component';
 import { formatDate } from '@angular/common';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { MyDateEditor } from './my-date-editor.component';
 @Component({
   selector: 'app-addproduct-testing',
@@ -42,11 +43,11 @@ export class AddproductTestingComponent implements OnInit {
   otcdata_load: any;
   testname: any = '';
   tname: any = '';
-    statuss: string = 'open';
+    statuss: string = 'true';
   status: string;
   tid: any = '';
   lname: any = '';
-  OTC: string = 'NO';
+  OTC: string = 'true';
   PType: any = '';
   lid: any = '';
   TotalC: any = '';
@@ -88,12 +89,13 @@ export class AddproductTestingComponent implements OnInit {
   dataListsave3: Datasave3[][] = [];
   FormulagridList: addproducttestData[][] = [];
   mySum: any;
+  userna: string = "";
   public gridApione;
   adf: any;
     doc1: string;
   onRowClick2: any;
   onRowClick3: any;
-  constructor(public dialogRef: MatDialogRef<AddproductTestingComponent>, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) {
+  constructor(public dialogRef: MatDialogRef<AddproductTestingComponent>, private http: HttpClient, private datashare: DataShareServiceService, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) {
 
 
     this.onRowClick2 = function (index) {
@@ -843,7 +845,7 @@ export class AddproductTestingComponent implements OnInit {
     var datasaveslist1: any = JSON.stringify(this.dataListsave1);
     var datasaveslist2: any = JSON.stringify(this.dataListsave2);
     var datasaveslist3: any = JSON.stringify(this.dataListsave3);
-    var UserName: any = "admin";
+    var UserName: any = this.userna;
     var tstname: string = this.Testname;
     var fcode: string = this.formulacode;
     let params1 = new HttpParams().set('Productsavjason', datasaveslist).
@@ -856,7 +858,7 @@ export class AddproductTestingComponent implements OnInit {
     this.Formulagridvalues(this.rowDatasproductbilling);
     var datalistgrid: any = JSON.stringify(this.FormulagridList);
     var Formulacode: any = this.formulacode;
-    var UserName: any = "admin";
+    var UserName: any = this.userna;
     let params1 = new HttpParams().set('SaveBillgridjason', datalistgrid).
       set('FormulaCode', Formulacode);
     return this.http.get("https://formulalookupwebservice14.azurewebsites.net/savebill", { params: params1, responseType: 'text' })
@@ -920,6 +922,7 @@ export class AddproductTestingComponent implements OnInit {
   ngOnInit() {
 
     var senddata = this.activeproductTab;
+    this.userna = this.datashare.getlogin();
     //var dataarray = this.data.displaydata;
     this.testdetails_load().subscribe((test_load) => {
       console.warn("test_load", test_load)

@@ -3963,15 +3963,18 @@ export class RawMaterialComponent implements OnInit {
     this.itemcodehidd = this.Datashare.getitemcoderaw();
   
     if (this.itemcodehidd != null) {
-      this.supp_name = this.Datashare.getitemtosupplier();
-      this.Rawmaterialload(this.itemcodehidd).subscribe((rawmaterialload) => {
+      this.supp_name = this.itemcodehidd[1];
+      this.Rawmaterialload(this.itemcodehidd[0]).subscribe((rawmaterialload) => {
         console.warn("rawmaterialload", rawmaterialload)
         this.Rawdata = rawmaterialload
         this.Rawmaterialdataload(this.Rawdata)
         this.issearchRM = false;
         this.issearchRMsave = true;
       })
-
+      this.rawmaterialauditload(this.itemcodehidd[0]).subscribe((auditload) => {
+        console.warn("auditload", auditload)
+        this.auditdata = auditload
+      })
     }
     this.LastPODt = new Date().toISOString().split('T')[0];
     this.standardpricedate = new Date().toISOString().split('T')[0];

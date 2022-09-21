@@ -71,6 +71,7 @@ export class FormulaLookupComponent implements OnInit {
   columnApi: any;
   newData: any = [];
   active: any;
+ back: any;
    olddatalistraw: string = "";
   datalistraw: string = "";
   olddatalistgirdformula: string = "";
@@ -115,7 +116,7 @@ export class FormulaLookupComponent implements OnInit {
   loading:boolean ;
   formulaCost: string;
   formulaCost1: any;
-
+  backsave: any;
   formulaNetQty: string = "0.00000";
   SupercededBy: string = "admin";
   supercededdate: string = "";
@@ -1563,7 +1564,11 @@ export class FormulaLookupComponent implements OnInit {
           console.warn("qcdetailslload", qcdetailslload)
           this.qcdataload = qcdetailslload
         })
+        this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+          console.warn("Audittrackingload", Audittrackingload)
+          this.AudittrackData = Audittrackingload
 
+        })
       });
     }
 
@@ -1604,6 +1609,11 @@ export class FormulaLookupComponent implements OnInit {
       this.qctabload(this.formulacode).subscribe((qcdetailslload) => {
         console.warn("qcdetailslload", qcdetailslload)
         this.qcdataload = qcdetailslload
+      })
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
+
       })
 
     });
@@ -1809,7 +1819,11 @@ export class FormulaLookupComponent implements OnInit {
         console.warn("BindFormulaProduct_load", BindFormulaProduct_load)
         this.BindFormulaProduct_data_load = BindFormulaProduct_load;
       })
+      this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+        console.warn("Audittrackingload", Audittrackingload)
+        this.AudittrackData = Audittrackingload
 
+      })
 
 
     });
@@ -6231,6 +6245,7 @@ export class FormulaLookupComponent implements OnInit {
     var selectedData = this.gridApi.getSelectedRows();
     var qua: any = selectedData[0].Quantity;
     this.gridApi.updateRowData({ remove: selectedData });
+
   
    let { rowsToDisplay1 } = this.gridApi.getModel();
     this.rowData = [];
@@ -8526,6 +8541,10 @@ onCellfirstValueChanged(params)
                 this.loading = false;
                 this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + "  " +this.lookupdate2data + " " + "Successfully" } });
                 this.lookupdate1data = ""
+                if (this.back == 1) {
+                  this.back = 0;
+                  this.router.navigate(['/Home']);
+                }
               }
               else if (this.lookupdate2data == "") {
                 this.loading = false;
@@ -8563,6 +8582,10 @@ onCellfirstValueChanged(params)
             this.loading = false;
             this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:"+" "+this.formulaname +" "+ this.lookupdate2data +" "+"Successfully" } });
             this.lookupdate1data = ""
+            if (this.back == 1) {
+              this.back = 0;
+              this.router.navigate(['/Home']);
+            }
           }
           else if (this.lookupdate2data == "") {
             this.loading = false;
@@ -8797,6 +8820,10 @@ onCellfirstValueChanged(params)
                   this.loading = false;
                   this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " is " + this.lookupdate1data + " " + "Successfully" } });
                   this.lookupdate1data = ""
+                  if (this.back == 1) {
+                    this.back = 0;
+                    this.router.navigate(['/Home']);
+                  }
                 }
                 else if (this.lookupdate1data == "") {
                   this.loading = false;
@@ -8835,6 +8862,10 @@ onCellfirstValueChanged(params)
               this.loading = false;
               this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Formula:" + " " + this.formulaname + " " + this.lookupdate1data + " " + "Successfully" } });
               this.lookupdate1data = ""
+              if (this.back == 1) {
+                this.back = 0;
+                this.router.navigate(['/Home']);
+              }
             }
             else if (this.lookupdate1data == "") {
               this.loading = false;
@@ -8872,6 +8903,31 @@ onCellfirstValueChanged(params)
     var lookupdate:any;
     lookupdate = this.http.get("https://smartformulatorformulallokupwebservice8.azurewebsites.net/formulalookupupdate", { params: params1, responseType: 'text' })
     return lookupdate
+  }
+  backclick() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: "Do you want to SAVE/UPDATE Formula?" }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.backsave = result;
+      this.back = 1;
+      if (this.backsave == "false") {
+        this.router.navigate(['/Home']);}
+      else {
+        if (this.issearchformulasave == true) {
+          this.formulalookupupdatemain();
+          
+        }
+
+        
+        else {
+          this.FormulationLookup_Save();
+          
+       
+      }
+
+        }
+      
+    });
   }
   //addmarketingindicator(): void {
   //  const dialogRef = this.dialog.open(AddMarketingIndicatorComponent, {
