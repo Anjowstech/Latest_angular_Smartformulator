@@ -48,6 +48,7 @@ import { DxDataGridModule, DxDataGridComponent } from 'devextreme-angular';
 import { ViewLabStabilityCoaComponent } from './view-lab-stability-coa/view-lab-stability-coa.component';
 import { UpdateQcComponent } from './update-qc/update-qc.component';
 import * as pako from 'pako';
+import { AddshippingregulatoryComponent } from './addshippingregulatory/addshippingregulatory.component';
 export interface DialogData {
   itemlist: string;
   name: string;
@@ -71,13 +72,23 @@ export class FormulaLookupComponent implements OnInit {
   columnApi: any;
   newData: any = [];
   active: any;
- back: any;
+  back: any;
+  shipload_data: any;
+  otcdetails: any;
+  regulatoryAudit_data: any;
+  finalILload_data: any;
+  ILinciname: string;
+  ILQtyinperc: string;
+  ildata: any;
+  ildet: any;
+  ildetails: any = '';
    olddatalistraw: string = "";
   datalistraw: string = "";
   olddatalistgirdformula: string = "";
   datalistgirdformula: string = "";
   formactive: any;
-  isLoading:boolean;
+  isLoading: boolean;
+  isLoadings: boolean=false;
   rowsToDisplay1: any;
   proced: any;
   okpilot: string;
@@ -116,11 +127,7 @@ export class FormulaLookupComponent implements OnInit {
   loading:boolean ;
   formulaCost: string;
   formulaCost1: any;
-
   backsave: any;
-
-  impurityload_data: any;
-
   formulaNetQty: string = "0.00000";
   SupercededBy: string = "admin";
   supercededdate: string = "";
@@ -132,11 +139,8 @@ export class FormulaLookupComponent implements OnInit {
   manuprocreviewdata: any;
   useFormulation: string="";
   market_indi_data: any;
-  shipload_data: any;
-  otcdetails: any;
-  regulatoryAudit_data: any;
+
   BindFormulaProduct_data_load: any;
-  finalILload_data: any;
   ph: string="";
   odor: string="";
   oldlabvalue: string;
@@ -155,6 +159,8 @@ export class FormulaLookupComponent implements OnInit {
   griditem: string;
   scalefactor: string;
   units: string;
+  impurityload_data: any;
+  
   tsname: any;
   porder: string;
   ssdate: string;
@@ -170,11 +176,7 @@ export class FormulaLookupComponent implements OnInit {
   apd: string;
   apby: string;
   lbname: string;
-  ILinciname: string;
-  ILQtyinperc: string;
-  ildata: any;
-  ildet: any;
-  ildetails: any = '';
+
   gridtradename: string;
   gridIngredientCode: string;
   gridp: string;
@@ -229,7 +231,7 @@ export class FormulaLookupComponent implements OnInit {
   Isformatstorage2: boolean = true;
   labatchnumber: any;
   qcdataload: any;
-
+  RegulatoryNotes: string;
   //operation3: string = 'Labatchchange';
   //onAddRow() {
   //  this.agGrid.api.updateRowData({
@@ -355,33 +357,32 @@ export class FormulaLookupComponent implements OnInit {
   word38: string;
   word39: string;
   word40: string;
-    word01: string;
-    word02: string;
-    word03: string;
-    word04: string;
-    word05: string;
-    word06: string;
-    word07: string;
-    word08: string;
-    word09: string;
-    word010: string;
-    word011: string;
-    word012: string;
-    word013: string;
-    word014: string;
-    word015: string;
-    word016: string;
-    word017: string;
-    word018: string;
-    word019: string;
-    word020: string;
-    word021: string;
-    word022: string;
-    word023: string;
-    word024: string;
-    word025: string;
-    word026: string;
-
+  word01: string;
+  word02: string;
+  word03: string;
+  word04: string;
+  word05: string;
+  word06: string;
+  word07: string;
+  word08: string;
+  word09: string;
+  word010: string;
+  word011: string;
+  word012: string;
+  word013: string;
+  word014: string;
+  word015: string;
+  word016: string;
+  word017: string;
+  word018: string;
+  word019: string;
+  word020: string;
+  word021: string;
+  word022: string;
+  word023: string;
+  word024: string;
+  word025: string;
+  word026: string;
  
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) {
 
@@ -1304,7 +1305,6 @@ export class FormulaLookupComponent implements OnInit {
 
 
 
-
         })
         this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation1).subscribe((formulationload) => {
           console.warn("formulaload", formulationload)
@@ -1412,23 +1412,6 @@ export class FormulaLookupComponent implements OnInit {
     this.percentscalabilitygrid()
   }
 
-  setILvalues(ildetails) {
-    this.ILinciname = ildetails.inciname
-    this.ILQtyinperc = ildetails.qtyinperc
-    this.ildata = [this.ILinciname, this.ILQtyinperc];
-  }
-  singleFarrow() {
-    this.ildetails = this.ildata;
-  }
-  doubleFarrow() {
-    this.ildetails = this.finalILload_data;
-  }
-  singleRarrow() {
-    this.ildetails = this.ildata;
-  }
-  doubleRarrow() {
-    this.ildetails = this.finalILload_data;
-  }
   Procedure(proceduredata: string) {
     this.proceduretextlist = proceduredata;
   }
@@ -1438,7 +1421,28 @@ export class FormulaLookupComponent implements OnInit {
   loadprop(formcode: string) {
     this.Datashare.sendformcode(formcode);
   }
-
+  setILvalues(ildetails) {
+    this.ILinciname = ildetails.inciname
+    this.ILQtyinperc = ildetails.qtyinperc
+    this.ildata = ildetails;
+  }
+  singleFarrow() {
+    this.isLoadings=true
+    this.ildetails = this.ildata;
+  }
+  doubleFarrow() {
+    this.isLoadings = false
+    this.ildetails = this.finalILload_data;
+    
+  }
+  singleRarrow() {
+    this.isLoadings = true
+    this.ildata= this.ildetails ;
+  }
+  doubleRarrow() {
+    this.isLoadings = false
+    this.finalILload_data = this.ildetails ;
+  }
   onBtShowLoading() {
     this.gridApi.showLoadingOverlay();
   }
@@ -1774,7 +1778,6 @@ export class FormulaLookupComponent implements OnInit {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'please enter Formula Code' } });
     }
     else {
-
       this.flag1 = 1;
 
       const dialogRef = this.dialog.open(ScalabilityFactorComponent, {
@@ -1800,8 +1803,8 @@ export class FormulaLookupComponent implements OnInit {
             data: { displaydata: "Scalability Factor" + " " + "=" + "Qty needed" + " " + this.scalefactor + " " + " / " + "Net quantity" + this.labbatch + " = " + "   " + this.scalef }
           });
           this.active = "3";
-        }
 
+        }
         //this.onGridReadyone(params);
         //this.gridApione.setRowData(this.rowDatascalability);
         //this.gridApione.getModel();
@@ -1866,6 +1869,12 @@ export class FormulaLookupComponent implements OnInit {
 
 
     }
+  }
+  Addregulatoryshippingdetails(): void{
+    const dialogRef = this.dialog.open(AddshippingregulatoryComponent, {
+      width: '60%', height: '35%', data: {}, disableClose: true
+    });
+
   }
   OpenAddproductTesting(binddetails): void {
     this.tsname = binddetails.TestName
@@ -6745,7 +6754,7 @@ export class FormulaLookupComponent implements OnInit {
       
       this.customername = item.CusName
       this.customercode = item.CusCode
-
+      this.RegulatoryNotes = item.RegulatoryNotes
       this.ApprovedBy = item.ApprovedBy
       this.AddedDT = item.AddedDT;
       this.AddedDT = formatDate(new Date(item.AddedDT), 'yyyy-MM-dd', 'en-US');
@@ -7373,32 +7382,6 @@ export class FormulaLookupComponent implements OnInit {
     return this.http.get("https://formulalookupwebservice15.azurewebsites.net/loadQCTABLE", { params: params1, })
 
   }
-  finalILload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('FormulaCode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/originallist", { params: params1 })
-  }
-  otcLload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('FormulaCode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/otcload", { params: params1 })
-  }
-  RegAuditload(formcode: string, formname: string) {
-    var formulacode: string = formcode;
-    var formulaname: string = formname;
-    let params1 = new HttpParams().set('Formulacode', formulacode).set('Formulaname', formulaname);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/regauditdocload", { params: params1 })
-  }
-  fillshipload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('Formulacode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/fillship", { params: params1 })
-  }
-  Impurityload(formcode: string) {
-    var formulacode: string = formcode;
-    let params1 = new HttpParams().set('FormulaCode', formulacode);
-    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/impurityload", { params: params1 })
-  }
   BindFormulaProduct_load(formulcode: string) {
     var formulcod: string = formulcode;
     let params1 = new HttpParams().set('Formulacode', formulcod)
@@ -7598,7 +7581,32 @@ export class FormulaLookupComponent implements OnInit {
     }
     
   }
-
+  finalILload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('FormulaCode', formulacode);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/originallist", { params: params1 })
+  }
+  otcLload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('FormulaCode', formulacode);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/otcload", { params: params1 })
+  }
+  RegAuditload(formcode: string, formname: string) {
+    var formulacode: string = formcode;
+    var formulaname: string = formname;
+    let params1 = new HttpParams().set('Formulacode', formulacode).set('Formulaname', formulaname);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/regauditdocload", { params: params1 })
+  }
+  fillshipload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('Formulacode', formulacode);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/fillship", { params: params1 })
+  }
+  Impurityload(formcode: string) {
+    var formulacode: string = formcode;
+    let params1 = new HttpParams().set('FormulaCode', formulacode);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/impurityload", { params: params1 })
+  }
   blurEventunit(event: any) {
    
     this.unitvalue = this.selectedunit;
@@ -9147,6 +9155,7 @@ onCellfirstValueChanged(params)
   //}
   ngOnInit() {
     this.Isformatlabbatch2 = false;
+    
     this.ApprovedDT = new Date().toISOString().split('T')[0];
     this.supercededdate = new Date().toISOString().split('T')[0];
     this.backformuldetails = this.Datashare.getbackformdetails();
