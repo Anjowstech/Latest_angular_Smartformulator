@@ -40,8 +40,8 @@
         </div>
 
         <div class="form-inline">
-          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; margin-top: 40px; width: 150px; height: 45px" (click)=" quicksave()">Quick save </button>
-          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 5px; margin-top: 40px; width: 100px; height: 45px" (click)="update()">Update</button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 20px; margin-top: 40px; width: 150px; height: 45px" [disabled]="isproductsave" (click)=" quicksave()">Quick save </button>
+          <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 5px; margin-top: 40px; width: 100px; height: 45px"  [disabled]="isproductupdate" (click)="update()">Update</button>
           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 5px; margin-top: 40px; width: 100px; height: 45px" (click)=" clear()">New</button>
 
         </div>

@@ -22,7 +22,7 @@ export class AddQCComponent implements OnInit {
   loadqcunits: any;
   loadqctests: any;
   TESTNAME: string = "";
-  testunit: string;
+  testunit: string = "";
   QCTestUnit1: any;
   TestCode1: string;
   qc_save_data: any;
@@ -101,11 +101,28 @@ export class AddQCComponent implements OnInit {
 
   //}
   clear() {
-    this.TESTNAME = "N/A";
-    this.testunit = "";
-    this.startdate = "";
-    this.enddate = "";
-    this.noofday = "";
+    this.TESTNAME = "Viscosity ZAHN #3@25C";
+    this.unitload(this.TESTNAME).subscribe((loadqcunit) => {
+      console.warn("loadqcunit", loadqcunit)
+      this.loadqcunits = loadqcunit
+
+      this.loadqcunit = this.loadqcunits[0].QCTestUnit
+
+      this.loadqcunits.forEach(item => {
+        if (item.QCTestUnit == this.QCTestUnit1) {
+          this.testunit = item.QCTestUnit;
+
+        }
+      })
+
+    })
+
+
+
+    this.testunit = "Sec";
+    this.startdate = new Date().toISOString().substring(0, 10);
+    this.enddate = new Date().toISOString().substring(0, 10);
+    this.noofday = "1";
     this.Results = "";
     this.remark = "";
     this.note = "";
@@ -164,7 +181,7 @@ export class AddQCComponent implements OnInit {
   }
 
   Saveqc() {
-    if (this.TESTNAME == "N/A" || this.TESTNAME == undefined) {
+    if (this.TESTNAME == "" ||this.TESTNAME == "N/A" || this.TESTNAME == undefined) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Test Name' } });
 
     }
@@ -252,8 +269,11 @@ export class AddQCComponent implements OnInit {
     this.formulacode = this.data.displaydata[0];
     this.formulaname = this.data.displaydata[1];
 
+    this.startdate = new Date().toISOString().substring(0, 10);
+    this.enddate = new Date().toISOString().substring(0, 10);
+    this.noofday = "1";
 
-
+  
 
     this.QCtests_load(this.TESTNAME).subscribe((QCtests_load) => {
       this.isLoading = false;

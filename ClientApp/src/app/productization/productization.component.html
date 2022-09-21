@@ -698,15 +698,15 @@
 
                         <dxi-column dataField="ParamId"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black"></b>
                         </div>
-                        <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
+                        <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname" [allowEditing]="false" ></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
                           <b style="color: black">Claim</b>
                         </div>
-                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
+                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
                           <b style="color: black">Method</b>
                         </div>
@@ -714,7 +714,7 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
                           <b style="color: black;">Limits</b>
                         </div>
-                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
+                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
                           <b style="color: black">Username</b>
                         </div>
@@ -757,15 +757,15 @@
 
                         <dxi-column dataField="ParamId"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black"></b>
                         </div>
-                        <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplatetest"></dxi-column>
+                        <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplatetest" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatetest'">
                           <b style="color: black">Test</b>
                         </div>
-                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplatemethod"></dxi-column>
+                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplatemethod" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatemethod'">
                           <b style="color: black">Method</b>
                         </div>
@@ -773,7 +773,7 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplatelimiy'">
                           <b style="color: black; ">Limits</b>
                         </div>
-                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplateuser"></dxi-column>
+                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplateuser" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateuser'">
                           <b style="color: black">Username</b>
                         </div>
@@ -1077,7 +1077,9 @@
                   <div class=" form-inline" style="margin-left:3%">
                     <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
                     <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
-                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
+                    <button type="submit" disabled class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
+                    <input style="margin-left: 3%; margin-top: 2%;" class="form-check-input" disabled  type="checkbox" [(ngModel)]="Approvd" name="apprvd" (change)="approvedin($event)">
+                    <p style="font-family:Verdana;margin-top:3%;margin-left:5px;font-size:large;" disabled >Approve Product Commercialization Checklist</p>
 
 
 
