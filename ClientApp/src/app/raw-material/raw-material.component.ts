@@ -577,6 +577,14 @@ export class RawMaterialComponent implements OnInit {
     })
 
   }
+  blurpercentage(event: any) {
+    this.Percentage = event.target.value;  
+    if (Number(this.Percentage) < 0.00000 || isNaN(Number(this.Percentage))) {
+      this.Clearblend();
+      }
+    
+
+  }
   blurmoq(event: any) {
     this.MOQ = event.target.value;
     if (this.inciname == "" || this.inciname == undefined) {
@@ -1264,6 +1272,7 @@ export class RawMaterialComponent implements OnInit {
         this.tradn = result[2];
         this.supp_name = result[3];
         this.incicode = result[4];
+        this.active = "1";
         // this.suppkey = result[5];
         this.loadrawproperty(this.incicode);
 
@@ -1364,31 +1373,41 @@ export class RawMaterialComponent implements OnInit {
     }
   }
   Blenddelete() {
-    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure yo want to delete ' + this.INCIName+ '?' }, disableClose: true });
+    if (this.INCIName == "" || this.INCIName == undefined) { }
+    else {
+      let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Are you sure yo want to delete ' + this.INCIName + '?' }, disableClose: true });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ${result}');
-      this.blendmsgdata = result;
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed: ${result}');
+        this.blendmsgdata = result;
 
-      if (this.blendmsgdata == "false") { }
-      else {
-        this.Blenddlt().subscribe((Blenddlte) => {
-          console.warn("Blenddlte", Blenddlte)
-          this.Blenddatadlt = Blenddlte
+        if (this.blendmsgdata == "false") { }
+        else {
 
-          if (this.Blenddatadlt == "Blend compositions successfully deleted.") {
-            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions successfully deleted.' } });
-          }
-          this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
-            console.warn("Blenddetailslload", Blenddetailslload)
-            this.Blenddata = Blenddetailslload
-            this.Blenddataload(this.Blenddata)
+          this.Blenddlt().subscribe((Blenddlte) => {    //"Deletion of functions is failed."
+            console.warn("Blenddlte", Blenddlte)
+            this.Blenddatadlt = Blenddlte
+
+            if (this.Blenddatadlt == "Blend compositions successfully deleted.") {
+              this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions successfully deleted.' } });
+
+              this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
+                console.warn("Blenddetailslload", Blenddetailslload)
+                this.Blenddata = Blenddetailslload
+                this.Blenddataload(this.Blenddata)
+              })
+            }
+            else {
+              this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deletion of functions is failed.' } });
+
+            }
+           
           })
-        })
 
-       
-      }
-    });
+
+        }
+      });
+    }
    
   }
   setEUvalues2(EUvalues) {
@@ -1556,6 +1575,9 @@ export class RawMaterialComponent implements OnInit {
     if (this.INCIName == "" || this.INCIName == null)  {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Select ingredient code.' } });
     }
+    else if (prcntg == "" || prcntg==undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter percentage' } });
+    }
     else if (parseInt(prcntg) > 100 || this.Balance < 0  ) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
@@ -1718,26 +1740,25 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smarformulatorawmaterialwebservice6.azurewebsites.net/caprop65impuritiesload", { params: params1 });
   }
   opensearchinciname1(): void {
-    const dialogRef = this.dialog.open(SearchINCINameComponent, {
-      width: '80%', height: '90%', disableClose: true
-    });
+    if (this.inciname == "" || this.inciname == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter INCIName.' } });
+    }
+    else {
+      const dialogRef = this.dialog.open(SearchINCINameComponent, {
+        width: '80%', height: '90%', disableClose: true
+      });
 
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        this.INCIName = result[0];
+        this.itemli2 = result[1];
+        this.tradn2 = result[2];
+        this.supp_name2 = result[3];
+        this.incicode2 = result[4];
+        this.suppkey2 = result[5];
 
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      this.INCIName = result[0];
-      this.itemli2 = result[1];
-      this.tradn2 = result[2];
-      this.supp_name2 = result[3];
-      this.incicode2 = result[4];
-      this.suppkey2 = result[5];
-
-
-
-
-
-    });
+      });
+    }
   }
   supplierdataload(suppdata: any) {
     for (let item of suppdata) {
@@ -2529,32 +2550,42 @@ export class RawMaterialComponent implements OnInit {
     }
   }
   Casdelete() {
-    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you really want to delete this CAS details?'}, disableClose: true });
+    if (this.caasno == "" || this.caasno == undefined || this.descptn == "" || this.descptn==undefined) {
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ${result}');
-      this.casmsgdata = result;
+    }
+    else {
+      let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'Do you really want to delete this CAS details?' }, disableClose: true });
 
-      if (this.casmsgdata == "false") { }
-      else {
-        this.casdataList = [];
-        this.setcasdltdata(this.casdata);
-        this.DeleteCasdata().subscribe((raw_deletecas) => {
-          console.warn("raw_deletecas", raw_deletecas)
-          this.casdelete = raw_deletecas
-          if (this.casdelete == "deleted successfully") {
-            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'CAS details deleted successfully' } });
-          }
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed: ${result}');
+        this.casmsgdata = result;
 
-          this.CASload(this.incicode).subscribe((casload) => {
-            console.warn("casload", casload)
-            this.casdata = casload
-            //this.itemcodevalue = this.incicode;
-            //this.datashare.sendItemcodeno(this.itemcodevalue);
+        if (this.casmsgdata == "false") { }
+        else {
+          this.casdataList = [];
+          this.setcasdltdata(this.casdata);
+          this.DeleteCasdata().subscribe((raw_deletecas) => {
+            console.warn("raw_deletecas", raw_deletecas)
+            this.casdelete = raw_deletecas
+            if (this.casdelete == "deleted successfully") {
+              this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'CAS details deleted successfully' } });
+              this.caasno = "";
+              this.descptn = "";
+
+            }
+
+            this.CASload(this.incicode).subscribe((casload) => {
+              console.warn("casload", casload)
+              this.casdata = casload
+              //this.itemcodevalue = this.incicode;
+              //this.datashare.sendItemcodeno(this.itemcodevalue);
+            })
+            this.casdelete = '';
           })
-        })
-      }
-    })
+        }
+      })
+    }
+
   
     
   }
@@ -2673,8 +2704,56 @@ export class RawMaterialComponent implements OnInit {
 
           if (this.deleterawmaterialmain == "Deleted") {
             this.dialog.open(MessageBoxComponent, {
-              width: '20%', height: '15%', data: {
+              width: '25%', height: '15%', data: {
                 displaydata: 'Raw material' + ' ' + this.inciname + ' ' + 'is deleted successfully.'
+              }
+            });
+            this.ClearData();
+          }
+          else if (this.deleterawmaterialmain == "Present") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '25%', height: '15%', data: {
+                displaydata: 'This raw material is used in some formula. So it cannot be deleted.'
+              }
+            });
+            this.ClearData();
+          }
+          else if (this.deleterawmaterialmain == "Blend Raw Material") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '25%', height: '15%', data: {
+                displaydata: 'This raw material is used in some blend raw materials. So it cannot be deleted.'
+              }
+            });
+            this.ClearData();
+          }
+          else if (this.deleterawmaterialmain == "Lot Raw Materials") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '25%', height: '15%', data: {
+                displaydata: 'This raw material is used in some lots. So it cannot be deleted.'
+              }
+            });
+            this.ClearData();
+          }
+          else if (this.deleterawmaterialmain == "Batch Raw Materials") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '25%', height: '15%', data: {
+                displaydata: 'This raw material is used in some batch tickets. So it cannot be deleted.'
+              }
+            });
+            this.ClearData();
+          }
+          else if (this.deleterawmaterialmain == "PO Raw Materials") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '25%', height: '15%', data: {
+                displaydata: 'This raw material is used in some POs. So it cannot be deleted.'
+              }
+            });
+            this.ClearData();
+          }
+          else if (this.deleterawmaterialmain == "impurity") {
+            this.dialog.open(MessageBoxComponent, {
+              width: '25%', height: '15%', data: {
+                displaydata: 'This raw material is used in raw material impurities. So it cannot be deleted.'
               }
             });
             this.ClearData();
@@ -3100,7 +3179,7 @@ export class RawMaterialComponent implements OnInit {
   deletermweb() {
     var Itemcode1 = this.incicode;
     let params1 = new HttpParams().set('ItemCode', Itemcode1);
-    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/deleterawmaterials", { params: params1,responseType: "text"  })
+    return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/deleterawmaterials", { params: params1,responseType: "text"  })
   }
   IFRAload(InciName: string, GenItemCode: string) {
     var inciname: string = InciName;

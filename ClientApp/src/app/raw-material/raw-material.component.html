@@ -458,7 +458,7 @@
                   </div>
                   <div class="form-inline" style="margin-top:1%">
                     <label for="inputcust">Percentage</label>
-                    <input style="width: 30%;text-align:right;" maxlength="9" type="text" class="form-control" id="data1" [(ngModel)]="Percentage" #prcntg name="prcntge" value="">
+                    <input style="width: 30%;text-align:right;" maxlength="9" type="text" class="form-control" id="data1" [(ngModel)]="Percentage" #prcntg name="prcntge" value="" (blur)=" blurpercentage($event);" >
                   </div>
 
                   <div class="form-row" style="margin-top:0.5%">

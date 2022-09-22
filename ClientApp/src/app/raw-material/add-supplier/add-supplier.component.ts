@@ -426,14 +426,11 @@ export class AddSupplierComponent implements OnInit {
         if (this.Supplier_deletedata ) {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: this.Supplier_deletedata } });
         }
-        else if (this.Supplier_deletedata == null) {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Failed to Delete"  } });
-        }
-        else if (this.Supplier_deletedata == "failed") {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Failed to Delete" });
+        else if (this.Supplier_deletedata == "Deleted") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: "Supplier:"+" "+ this.Suppliername +" is deleted successfully"  } });
         }
         else {
-          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: "Not able to Delete" });
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: this.Supplier_deletedata });
         }
       })
     }
@@ -487,7 +484,7 @@ export class AddSupplierComponent implements OnInit {
     var suppliercode = this.SupplierCode;
     var suppliername = suppliername;
     let params1 = new HttpParams().set('code', suppliercode).set('name', suppliername);
-    return this.http.get("https://smartformulatorsupplierwebservice.azurewebsites.net/Supplier_DeleteBtn", { params: params1, responseType: 'text' })
+    return this.http.get("https://smartformulatorsupplierwebservicesample.azurewebsites.net/Supplier_DeleteBtn", { params: params1, responseType: 'text' })
   }
   openlink() {
     if (this.website != "") {
