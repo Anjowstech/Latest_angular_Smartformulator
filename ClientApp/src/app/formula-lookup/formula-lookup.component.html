@@ -1377,7 +1377,7 @@
 
                     </div>
                     <div>
-                      <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;float:right;margin-top:1%; width:200px;">Add Shipping Details</button>
+                      <button type="submit" class="btn btn-primary buttoncolor" style="height:40px;float:right;margin-top:1%; width:200px;"(click)="Addregulatoryshippingdetails()">Add Shipping Details</button>
                     </div>
 
                   </form>
@@ -1387,7 +1387,7 @@
                 <ng-template ngbTabContent>
                   <div style="margin-left: 10px;">
                     <label for="data_requirements" style="margin-top: 0.5%;">General regulatory Notes</label>
-                    <textarea id="data_requirements" style="width:90%;" class="form-control md-textarea" size="7" rows="15"></textarea>
+                    <textarea id="data_requirements"[(ngModel)]="RegulatoryNotes" style="width:90%;" class="form-control md-textarea" size="7" rows="15"></textarea>
                   </div>
                 </ng-template>
               </ngb-tab>
@@ -1789,9 +1789,14 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let il of ildetails; let i=index;">
-                              <td class="tabledatasize">{{ il.inciname}}</td>
-                              <td class="tabledatasize">{{ il.qtyinperc}}</td>
+
+                            <tr *ngIf="isLoadings;else contens">
+                              <td class="tabledatasize">{{ildetails.inciname}}</td>
+                              <td class="tabledatasize">{{ildetails.qtyinperc}}</td>
+                            </tr>
+                            <tr #contens *ngFor="let il of ildetails; let i=index;">
+                              <td class="tabledatasize">{{il.inciname}}</td>
+                              <td class="tabledatasize">{{il.qtyinperc}}</td>
                             </tr>
                           </tbody>
                         </table>

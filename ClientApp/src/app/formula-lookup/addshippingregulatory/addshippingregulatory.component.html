@@ -1,0 +1,61 @@
+<div style="background-color: #f6f5f1">
+  <h4 class="text-center">Add Shipping Details</h4>
+  <form>
+    <div class="form-group">
+      <div class="form-inline">
+        <label for="PDR #" style="margin-left:10px">Shipping Code</label>
+        <select id="PRD" class="form-control" style="width: 60%; margin-left: 70px">
+          <option selected>Air</option>
+          <option>water</option>
+          <option>road</option>
+          <option>Food</option>
+        </select>
+
+</div>
+
+
+
+    </div>
+    <div class="form-group">
+      <div class="form-inline">
+        <label for="PDR #" style="margin-left:10px">Shipping Name</label>
+        <input style="width:60%;margin-left:70px;" type="text" class="form-control" id="descrptn" [(ngModel)]="description" #decrpname name="desp" value="" (click)="blurdescription($event)">
+
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-inline">
+        <label for="PDR #" style="margin-left:10px">UN Number</label>
+        <input  style="width: 60%; margin-left: 90px;" type="text" class="form-control" id="elinc #" [(ngModel)]="einecs" #einecno name="eno" value="">
+      </div>
+
+    </div>
+    <div class="form-group">
+      <div class="form-inline">
+        <label for="PDR #" style="margin-left:10px">Hazard Class</label>
+        <input style="width: 60%; margin-left: 90px;" type="text" class="form-control" id="elinc #" [(ngModel)]="einecs" #einecno name="eno" value="">
+      </div>
+
+    </div>
+    <div class="form-group">
+      <div class="form-inline">
+        <label for="PDR #" style="margin-left:10px">Packaging Group</label>
+        <input style="width: 60%; margin-left: 65px;" type="text" class="form-control" id="elinc #" [(ngModel)]="einecs" #einecno name="eno" value="">
+      </div>
+
+    </div>
+    
+  </form>
+</div>
+<div>
+  <div class="form-inline" style="float:right">
+    <mat-dialog-actions>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="CASsave(casnumber.value,einecno.value);close();">Save</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>Back</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" matDialogClose>New</button>
+      <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:5px;" (click)="CASsave(casnumber.value,einecno.value);close();">Delete</button>
+
+    </mat-dialog-actions>
+  </div>
+</div>
+
