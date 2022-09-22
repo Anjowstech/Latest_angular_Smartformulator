@@ -9,6 +9,7 @@ import { Inject } from '@angular/core';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
+import { AddComponentComponent } from '../add-component/add-component.component';
 
 
 @Component({
@@ -121,7 +122,15 @@ export class ComponentlistingComponent implements OnInit {
   }
 
 
-
+  componentadd() {
+    const dialogRef = this.dialog.open(AddComponentComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal'
+    });
+  }
 
 
   
