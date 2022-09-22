@@ -19,6 +19,11 @@ import { DatePipe } from '@angular/common';
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { formatDate } from '@angular/common';
 import { MessageBoxYesnoComponent } from '../../message-box-yesno/message-box-yesno.component';
+import { AgGridModule } from 'ag-grid-angular';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { ColDef, GridApi, GridReadyEvent, RowDragEndEvent, GridOptions, Color } from 'ag-grid-community';
+
 
 @Component({
   selector: 'app-customer-details',
@@ -47,6 +52,21 @@ export class CustomerDetailsComponent implements OnInit {
     { Unitform: "Kg" },
     { Unitform: "Lb" },
   ];
+  rowindex: any = 0;
+  public rowSelection;
+  public rowStyle;
+  public gridApi;
+  private columnDefs1;
+  gridOptions: GridOptions = {
+    //deltaRowDataMode: true,
+    //onRowDragEnd: this.onRowDragEnd,
+    // suppressScrollOnNewData: true,
+    //immutableData:true
+    //getRowHeight: function (params) {
+    //  // assuming 50 characters per line, working how how many lines we need
+    //  return 18 * (Math.floor(params.data.INCIName.length / 45) + 2);
+    //}
+  };
   issearchcustomer: boolean = true;
   issearchcustomersave: boolean = false;
   isstateus: boolean = false;
@@ -54,6 +74,7 @@ export class CustomerDetailsComponent implements OnInit {
   tier2: string;
   tier3: string;
   tier4: string;
+  selectedData:any
   focusrowkey: Number = 1;
   Tier1Range: string;
   Tier2Range: string;
@@ -247,6 +268,10 @@ FormulaCode2 : any;
   pricingcppid: any;
   checkIfOthersAreSelected: boolean;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) {
+    this.rowSelection = 'multiple';
+    this.rowStyle = { fontFamily: 'Verdana', color: 'black' };
+    this.columnDefs1 = this.columnDefs1forper;
+   
     this.onRowClick = function (index) {
       if (this.currentRowIndex == index) {
         this.currentRowIndex = -1;
@@ -263,6 +288,169 @@ FormulaCode2 : any;
 
     });
   }
+  columnDefs1forper = [
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+
+      headerStyle: { border: 'solid', borderColor: 'black', borderRightWidth: '0.1px', borderLeftWidth: '0.1px', borderBottomWidth: '0.1px', },
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      checkboxSelection: true,
+      suppressSizeToFit: true,
+      field: 'a', width: 40,
+      minWidth: 40,
+      maxWidth: 50,
+    },
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      width: 250,
+      minWidth: 200,
+     
+      maxWidth: 280,
+      headerName: "Product #", field: 'ProductNumber'
+    },
+    {
+
+      // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      headerName: "Product Name",
+
+      minWidth: 250,
+      maxWidth: 280,
+      field: "ProductName"
+    },
+
+
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 250,
+      maxWidth: 280,
+
+      headerName: "Unit Size", field: 'UnitSize',
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 120,
+      maxWidth: 140,
+
+      headerName: "Unit", field: 'Unit',
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 250,
+      maxWidth: 280,
+
+      headerName: this.selectedtier1, field: 'Tier1',
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 250,
+      maxWidth: 280,
+
+      headerName: this.selectedtier2, field: 'Tier2',
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 250,
+      maxWidth: 280,
+
+      headerName: this.selectedtier3, field: 'Tier3',
+
+
+    },
+    {
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 250,
+      maxWidth: 280,
+
+      headerName: this.selectedtier4, field: 'Tier4',
+
+
+    },
+
+
+
+  ];
+
   handleFileInput(files: FileList) {
     var filebrowse = files.item.length;
     this.Document1 = files.item(0).name;
@@ -1077,33 +1265,68 @@ FormulaCode2 : any;
   }
   Opentiredvolumepricing(e): void {
     var indexdataprod: any = e.rowIndex;
-
+    this.selectedData = this.gridApi.getFocusedCell();
+    var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
+    let pricedetailgrid_data = [];
+    this.gridApi.forEachNode(RowNode => pricedetailgrid_data.push(RowNode.data));
+    this.gridApi.setRowData(pricedetailgrid_data);
     const dialogRef = this.dialog.open(SearchProductsComponent, {
       width: '70%', height: '80%', disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
-
-
-
+       
+        //this.selectedData = {
+        //  Step: '',
+        //  INCIName: this.gridinciname,
+        //  TradeName: this.gridtradename,
+        //  GeneralItemcode: this.griditem,
+        //  Qtyinpercentage: qtypere,
+        //  Quantity: qtyvale,
+        //  UnitName: this.unname,
+        //  UnitCost: Number(this.incicost).toFixed(5),
+        //  Cost: (Number(this.incicost) * Number(rowNode.data.Quantity)).toFixed(5),
+        //  SupplierName: this.gridsuppliername,
+        //  costinlb: cosinlb,
+        //  ItemCode: this.gridIngredientCode,
+        //  unitcostinlb: Number(cosinlb).toFixed(5),
+        //};
         this.ProductCode = result[0];
         this.ProductName = result[2];
         this.FormulaCode = result[4];
         this.FormulaName = result[5];
         // this.COADTFORMAT = result[2];
         this.item2 = result[1];
-        this.selectedRowIndex = indexdataprod;
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitSize", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Value", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Value", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Value", '0.00');
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Value", '0.00');
-        this.dataGrid.instance.saveEditData();
+
+        this.selectedData = {
+          a:'',
+          ProductNumber: result[1],
+          ProductName: this.ProductName,
+          UnitSize: result[3],
+          Unit: result[3],
+          Tier1: '',
+          Tier2: '',
+          Tier3: '',
+          Tier4: '',
+
+        };
+
+        RowNode.setData(this.selectedData);
+        //RowNode.setData(this.selectedData);
+
+       
+        //this.selectedRowIndex = indexdataprod;
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "UnitSize", '0.00');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Value", '0.00');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Value", '0.00');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Value", '0.00');
+        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Value", '0.00');
+        //this.dataGrid.instance.saveEditData();
       }
     });
 
@@ -1244,20 +1467,74 @@ FormulaCode2 : any;
   }
   selectedChangedtier(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+    var col = this.gridOptions.columnApi.getColumn("Tier1");
+    var colDef = col.getColDef();
+
     this.selectedtier1 = 'Upto ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier1Range + ' Units $';
+    colDef.headerName = this.selectedtier1;
     var tierdata2: Number = Number(this.dataGrid.instance.getSelectedRowsData()[0].Tier1Range) + 1;
+    var col2 = this.gridOptions.columnApi.getColumn("Tier2");
+    var colDef2 = col2.getColDef();
     this.selectedtier2 = tierdata2.toString() + ' - ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier2Range + ' Units $';
+    colDef2.headerName = this.selectedtier2;
     var tierdata3: Number = Number(this.dataGrid.instance.getSelectedRowsData()[0].Tier2Range) + 1;
+    var col3 = this.gridOptions.columnApi.getColumn("Tier3");
+    var colDef3 = col3.getColDef();
     this.selectedtier3 = tierdata3.toString() + ' - ' + this.dataGrid.instance.getSelectedRowsData()[0].Tier3Range + ' Units $';
+    colDef3.headerName = this.selectedtier3;
+    var col4 = this.gridOptions.columnApi.getColumn("Tier4");
+    var colDef4 = col4.getColDef();
     this.selectedtier4 = this.dataGrid.instance.getSelectedRowsData()[0].Tier4Range + ' Units $';
+    colDef4.headerName = this.selectedtier4;
     var sampledat: any = this.dataGrid.instance.getSelectedRowsData()[0].TieredProduct_id;
     this.focusrowkey = Number(sampledat);
     this.pricingdetailgrid(this.customercode, sampledat).subscribe((pricedetailgrid) => {
       console.warn("pricedetailgrid", pricedetailgrid)
       this.pricedetailgrid_data = pricedetailgrid
     })
+   
+    
+   
+    this.gridOptions.api.refreshHeader();
   }
+  addRow1() {
+    var rowdatacount1 = this.gridApi.getDisplayedRowCount();
+    this.gridApi.updateRowData({ add: [{ ProductNumber: '', ProductName: '', UnitSize: '',Unit:'',Tier1:'',Tier2:'',Tier3:'',Tier4:''}], addIndex: rowdatacount1 });
+    const selectedrows = this.gridApi.getSelectedRows();
+    this.gridApi.getRowNode(rowdatacount1);
+    //this.dataGrid.instance.addRow();
+    //this.dataGrid.instance.saveEditData();
+  }
+  deleteRow1() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: "Do you want to Delete?" }, disableClose: true });
 
+    dialogRef.afterClosed().subscribe(result => {
+      var res: any = result;
+
+      if (res == "false") {
+
+      }
+      else {
+        const selectedrows = this.gridApi.getSelectedRows();
+        this.gridApi.applyTransaction({ remove: selectedrows })
+        let { rowsToDisplay1 } = this.gridApi.getModel();
+        this.pricedetailgrid_data  = [];
+        this.gridApi.forEachNode(RowNode => this.pricedetailgrid_data.push(RowNode.data));
+        //  this.gridApi.refreshClientSideRowModel();
+        this.gridApi.setRowData(this.pricedetailgrid_data );
+        //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+        //this.dataGrid.instance.deselectAll();
+      }
+    });
+  }
+  rowDoubleClicked(event: any) {
+
+  }
+  onGridReadyone(params) {
+    this.gridApi = params.api;
+    this.gridApi.ensureIndexVisible(60, 'bottom');
+    // this.columnApi = params.columnApi;
+  }
   pricingdetailgrid(customerc, sampledat) {
 
     var productid = sampledat;

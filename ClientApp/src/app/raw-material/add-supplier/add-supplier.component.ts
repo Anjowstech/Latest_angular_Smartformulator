@@ -14,6 +14,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { ColDef, GridApi, GridReadyEvent, RowDragEndEvent, GridOptions, Color } from 'ag-grid-community';
+import { MessageBoxYesnoComponent } from 'src/app/message-box-yesno/message-box-yesno.component';
 @Component({
   selector: 'app-add-supplier',
   templateUrl: './add-supplier.component.html',
@@ -141,9 +142,9 @@ export class AddSupplierComponent implements OnInit {
 
        checkboxSelection: true,
       suppressSizeToFit: true,
-      field: '', width: 20,
-      minWidth: 20,
-      maxWidth: 40,
+      field: '', width: 40,
+      minWidth: 40,
+      maxWidth:50,
     },
     {
       flex: 1,
@@ -152,7 +153,9 @@ export class AddSupplierComponent implements OnInit {
       autoHeight: true,
       editable: true,
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-      
+      width: 470,
+      minWidth: 650,
+      maxWidth: 480,
       headerName: "Product Number", field: 'ProductNumber'
     },
     {
@@ -162,7 +165,9 @@ export class AddSupplierComponent implements OnInit {
       editable: true,
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
       headerName: "Product Name",
-
+     
+      minWidth: 650,
+      maxWidth: 680,
       field: "ProductName"
     },
 
@@ -178,7 +183,9 @@ export class AddSupplierComponent implements OnInit {
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
 
       // cellClassRules: cellClassRules,
-
+      
+      minWidth: 650,
+      maxWidth: 680,
       
       headerName: "Category", field: 'Category',
 
@@ -363,15 +370,26 @@ export class AddSupplierComponent implements OnInit {
     // this.columnApi = params.columnApi;
   }
   deleteRow() {
-    const selectedrows = this.gridApi.getSelectedRows();
-    this.gridApi.applyTransaction({ remove: selectedrows })
-    let { rowsToDisplay1 } = this.gridApi.getModel();
-    this.rowData = [];
-    this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-    //  this.gridApi.refreshClientSideRowModel();
-    this.gridApi.setRowData(this.rowData);
-    //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    //this.dataGrid.instance.deselectAll();
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: "Do you want to Delete?" }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      var res: any = result;
+
+      if (res == "false") {
+
+      }
+      else {
+        const selectedrows = this.gridApi.getSelectedRows();
+        this.gridApi.applyTransaction({ remove: selectedrows })
+        let { rowsToDisplay1 } = this.gridApi.getModel();
+        this.rowData = [];
+        this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+        //  this.gridApi.refreshClientSideRowModel();
+        this.gridApi.setRowData(this.rowData);
+        //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+        //this.dataGrid.instance.deselectAll();
+      }
+    });
   }
   addRow() {
     var rowdatacount1 = this.gridApi.getDisplayedRowCount();
