@@ -29,7 +29,10 @@ export class AddFunctionComponent implements OnInit {
       this.Function_save_data = Blenddatasaveup
       if (this.Function_save_data == "Inserted") { 
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Function is saved successfully.' } });
-    }
+      }
+      else if (this.Function_save_data == "FunctionCode") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Function name already exists.Choose another one.' } });
+      }
       else {
         this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to save' } });
       }
@@ -47,7 +50,7 @@ export class AddFunctionComponent implements OnInit {
     var funname = des;
 
     let params1 = new HttpParams().set('Code', funcode).set('name', funname);
-    return this.http.get("https://smartformulatorrawmaterialwebservice4.azurewebsites.net/SaveFunctions", { params: params1, responseType: 'text' })
+    return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/SaveFunctions", { params: params1, responseType: 'text' })
   }
 
 

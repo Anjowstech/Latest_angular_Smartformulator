@@ -222,6 +222,146 @@ export class RiskPhrasesComponent implements OnInit {
         title: 'R40 Limited evidence of a carcinogenic effect',
         checked: false
       },
+      {
+        id: 'User41',
+        title: 'R41 Risk of serious damage to the eyes.',
+        checked: false
+      },
+      {
+        id: 'User42',
+        title: 'R42 May cause sensitization by inhalation.',
+        checked: false
+      },
+      {
+        id: 'User43',
+        title: 'R43 May cause sensitization by skin contact.',
+        checked: false
+      },
+      {
+        id: 'User44',
+        title: 'R44 Risk of explotion if heated under confinement.',
+        checked: false
+      },
+      {
+        id: 'User45',
+        title: 'R45 May cause cancer.',
+        checked: false
+      },
+      {
+        id: 'User46',
+        title: 'R46 May cause heritable genetic damage.',
+        checked: false
+      },
+      {
+        id: 'User47',
+        title: 'R47 May cause birth defects.',
+        checked: false
+      },
+      {
+        id: 'User48',
+        title: 'R48 Danger of serious damage to health by prolonged exposure.',
+        checked: false
+      },
+      {
+        id: 'User49',
+        title: 'R49 May cause cancer by inhalation.',
+        checked: false
+      },
+      {
+        id: 'User50',
+        title: 'R50 Very toxic to aquatic organisms',
+        checked: false
+      },
+      {
+        id: 'User51',
+        title: 'R51 Toxic to aquatic organisms.',
+        checked: false
+      },
+      {
+        id: 'User52',
+        title: 'R52 harmful to aquatic organisms.',
+        checked: false
+      },
+      {
+        id: 'User53',
+        title: 'R53 May cause long-term adverse effects in the aquatic environment.',
+        checked: false
+      },
+      {
+        id: 'User54',
+        title: 'R54 Toxic to flora.',
+        checked: false
+      },
+      {
+        id: 'User55',
+        title: 'R55 Toxic to fauna.',
+        checked: false
+      },
+      {
+        id: 'User56',
+        title: 'R56 Toxic to soil organisms.',
+        checked: false
+      },
+      {
+        id: 'User57',
+        title: 'R57 Toxic to bees.',
+        checked: false
+      },
+      {
+        id: 'User58',
+        title: 'R58 May cause long-term adverse effects in the environment.',
+        checked: false
+      },
+      {
+        id: 'User59',
+        title: 'R59 Dangerous to the ozone layer.',
+        checked: false
+      },
+      {
+        id: 'User60',
+        title: 'R60 May impair fertility.',
+        checked: false
+      },
+      {
+        id: 'User61',
+        title: 'R61 May cause harm to the unborn child.',
+        checked: false
+      },
+      {
+        id: 'User62',
+        title: 'R62 Risk of impaired fertility.',
+        checked: false
+      },
+      {
+        id: 'User63',
+        title: 'R63 Possible risk of harm to the unborn child.',
+        checked: false
+      },
+      {
+        id: 'User64',
+        title: 'R64 May cause harm to breastfed babies.',
+        checked: false
+      },
+      {
+        id: 'User65',
+        title: 'R65 Harmful: may cause lung damaged if swallowed.',
+        checked: false
+      },
+      {
+        id: 'User66',
+        title: 'R66 Repeated exposure may cause drowsiness and dizziness.',
+        checked: false
+      },
+      {
+        id: 'User67',
+        title: 'R67 Vapours may cause drowsiness and dizziness.',
+        checked: false
+      },
+      {
+        id: 'User68',
+        title: 'R68 Possible risk of irreversible effects.',
+        checked: false
+      },
     ]
     //this.getCheckedItemList();
   }
