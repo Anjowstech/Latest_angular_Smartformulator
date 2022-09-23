@@ -192,6 +192,13 @@ export class ProductizationComponent implements OnInit {
     doc1: any;
     labeling_instructions: string;
     bomcustomer: any;
+    productline2load_data: any;
+    oem2load_data: any;
+    class2load_data: any;
+    classification2load_data: any;
+    category2load_data: any;
+    brand2load_data: any;
+    application2load_data: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
 
@@ -348,6 +355,57 @@ export class ProductizationComponent implements OnInit {
         this.pp_data = ppload
         this.PPdata(this.pp_data)
       })
+
+
+
+      this.productline2load(this.productcode).subscribe((productline2load) => {
+        console.warn("productline2load", productline2load)
+        this.productline2load_data = productline2load
+        this.productlin = this.productline2load_data
+        
+      })
+      this.oem2load(this.productcode).subscribe((oem2load) => {
+        console.warn("oem2load", oem2load)
+        this.oem2load_data = oem2load
+        this.oem = this.oem2load_data
+
+      })
+      this.class2load(this.productcode).subscribe((class2load) => {
+        console.warn("class2load", class2load)
+        this.class2load_data = class2load
+        this.classcode = this.class2load_data
+
+      })
+      this.classification2load(this.productcode).subscribe((classification2load) => {
+        console.warn("classification2load", classification2load)
+        this.classification2load_data = classification2load
+        this.classification = this.classification2load_data
+
+      })
+      this.category2load(this.productcode).subscribe((category2load) => {
+        console.warn("category2load", category2load)
+        this.category2load_data = category2load
+        this.category = this.category2load_data
+
+      })
+
+      this.brand2load(this.productcode).subscribe((brand2load) => {
+        console.warn("brand2load", brand2load)
+        this.brand2load_data = brand2load
+        this.brand = this.brand2load_data
+
+      })
+      this.application2load(this.productcode).subscribe((application2load) => {
+        console.warn("application2load", application2load)
+        this.application2load_data = application2load
+        this.application = this.application2load_data
+
+      })
+
+
+
+
+
 
 
 
@@ -539,6 +597,65 @@ export class ProductizationComponent implements OnInit {
     let params1 = new HttpParams().set('ProductCode', prdcode);
     return this.http.get("https://formulaproductization4.azurewebsites.net/loadpdr", { params: params1, })
   }
+
+  productline2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/productlineload", { params: params1, responseType: 'text' })
+  }
+  oem2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/OEMload", { params: params1, responseType: 'text' })
+  }
+  class2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/classload", { params: params1, responseType: 'text' })
+  }
+
+  classification2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/classificationload", { params: params1, responseType: 'text' })
+  }
+
+  category2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/categoryload", { params: params1, responseType: 'text' })
+  }
+
+  brand2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/brandload", { params: params1, responseType: 'text' })
+  }
+
+
+  application2load(productcode: string) {
+    var prdcode = productcode;
+    let params1 = new HttpParams().set('ProductCode', prdcode);
+    return this.http.get("https://formulaproductization5.azurewebsites.net/applicationload", { params: params1, responseType: 'text' })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   productpip(productcode: string) {
     var prdcode = productcode;
     let params1 = new HttpParams().set('ProductCode', prdcode);
