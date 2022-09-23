@@ -56,7 +56,9 @@ export class CustomerDetailsComponent implements OnInit {
   public rowSelection;
   public rowStyle;
   public gridApi;
+  public gridApi2;
   private columnDefs1;
+  private columnDefs2;
   gridOptions: GridOptions = {
     //deltaRowDataMode: true,
     //onRowDragEnd: this.onRowDragEnd,
@@ -74,7 +76,8 @@ export class CustomerDetailsComponent implements OnInit {
   tier2: string;
   tier3: string;
   tier4: string;
-  selectedData:any
+  selectedData: any;
+  selectedData2: any;
   focusrowkey: Number = 1;
   Tier1Range: string;
   Tier2Range: string;
@@ -151,6 +154,7 @@ export class CustomerDetailsComponent implements OnInit {
   salesrepdatalo_data: any;
   Customer_save_data: any;
   loadbatchszizes: any;
+  removeerprows: any;
   rowData4: any = [];
   cstmerdata: any = [];
   selectedRowIndex = -1;
@@ -272,6 +276,7 @@ FormulaCode2 : any;
     this.rowSelection = 'multiple';
     this.rowStyle = { fontFamily: 'Verdana', color: 'black' };
     this.columnDefs1 = this.columnDefs1forper;
+    this.columnDefs2 = this.columnDefs1erp;
     this.rowHeight = 10;
     this.onRowClick = function (index) {
       if (this.currentRowIndex == index) {
@@ -451,7 +456,134 @@ FormulaCode2 : any;
 
 
   ];
+  columnDefs1erp = [
+    {
+      flex: 1,
 
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+
+      headerStyle: { border: 'solid', borderColor: 'black', borderRightWidth: '0.1px', borderLeftWidth: '0.1px', borderBottomWidth: '0.1px', },
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      
+      checkboxSelection: true,
+      suppressSizeToFit: true,
+      field: '', width: 40,
+      minWidth: 40,
+      maxWidth: 50,
+    },
+    {
+      flex: 1,
+
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: false,
+      hide: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      width: 350,
+      minWidth: 300,
+
+      maxWidth: 380,
+      headerName: "Productcode", field: 'ProductCode'
+    },
+    {
+      flex: 1,
+      onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: false,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      width: 350,
+      minWidth: 300,
+
+      maxWidth: 380,
+      headerName: "Product #", field: 'ProductNumber'
+    },
+    {
+      onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // <-- HERE
+      autoHeight: true,
+      editable: false,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      headerName: "Product Name",
+
+      minWidth: 350,
+      maxWidth: 380,
+      field: "ProductName"
+    },
+
+
+    {
+      onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: false,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 350,
+      maxWidth: 380,
+
+      headerName: "Formula Code", field: 'FormulaCode',
+
+
+    },
+    {
+      onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: false,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 350,
+      maxWidth: 380,
+
+      headerName: "Formula Name", field: 'FormulaName',
+
+
+    },
+    {
+     
+      // flex: 1,
+      // resizable: true,
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+      // cellClassRules: cellClassRules,
+
+      minWidth: 350,
+      maxWidth: 380,
+     
+      
+      headerName: "COA Expiry Date Format", field: 'COADTFORMAT',
+
+      cellEditor: 'agSelectCellEditor',
+      cellEditorParams: {
+        cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+        values: ['MM/dd/yyyy', 'MM/dd/yyy', 'MM/dd/yy', 'No Expiry Date']
+      },
+    },
+    
+
+
+
+  ];
   handleFileInput(files: FileList) {
     var filebrowse = files.item.length;
     this.Document1 = files.item(0).name;
@@ -1153,29 +1285,49 @@ FormulaCode2 : any;
       if (result != "") {
 
 
-
+        this.selectedData2 = this.gridApi2.getFocusedCell();
+        let rowData6 = [];
+        this.gridApi2.forEachNode(RowNode => rowData6.push(RowNode.data));
+        this.gridApi2.setRowData(rowData6);
+        var RowNode = this.gridApi2.getRowNode(this.selectedData2.rowIndex)
+        //this.selectedData = {
+        //  Step: '',
+        //  INCIName: this.gridinciname,
+        //  TradeName: this.gridtradename,
+        //  GeneralItemcode: this.griditem,
+        //  Qtyinpercentage: qtypere,
+        //  Quantity: qtyvale,
+        //  UnitName: this.unname,
+        //  UnitCost: Number(this.incicost).toFixed(5),
+        //  Cost: (Number(this.incicost) * Number(rowNode.data.Quantity)).toFixed(5),
+        //  SupplierName: this.gridsuppliername,
+        //  costinlb: cosinlb,
+        //  ItemCode: this.gridIngredientCode,
+        //  unitcostinlb: Number(cosinlb).toFixed(5),
+        //};
         this.ProductCode = result[0];
-
         this.ProductName = result[2];
         this.FormulaCode = result[4];
         this.FormulaName = result[5];
         // this.COADTFORMAT = result[2];
-        this.item2= result[1];
-        this.selectedRowIndex = indexdataprod;
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductCode", this.ProductCode);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductNumber", this.item2);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "ProductName", this.ProductName);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaCode", this.FormulaCode);
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "FormulaName", this.FormulaName );
-        this.dataGrid.instance.cellValue(this.selectedRowIndex, "COADTFORMAT", 'MM/dd/yyyy');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "Unit", 'Kg');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "RetailCost", '0.00000');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "DistributorCost", '0.00000');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "SoleDistributorCost", '0.00000');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "WholesaleCost", '0.00000');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "ValidatedSize", '0.00');
-        //this.dataGrid.instance.cellValue(this.selectedRowIndex, "banned", false);
-        this.dataGrid.instance.saveEditData();
+        this.item2 = result[1];
+
+        this.selectedData2 = {
+          ProductCode: this.ProductCode,
+          ProductNumber: result[1],
+          ProductName: this.ProductName,
+          FormulaCode: this.FormulaCode,
+          FormulaName: this.FormulaName,
+          COADTFORMAT: 'MM/dd/yyyy',
+          
+
+        };
+
+        //this.gridApi.setRowData(this.selectedData);
+        RowNode.setData(this.selectedData2);
+        this.rowData6 = [];
+        this.gridApi2.forEachNode(RowNode => this.rowData6.push(RowNode.data));
+        this.gridApi2.setRowData(this.rowData6);
       }
     });
 
@@ -1382,24 +1534,26 @@ FormulaCode2 : any;
     this.erppdctname = this.dataGrid.instance.getSelectedRowsData()[0].ProductName;
     this.erppdctcode = this.dataGrid.instance.getSelectedRowsData()[0].ProductCode;
   }
-  deleteRowerp() {
-    this.Deleteerpdlt().subscribe((erpdlt) => {
-      console.warn("erpdlt", erpdlt)
-      this.erpdltload = erpdlt
-    })
+  //deleteRowerp() {
 
-    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    if (this.selectedRowIndex == -1) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
-    }     
-    this.dataGrid.instance.deselectAll();
+  //  if (this.removeerprows == 0 || this.removeerprows == undefined) {
+  //    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });}
+  //  else {
+  //    for (let search of this.removeerprows) {
+  //      this.Deleteerpdlt().subscribe((erpdlt) => {
+  //        console.warn("erpdlt", erpdlt)
+  //        this.erpdltload = erpdlt
+  //      })
+  //    }
+  //  }
+   
     
-  }
-  Deleteerpdlt() {
+  //}
+  Deleteerpdlt(procodeerp:string,pronameerp:string) {
     var cuscode = this.customercode;
-    var pdctcode = this.erppdctcode;
+    var pdctcode = procodeerp;
     var cusname = this.customername;
-    var pdctname = this.erppdctname;
+    var pdctname = pronameerp;
     var username = 'admin';
     let params1 = new HttpParams().set('cuscode', cuscode).set('productcode', pdctcode).set('cusname', cusname).set('productname', pdctname).set('username', username);
     return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deleteerp", { params: params1, responseType: 'text' })
@@ -1499,9 +1653,17 @@ FormulaCode2 : any;
    
     this.gridOptions.api.refreshHeader();
   }
+  addRow2() {
+    var rowdatacount2 = this.gridApi2.getDisplayedRowCount();
+    this.gridApi2.updateRowData({ add: [{ ProductCode: '', ProductNumber: '', ProductName: '', FormulaCode: '', FormulaName: '', COADTFORMAT:''}], addIndex: rowdatacount2 });
+    const selectedrows = this.gridApi2.getSelectedRows();
+    this.gridApi2.getRowNode(rowdatacount2);
+    //this.dataGrid.instance.addRow();
+    //this.dataGrid.instance.saveEditData();
+  }
   addRow1() {
     var rowdatacount1 = this.gridApi.getDisplayedRowCount();
-    this.gridApi.updateRowData({ add: [{ ProductNumber: '', ProductName: '', UnitSize: '',Unit:'',Tier1:'',Tier2:'',Tier3:'',Tier4:''}], addIndex: rowdatacount1 });
+    this.gridApi.updateRowData({ add: [{ ProductNumber: '', ProductName: '', UnitSize: '', Unit: '', Tier1: '', Tier2: '', Tier3: '', Tier4: '' }], addIndex: rowdatacount1 });
     const selectedrows = this.gridApi.getSelectedRows();
     this.gridApi.getRowNode(rowdatacount1);
     //this.dataGrid.instance.addRow();
@@ -1529,8 +1691,52 @@ FormulaCode2 : any;
       }
     });
   }
+  deleteRow2() {
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: "Do you want to Delete?" }, disableClose: true });
+
+    dialogRef.afterClosed().subscribe(result => {
+      var res: any = result;
+
+      if (res == "false") {
+
+      }
+      else {
+        const selectedrows = this.gridApi2.getSelectedRows();
+        this.removeerprows = selectedrows
+        this.gridApi2.applyTransaction({ remove: selectedrows })
+        let { rowsToDisplay1 } = this.gridApi2.getModel();
+        this.rowData6 = [];
+        this.gridApi2.forEachNode(RowNode => this.rowData6.push(RowNode.data));
+        //  this.gridApi.refreshClientSideRowModel();
+        this.gridApi2.setRowData(this.rowData6);
+        if (this.removeerprows == 0 || this.removeerprows == undefined) {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
+        }
+        else {
+          for (let search of this.removeerprows) {
+            this.Deleteerpdlt(search.ProductCode,search.ProductName).subscribe((erpdlt) => {
+              console.warn("erpdlt", erpdlt)
+              this.erpdltload = erpdlt
+              this.rowData6 = [];
+              this.gridApi2.forEachNode(RowNode => this.rowData6.push(RowNode.data));
+              //  this.gridApi.refreshClientSideRowModel();
+              this.gridApi2.setRowData(this.rowData6);
+            })
+
+          }
+        }
+        //this.dataGrid.instance.deleteRow(this.selectedRowIndex);
+        //this.dataGrid.instance.deselectAll();
+      }
+    });
+  }
   rowDoubleClicked(event: any) {
 
+  }
+  onGridReadytwo(params) {
+    this.gridApi2 = params.api;
+    this.gridApi2.ensureIndexVisible(60, 'bottom');
+    // this.columnApi = params.columnApi;
   }
   onGridReadyone(params) {
     this.gridApi = params.api;

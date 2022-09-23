@@ -802,69 +802,91 @@
 
   </tbody>
   </table>-->
-              <dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
-                            (onSelectionChanged)="selectedChangederp($event)"
-                            [columnAutoWidth]="true"
-                            [dataSource]="rowData6"
-                            [wordWrapEnabled]="true"
-                            (onCellDblClick)="Opensearchproducts($event)"
-                            (onCellClick)="erpclick($event)"
-                            [showColumnLines]="true"
-                            [showRowLines]="true"
-                            [showBorders]="true"
-                            (rowprepared)="rowprepared">
-                <dxo-editing mode="row"
-                             [allowUpdating]="true"
-                             [useIcons]="true">
-                </dxo-editing>-->
+              <!--<dx-data-grid id="gridContainer " style="width: 100%; height: 37rem;font-family:Verdana;font-style:normal;background-color:white"
+                (onSelectionChanged)="selectedChangederp($event)"
+                [columnAutoWidth]="true"
+                [dataSource]="rowData6"
+                [wordWrapEnabled]="true"
+                (onCellDblClick)="Opensearchproducts($event)"
+                (onCellClick)="erpclick($event)"
+                [showColumnLines]="true"
+                [showRowLines]="true"
+                [showBorders]="true"
+                (rowprepared)="rowprepared">
+    <dxo-editing mode="row"
+                 [allowUpdating]="true"
+                 [useIcons]="true">
+    </dxo-editing>-->
+              <!--<dxo-selection [selectAllMode]="allMode"
+                   [showCheckBoxesMode]="checkBoxesMode"
+                   mode="multiple"></dxo-selection>
+    <dxo-row-dragging [allowReordering]="true"
+                      [showDragIcons]="showDragIcons"></dxo-row-dragging>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-sorting mode="none"></dxo-sorting>
 
-                <dxo-selection [selectAllMode]="allMode"
-                               [showCheckBoxesMode]="checkBoxesMode"
-                               mode="multiple"></dxo-selection>
-                <dxo-row-dragging [allowReordering]="true"
-                                  [showDragIcons]="showDragIcons"></dxo-row-dragging>
-                <dxo-scrolling mode="virtual"></dxo-scrolling>
-                <dxo-sorting mode="none"></dxo-sorting>
-
-                <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
-                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-
+    <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
 
 
-                <dxi-column [visible]="false" dataField="ProductCode"></dxi-column>
-                <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodcode"></dxi-column>
-                <div *dxTemplate="let info of 'addressHeaderTemplateprodcode'">
-                  <b style="color: black">Product #</b>
-                </div>
-                <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
-                <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
-                  <b style="color: black">Product Name</b>
-                </div>
-                <dxi-column dataField="FormulaCode" headerCellTemplate="addressHeaderTemplateformcode"></dxi-column>
-                <div *dxTemplate="let info of 'addressHeaderTemplateformcode'">
-                  <b style="color: black">Formula Code</b>
-                </div>
-                <dxi-column dataField="FormulaName" headerCellTemplate="addressHeaderTemplateformname"></dxi-column>
-                <div *dxTemplate="let info of 'addressHeaderTemplateformname'">
-                  <b style="color: black">Formula Name</b>
-                </div>
-                <dxi-column dataField="COADTFORMAT" headerCellTemplate="addressHeaderTemplateCOADTFORMAT">
-                  <dxo-lookup [dataSource]="Dateforma"
-                              valueExpr="dateform"
-                              displayExpr="dateform">
-                  </dxo-lookup>
-                </dxi-column>
-                <div *dxTemplate="let info of 'addressHeaderTemplateCOADTFORMAT'">
-                  <b style="color: black">COA Expiry Date Format</b>
 
-                </div>
+    <dxi-column [visible]="false" dataField="ProductCode"></dxi-column>
+    <dxi-column dataField="ProductNumber" headerCellTemplate="addressHeaderTemplateprodcode"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplateprodcode'">
+      <b style="color: black">Product #</b>
+    </div>
+    <dxi-column dataField="ProductName" headerCellTemplate="addressHeaderTemplateprodname"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplateprodname'">
+      <b style="color: black">Product Name</b>
+    </div>
+    <dxi-column dataField="FormulaCode" headerCellTemplate="addressHeaderTemplateformcode"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplateformcode'">
+      <b style="color: black">Formula Code</b>
+    </div>
+    <dxi-column dataField="FormulaName" headerCellTemplate="addressHeaderTemplateformname"></dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplateformname'">
+      <b style="color: black">Formula Name</b>
+    </div>
+    <dxi-column dataField="COADTFORMAT" headerCellTemplate="addressHeaderTemplateCOADTFORMAT">
+      <dxo-lookup [dataSource]="Dateforma"
+                  valueExpr="dateform"
+                  displayExpr="dateform">
+      </dxo-lookup>
+    </dxi-column>
+    <div *dxTemplate="let info of 'addressHeaderTemplateCOADTFORMAT'">
+      <b style="color: black">COA Expiry Date Format</b>
+
+    </div>
 
 
-              </dx-data-grid>
+  </dx-data-grid>-->
+              <ag-grid-angular style="width: 100%; height:37rem;font-family:Verdana;font-style:normal;background-color:white"
+                               class="ag-theme-alpine"
+                               [rowHeight]="rowHeight"
+                               [columnDefs]="columnDefs2"
+                               [rowClassRules]="rowClassRules"
+                               (columnResized)="onColumnResized($event)"
+                               (columnVisible)="onColumnVisible($event)"
+                               #agGrid
+                               [applyColumnDefOrder]="true"
+                               [getRowStyle]="getRowStyle"
+                               [rowStyle]="rowStyle"
+                               [getRowNodeId]="getRowNodeId"
+                               [rowSelection]="rowSelection"
+                               [enableRangeSelection]="true"
+                               
+                               [suppressScrollOnNewData]="true"
+                               [gridOptions]="gridOptions"
+                               [defaultColDef]="defaultColDef"
+                               [rowData]="rowData6"
+                               [overlayLoadingTemplate]="overlayLoadingTemplate"
+                               (gridReady)="onGridReadytwo($event)">
+
+              </ag-grid-angular>
             </div>
             <div style="margin-top: 2%;">
-              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="addRowerp(); ">Insert Row</button>
-              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="deleteRowerp();">Delete Row</button>
+              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="addRow2(); ">Insert Row</button>
+              <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%" (click)="deleteRow2();">Delete Row</button>
               <button type="button" class="btn btn-primary buttoncolor " style=" margin-left: 1%">Print Preview</button>
             </div>
           </form>
