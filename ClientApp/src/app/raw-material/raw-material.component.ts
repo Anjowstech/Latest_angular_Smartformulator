@@ -1558,7 +1558,9 @@ export class RawMaterialComponent implements OnInit {
     var ingredientcode = this.incicode2;
     var Usename = this.userna;
     var Percentage = this.Percentage;
+    this.percentage = "";
     var inciname = this.INCIName;
+    this.INCIName == ""
     let params1 = new HttpParams().set('IngredientCode', ingredientcode).set('Itemcode', blendcd).set('username', Usename).set('Percentage', Percentage).set('inciname', inciname);
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/BlendDeleteIngredient", { params: params1, responseType:'text' })
   }
@@ -2192,7 +2194,7 @@ export class RawMaterialComponent implements OnInit {
   }
   Clearblend() {
     this.INCIName = '';
-    this.Percentage = '';
+    //this.Percentage = '';
     this.Datashare.senditemtoraw(null);
   }
   //PDRdata(pdrdatas: any) {

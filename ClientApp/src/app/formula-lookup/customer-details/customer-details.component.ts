@@ -256,7 +256,8 @@ export class CustomerDetailsComponent implements OnInit {
 ProductName2: any;
 FormulaCode2 : any;
   FormulaName2: any;
-  item2: any
+  item2: any;
+  public rowHeight;
   prefincinam: any;
   prefincicode: any;
   customerpreferencedltload: any;
@@ -271,7 +272,7 @@ FormulaCode2 : any;
     this.rowSelection = 'multiple';
     this.rowStyle = { fontFamily: 'Verdana', color: 'black' };
     this.columnDefs1 = this.columnDefs1forper;
-   
+    this.rowHeight = 10;
     this.onRowClick = function (index) {
       if (this.currentRowIndex == index) {
         this.currentRowIndex = -1;
@@ -1265,18 +1266,19 @@ FormulaCode2 : any;
   }
   Opentiredvolumepricing(e): void {
     var indexdataprod: any = e.rowIndex;
-    this.selectedData = this.gridApi.getFocusedCell();
-    var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
-    let pricedetailgrid_data = [];
-    this.gridApi.forEachNode(RowNode => pricedetailgrid_data.push(RowNode.data));
-    this.gridApi.setRowData(pricedetailgrid_data);
+   
+    
     const dialogRef = this.dialog.open(SearchProductsComponent, {
       width: '70%', height: '80%', disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result != "") {
-       
+        this.selectedData = this.gridApi.getFocusedCell();
+        let pricedetailgrid_data = [];
+        this.gridApi.forEachNode(RowNode => pricedetailgrid_data.push(RowNode.data));
+        this.gridApi.setRowData(pricedetailgrid_data);
+        var RowNode = this.gridApi.getRowNode(this.selectedData.rowIndex)
         //this.selectedData = {
         //  Step: '',
         //  INCIName: this.gridinciname,
@@ -1300,7 +1302,7 @@ FormulaCode2 : any;
         this.item2 = result[1];
 
         this.selectedData = {
-          a:'',
+        
           ProductNumber: result[1],
           ProductName: this.ProductName,
           UnitSize: result[3],
@@ -1312,8 +1314,8 @@ FormulaCode2 : any;
 
         };
 
+        //this.gridApi.setRowData(this.selectedData);
         RowNode.setData(this.selectedData);
-        //RowNode.setData(this.selectedData);
 
        
         //this.selectedRowIndex = indexdataprod;

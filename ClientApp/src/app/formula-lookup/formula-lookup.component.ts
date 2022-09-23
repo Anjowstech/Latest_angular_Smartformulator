@@ -1444,7 +1444,7 @@ export class FormulaLookupComponent implements OnInit {
     this.finalILload_data = this.ildetails ;
   }
   onBtShowLoading() {
-    this.gridApi.showLoadingOverlay();
+   // this.gridApi.showLoadingOverlay();
   }
   onrowdragging() {
     this.gridApi.showLoadingOverlay();
@@ -2193,6 +2193,7 @@ export class FormulaLookupComponent implements OnInit {
     this.Datashare.sendlabel(this.incilabel);
 
     this.editcellgriditem(event)
+    
   }
   makeCellClickedtrade(event) {
     this.incilabel = "Trade Name"
@@ -5058,13 +5059,13 @@ export class FormulaLookupComponent implements OnInit {
                 this.rowData = [];
                 this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
                 this.gridApi.setRowData(this.rowData);
-
+                
 
               }
             }
             else if (RowNode.data.UnitName != "") {
 
-
+             
               var cos: any = (Number(this.incicost) * Number(RowNode.data.Quantity)).toFixed(5);
               var cosinlb: any = 0;
               if (this.selectedunit == "g") {
@@ -5143,6 +5144,7 @@ export class FormulaLookupComponent implements OnInit {
               this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
               this.gridApi.setRowData(this.rowData);
               RowNode.setData(this.selectedData);
+              
             }
             else {
 
@@ -7470,11 +7472,12 @@ export class FormulaLookupComponent implements OnInit {
     this.unitvalue = this.selectedunit;
     this.labbatchh = event.target.value;
     this.isLoading = true;
+    var rowdatacountfirst = this.gridApi.getDisplayedRowCount();
     if (Number(this.labbatchh) <= 0.00000 || isNaN(Number(this.labbatchh))) {
 
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Please enter valid digits' } });
       this.labbatch = this.oldlabvalue;
-  
+      this.isLoading = false;
       this.formulationload(this.formulacode, this.labbatch, this.unitvalue, this.operation2).subscribe((formulationload) => {
         
         console.warn("formulaload", formulationload)
@@ -7510,8 +7513,14 @@ export class FormulaLookupComponent implements OnInit {
         this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
       })
     }
-    
+    else if (rowdatacountfirst == 0)
+    {
+      this.addRow();
+      this.onBtShowLoading();
+      this.isLoading = false;
+    }
     else {
+      
       this.onBtShowLoading();
       this.labbatch = (Number(this.labbatchh).toFixed(5)).toString();
       var totdata: Number = parseFloat(this.labbatch) * parseFloat(this.TotalUnitCosted)
@@ -7553,33 +7562,41 @@ export class FormulaLookupComponent implements OnInit {
         }
         this.TotalCostInLB = String(costlb.toFixed(5));
         this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+        
       })
 
+     
+
+      //this.newData = [{
+      //  Step: 'b',
+      //  INCIName: 'Deionized',
+      //  TradeName: 'Deionized Water',
+      //  GeneralItemcode: '0000-3456-2472',
+      //  Qtyinpercentage: '10.3838099',
+      //  Quantity: '10.3838099',
+      //  UnitName: 'g',
+      //  UnitCost: 0.00011,
+      //  Cost: 0.00114,
+      //  SupplierName: 'American Distilling & Mfg.',
+      //},];
 
 
-      this.newData = [{
-        Step: 'b',
-        INCIName: 'Deionized',
-        TradeName: 'Deionized Water',
-        GeneralItemcode: '0000-3456-2472',
-        Qtyinpercentage: '10.3838099',
-        Quantity: '10.3838099',
-        UnitName: 'g',
-        UnitCost: 0.00011,
-        Cost: 0.00114,
-        SupplierName: 'American Distilling & Mfg.',
-      },];
-
-
-      this.gridApi.setRowData(this.rowData);
+      //this.gridApi.setRowData(this.rowData);
 
 
 
       var unitcosttotal = 0;
       var sumvar: any = 0;
       var firstsumvar: any = 0;
+     
     }
     
+  }
+  insertrowfirst() {
+    var rowdatacount = this.gridApi.getDisplayedRowCount();
+    if (rowdatacount == 0) {
+      this.addRow();
+    }
   }
   finalILload(formcode: string) {
     var formulacode: string = formcode;
@@ -7738,6 +7755,7 @@ export class FormulaLookupComponent implements OnInit {
   ClearData() {
     this.loading = false;
     this.customercode = "";
+    this.oldlabvalue = "0.00000";
     this.Isformatlabbatch1 = false;
     this.Isformatlabbatch2 = true;
     this.Isformatstorage1 = false;
