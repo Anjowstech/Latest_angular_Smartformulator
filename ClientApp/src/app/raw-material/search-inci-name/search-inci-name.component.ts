@@ -38,7 +38,8 @@ export class SearchINCINameComponent implements OnInit {
   casnum: string = '';
   suplrst: string = '';
   suppstatus: string = 'All';
-
+  isquickftn: boolean = false;
+  isquickcas: boolean = false;
 
 
  
@@ -68,6 +69,17 @@ export class SearchINCINameComponent implements OnInit {
     if (scrollPosition > scrollTreshold) {
       this.pageEnd += this.pageBuffer;
     }
+  }
+  quicksaveevent(event: any) {
+    if (this.filterMetadata.count == 0) {
+      this.isquickftn = true;
+      this.isquickcas = true;
+    }
+    else {
+      this.isquickftn = false;
+      this.isquickcas = false;
+    }
+   
   }
   setvalues(raw_cate_search) {
 
@@ -132,6 +144,17 @@ export class SearchINCINameComponent implements OnInit {
         if (this.dataresultquicksave == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Rawmaterial' + ' ' + this.inci + ' is saved successfully.' } });
         }
+        else if (this.dataresultquicksave == "ItemCode") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: '.' } });
+        }
+        else if (this.dataresultquicksave == "Updated") {
+          this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Rawmaterial' + ' ' + this.inci + ' is updated successfully.' } });
+        }
+        this.searchRawMaterials("2").subscribe((rawmaterialssearch) => {
+          console.warn("rawmaterialssearch", rawmaterialssearch)
+          this.datarawmaterialssearch = rawmaterialssearch
+          /*this.isLoading = false;*/
+        })
       })
     }
   }
@@ -146,7 +169,7 @@ export class SearchINCINameComponent implements OnInit {
     var supp: string = this.supplierva;
     var traden: string = this.tradenam;
     let params1 = new HttpParams().set('supplierstatus', supp_stat).set('rmapproved', "1").set('descriptionvalue', incin).set('suppliername', supp).set('tradename', traden).set('strItemCode', itemc);
-    return this.http.get("https://smartformulatorrawmaterialwebservices.azurewebsites.net/quicksave", { params: params1, responseType:'text' });
+    return this.http.get("https://rawmaterialsupliermodulesample.azurewebsites.net/quicksave", { params: params1, responseType:'text' });
 
 
 
@@ -173,6 +196,8 @@ export class SearchINCINameComponent implements OnInit {
     this.casnum = '';
     this.suplrst = '';
     this.suppstatus = 'All';
+    this.isquickftn = false;
+    this.isquickcas = false;
   }
 
   ngOnInit() {
