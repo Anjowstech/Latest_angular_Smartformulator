@@ -5,7 +5,7 @@ import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
-
+import {  ViewChild, ElementRef, Renderer2 } from '@angular/core';
 @Component({
   selector: 'app-add-application',
   templateUrl: './add-application.component.html',
@@ -23,7 +23,10 @@ export class AddApplicationComponent implements OnInit {
   isproductsave: boolean = false;
   isproductupdate: boolean = true;
     application_update_data: any;
-    count: any;
+  count: any;
+  date: Date;
+  yrs: string;
+  lotlot: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService) { }
 
@@ -158,6 +161,10 @@ export class AddApplicationComponent implements OnInit {
     
 
   }
+
+
+
+ 
 
   ngOnInit() {
 
