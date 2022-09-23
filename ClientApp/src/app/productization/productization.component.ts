@@ -107,7 +107,7 @@ export class ProductizationComponent implements OnInit {
   japan: any = '';
   australia: any = '';
   china: any = '';
-  Prdnotes: any = '';
+  Prdnotes: string = '';
   casnumber: any = '';
   einecsnumber: any = '';
   fillsize: any = '';
@@ -133,16 +133,16 @@ export class ProductizationComponent implements OnInit {
   filling_instructions: any = '';
   filling_instructions2: any = '';
   imagedescription: any = '';
-  productlin: any = '';
-  oem: any = '';
-  category: any = '';
-  brand: any = '';
-  classcode: any = '';
-  classification: any = '';
+  productlin: any = 'N/A';
+  oem: any = 'N/A';
+  category: any = 'N/A';
+  brand: any = 'N/A';
+  classcode: any = 'N/A';
+  classification: any = 'N/A';
   fillweight: any = '';
   SG: any = '';
   customername: any = '';
-  application: any = '';
+  application: any = 'N/A';
     productsavedata: any;
   pdrno: any = '';
     cmoname: any;
@@ -191,6 +191,7 @@ export class ProductizationComponent implements OnInit {
     active: any;
     doc1: any;
     labeling_instructions: string;
+    bomcustomer: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
 
@@ -407,7 +408,7 @@ export class ProductizationComponent implements OnInit {
     for (let item of pdrdatas) {
       this.pdrno = item.pdrno;
       this.customername = item.cusname;
-
+      this.bomcustomer = item.cusname;
 
 
     }
@@ -419,7 +420,7 @@ export class ProductizationComponent implements OnInit {
   }
   PPdata(pdrdatas: any) {
     for (let item of pdrdatas) {
-      this.productpack = item.PPacketNo;
+      this.productpack = item.PPackageNo;
      
 
 
@@ -1139,7 +1140,7 @@ export class ProductizationComponent implements OnInit {
       Japandoc: this.japan,
       Ausdoc: this.australia,
       Chinadoc: this.china,
-      Notes: this.Prdnotes,
+      Notes: '',
       CASNo: this.casnumber,
       EinecsNo: this.einecsnumber,
       FillSize: this.fillsize,
@@ -1297,7 +1298,7 @@ export class ProductizationComponent implements OnInit {
         Japandoc: this.japan,
         Ausdoc: this.australia,
         Chinadoc: this.china,
-        Notes: this.Prdnotes,
+        Notes: '',
         CASNo: this.casnumber,
         EinecsNo: this.einecsnumber,
         FillSize: this.fillsize,
@@ -1525,7 +1526,7 @@ export class ProductizationComponent implements OnInit {
       .set('classcode1', classcode1).set('classification', classification)
       .set('application', application)
       .set('username', username).set('SpecificGravity', SpecificGravity).set('FillWeight', FillWeight)
-      .set('cusname', cusname);
+      .set('BOMCustomer', cusname);
     return this.http.get("https://formulaproductization1.azurewebsites.net/updateproductization", { params: params1, responseType: 'text' })
 
   }
@@ -1702,35 +1703,37 @@ export class ProductizationComponent implements OnInit {
 
   ngOnInit() {
     this.datapcc = [{ Itemno: "1", Information: "Product Description & Codes or Formulation Code", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "2", Information: "Product formula including %'s, INCI names, Trade Names and Suppliers", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "3", Information: "Perfumes - 26 potential allergens content list from perfume supplie", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "4", Information: "INCI list with %'s", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "5", Information: "Stability Summary,  with reference to methods(this usually shows the stability at ambient 30C, 40C, freeze-thaw etc.)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "6", Information: "Manufacturing Procedure summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "7", Information: "Specification - Viscosity, pH and other test data listed", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "2", Information: "Product formula including %'s, INCI names, Trade Names and Suppliers", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "3", Information: "Perfumes - 26 potential allergens content list from perfume supplie", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "4", Information: "INCI list with %'s", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "5", Information: "Stability Summary,  with reference to methods(this usually shows the stability at ambient 30C, 40C, freeze-thaw etc.)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "6", Information: "Manufacturing Procedure summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "7", Information: "Specification - Viscosity, pH and other test data listed", CheckOff: false, checked: "", UserName: "", locked: "E" },
 
-      { Itemno: "8", Information: "Labeling requirements", CheckOff: false, checked: "", UserName: "", locked: "E"},
-      { Itemno: "9", Information: "Product Testing Results - Microbiological Challenge test records for products that contain water", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "10", Information: "Content - declare in g. or ml.", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "11", Information: "Claim Substantiation summary with refererences (this is proof that pack claims are able to be substantiated)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "12", Information: "Proposed pack copy or artwork for each carton and label (make sure claims in Pack copy are checked)", CheckOff: false, checked: "", UserName: "", locked: "E"},
-      { Itemno: "13", Information: "PAO (Product After Opening) time or best before date (Minimum Durability)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "14", Information: "Product Safety Assessment Statement - Executive Summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "15", Information: "Legal Compliance for Annex III restricted materials, colors & preservatives and sunscreen (CIR Panel review, preservative, sunscreen and color legal compliance check)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "16", Information: "A picture of the final product should appear in the PCC (as this will be required when on-line registration is available)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "17", Information: "Perfumes and Flavors should have IFRA and/or RFIM compliance statements from the perfume shop", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "18", Information: "Raw Material ingredient specifications and technical data sheets", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "19", Information: "Summary of GMP statement(a statement on company letter head declaring ISO standards and/or GMP compliance)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "20", Information: "The product must not have been tested on animals", CheckOff: false, checked: "", UserName: "", locked:"E" },
-      { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
-      { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
+    { Itemno: "8", Information: "Labeling requirements", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "9", Information: "Product Testing Results - Microbiological Challenge test records for products that contain water", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "10", Information: "Content - declare in g. or ml.", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "11", Information: "Claim Substantiation summary with refererences (this is proof that pack claims are able to be substantiated)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "12", Information: "Proposed pack copy or artwork for each carton and label (make sure claims in Pack copy are checked)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "13", Information: "PAO (Product After Opening) time or best before date (Minimum Durability)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "14", Information: "Product Safety Assessment Statement - Executive Summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "15", Information: "Legal Compliance for Annex III restricted materials, colors & preservatives and sunscreen (CIR Panel review, preservative, sunscreen and color legal compliance check)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "16", Information: "A picture of the final product should appear in the PCC (as this will be required when on-line registration is available)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "17", Information: "Perfumes and Flavors should have IFRA and/or RFIM compliance statements from the perfume shop", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "18", Information: "Raw Material ingredient specifications and technical data sheets", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "19", Information: "Summary of GMP statement(a statement on company letter head declaring ISO standards and/or GMP compliance)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "20", Information: "The product must not have been tested on animals", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
+    { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
     ]
     this.brandcheck = true;
+     
     this.ppauto().subscribe((pdrautogenerate) => {
       console.warn("pdrautogenerate", pdrautogenerate)
       this.ppautogenerate_data = pdrautogenerate
       this.productpack = this.ppautogenerate_data
     })
+     
 
 
     this.product_load().subscribe((product_load) => {
