@@ -12,7 +12,7 @@ import { CustomerDetailsComponent } from 'src/app//formula-lookup/customer-detai
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
 import { NewChemistryParamsComponent } from 'src/app/pdr-management/new-chemistry-params/new-chemistry-params.component';
-
+import { MessageBoxYesnoComponent } from 'src/app/message-box-yesno/message-box-yesno.component';
 import { NewMicrobiologyParamsComponent } from 'src/app/pdr-management/new-microbiology-params/new-microbiology-params.component';
 import { DatagridcomponentComponent } from 'src/app/formula-lookup/customer-details/datagridcomponent/datagridcomponent.component';
 import { NgModule } from '@angular/core';
@@ -69,6 +69,7 @@ export class PdrManagementComponent implements OnInit {
   spindle: string='';
   speed: string='';
   vTime: string = '';
+  deleteddata: any;
   Requirements: string = '';
   ProjectResults: string = '';
   userna: string = "";
@@ -1863,22 +1864,27 @@ this.loadformulationsassign = loadformulations
   }
 
   DeletePDR() {
-    this.PDR_Delete().subscribe((PDR_dlt) => {
-      console.warn("PDR_deletedata", PDR_dlt)
-      this.PDR_deletedata = PDR_dlt
-      this.wait(3000)
-      if (this.PDR_deletedata == "Deleted Succesfully") {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
-        this.ClearData();
-      }
-
+    let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: 'This will delete the entry.Do you really want to delete this entry?' }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ${result}');
+      this.deleteddata = result;
+      if (this.deleteddata == "false") { }
       else {
-        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Failed to Delete' } });
+        this.PDR_Delete().subscribe((PDR_dlt) => {
+          console.warn("PDR_deletedata", PDR_dlt)
+          this.PDR_deletedata = PDR_dlt
+          this.wait(3000)
+          if (this.PDR_deletedata == "Deleted Succesfully") {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Deleted successfully' } });
+            this.ClearData();
+          }
+          else {
+            this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'This Project(PDR) detail is used in formula.So it cannot be deleted.' } });
+          }
+          //this.showAlert4()
+        })
       }
-
-      //this.showAlert4()
-    })
-   
+    });
   }
   loadassignedapprovers(pdrno: string, taskid: string, pjctname: string) {
     var Pdrno = pdrno;
