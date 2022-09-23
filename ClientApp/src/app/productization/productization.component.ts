@@ -1196,7 +1196,7 @@ export class ProductizationComponent implements OnInit {
       this.productupdatedata = productization_update
 
 
-      if (this.productupdatedata == " Updated ") {
+      if (this.productupdatedata == "updated") {
 
         this.package_saveup().subscribe((package_saveup) => {
           console.warn("package_saveup", package_saveup)
