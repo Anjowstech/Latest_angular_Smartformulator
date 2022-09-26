@@ -436,6 +436,8 @@ export class RawMaterialComponent implements OnInit {
   cadlt: string = "";
   onRowClick: any;
   rmapprovechangeload: any;
+  valuetoprevious: any;
+  oldgravity: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.onRowClick = function (index) {
@@ -529,10 +531,22 @@ export class RawMaterialComponent implements OnInit {
   }
   blurEvent(event: any) {
     this.gravity=0;
-     this.gravity = event.target.value;
-
+    this.gravity = event.target.value;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.gravity) < 0.00000 || isNaN(Number(this.gravity))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.gravity = '1';
+      }
+    }
+    else {
+      if (Number(this.gravity) < 0.00000 || isNaN(Number(this.gravity))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.gravity = this.oldgravity;
+      }
+    }
+   
     
-     var total = ((this.gravity) * this.gmconverter) / this.ccconverter;
+    var total = ((this.gravity) * this.gmconverter) / this.ccconverter;
     this.lb_gal = total.toFixed(3);
      this.kgm3 = this.gravity * 1000;
   }
@@ -540,6 +554,21 @@ export class RawMaterialComponent implements OnInit {
     this.lb_gal = 0;
     this.lb_gal = event.target.value;
     this.gravity = 0;
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.lb_gal) < 0.00000 || isNaN(Number(this.lb_gal))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.lb_gal = '';
+      }
+    }
+    else {
+      if (Number(this.lb_gal) < 0.00000 || isNaN(Number(this.lb_gal))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.lb_gal = '';
+        this.gravity = this.oldgravity;
+      }
+    }
+    
+
 
     var total = ((this.lb_gal) * this.ccconverter) / this.gmconverter;
     this.gravity = total.toFixed(3);
@@ -567,6 +596,7 @@ export class RawMaterialComponent implements OnInit {
     this.costUnit = this.standardpriceunit;
     this.defaultUnit = this.standardpriceunit;
     this.LastPOUnit = this.standardpriceunit;
+
 
     this.LastPOPriceload(this.defaultUnit, this.defaultlastpoCost).subscribe((lastpoload) => {
       console.warn("lastpoload", lastpoload)
@@ -683,6 +713,7 @@ export class RawMaterialComponent implements OnInit {
       this.shippingprize = (shipprice1.toFixed(3)).toString();
       var total = Number(this.standardprice) + Number(this.shippingprize);
       this.unitCost = total.toFixed(3);
+      this.PreviousCost = this.valuetoprevious;
     }
   }
   blurdelstdcost(event: any) {
@@ -695,6 +726,7 @@ export class RawMaterialComponent implements OnInit {
       this.standardprice = (stdprice1.toFixed(3)).toString();
       var total = Number(this.standardprice) + Number(this.shippingprize);
       this.unitCost = total.toFixed(3);
+      this.PreviousCost = this.valuetoprevious;
     }
   }
   blurlastpo(event: any) {
@@ -1873,7 +1905,8 @@ export class RawMaterialComponent implements OnInit {
       this.origin = item.Origin;
       this.oldreorderqty = item.ReOrderQty;
       this.oldmoq = item.MOQ;
-      this.concentration = item.RMConcentration;
+      var conctrn: Number = Number(item.RMConcentration);
+      this.concentration = conctrn.toFixed(3).toString();
       this.RMSource = item.RawMatSource;
       this.proleadtime = item.ProcessLeadTime;
       this.oldproleadtime = item.ProcessLeadTime;
@@ -1895,6 +1928,7 @@ export class RawMaterialComponent implements OnInit {
         this.rmleadtime = "0";
       }
       this.gravity = item.SG;
+      this.oldgravity = item.SG;
       this.IUPACName = item.IUPACName;
       this.Restriction = item.Restriction
       this.MSDSPath = item.MSDSPath
@@ -1927,6 +1961,7 @@ export class RawMaterialComponent implements OnInit {
       var unitCost1: Number = Number(item.UnitCost);
      // this.oldunitcost = (unitCost1.toFixed(3)).toString();
       this.unitCost = (unitCost1.toFixed(3)).toString();
+      this.valuetoprevious = this.unitCost;
       this.costUnit = item.CostUnit;
       if (item.LastPODt == undefined || item.LastPODt == null) {
         this.LastPODt = "";
@@ -1964,7 +1999,8 @@ export class RawMaterialComponent implements OnInit {
       this.MOQ = item.MOQ;
       this.Approved = item.Approved;
       this.VOCContributor = item.VOCContributor;
-      this.PreviousCost = item.PreviousCost;
+      var prevcost: Number = Number(item.PreviousCost);
+      this.PreviousCost = prevcost.toFixed(3).toString();
       this.oldPreviousCost == item.PreviousCost;
       this.nFPAReactivity = item.NFPA_Reactivity;
       this.flashPtCelsious = item.FlashPtCelsious;
@@ -3943,7 +3979,7 @@ export class RawMaterialComponent implements OnInit {
     this.categoryId = '';
     this.subCategoryId = '';
     this.statusId = '';
-    this.unitCost = '';
+    this.unitCost = '0.001';
     this.costUnit = '3';
     this.LastPODt = new Date().toISOString().split('T')[0];
     this.costDt = new Date().toISOString().split('T')[0];
