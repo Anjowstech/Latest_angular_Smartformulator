@@ -98,8 +98,8 @@ export class RawMaterialComponent implements OnInit {
   statusId: string='0';
   supercededBy: string;
   unitCost: string='0.001';
-  costUnit: string='Kg';
-  costDt: string='';   //
+  costUnit: string = "3";
+  costDt: string = new Date().toISOString().split('T')[0];   //
   notes: string = '';
   deleterawmaterialmain: any;
   AlertRemarks: string='';
@@ -120,8 +120,8 @@ export class RawMaterialComponent implements OnInit {
   sku: string='';
   COAPath: string='';
   MSDSPath: string='';
-  defaultUnit: string='Kg';
-  LastPOUnit: string = 'Kg';
+  defaultUnit: string="3";
+  LastPOUnit: string = "3";
   reorderQty: string = '0';
   origin: string = '';
   oldreorderqty: string;
@@ -133,7 +133,7 @@ export class RawMaterialComponent implements OnInit {
   rmleadtime: string='0';
   sg: string='0';
   costdate: string='';
-  LastPODt: string='';
+  LastPODt: string = new Date().toISOString().split('T')[0];
   date: string;
   suppliername: string;
   supplierkey: string;
@@ -315,11 +315,11 @@ export class RawMaterialComponent implements OnInit {
   rawmaterial_save_data: string;
  
   AddedBy: string = '';
-  AddedDt: string = '';
+  AddedDt: string = new Date().toISOString().split('T')[0];
   ApprovalCode: string = '';
   //AlertRemarks: string;
   UpdatedBy: string = '';
-  UpdatedDt: string = '';
+  UpdatedDt: string = new Date().toISOString().split('T')[0];
   INNName: string = '';
   RMAbbreviation: string = '';
   MOQunit: string = '';
@@ -363,10 +363,10 @@ export class RawMaterialComponent implements OnInit {
 
   standardprice: string = '0.001';
   shippingprize: string = '0.000';
-  standardpriceunit: string = 'Kg';
-  standardpricedate: string = '';
-  shippingpriceunit: string = 'Kg';
-  shippingpricedate: string = '';
+  standardpriceunit: string = "3";
+  standardpricedate: string = new Date().toISOString().split('T')[0];
+  shippingpriceunit: string = "3";
+  shippingpricedate: string = new Date().toISOString().split('T')[0];
   lastpounit: string;
   defaultstandardprice: string;
   defaultshippingprize: string;
@@ -435,6 +435,7 @@ export class RawMaterialComponent implements OnInit {
   impudlt: string;
   cadlt: string = "";
   onRowClick: any;
+  rmapprovechangeload: any;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.onRowClick = function (index) {
@@ -1390,7 +1391,7 @@ export class RawMaterialComponent implements OnInit {
 
             if (this.Blenddatadlt == "Blend compositions successfully deleted.") {
               this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions successfully deleted.' } });
-
+              this.Clearblend();
               this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
                 console.warn("Blenddetailslload", Blenddetailslload)
                 this.Blenddata = Blenddetailslload
@@ -1656,16 +1657,48 @@ export class RawMaterialComponent implements OnInit {
   }
   approvedChange(event) {
     this.Approved = event.target.checked.toString();
-    if (this.Approved == "true") {
-      this.Approved = "true"
-      this.Approv = true
-    }
-    else {
-      this.Approved = "false";
-      this.Approv = false
-    }
-  }
+    this.Approvedchangeload(this.Approved).subscribe((rmapprovechange) => {
+      console.warn("rmapprovechange", rmapprovechange)
+      this.rmapprovechangeload = rmapprovechange
+      if (this.rmapprovechangeload == "productizedformula") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'This raw material is used in a productized formula. Hence cannot be unapproved.' } });
+        this.Approved = "true"
+        this.Approv = true
+      }
+      else if (this.rmapprovechangeload =="rawmaterial unapproved") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'This raw material is unapproved for supplier:' + this.supp_name } });
+        this.Approved = "false";
+        this.Approv = false
+      }
+      else if (this.rmapprovechangeload == "rawmaterial approved") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'This raw material is approved for supplier:' + this.supp_name } });
+        this.Approved = "true"
+        this.Approv = true
+      }
+      this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+        console.warn("auditload", auditload)
+        this.auditdata = auditload
+      })
 
+    })
+    //if (this.Approved == "true") {
+    //  this.Approved = "true"
+    //  this.Approv = true
+    //}
+    //else {
+    //  this.Approved = "false";
+    //  this.Approv = false
+    //}
+  }
+  Approvedchangeload(approved: string) {
+    var approveRM = approved;
+    var itemcode = this.incicode;
+    var suppname = this.supp_name;
+    var suppcode = this.supp_code;
+    var username = this.userna;
+    let params1 = new HttpParams().set('itemcode', approveRM).set('chkApproveRM', approveRM).set('suppName', approveRM).set('username', approveRM).set('code', approveRM);
+    return this.http.get("https://smartformulatorrawmaterilaswebservice4sample.azurewebsites.net/RMapprovechange", { params: params1, responseType: 'text'})
+  }
 
   blendsaveup(Percentage: any) {
     var Itemcode = this.incicode;
@@ -3881,8 +3914,8 @@ export class RawMaterialComponent implements OnInit {
     this.rmAssayValue = '0';
     this.supercededBy = '';
     this.supercededDate = '';
-    this.defaultUnit = 'Kg';
-    this.LastPOUnit = 'Kg';
+    this.defaultUnit = '3';
+    this.LastPOUnit = '3';
     this.reorderQty = '0';
     this.origin = '';
     this.concentration = '0';
@@ -3913,15 +3946,15 @@ export class RawMaterialComponent implements OnInit {
     this.subCategoryId = '';
     this.statusId = '';
     this.unitCost = '';
-    this.costUnit = 'Kg';
-    this.LastPODt = '';
-    this.costDt = '';
+    this.costUnit = '3';
+    this.LastPODt = new Date().toISOString().split('T')[0];
+    this.costDt = new Date().toISOString().split('T')[0];
     this.lastPOCost = '0.001';
     this.standardprice = '0.001';
     this.shippingprize = '0.000';
     this.deliveredprice='0.001'
-    this.costDt = '';
-    this.LastPODt = '';
+    this.costDt = new Date().toISOString().split('T')[0];
+    this.LastPODt = new Date().toISOString().split('T')[0];
     this.hMISHealth = '';
     this.hMISFlammability = '0';
     this.hMISPhysical = '0';
@@ -3964,7 +3997,7 @@ export class RawMaterialComponent implements OnInit {
     this.StatusReason = '';
     this.CurrSupplierPriority = '0';
     this.PrevSupplierPriority = '0';
-    this.LastPODt = '';
+    this.LastPODt = new Date().toISOString().split('T')[0];
     this.IsBlend = '';
     this.Hazardous = '';
     this.ReOrderUnit = '';
