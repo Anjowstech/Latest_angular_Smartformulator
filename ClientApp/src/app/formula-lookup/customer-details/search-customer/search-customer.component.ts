@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessageBoxComponent } from '../../../message-box/message-box.component';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-search-customer',
@@ -17,6 +18,7 @@ export class SearchCustomerComponent implements OnInit {
   customerkey: string;
   customername: string;
   customercode: string = "";
+ userna: string = "";
   Customer_quicksave_data: any;
   Datamaincustomer: customerdatamain[][] = [];
   addeddt: string = "";
@@ -95,7 +97,7 @@ export class SearchCustomerComponent implements OnInit {
   private dataList: Data[] = [];
   countrecords: any;
 
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchCustomerComponent>, public dialog: MatDialog) { }
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchCustomerComponent>, public dialog: MatDialog, public Datashare: DataShareServiceService) { }
   Customer_search() {
 
     return this.http.get("https://smartformulatorcustomerwebservice1.azurewebsites.net/SearchCustomer");
@@ -154,7 +156,7 @@ export class SearchCustomerComponent implements OnInit {
 
 
         AddedDT: this.addeddt,
-        AddedBy: 'admin',
+        AddedBy: this.userna,
         CAbbreviation: this.caabrevation,
         CusCode: this.customercode,
         CusName: this.customername,
@@ -227,7 +229,7 @@ export class SearchCustomerComponent implements OnInit {
         Document18: this.Document18,
         Document19: this.Document19,
         Document20: this.Document20,
-        username: 'admin'
+        username: this.userna
       }])
       this.Customer_saveup(custkey, custnam).subscribe((Customerquicksave) => {
         console.warn("Customerquicksave", Customerquicksave)
@@ -257,6 +259,7 @@ export class SearchCustomerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userna = this.Datashare.getlogin();
     this.Customer_search().subscribe((cus_search) => {
       console.warn("cus_search", cus_search)
       this.customer_searchdata = cus_search

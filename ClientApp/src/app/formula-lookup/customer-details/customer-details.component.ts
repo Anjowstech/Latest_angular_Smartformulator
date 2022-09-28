@@ -88,20 +88,21 @@ export class CustomerDetailsComponent implements OnInit {
   ProductName: string;
   FormulaCode: string;
   customername: string;
-  customercode: string="";
+  customercode: string = "";
   customercodepref: string;
   ProductCode: string;
   cusData: any;
+  userna: string = "";
   custgrid: any;
   active: any = '1';
-  dataloadaudittrialcustomer: any=null;
+  dataloadaudittrialcustomer: any = null;
   /* custkey: string;*/
   custname: string;
   fax: string = "";
   cuskey: string;
   /* custnam: string;*/
   address: string = "";
-  customertype: string ="Retail";
+  customertype: string = "Retail";
   phone: string = "";
   emailref: string = "";
   addeddt: string = "";
@@ -131,7 +132,7 @@ export class CustomerDetailsComponent implements OnInit {
   creditcardno: string = "";
   creditcardtype: string = "";
   expirydate: string = Date.now().toString();
- 
+
   creditlimit: string = '0';
   salesregion: string = "";
   salesrepinitial: string = "";
@@ -196,7 +197,7 @@ export class CustomerDetailsComponent implements OnInit {
   erpproductscoa: any;
   rowData6: any = [];
   selectedRowIndexListinggrid = -1;
-  pricedetailgrid_data: any=[];
+  pricedetailgrid_data: any = [];
   retail_wholesale_rowdata: any = [];
   retailwholeData: any;
   pricentryrowdata: any = [];
@@ -257,8 +258,8 @@ export class CustomerDetailsComponent implements OnInit {
   onRowClick: any;
   ProductCode2: any;
 
-ProductName2: any;
-FormulaCode2 : any;
+  ProductName2: any;
+  FormulaCode2: any;
   FormulaName2: any;
   item2: any;
   public rowHeight;
@@ -320,7 +321,7 @@ FormulaCode2 : any;
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
       width: 250,
       minWidth: 200,
-     
+
       maxWidth: 280,
       headerName: "Product #", field: 'ProductNumber'
     },
@@ -466,7 +467,7 @@ FormulaCode2 : any;
       headerStyle: { border: 'solid', borderColor: 'black', borderRightWidth: '0.1px', borderLeftWidth: '0.1px', borderBottomWidth: '0.1px', },
 
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
-      
+
       checkboxSelection: true,
       suppressSizeToFit: true,
       field: '', width: 40,
@@ -555,7 +556,7 @@ FormulaCode2 : any;
 
     },
     {
-     
+
       // flex: 1,
       // resizable: true,
 
@@ -569,8 +570,8 @@ FormulaCode2 : any;
 
       minWidth: 350,
       maxWidth: 380,
-     
-      
+
+
       headerName: "COA Expiry Date Format", field: 'COADTFORMAT',
 
       cellEditor: 'agSelectCellEditor',
@@ -579,7 +580,7 @@ FormulaCode2 : any;
         values: ['MM/dd/yyyy', 'MM/dd/yyy', 'MM/dd/yy', 'No Expiry Date']
       },
     },
-    
+
 
 
 
@@ -709,7 +710,7 @@ FormulaCode2 : any;
       }
     }
   }
- 
+
   Opencustomer(): void {
     const dialogRef = this.dialog.open(SearchCustomerComponent, {
       width: '60%', height: '70%', disableClose: true
@@ -789,14 +790,14 @@ FormulaCode2 : any;
     });
 
   }
-  
+
   deletetierrange() {
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     if (this.selectedRowIndex == -1) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
     }
     this.dataGrid.instance.deselectAll();
-   
+
   }
   DeleteClient_location() {
     if (this.customerkey == "" || this.customerkey == undefined) {
@@ -839,7 +840,7 @@ FormulaCode2 : any;
   DeleteClient_locationdlt() {
     var clid = this.clientid;
     let params1 = new HttpParams().set('CLId', clid);
-    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/deleteclientlocation", { params: params1, responseType:'text' })
+    return this.http.get("https://smartformulatorcustomerwebservice3.azurewebsites.net/deleteclientlocation", { params: params1, responseType: 'text' })
   }
   bindcustomerprefer(bindcustomerprefdata) {
     for (let item of bindcustomerprefdata) {
@@ -873,7 +874,7 @@ FormulaCode2 : any;
     });
 
   }
-  
+
   onRowPrepared2(e) {
 
   }
@@ -938,7 +939,7 @@ FormulaCode2 : any;
       this.salesperson = item.SalesPerson;
       this.creditcardno = item.CreditCardNo;
       this.creditcardtype = item.CreditCardType;
-    
+
       this.expirydate = new DatePipe('en-US').transform(item.ExpiryDate, 'yyyy-MM');
 
 
@@ -1057,6 +1058,7 @@ FormulaCode2 : any;
     this.datashare.sendaddlocation(this.searchitems);
     this.OpenAddClientLocation();
   }
+
 
   insert_tier4(event: any) {
     this.Tier3 = event.target.value;
@@ -1554,7 +1556,7 @@ FormulaCode2 : any;
     var pdctcode = procodeerp;
     var cusname = this.customername;
     var pdctname = pronameerp;
-    var username = 'admin';
+    var username = this.userna;
     let params1 = new HttpParams().set('cuscode', cuscode).set('productcode', pdctcode).set('cusname', cusname).set('productname', pdctname).set('username', username);
     return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deleteerp", { params: params1, responseType: 'text' })
   }
@@ -1701,6 +1703,7 @@ FormulaCode2 : any;
 
       }
       else {
+
         const selectedrows = this.gridApi2.getSelectedRows();
         this.removeerprows = selectedrows
         this.gridApi2.applyTransaction({ remove: selectedrows })
@@ -1717,10 +1720,20 @@ FormulaCode2 : any;
             this.Deleteerpdlt(search.ProductCode,search.ProductName).subscribe((erpdlt) => {
               console.warn("erpdlt", erpdlt)
               this.erpdltload = erpdlt
-              this.rowData6 = [];
-              this.gridApi2.forEachNode(RowNode => this.rowData6.push(RowNode.data));
-              //  this.gridApi.refreshClientSideRowModel();
-              this.gridApi2.setRowData(this.rowData6);
+              if (this.erpdltload == "Product") {
+                this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: 'Product packaging options exists for this customer. Cannot delete this product.' } });
+                this.loaderpproductscoaexpirydate(this.customercode).subscribe((erpproducts) => {
+                  console.warn("erpproductcoaexpiry", erpproducts)
+                  this.erpproductscoa = erpproducts
+                  this.rowData6 = this.erpproductscoa
+                })
+              }
+              else {
+                this.rowData6 = [];
+                this.gridApi2.forEachNode(RowNode => this.rowData6.push(RowNode.data));
+                //  this.gridApi.refreshClientSideRowModel();
+                this.gridApi2.setRowData(this.rowData6);
+              }
             })
 
           }
@@ -1770,15 +1783,12 @@ FormulaCode2 : any;
   }
   pricingclick(e): void {
     // this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);2-cus-ProductCode,4-incicode-ProductName,5-incinam-INCIName
-    this.selectedRowsData = this.dataGrid.instance.getSelectedRowsData();
-    this.pricingpdctname = this.dataGrid.instance.getSelectedRowsData()[0].ProductName;
-    this.pricingcppid = this.dataGrid.instance.getSelectedRowsData()[0].CPP_Id;
+    
+    this.pricingpdctname = e.data.ProductName;
+    this.pricingcppid = e.data.CPP_Id;
   }
   retailwholsaledelete() {
-    this.Deletepricingdlt().subscribe((pricingdlt) => {
-      console.warn("pricingdlt", pricingdlt)
-      this.pricingdltload = pricingdlt
-    })
+    
 
     this.dataGrid.instance.deleteRow(this.selectedRowIndex);
     (this.selectedRowIndex);
@@ -1786,14 +1796,17 @@ FormulaCode2 : any;
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
     }
     this.dataGrid.instance.deselectAll();
-   
+    this.Deletepricingdlt().subscribe((pricingdlt) => {
+      console.warn("pricingdlt", pricingdlt)
+      this.pricingdltload = pricingdlt
+    })
   }
   Deletepricingdlt() {
     var cuscode = this.customercode;
     var cppid = this.pricingcppid;
     var cusname = this.customername;
     var pdctname = this.pricingpdctname;
-    var username = 'admin';
+    var username = this.userna;
     let params1 = new HttpParams().set('cuscode', cuscode).set('cppid', cppid).set('cusname', cusname).set('productname', pdctname).set('username', username);
     return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deletepricing", { params: params1, responseType: 'text' })
   }
@@ -1829,7 +1842,7 @@ FormulaCode2 : any;
     var ingcode = this.prefincicode;
     var cusname = this.customername;
     var inciname = this.prefincinam;
-    var username = 'admin';
+    var username = this.userna;
     let params1 = new HttpParams().set('cuscode', cuscode).set('ingredientcode', ingcode).set('cusname', cusname).set('Inciname', inciname).set('username', username);
     return this.http.get("https://smartformulatorcustomerwebservice5.azurewebsites.net/deletecustomerpreference", { params: params1, responseType:'text' })
   }
@@ -1885,7 +1898,7 @@ FormulaCode2 : any;
 
 
       AddedDT: this.addeddt,
-      AddedBy: 'admin',
+      AddedBy: this.userna,
       CAbbreviation: this.caabrevation,
       CusCode: this.customercode,
       CusName: this.customername,
@@ -1958,7 +1971,7 @@ FormulaCode2 : any;
       Document18: this.Document18,
       Document19: this.Document19,
       Document20: this.Document20,
-      username: 'admin'
+      username: this.userna
     }])
 
 
@@ -2122,7 +2135,7 @@ FormulaCode2 : any;
 
 
       AddedDT: this.addeddt,
-      AddedBy: 'admin',
+      AddedBy: this.userna,
       CAbbreviation: this.caabrevation,
       CusCode: this.customercode,
       CusName: this.customername,
@@ -2195,7 +2208,7 @@ FormulaCode2 : any;
       Document18: this.Document18,
       Document19: this.Document19,
       Document20: this.Document20,
-      username: 'admin',
+      username: this.userna,
     }])
 
 
@@ -2252,7 +2265,7 @@ FormulaCode2 : any;
 
 
   Customer_preferences(custcode, custnam) {
-    var username: string = "admin";
+    var username: string = this.userna;
     var cstmrcode: string = custcode;
   //  var cstmrkey: string = custkey;
     var cstmrname: string = custnam;
@@ -2359,9 +2372,10 @@ FormulaCode2 : any;
     this.dataGrid.instance.saveEditData();
   }
   deleterowvalidatedbatch() {
+    this.Datavalidatedbatches = [];
     this.dataGrid.instance.deleteRow(this.selectedRowIndexvali);
-    (this.selectedRowIndex);
-    if (this.selectedRowIndex == -1) {
+    
+    if (this.selectedRowIndexvali == -1) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Select a row to delete.' } });
     }
     this.dataGrid.instance.deselectAll();
@@ -2381,6 +2395,7 @@ FormulaCode2 : any;
   }
   selectedChangedvalid(e) {
     this.selectedRowIndexvali = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+
   }
 ClearData()
 {
@@ -2558,6 +2573,7 @@ ClearData()
   }
  
   ngOnInit() {
+    this.userna = this.datashare.getlogin();
    //var cuscode = this.data.displaydata;
     var cuscode = null;
     if (cuscode != null && cuscode != undefined) {

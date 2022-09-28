@@ -282,6 +282,7 @@ export class FormulaRestrictionComponent implements OnInit {
   }
   
   ngOnInit() {
+    this.username = this.Datashare.getlogin();
     this.formuldetails = this.Datashare.getformuladetails()
     this.PDRNo = this.formuldetails[0];
     this.formulacode = this.formuldetails[1];

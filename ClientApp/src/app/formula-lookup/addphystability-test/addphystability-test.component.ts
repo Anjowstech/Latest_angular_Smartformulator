@@ -10,6 +10,7 @@ import { PdrManagementComponent } from '../../pdr-management/pdr-management.comp
 import * as moment from 'moment';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
 import { Datepickerstability } from 'src/app/formula-lookup/addphystability-test/Datepickerstability';
+
 @Component({
   selector: 'app-addphystability-test',
   templateUrl: './addphystability-test.component.html',
@@ -97,6 +98,7 @@ export class AddphystabilityTestComponent implements OnInit {
   speed: string = "";
   time: string = "";
   helipath: string = "";
+  userna: string = "";
   mainList: stabilitymasterData[][] = [];
   detailsList: stabilitydetailsData[][] = [];
   freezeList: stabilityfreezeData[][] = [];
@@ -679,7 +681,7 @@ export class AddphystabilityTestComponent implements OnInit {
     var formulanam: any = this.formulaname;
     var storage: any = this.storagecondition;
     var labbatch = this.labbatchno;
-    var username = 'admin';
+    var username = this.userna;
     var chkApproval = 'true';
     let params1 = new HttpParams().set('FormulaCode', formulacod).set('FormulaName', formulanam).set('storagecondition', storage).set('LabBatchNo', labbatch).set('username', username).set('chkApproval', chkApproval);
     return this.http.get("https://formulastabiltywebapplication.azurewebsites.net/stability_approval", { params: params1 })
@@ -829,7 +831,7 @@ export class AddphystabilityTestComponent implements OnInit {
     var phyload: any = JSON.stringify(this.mainList);
     var details: any = JSON.stringify(this.detailsList);
     var freeze: any = JSON.stringify(this.freezeList);
-    var username = 'admin';
+    var username = this.userna;
     var operation = 'Save'
     let params1 = new HttpParams().set('stabilityMasterjson', phyload).set('stabilityDetailjson', details).set('stabilityFreezeDetailjson', freeze).set('username', username).set('Operation', operation);
     return this.http.get("https://formulastabiltywebapplication.azurewebsites.net/StabilitySaveorUpdate", { params: params1, responseType: 'text' })
@@ -880,7 +882,7 @@ export class AddphystabilityTestComponent implements OnInit {
     var formulanam: any = this.formulaname;
     var storage: any = this.storagecondition;
     var labbatch = this.labbatchno;
-    var username = 'admin';
+    var username = this.userna;
 
     let params1 = new HttpParams().set('FormulaCode', formulacod).set('FormulaName', formulanam).set('storagecondition', storage).set('LabBatchNo', labbatch).set('username', username);
     return this.http.get("https://formulastabiltywebapplication.azurewebsites.net/stability_Delete", { params: params1, responseType: 'text' })
@@ -912,6 +914,7 @@ export class AddphystabilityTestComponent implements OnInit {
     this.duration10date = this.enddate;
   }
   ngOnInit() {
+    this.userna = this.datashare.getlogin();
     var Phystabilitylist: any = this.datashare.getPhystability();
     console.log(Phystabilitylist);
 

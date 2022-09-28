@@ -6083,7 +6083,7 @@ export class FormulaLookupComponent implements OnInit {
     
   }
   rowDoubleClicked(event: any) {
-    var selectd: any = event.data.ItemCode;
+    var selectd: any = [event.data.ItemCode, event.data.SupplierName];
     var suppname: any = event.data.SupplierName;
     var unitdata: any = event.data.UnitName;
     if (unitdata != "") {
@@ -6098,79 +6098,80 @@ export class FormulaLookupComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
-        let { rowsToDisplay } = this.gridApi.getModel();
-        this.rowData = [];
-        this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
-        //this.gridApi.forEachNode(RowNode => rowData.push(rowNode.data));
-        this.Formulagridvalues(this.rowData)
-        this.FormulatextboxList[0] = ([{
+        
+          let { rowsToDisplay } = this.gridApi.getModel();
+          this.rowData = [];
+          this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
+          //this.gridApi.forEachNode(RowNode => rowData.push(rowNode.data));
+          this.Formulagridvalues(this.rowData)
+          this.FormulatextboxList[0] = ([{
 
-          FormulaTotalQTY: this.totaquantity,
-          Yield: this.Yield,
-          formulaCost: this.formulaCost,
-          formulaNetQty: this.formulaNetQty,
-          TotalCostInLB: this.TotalCostInLB,
-          TotalPercentage: this.TotalPercentage,
-          FormulaUnit: this.selectedunit,
-        }]);
-        this.Formulacostupdate("nobuttoncostupdate").subscribe((Cost_pref) => {
-          console.warn("Cost_pref", Cost_pref)
-          this.Costupdates = Cost_pref
-          this.costupdatedetail = this.Costupdates
-          let stringToSplit = this.costupdatedetail;
-          var splitdata = stringToSplit.replace(':', '/n').replace(' updated.', '/n').replace('Cost details will be', ' Cost details will be')
-          var splited = splitdata.split('/n')
-          if (this.costupdatedetail == "" || this.costupdatedetail == undefined) { }
-          else {
-            this.dialog.open(MessageBoxComponent, { width: '25%', height: '25%', data: { displaydata: splited[0] + '\n' + splited[1] + ' Updated' + '\n' + splited[2] + '\n' } });
-          }
-          this.formgriddata = JSON.stringify(this.FormulagridList);
-          this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation2).subscribe((formulationload) => {
-            console.warn("formulaload", formulationload)
-
-            this.rowData = formulationload
-            this.gridApi.refreshCells({ formulationload })
-
-
-            var unitcosttotal = 0;
-            var costlb = 0;
-            var sumvar: any = 0;
-            this.gridApi.setRowData(this.rowData);
-            var rowdatacount = this.rowData.length;
-            for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
-              var rowNode = this.gridApi.getRowNode(rowin);
-              unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+            FormulaTotalQTY: this.totaquantity,
+            Yield: this.Yield,
+            formulaCost: this.formulaCost,
+            formulaNetQty: this.formulaNetQty,
+            TotalCostInLB: this.TotalCostInLB,
+            TotalPercentage: this.TotalPercentage,
+            FormulaUnit: this.selectedunit,
+          }]);
+          this.Formulacostupdate("nobuttoncostupdate").subscribe((Cost_pref) => {
+            console.warn("Cost_pref", Cost_pref)
+            this.Costupdates = Cost_pref
+            this.costupdatedetail = this.Costupdates
+            let stringToSplit = this.costupdatedetail;
+            var splitdata = stringToSplit.replace(':', '/n').replace(' updated.', '/n').replace('Cost details will be', ' Cost details will be')
+            var splited = splitdata.split('/n')
+            if (this.costupdatedetail == "" || this.costupdatedetail == undefined) { }
+            else {
+              this.dialog.open(MessageBoxComponent, { width: '25%', height: '25%', data: { displaydata: splited[0] + '\n' + splited[1] + ' Updated' + '\n' + splited[2] + '\n' } });
             }
-            this.TotalUnitCost = String(unitcosttotal.toFixed(5));
-            var totcs: Number = sumvar * Number(this.labbatch);
-            // this.TotalUnitCost = this.formulaCost;
-            
-            this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
-            var totalquantity = 0;
-            for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
-              var rowNode = this.gridApi.getRowNode(rowin);
+            this.formgriddata = JSON.stringify(this.FormulagridList);
+            this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation2).subscribe((formulationload) => {
+              console.warn("formulaload", formulationload)
 
-              totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
-            }
-            this.totaquantity = String(totalquantity.toFixed(5));
-            for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
-              var rowNode = this.gridApi.getRowNode(rowin);
-              costlb = Number(costlb) + Number(rowNode.data.costinlb);
+              this.rowData = formulationload
+              this.gridApi.refreshCells({ formulationload })
 
-            }
-            this.TotalCostInLB = String(costlb.toFixed(5));
-            this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
 
-            //  this.selectedunit = String(this.rowData[0].UnitName);
-            this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
-              console.warn("Audittrackingload", Audittrackingload)
-              this.AudittrackData = Audittrackingload
+              var unitcosttotal = 0;
+              var costlb = 0;
+              var sumvar: any = 0;
+              this.gridApi.setRowData(this.rowData);
+              var rowdatacount = this.rowData.length;
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                unitcosttotal = Number(unitcosttotal) + Number(rowNode.data.Cost);
+              }
+              this.TotalUnitCost = String(unitcosttotal.toFixed(5));
+              var totcs: Number = sumvar * Number(this.labbatch);
+              // this.TotalUnitCost = this.formulaCost;
+
+              this.formulaCost = String((Number(unitcosttotal.toFixed(5)) / Number(this.labbatch)).toFixed(5));
+              var totalquantity = 0;
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+
+                totalquantity = Number(totalquantity) + Number(rowNode.data.Quantity);
+              }
+              this.totaquantity = String(totalquantity.toFixed(5));
+              for (let rowin = 0; rowin <= rowdatacount - 1; rowin++) {
+                var rowNode = this.gridApi.getRowNode(rowin);
+                costlb = Number(costlb) + Number(rowNode.data.costinlb);
+
+              }
+              this.TotalCostInLB = String(costlb.toFixed(5));
+              this.TotalCostInkg = String((costlb * 2.20462).toFixed(5));
+
+              //  this.selectedunit = String(this.rowData[0].UnitName);
+              this.Audittrackingload(this.formulacode).subscribe((Audittrackingload) => {
+                console.warn("Audittrackingload", Audittrackingload)
+                this.AudittrackData = Audittrackingload
+              })
             })
           })
-        })
-        //this.wait(10000);
+          //this.wait(10000);
 
-
+        
 
       });
     }
@@ -7803,7 +7804,7 @@ export class FormulaLookupComponent implements OnInit {
     this.Yield = '100'
     this.formulaCost = '0.00000'
     this.formulaNetQty = '0.00000'
-    this.SupercededBy ='admin'
+    this.SupercededBy = this.userna
     this.FormulaTotalQTY = '0.00000'
     this.labbatch = ''
     this.totaquantity = ''
@@ -8489,7 +8490,7 @@ onCellfirstValueChanged(params)
     var Flag = buttoncostup;
     var TotalQtyAndCostjson: any = JSON.stringify(this.FormulatextboxList);
     let params1 = new HttpParams().set('Formulationgridjason', Formulationgridjason).set('FormulaCode', Formulacode).set('TotalQtyAndCostjson', TotalQtyAndCostjson).set('UserName', UserName).set('flag', Flag);
-    return this.http.get("https://searchformulawebservice.azurewebsites.net/Formuladetailsave", { params: params1, responseType: 'text' })
+    return this.http.get("https://searchformulawebservice2.azurewebsites.net/Formuladetailsave", { params: params1, responseType: 'text' })
   }
 
   Formulagridvalues(Formuladata2: any) {
@@ -8711,7 +8712,7 @@ onCellfirstValueChanged(params)
         ph: this.ph,
         viscosity: this.viscosity,
         appearence: this.appearence,
-        FirstName: 'admin',
+        FirstName: this.userna,
         CompanyOwned: this.companyowned,
         FormulaNotes: '',
         Yield: this.Yield,

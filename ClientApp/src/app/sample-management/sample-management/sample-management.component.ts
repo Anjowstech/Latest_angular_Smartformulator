@@ -34,6 +34,7 @@ export class SampleManagementComponent implements OnInit {
   Descriptiondata: string = '';
   samplesubmissionno: string = '';
   username: string = 'admin';
+  
   PDRStatusdata: string = '';
   submissionno: string = '';
   SubmissionNum: string = '';
@@ -445,7 +446,7 @@ export class SampleManagementComponent implements OnInit {
 
   ApproveSampleStatus(PDRno: string, username: string, formulacode: string, PDRStatus: string) {
     var PDRr: string = this.PDRno;
-    var username1: string = "admin";
+    var username1: string = this.username;
     var FormulaCode1: string = this.formulacode;
     var pdrstatus1: string = this.PDRStatus;
     let params1 = new HttpParams().set('PDR', PDRr).set('username', username1).set('FormulaCode', FormulaCode1).set('pdrstatus', pdrstatus1);
@@ -966,7 +967,7 @@ export class SampleManagementComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.username = this.Datashare.getlogin();
 
     this.btnactionMethod();
 

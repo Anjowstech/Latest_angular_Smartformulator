@@ -122,7 +122,7 @@ export class RawMaterialComponent implements OnInit {
   MSDSPath: string='';
   defaultUnit: string="3";
   LastPOUnit: string = "3";
-  reorderQty: string = '0';
+  reorderQty: string = "0";
   origin: string = '';
   oldreorderqty: string;
   concentration: string='0';
@@ -340,7 +340,7 @@ export class RawMaterialComponent implements OnInit {
   oldCost: string = '';
   oldStdCost: string = '';
   datarawsubcategoryload: any;
-
+  suppnamechange: any = 0;
 
   RMdataList: Datasave[][] = [];
   dataList: RawmaterialData[][] = [];
@@ -436,6 +436,8 @@ export class RawMaterialComponent implements OnInit {
   cadlt: string = "";
   onRowClick: any;
   rmapprovechangeload: any;
+  valuetoprevious: any;
+  oldgravity: string;
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, fb: FormBuilder)
   {
     this.onRowClick = function (index) {
@@ -530,7 +532,18 @@ export class RawMaterialComponent implements OnInit {
   blurEvent(event: any) {
     this.gravity=0;
      this.gravity = event.target.value;
-
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.gravity) < 0.00000 || isNaN(Number(this.gravity))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.gravity = '1';
+      }
+    }
+    else {
+      if (Number(this.gravity) < 0.00000 || isNaN(Number(this.gravity))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.gravity = this.oldgravity;
+      }
+    }
     
      var total = ((this.gravity) * this.gmconverter) / this.ccconverter;
     this.lb_gal = total.toFixed(3);
@@ -540,7 +553,19 @@ export class RawMaterialComponent implements OnInit {
     this.lb_gal = 0;
     this.lb_gal = event.target.value;
     this.gravity = 0;
-
+    if (this.inciname == "" || this.inciname == undefined) {
+      if (Number(this.lb_gal) < 0.00000 || isNaN(Number(this.lb_gal))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.lb_gal = '';
+      }
+    }
+    else {
+      if (Number(this.lb_gal) < 0.00000 || isNaN(Number(this.lb_gal))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+        this.lb_gal = '';
+        this.gravity = this.oldgravity;
+      }
+    }
     var total = ((this.lb_gal) * this.ccconverter) / this.gmconverter;
     this.gravity = total.toFixed(3);
     this.kgm3 = this.gravity;
@@ -683,6 +708,7 @@ export class RawMaterialComponent implements OnInit {
       this.shippingprize = (shipprice1.toFixed(3)).toString();
       var total = Number(this.standardprice) + Number(this.shippingprize);
       this.unitCost = total.toFixed(3);
+      this.PreviousCost = this.valuetoprevious;
     }
   }
   blurdelstdcost(event: any) {
@@ -695,6 +721,7 @@ export class RawMaterialComponent implements OnInit {
       this.standardprice = (stdprice1.toFixed(3)).toString();
       var total = Number(this.standardprice) + Number(this.shippingprize);
       this.unitCost = total.toFixed(3);
+      this.PreviousCost = this.valuetoprevious;
     }
   }
   blurlastpo(event: any) {
@@ -725,9 +752,12 @@ export class RawMaterialComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-      this.suppkey = result[0];
-      this.supp_name = result[1];
-      this.supp_code = result[2];
+      if (result != "") {
+        this.suppnamechange = 1;
+        this.suppkey = result[0];
+        this.supp_name = result[1];
+        this.supp_code = result[2];
+      }
 
     });
   }
@@ -1391,7 +1421,13 @@ export class RawMaterialComponent implements OnInit {
 
             if (this.Blenddatadlt == "Blend compositions successfully deleted.") {
               this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions successfully deleted.' } });
+              this.Balance = Number(this.Percentage) + this.Balance;
+
               this.Clearblend();
+              this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+                console.warn("auditload", auditload)
+                this.auditdata = auditload
+              })
               this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
                 console.warn("Blenddetailslload", Blenddetailslload)
                 this.Blenddata = Blenddetailslload
@@ -1566,7 +1602,7 @@ export class RawMaterialComponent implements OnInit {
     return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/BlendDeleteIngredient", { params: params1, responseType:'text' })
   }
   Blendsaveupdate(prcntg: string) {
-    if (this.newtotalvalue != 0) {
+    if (this.newtotalvalue >= 0) {
       var newval = Number(this.newtotalvalue) + Number(prcntg);
       this.newtotalvalue = 0;
     }
@@ -1595,10 +1631,19 @@ export class RawMaterialComponent implements OnInit {
         if (this.Blend_save_data == "Inserted") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions saved successfully.' } });
           this.Clearblend();
+          this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+            console.warn("auditload", auditload)
+            this.auditdata = auditload
+          })
+
         }
         else if (this.Blend_save_data == "Update") {
           this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Blend compositions updated successfully.' } });
           this.Clearblend();
+          this.rawmaterialauditload(this.incicode).subscribe((auditload) => {
+            console.warn("auditload", auditload)
+            this.auditdata = auditload
+          })
         }
         this.Blendload(this.incicode).subscribe((Blenddetailslload) => {
           console.warn("Blenddetailslload", Blenddetailslload)
@@ -1706,8 +1751,9 @@ export class RawMaterialComponent implements OnInit {
     var Blendcode = this.incicode2;
     var Blendname = this.INCIName;
     var percentage = Percentage;
-    let params1 = new HttpParams().set('itemcode', Itemcode).set('INCINAME', Inciname).set('Blencode', Blendcode).set('Blendname', Blendname).set('Percentage', percentage);
-    return this.http.get("https://smartformulatorrawmaterialswebservice3.azurewebsites.net/Update_insert_Blend", { params: params1, responseType: 'text' })
+    var username = this.userna;
+    let params1 = new HttpParams().set('itemcode', Itemcode).set('INCINAME', Inciname).set('Blencode', Blendcode).set('Blendname', Blendname).set('Percentage', percentage).set('username', username);
+    return this.http.get("https://smartformulatorrawmaterialswebservice3sample.azurewebsites.net/Update_insert_Blend", { params: params1, responseType: 'text' })
   }
   //showAlert4(): void {
   //  this.isVisible4 = true;
@@ -1875,7 +1921,8 @@ export class RawMaterialComponent implements OnInit {
       this.origin = item.Origin;
       this.oldreorderqty = item.ReOrderQty;
       this.oldmoq = item.MOQ;
-      this.concentration = item.RMConcentration;
+      var conctrn: Number = Number(item.RMConcentration);
+      this.concentration = conctrn.toFixed(3).toString();
       this.RMSource = item.RawMatSource;
       this.proleadtime = item.ProcessLeadTime;
       this.oldproleadtime = item.ProcessLeadTime;
@@ -1897,6 +1944,7 @@ export class RawMaterialComponent implements OnInit {
         this.rmleadtime = "0";
       }
       this.gravity = item.SG;
+      this.oldgravity = item.SG;
       this.IUPACName = item.IUPACName;
       this.Restriction = item.Restriction
       this.MSDSPath = item.MSDSPath
@@ -1929,6 +1977,7 @@ export class RawMaterialComponent implements OnInit {
       var unitCost1: Number = Number(item.UnitCost);
      // this.oldunitcost = (unitCost1.toFixed(3)).toString();
       this.unitCost = (unitCost1.toFixed(3)).toString();
+      this.valuetoprevious = this.unitCost;
       this.costUnit = item.CostUnit;
       if (item.LastPODt == undefined || item.LastPODt == null) {
         this.LastPODt = "";
@@ -1966,7 +2015,8 @@ export class RawMaterialComponent implements OnInit {
       this.MOQ = item.MOQ;
       this.Approved = item.Approved;
       this.VOCContributor = item.VOCContributor;
-      this.PreviousCost = item.PreviousCost;
+      var prevcost: Number = Number(item.PreviousCost);
+      this.PreviousCost = prevcost.toFixed(3).toString();
       this.oldPreviousCost == item.PreviousCost;
       this.nFPAReactivity = item.NFPA_Reactivity;
       this.flashPtCelsious = item.FlashPtCelsious;
@@ -2133,12 +2183,13 @@ export class RawMaterialComponent implements OnInit {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Ingredientcode or InciName.' } });
     }
     else {
+      this.Datashare.senditemcode(this.incicode);
       const dialogRef = this.dialog.open(AddCASDetailsComponent, {
         width: '50%', height: '28%', disableClose: true
       });
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
-
+        this.wait(1000);
         this.CASload(this.incicode).subscribe((casload) => {
           console.warn("casload", casload)
           this.casdata = casload
@@ -2227,7 +2278,7 @@ export class RawMaterialComponent implements OnInit {
   }
   Clearblend() {
     this.INCIName = '';
-    //this.Percentage = '';
+    this.Percentage = '';
     this.Datashare.senditemtoraw(null);
   }
   //PDRdata(pdrdatas: any) {
@@ -2484,7 +2535,7 @@ export class RawMaterialComponent implements OnInit {
   Rawmaterialload(itemcode: string) {
     var itemcode = itemcode;
     let params1 = new HttpParams().set('ItemCode', itemcode);
-    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/displayRawmaterialdetails", { params: params1, })
+    return this.http.get("https://smarformulatorrawmaterialswebservice2.azurewebsites.net/displayRawmaterialdetails", { params: params1 })
 
   }
   dateChange(event) {
@@ -3945,7 +3996,7 @@ export class RawMaterialComponent implements OnInit {
     this.categoryId = '';
     this.subCategoryId = '';
     this.statusId = '';
-    this.unitCost = '';
+    this.unitCost = '0.001';
     this.costUnit = '3';
     this.LastPODt = new Date().toISOString().split('T')[0];
     this.costDt = new Date().toISOString().split('T')[0];
@@ -4057,6 +4108,7 @@ export class RawMaterialComponent implements OnInit {
     this.shippingpricedate = new Date().toISOString().split('T')[0];
     this.Datashare.senditemtoraw(null);
   }
+  
   itemcodechange() {
   
     if (this.itemli != null) {

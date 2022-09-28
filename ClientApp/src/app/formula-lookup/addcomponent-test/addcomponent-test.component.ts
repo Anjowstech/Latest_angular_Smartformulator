@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { MessageBoxYesnoComponent } from 'src/app/message-box-yesno/message-box-yesno.component';
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { formatDate } from '@angular/common';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-addcomponent-test',
@@ -42,12 +43,13 @@ export class AddcomponentTestComponent implements OnInit {
   delete_component: any;
   component_save_data: any;
   comp_load: any;
+  userna: string = "";
   i: number;
   j: number;
   mainList: componentmasterData[][] = [];
   detailsList: componentdetailsData[][] = [];
   freezeList: componentfreezeData[][] = [];
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, public dialog: MatDialog) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, public dialog: MatDialog, public DataShare: DataShareServiceService) { }
 
 
   generalmethod(generalvalues: any) {
@@ -79,7 +81,7 @@ export class AddcomponentTestComponent implements OnInit {
     var formulanam: any = this.formulaname;
     var storage: any = this.storagecondition;
     var labbatch = this.labbatchno;
-    var username = 'admin';
+    var username = this.userna;
     var chkApproval = 'true';
     let params1 = new HttpParams().set('Formulacode', formulacod).set('ProductName', formulanam).set('storagecondition', storage).set('PackageName', labbatch).set('username', username).set('chkApproval', chkApproval);
     return this.http.get("https://formulalookupwebservice12.azurewebsites.net/stability_approval", { params: params1 })
@@ -143,7 +145,7 @@ export class AddcomponentTestComponent implements OnInit {
     var formulacod: any = this.formulacode;
     var storage: any = this.storagecondition;
     var packagename = this.packagedescription;
-    var username = 'admin';
+    var username = this.userna;
 
     let params1 = new HttpParams().set('Formulacode', formulacod).set('storagecondition', storage).set('PackageName', packagename).set('username', username);
     return this.http.get("https://formulalookupwebservice12.azurewebsites.net/Component_delete", { params: params1, responseType: 'text' })
@@ -250,13 +252,14 @@ export class AddcomponentTestComponent implements OnInit {
     var compload: any = JSON.stringify(this.mainList);
     var details: any = JSON.stringify(this.detailsList);
     var freeze: any = JSON.stringify(this.freezeList);
-    var username = 'admin';
+    var username = this.userna;
     var operation = 'Save'
     let params1 = new HttpParams().set('compMasterjson', compload).set('compDetailjson', details).set('compFreezeDetailjson', freeze).set('username', username).set('Operation', operation);
     return this.http.get("https://formulalookupwebservice12.azurewebsites.net/ComponentSaveorUpdate", { params: params1, responseType: 'text' })
   }
 
   ngOnInit() {
+    this.userna = this.DataShare.getlogin();
     this.formulacode = this.data.displaydata[0];
     this.formulaname = this.data.displaydata[1];
     this.labbatchno = this.data.displaydata[2];

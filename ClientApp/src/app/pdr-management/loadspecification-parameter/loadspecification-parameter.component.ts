@@ -19,6 +19,7 @@ export class LoadspecificationParameterComponent implements OnInit {
   finalspecification: string;
   specificationvalue: string;
   deletespecdetails: any;
+  userna: string = "";
   i: any;
   j: any;
   SpecdataList: data3[][] = [];
@@ -88,7 +89,7 @@ export class LoadspecificationParameterComponent implements OnInit {
   Specsaveup(pdrno: string) {
     var pdrnum = pdrno;
     var datalistdata: any = JSON.stringify(this.SpecdataList);
-    var Username = "admin";
+    var Username = this.userna;
     var Projectname = this.data.pdrname;
 
 
@@ -110,6 +111,7 @@ export class LoadspecificationParameterComponent implements OnInit {
     return this.http.get("https://smartformulatorpdrwebservice5.azurewebsites.net/loadspecspopup", { params: params1 })
   }
   ngOnInit() {
+    this.userna = this.datashare.getlogin();
     this.loadpdrno = this.datashare.getpdrno();
     this.loadspecificationparams(this.loadpdrno).subscribe((loadspecs) => {
       console.warn("loadspec", loadspecs)

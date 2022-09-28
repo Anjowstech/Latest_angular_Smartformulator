@@ -102,6 +102,7 @@ export class AddSupplierComponent implements OnInit {
   Starrating: string = "0";
   finishedproductData: any;
   public rowHeight;
+  userna: string = "";
   rowData: any = [];
   gridOptions: GridOptions = {
     //deltaRowDataMode: true,
@@ -444,7 +445,7 @@ export class AddSupplierComponent implements OnInit {
   supplierload(SupplierCodeda: string) {
     var splrcode = SupplierCodeda;
     let params1 = new HttpParams().set('SupplierCode', splrcode);
-    return this.http.get("https://smartformulatorsupplierwebservice.azurewebsites.net/LoadSupplier", { params: params1, })
+    return this.http.get("https://smartformulatorsupplierwebservicesample.azurewebsites.net/LoadSupplier", { params: params1, })
 
   }
   Componentload(SupplierCodeda: string) {
@@ -884,7 +885,7 @@ export class AddSupplierComponent implements OnInit {
     });
   };
   Supplier_saveup(operat) {
-    var username = "admin";
+    var username =  'admin';
     var datalistdata: any = null;
      datalistdata = JSON.stringify(this.dataList);
     var RMdatalistdata: any = JSON.stringify(this.RMdataList);
@@ -950,6 +951,7 @@ export class AddSupplierComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userna = this.Datashare.getlogin();
     this.termsdataload().subscribe((termsdatalo) => {
       console.warn("termsdatalo", termsdatalo)
       this.termsdatalo_data = termsdatalo

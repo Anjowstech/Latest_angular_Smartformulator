@@ -1029,7 +1029,7 @@
                     <label for="inputcust" style="margin-left:2%" >Tier 1</label>
                     <input style="width: 7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier1" name="t1" value="">
                     <label for="inputcust" style="margin-left:2%">Tier 2</label>
-                    <input style="width: 7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier2" name="t2" value="">
+                    <input style="width: 7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier2" name="t2" value="" (blur)="blurEventtier2($event)">
                     <label for="inputcust" style="margin-left:2%">Tier 3</label>
                     <input  style="width:7%; margin-left: 2%" type="number" class="form-control" [(ngModel)]="Tier3" name="t3" value="" (blur)="insert_tier4($event)">
                     <label for="inputcust" style="margin-left:2%">Tier 4</label>

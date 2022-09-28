@@ -339,6 +339,7 @@ export class RawmaterialRestrictionComponent implements OnInit {
 
 
   ngOnInit() {
+    this.username = this.Datashare.getlogin();
     var countryname = this.data.displaydata1;
     this.Eudetails = this.data.displaydata2;
     this.basedetails = this.data.displaydata0;

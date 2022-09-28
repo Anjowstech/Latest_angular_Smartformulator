@@ -191,6 +191,7 @@ import { AddcheComponent } from './productization/new-che/addche/addche.componen
 import { AddmicroComponent } from './productization/new-microb/addmicro/addmicro.component';
 import { ComponentlistingComponent } from './productization/componentlisting/componentlisting.component';
 import { AddshippingregulatoryComponent } from './formula-lookup/addshippingregulatory/addshippingregulatory.component';
+import { ComponentimportComponent } from './productization/componentimport/componentimport.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -458,6 +459,7 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     AddmicroComponent,
     ComponentlistingComponent,
     AddshippingregulatoryComponent,
+    ComponentimportComponent,
     
   ],
   imports: [

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-assign-pdr',
@@ -10,14 +11,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class AssignPdrComponent implements OnInit {
   PDR_searchdata: any;
   filterMetadata = { count: 0 };
-  username: string = "admin"
+  username: string = " "
   isLoading = true;
   pdrno: string;
   projectname: string;
   customername: string;
   searchitems: any = [];
 
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<AssignPdrComponent>) { }
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<AssignPdrComponent>, public datashare: DataShareServiceService) { }
   PDR_search(user: string) {
     var usernam = user;
     let params1 = new HttpParams().set('username', usernam);
@@ -37,6 +38,7 @@ export class AssignPdrComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.username = this.datashare.getlogin();
     this.PDR_search(this.username).subscribe((PDR_search) => {
       this.isLoading = false;
       console.warn("AssignPdr", PDR_search)

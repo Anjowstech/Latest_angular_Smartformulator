@@ -57,6 +57,7 @@ export class CheckRestrictionComponent implements OnInit {
     return this.http.get("https://formularestrictionwebservice.azurewebsites.net/showRestricitonMsgNew", { params: params1, responseType: 'text' })
   }
   ngOnInit() {
+    this.username = this.Datashare.getlogin();
     this.formuldetails = this.Datashare.getformuladetails()
     this.PDRNo = this.formuldetails[0];
     this.formulacode = this.formuldetails[1];

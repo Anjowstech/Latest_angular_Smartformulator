@@ -38,7 +38,6 @@ export class CmoComponent implements OnInit {
   cmo_update_data: any;
   cmo_delete_data: any;
   CMOnumber: any;
-    cmo_number_data: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder) { }
 
@@ -191,10 +190,7 @@ export class CmoComponent implements OnInit {
     let params1 = new HttpParams().set('JSONFileparams', jsonprams).set('spname', spsname);
     return this.http.get("https://sfgenericwebservice.azurewebsites.net/GENERICSQLEXEC", { params: params1, responseType: 'text' })
   }
-  cmonumbergenerate() {
-    let params1 = new HttpParams();
-    return this.http.get("https://formulaproductization4.azurewebsites.net/cmonumbergenerate", { params: params1, responseType: 'text' })
-  }
+
 
   savecmo() {
     if ( this.CMOname == "") {
@@ -202,11 +198,7 @@ export class CmoComponent implements OnInit {
     }
     else {
 
-      this.cmonumbergenerate().subscribe((cmonumbergenerate) => {
-        console.warn("cmonumbergenerate", cmonumbergenerate)
-        this.cmo_number_data = cmonumbergenerate
-        this.CMOnumber = cmonumbergenerate
-      })
+
 
       this.cmodata[0] = ([{
         ProcedureStatus: '',

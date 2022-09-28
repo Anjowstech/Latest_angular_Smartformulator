@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SearchSupplierComponent } from '../add-supplier/search-supplier/search-supplier.component';
 import { MessageBoxComponent } from '../../message-box/message-box.component';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-rmsaveas',
@@ -14,6 +15,7 @@ export class RmsaveasComponent implements OnInit {
   datarawsubcategoryload: any;
   datarawcategoryload: any;
   sgcalcload: any;
+  userna: string = "";
   saveusdetails: string[];
   RMdataList: Datasave[][] = [];
   rawmaterial_save_data: any;
@@ -33,7 +35,7 @@ export class RmsaveasComponent implements OnInit {
   supp_code: string;
   currcost: string = '0.01';
   tradename: string = '';
-  constructor(public dialog: MatDialog, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, public datashare: DataShareServiceService) { }
 
   dateChange(event) {
     this.pricedate = event.target.value;
@@ -109,7 +111,7 @@ export class RmsaveasComponent implements OnInit {
 
 
 
-        AddedBy: 'admin',
+        AddedBy: this.userna,
         AddedDt: this.pricedate,
         cmbPrefix: 'CUSTOM',
         CategoryId: '',
@@ -185,7 +187,7 @@ export class RmsaveasComponent implements OnInit {
         SKU: '',
         StatusId: '',
         SubCategoryId: '',
-        SupercededBy: 'admin',
+        SupercededBy: this.userna,
         SupercededDate: '',
         SupplierKey: this.suppkey,
         UnitCost: this.currcost,
@@ -203,7 +205,7 @@ export class RmsaveasComponent implements OnInit {
         IsBlend: '',
         CurrSupplierPriority: '',
         cmbUOM1: this.defaultUnit,
-        lblusername: 'admin',
+        lblusername: this.userna,
         cmbLastper: '',
         CmbPriorityno: '',
         NPAExpiry: this.pricedate,
@@ -249,6 +251,7 @@ export class RmsaveasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userna = this.datashare.getlogin();
     this.saveusdetails = this.data.displaydata;
     this.pricedate = new Date().toISOString().split('T')[0];
     this.inciname = this.saveusdetails[0];

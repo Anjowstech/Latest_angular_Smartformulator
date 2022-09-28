@@ -33,6 +33,8 @@ import { formatDate } from '@angular/common';
 import { SearchCmoComponent } from './cmo/search-cmo/search-cmo.component';
 import { SearchComponentComponent } from './add-component/search-component/search-component.component';
 import { ComponentlistingComponent } from './componentlisting/componentlisting.component';
+import { MessageBoxYesnoComponent } from '../message-box-yesno/message-box-yesno.component';
+import { ComponentimportComponent } from './componentimport/componentimport.component';
 
 @Component({
   selector: 'app-productization',
@@ -66,6 +68,8 @@ export class ProductizationComponent implements OnInit {
  // sample nihal test
   //nihal cjhanes
   datachem: any;
+  isactive: boolean = false;
+  isinactive: boolean = true;
   loadpdrno: string;
   Approvedproductinfo: string;
   Approvinfo: boolean;
@@ -107,7 +111,7 @@ export class ProductizationComponent implements OnInit {
   japan: any = '';
   australia: any = '';
   china: any = '';
-  Prdnotes: string = '';
+  Prdnotes: any = '';
   casnumber: any = '';
   einecsnumber: any = '';
   fillsize: any = '';
@@ -133,16 +137,16 @@ export class ProductizationComponent implements OnInit {
   filling_instructions: any = '';
   filling_instructions2: any = '';
   imagedescription: any = '';
-  productlin: any = 'N/A';
-  oem: any = 'N/A';
-  category: any = 'N/A';
-  brand: any = 'N/A';
-  classcode: any = 'N/A';
-  classification: any = 'N/A';
+  productlin: any = '';
+  oem: any = '';
+  category: any = '';
+  brand: any = '';
+  classcode: any = '';
+  classification: any = '';
   fillweight: any = '';
   SG: any = '';
   customername: any = '';
-  application: any = 'N/A';
+  application: any = '';
     productsavedata: any;
   pdrno: any = '';
     cmoname: any;
@@ -190,15 +194,9 @@ export class ProductizationComponent implements OnInit {
     ppautogenerate_data: any;
     active: any;
     doc1: any;
-    labeling_instructions: string;
-    bomcustomer: any;
-    productline2load_data: any;
-    oem2load_data: any;
-    class2load_data: any;
-    classification2load_data: any;
-    category2load_data: any;
-    brand2load_data: any;
-    application2load_data: any;
+  labeling_instructions: string;
+  acvtivechek: string;
+    
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
 
@@ -358,61 +356,14 @@ export class ProductizationComponent implements OnInit {
 
 
 
-      this.productline2load(this.productcode).subscribe((productline2load) => {
-        console.warn("productline2load", productline2load)
-        this.productline2load_data = productline2load
-        this.productlin = this.productline2load_data
-        
-      })
-      this.oem2load(this.productcode).subscribe((oem2load) => {
-        console.warn("oem2load", oem2load)
-        this.oem2load_data = oem2load
-        this.oem = this.oem2load_data
-
-      })
-      this.class2load(this.productcode).subscribe((class2load) => {
-        console.warn("class2load", class2load)
-        this.class2load_data = class2load
-        this.classcode = this.class2load_data
-
-      })
-      this.classification2load(this.productcode).subscribe((classification2load) => {
-        console.warn("classification2load", classification2load)
-        this.classification2load_data = classification2load
-        this.classification = this.classification2load_data
-
-      })
-      this.category2load(this.productcode).subscribe((category2load) => {
-        console.warn("category2load", category2load)
-        this.category2load_data = category2load
-        this.category = this.category2load_data
-
-      })
-
-      this.brand2load(this.productcode).subscribe((brand2load) => {
-        console.warn("brand2load", brand2load)
-        this.brand2load_data = brand2load
-        this.brand = this.brand2load_data
-
-      })
-      this.application2load(this.productcode).subscribe((application2load) => {
-        console.warn("application2load", application2load)
-        this.application2load_data = application2load
-        this.application = this.application2load_data
-
-      })
-
-
-
-
-
-
-
-
       this.productpip(this.productcode).subscribe((bindproductpip) => {
         console.warn("bindproductpip", bindproductpip)
         this.bindproductpip_data = bindproductpip
         this.datapcc = this.bindproductpip_data
+        this.setvalues21(this.datapcc)
+
+        
+
       })
 
       this.BOMaudit(this.productpack).subscribe((bindBOMaudit) => {
@@ -466,19 +417,31 @@ export class ProductizationComponent implements OnInit {
     for (let item of pdrdatas) {
       this.pdrno = item.pdrno;
       this.customername = item.cusname;
-      this.bomcustomer = item.cusname;
+
 
 
     }
 
-
-
+    
 
 
   }
+  setvalues21(datapcc: any) {
+    this.i = 0;
+
+    for (let search of datapcc) {
+      if (search.CheckOff == undefined) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter atleast one row' } });
+
+        this.i++;
+      }
+
+    }
+  }
+
   PPdata(pdrdatas: any) {
     for (let item of pdrdatas) {
-      this.productpack = item.PPackageNo;
+      this.productpack = item.PPacketNo;
      
 
 
@@ -597,65 +560,6 @@ export class ProductizationComponent implements OnInit {
     let params1 = new HttpParams().set('ProductCode', prdcode);
     return this.http.get("https://formulaproductization4.azurewebsites.net/loadpdr", { params: params1, })
   }
-
-  productline2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/productlineload", { params: params1, responseType: 'text' })
-  }
-  oem2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/OEMload", { params: params1, responseType: 'text' })
-  }
-  class2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/classload", { params: params1, responseType: 'text' })
-  }
-
-  classification2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/classificationload", { params: params1, responseType: 'text' })
-  }
-
-  category2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/categoryload", { params: params1, responseType: 'text' })
-  }
-
-  brand2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/brandload", { params: params1, responseType: 'text' })
-  }
-
-
-  application2load(productcode: string) {
-    var prdcode = productcode;
-    let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/applicationload", { params: params1, responseType: 'text' })
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   productpip(productcode: string) {
     var prdcode = productcode;
     let params1 = new HttpParams().set('ProductCode', prdcode);
@@ -975,21 +879,24 @@ export class ProductizationComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(SearchFormulaComponent, {
-      width: '80%', height: '90%', disableClose: true
+      width: '70%', height: '90%', disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed', result);
+      console.log('The dialog was closed', result);
+      this.dialog.open(MessageBoxComponent, { width: '15%', height: '15%', data: { displaydata: 'Enter product/SKU# and fill size' } });
     if (result != "") {
       //this.issearchform = true;
-      //this.active = "1";
+      this.active = "1";
       this.formulacode = result[0];
       this.formulaname = result[1];
      /* this.labref = result[2];*/
       this.pdrno = result[3];
       //this.rowData = null;
 
-      }
+
+
+    }
 
     });
 
@@ -1051,6 +958,11 @@ export class ProductizationComponent implements OnInit {
       width: '80%', height: '90%', disableClose: true
     });
   }
+  compimport(): void {
+    const dialogRef = this.dialog.open(ComponentimportComponent, {
+      width: '80%', height: '90%', disableClose: true
+    });
+  }
   productadd(): void {
     const dialogRef = this.dialog.open(AddProductlineComponent, {
       width: '60%', height: '70%', disableClose: true
@@ -1107,14 +1019,32 @@ export class ProductizationComponent implements OnInit {
     }
   }
   triggerSomeEvent(event) {
-    this.Approvedbrand = event.target.checked.toString();    
+    this.Approvedbrand = event.target.checked.toString();
     if (this.Approvedbrand == "true") {
       this.brandcheck = true;
-    } else {
-      this.brandcheck = false;
-    }
+      this.isactive = false;
+      this.isinactive = true;
 
+    }
+    else {
+      let dialogRef = this.dialog.open(MessageBoxYesnoComponent, { width: '30%', height: '15%', data: { displaydatagrid: "Do you want to Inactive this product?" }, disableClose: true });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed: ${result}');
+        this.acvtivechek = result;
+        if (this.acvtivechek == "false") {
+          this.brandcheck = true;
+        }
+        else {
+          this.brandcheck = false;
+          this.isinactive = false;
+          this.isactive = true;
+        }
+
+
+      })
+    }
   }
+  
   approvedinfofile(event) {
     if (this.descriptionproduct == "" && this.cosprdrpd == "" && this.manufacturingdescription == "" && this.proof == "" && this.animaldata == "" && this.responsibleperson == "") {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter at least one PIF information' } });
@@ -1130,6 +1060,7 @@ export class ProductizationComponent implements OnInit {
       }
     }
   }
+ 
   opennewmicrobiology(): void {
     if (this.formulaname == "" && this.formulacode == "" && this.pdrno == "" && this.customername == "") {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'save product details before adding parameters' } });
@@ -1153,7 +1084,11 @@ export class ProductizationComponent implements OnInit {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
 
   }
-
+  clickchekedpcc() {
+    if (this.productcode == "" || this.productcode == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter atleast one row' } });
+    }
+  }
  
   ppauto() {
     return this.http.get("https://formulaproductization4.azurewebsites.net/ppnumbergenerate", { responseType: 'text' });
@@ -1257,7 +1192,7 @@ export class ProductizationComponent implements OnInit {
       Japandoc: this.japan,
       Ausdoc: this.australia,
       Chinadoc: this.china,
-      Notes: '',
+      Notes: this.Prdnotes,
       CASNo: this.casnumber,
       EinecsNo: this.einecsnumber,
       FillSize: this.fillsize,
@@ -1313,7 +1248,7 @@ export class ProductizationComponent implements OnInit {
       this.productupdatedata = productization_update
 
 
-      if (this.productupdatedata == "updated") {
+      if (this.productupdatedata == " Updated ") {
 
         this.package_saveup().subscribe((package_saveup) => {
           console.warn("package_saveup", package_saveup)
@@ -1415,7 +1350,7 @@ export class ProductizationComponent implements OnInit {
         Japandoc: this.japan,
         Ausdoc: this.australia,
         Chinadoc: this.china,
-        Notes: '',
+        Notes: this.Prdnotes,
         CASNo: this.casnumber,
         EinecsNo: this.einecsnumber,
         FillSize: this.fillsize,
@@ -1643,7 +1578,7 @@ export class ProductizationComponent implements OnInit {
       .set('classcode1', classcode1).set('classification', classification)
       .set('application', application)
       .set('username', username).set('SpecificGravity', SpecificGravity).set('FillWeight', FillWeight)
-      .set('BOMCustomer', cusname);
+      .set('cusname', cusname);
     return this.http.get("https://formulaproductization1.azurewebsites.net/updateproductization", { params: params1, responseType: 'text' })
 
   }
@@ -1820,37 +1755,35 @@ export class ProductizationComponent implements OnInit {
 
   ngOnInit() {
     this.datapcc = [{ Itemno: "1", Information: "Product Description & Codes or Formulation Code", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "2", Information: "Product formula including %'s, INCI names, Trade Names and Suppliers", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "3", Information: "Perfumes - 26 potential allergens content list from perfume supplie", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "4", Information: "INCI list with %'s", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "5", Information: "Stability Summary,  with reference to methods(this usually shows the stability at ambient 30C, 40C, freeze-thaw etc.)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "6", Information: "Manufacturing Procedure summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "7", Information: "Specification - Viscosity, pH and other test data listed", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "2", Information: "Product formula including %'s, INCI names, Trade Names and Suppliers", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "3", Information: "Perfumes - 26 potential allergens content list from perfume supplie", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "4", Information: "INCI list with %'s", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "5", Information: "Stability Summary,  with reference to methods(this usually shows the stability at ambient 30C, 40C, freeze-thaw etc.)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "6", Information: "Manufacturing Procedure summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "7", Information: "Specification - Viscosity, pH and other test data listed", CheckOff: false, checked: "", UserName: "", locked: "E" },
 
-    { Itemno: "8", Information: "Labeling requirements", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "9", Information: "Product Testing Results - Microbiological Challenge test records for products that contain water", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "10", Information: "Content - declare in g. or ml.", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "11", Information: "Claim Substantiation summary with refererences (this is proof that pack claims are able to be substantiated)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "12", Information: "Proposed pack copy or artwork for each carton and label (make sure claims in Pack copy are checked)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "13", Information: "PAO (Product After Opening) time or best before date (Minimum Durability)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "14", Information: "Product Safety Assessment Statement - Executive Summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "15", Information: "Legal Compliance for Annex III restricted materials, colors & preservatives and sunscreen (CIR Panel review, preservative, sunscreen and color legal compliance check)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "16", Information: "A picture of the final product should appear in the PCC (as this will be required when on-line registration is available)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "17", Information: "Perfumes and Flavors should have IFRA and/or RFIM compliance statements from the perfume shop", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "18", Information: "Raw Material ingredient specifications and technical data sheets", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "19", Information: "Summary of GMP statement(a statement on company letter head declaring ISO standards and/or GMP compliance)", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "20", Information: "The product must not have been tested on animals", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
-    { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
+      { Itemno: "8", Information: "Labeling requirements", CheckOff: false, checked: "", UserName: "", locked: "E"},
+      { Itemno: "9", Information: "Product Testing Results - Microbiological Challenge test records for products that contain water", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "10", Information: "Content - declare in g. or ml.", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "11", Information: "Claim Substantiation summary with refererences (this is proof that pack claims are able to be substantiated)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "12", Information: "Proposed pack copy or artwork for each carton and label (make sure claims in Pack copy are checked)", CheckOff: false, checked: "", UserName: "", locked: "E"},
+      { Itemno: "13", Information: "PAO (Product After Opening) time or best before date (Minimum Durability)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "14", Information: "Product Safety Assessment Statement - Executive Summary", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "15", Information: "Legal Compliance for Annex III restricted materials, colors & preservatives and sunscreen (CIR Panel review, preservative, sunscreen and color legal compliance check)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "16", Information: "A picture of the final product should appear in the PCC (as this will be required when on-line registration is available)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "17", Information: "Perfumes and Flavors should have IFRA and/or RFIM compliance statements from the perfume shop", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "18", Information: "Raw Material ingredient specifications and technical data sheets", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "19", Information: "Summary of GMP statement(a statement on company letter head declaring ISO standards and/or GMP compliance)", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "20", Information: "The product must not have been tested on animals", CheckOff: false, checked: "", UserName: "", locked:"E" },
+      { Itemno: "21", Information: "The assessments has assumed that the raw materials are of Cosmetic or Pharmaceutical grade and are low in impurities", CheckOff: false, checked: "", UserName: "", locked: "E" },
+      { Itemno: "22", Information: "Miscellaneous Information for Product Info. File", CheckOff: false, checked: "", UserName: "", locked: "E" }
     ]
     this.brandcheck = true;
-     
     this.ppauto().subscribe((pdrautogenerate) => {
       console.warn("pdrautogenerate", pdrautogenerate)
       this.ppautogenerate_data = pdrautogenerate
       this.productpack = this.ppautogenerate_data
     })
-     
 
 
     this.product_load().subscribe((product_load) => {
@@ -1860,6 +1793,15 @@ export class ProductizationComponent implements OnInit {
     this.class_load().subscribe((class_load) => {
       console.warn("class_load", class_load)
       this.loadclass = class_load
+    })
+    this.productpip(this.productcode).subscribe((bindproductpip) => {
+      console.warn("bindproductpip", bindproductpip)
+      this.bindproductpip_data = bindproductpip
+      this.datapcc = this.bindproductpip_data
+      this.setvalues21(this.datapcc)
+
+
+
     })
     this.brand_load().subscribe((brand_load) => {
       console.warn("brand_load", brand_load)

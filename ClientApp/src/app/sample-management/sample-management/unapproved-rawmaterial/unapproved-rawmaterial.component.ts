@@ -5,7 +5,7 @@ import { DialogData } from 'src/app/formula-lookup/formula-lookup.component';
 import { Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RawMaterialComponent } from  'src/app/raw-material/raw-material.component';
-
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-unapproved-rawmaterial',
@@ -29,6 +29,7 @@ export class UnapprovedRawmaterialComponent implements OnInit {
   SupplierCod: string = '';
   searchitems: any;
   isLoading = true;
+  userna: string = "";
 
     dataresultLoadunapproverawmatlist: any;
   displaydata: any;
@@ -40,7 +41,7 @@ export class UnapprovedRawmaterialComponent implements OnInit {
 
 
 
-  constructor(public dialog: MatDialog, private http: HttpClient, public dialogRef: MatDialogRef<UnapprovedRawmaterialComponent>, @Inject(MAT_DIALOG_DATA) public data:any,) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, public dialogRef: MatDialogRef<UnapprovedRawmaterialComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public DataShare: DataShareServiceService) { }
 
 
   unapproverawmaterials() {
@@ -66,7 +67,7 @@ export class UnapprovedRawmaterialComponent implements OnInit {
   ApproveSampleStatus() {
     //var Unapprovedrawmat: boolean = this.UnApproved;
     var FormulaCode1: string = this.formulacode;
-    var username1: string = "admin";
+    var username1: string = this.userna;
     
     let params1 = new HttpParams().set('FormulaCode', FormulaCode1).set('username', username1);
     return this.http.get("https://samplemanagementloadwebservice.azurewebsites.net/ApproverawmaterialSelect", { params: params1, responseType: 'text' })
@@ -163,7 +164,7 @@ export class UnapprovedRawmaterialComponent implements OnInit {
     }
   }
   ngOnInit() {
-
+    this.userna = this.DataShare.getlogin();
  // this.formulacode = this.data.displaydata[0];
 
     this.Loadunapproverawmatlist().subscribe((resultLoadunapproverawmatlist) => {

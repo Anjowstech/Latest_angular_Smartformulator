@@ -130,7 +130,6 @@ export class AddComponentComponent implements OnInit {
     showDateInpu= false;
   owDateInput = false;
   showDateInp : boolean;
-    component_delete_data: any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, private Datashare: DataShareServiceService) { }
 
@@ -759,85 +758,6 @@ export class AddComponentComponent implements OnInit {
 
 
   }
-
-
-  deletecomp() {
-    this.deletecomponent().subscribe((deletecomponent) => {
-      console.warn("deletecomponent", deletecomponent)
-      this.component_delete_data = deletecomponent
-
-
-
-      if (this.component_delete_data == "Component is deleted successfully") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Component is deleted successfully' } });
-
-        this.clear();
-      }
-      else if (this.component_delete_data == "This component is used in Assembly Ticket. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in Assembly Ticket. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in BOM. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in BOM. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in Shortage report. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in Shortage report. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is assigned a lot numbefvr. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is assigned a lot numbefvr. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in manual deduction entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in manual deduction entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in supplier invoice entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in supplier invoice entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in packing slip entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in packing slip entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in PO details entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in PO details entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in component ticket entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in component ticket entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in customer PO entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in customer PO entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in product package entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in product package entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in product filling entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in product filling entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in sales invoice entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in sales invoice entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in shipping details entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in shipping details entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in inventory reconciliation entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in inventory reconciliation entry. Cannot delete this one' } });
-      }
-      else if (this.component_delete_data == "This component is used in inventory entry. Cannot delete this one") {
-        this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'This component is used in inventory entry. Cannot delete this one' } });
-      }
-      
-
-    })
-  }
-
-  deletecomponent() {
-
-    var compitem: string = this.componentitemnumber
-   
-
-    let params1 = new HttpParams().set('ComponentItemno', compitem);
-    return this.http.get("https://formulaproductization1.azurewebsites.net/Delete_component", { params: params1, responseType: 'text' })
-
-  }
-
-
-
 
   savecomponent() {
     if (this.componentitemnumber == "" || this.componentitemnumber == undefined) {

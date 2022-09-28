@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DataShareServiceService } from 'src/app/data-share-service.service';
 
 @Component({
   selector: 'app-search-project-pdr',
@@ -17,7 +18,7 @@ export class SearchProjectPdrComponent implements OnInit {
   customername: string;
   searchitems: any = [];
   projectcount: any;
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchProjectPdrComponent>) { }
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<SearchProjectPdrComponent>, public datashare: DataShareServiceService) { }
   PDR_search(user: string) {
     var usernam = user;
    // var operate = this.Case;
@@ -40,6 +41,7 @@ export class SearchProjectPdrComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.username = this.datashare.getlogin();
     this.PDR_search(this.username).subscribe((PDR_search) => {
      this.isLoading = false;
       console.warn("PDR_search", PDR_search)

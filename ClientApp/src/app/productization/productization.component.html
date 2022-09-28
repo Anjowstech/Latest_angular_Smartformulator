@@ -120,7 +120,7 @@
       <div class="row">
         <div class="form-group col-md-2">
           <div style="margin-left: 10%; margin-top: 5%; height: 700px; overflow-y: auto; background-color: white; text-align: center;">
-            <div style=" text-align: center; border: solid 0.1px darkgrey;background-color:">
+            <div style=" text-align: center; border: solid 0.1px darkgrey;background-color:white;">
               <label for="PDR" style="margin-left: 5px; margin-top: 20px; font-size: large; font-family: Verdana;"><b>Poduct Image</b></label><br />
               <input type="image" src="" alt="" width="200" height="200" style="margin-left: 5px;margin-top:40px;" placeholder="NO IMAGE AVIALABLE" />
             </div>
@@ -148,7 +148,7 @@
                           <label for="prpack" style="margin-left:5px;font-size: medium;font-family: Verdana;">Product Pack #</label>
                           <input type="text" style="margin-left: 20px;color:darkred;" class="form-control" placeholder="" id="PDR" size="40"  disabled [(ngModel)]="productpack" name="prdctpack" value="">
                           <label for="cus" style="margin-left: 4%;font-size: medium;font-family: Verdana;">BOM Customer</label>
-                          <input type="text" disabled style="margin-left:30px;width:20%" class="form-control" id="bom" [(ngModel)]="bomcustomer"  name="bomcus" value="">
+                          <input type="text" style="margin-left:30px;width:20%" class="form-control" id="bom" [(ngModel)]="bomcustomer"  name="bomcus" value="">
 
                         </form>
                         <label style="margin-left:1%;margin-top:10px;color:green;">Type in grid to search for component to add it.</label>
@@ -241,7 +241,7 @@
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="addRow();">Insert Row</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="deleteRow();">Delete Row</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" >BOM Report</button>
-                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" >Import COMP</button>
+                            <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;"(click)=" compimport();">Import COMP</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="deletepackaging();">Delete Packaging</button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;"(click)="complisting();" >COMP Listing </button>
                             <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:10px;height:50px;" (click)="componentadd();">Add Component</button>
@@ -362,8 +362,8 @@
                               <thead>
                                 <tr>
                                   <th scope="col" style="text-align:center;width:20%;">Date</th>
-                                  <th scope="col" style="text-align: center;; width: 60%;">Task</th>
-                                  <th scope="col" style="text-align: center;; width: 20%;">Username</th>
+                                  <th scope="col" style="text-align: center; width: 60%;">Task</th>
+                                  <th scope="col" style="text-align: center; width: 20%;">Username</th>
 
                                 </tr>
                               </thead>
@@ -405,19 +405,29 @@
                   <p style="font-family:Verdana;margin-top:10px;margin-left:5px;background-color:white;font-size:large;"><i><b>Product Label Information</b></i></p>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="brand" style="margin-left:32px;font-size: medium;font-family: Verdana;">Brand Name</label>
-                    <input type="text" style="margin-left: 20px;width:50%;" class="form-control" placeholder="" id="bdr" [(ngModel)]="brandname"  name="brnd" value="">
-                    <input class="form-check-input" style="margin-left:1%" type="checkbox" name="Chkplt" id="Chkplt" [(ngModel)]="brandcheck" (change)="triggerSomeEvent($event)"
+                    <input type="text" style="margin-left: 20px;width:50%;" class="form-control" placeholder="" id="bdr" [(ngModel)]="brandname" name="brnd" value="">
+                    <input class="form-check-input" style="margin-left:1%" type="checkbox" name="Chkplt" id="Chkplt" [(ngModel)]="brandcheck" (change)="triggerSomeEvent($event)" (click)="activeclick()"
                            [checked]="okpilot=='1'?true:false">
-                    <label for="male" style="color:darkred;">Active</label><br>
+                    <label for="male" style="color: darkred; margin-left: 1%; font-size:medium;">Active</label><br>
+                    
+
+
+
+
+
+
                   </form>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="use" style="margin-left:93px;font-size: medium;font-family: Verdana;">Uses</label>
                     <!--<input type="text" style="margin-left: 20px; width: 50%;" class="form-control" placeholder="" id="PDR" [(ngModel)]="formulano" #formu name="frmln" value="">-->
                     <textarea class="form-control" id="usenote" rows="3" style="width: 50%; height: 75PX; margin-left: 20px; margin-top: 5px;" [(ngModel)]="uses" name="us" value=""></textarea>
+                    <label for="male" [hidden]="isactive" style="color: darkgreen; margin-left: 10%; font-size: 50px; ">Active</label><br>
+                    
                   </form>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="warning" style="margin-left:58px;font-size: medium;font-family: Verdana;">Warnings</label>
                     <textarea class="form-control" id="warnnote" rows="3" style="width:50%; height:75PX;margin-left:20px;margin-top:10px;" [(ngModel)]="warnings" name="warn" value=""></textarea>
+                    <label for="male" [hidden]="isinactive" style="color: darkgreen; margin-left: 10%; font-size:50px;">In Active</label><br>
                   </form>
                   <form class="form-inline" style="    background-color: #f6f5f1">
                     <label for="direction" style="margin-left:50px;font-size: medium;font-family: Verdana;">Directions</label>
@@ -606,7 +616,7 @@
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
                           <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
-
+                          
 
 
                         </div>
@@ -627,8 +637,8 @@
                               <thead>
                                 <tr>
                                   <th scope="col" style="text-align:center;width:20%;">Date</th>
-                                  <th scope="col" style="text-align: center;; width: 60%;">Task</th>
-                                  <th scope="col" style="text-align: center;; width: 20%;">Username</th>
+                                  <th scope="col" style="text-align: center; width: 60%;">Task</th>
+                                  <th scope="col" style="text-align: center; width: 20%;">Username</th>
 
                                 </tr>
                               </thead>
@@ -698,15 +708,15 @@
 
                         <dxi-column dataField="ParamId"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black"></b>
                         </div>
-                        <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname" [allowEditing]="false" ></dxi-column>
+                        <dxi-column dataField="Claim" headerCellTemplate="addressHeaderTemplateinciname"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateinciname'">
                           <b style="color: black">Claim</b>
                         </div>
-                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplateusage"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateusage'">
                           <b style="color: black">Method</b>
                         </div>
@@ -714,7 +724,7 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplatefoa'">
                           <b style="color: black;">Limits</b>
                         </div>
-                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplatecomments"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatecomments'">
                           <b style="color: black">Username</b>
                         </div>
@@ -757,15 +767,15 @@
 
                         <dxi-column dataField="ParamId"
                                     [visible]="false"></dxi-column>
-                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="item" headerCellTemplate="addressHeaderTemplateitem"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateitem'">
                           <b style="color: black"></b>
                         </div>
-                        <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplatetest" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="Test" headerCellTemplate="addressHeaderTemplatetest"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatetest'">
                           <b style="color: black">Test</b>
                         </div>
-                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplatemethod" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="Method" headerCellTemplate="addressHeaderTemplatemethod"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplatemethod'">
                           <b style="color: black">Method</b>
                         </div>
@@ -773,7 +783,7 @@
                         <div *dxTemplate="let info of 'addressHeaderTemplatelimiy'">
                           <b style="color: black; ">Limits</b>
                         </div>
-                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplateuser" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="username" headerCellTemplate="addressHeaderTemplateuser"></dxi-column>
                         <div *dxTemplate="let info of 'addressHeaderTemplateuser'">
                           <b style="color: black">Username</b>
                         </div>
@@ -1077,10 +1087,9 @@
                   <div class=" form-inline" style="margin-left:3%">
                     <button type="submit" class="btn btn-primary buttoncolor" style="margin-left:1%;margin-top:2%; height:50px;" (click)="addRow();">Insert Row</button>
                     <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; " (click)="deleteRow();">Delete Row </button>
-                    <button type="submit" disabled class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
-                    <input style="margin-left: 3%; margin-top: 2%;" class="form-check-input" disabled  type="checkbox" [(ngModel)]="Approvd" name="apprvd" (change)="approvedin($event)">
-                    <p style="font-family:Verdana;margin-top:3%;margin-left:5px;font-size:large;" disabled >Approve Product Commercialization Checklist</p>
-
+                    <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 3%; margin-top: 2%; height: 50px; ">Print Preview </button>
+                    <input style="margin-left: 3%; margin-top: 2%;" class="form-check-input"  type="checkbox" [(ngModel)]="Approvd" name="apprvd" (change)="approvedin($event)"(click)="clickchekedpcc();">
+                    <p style="font-family:Verdana;margin-top:3%;margin-left:5px;font-size:large;" >Approve Product Commercialization Checklist</p>
 
 
                   </div>
@@ -1355,10 +1364,10 @@
                                     [showBorders]="true"
                                     (onCellClick)="openrawmaterialserac($event)"
                                     (rowprepared)="rowprepared">
-                        <dxo-editing mode="row"
+                        <!--<dxo-editing mode="row"
                                      [allowUpdating]="true"
                                      [useIcons]="true">
-                        </dxo-editing>
+                        </dxo-editing>-->
                         <dxo-column-chooser [enabled]="false">
                           or "select"
                         </dxo-column-chooser>

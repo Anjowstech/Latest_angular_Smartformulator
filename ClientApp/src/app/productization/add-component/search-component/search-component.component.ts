@@ -34,6 +34,7 @@ export class SearchComponentComponent implements OnInit {
     categorytype: any;
   quick_savedata: any;
   fillablecomponent: string = 'No';
+  issearchcomponentsave: boolean = false;
 
   constructor(public dialog: MatDialog,private http: HttpClient, public dialogRef: MatDialogRef<SearchComponentComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private Datashare: DataShareServiceService) { }
 
@@ -78,7 +79,7 @@ export class SearchComponentComponent implements OnInit {
     this.componentname = "";
     this.supplierse = "";
     this.categorytype = "";
-
+    this.issearchcomponentsave = true;
   }
 
   quicksave() {
@@ -112,8 +113,8 @@ export class SearchComponentComponent implements OnInit {
     var compnam: string = this.componentname
     var user: string = "admin"
     var fill: string = this.fillablecomponent
-   
-
+    
+    
     let params1 = new HttpParams().set('suppliername', sup).set('ComponentItemNo', compitemno).set('CategoryType', cat).set('ComponentName', compnam).set('username', user).set('FillableComponent', fill);
     return this.http.get("https://formulaproductization4.azurewebsites.net/Quicksavecomponent", { params: params1, responseType: 'text' })
 
@@ -135,10 +136,26 @@ export class SearchComponentComponent implements OnInit {
 
     });
   }
+  valuechange(newValue) {
+    this.componentitemno = newValue;
+    this.issearchcomponentsave = false;
+  }
 
 
+  valuechanges(newValue) {
+    this.componentname = newValue;
+    this.issearchcomponentsave = false;
+  }
+  //compitemChange($event) {
+
+  //  this.issearchcomponentsave = false;
+  //}
+  //compnameChange($event) {
+  //  this.issearchcomponentsave = false;
+  //}
 
   ngOnInit() {
+    this.issearchcomponentsave = true;
     this.componentdata_load().subscribe((componentdata_load) => {
       console.warn("componentdata_load", componentdata_load)
       this.loadcomponentdata = componentdata_load

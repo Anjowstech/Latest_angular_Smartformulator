@@ -46,7 +46,7 @@ export class AddCASDetailsComponent implements OnInit {
     this.description = '';
   }
   CASsave(casnumber: string, einecno: string) {
-    this.loaditemcode = this.datashare.getitemcode1();
+    this.loaditemcode = this.datashare.getitemcode();
     this.CASaveup(casnumber, einecno).subscribe((cas_Details) => {
       console.warn("cas_Details", cas_Details)
       this.CAS_Data = cas_Details
@@ -81,8 +81,7 @@ export class AddCASDetailsComponent implements OnInit {
   //}
   ngOnInit() {
 
-
-
     this.loaditemcode = this.datashare.getitemcode();
+
   }
 }

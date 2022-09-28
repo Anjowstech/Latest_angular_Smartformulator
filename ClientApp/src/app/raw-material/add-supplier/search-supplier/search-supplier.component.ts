@@ -23,7 +23,7 @@ export class SearchSupplierComponent implements OnInit {
   Supplier_search() {
     var operate = this.Case;
     let params1 = new HttpParams().set('Operation', operate);
-    return this.http.get("https://smartformulatorsupplierwebservice.azurewebsites.net/SearchSuppliers", { params: params1, })
+    return this.http.get("https://smartformulatorsupplierwebservicesample.azurewebsites.net/SearchSuppliers", { params: params1, })
 
 
 
