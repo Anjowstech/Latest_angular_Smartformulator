@@ -105,6 +105,8 @@ export class ProductizationComponent implements OnInit {
   eu: any = '';
   cal: any = '';
   japan: any = '';
+
+  
   australia: any = '';
   china: any = '';
   Prdnotes: string = '';
@@ -133,16 +135,16 @@ export class ProductizationComponent implements OnInit {
   filling_instructions: any = '';
   filling_instructions2: any = '';
   imagedescription: any = '';
-  productlin: any = 'N/A';
-  oem: any = 'N/A';
-  category: any = 'N/A';
-  brand: any = 'N/A';
-  classcode: any = 'N/A';
-  classification: any = 'N/A';
+  productlin: any = "N/A";
+  oem: any = "N/A";
+  category: any = "N/A";
+  brand: any = "N/A";
+  classcode: any = "N/A";
+  classification: any = "N/A";
   fillweight: any = '';
   SG: any = '';
   customername: any = '';
-  application: any = 'N/A';
+  application: any = "N/A";
     productsavedata: any;
   pdrno: any = '';
     cmoname: any;
@@ -636,7 +638,7 @@ export class ProductizationComponent implements OnInit {
   application2load(productcode: string) {
     var prdcode = productcode;
     let params1 = new HttpParams().set('ProductCode', prdcode);
-    return this.http.get("https://formulaproductization5.azurewebsites.net/applicationload", { params: params1, responseType: 'text' })
+    return this.http.get("https://formulaproductization5.azurewebsites.net/applicationload", { params: params1, responseType: 'text' })    
   }
 
 
@@ -1340,16 +1342,7 @@ export class ProductizationComponent implements OnInit {
 
 
         })
-
-
-
-
-
-
         this.dialog.open(MessageBoxComponent, { width: '40%', height: '15%', data: { displaydata: 'Product is Updated Successfully' } });
-
-
-
       }
 
     })

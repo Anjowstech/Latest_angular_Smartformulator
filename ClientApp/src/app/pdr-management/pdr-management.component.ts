@@ -92,6 +92,10 @@ export class PdrManagementComponent implements OnInit {
   doc18: string;
   doc19: string;
   doc20: string;
+  DataListbatch: any = [];
+  DataListbatch1: any = [];
+  savechemistry_data: any;
+  savemicrobiology_data: any;
   pdrcreationdays1: number;
   formulacreationdays1: number;
   qcapprovaldays1: number;
@@ -1277,11 +1281,53 @@ this.loadformulationsassign = loadformulations
   }
 
   savechemistryparamlist() {
-    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Chemistry parameter saved Successfully' } });
+    this.setvalueschemistry(this.datachem);
+    this.savechemistry().subscribe((savechemistry) => {
+      console.warn("savechemistry", savechemistry)
+      this.savechemistry_data = savechemistry
+      if (this.savechemistry_data == "inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Params Saved Successfully' } });
+      }
+    })
   }
   savemicrobioparamlist() {
-    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Micro params saved Successfully' } });
+    this.setvaluesmicrobiology(this.datamicro);
+    this.savemicrobiology().subscribe((savemicrobiology) => {
+      console.warn("savemicrobiology", savemicrobiology)
+      this.savemicrobiology_data = savemicrobiology
+      if (this.savemicrobiology_data == "inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Params Saved Successfully' } });
+      }
+    })
   }
+  setvaluesmicrobiology(microdata: any) {
+    this.i = 0;
+    this.j = 0;
+    for (let search of microdata) {
+      this.DataListbatch[this.i] = ([{
+        linenumber: "1",
+        test: search.Test,
+        method: search.Method,
+        limits: search.Limits,
+        username: search.username,
+
+
+
+      }]);
+      this.i++;
+    }
+  }
+  setvalueschemistry(chedata: any) {
+    this.i = 0; this.j = 0;
+    for (let search of chedata) {
+      this.DataListbatch1[this.i] = ([{
+        linenumber: "1", test: search.Claim, method: search.Method, limits: search.Limits, username: search.username,
+      }]); this.i++;
+    }
+
+  }
+
+
   datestartchangeclick(event) {
     var curr = this.currentDate;
     var pdrend = this.pdapprovalend;
@@ -2635,7 +2681,22 @@ this.loadformulationsassign = loadformulations
     return this.http.get("https://smartformulatorpdrwebservice3.azurewebsites.net/Loadassignformulationassigned", { params: params1, })
   }
 
-
+  savechemistry() {
+    var pdrno = this.pdrno
+    var operation = "chemistry"
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('chejson', datalistraw).set('PDRNo', pdrno).set('operation', operation).set('microjson', micro);
+    return this.http.get("https://formulalookupwebservice17.azurewebsites.net/Save_parms", { params: params1, responseType: 'text' })
+  }
+  savemicrobiology() {
+    var pdrno = this.pdrno
+    var operation = "micro"
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('chejson', micro).set('PDRNo', pdrno).set('operation', operation).set('microjson', datalistraw);
+    return this.http.get("https://formulalookupwebservice17.azurewebsites.net/Save_parms", { params: params1, responseType: 'text' })
+  }
   loadassignedformulationslabbatchticket(FormulaCode: string) {
     var loadformulationslabbatch = FormulaCode;
     let params1 = new HttpParams().set('FormulaCode', loadformulationslabbatch);
