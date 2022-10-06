@@ -606,7 +606,8 @@ export class RawMaterialComponent implements OnInit {
   blurpercentage(event: any) {
     this.Percentage = event.target.value;  
     if (Number(this.Percentage) < 0.00000 || isNaN(Number(this.Percentage))) {
-      this.Clearblend();
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter only numbers or Integers.' } });
+      this.Percentage = '';
       }
     
 
@@ -1617,12 +1618,13 @@ export class RawMaterialComponent implements OnInit {
     else if (prcntg == "" || prcntg==undefined) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter percentage' } });
     }
-    else if (parseInt(prcntg) > 100 || this.Balance < 0  ) {
+    else if (parseInt(prcntg) > 100 || this.Balance <= 0  ) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
     else if (newval>100) {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Sum of percentage should not be greater than 100%.' } });
     }
+    
     else {
       this.blendsaveup(prcntg).subscribe((Blenddatasaveup) => {
         console.warn("Blenddatasaveup", Blenddatasaveup)

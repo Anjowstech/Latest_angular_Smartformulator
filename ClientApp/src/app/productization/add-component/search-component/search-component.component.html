@@ -87,7 +87,7 @@
             </thead>
 
             <tbody>
-              <tr height="20px" *ngFor="let details_comp of loadcomponentdata; let i=index;"  (dblclick)="setvalues(details_comp);Close();" #conten>
+              <tr height="20px" *ngFor="let details_comp of loadcomponentdata|filter:componentitemno:filterMetadata|filter:componentname:filterMetadata; let i=index;"  (dblclick)="setvalues(details_comp);Close();" #conten>
                 <td></td>
                 <td>{{details_comp.componentitemno}}</td>
                 <td>{{ details_comp.componentname}}</td>
@@ -114,7 +114,7 @@
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%" matDialogClose>Close</button>
 
-    <h5 style="float:left;margin-top:10px;color:maroon">{{count}} Record(s)</h5>
+    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count} Record(s)</h5>
 
   </div>
 

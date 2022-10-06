@@ -680,7 +680,13 @@ export class CustomerDetailsComponent implements OnInit {
   blurEventtier2(event: any) {
     this.Tier2 = event.target.value;
     if (Number(this.Tier2) < Number(this.Tier1)) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier2 should be greater than tier1' } });
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 1 should not exceed the no of units entered in tier2' } });
+      this.Tier2 = '0';
+      //No of units entered in tier 2 should not exceed the no of units entered in tier3
+      //(Number(this.Tier2) > Number(this.Tier3)
+    }
+    else if (Number(this.Tier2) > Number(this.Tier3)) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 2 should not exceed the no of units entered in tier3' } });
       this.Tier2 = '0';
     }
   }
@@ -1063,14 +1069,13 @@ export class CustomerDetailsComponent implements OnInit {
   insert_tier4(event: any) {
     this.Tier3 = event.target.value;
     if (Number(this.Tier3) < Number(this.Tier2)) {
-      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier3 should be greater than tier2' } });
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 2 should not exceed the no of units entered in tier3' } });
       this.Tier3 = '0';
     }
     else {
       this.Tier4Range = 'Above ' + this.Tier3;
       this.Tier4 = 'Above ' + this.Tier3;
     }
-
   }
   setvalues2(customer_searchdata2: any) {
     this.i = 0;
@@ -1134,7 +1139,7 @@ export class CustomerDetailsComponent implements OnInit {
   setvalueserp(customer_searcherpdata: any) {
     this.i = 0;
     this.j = 0;
-
+    this.DataListerp = [];
     for (let search of customer_searcherpdata) {
 
       this.DataListerp[this.i] = ([{
@@ -1608,16 +1613,60 @@ export class CustomerDetailsComponent implements OnInit {
 
   //}
   insert_tiers() {
-    this.selectedRowIndex = 0;
-    this.dataGrid.instance.addRow();
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Range", this.Tier1);
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Range", this.Tier2);
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Range", this.Tier3);
-    this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Range", this.Tier4);
+    if (this.customerkey == "" || this.customerkey == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Customer key' } });
 
-    this.dataGrid.instance.saveEditData();
-
-
+    }
+    else if (this.customername == "" || this.customername == undefined) {
+      this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Please Enter Customer Name' } });
+    }
+    else {
+      if ((Number(this.Tier1) == 0)) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter tier 1 value' } });
+        this.Tier3 = '0';
+      }
+      else if ((Number(this.Tier2) == 0)) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter tier 2 value' } });
+        this.Tier3 = '0';
+      }
+      else if ((Number(this.Tier3) == 0)) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter tier 3 value' } });
+        this.Tier3 = '0';
+      }
+      else if ((Number(this.Tier1)) > (Number(this.Tier2))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 1 should not exceed the no of units entered in tier2' } });
+        this.Tier1 = '0';
+      }
+      else if ((Number(this.Tier1)) > (Number(this.Tier3))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 1 should not exceed the no of units entered in tier3' } });
+        this.Tier1 = '0';
+      }
+      else if ((Number(this.Tier2)) < (Number(this.Tier1))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 1 should not exceed the no of units entered in tier2' } });
+        this.Tier1 = '0';
+      }
+      else if ((Number(this.Tier2)) > (Number(this.Tier3))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 2 should not exceed the no of units entered in tier3' } });
+        this.Tier1 = '0';
+      }
+      else if ((Number(this.Tier3)) < (Number(this.Tier2))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 2 should not exceed the no of units entered in tier3' } });
+        this.Tier3 = '0';
+      }
+      else if ((Number(this.Tier3)) < (Number(this.Tier1))) {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'No of units entered in tier 1 should not exceed the no of units entered in tier3' } });
+        this.Tier3 = '0';
+      }
+      else {
+        this.selectedRowIndex = 0;
+        this.dataGrid.instance.addRow();
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier1Range", this.Tier1);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier2Range", this.Tier2);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier3Range", this.Tier3);
+        this.dataGrid.instance.cellValue(this.selectedRowIndex, "Tier4Range", this.Tier4);
+        this.dataGrid.instance.saveEditData();
+      }
+    }
   }
   insert_tiers2() {
     this.dataGrid.instance.addRow();
@@ -2292,6 +2341,7 @@ export class CustomerDetailsComponent implements OnInit {
     var maindatacus: any = JSON.stringify(this.Datamaincustomer);
     var datalistdata: any = JSON.stringify(this.dataList);
     var datalisterpdata: any = JSON.stringify(this.DataListerp);
+    
     var datavalidatedbatches: any = JSON.stringify(this.Datavalidatedbatches);
     var datapricewhole: any = JSON.stringify(this.Datapricewhole);
     var datavolumepricing: any = JSON.stringify(this.Datavolumepricing);

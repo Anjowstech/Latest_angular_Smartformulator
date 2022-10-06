@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
+
+import { formatDate } from '@angular/common';
 export interface FormulaList {
   name: string;
   position: string;
@@ -51,6 +53,7 @@ productDatetofisrt:string = "";
   t2projectname: string = "";
   searchflag: string = "0";
   loadcustom: any;
+  dayName: string;
   loadcmpanydata: any;
   loadlarefdata: any;
   loadgenericdata: any;
@@ -68,6 +71,8 @@ productDatetofisrt:string = "";
   t3productname: string="";
   t3customername: string="";
   loaduserdata: any;
+   loadcompweekdata: any;
+loadcompweekcount :any;
   loadprojectdata: any;
   t9stab: string = "";
   t9formulacodecust: string = "";
@@ -87,6 +92,42 @@ productDatetofisrt:string = "";
   t10customername: string = "";
   clientid: string = "";
   loadprodatacount: any;
+  loadstabilityweekdata : any;
+  loadstabilityweekcount: any;
+  dayNamecom: string = "";
+  formuacodecomp: string = "";
+  pdrnumcomp: string = "";
+statusnumcomp: string = "";
+formulanamecomp: string = "";
+projectnamecomp: string = "";
+  createdbycomp: string = "";
+   formulacodecust: string = "";
+projectnamecust : string = "";
+statuscust : string = "";
+formulanamecust: string = "";
+
+  createdbycust: string = "";
+  formulacodegene:string = "";
+pdrnumgene: string = "";
+statusgene: string = "";
+formulanamegene: string = "";
+  projectnamegene: string = "";
+   labpage: string = "";
+formulacodelab: string = "";
+  formulanamelab: string = "";
+   formulcodecustomer: string = "";
+pdrnumcustomer: string = "";
+statuccustomer: string = "";
+formulanamecustomer: string = "";
+projectnamecustomer: string = "";
+createdbycustomer: string = "";
+  t9projectnamecust: string = "";
+  createdbygene: string = "";
+  mon: boolean = true;
+  tue: boolean = true;
+  wed: boolean = true;
+  thur: boolean = true;
+  fri: boolean = true;
   constructor(private http: HttpClient, private Datashare: DataShareServiceService) { }
   helloWorld() {
     alert('Hello world!');
@@ -153,6 +194,168 @@ productDatetofisrt:string = "";
       this.loadprodatacount = this.loadprodata.length;
     })
   }
+  Cleardataall() {
+    this.formulacode = "";
+    this.pdrnum = "";
+    this.status = "";
+    this.formulaname = "";
+    this.projectname = "";
+    this.createdby = "";
+  }
+  cleardatamyformula() {
+    this.t2formulacode = "";
+    this.t2pdrnum = "";
+    this.t2status = "";
+    this.t2formulaname = "";
+    this.t2projectname = "";
+  }
+  cleardataproducts() {
+    this.t3productnum = "";
+    this.t3productname = "";
+    this.t3customername = "";
+    this.productDatefrom = "";
+    this.productDateto = "";
+  }
+  cleardatacompanyowned() {
+    this.formuacodecomp = "";
+   
+    this.pdrnumcomp = "";
+    this.statusnumcomp = "";
+    this.formulanamecomp = "";
+    this.projectnamecomp = "";
+    this.createdbycomp = "";
+  }
+  cleardatacustomerowned() {
+    this.formulacodecust = "";
+    this.projectnamecust = "";
+    this.statuscust = "";
+    this.formulanamecust = "";
+    this.projectnamecust = "";
+    this.createdbycust = "";
+    this.customname = "";
+  }
+  cleardatageneric() {
+    this.formulacodegene="";
+    this.pdrnumgene = "";
+    this.statusgene = "";
+    this.formulanamegene = "";
+    this.projectnamegene = "";
+    this.createdbygene = "";
+  }
+  cleardatalabnotbook() {
+    this.labpage = "";
+    this.formulacodelab = "";
+    this.formulanamelab = "";
+  }
+  cleardatacust() {
+    this. formulcodecustomer = "";
+    this.pdrnumcustomer = "";
+    this.statuccustomer = "";
+    this.formulanamecustomer = "";
+    this. projectnamecustomer = "";
+    this. createdbycustomer = "";
+    this.customercustomname = "";
+  }
+  clearstab() {
+    this.t9stab = "";
+    this.t9formulacodecust = "";
+    this.t9pdr = "";
+    this.t9labnb = "";
+    this.t9formulanamecust = "";
+    this.t9projectnamecust = "";
+    this.t9customername = "";
+  }
+  clearcomp() {
+    this.t10comp = "";
+    this.t10formulacodecust = "";
+    this.t10pdr = "";
+    this.t10pack = "";
+    this.t10formulanamecust = "";
+    this.t10productname = "";
+    this.t10customername = "";
+  }
+  cleardatadailystab() {
+    var date = new Date();
+    let latest_date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
+
+    this.dayName = date.toLocaleString('en-us', { weekday: 'long' });
+    if (this.dayName == "Monday") {
+      this.mon = false;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayName == "Tuesday") {
+      this.mon = true;
+      this.tue = false;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayName == "Wednesday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = false;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayName == "Thursday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = false;
+      this.fri = true;
+    }
+    if (this.dayName == "Friday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = false;
+    }
+  }
+  cleardatacomp() {
+    var date = new Date();
+    let latest_date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
+
+    this.dayNamecom = date.toLocaleString('en-us', { weekday: 'long' });
+    if (this.dayNamecom == "Monday") {
+      this.mon = false;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Tuesday") {
+      this.mon = true;
+      this.tue = false;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Wednesday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = false;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Thursday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = false;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Friday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = false;
+    }
+  }
   ClearData() {
     this.allproduct = "1";
     this.activeproducts = "0";
@@ -169,6 +372,44 @@ productDatetofisrt:string = "";
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
     })
+  }
+  changecolor(e) {
+
+     if (e.target.value == "Monday") {
+      this.mon = false;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (e.target.value == "Tuesday") {
+      this.mon = true;
+      this.tue = false;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (e.target.value == "Wednesday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = false;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (e.target.value == "Thursday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = false;
+      this.fri = true;
+    }
+    if (e.target.value == "Friday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = false;
+    }
   }
   loadcustomer() {
 
@@ -228,6 +469,14 @@ productDatetofisrt:string = "";
     let params1 = new HttpParams().set('clientid', this.clientid);
     return this.http.get("https://formulalistingwebservice1.azurewebsites.net/compLoad", { params: params1 })
   }
+  loadstabilityweek() {
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/stabweekLoad", { params: params1 })
+  }
+  loadcomweek() {
+    let params1 = new HttpParams().set('clientid', this.clientid);
+    return this.http.get("https://formulalistingwebservice2.azurewebsites.net/compweekLoad", { params: params1 })
+  }
   loadproduct(datefrom:string, dateto:string, checkedvalue:string, searchflag:string) {
     var datf: string = datefrom;
     var datt: string = dateto;
@@ -239,6 +488,7 @@ productDatetofisrt:string = "";
   }
   ngOnInit() {
     this.clientid = this.Datashare.getconnection();
+    
     this.allproduct = "1";
     this.searchflag = "0";
     if (this.allproduct == "1") {
@@ -290,6 +540,17 @@ productDatetofisrt:string = "";
       console.warn("loadpro", loadpro)
       this.loadprodata = loadpro
       this.loadprodatacount = this.loadprodata.length;
+    })
+
+    this.loadstabilityweek().subscribe((loadstabilityweek) => {
+      console.warn("loadstabilityweek", loadstabilityweek)
+      this.loadstabilityweekdata = loadstabilityweek
+      this.loadstabilityweekcount = this.loadstabilityweekdata.length;
+    })
+    this.loadcomweek().subscribe((loadcompweek) => {
+      console.warn("loadcompweek", loadcompweek)
+      this.loadcompweekdata = loadcompweek
+      this.loadcompweekcount = this.loadcompweekdata.length;
     })
     this.loadusername().subscribe((loaduser) => {
       console.warn("loaduser", loaduser)

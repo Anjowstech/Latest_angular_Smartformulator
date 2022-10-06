@@ -16,6 +16,7 @@ import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
   styleUrls: ['./search-component.component.css']
 })
 export class SearchComponentComponent implements OnInit {
+  filterMetadata = { count: 0 };
   loadcomponentdata: any;
     loadcomponentcategory: any;
     supplierse: any;

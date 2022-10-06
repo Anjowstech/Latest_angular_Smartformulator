@@ -138,7 +138,7 @@
             <input type="text" [(ngModel)]="FaxPerson" #FaxPer name="FaxPerson" style="margin-top: 10px; margin-left: 45px;" class="form-control" id="Contact Person 1" size="40">
             <label for="" style="margin-left:40px;font-size: medium;
           font-family: Verdana;">Fax No</label>
-            <input type="text" [(ngModel)]="fax" #fa name="fax" style="margin-top: 10px; margin-left: 40px;" class="form-control" size="40">
+            <input type="text" [(ngModel)]="Fax" #fa name="Fax" style="margin-top: 10px; margin-left: 40px;" class="form-control" size="40">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:20px;font-size: medium;
@@ -154,7 +154,7 @@
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()" matDialogClose>Back</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="SaveSample();ChangeText()">{{btnval}}</button>
             <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)=" ClearData()">New/Clear</button>
-            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" [disabled]="btndisstate">Sample Submission Form</button>
+            <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="samplereport()">Sample Submission Form</button>
 
           </div>
         </ng-template>
@@ -230,34 +230,34 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem="3">
-        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>PDR Listing </a>
+        <a class="tabcolor tabbutto tabrowli textsize" (click)="pdrlistclik()" ngbNavLink>PDR Listing </a>
         <ng-template ngbNavContent>
           <form class="form-inline" style="background-color: #f6f5f1">
 
             <label for="" style="margin-left:80px;font-size: medium;
               font-family: Verdana;">PDR #</label>
-            <input type="text" style="margin-top: 10px;margin-left: 38px;" [(ngModel)]="PDRno" #pdrnum name="PDRno" value="" class="form-control" id="" size="61">
+            <input type="text" style="margin-top: 10px;margin-left: 38px;" [(ngModel)]="PDRnodata" #pdrnum name="PDRno" value="" class="form-control" id="" size="61">
             <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchPDRlisting()">Search</button>
-            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearData()">Clear</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearpdr()">Clear</button>
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:42px;font-size: medium;
                   font-family: Verdana;">Formula Name</label>
-            <input type="text" style="margin-left:10px" [(ngModel)]="formulaname" #formula name="formulaname" value="" class="form-control" size="61">
+            <input type="text" style="margin-left:10px" [(ngModel)]="formulanamedata" #formula name="formulaname" value="" class="form-control" size="61">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:50px;font-size: medium;
                   font-family: Verdana;">Submission #</label>
-            <input type="text" [(ngModel)]="submissionno" #subnum name="submissionno" style="margin-left:10px" class="form-control" size="61">
+            <input type="text" [(ngModel)]="submissionnodata" #subnum name="submissionnodata" style="margin-left:10px" class="form-control" size="61">
           </form>
           <form class="form-inline">
             <label for="" style="margin-left:28px;font-size: medium;
                   font-family: Verdana;">Customer Name</label>
-            <input type="text" style="margin-left:10px" [(ngModel)]="cstmrname" #customer name="cstmrname" class="form-control" value="" size="61">
+            <input type="text" style="margin-left:10px" [(ngModel)]="cstmrnamedata" #customer name="cstmrname" class="form-control" value="" size="61">
           </form>
           <form class="form-inline">
             <label for="" style=" margin-left: 15px; font-size: medium; font-family: Verdana;">Lab open status</label>
-            <select id="" [(ngModel)]="LabopenStatus" #labop name="LabopenStatus" class="form-control" style="width:42%;margin-left:26px">
+            <select id="" [(ngModel)]="LabopenStatusdata" #labop name="LabopenStatus" class="form-control" style="width:42%;margin-left:26px">
               <option selected>O-Open</option>
               <option>C-Closed</option>
               <option>S-Sales(Back to Sales)</option>
@@ -268,7 +268,7 @@
           <form class="form-inline">
             <label for="" style="margin-left: 45px;font-size: medium;
           font-family: Verdana;">PDR Status</label>
-            <select id="" [(ngModel)]="PDRStatus" #PdrStatus name="PDRStatus" class="form-control" style="width:42%;margin-left:35px">
+            <select id="" [(ngModel)]="PDRStatusdata" #PdrStatus name="PDRStatus" class="form-control" style="width:42%;margin-left:35px">
               <option selected>N-New</option>
               <option>R-Redirect(customer sending back for enhancements)</option>
               <option>BT-Bulk Transfer(more of the same samples)</option>
@@ -299,10 +299,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let ProductList_search of dataresultLoadpdrlist | filter:PDRno:filterMetadata|
-                    filter:cstmrname:filterMetadata|filter:formulaname:filterMetadata|filter:formulacode:filterMetadata|
-                    filter:submissionno:filterMetadata|filter:PDRStatus:filterMetadata|filter:LabopenStatus:filterMetadata|
-                    filter:UserNamea:filterMetadata; let i=index;" (click)="setvalues(ProductList_search);navpdrvalues();" #conten>
+                <tr *ngFor="let ProductList_search of dataresultLoadpdrlist | filter:PDRnodata:filterMetadata|
+                    filter:cstmrnamedata:filterMetadata|filter:formulanamedata:filterMetadata|filter:formulacodedata:filterMetadata|
+                    filter:submissionnodata:filterMetadata|filter:PDRStatusdata:filterMetadata|filter:LabopenStatusdata:filterMetadata|
+                    filter:UserNameadata:filterMetadata; let i=index;" (click)="setvalues(ProductList_search);navpdrvalues();" #conten>
                   <td class="tabledatasize">{{ProductList_search.PDRNo}}</td>
                   <td width="15%" class="tabledatasize"> {{ProductList_search.CusName}}</td>
                   <td width="15%" class="tabledatasize">{{ProductList_search.Description}} </td>
@@ -363,7 +363,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let PdrbydateList_search of dataresultLoadpdrbydatelist ; let i=index;" (click)="setbydatevalues( PdrbydateList_search);navpdrvalues()" #conten>
+                <tr *ngFor="let PdrbydateList_search of dataresultLoadpdrbydatelist ; let i=index;" (click)="setbydatevalues( PdrbydateList_search);navpdrdatevalues()" #conten>
                   <td class="tabledatasize">{{PdrbydateList_search.PDRNo}}</td>
                   <td class="tabledatasize">{{PdrbydateList_search.PDRDate}}</td>
                   <td width="15%" class="tabledatasize">{{PdrbydateList_search.CusName}}</td>
@@ -492,6 +492,7 @@
           <fieldset class="border p-2">
             <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Enter Disclaimers</legend>
             <div class="form-inline">
+              {{this.Disclaimers}}
             </div>
           </fieldset>
           <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">

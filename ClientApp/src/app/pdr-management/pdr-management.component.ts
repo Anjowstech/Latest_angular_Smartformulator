@@ -93,6 +93,16 @@ export class PdrManagementComponent implements OnInit {
   doc18: string;
   doc19: string;
   doc20: string;
+  savemicrobiology_data: any;
+  olddatamicrobio: any;
+
+  private columnDefs2;
+  private columnDefs1;
+  savechemistry_data: any;
+  DataListbatch: any = [];
+  DataListbatch1: any = [];
+  savechemauditrial: any;
+  olddatachem: any;
   pdrcreationdays1: number;
   formulacreationdays1: number;
   qcapprovaldays1: number;
@@ -458,6 +468,8 @@ export class PdrManagementComponent implements OnInit {
   onRowClick2: any;
   onRowClick3: any;
   constructor(public dialog: MatDialog, private http: HttpClient, fb: FormBuilder, private datashare: DataShareServiceService, public router: Router) {
+    this.columnDefs2 = this.columnDefs1erp;
+    this.columnDefs1 = this.columnDefs1formicrobio;
     this.onRowClick = function (index) {
       if (this.currentRowIndex == index) {
         this.currentRowIndex = -1;
@@ -528,8 +540,9 @@ export class PdrManagementComponent implements OnInit {
     if (this.projectname == undefined || this.projectname == "") {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Save PDR details before adding parameters' } });
     } else {
+      var pdrchemdata: any = [this.pdrno, this.projectname, this.userna];
       const dialogRef = this.dialog.open(NewChemistryParamsComponent, {
-        width: '60%', height: '60%', disableClose: true
+        width: '60%', height: '60%', data: { displaydata: pdrchemdata }, disableClose: true
       });
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
@@ -649,15 +662,55 @@ this.loadformulationsassign = loadformulations
         this.listoutstagegate(this.loadstagegatedata);
       })
 
-      this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
-        console.warn("loadchemdata", loadchemdata)
-        this.datachem = loadchemdata
+      //this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
+      //  console.warn("loadchemdata", loadchemdata)
+      //  this.datachem = loadchemdata
+      //  this.pdrnodata = this.pdrno;
+      //  this.datashare.sendpdrno(this.pdrnodata);
+      //})
+      this.loadchemistryoldgrid(this.pdrno).subscribe((loadchemdataold) => {
+        console.warn("loadchemdataold", loadchemdataold)
+        this.datachem = loadchemdataold
+        if (this.datachem == undefined || this.datachem.length == 0) {
+          this.loadchemistry(this.pdrno).subscribe((loadchemdata) => {
+            console.warn("loadchemdataold", loadchemdata)
+            this.datachem = loadchemdata
+            this.pdrnodata = this.pdrno;
+            this.datashare.sendpdrno(this.pdrnodata);
+          })
+        }
         this.pdrnodata = this.pdrno;
         this.datashare.sendpdrno(this.pdrnodata);
       })
-      this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
-        console.warn("loadmicrobiologydata", loadmicrobiologydata)
-        this.datamicro = loadmicrobiologydata
+      this.loadchemistryoldgrid(this.pdrno).subscribe((loadchemdataold) => {
+        console.warn("loadchemdataold", loadchemdataold)
+        this.olddatachem = loadchemdataold
+        this.pdrnodata = this.pdrno;
+        this.datashare.sendpdrno(this.pdrnodata);
+      })
+      //this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
+      //  console.warn("loadmicrobiologydata", loadmicrobiologydata)
+      //  this.datamicro = loadmicrobiologydata
+      //  this.pdrnodata = this.pdrno;
+      //  this.datashare.sendpdrno(this.pdrnodata);
+      //})
+      this.loadmicrobiologyoldgrid(this.pdrno).subscribe((loadmicrobiodataold) => {
+        console.warn("loadmicrobiodataold", loadmicrobiodataold)
+        this.datamicro = loadmicrobiodataold
+        if (this.datamicro == undefined || this.datamicro.length == 0) {
+          this.loadmicrobiology(this.pdrno).subscribe((loadmicrobiologydata) => {
+            console.warn("loadmicrobiologydata", loadmicrobiologydata)
+            this.datamicro = loadmicrobiologydata
+            this.pdrnodata = this.pdrno;
+            this.datashare.sendpdrno(this.pdrnodata);
+          })
+        }
+        this.pdrnodata = this.pdrno;
+        this.datashare.sendpdrno(this.pdrnodata);
+      })
+      this.loadmicrobiologyoldgrid(this.pdrno).subscribe((loadchemdataold) => {
+        console.warn("loadchemdataold", loadchemdataold)
+        this.olddatamicrobio = loadchemdataold
         this.pdrnodata = this.pdrno;
         this.datashare.sendpdrno(this.pdrnodata);
       })
@@ -1276,12 +1329,294 @@ this.loadformulationsassign = loadformulations
     var filebrowse = files.item.length;
     this.doc20 = files.item(0).name;
   }
+  columnDefs1erp = [
+    {
+      flex: 1,
+      //onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      width: 350,
+      minWidth: 300,
 
+
+
+      maxWidth: 380,
+      headerName: "Claim", field: 'Claim'
+    },
+    {
+      // onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      headerName: "Method",
+
+
+
+      minWidth: 350,
+      maxWidth: 380,
+      field: "Method"
+    },
+
+
+
+
+    {
+      // onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // flex: 1,
+      // resizable: true,
+
+
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      // cellClassRules: cellClassRules,
+      minWidth: 300,
+      maxWidth: 340,
+      headerName: "Limits", field: 'Limits',
+    },
+    {
+      /*onCellDoubleClicked: this.userna,*/
+      // flex: 1,
+      // resizable: true,
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      // cellClassRules: cellClassRules,
+      minWidth: 300,
+      maxWidth: 340,
+      headerName: "Username", field: 'username',
+    },
+  ];
+  columnDefs1formicrobio = [
+    {
+      flex: 1,
+      //onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      width: 350,
+      minWidth: 300,
+
+
+
+      maxWidth: 380,
+      headerName: "Test", field: 'Test'
+    },
+    {
+      // onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // <-- HERE
+      autoHeight: true,
+      editable: true,
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      headerName: "Method",
+
+
+
+      minWidth: 350,
+      maxWidth: 380,
+      field: "Method"
+    },
+
+
+
+
+    {
+      // onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // flex: 1,
+      // resizable: true,
+
+
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+
+
+
+      // cellClassRules: cellClassRules,
+
+
+
+      minWidth: 300,
+      maxWidth: 340,
+
+
+
+      headerName: "Limits", field: 'Limits',
+
+
+
+
+    },
+    {
+      // onCellDoubleClicked: this.Opensearchproducts.bind(this),
+      // flex: 1,
+      // resizable: true,
+
+
+
+      //wrapText: true,     // <-- HERE
+      autoHeight: true,
+      editable: true,
+
+
+
+      cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
+      // cellClassRules: cellClassRules,
+      minWidth: 300,
+      maxWidth: 340,
+      headerName: "Username", field: 'username',
+    },
+  ];
+  setvalueschemistry(chedata: any) {
+    this.i = 0;
+    this.j = 0;
+    for (let search of chedata) {
+      this.DataListbatch1[this.i] = ([{
+        linenumber: "1",
+        test: search.Claim,
+        method: search.Method,
+        limits: search.Limits,
+        username: search.username,
+      }]);
+      this.i++;
+    }
+  }
   savechemistryparamlist() {
-    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Chemistry parameter saved Successfully' } });
+    this.setvalueschemistry(this.datachem);
+    this.compareArray();
+    if (this.olddatachem.length == 0) {
+      var i = 0;
+      this.datachem.forEach(array2Item => {
+        if (array2Item.Limits != "") {
+          var claim: any = array2Item.Claim
+          // console.log("This item not present in array =>", array1Ttem);
+          this.auditchem(array2Item.Limits, claim).subscribe((savechemaudittrial) => {
+            console.warn("savechemaudittrial", savechemaudittrial)
+            this.savechemauditrial = savechemaudittrial
+          })
+        } else {
+        }
+        i++;
+      })
+    }
+    this.savechemistry().subscribe((savechemistry) => {
+      console.warn("savechemistry", savechemistry)
+      this.savechemistry_data = savechemistry
+      if (this.savechemistry_data == "inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Params Saved Successfully' } });
+        this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+          console.warn("loadpdraudittrack", loadpdraudittrack)
+          this.dataloadaudittrackpdr = loadpdraudittrack
+        })
+      }
+    })
+  }
+  setvaluesmicrobiology(microdata: any) {
+    this.i = 0;
+    this.j = 0;
+    for (let search of microdata) {
+      this.DataListbatch[this.i] = ([{
+        linenumber: "1",
+        test: search.Test,
+        method: search.Method,
+        limits: search.Limits,
+        username: search.username,
+      }]);
+      this.i++;
+    }
   }
   savemicrobioparamlist() {
-    this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: ' Micro params saved Successfully' } });
+    this.setvaluesmicrobiology(this.datamicro);
+    this.compareArraymicrobiolodgy();
+    if (this.olddatamicrobio.length == 0) {
+      var i = 0;
+      this.datamicro.forEach(array2Item => {
+        if (array2Item.Limits != "") {
+          var claim: any = array2Item.Test
+          // console.log("This item not present in array =>", array1Ttem);
+          this.auditchemmicrobio1(array2Item.Limits, claim).subscribe((savemicrobioaudittrial) => {
+            console.warn("savemicrobioaudittrial", savemicrobioaudittrial)
+            this.savechemauditrial = savemicrobioaudittrial
+          })
+        } else {
+        }
+        i++;
+      })
+    }
+    this.savemicrobiology().subscribe((savemicrobiology) => {
+      console.warn("savemicrobiology", savemicrobiology)
+      this.savemicrobiology_data = savemicrobiology
+      if (this.savemicrobiology_data == "inserted") {
+        this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Params Saved Successfully' } });
+        this.audittrackloadpdr(this.pdrno).subscribe((loadpdraudittrack) => {
+          console.warn("loadpdraudittrack", loadpdraudittrack)
+          this.dataloadaudittrackpdr = loadpdraudittrack
+        })
+      }
+    })
+  }
+  compareArraymicrobiolodgy() {
+    var datach: string[] = new Array();
+    this.datamicro.forEach(array1Ttem => {
+      datach.push(array1Ttem.Limits);
+    })
+    var i = 0;
+    this.olddatamicrobio.forEach(array2Item => {
+
+
+
+      if (datach[i] == array2Item.Limits) {
+        console.log("It's match", datach);
+      }
+      else {
+        var claim: any = array2Item.Test
+        // console.log("This item not present in array =>", array1Ttem);
+        this.auditchemmicrobio(datach[i], claim).subscribe((savechemaudittrial) => {
+          console.warn("savechemaudittrial", savechemaudittrial)
+          this.savechemauditrial = savechemaudittrial
+        })
+
+
+
+      }
+
+
+
+      i++;
+    })
+  }
+  compareArray() {
+    var datach: string[] = new Array();
+    this.datachem.forEach(array1Ttem => {
+      datach.push(array1Ttem.Limits);
+    })
+    var i = 0;
+    this.olddatachem.forEach(array2Item => {
+      if (datach[i] == array2Item.Limits) {
+        console.log("It's match", datach);
+      }
+      else {
+        var claim: any = array2Item.Claim
+        // console.log("This item not present in array =>", array1Ttem);
+        this.auditchem1(datach[i], claim).subscribe((savechemaudittrial) => {
+          console.warn("savechemaudittrial", savechemaudittrial)
+          this.savechemauditrial = savechemaudittrial
+        })
+      }
+      i++;
+    })
   }
   datestartchangeclick(event) {
     var curr = this.currentDate;
@@ -1885,6 +2220,62 @@ this.loadformulationsassign = loadformulations
         })
       }
     });
+  }
+  auditchem1(Limits, claim) {
+    var pdrno = this.pdrno
+    /*var task1 = Claim;*/
+    var task1 = Limits
+    var task = "Chemistry params: Parameter" + claim + "value" +" "+ task1 +" "+ "is changed."
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('PDRNo', pdrno).set('task', task).set('ProjectName', this.projectname).set('username', this.userna);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/audittrial", { params: params1, responseType: 'text' })
+  }
+  auditchem(Limits, claim) {
+    var pdrno = this.pdrno
+    /*var task1 = Claim;*/
+    var task1 = Limits
+    var task = "Chemistry params: Parameter" + claim + "value" +" "+ task1 +" "+ "is added."
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('PDRNo', pdrno).set('task', task).set('ProjectName', this.projectname).set('username', this.userna);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/audittrial", { params: params1, responseType: 'text' })
+  }
+  savechemistry() {
+    var pdrno = this.pdrno
+    var operation = "chemistry"
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('chejson', datalistraw).set('PDRNo', pdrno).set('operation', operation).set('microjson', micro);
+    return this.http.get("https://formulalookupwebservice17.azurewebsites.net/Save_parms", { params: params1, responseType: 'text' })
+  }
+  savemicrobiology() {
+    var pdrno = this.pdrno
+    var operation = "micro"
+    var datalistraw: any = JSON.stringify(this.DataListbatch);
+    var micro = "";
+    let params1 = new HttpParams().set('chejson', micro).set('PDRNo', pdrno).set('operation', operation).set('microjson', datalistraw);
+    return this.http.get("https://formulalookupwebservice17.azurewebsites.net/Save_parms", { params: params1, responseType: 'text' })
+  }
+  auditchemmicrobio1(Limits, claim) {
+    var pdrno = this.pdrno
+    /*var task1 = Claim;*/
+    var task1 = Limits
+    var task = "Microbiology params: Parameter" +" "+ claim + "value" +" "+ task1 +" "+ "is added."
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('PDRNo', pdrno).set('task', task).set('ProjectName', this.projectname).set('username', this.userna);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/audittrial", { params: params1, responseType: 'text' })
+  }
+  auditchemmicrobio(Limits, claim) {
+    var pdrno = this.pdrno
+    /*var task1 = Claim;*/
+    var task1 = Limits
+    var task = "Microbiology params: Parameter" + claim + "value" +" "+ task1 +" "+ "is changed."
+    var datalistraw: any = JSON.stringify(this.DataListbatch1);
+    var micro = "";
+    let params1 = new HttpParams().set('PDRNo', pdrno).set('task', task).set('ProjectName', this.projectname).set('username', this.userna);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/audittrial", { params: params1, responseType: 'text' })
   }
   loadassignedapprovers(pdrno: string, taskid: string, pjctname: string) {
     var Pdrno = pdrno;
@@ -2491,6 +2882,16 @@ this.loadformulationsassign = loadformulations
     var pdr: string = Pdrno;
     let params1 = new HttpParams().set('PDRNo', pdr);
     return this.http.get("https://smartformulatorpdrwebservice4.azurewebsites.net/stagegatesettings", { params: params1})
+  }
+  loadchemistryoldgrid(Pdrno) {
+    var pdr: string = Pdrno;
+    let params1 = new HttpParams().set('pdrno', pdr);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/PDRchemistryoldgriddata", { params: params1 })
+  }
+  loadmicrobiologyoldgrid(Pdrno) {
+    var pdr: string = Pdrno;
+    let params1 = new HttpParams().set('pdrno', pdr);
+    return this.http.get("https://formulaproductization4.azurewebsites.net/PDRCOAmicroload", { params: params1 })
   }
   loadchemistry(Pdrno) {
     var pdr: string = Pdrno;

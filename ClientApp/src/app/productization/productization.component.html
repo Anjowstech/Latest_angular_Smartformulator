@@ -193,28 +193,28 @@
                                 <dxi-column dataField="" [width]="50"></dxi-column>
                                 <dxi-column dataField="ItemNo"
   [visible]="false"></dxi-column>
-                                <dxi-column dataField="Linenumber" headerCellTemplate="addressHeaderTemplatecheck"></dxi-column>
+                                <dxi-column dataField="Linenumber" [allowEditing]="false" headerCellTemplate="addressHeaderTemplatecheck"></dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplatecheck'">
                                   <b style="color: black">NO.</b>
                                 </div>
-                                <dxi-column dataField="Image" headerCellTemplate="addressHeaderTemplateimage"></dxi-column>
+                                <dxi-column [allowEditing]="false" dataField="Image" headerCellTemplate="addressHeaderTemplateimage"></dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplateimage'">
                                   <b style="color: black">Image</b>
                                 </div>
-                                <dxi-column dataField="ComponentItemNo" headerCellTemplate="addressHeaderTemplatecomponent"></dxi-column>
+                                <dxi-column [allowEditing]="false" dataField="ComponentItemNo" headerCellTemplate="addressHeaderTemplatecomponent"></dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplatecomponent'">
                                   <b style="color: black">Component Item #</b>
                                 </div>
-                                <dxi-column dataField="ComponentName" headerCellTemplate="addressHeaderTemplatename"></dxi-column>
+                                <dxi-column [allowEditing]="false" dataField="ComponentName" headerCellTemplate="addressHeaderTemplatename"></dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplatename'">
                                   <b style="color: black">Component Name</b>
                                 </div>
-                                <dxi-column dataField="Specification" headerCellTemplate="addressHeaderTemplatespecs"></dxi-column>
+                                <dxi-column [allowEditing]="false" dataField="Specification" headerCellTemplate="addressHeaderTemplatespecs"></dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplatespecs'">
                                   <b style="color: black">Specs</b>
                                 </div>
 
-                                <dxi-column dataField="Size" headerCellTemplate="addressHeaderTemplatesize" [allowEditing]="false"></dxi-column>
+                                <dxi-column  dataField="Size" headerCellTemplate="addressHeaderTemplatesize" [allowEditing]="false"></dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplatesize'">
                                   <b style="color: black">Size</b>
                                 </div>
@@ -230,7 +230,7 @@
                                 <div *dxTemplate="let info of 'addressHeaderTemplatebom'">
                                   <b style="color: black">BOM Multiplier</b>
                                 </div>
-                                <dxi-column dataField="Comp"   headerCellTemplate="addressHeaderTemplatecomp">COMP Search</dxi-column>
+                                <dxi-column dataField="Comp"  [allowEditing]="false" headerCellTemplate="addressHeaderTemplatecomp">COMP Search</dxi-column>
                                 <div *dxTemplate="let info of 'addressHeaderTemplatecomp'">
                                   <b style="color: black">COMP Search</b>
                                   

@@ -111,7 +111,7 @@ export class ProductizationComponent implements OnInit {
   japan: any = '';
   australia: any = '';
   china: any = '';
-  Prdnotes: any = '';
+  Prdnotes: string = "";
   casnumber: any = '';
   einecsnumber: any = '';
   fillsize: any = '';
@@ -173,7 +173,7 @@ export class ProductizationComponent implements OnInit {
 
   DataListpackage: any = [];
     package_save_data: any;
-    productpack: any;
+  productpack: string="";
     bindproductpip_data: any;
   bindBOMaudit_data: any;
     bindCMO_data: any;
@@ -351,7 +351,7 @@ export class ProductizationComponent implements OnInit {
       this.ppload(this.productcode).subscribe((ppload) => {
         console.warn("ppload", ppload)
         this.pp_data = ppload
-        this.PPdata(this.pp_data)
+       // this.PPdata(this.pp_data)
       })
 
 
@@ -1192,7 +1192,7 @@ export class ProductizationComponent implements OnInit {
       Japandoc: this.japan,
       Ausdoc: this.australia,
       Chinadoc: this.china,
-      Notes: this.Prdnotes,
+      Notes: "",
       CASNo: this.casnumber,
       EinecsNo: this.einecsnumber,
       FillSize: this.fillsize,
@@ -1238,8 +1238,15 @@ export class ProductizationComponent implements OnInit {
     }]);
 
     this.setvaluesproductbatch(this.dataprodbatch);
-    this.setvaluespcc(this.datapcc);
-    this.objectnumber(this.datapcc);
+    this.setvaluesproductbatch(this.dataprodbatch);
+    if (this.datapcc == null) {
+
+
+
+    } else {
+      this.setvaluespcc(this.datapcc);
+      this.objectnumber(this.datapcc);
+    }
     this.setvaluespackage(this.data_product);
 
     this.productization_update().subscribe((productization_update) => {
@@ -1350,7 +1357,7 @@ export class ProductizationComponent implements OnInit {
         Japandoc: this.japan,
         Ausdoc: this.australia,
         Chinadoc: this.china,
-        Notes: this.Prdnotes,
+        Notes: "",
         CASNo: this.casnumber,
         EinecsNo: this.einecsnumber,
         FillSize: this.fillsize,

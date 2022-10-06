@@ -13,6 +13,11 @@ import { UnapprovedRawmaterialComponent } from 'src/app/sample-management/unappr
 import { SearchSubmissionComponent } from 'src/app/sample-management/search-submission/search-submission.component';
 import { PDRListSearchComponent } from 'src/app/sample-management/pdrlist-search/pdrlist-search.component'
 import { SearchFormulalistComponent } from 'src/app/sample-management/search-formulalist/search-formulalist.component';
+//import { ReportViewerComponent } from 'src/app/reportviewer/report-viewer';
+//import { ReportDesignerComponent } from 'src/app/reportdesigner/report-designer';
+
+
+
 
 @Component({
   selector: 'app-sample-management',
@@ -30,7 +35,7 @@ export class SampleManagementComponent implements OnInit {
   ProjectName: string = '';
   Pdrdata: string = '';
   CusNamedata: string = '';
-  PDRStatus: string = '';
+  PDRStatus: string = 'A-Approved';
   Descriptiondata: string = '';
   samplesubmissionno: string = '';
   username: string = 'admin';
@@ -222,7 +227,7 @@ export class SampleManagementComponent implements OnInit {
   length: any;
   nextsampleno: any;
   countrecords: any;
-  LabopenStatus: string = "";
+  LabopenStatus: string = "O-Open";
   Samplesubmission: any;
   doc1: string = "";
   doc2: string = "";
@@ -237,7 +242,16 @@ export class SampleManagementComponent implements OnInit {
   btnupdate: boolean = false;
   active: string;
   searchpdritems: string[];
-    ApprovedComments: string;
+  ApprovedComments: string;
+  PDRnodata: any;
+  cstmrnamedata: any;
+  formulanamedata: any;
+  formulacodedata: any;
+  submissionnodata: any;
+  LabopenStatusdata: any;
+  UserNameadata: any;
+  viewer: any;
+  searchpdrdateitems: any[];
 
 
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) { }
@@ -302,12 +316,12 @@ export class SampleManagementComponent implements OnInit {
       this.PDRDate = formatDate((result[4]), 'yyyy-MM-dd', 'en-US');
       this.CusCode = result[3];
 
-      this.LoadCustomer().subscribe((resultLoadCustomer) => {
-        this.isLoading = false;
-        console.warn("resultLoadCustomer", resultLoadCustomer)
-        this.dataresultLoadCustomer = resultLoadCustomer
-        this.customerdata(this.dataresultLoadCustomer)
-      })
+      //this.LoadCustomer().subscribe((resultLoadCustomer) => {
+      //  this.isLoading = false;
+      //  console.warn("resultLoadCustomer", resultLoadCustomer)
+      //  this.dataresultLoadCustomer = resultLoadCustomer
+      //  this.customerdata(this.dataresultLoadCustomer)
+      //})
     });
 
   }
@@ -357,7 +371,6 @@ export class SampleManagementComponent implements OnInit {
       this.custmrkey = item.CustomerKey;
       this.saddress = item.SAddress;
       this.semail = item.SEmail;
-
       this.FillingAttachment = item.FillingAttachment;
       this.FillingAttachment2 = item.FillingAttachment2;
       this.LabelAttachment = item.LabelAttachment;
@@ -407,27 +420,47 @@ export class SampleManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       this.submissionno = result[0];
-      this.PDRno = result[4];
-      this.cstmrname = result[2];
-      this.formulacode = result[1];
-      this.formulaname = result[9];
-      this.PDRStatus = result[8];
-      this.LabopenStatus = result[3];
-      this.duedate = formatDate((result[6]), 'yyyy-MM-dd', 'en-US');
+      this.PDRno = result[1];
+      this.cstmrname = result[5];
+      this.formulacode = result[7];
+      this.formulaname = result[8];
+      this.PDRStatus = result[9];
+      this.LabopenStatus = result[10];
+      this.PDRDate = formatDate((result[2]), 'yyyy-MM-dd', 'en-US');
+      this.CusCode = result[6];
+      this.duedate = formatDate((result[3]), 'yyyy-MM-dd', 'en-US');
       this.ApprovedDate = result[7];
-      this.PDRDate = formatDate((result[5]), 'yyyy-MM-dd', 'en-US');
+      this.REP = result[11];
+      this.qty = result[12];
+      this.unit = result[13];
+      this.Price = result[14];
+      this.Priority = result[15];
+      this.Purpose = result[16];
+      this.noofpieces = result[17];
+      this.Approved = result[18];
+      this.ApprovedBy = result[19];
+      this.Fax = result[20];
+      this.FaxPerson = result[21];
+      this.ReportComments = result[22];
+      this.ApprovedComments = result[23];
+      this.PersonTitle = result[24];
+      this.CustomerComments = result[25];
+      this.cc1 = result[26];
+      this.cc2 = result[27];
+      this.cc3 = result[28];
+      this.Disclaimers = result[29];
 
-
-      this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
-        console.warn("resultLoadsampleaudit", resultLoadsampleaudit)
-        this.dataresultLoadsampleaudit = resultLoadsampleaudit
-      })
       this.LoadCustomer().subscribe((resultLoadCustomer) => {
         this.isLoading = false;
         console.warn("resultLoadCustomer", resultLoadCustomer)
         this.dataresultLoadCustomer = resultLoadCustomer
         this.customerdata(this.dataresultLoadCustomer)
       })
+      this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
+        console.warn("resultLoadsampleaudit", resultLoadsampleaudit)
+        this.dataresultLoadsampleaudit = resultLoadsampleaudit
+      })
+
 
       this.Loadunapproverawmatlist().subscribe((resultLoadunapproverawmatlist) => {
         this.isLoading = false;
@@ -491,16 +524,45 @@ export class SampleManagementComponent implements OnInit {
   }
 
   setvalues(ProductList_search) {
-    this.PDRno = ProductList_search.PDRNo;
-    this.cstmrname = ProductList_search.CusName;
-    this.formulaname = ProductList_search.Description;
-    this.formulacode = ProductList_search.FormulaCode;
-    this.submissionno = ProductList_search.SubmissionNo;
-    this.PDRStatus = ProductList_search.PDRStatus;
-    this.LabopenStatus = ProductList_search.LabOpenStatus;
-    this.UserNamea = ProductList_search.UserName;
-    this.searchpdritems = [this.PDRno, this.cstmrname, this.formulaname, this.formulacode, this.submissionno,
-    this.PDRStatus, this.LabopenStatus, this.UserNamea]
+    this.PDRnodata = ProductList_search.PDRNo;
+    this.cstmrnamedata = ProductList_search.CusName;
+    this.formulanamedata = ProductList_search.Description;
+    this.formulacodedata = ProductList_search.FormulaCode;
+    this.submissionnodata = ProductList_search.SubmissionNo;
+    this.PDRStatusdata = ProductList_search.PDRStatus;
+    this.LabopenStatusdata = ProductList_search.LabOpenStatus;
+    this.UserNameadata = ProductList_search.UserName;
+    this.ApprovedDate = ProductList_search.ApprovedDate;
+    this.DueDate = ProductList_search.DueDate;
+    this.REP = ProductList_search.REP;
+    this.qty = ProductList_search.Qty;
+    this.unit = ProductList_search.Unit;
+    this.Price = ProductList_search.Price;
+    this.Priority = ProductList_search.Priority;
+    this.Purpose = ProductList_search.Purpose;
+    this.noofpieces = ProductList_search.noofpieces;
+    this.Approved = ProductList_search.Approved;
+    this.ApprovedBy = ProductList_search.ApprovedBy;
+    this.Fax = ProductList_search.Fax;
+    this.FaxPerson = ProductList_search.FaxPerson;
+    this.ReportComments = ProductList_search.ReportComments;
+    this.ApprovedComments = ProductList_search.ApprovedComments;
+    this.PersonTitle = ProductList_search.PersonTitle;
+    this.CustomerComments = ProductList_search.CustomerComments;
+    this.cc1 = ProductList_search.cc1;
+    this.cc2 = ProductList_search.cc2;
+    this.cc3 = ProductList_search.cc3;
+    this.Disclaimers = ProductList_search.Disclaimers;
+
+
+    this.searchpdritems = [this.PDRnodata, this.cstmrnamedata, this.formulanamedata, this.formulacodedata, this.submissionnodata,
+    this.PDRStatusdata, this.LabopenStatusdata, this.UserNameadata, this.DueDate,
+    this.ApprovedDate, this.REP, this.qty, this.unit, this.Price, this.Priority,
+    this.Purpose, this.noofpieces, this.Approved, this.ApprovedBy, this.Fax, this.FaxPerson, this.ReportComments,
+    this.ApprovedComments, this.PersonTitle, this.CustomerComments, this.cc1, this.cc2, this.cc3, this.Disclaimers]
+    this.Datashare.sendpdrlist(this.searchpdritems);
+
+
   }
   close() {
 
@@ -508,17 +570,45 @@ export class SampleManagementComponent implements OnInit {
 
   }
   setbydatevalues(PdrbydateList_search) {
-    this.PDRno = PdrbydateList_search.PDRNo;
+
+    this.PDRnodata = PdrbydateList_search.PDRNo;
     this.Pdrdate = PdrbydateList_search.PDRDate;
-    this.cstmrname = PdrbydateList_search.CusName;
-    this.formulaname = PdrbydateList_search.Description;
-    this.formulacode = PdrbydateList_search.FormulaCode;
-    this.submissionno = PdrbydateList_search.SubmissionNo;
-    this.PDRStatus = PdrbydateList_search.PDRStatus;
-    this.LabopenStatus = PdrbydateList_search.LabOpenStatus;
-    this.UserNamea = PdrbydateList_search.UserName;
-    this.searchpdritems = [this.PDRno, this.Pdrdate, this.cstmrname, this.formulaname, this.formulacode, this.submissionno,
-    this.PDRStatus, this.LabopenStatus, this.UserNamea]
+    this.cstmrnamedata = PdrbydateList_search.CusName;
+    this.formulanamedata = PdrbydateList_search.Description;
+    this.formulacodedata = PdrbydateList_search.FormulaCode;
+    this.submissionnodata = PdrbydateList_search.SubmissionNo;
+    this.PDRStatusdata = PdrbydateList_search.PDRStatus;
+    this.LabopenStatusdata = PdrbydateList_search.LabOpenStatus;
+    this.UserNameadata = PdrbydateList_search.UserName;
+    this.ApprovedDate = PdrbydateList_search.ApprovedDate;
+    this.DueDate = PdrbydateList_search.DueDate;
+    this.REP = PdrbydateList_search.REP;
+    this.qty = PdrbydateList_search.Qty;
+    this.unit = PdrbydateList_search.Unit;
+    this.Price = PdrbydateList_search.Price;
+    this.Priority = PdrbydateList_search.Priority;
+    this.Purpose = PdrbydateList_search.Purpose;
+    this.noofpieces = PdrbydateList_search.noofpieces;
+    this.Approved = PdrbydateList_search.Approved;
+    this.ApprovedBy = PdrbydateList_search.ApprovedBy;
+    this.Fax = PdrbydateList_search.Fax;
+    this.FaxPerson = PdrbydateList_search.FaxPerson;
+    this.ReportComments = PdrbydateList_search.ReportComments;
+    this.ApprovedComments = PdrbydateList_search.ApprovedComments;
+    this.PersonTitle = PdrbydateList_search.PersonTitle;
+    this.CustomerComments = PdrbydateList_search.CustomerComments;
+    this.cc1 = PdrbydateList_search.cc1;
+    this.cc2 = PdrbydateList_search.cc2;
+    this.cc3 = PdrbydateList_search.cc3;
+    this.Disclaimers = PdrbydateList_search.Disclaimers;
+
+
+    this.searchpdrdateitems = [this.PDRnodata, this.Pdrdate, this.cstmrnamedata, this.formulanamedata, this.formulacodedata, this.submissionnodata,
+    this.PDRStatusdata, this.LabopenStatusdata, this.UserNameadata, this.DueDate,
+    this.ApprovedDate, this.REP, this.qty, this.unit, this.Price, this.Priority,
+    this.Purpose, this.noofpieces, this.Approved, this.ApprovedBy, this.Fax, this.FaxPerson, this.ReportComments,
+    this.ApprovedComments, this.PersonTitle, this.CustomerComments, this.cc1, this.cc2, this.cc3, this.Disclaimers]
+    this.Datashare.sendpdrdatelist(this.searchpdrdateitems);
   }
   closedate() {
 
@@ -531,7 +621,13 @@ export class SampleManagementComponent implements OnInit {
 
   }
   LoadPDRDate() {
-
+    if (this.dtpPDRFromDate > this.dtpPDRToDate) {
+      this.dialog.open(MessageBoxComponent, {
+        width: '40%', height: '15%', data: {
+          displaydata: "From date should be equal to or less than to date."
+        }
+      });
+    }
     //this.Loadpdrbydatelist(this.dtpPDRFromDate, this.dtpPDRToDate);
     this.Loadpdrbydatelist(this.dtpPDRFromDate, this.dtpPDRToDate).subscribe((resultLoadpdrbydatelist) => {
       this.isLoading = false;
@@ -572,7 +668,7 @@ export class SampleManagementComponent implements OnInit {
   SaveSampleClick() {
     var FormulaCode1: string = this.formulacode;
     var PDRr: string = this.PDRno;
-    var Customername1: string = this.cstmrname;
+    var Customername1: string = this.CusCode;
     var samplesubmissionno1: string = this.submissionno;
     var username1: string = this.username;
     var formulaname1: string = this.formulaname;
@@ -655,7 +751,7 @@ export class SampleManagementComponent implements OnInit {
     ).subscribe((SaveSamplesubmission) => {
       console.warn("SaveSamplesubmission", SaveSamplesubmission)
       this.SaveSamplesubmission = SaveSamplesubmission
-      if (this.PDRStatus == "A-Approved" && this.SaveSamplesubmission == "Please APPROVE the formula and submit the sample") {
+      if (this.SaveSamplesubmission == "Please APPROVE the formula and submit the sample") {
         this.dialog.open(MessageBoxComponent, {
           width: '40%', height: '15%', data: {
             displaydata: "Please APPROVE the formula and submit the sample."
@@ -697,16 +793,25 @@ export class SampleManagementComponent implements OnInit {
 
       else if (this.SaveSamplesubmission == "Sample management status Approved successfully." && this.PDRStatus == "A-Approved" || this.PDRStatus == "AW-Approved-ON WAIVER") {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Sample management status Approved successfully." } });
-
+        this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
+          console.warn("resultLoadsampleaudit", resultLoadsampleaudit)
+          this.dataresultLoadsampleaudit = resultLoadsampleaudit
+        })
       }
       else if (this.SaveSamplesubmission == "Sample management status Rejected successfully." && this.PDRStatus == "R-Rejected") {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Sample management status Rejected successfully." } });
-
+        this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
+          console.warn("resultLoadsampleaudit", resultLoadsampleaudit)
+          this.dataresultLoadsampleaudit = resultLoadsampleaudit
+        })
       }
 
       else if (this.SaveSamplesubmission == "Sample management details updated successfully.") {
         this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Sample management details updated successfully." } });
-
+        this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
+          console.warn("resultLoadsampleaudit", resultLoadsampleaudit)
+          this.dataresultLoadsampleaudit = resultLoadsampleaudit
+        })
 
       }
       else if (this.SaveSamplesubmission == "Sample submission is saved successfully.") {
@@ -721,7 +826,10 @@ export class SampleManagementComponent implements OnInit {
             displaydata: "Sample submission#: " + this.submissionno + "is saved successfully."
           }
         });
-
+        this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
+          console.warn("resultLoadsampleaudit", resultLoadsampleaudit)
+          this.dataresultLoadsampleaudit = resultLoadsampleaudit
+        })
       }
       else if (this.SaveSamplesubmission) {
 
@@ -790,6 +898,17 @@ export class SampleManagementComponent implements OnInit {
 
   }
 
+  clearpdr() {
+    this.PDRnodata = '';
+    this.cstmrnamedata = '';
+    this.formulanamedata = '';
+    this.formulacodedata = '';
+    this.submissionnodata = '';
+    this.PDRStatusdata = '';
+    this.LabopenStatusdata = '';
+    this.UserNameadata = '';
+  }
+
   ClearData() {
 
     this.btnstate = false;
@@ -805,14 +924,14 @@ export class SampleManagementComponent implements OnInit {
     this.formulaname = '';
     this.PDRno = '';
     this.cstmrname = '';
-    this.submissionno = '';
+    this.submissionno = this.Samplesubmission;
     this.Pdrdata = '';
     this.CusNamedata = '';
     this.Descriptiondata = '';
     this.SubmissionNum = '';
     this.PDRStatusdata = '';
-    this.PDRStatus = '';
-    this.LabopenStatus = '';
+    this.PDRStatus = 'N-New';
+    this.LabopenStatus = 'O-Open';
     this.REP = '',
       this.ReportComments = '',
       this.approvecmd = '',
@@ -858,6 +977,7 @@ export class SampleManagementComponent implements OnInit {
     this.cc1 = '';
     this.cc2 = '';
     this.cc3 = '';
+    this.Fax = '';
     this.dataresultLoadsampleaudit = '';
   }
 
@@ -879,42 +999,96 @@ export class SampleManagementComponent implements OnInit {
     }
   }
 
-  navpdrdatelist() {
-    this.searchpdritems = [this.PDRno, this.Pdrdate, this.cstmrname, this.formulaname, this.formulacode, this.submissionno,
-    this.PDRStatus, this.LabopenStatus, this.UserNamea]
-    this.Datashare.sendpdrlist(this.searchpdritems);
 
-  }
-
-  navpdrlist() {
-    this.searchpdritems = [this.PDRno, this.cstmrname, this.formulaname, this.formulacode, this.submissionno,
-    this.PDRStatus, this.LabopenStatus, this.UserNamea]
-    this.Datashare.sendpdrlist(this.searchpdritems);
-
-  }
-
-  navpdrvalues() {
+  navpdrdatevalues() {
     this.active = "1";
+
+    this.btnstate = true;
+    this.dateactionmethod();
+    this.searchpdrdateitems = this.Datashare.getpdrdatelist();
+    console.log(this.searchpdritems)
+    this.formulacode = this.searchpdrdateitems[4];
+    this.formulaname = this.searchpdrdateitems[3];
+    this.PDRno = this.searchpdrdateitems[0];
+    this.cstmrname = this.searchpdrdateitems[2];
+    this.submissionno = this.searchpdrdateitems[4];
+    this.PDRStatus = this.searchpdrdateitems[6];
+    this.LabopenStatus = this.searchpdrdateitems[7];
+    this.username = this.searchpdrdateitems[8];
+    this.PDRDate = formatDate((this.searchpdrdateitems[1]), 'yyyy-MM-dd', 'en-US');
+    this.duedate = formatDate((this.searchpdrdateitems[9]), 'yyyy-MM-dd', 'en-US');
+    this.ApprovedDate = this.searchpdrdateitems[10];
+    this.REP = this.searchpdrdateitems[11];
+    this.qty = this.searchpdrdateitems[12];
+    this.unit = this.searchpdrdateitems[13];
+    this.Price = this.searchpdrdateitems[14];
+    this.Priority = this.searchpdrdateitems[15];
+    this.Purpose = this.searchpdrdateitems[16];
+    this.noofpieces = this.searchpdrdateitems[17];
+    this.Approved = this.searchpdrdateitems[18];
+    this.ApprovedBy = this.searchpdrdateitems[19];
+    this.Fax = this.searchpdrdateitems[20];
+    this.FaxPerson = this.searchpdrdateitems[21];
+    this.ReportComments = this.searchpdrdateitems[22];
+    this.ApprovedComments = this.searchpdrdateitems[23];
+    this.PersonTitle = this.searchpdrdateitems[24];
+    this.CustomerComments = this.searchpdrdateitems[25];
+    this.cc1 = this.searchpdrdateitems[26];
+    this.cc2 = this.searchpdrdateitems[27];
+    this.cc3 = this.searchpdrdateitems[28];
+    this.Disclaimers = this.searchpdrdateitems[29];
     this.LoadCustomer().subscribe((resultLoadCustomer) => {
       this.isLoading = false;
       console.warn("resultLoadCustomer", resultLoadCustomer)
       this.dataresultLoadCustomer = resultLoadCustomer
       this.customerdata(this.dataresultLoadCustomer)
     })
+
+  }
+
+  navpdrvalues() {
+    this.active = "1";
+
     this.btnstate = true;
     this.dateactionmethod();
     this.searchpdritems = this.Datashare.getpdrlist();
     console.log(this.searchpdritems)
-    //this.formulacode = this.searchpdritems[0];
-    //this.formulaname = this.searchpdritems[1];
-    //this.PDRno = this.searchpdritems[2];
-    //this.cstmrname = this.searchpdritems[3];
-    //this.submissionno = this.searchpdritems[4];
-    //this.PDRStatus = this.searchpdritems[5];
-    //this.LabopenStatus = this.searchpdritems[6];
-    //this.username = this.searchpdritems[7];
+    this.formulacode = this.searchpdritems[3];
+    this.formulaname = this.searchpdritems[2];
+    this.PDRno = this.searchpdritems[0];
+    this.cstmrname = this.searchpdritems[1];
+    this.submissionno = this.searchpdritems[4];
+    this.PDRStatus = this.searchpdritems[5];
+    this.LabopenStatus = this.searchpdritems[6];
+    this.username = this.searchpdritems[7];
+    this.duedate = formatDate((this.searchpdritems[9]), 'yyyy-MM-dd', 'en-US');
+    this.ApprovedDate = this.searchpdritems[10];
+    this.REP = this.searchpdritems[11];
+    this.qty = this.searchpdritems[12];
+    this.unit = this.searchpdritems[13];
+    this.Price = this.searchpdritems[14];
+    this.Priority = this.searchpdritems[15];
+    this.Purpose = this.searchpdritems[16];
+    this.noofpieces = this.searchpdritems[17];
+    this.Approved = this.searchpdritems[18];
+    this.ApprovedBy = this.searchpdritems[19];
+    this.Fax = this.searchpdritems[20];
+    this.FaxPerson = this.searchpdritems[21];
+    this.ReportComments = this.searchpdritems[22];
+    this.ApprovedComments = this.searchpdritems[23];
+    this.PersonTitle = this.searchpdritems[24];
+    this.CustomerComments = this.searchpdritems[25];
+    this.cc1 = this.searchpdritems[26];
+    this.cc2 = this.searchpdritems[27];
+    this.cc3 = this.searchpdritems[28];
+    this.Disclaimers = this.searchpdritems[29];
 
-    
+    this.LoadCustomer().subscribe((resultLoadCustomer) => {
+      this.isLoading = false;
+      console.warn("resultLoadCustomer", resultLoadCustomer)
+      this.dataresultLoadCustomer = resultLoadCustomer
+      this.customerdata(this.dataresultLoadCustomer)
+    })
   }
 
 
@@ -939,7 +1113,12 @@ export class SampleManagementComponent implements OnInit {
 
   dateactionmethod() {
 
-    if (this.PDRStatus == "A-Approved" || "AW-Approved-ON WAIVER") {
+    if (this.PDRStatus == "A-Approved") {
+
+      this.datedisabled = true;
+
+    }
+    if (this.PDRStatus == "AW-Approved-ON WAIVER") {
 
       this.datedisabled = true;
 
@@ -996,12 +1175,27 @@ export class SampleManagementComponent implements OnInit {
       });
     }
   }
+  samplereport() {
+
+    this.viewer.bindingSender.OpenReport("TestReport")
+    //const dialogRef = this.dialog.open(ReportViewerComponent, {
+    //  width: '80%', height: '90%', disableClose: true
+
+    //});
+  }
+
+  pdrlistclik() {
+    if (this.active = "3") {
+      this.clearpdr();
+    }
+  }
+
 
 
   ngOnInit() {
 
-   // this.PDRStatus = 'N-New';
-   // this.LabopenStatus = 'O-Open';
+    this.PDRStatus = 'N-New';
+    this.LabopenStatus = 'O-Open';
 
     this.btnactionMethod();
 
@@ -1039,12 +1233,7 @@ export class SampleManagementComponent implements OnInit {
       this.countrecords = this.dataresultLoadpdrlist.length
 
     })
-    this.LoadCustomer().subscribe((resultLoadCustomer) => {
-      this.isLoading = false;
-      console.warn("resultLoadCustomer", resultLoadCustomer)
-      this.dataresultLoadCustomer = resultLoadCustomer
-      this.customerdata(this.dataresultLoadCustomer)
-    })
+
 
     this.Loadsampleaudit(this.submissionno).subscribe((resultLoadsampleaudit) => {
       console.warn("resultLoadsampleaudit", resultLoadsampleaudit)

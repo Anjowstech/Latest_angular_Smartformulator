@@ -54,7 +54,7 @@ export class DataShareServiceService {
   Phystabilitylist: string[];
   producttestlist: string[];
   clientid: string;
-
+  searchpdrdateitems: any;
   sendproductdetails(productvalues: string[]) {
     this.productlist = productvalues
   }
@@ -166,6 +166,7 @@ export class DataShareServiceService {
 
 
   }
+  
   addItem1(item: string, item1: string, item2: string, item3: string, item4: string, item5: string, item6: string, item7: string, item8: string) {
     this.itemvalue = item
     this.itemvalue1 = item1
@@ -179,6 +180,15 @@ export class DataShareServiceService {
 
 
 
+  }
+  
+
+  sendpdrdatelist(listvalues: string[]) {
+    this.searchpdrdateitems = listvalues
+  }
+  
+  getpdrdatelist(): any {
+    return this.searchpdrdateitems;
   }
   //DatashareTempPass(itempass: string) {
   //  this.Temppass = itempass

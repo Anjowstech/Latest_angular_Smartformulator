@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var testing_1 = require("@angular/core/testing");
-var pdrlist_search_component_1 = require("./pdrlist-search.component");
-describe('PDRListSearchComponent', function () {
+var search_submission_component_1 = require("./search-submission.component");
+describe('SearchSubmissionComponent', function () {
     var component;
     var fixture;
     beforeEach(testing_1.async(function () {
         testing_1.TestBed.configureTestingModule({
-            declarations: [pdrlist_search_component_1.PDRListSearchComponent]
+            declarations: [search_submission_component_1.SearchSubmissionComponent]
         })
             .compileComponents();
     }));
     beforeEach(function () {
-        fixture = testing_1.TestBed.createComponent(pdrlist_search_component_1.PDRListSearchComponent);
+        fixture = testing_1.TestBed.createComponent(search_submission_component_1.SearchSubmissionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -20,4 +20,4 @@ describe('PDRListSearchComponent', function () {
         expect(component).toBeTruthy();
     });
 });
-//# sourceMappingURL=pdrlist-search.component.spec.js.map
+//# sourceMappingURL=search-submission.component.spec.js.map
