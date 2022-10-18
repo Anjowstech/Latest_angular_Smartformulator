@@ -1,0 +1,644 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:86vh;width:100%">
+    <h2 style="   font-family: Playfair Display;    background-color: #f6f5f1; color: black; text-align:center">CAS Lookup</h2>
+    <form style="background-color: #f6f5f1">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+
+          <div class="form-inline">
+            <label class="label1" for="cas Name" style="margin-top: 10px;">CAS No</label>
+            <input type="text" style="margin-top:10px;margin-left:10px;margin-bottom:10px;width:50%" class="form-control" placeholder="" id="casno" [(ngModel)]="casno" name="cas" value="" matTooltip="CAS No" matTooltipClass="mat-tooltip"
+                   matTooltipPosition="above">
+
+            <!--<span class="tooltip">CAS No</span>-->
+            <!--<a href="#" alt="CAS No" class="tooltip">
+              <input id="casno" type="text" />
+            </a>-->
+            <!--<span class="text-danger" style=" width:15%" *ngIf="login_form.controls['incinam'].hasError('required') && (login_form.controls['incinam'].dirty || login_form.controls['incinam'].touched)">*</span>-->
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;width:10%" (click)="OpenSearchCAS()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;margin-left:1%;  width:10%" (click)="ClearData();">Clear</button>
+          </div>
+          <div class="form-inline">
+            <label class="label1" for="cas Name" style="margin-left: 5%;">Format:NNNNNN-NN-N</label>
+          </div>
+          <div class="form-inline">
+            <label class="label1" for="RM item">Description</label>
+            <input type="text" style="margin-left:10px;width:50%" class="form-control" placeholder="" id="desc" [(ngModel)]="description" name="descr" value="">
+            <!--<span class="text-danger" style=" width:5%" *ngIf="login_form.controls['rmitem'].hasError('required') && (login_form.controls['rmitem'].dirty || login_form.controls['rmitem'].touched)">*</span>-->
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;width:10%" (click)="OpenSearchCAS()">Search</button>
+          </div>
+          <div class="form-inline">
+
+            <label class="label1" for="project_name">Additional Cas No</label>
+            <input type="text" style="margin-top:10px;margin-left:10px;width:25%" class="form-control" placeholder="" id="addcas" [(ngModel)]="AdditionalCasNo" name="adcasno" value="" formControlName="supkey">
+
+            <label class="label1" for="project_name">EINECS/ELINCS No</label>
+            <input type="text" style="margin-top:10px;margin-left:10px;width:25%" class="form-control" placeholder="" id="ein" [(ngModel)]="einecs" name="elinc" value="">
+            <button type="submit" class="btn btn-primary buttoncolor " style="float: right; margin-left:10px;width:10%" (click)="OpenSearchCAS()">Search</button>
+          </div>
+          <div class="form-inline">
+            <label class="label1" for="project_name">Synonyms</label>
+            <input type="text" class="form-control" placeholder="" id="syn" [(ngModel)]="synonym" name="synm" value="" style="margin-top: 10px; margin-left: 10px; width: 50%">
+            <button type="submit" class="btn btn-primary buttoncolor " style="float:right;width:10%" (click)="OpenSearchCAS2()">Search</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="">
+        <a class="tabcolor tabbutto tabrowli textsize  " ngbNavLink>General</a>
+        <ng-template ngbNavContent>
+
+          <div class="form-inline" style="margin-top:1%">
+            <label class="label1" style="margin-left:3%;" for="inputcust">Synonyms</label>
+            <input style="margin-left: 10px;width: 40%;" type="text" class="form-control" id="synym1" [(ngModel)]="synonym1" name="synm1" value="">
+            <input style="margin-left: 10px;width: 40%;" type="text" class="form-control" id="synym2" [(ngModel)]="synonym2" name="synm2" value="">
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <input style="margin-left:12%;width: 40%;" type="text" class="form-control" id="synym3" [(ngModel)]="synonym3" name="synm3" value="">
+            <input style="margin-left: 10px;width: 40%;" type="text" class="form-control" id="synym4" [(ngModel)]="synonym4" name="synm4" value="">
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <input style="margin-left:12%;width: 40%;" type="text" class="form-control" id="synym5" [(ngModel)]="synonym5" name="synm5" value="">
+            <input style="margin-left: 10px;width: 40%;" type="text" class="form-control" id="synym6" [(ngModel)]="synonym6" name="synm6" value="">
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <label class="label1" style="margin-left:3.5%;" for="inputcust">Web Address</label>
+            <select id="web" class="form-control" style="width:70%;" [(ngModel)]="WebAddress" (change)="setlabatchchange($event)" value="">
+              <option *ngFor="let itemunit of labbatchno_data">{{itemunit.LabBatchNo}}</option>
+              <option>www.chemidex.com</option>
+              <option>www.cas.org</option>
+              <option>www.ctfa.org</option>
+              <option>www.personalcarecouncil.org</option>
+              <option>www.chemspider.com</option>
+              <option>www.spectrumchemical.com</option>
+            </select>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width: 10%" (click)="opensearchinciname()">Open</button>
+            <!--<input style="margin-left: 10px;width: 40%;" type="text" class="form-control" id="data1" [(ngModel)]="MSDSPath" name="msdspa" value="">-->
+
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <label class="label1" style="margin-left:3%;" for="inputcust">MSDS Path</label>
+            <input style="margin-left: 10px;width: 50%;" type="text" class="form-control" id="msd" [(ngModel)]="MSDS" name="msdspath" value="">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width: 10%" (click)="opensearchinciname()">Browse</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px; width: 10%" (click)="opensearchinciname()">Open</button>
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <input style="margin-left: 6%;" class="form-check-input" type="checkbox" name="suppperc" value="" [(ngModel)]="suppresspercent" (change)="suppresspercChange($event)">
+            <!--<input style="margin-left: 6%;" class="form-check-input" type="checkbox" name="suppperc" value="" [checked]="SupressPercent == 'True' ? true : false" (change)="suppresspercChange($event)">-->
+            <label class="label1" style="margin-left:0%">Suppress %</label><br>
+            <fieldset class="border p-2">
+              <div class="form-inline">
+                <label class="label1">(-) %</label><br>
+                <input style="margin-left: 10px;width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="SupMinus" name="smin" value="">
+                <label class="label1" style="margin-left:10px">(+) %</label><br>
+                <input style="margin-left: 10px;width: 10%;" type="text" class="form-control" id="data1" [(ngModel)]="SupPlus" name="smax" value="">
+              </div>
+            </fieldset>
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+
+            <label class="label1" style="margin-left:1%">Include on SDS</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="includeonmsds" (change)="IncludeonSDS($event)" name="incmsd" value="">
+            <!--<input class="form-check-input" type="checkbox" id="defaultCheck1" [checked]="IncludeonMSDS == 'Include on MSDS' ? true : false" (change)="IncludeonSDS($event)" name="incmsd" value="">-->
+            <label class="label1" style="margin-left:1%">Suppress CAS</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="suprscas" (change)="suppresscas($event)" name="supcas" value="">
+            <!--<input class="form-check-input" type="checkbox" [checked]="SuprsCas == 'Suppress CAS' ? true : false" (change)="suppresscas($event)" name="supcas" value="">-->
+            <label class="label1" style="margin-left:1%">Carcinogen</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="carcinogen" (change)="carcinog($event)" name="carcino" value="">
+            <!--<input class="form-check-input" type="checkbox" [checked]="Carcinogen == 'Carcinogen' ? true : false" (change)="carcinog($event)" name="carcino" value="">-->
+            <label class="label1" style="margin-left:1%">Canadian DSL Inventory</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="dsl" (change)="dsl($event)" name="dslinventory" value="">
+            <!--<input class="form-check-input" type="checkbox" [checked]="DSL == 'Canadian DSL Inventory' ? true : false" (change)="dsl($event)" name="dslinventory" value="">-->
+          </div>
+          <div class="form-inline" style="margin-top:1%">
+            <label class="label1" style="margin-left:1%">Trade Secret</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="tradesecret" (change)="tradesecret($event)" name="secret" value="">
+            <label class="label1" style="margin-left:1%">TSCA Inventory</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="tcsa" (change)="tcsa($event)" name="tscainventory" value="">
+            <label class="label1" style="margin-left:1%">Reg EEC</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="eec" (change)="eec($event)" name="reEEC" value="">
+            <label sclass="label1" tyle="margin-left:4%">SARA Inventory</label>
+            <input class="form-check-input" type="checkbox" [(ngModel)]="sara" (change)="sara($event)" name="sarainvent" value="">
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="2">
+        <a class="tabcolor tabbutto tabrowli textsize  " ngbNavLink>Physical Properties</a>
+        <ng-template ngbNavContent>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <fieldset class="border p-2">
+                <div class="form-inline">
+                  <label class="label1" style="margin-left: 7%; font-size: medium; font-family: Verdana;">Appearance</label>
+                  <input style=" margin-left:10px; width: 40%;" type="text" class="form-control" [(ngModel)]="Appearence" value="" name="appear" id="appear">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style="margin-left: 7%; font-size: medium; font-family: Verdana; ">Melting Point (C)</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="MeltingPoint" name="meltpint" value="" id="mp">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style="margin-left: 7%; font-size: medium; font-family: Verdana;">Specific Gravity</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="SpceificGravity" name="specific" value="" id="sp">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style=" margin-left: 7%; font-size: medium; font-family: Verdana;">Vapour Pressure</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="VaporPressure" name="vappress" value="" id="vp">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style="margin-left: 3%; font-size: medium; font-family: Verdana;">Vapour Pressure Unit</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="VaporPressureUOM" name="vappressunit" value="" id="vuom">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style="margin-left: 6%; font-size: medium; font-family: Verdana;">Vapour Density</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="VaporDensity" name="vapden" value="" id="vd">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style="font-size: medium; font-family: Verdana;">Auto Ignition Temperature</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="AutoIgTemp" name="autotemp" value="" id="it">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style=" margin-left: 8%; font-size: medium; font-family: Verdana;">Water solubility</label>
+                  <input style=" margin-left: 10px; width: 40%; margin-left: 10px" type="text" class="form-control" [(ngModel)]="WaterSol" name="wtrsol" value="" id="sol">
+                </div>
+              </fieldset>
+              <!--<div class="form-inline">
+                            <fieldset class="border p-2" style="width:30%;height:20%">
+                              <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Flash Point</legend>
+                              <div class="form-inline">
+                                <label class="label1" style="font-size: medium;">(C)</label>
+                                <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="cPDRNo" value="" id="cPDRn">
+                                <label class="label1" style="font-size: medium;margin-left:2%">(F)</label>
+                                <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="cPDRNo" value="" id="cPDRn">
+
+                              </div>
+                            </fieldset>
+                            <fieldset class="border p-2" style="width: 70%; height: 20%">
+                              <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Explosion Limits</legend>
+                              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="cPDRNo" value="" id="cPDRn">
+                              <h5 class="label1" style="font-size: medium;
+              font-family: Verdana;">-</h5>
+                              <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="cPDRNo" value="" id="cPDRn">
+                            </fieldset>
+                          </div>-->
+            </div>
+            <div class="form-group col-md-6">
+              <fieldset class="border p-2">
+                <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Boiling Point</legend>
+                <div class="form-inline">
+                  <label class="label1" style="font-size: medium;
+  font-family: Verdana;">(C)</label>
+                  <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="BoilRangeLowC" value="" name="brlow" id="bpl">
+                  <h5 class="label1" style="font-size: medium;
+  font-family: Verdana;">
+                    -
+                  </h5>
+                  <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="BoilRangeHighC" value="" name="brhigh" id="bph">
+                </div>
+                <div class="form-inline">
+                  <label class="label1" style="font-size: medium;
+  font-family: Verdana;">(F)</label>
+                  <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="BoilPointFMin" value="" name="bflow" id="bpfl">
+                  <h5 class="label1" style="font-size: medium;
+  font-family: Verdana;">
+                    -
+                  </h5>
+                  <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="BoilPointFMax" value="" name="bfhigh" id="bpfh">
+                </div>
+              </fieldset>
+              <fieldset style="margin-top:1%" class="border p-2">
+                <div class="form-inline" style="margin-top:1%">
+                  <input style="margin-left:10px" class="form-check-input" type="checkbox" [(ngModel)]="combustibleliquid" (change)="combustliquid($event)" name="comliq" value="">
+                  <!--<input style="margin-left:10px" class="form-check-input" type="checkbox" [checked]="CombustibleLiquid == 'Combustible Liquid' ? true : false" (change)="combustliquid($event)" name="comliq" value="">-->
+                  <label class="label1">Combustible Liquid</label>
+                  <input style="margin-left:3%" class="form-check-input" type="checkbox" [(ngModel)]="compressedgas" (change)="combustgas($event)" name="comgas" value="">
+                  <!--<input style="margin-left:3%" class="form-check-input" type="checkbox" [checked]="combustgas == 'Combusted Gas' ? true : false" (change)="combustgas($event)" name="comgas" value="">-->
+                  <label class="label1">Combusted Gas</label>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <input style="margin-left: 10px" class="form-check-input" type="checkbox" [(ngModel)]="flammableaerosol" (change)="flammaerosol($event)" name="flamaero" value="">
+                  <label class="label1">Flammable Aerosol</label>
+                  <input style="margin-left:3%" class="form-check-input" type="checkbox" [(ngModel)]="flammablegas" (change)="flammegas($event)" name="flamgas" value="">
+                  <label class="label1">Flammable Gas</label>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <input style="margin-left: 10px" class="form-check-input" type="checkbox" [(ngModel)]="flammablesolid " (change)="flammesolid($event)" name="flamsolid" value="">
+                  <!--<input style="margin-left: 10px" class="form-check-input" type="checkbox" [checked]="FlammableSolid == 'True' ? true : false" (change)="flammesolid($event)" name="flamsolid" value="">-->
+                  <label class="label1">Flammable Solid</label>
+                  <input style="margin-left:3%" class="form-check-input" type="checkbox" [(ngModel)]="explosive" (change)="xplosive($event)" name="explo" value="">
+                  <!--<input style="margin-left:3%" class="form-check-input" type="checkbox" [checked]="Explosive == 'Explosive' ? true : false" (change)="xplosive($event)" name="explo" value="">-->
+                  <label class="label1">Explosive</label>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <input style="margin-left: 10px" class="form-check-input" type="checkbox" [(ngModel)]="flammableliquid" (change)="flammeliquid($event)" name="flamliq" value="">
+                  <!--<input style="margin-left: 10px" class="form-check-input" type="checkbox" [checked]="FlammableLiquid == 'True' ? true : false" (change)="flammeliquid($event)" name="flamliq" value="">-->
+                  <label class="label1">Flammable Liquid</label>
+                  <input style="margin-left:3%" class="form-check-input" type="checkbox" [(ngModel)]="oxidizer" (change)="oxidzr($event)" name="oxi" value="">
+                  <!--<input style="margin-left:3%" class="form-check-input" type="checkbox" [checked]="Oxidizer == 'Oxidizer' ? true : false" (change)="oxidzr($event)" name="oxi" value="">-->
+                  <label class="label1">Oxidizer</label>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <input style="margin-left: 10px" class="form-check-input" type="checkbox" [(ngModel)]="organic" (change)="compregas($event)" name="orgpero" value="">
+                  <!--<input style="margin-left: 10px" class="form-check-input" type="checkbox" [checked]="CompressedGas == 'Organic Peroxide' ? true : false" (change)="compregas($event)" name="orgpero" value="">-->
+                  <label class="label1">Organic Peroxide</label>
+                  <input style="margin-left:3%" class="form-check-input" type="checkbox" [(ngModel)]="pyrophoric" (change)="pyrofor($event)" name="pyro" value="">
+                  <!--<input style="margin-left:3%" class="form-check-input" type="checkbox" [checked]="Pyrophoric == 'Pyrophoric' ? true : false" (change)="pyrofor($event)" name="pyro" value="">-->
+                  <label class="label1">Pyrophoric</label>
+                </div>
+                <div class="form-inline" style="margin-top:1%">
+                  <input style="margin-left: 10px" class="form-check-input" type="checkbox" [(ngModel)]="waterreactive" (change)="wtrreactive($event)" name="wtrreact" value="">
+                  <!--<input style="margin-left: 10px" class="form-check-input" type="checkbox" [checked]="WaterReactive == 'Water Reactive' ? true : false" (change)="wtrreactive($event)" name="wtrreact" value="">-->
+                  <label class="label1">Water Reactive</label>
+                  <input style="margin-left:3%" class="form-check-input" type="checkbox" [(ngModel)]="isstable" (change)="stable($event)" name="stab" value="">
+                  <!--<input style="margin-left:3%" class="form-check-input" type="checkbox" [checked]="IsStable == 'Stable' ? true : false" (change)="stable($event)" name="stab" value="">-->
+                  <label class="label1">Stable</label>
+                </div>
+              </fieldset>
+
+            </div>
+          </div>
+          <div>
+            <div class="form-inline">
+              <fieldset class="border p-2" style="width:30%;height:20%">
+                <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Flash Point</legend>
+                <div class="form-inline">
+                  <label class="label1" style="font-size: medium;">(C)</label>
+                  <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="FlashPointC" name="fpC" value="" id="fpc">
+                  <label class="label1" style="font-size: medium;margin-left:2%">(F)</label>
+                  <input style="width: 15%;" type="text" class="form-control" [(ngModel)]="FlashPointF" name="fpF" value="" id="fpf">
+
+                </div>
+              </fieldset>
+              <fieldset class="border p-2" style="width: 70%; height: 20%">
+                <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Explosion Limits</legend>
+                <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="LowerExplosiveLimit" name="LEL" value="" id="lel">
+                <label class="label1" style="font-size: medium;
+  font-family: Verdana;">-</label>
+                <input style="width: 10%;" type="text" class="form-control" [(ngModel)]="UpperExplosiveLimit" name="UEL" value="" id="uel">
+              </fieldset>
+            </div>
+          </div>
+
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem="3" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Standards</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+
+          <div style="margin-top:0.5%">
+            <fieldset class="border p-2">
+              <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">National Fire Protection Association (NFPA)</legend>
+              <div class="form-inline">
+                <label class="label1">Flammability</label>
+                <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="NFPA_Flame" name="flamnfp" value="">
+                <label class="label1" style="margin-left:4%">Reactivity</label>
+                <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="NFPA_Reactivity" name="reactnfp" value="">
+                <label class="label1" style="margin-left:3%">Health Hazard</label>
+                <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="NFPA_Health" name="healthnpfa" value="">
+                <label class="label1" style="margin-left:3%">Special Precautions</label>
+                <select id="PRD" class="form-control" style="width:10%;" [(ngModel)]="NFPA_Special" name="specialnfp" value="">
+                  <option>N/A</option>
+                  <option>None</option>
+                  <option>Acid</option>
+                  <option>Base (Alkaline)</option>
+                  <option>Corrosive</option>
+                  <option>Oxidising Property</option>
+                  <option>Radio Active</option>
+                  <option>Unusual Reactivity With Water</option>
+                </select>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-top:0.5%">
+            <fieldset class="border p-2">
+              <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Hazardous Material Identification System (HMIS)</legend>
+              <div class="form-inline">
+                <!--<label>Hazardous</label><br>
+                <input style="" class="form-check-input" type="checkbox" [(ngModel)]="Hazardous" name="flasho" value="" (change)="hazardousChange($event)">-->
+                <label class="label1">Flammability</label>
+                <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="HMIS_Flame" name="hmisflam" value="">
+                <label style="margin-left:3%">Health Hazard</label>
+                <select id="PRD" class="form-control" style="width:5%;" [(ngModel)]="HMIS_Health" name="hmishealth" value="">
+
+                  <option>*</option>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                </select>
+                <label class="label1" style="margin-left:3%">Physical Hazard</label>
+                <input style="width:5%" class="form-control" type="number" placeholder="0" [(ngModel)]="HMIS_Physical" name="hmisphys" value="">
+                <label class="label1" style="margin-left:3%">Personal Protection</label>
+                <select id="PRD" class="form-control" style="width:6%;" [(ngModel)]="HMIS_Personal" name="hmisper" value="">
+                  <option>N/A</option>
+                  <option>A</option>
+                  <option>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                  <option>E</option>
+                  <option>F</option>
+                  <option>G</option>
+                  <option>H</option>
+                  <option>I</option>
+                  <option>J</option>
+                  <option>K</option>
+                  <option>L</option>
+                  <option>M</option>
+                  <option>N</option>
+                  <option>O</option>
+                  <option>P</option>
+                  <option>Q</option>
+                  <option>R</option>
+                  <option>S</option>
+                  <option>T</option>
+                  <option>U</option>
+                  <option>V</option>
+                  <option>W</option>
+                  <option>X</option>
+                  <option>Y</option>
+                  <option>Z</option>
+
+                </select>
+              </div>
+            </fieldset>
+          </div>
+          <div>
+            <div class="form-inline" style="margin-top:1%">
+              <label class="label1" for="data_requirements" style="margin-top: 0.5%;">OHSA</label>
+              <textarea id="data_requirements" [(ngModel)]="OSHAExposure" name="osha" value="" style="width:80%;" class="form-control md-textarea" size="7" rows="4"></textarea>
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label class="label1" for="data_requirements" style="margin-top: 0.5%;">ACGIH</label>
+              <textarea id="data_requirements" [(ngModel)]="ACGIHExposure" name="acgih" value="" style="width:80%;" class="form-control md-textarea" size="7" rows="4"></textarea>
+            </div>
+            <div class="form-inline" style="margin-top:1%">
+              <label class="label1" for="data_requirements" style="margin-top: 0.5%;">Other</label>
+              <textarea id="data_requirements" [(ngModel)]="OtherExposure" name="other" value="" style="width:80%;" class="form-control md-textarea" size="7" rows="4"></textarea>
+            </div>
+          </div>
+
+
+        </ng-template>
+
+      </ng-container>
+      <ng-container ngbNavItem="6">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>EU Standards</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-inline" style="margin-top:1%">
+              <label class="label1" for="data_requirements">Risk Phrases</label>
+              <textarea id="data_results" style="width:70%;font-size:larger" class="form-control md-textarea" size="7" rows="10" [(ngModel)]="EURiskPhrases" name="eurisk" value=""></textarea>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left: 3%;" (click)="OpenRiskPhrases();">Select Risk Phrases</button>
+
+            </div>
+
+            <div class="form-inline" style="margin-top:1%">
+              <label class="label1" for="data_results" style="margin-top: 20px;">Safety Phrases</label>
+              <textarea id="data_results" style="width:70%;font-size:larger" class="form-control md-textarea" size="7" rows="10" [(ngModel)]="EUSafetyPhrases" name="eusafety" value=""></textarea>
+              <button type="submit" class="btn btn-primary buttoncolor " style=" margin-left: 3%;" (click)="OpenSafteyPhrases()">Select Safety Phrases</button>
+            </div>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="4">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>WHMIS Classification</a>
+        <ng-template ngbNavContent>
+          <form>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiA" value="" [(ngModel)]="whmisa" (change)="classa($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiA" value="" [checked]="WHMISA == 'True' ? true : false" (change)="classa($event)">-->
+              <label class="label1">Class A:Compressed Gas</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiB" value="" [(ngModel)]="whmisb" (change)="classb($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiB" value="" [checked]="WHMISB == 'Class B:Flammable and combustible material' ? true : false" (change)="classb($event)">-->
+              <label class="label1">Class B:Flammable and combustible material</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiC" value="" [(ngModel)]="whmisc" (change)="classc($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiC" value="" [checked]="WHMISC == 'Class C:Oxidizing material' ? true : false" (change)="classc($event)">-->
+              <label class="label1">Class C:Oxidizing material</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiD1" value="" [(ngModel)]="whmisd1" (change)="classd1($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiD1" value="" [checked]="WHMISD1 == 'Class D-1:Materials causing immediate and serious toxic effects' ? true : false" (change)="classd1($event)">-->
+              <label class="label1">Class D-1:Materials causing immediate and serious toxic effects</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiD2" value="" [(ngModel)]="whmisd3 " (change)="classd3($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiD2" value="" [checked]="WHMISD3 == 'Class D-3:Biohazardous infectious material' ? true : false" (change)="classd3($event)">-->
+              <label class="label1">Class D-3:Biohazardous infectious material</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiD2" value="" [(ngModel)]="whmisd2" (change)="classd2($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiD2" value="" [checked]="WHMISD2 == 'Class D-2:Materials causing other toxic effects' ? true : false" (change)="classd2($event)">-->
+              <label class="label1">Class D-2:Materials causing other toxic effects</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiE" value="" [(ngModel)]="whmise" (change)="classe($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiE" value="" [checked]="WHMISE == 'Class E:Corrossive material' ? true : false" (change)="classe($event)">-->
+              <label class="label1">Class E:Corrossive material</label><br>
+            </div>
+            <div class="form-inline" style="margin-top:2%">
+              <input style="" class="form-check-input" type="checkbox" name="whmiF" value="" [(ngModel)]="whmisf " (change)="classf($event)">
+              <!--<input style="" class="form-check-input" type="checkbox" name="whmiF" value="" [checked]="WHMISF == 'Class F:Dangerously reactive material' ? true : false" (change)="classf($event)">-->
+              <label class="label1">Class F:Dangerously reactive material</label><br>
+            </div>
+          </form>
+
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem="5">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Hazards</a>
+        <ng-template ngbNavContent>
+
+          <div class="form-inline">
+            <label class="label1" style="font-size: medium;">LD 50</label>
+            <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="LD50" name="l50" value="" id="ld">
+          </div>
+          <div class="form-inline">
+            <label class="label1" style="font-size: medium;">LC 50</label>
+            <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="LC50" name="c50" value="" id="lc">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+
+              <fieldset class="border p-2">
+                <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Infecting Organs</legend>
+                <div class="form-inline">
+                  <input style="" class="form-check-input" type="checkbox" name="blod" value="" [(ngModel)]="tobrain">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="blod" value="" [checked]="TOBlood == 'Blood' ? true : false" (change)="blood($event)">-->
+                  <label class="label1">Blood</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="livr" value="" [(ngModel)]="toliver" (change)="liver($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="livr" value="" [checked]="TOLiver == 'Liver' ? true : false" (change)="liver($event)">-->
+                  <label class="label1">Liver</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="skin" value="" [(ngModel)]="toskin" (change)="skin($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="skin" value="" [checked]="TOSkin == 'Skin' ? true : false" (change)="skin($event)">-->
+                  <label class="label1">Skin</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="nerve" value="" [(ngModel)]="tonervoussystem" (change)="nervoussystem($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="nerve" value="" [checked]="TONervousSystem == 'Nervous System' ? true : false" (change)="nervoussystem($event)">-->
+                  <label class="label1">Nervous System</label><br>
+                </div>
+                <div class="form-inline">
+                  <input style="" class="form-check-input" type="checkbox" name="brin" value="" [(ngModel)]="tobrain " (change)="brain($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="brin" value="" [checked]="TOBrain == 'Brain' ? true : false" (change)="brain($event)">-->
+                  <label class="label1">Brain</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="eye" value="" [(ngModel)]="toeyes " (change)="eyses($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="eye" value="" [checked]="TOEyes == 'Eyes' ? true : false" (change)="eyses($event)">-->
+                  <label class="label1">Eyes</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="lung" value="" [(ngModel)]="tolungs" (change)="lungs($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="lung" value="" [checked]="TOLungs == 'Lungs' ? true : false" (change)="lungs($event)">-->
+                  <label class="label1">Lungs</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="kidny" value="" [(ngModel)]="tokidney" (change)="kidney($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="kidny" value="" [checked]="TOKidneys == 'Kidney' ? true : false" (change)="kidney($event)">-->
+                  <label class="label1">Kidney</label><br>
+                </div>
+              </fieldset>
+              <fieldset class="border p-2">
+                <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Health Hazard</legend>
+                <div class="form-inline">
+                  <input style="" class="form-check-input" type="checkbox" name="corr" value="" [(ngModel)]="corrossive" (change)="corrsive($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="corr" value="" [checked]="Corrosive == 'Corrosive' ? true : false" (change)="corrsive($event)">-->
+                  <label class="label1">Corrossive</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="iritat" value="" [(ngModel)]="irritant" (change)="Irrtnt($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="iritat" value="" [checked]="Irritant == 'Irritant' ? true : false" (change)="Irrtnt($event)">-->
+                  <label class="label1">Irritatant</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="tox" value="" [(ngModel)]="toxic" (change)="toxic($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="tox" value="" [checked]="Toxic == 'Toxic' ? true : false" (change)="toxic($event)">-->
+                  <label class="label1">Toxic</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="reptox" value="" [(ngModel)]="reproductive" (change)="Reptoxic($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="reptox" value="" [checked]="Reproductive == 'Reproductive Toxin' ? true : false" (change)="Reptoxic($event)">-->
+                  <label class="label1">Reproductive Toxin</label><br>
+                </div>
+                <div class="form-inline">
+                  <input style="" class="form-check-input" type="checkbox" name="htox" value="" [(ngModel)]="highlytoxic" (change)="hightoxic($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="htox" value="" [checked]="HighlyToxic == 'Highly Toxic' ? true : false" (change)="hightoxic($event)">-->
+                  <label class="label1">Highly Toxic</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="sensi" value="" [(ngModel)]="sensitizer" (change)="senstzr($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="sensi" value="" [checked]="Sensitizer == 'Sensitizer' ? true : false" (change)="senstzr($event)">-->
+                  <label class="label1">Sensitizer</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="biohzrd" value="" [(ngModel)]="biohazard" (change)="biohzrd($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="biohzrd" value="" [checked]="Biohazard == 'BioHazard' ? true : false" (change)="biohzrd($event)">-->
+                  <label class="label1">BioHazard</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="nuchazrd" value="" [(ngModel)]="nuclearhazard" (change)="nuchzrd($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="nuchazrd" value="" [checked]="NuclearHazard == 'Nuclear Hazard' ? true : false" (change)="nuchzrd($event)">-->
+                  <label class="label1">Nuclear Hazard</label><br>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group col-md-6">
+              <fieldset class="border p-2" style="width: 50%; height:90%">
+                <legend class="w-auto" style="font-size:15px;padding:10px;color:Black">Route Of Entry</legend>
+                <div class="form-inline">
+                  <label class="label1">Eye</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="i" value="" [(ngModel)]="eyecontact" (change)="eyecontactchange($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="i" value="" [checked]="EyeContact == 'EyeContact' ? true : false" (change)="eyecontactchange($event)">-->
+                </div>
+                <div class="form-inline">
+                  <label class="label1">Mouth</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="mout" value="" [(ngModel)]="mouth" (change)="mouthchnge($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="mout" value="" [checked]="Mouth == 'Mouth' ? true : false" (change)="mouthchnge($event)">-->
+                </div>
+                <div class="form-inline">
+                  <label class="label1">Skin</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="skinnn" value="" [(ngModel)]="throughskin" (change)="skinchange($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="skinnn" value="" [checked]="ThroughSkin == 'Skin' ? true : false" (change)="skinchange($event)">-->
+                </div>
+                <div class="form-inline">
+                  <label class="label1">Ingestion</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="inges" value="" [(ngModel)]="ingestion" (change)="ingestionchange($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="inges" value="" [checked]="Ingestion == 'Ingestion' ? true : false" (change)="ingestionchange($event)">-->
+                </div>
+                <div class="form-inline">
+                  <label class="label1">Nose</label><br>
+                  <input style="" class="form-check-input" type="checkbox" name="noseee" value="" [(ngModel)]="inhale" (change)="nosechange($event)">
+                  <!--<input style="" class="form-check-input" type="checkbox" name="noseee" value="" [checked]="Inhale == 'Nose' ? true : false" (change)="nosechange($event)">-->
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+
+
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem="7">
+        <a class="tabcolor tabbutto tabrowli textsize
+           " ngbNavLink>Tools</a>
+        <ng-template ngbNavContent>
+          <form style="height:50vh;overflow-y:auto;overflow-x:hidden" #scrollBottom>
+            <ag-grid-angular style="width: 100%; height: 50vh;font-family:Verdana;font-style:normal;background-color:white"
+                             class="ag-theme-alpine"
+                             [rowHeight]="rowHeight"
+                             [columnDefs]="columnDefs"
+                             [rowClassRules]="rowClassRules"
+                             (columnResized)="onColumnResized($event)"
+                             (columnVisible)="onColumnVisible($event)"
+                             [rowDragManaged]="true"
+                             #agGrid
+                             [applyColumnDefOrder]="true"
+                             [getRowStyle]="getRowStyle"
+                             [rowStyle]="rowStyle"
+                             [getRowNodeId]="getRowNodeId"
+                             [rowSelection]="rowSelection"
+                             [singleClickEdit]="true"
+                             (contextmenu)=" rowRightClicked($event)"
+                             (rowClicked)="rowClicked($event)"
+                             (rowDoubleClicked)="rowDoubleClicked($event)"
+                             (rowDragEnd)="onRowDragEnd($event)"
+                             [enableRangeSelection]="true"
+                             [suppressScrollOnNewData]="true"
+                             [gridOptions]="gridOptions"
+                             [defaultColDef]="defaultColDef"
+                             [rowData]="castooldata"
+                             [overlayLoadingTemplate]="overlayLoadingTemplate"
+                             (gridReady)="onGridReady($event)">
+
+            </ag-grid-angular>
+          </form>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="10">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Web Page</a>
+        <ng-template ngbNavContent>
+          <h5 class="text-center">Web Browser</h5>
+          <div>
+            <form>
+              <div class="form-row">
+                <div class="col form-inline">
+                  <label for="staticEmail">Web Address</label>
+                  <input type="text" class="form-control" placeholder="Enter the Web Address Here.." style="width:80%">
+                </div>
+                <div class="col-md-4 form-inline">
+                  <button type="submit" class="btn btn-primary  buttoncolor">Go</button>
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:1%">Save</button>
+                  <button type="submit" class="btn btn-primary  buttoncolor" style="margin-left:1%">Close</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="ClearData();" matDialogClose>Back </button>
+    <button type="submit" [hidden]="issearchRM" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="CAS_Update();">Update </button>
+    <button type="submit" [hidden]="issearchRMsave" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="CAS_Save();">Save </button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="ClearData();changeTab();">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:40px;margin-top:1%;margin-right:10px" (click)="deleteCAS();">Delete CAS</button>
+
+  </div>
+</div>

@@ -49,6 +49,7 @@ import { ViewLabStabilityCoaComponent } from './view-lab-stability-coa/view-lab-
 import { UpdateQcComponent } from './update-qc/update-qc.component';
 import * as pako from 'pako';
 import { AddshippingregulatoryComponent } from './addshippingregulatory/addshippingregulatory.component';
+import { AddcomponentTestComponent } from 'src/app/formula-lookup/addcomponent-test/addcomponent-test.component';
 export interface DialogData {
   itemlist: string;
   name: string;
@@ -297,10 +298,34 @@ export class FormulaLookupComponent implements OnInit {
   Lbgal: string = '';
   rowDatascalability: any = [];
   markdata: any = [];
-
+  physicalstability_data: any;
   componentcomp_data: any;
   phyAudit_data: any;
   labbatchno_data: any;
+  basedata: any = [];
+  storage: string;
+  batchtype: string;
+  startt: string;
+  end: string;
+  approved: string;
+  appvedby: string;
+  sop: string;
+  phyreviewonestatus: string = '';
+  phyreviewoneby: string = '';
+  phyreviewonecomment: string = '';
+  phyreviewtwostatus: string = '';
+  phyreviewtwoby: string = '';
+  phyreviewtwocomment: string = '';
+  compreviewonestatus: string = '';
+  compreviewoneby: string = '';
+  compreviewonecomment: string = '';
+  compreviewtwostatus: string = '';
+  compreviewtwoby: string = '';
+  compreviewtwocomment: string = '';
+  packagedesc: string;
+  productname: string;
+  startdate: string;
+  enddate: string;
  // private gridApi1!: GridApi;
   public overlayLoadingTemplate =
     '<span class="ag-overlay-loading-center"> Computing...Please wait </span>';
@@ -1303,7 +1328,18 @@ export class FormulaLookupComponent implements OnInit {
             this.impurityload_data = impurityload
           })
 
-
+          this.physicalstabilityload(this.formulacode, this.labbatchno_data[0].LabBatchNo).subscribe((stabload) => {
+            console.warn("physicalstabilityload", stabload)
+            this.physicalstability_data = stabload
+          })
+          this.componentload(this.formulacode).subscribe((compload) => {
+            console.warn("componentcompload", compload)
+            this.componentcomp_data = compload
+          })
+          this.phyAuditload(this.formulacode, this.formulaname).subscribe((auditload) => {
+            console.warn("Auditphycompload", auditload)
+            this.phyAudit_data = auditload
+          })
 
         })
         this.formulationload(this.formulacode, this.labbatch, this.selectedunit, this.operation1).subscribe((formulationload) => {
@@ -1718,7 +1754,7 @@ export class FormulaLookupComponent implements OnInit {
       this.dialog.open(MessageBoxComponent, { width: '20%', height: '15%', data: { displaydata: 'Enter Formula Code' } });
     }
     else {
-      var crtelbtktsdatas: any = [this.formulacode, this.PDRno, this.formulaname, this.ProjectName, this.customername];
+      var crtelbtktsdatas: any = [this.formulacode, this.PDRno, this.formulaname, this.ProjectName, this.customername, this.userna];
       const dialogRef = this.dialog.open(CreateLabTktsComponent, {
         width: '90%', height: '90%', data: { displaydata: crtelbtktsdatas }, disableClose: true
       });
@@ -1736,9 +1772,58 @@ export class FormulaLookupComponent implements OnInit {
   }
   AddphystabilityTest(): void {
 
-    const dialogRef = this.dialog.open(AddphystabilityTestComponent, {
-      width: '80%', height: '90%',
-      disableClose: true,
+    if (this.labatchnumber == "N/A") {
+      this.dialog.open(MessageBoxComponent, { width: '25%', height: '15%', data: { displaydata: "Select a Lab batch from dropdown" } });
+    }
+    else {
+      this.basedata = [this.formulacode, this.formulaname, this.labatchnumber, this.PDRno];
+      const dialogRef = this.dialog.open(AddphystabilityTestComponent, {
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        height: '100%',
+        width: '100%',
+        panelClass: 'full-screen-modal',
+        disableClose: true, data: { displaydata: this.basedata }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+
+
+
+        this.physicalstabilityload(this.formulacode, this.labbatchno_data[0].LabBatchNo).subscribe((stabload) => {
+          console.warn("physicalstabilityload", stabload)
+          this.physicalstability_data = stabload
+        })
+
+
+
+
+      });
+    }
+  }
+  opencomponentcompactibilitytest(): void {
+    this.basedata = [this.formulacode, this.formulaname, this.labatchnumber, this.PDRno, this.customername];
+    const dialogRef = this.dialog.open(AddcomponentTestComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+      disableClose: true, data: { displaydata: this.basedata }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+
+
+
+      this.componentload(this.formulacode).subscribe((compload) => {
+        console.warn("componentcompload", compload)
+        this.componentcomp_data = compload
+      })
+
+
+
+
     });
   }
   openmaxformula(): void {
@@ -6053,7 +6138,8 @@ export class FormulaLookupComponent implements OnInit {
               //this.TotalUnitCost = String(totcs);
               rowin = 0;
               this.count = 1;
-            }
+              }
+              this.addRow();
             this.gridApi.deselectAll();
             this.rowindex = null;
 
@@ -6079,6 +6165,7 @@ export class FormulaLookupComponent implements OnInit {
       this.gridApi.forEachNode(RowNode => this.rowData.push(RowNode.data));
       this.gridApi.setRowData(this.rowData);
       this.rowindex = null;
+     
     });
     
   }
@@ -6998,7 +7085,14 @@ export class FormulaLookupComponent implements OnInit {
       .set('operation', oper);
     return this.http.get("https://formulalookupwebservice1.azurewebsites.net/displayformulation.json", { params: params1 })
   }
+  physicalstabilityload(formcode: string, labno: string) {
+    var formulacode: string = formcode;
+    var labbatch: string = labno;
+    let params1 = new HttpParams().set('Formulacode', formulacode).set('LabBatch', labbatch);
+    return this.http.get("https://formulalookupwebservice13.azurewebsites.net/stabilityfill", { params: params1 })
+  }
 
+  
 
   loadcoachemistry() {
     var Formulacode: string = 'Formula 1002.Ver 06';
@@ -7453,6 +7547,59 @@ export class FormulaLookupComponent implements OnInit {
     }
     return;
   
+  }
+  setphystabvalues(phystab_details) {
+    this.storage = phystab_details.storagecondition
+    this.batchtype = phystab_details.batchtype
+    this.startt = phystab_details.startdate
+    this.end = phystab_details.enddate
+    this.approved = phystab_details.approved
+    this.appvedby = phystab_details.approvedby
+    this.sop = phystab_details.SOPFile
+    this.basedata = [this.formulacode, this.formulaname, this.labatchnumber, this.PDRno, this.storage, this.batchtype, this.startt, this.end, this.approved, this.appvedby, this.sop];
+
+
+
+    const dialogRef = this.dialog.open(AddphystabilityTestComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+      disableClose: true, data: { displaydata: this.basedata }
+    });
+
+
+
+  }
+  setcomponentcompactvalues(comp_details) {
+    this.packagedesc = comp_details.packagedesc
+    this.storage = comp_details.storagecondition
+    this.productname = comp_details.productname
+    this.startdate = comp_details.startdate
+    this.enddate = comp_details.enddate
+    this.approved = comp_details.approved
+    this.appvedby = comp_details.approvedby
+    this.sop = comp_details.SOPFile
+    this.basedata = [this.formulacode, this.formulaname, this.labatchnumber, this.PDRno, this.customername, this.packagedesc, this.storage, this.productname, this.startdate, this.enddate, this.approved, this.appvedby, this.sop];
+    const dialogRef = this.dialog.open(AddcomponentTestComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+      disableClose: true, data: { displaydata: this.basedata }
+    });
+  }
+  setlabtchchange(event: any) {
+    this.labatchnumber = event.target.value;
+    this.physicalstabilityload(this.formulacode, this.labatchnumber).subscribe((stabload) => {
+      console.warn("physicalstabilityload", stabload)
+      this.physicalstability_data = stabload
+    })
+
+
+
   }
   triggerSomeEvent1(event: any) {
     this.isDisabledappr2 = !this.isDisabledappr2;

@@ -499,7 +499,22 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let load_custom of loadcustom| filter:formulanamecust:filterMetadata|filter:projectnamecust:filterMetadata| filter:createdbycust:filterMetadata|filter:projectnamecust:filterMetadata|filter:statuscust:filterMetadata|filter:formulacodecust:filterMetadata|filter:customname:filterMetadata;let i=index;">
+              <ng-container *ngFor="let load_custom of loadcustdata| filter:formulanamecust:filterMetadata|filter:projectnamecust:filterMetadata| filter:createdbycust:filterMetadata|filter:projectnamecust:filterMetadata|filter:statuscust:filterMetadata|filter:formulacodecust:filterMetadata;let i=index;">
+
+                 <tr *ngIf="customname=='All';else contw">
+                <td>{{ load_custom.customername}}</td>
+                <td>{{ load_custom.formulacode }}</td>
+                <td>{{ load_custom.description }}</td>
+                <td>{{ load_custom.pdrno }}</td>
+                <td>{{ load_custom.projectname }}</td>
+                <td>{{ load_custom.status }}</td>
+                <td>{{ load_custom.username }}</td>
+                <td>{{ load_custom.addeddate }}</td>
+
+                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+              </tr>
+                </ng-container>
+              <tr #contw *ngFor="let load_custom of loadcustdata| filter:formulanamecust:filterMetadata|filter:projectnamecust:filterMetadata| filter:createdbycust:filterMetadata|filter:projectnamecust:filterMetadata|filter:statuscust:filterMetadata|filter:formulacodecust:filterMetadata|filter:customname:filterMetadata;let i=index;">
                 <td>{{ load_custom.customername}}</td>
                 <td>{{ load_custom.formulacode }}</td>
                 <td>{{ load_custom.description }}</td>
@@ -763,7 +778,7 @@
               <div class="form-inline">
                 <label>Customer</label>
                 <select id="status" class="form-control" style="width:82.5%" [(ngModel)]="customercustomname" name="custoname" value="">
-
+                
                   <option *ngFor="let option of loadcustomerdata ">{{option.customername}}</option>
                 </select>
               </div>
@@ -790,19 +805,36 @@
               </tr>
             </thead>
             <tbody>
+              <ng-container   *ngFor="let load_cust of loadcustdata | filter:formulcodecustomer:filterMetadata|filter:pdrnumcustomer:filterMetadata| filter:statuscustomer:filterMetadata|filter:formulanamecustomer:filterMetadata|filter:projectnamecustomer:filterMetadata;let i=index;">
+                <tr  *ngIf="customercustomname=='All';else conten" >
 
-              <tr *ngFor="let load_cust of loadcustdata | filter:formulacodecustomer:filterMetadata|filter:pdrnumcustomer:filterMetadata| filter:statuscustomer:filterMetadata|filter:formulanamecustomer:filterMetadata|filter:projectnamecustomer:filterMetadata|filter:createdbycustomer:filterMetadata|filter:customercustomname:filterMetadata;let i=index;">
-                <td>{{ load_cust.customername}}</td>
-                <td>{{ load_cust.formulacode }}</td>
-                <td>{{ load_cust.description }}</td>
-                <td>{{ load_cust.pdrno }}</td>
-                <td>{{ load_cust.projectname }}</td>
-                <td>{{ load_cust.status }}</td>
-                <td>{{ load_cust.username }}</td>
-                <td>{{ load_cust.addeddate }}</td>
+                  <td>{{ load_cust.customername}}</td>
+                  <td>{{ load_cust.formulacode }}</td>
+                  <td>{{ load_cust.description }}</td>
+                  <td>{{ load_cust.pdrno }}</td>
+                  <td>{{ load_cust.projectname }}</td>
+                  <td>{{ load_cust.status }}</td>
+                  <td>{{ load_cust.username }}</td>
+                  <td>{{ load_cust.addeddate }}</td>
 
-                <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
-              </tr>
+                  <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+                </tr>
+              </ng-container>
+              
+                <tr #conten *ngFor="let load_cust of loadcustdata | filter:formulcodecustomer:filterMetadata|filter:pdrnumcustomer:filterMetadata| filter:statuscustomer:filterMetadata|filter:formulanamecustomer:filterMetadata|filter:projectnamecustomer:filterMetadata|filter:createdbycustomer:filterMetadata|filter:customercustomname:filterMetadata;let i=index;">
+
+                  <td>{{ load_cust.customername}}</td>
+                  <td>{{ load_cust.formulacode }}</td>
+                  <td>{{ load_cust.description }}</td>
+                  <td>{{ load_cust.pdrno }}</td>
+                  <td>{{ load_cust.projectname }}</td>
+                  <td>{{ load_cust.status }}</td>
+                  <td>{{ load_cust.username }}</td>
+                  <td>{{ load_cust.addeddate }}</td>
+
+                  <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
+                </tr>
+           
             </tbody>
           </table>
         </div>
@@ -1073,8 +1105,8 @@
                         <th class="header" scope="col">Product Name</th>
                         <th class="header" scope="col">PDR #</th>
                         <th class="header" scope="col">Project Name</th>
+                        <th class="header" scope="col">Customer Name</th>
 
-                       
 
 
                         <!--<th scope="col">Customer Code</th>-->
@@ -1082,15 +1114,16 @@
                     </thead>
                     <tbody>
 
-                      <tr *ngFor="let load_custom of loadstabilitydata| filter:t9stab:filterMetadata|filter:t9formulacodecust:filterMetadata| filter:t9pdr:filterMetadata|filter:t9labnb:filterMetadata|filter:t9formulanamecust:filterMetadata|filter:t9projectnamecust:filterMetadata|filter:t9customername:filterMetadata;let i=index;">
-                        <td>{{ load_custom.stab}}</td>
+                      <tr *ngFor="let load_custom of loadcompatdata| filter:t10comp:filterMetadata|filter:t10formulacodecust:filterMetadata| filter:t10pdr:filterMetadata|filter:t10pack:filterMetadata|filter:t10formulanamecust:filterMetadata|filter:t10projectnamecust:filterMetadata|filter:t0customername:filterMetadata|filter:t10productname:filterMetadata;let i=index;">
+                        <td>{{ load_custom.Ccomp}}</td>
                         <td>{{ load_custom.formulacode }}</td>
                         <td>{{ load_custom.description }}</td>
-                        <td>{{ load_custom.labrefno }}</td>
+
+                        <td>{{ load_custom.Package_description }}</td>
+                        <td>{{ load_custom.productname }}</td>
                         <td>{{ load_custom.pdrno }}</td>
                         <td>{{ load_custom.projectname }}</td>
-
-                        <td>{{ load_custom.customername }}</td>
+                        <td> {{ load_custom.custmername}}</td>
 
 
                         <!--<td class="tabledatasize">{{ customer_search.CustomerCode}}</td>-->
@@ -1219,9 +1252,12 @@
   <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
 
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="ClearData();" matDialogClose>Back</button>
-    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_saveupdate(custkey.value,custnam.value);">New</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Clearback();">New</button>
     <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:1%" (click)="Customer_Update(custkey.value,custnam.value);">Create Report</button>
-    <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
+    
+      <h5  style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
+    
+   
 
   </div>
 

@@ -192,6 +192,15 @@ import { AddmicroComponent } from './productization/new-microb/addmicro/addmicro
 import { ComponentlistingComponent } from './productization/componentlisting/componentlisting.component';
 import { AddshippingregulatoryComponent } from './formula-lookup/addshippingregulatory/addshippingregulatory.component';
 import { ComponentimportComponent } from './productization/componentimport/componentimport.component';
+import { GlobalSearchComponent } from './global-search/global-search.component';
+import { SearchCategoryComponent } from './global-search/search-category/search-category.component';
+import { SearchInciComponent } from './global-search/search-inci/search-inci.component';
+import { SearchLabnotebookComponent } from './global-search/search-labnotebook/search-labnotebook.component';
+import { SearchSubCategoryComponent } from './global-search/search-sub-category/search-sub-category.component';
+import { SearchTradenameComponent } from './global-search/search-tradename/search-tradename.component';
+import { CasLookUpComponent } from './cas-look-up/cas-look-up.component';
+import { Searchcas2Component } from './cas-look-up/searchcas2/searchcas2.component';
+import { SdsComponent } from './sds/sds.component';
 
 const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' }, { path: 'login', component: LoginLayoutComponent, children: [{ path: '', component: LoginComponent }] },
   {
@@ -301,9 +310,23 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'SearchProduct', component: SearchProductComponent },
       { path: 'Componentlisting', component: ComponentlistingComponent },
       { path: 'Addshippingregulatory', component: AddshippingregulatoryComponent },
-      { path: 'Componentimport', component: ComponentimportComponent }
+      { path: 'Componentimport', component: ComponentimportComponent },
+
+       { path: 'globalsearch', component: GlobalSearchComponent },
+      { path: 'searchcate', component: SearchCategoryComponent },
+      { path: 'searchinci', component: SearchInciComponent },
+      { path: 'searchlabnote', component: SearchLabnotebookComponent },
+      { path: 'searchsubcate', component: SearchSubCategoryComponent },
+      { path: 'searchtrade', component: SearchTradenameComponent },
+      { path: 'Caslookup', component: CasLookUpComponent },
+      { path: 'searchcas2', component: Searchcas2Component },
+      { path: 'sds', component: SdsComponent }
+
+
+
       
-      
+    
+
     ]
   }
 ];
@@ -461,6 +484,15 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
     ComponentlistingComponent,
     AddshippingregulatoryComponent,
     ComponentimportComponent,
+    GlobalSearchComponent,
+    SearchCategoryComponent,
+    SearchInciComponent,
+    SearchLabnotebookComponent,
+    SearchSubCategoryComponent,
+    SearchTradenameComponent,
+    CasLookUpComponent,
+    Searchcas2Component,
+    SdsComponent,
     
   ],
   imports: [
@@ -504,6 +536,6 @@ const appRoutes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
   bootstrap: [AppComponent],
   entryComponents: [SalesRepNameComponent, NewMicrobiologyParamsComponent, AddshippingregulatoryComponent, ComponentimportComponent, QualityControlComponent, AddQctestComponent, ProductizationComponent, AddProductlineComponent, AddClasscodeComponent, AddClassificationComponent, AddApplicationComponent, AddOemComponent, AddBrandComponent, AddProductcategoryComponent, AddComponentComponent, SearchComponentComponent, AddComponentcategoryComponent, NewCheComponent, NewMicrobComponent, AddcheComponent, ComponentlistingComponent,AddmicroComponent,CmoComponent,SearchCmoComponent,SearchProductComponent, AddQcunitComponent, UpdateQcComponent,SearchProductsComponent, AssignPdrComponent,
     AddMicrobiologyComponent, NewChemistryParamsComponent, AddChemistryComponent, AddLabnameComponent,AddTestnameComponent,RawmaterialRestrictionComponent, ProjectRequirementsComponent, LoadspecificationParameterComponent, AddnewParamComponent, AddClientLocationComponent, RawmaterialRestrictionUsComponent, SearchCustomerComponent, IncinameSelectComponent, RawmaterialRestrictionProp65Component, CheckRestrictionComponent, FrmNewPropertyComponent, AddproductTestingComponent, PropellantsvocCalculationComponent, PricingComponent, HlbCalculationComponent, ScalabilityFactorComponent, CoaCompareComponent, FormulaGraphComponent, FormulaStatusComponent, MaxFormulaComponent, AddProducttestingComponent, AddphystabilityTestComponent, CustomerDetailsComponent, AddMarketingIndicatorComponent, CreateLabTktsComponent, MarketingCalloutsComponent, PdrTrackStatusComponent, NewInstructionComponent, FormulaInstructionComponent, SelectPropertyComponent, FormulaPropertyComponent, AddQCComponent, SearchPdrComponent, SearchFormulaComponent, UnitmeasureMaintenanceComponent, UnitOfMeasureComponent, UserCreationComponent, SerachCategoryComponent, SearchProjectPdrComponent, SearchCustomerPdrComponent, SearchCustomerCustComponent, TermMasterCustComponent, SalesPersonCustComponent, EditUserComponent, AddSupplierComponent, SearchSupplierComponent, AddPrefixComponent, SearchINCINameComponent, RawSearchSupplierComponent, CategoryMaintenanceComponent, SubCategoryMaintenanceComponent, AddCategoryComponent, LoadPropertyComponent, NewPropertyComponent, IngredientSearchComponent, AddCASDetailsComponent, RiskPhrasesComponent, SaftyPhrasesComponent, RMVPComponent, FunctionSearchComponent, AddFunctionComponent, AddSupplierComponent, TermsMasterComponent, SearchCASComponent, MessageBoxComponent,
-    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent, PDRListSearchComponent, SearchSubmissionComponent, UnapprovedRawmaterialComponent, SearchFormulalistComponent]
+    MessageBoxYesnoComponent, FormulaLookupComponent, TradenameSelectComponent, ItemnameSelectComponent, ViewLabStabilityCoaComponent, AddcomponentTestComponent, RmsaveasComponent, PDRListSearchComponent, SearchSubmissionComponent, UnapprovedRawmaterialComponent, SearchFormulalistComponent, SearchCategoryComponent, SearchInciComponent, SearchLabnotebookComponent, SearchSubCategoryComponent, SearchTradenameComponent, CasLookUpComponent, Searchcas2Component]
 })
 export class AppModule { }

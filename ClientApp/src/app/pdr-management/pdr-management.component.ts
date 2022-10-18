@@ -21,7 +21,7 @@ import { FormulaLookupComponent } from 'src/app/formula-lookup/formula-lookup.co
 import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { DataShareServiceService } from 'src/app/data-share-service.service';
-
+import { ColDef, GridApi, GridReadyEvent, RowDragEndEvent, GridOptions, Color } from 'ag-grid-community';
 @Component({
   selector: 'app-pdr-management',
   templateUrl: './pdr-management.component.html',
@@ -44,6 +44,7 @@ export class PdrManagementComponent implements OnInit {
   isprocheck: boolean = false;
   formulacreatedate:string
   status: string = '';
+  public gridApi;
   Status: string = 'WIP-Initiated';
   totalhr: string;
   totalcost: string;
@@ -1373,6 +1374,7 @@ this.loadformulationsassign = loadformulations
       //wrapText: true,     // <-- HERE
       autoHeight: true,
       editable: true,
+      onCellValueChanged : this.CellRendererFunc.bind(this),
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
       // cellClassRules: cellClassRules,
       minWidth: 300,
@@ -1386,6 +1388,7 @@ this.loadformulationsassign = loadformulations
       //wrapText: true,     // <-- HERE
       autoHeight: true,
       editable: true,
+      
       cellStyle: { 'white-space': 'normal', 'line-height': 2, 'border-bottom': 'solid 1px', 'border-right': 'solid 1px', wordBreak: "normal" },
       // cellClassRules: cellClassRules,
       minWidth: 300,
@@ -1479,6 +1482,29 @@ this.loadformulationsassign = loadformulations
       headerName: "Username", field: 'username',
     },
   ];
+  CellRendererFunc(row) {
+    if (row.data.Limits != "") {
+
+      row.data.username = this.userna
+
+
+      let { rowsToDisplay } = this.gridApi.getModel();
+      this.datachem = [];
+      this.gridApi.forEachNode(RowNode => this.datachem.push(RowNode.data));
+      this.gridApi.setRowData(this.datachem);
+     
+    }
+    else {
+      // return {editable: true,};
+      /*row.data.InitialReading.editable = true;*/
+      
+    }
+  }
+  onGridReadytwo(params) {
+    this.gridApi = params.api;
+    this.gridApi.ensureIndexVisible(60, 'bottom');
+    // this.columnApi = params.columnApi;
+  }
   setvalueschemistry(chedata: any) {
     this.i = 0;
     this.j = 0;

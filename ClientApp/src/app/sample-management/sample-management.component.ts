@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/formula-lookup/formula-lookup.component';
@@ -13,10 +13,6 @@ import { UnapprovedRawmaterialComponent } from 'src/app/sample-management/unappr
 import { SearchSubmissionComponent } from 'src/app/sample-management/search-submission/search-submission.component';
 import { PDRListSearchComponent } from 'src/app/sample-management/pdrlist-search/pdrlist-search.component'
 import { SearchFormulalistComponent } from 'src/app/sample-management/search-formulalist/search-formulalist.component';
-//import { ReportViewerComponent } from 'src/app/reportviewer/report-viewer';
-//import { ReportDesignerComponent } from 'src/app/reportdesigner/report-designer';
-
-
 
 
 @Component({
@@ -211,7 +207,7 @@ export class SampleManagementComponent implements OnInit {
   userName: string;
   Purpose: string = " ";
   noofpieces: string = " ";
-  Approved: string = " ";
+  Approved: string = "";
   ApprovedBy: string = " ";
   PersonTitle: string = " ";
   Disclaimers: string = " ";
@@ -250,8 +246,12 @@ export class SampleManagementComponent implements OnInit {
   submissionnodata: any;
   LabopenStatusdata: any;
   UserNameadata: any;
-  viewer: any;
+
   searchpdrdateitems: any[];
+
+  entervalues: any;
+  disabled: any;
+
 
 
   constructor(public dialog: MatDialog, private http: HttpClient, private Datashare: DataShareServiceService, private router: Router) { }
@@ -475,10 +475,11 @@ export class SampleManagementComponent implements OnInit {
 
 
         }
-        console.log(this.UnApproved)
       })
+      console.log(this.Approved);
       this.btnstate = true;
       this.dateactionmethod();
+      this.ChangeText();
     });
   }
 
@@ -627,6 +628,8 @@ export class SampleManagementComponent implements OnInit {
           displaydata: "From date should be equal to or less than to date."
         }
       });
+      this.dtpPDRFromDate = formatDate(new Date(this.todaydate), 'yyyy-MM-dd', 'en-US');
+      this.dtpPDRToDate = formatDate(new Date(this.todaydate), 'yyyy-MM-dd', 'en-US');
     }
     //this.Loadpdrbydatelist(this.dtpPDRFromDate, this.dtpPDRToDate);
     this.Loadpdrbydatelist(this.dtpPDRFromDate, this.dtpPDRToDate).subscribe((resultLoadpdrbydatelist) => {
@@ -984,18 +987,17 @@ export class SampleManagementComponent implements OnInit {
 
   btnval = "save";
   ChangeText() {
-    if (this.PDRStatus == "A-Approved") {
+    if (this.PDRStatus) {
       console.log(this.PDRStatus)
       this.btnval = "Update";
-      if (this.PDRStatus == "A-Approved") {
-        this.dialog.open(MessageBoxComponent, {
-          width: '40%', height: '15%', data: {
-            displaydata: "Please APPROVE the formula and submit the sample."
-          }
-        });
-        this.btnupdate = true;
-
-      }
+      //if (this.PDRStatus == "A-Approved") {
+      //  this.dialog.open(MessageBoxComponent, {
+      //    width: '40%', height: '15%', data: {
+      //      displaydata: "Please APPROVE the formula and submit the sample."
+      //    }
+      //  });
+      //}
+      this.btnupdate = true;
     }
   }
 
@@ -1118,16 +1120,43 @@ export class SampleManagementComponent implements OnInit {
       this.datedisabled = true;
 
     }
-    if (this.PDRStatus == "AW-Approved-ON WAIVER") {
+    else if (this.PDRStatus == "AW-Approved-ON WAIVER") {
 
       this.datedisabled = true;
 
     }
-    else if (this.PDRStatus == "N-New") {
+    else if (this.PDRStatus == "R-Rejected") {
+
+      this.datedisabled = true;
+
+    }
+    else {
 
       this.datedisabled = false;
 
     }
+    this.radioclickmethod();
+
+  }
+  radioclickmethod() {
+
+    if (this.PDRStatus == "A-Approved") {
+
+      this.Approved = "True";
+
+    }
+    else if (this.PDRStatus == "AW-Approved-ON WAIVER") {
+
+      this.Approved = "True";
+
+    }
+    else if (this.PDRStatus == "R-Rejected") {
+
+      this.Approved = "False";
+
+    }
+
+
   }
 
 
@@ -1175,14 +1204,19 @@ export class SampleManagementComponent implements OnInit {
       });
     }
   }
-  samplereport() {
 
-    this.viewer.bindingSender.OpenReport("TestReport")
-    //const dialogRef = this.dialog.open(ReportViewerComponent, {
-    //  width: '80%', height: '90%', disableClose: true
 
-    //});
-  }
+
+
+  //samplereport() {
+
+  //  this.viewer.bindingSender.OpenReport("./Reports/XtraReport2")
+
+  //  //const dialogRef = this.dialog.open(ReportViewerComponent, {
+  //    //width: '80%', height: '90%', disableClose: true
+
+  //  //});
+  //}
 
   pdrlistclik() {
     if (this.active = "3") {

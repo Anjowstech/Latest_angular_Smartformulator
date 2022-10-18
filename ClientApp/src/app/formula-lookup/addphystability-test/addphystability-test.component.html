@@ -185,133 +185,139 @@
 
 
     <label for="PDR" style="margin-left: 1%;font-size: medium; font-family: Verdana;">Click to Type the Details. First Column is Read Only</label>
-    <div style="margin-left: 1%; margin-top: 0.5%; height: 220px; background-color: white; overflow-y: auto ">
-      <table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
-        <thead>
-          <tr>
-            <th scope="col">Testing </th>
-            <th scope="col">Initial</th>
-            <th scope="col">Duration 1</th>
-            <th scope="col">Duration 2</th>
-            <th scope="col">Duration 3</th>
-            <th scope="col">Duration 4</th>
-            <th scope="col">Duration 6</th>
-            <th scope="col">Duration 7</th>
-            <th scope="col">Duration 8</th>
-            <th scope="col">Duration 9</th>
-            <th scope="col">Duration 10</th>
-            <th scope="col">Other</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row" style="background-color: lightgray">Duration(s)</th>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="initialdate" value="" id="initial" name="Initdate" type="date"  style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclick($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration1date" value="" id="dur1" name="dur1date" type="date"  style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur1($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration2date" value="" id="dur2" name="dur2date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur2($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration3date" value="" id="dur3" name="dur3date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur3($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration4date" value="" id="dur4" name="dur4date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur4($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration5date" value="" id="dur5" name="dur5date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur5($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration6date" value="" id="dur6" name="dur6date" type="date"style=" width: 100%; background-color: #d8e7eb; border: none; box-shadow: none; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur6($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration7date" value="" id="dur7" name="dur7date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur7($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration8date" value="" id="dur8" name="dur8date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur8($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration9date" value="" id="dur9" name="dur1date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur9($event)" />
-            </td>
-            <td style="background-color: #d8e7eb;">
-              <input [(ngModel)]="duration10date" value="" id="dur10" name="dur10date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur10($event)" />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" style="background-color: lightgray">Time Intervals</th>
-            <td >
-              <input [(ngModel)]="initialtime" value="" id="initial" name="Inittime" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  "  (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration1time" value="" id="dur1t" name="dur1time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration2time" value="" id="dur2t" name="dur2time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration3time" value="" id="dur3t" name="dur3time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration4time" value="" id="dur4t" name="dur4time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration5time" value="" id="dur5t" name="dur5time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration6time" value="" id="dur6t" name="dur6time" type="text"style=" width: 100%;  border: none; box-shadow: none; outline: none; "  (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration7time" value="" id="dur7t" name="dur7time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; "  (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration8time" value="" id="dur8t" name="dur8time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " placeholder="Enter PDR date" (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration9time" value="" id="dur9t" name="dur9time" type="text" style=" width: 100%; border: none; box-shadow: none;  outline: none; "  (change)="datechangeclick($event)" />
-            </td>
-            <td >
-              <input [(ngModel)]="duration10time" value="" id="dur10t" name="dur10time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; "  (change)="datechangeclick($event)" />
-            </td>
-          </tr>
-          <tr *ngFor="let stability_load of stability_detailload; let i = index">
-            <td style="background-color:lightgray"><input type="text" style="border:none;background-color:lightgray" [(ngModel)]="stability_load.Testing"></td>
-            <!--<td><input type="text">{{i+1}}{{ stability_load.Testing}}</td>-->
-            <td><input type="text" style="border:none;">{{ stability_load.InitialReading}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.TwentyFourHours}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.OneWeek}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.TwoWeeks}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.OneMonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.TwoMonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.ThreeMonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.Sixmonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.Twelvemonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.Twentyfourmonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.Thirtysixmonth}}</td>
-            <td><input type="text" style="border:none;">{{ stability_load.OtherMonth}}</td>-->
-          </tr>
-          <!--<tr *ngFor="let stability_load of stability_detailload; let i=index;">
-    <td>{{ stability_load.Testing}}</td>
-    <td>{{ stability_load.InitialReading}}</td>
-    <td>{{ stability_load.TwentyFourHours}}</td>
-    <td>{{ stability_load.OneWeek}}</td>
-    <td>{{ stability_load.TwoWeeks}}</td>
-    <td>{{ stability_load.OneMonth}}</td>
-    <td>{{ stability_load.TwoMonth}}</td>
-    <td>{{ stability_load.ThreeMonth}}</td>
-    <td>{{ stability_load.Sixmonth}}</td>
-    <td>{{ stability_load.Twelvemonth}}</td>
-    <td>{{ stability_load.Twentyfourmonth}}</td>
-    <td>{{ stability_load.Thirtysixmonth}}</td>
-    <td>{{ stability_load.OtherMonth}}</td>-->
-          <!--<td>
-    <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
-  </td>-->
-
-
-</table>
+    <!--<div style="margin-left: 1%; margin-top: 0.5%; height: 220px; background-color: white; overflow-y: auto ">-->
+    <form style="height:28vh;overflow-y:hidden;overflow-x:hidden" #scrollBottom>
+      <!--<table class="table table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+      <thead>
+        <tr>
+          <th scope="col">Testing </th>
+          <th scope="col">Initial</th>
+          <th scope="col">Duration 1</th>
+          <th scope="col">Duration 2</th>
+          <th scope="col">Duration 3</th>
+          <th scope="col">Duration 4</th>
+          <th scope="col">Duration 5</th>
+          <th scope="col">Duration 6</th>
+          <th scope="col">Duration 7</th>
+          <th scope="col">Duration 8</th>
+          <th scope="col">Duration 9</th>
+          <th scope="col">Duration 10</th>
+          <th scope="col">Other</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row" style="background-color: lightgray">Duration(s)</th>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="initialdate" value="" id="initial" name="Initdate" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclick($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration1date" value="" id="dur1" name="dur1date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur1($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration2date" value="" id="dur2" name="dur2date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur2($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration3date" value="" id="dur3" name="dur3date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur3($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration4date" value="" id="dur4" name="dur4date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur4($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration5date" value="" id="dur5" name="dur5date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur5($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration6date" value="" id="dur6" name="dur6date" type="date" style=" width: 100%; background-color: #d8e7eb; border: none; box-shadow: none; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur6($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration7date" value="" id="dur7" name="dur7date" type="date" style=" width: 100%; border: none; box-shadow: none; outline: none; background-color: #d8e7eb; " placeholder="Enter PDR date" (change)="datechangeclickdur7($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration8date" value="" id="dur8" name="dur8date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; "  (change)="datechangeclickdur8($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration9date" value="" id="dur9" name="dur1date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur9($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="duration10date" value="" id="dur10" name="dur10date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickdur10($event)" />
+          </td>
+          <td style="background-color: #d8e7eb;">
+            <input [(ngModel)]="otherdate" value="" id="dur11" name="dur11date" type="date" style=" width: 100%; border: none; box-shadow: none; background-color: #d8e7eb; outline: none; " placeholder="Enter PDR date" (change)="datechangeclickother($event)" />
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" style="background-color: lightgray">Time Intervals</th>
+          <td>
+            <input [(ngModel)]="initialtime" value="" id="initial" name="Inittime" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration1time" value="" id="dur1t" name="dur1time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration2time" value="" id="dur2t" name="dur2time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration3time" value="" id="dur3t" name="dur3time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration4time" value="" id="dur4t" name="dur4time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration5time" value="" id="dur5t" name="dur5time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none;  " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration6time" value="" id="dur6t" name="dur6time" type="text" style=" width: 100%;  border: none; box-shadow: none; outline: none; " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration7time" value="" id="dur7t" name="dur7time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration8time" value="" id="dur8t" name="dur8time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " placeholder="Enter PDR date" (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration9time" value="" id="dur9t" name="dur9time" type="text" style=" width: 100%; border: none; box-shadow: none;  outline: none; " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="duration10time" value="" id="dur10t" name="dur10time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " (change)="datechangeclick($event)" />
+          </td>
+          <td>
+            <input [(ngModel)]="durationother" value="" id="dur11t" name="dur11time" type="text" style=" width: 100%; border: none; box-shadow: none; outline: none; " (change)="datechangeclick($event)" />
+          </td>
+        </tr>
+        <tr *ngFor="let stability_load of rowDatastabilitydetails; let i = index">
+          <td style="background-color:lightgray"><input type="text" style="border:none;background-color:lightgray" [(ngModel)]="stability_load.Testing"></td>-->
+      <!--<td><input type="text">{{i+1}}{{ stability_load.Testing}}</td>-->
+      <!--<td><input type="text" style="border:none;">{{ stability_load.InitialReading}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.TwentyFourHours}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.OneWeek}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.TwoWeeks}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.OneMonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.TwoMonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.ThreeMonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.Sixmonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.Twelvemonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.Twentyfourmonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.Thirtysixmonth}}</td>
+      <td><input type="text" style="border:none;">{{ stability_load.OtherMonth}}</td>-->
+      <!--</tr>-->
+      <!--<tr *ngFor="let stability_load of stability_detailload; let i=index;">
+      <td>{{ stability_load.Testing}}</td>
+      <td>{{ stability_load.InitialReading}}</td>
+      <td>{{ stability_load.TwentyFourHours}}</td>
+      <td>{{ stability_load.OneWeek}}</td>
+      <td>{{ stability_load.TwoWeeks}}</td>
+      <td>{{ stability_load.OneMonth}}</td>
+      <td>{{ stability_load.TwoMonth}}</td>
+      <td>{{ stability_load.ThreeMonth}}</td>
+      <td>{{ stability_load.Sixmonth}}</td>
+      <td>{{ stability_load.Twelvemonth}}</td>
+      <td>{{ stability_load.Twentyfourmonth}}</td>
+      <td>{{ stability_load.Thirtysixmonth}}</td>
+      <td>{{ stability_load.OtherMonth}}</td>-->
+      <!--<td>
+        <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+      </td>-->
+      <!--</table>-->
       <!--<dx-data-grid id="gridContainer " style="width: 100%; height: 30rem;font-family:Verdana;font-style:normal;background-color:white"
                     (onRowPrepared)="onRowPrepared2($event)"
                     (onSelectionChanged)="selectedChanged($event)"
@@ -399,7 +405,7 @@
         </div>
       </dx-data-grid>-->
 
-      <!--<ag-grid-angular style="width: 100%; height: 200px;font-family:Verdana;font-style:normal;background-color:white"
+      <ag-grid-angular style="width: 100%; height: 28vh;font-family:Verdana;font-style:normal;background-color:white"
                        class="ag-theme-alpine"
                        [rowHeight]="rowHeight"
                        [columnDefs]="columnDefs"
@@ -424,15 +430,15 @@
                        [defaultColDef]="defaultColDef"
                        [rowData]="rowDatastabilitydetails"
                        [overlayLoadingTemplate]="overlayLoadingTemplate"
-                         (gridReady)="onGridReadyone($event)">
+                       (gridReady)="onGridReadyone($event)">
 
 
-      </ag-grid-angular>-->
-
-    </div>
+      </ag-grid-angular>
+    </form>
+    <!--</div>-->
     <div class="form-inline" style="margin-top:10px">
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;" (click)="addFieldValue()">Insert Row</button>
-      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;">Delete Row</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;" (click)="addstabrow()">Insert Row</button>
+      <button type="submit" class="btn btn-primary buttoncolor" style="margin-left: 1%; height: 40px; width: 150px;" (click)="deletestabrow()">Delete Row</button>
       <label for="PDR" style="margin-left: 15%; font-size: medium; font-family: Verdana;">Freeze/Thaw(-15C to 25C)</label>
       <label for="PDR" style="margin-left: 3%; font-size: medium; font-family: Verdana;">(Enter "Freeze/Thaw" in Storage Condition to enable this grid.)</label>
     </div>

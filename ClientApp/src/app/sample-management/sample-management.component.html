@@ -95,14 +95,19 @@
             font-family: Verdana;">Priority</label>
             <input type="text" [(ngModel)]="Priority" #Prior name="Priority" style="margin-top: 10px; margin-left: 75px;" class="form-control" id="" size="80">
           </form>
+
+
           <form class="form-inline" style="background-color: #f6f5f1">
 
             <label for="" style="margin-left:5px;font-size: medium;
               font-family: Verdana;">Customer Approval</label>
-            <input type="radio" style="margin-top: 10px; margin-left: 30px;" class="form-control" [disabled]="btnstate" id="Y" [(ngModel)]="Approved" #custom name="Approved" value="Yes" size="50">
+            <input type="radio" style="margin-top: 10px; margin-left: 40px;" class="form-control" id="Y"
+                   [(ngModel)]="Approved" #custom name="Approved" [disabled]="datedisabled"
+                   value="True" size="50">
             <label for="" style="margin-left:10px;font-size: medium;
-           font-family: Verdana;">Yes</label>
-            <input type="radio" style="margin-top: 10px; margin-left: 40px;" class="form-control" [disabled]="btnstate" id="N" [(ngModel)]="Approved" #custom name="Approved" value="No" size="50">
+                  font-family: Verdana;">Yes</label>
+            <input type="radio" style="margin-top: 10px; margin-left: 40px;" class="form-control" id="N"
+                   [(ngModel)]="Approved" #custom name="Approved" value="False" size="50" [disabled]="datedisabled">
             <label for="" style="margin-top: 10px; margin-left: 10px; font-size: medium; font-family: Verdana;">No</label>
             <label for="" style="margin-left:90px;font-size: medium;
               font-family: Verdana;">Approval Date</label>

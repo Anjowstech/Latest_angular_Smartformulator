@@ -1,0 +1,79 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y: auto; overflow-x: hidden; height: 60vh; width: 100%">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 style="margin-top: 20px;font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Search CAS</h2>
+      </div>
+    </div>
+    <fieldset class="border p-2">
+      <legend class="w-auto" style="font-size:15px;color:maroon">Search</legend>
+      <form>
+        <div class="form-group row">
+          <label for="Supplier Key" class="col-sm-2 col-form-label">CAS No</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="cano" placeholder="" [(ngModel)]="casno" name="casn" value="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputSupplier Name" class="col-sm-2 col-form-label">Description</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="casdec" placeholder="" [(ngModel)]="descrption" name="casdec" value="">
+          </div>
+        </div>
+      </form>
+    </fieldset>
+
+
+
+
+    <div style="margin-left:2%;margin-top:2%">
+      Make your selection by Double on your choice
+    </div>
+    <div style="margin-left: 1%; margin-top: 1%; height: 350px; overflow-y: auto; overflow-x: auto;">
+      <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="table" width="98%">
+        <thead>
+          <tr>
+
+            <th scope="col">CAS No</th>
+            <th scope="col">Description</th>
+            <th scope="col">EINECSNo</th>
+            <th scope="col">Synonyms</th>
+            <th scope="col">Synonyms1</th>
+            <th scope="col">Synonyms2</th>
+            <th scope="col">Synonyms3</th>
+            <th scope="col">Synonyms4</th>
+            <th scope="col">Synonyms5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cas_detail of cassearchdata  | filter:casno:filterMetadata|filter:descrption:filterMetadata; let i=index;" (dblclick)="setcasdetails(cas_detail);">
+            <td style="width:8%">{{ cas_detail.CASNo}}</td>
+            <td style="width:12%">{{ cas_detail.Descrptn}}</td>
+            <td style="width:8%">{{ cas_detail.EinecsNo}}</td>
+            <td style="width:8%">{{ cas_detail.synonyms}}</td>
+            <td style="width:8%">{{ cas_detail.synonyms1}}</td>
+            <td style="width:8%">{{ cas_detail.synonyms2}}</td>
+            <td style="width:8%">{{ cas_detail.synonyms3}}</td>
+            <td style="width:8%">{{ cas_detail.synonyms4}}</td>
+            <td style="width:8%">{{ cas_detail.synonyms5}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+<div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+
+
+
+  <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;height:50px;width:100px;margin-top:1%" matDialogClose>Close</button>
+
+  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
+
+
+</div>
+
+
+

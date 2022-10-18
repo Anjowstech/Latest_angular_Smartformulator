@@ -55,10 +55,29 @@ export class DataShareServiceService {
   producttestlist: string[];
   clientid: string;
   searchpdrdateitems: any;
+  searchformulastatusitems: any;
+  searchpdrstatusitems: any;
+  searchitems: any;
+  searchrawmatcategoryitems: any;
   sendproductdetails(productvalues: string[]) {
     this.productlist = productvalues
   }
+  sendformlastatus(searchformulastatus: string[]) {
+    this.searchformulastatusitems = searchformulastatus
 
+  }
+  sendpdrstatus(searchpdrstatus: string[]) {
+    this.searchpdrstatusitems = searchpdrstatus
+  }
+  sendformulaproduct(searchpdr: string[]) {
+    this.searchpdritems = searchpdr
+  }
+  sendformulasample(searchpdr: string[]) {
+    this.searchitems = searchpdr
+  }
+  sendrawmat(searchsubcategoryrawmat: string[]) {
+    this.searchrawmatcategoryitems = searchsubcategoryrawmat
+  }
   sendQCdetails(QCvalues: string[]) {
     this.Qclist = QCvalues
   }
@@ -215,7 +234,21 @@ getitemtosupplier(): string {
   getmodulenavpdr(): string {
     return this.FormulaCode;
   }
- 
+  getformulastatus() {
+    return this.searchformulastatusitems
+  }
+  getformulasample() {
+    return this.searchitems
+  }
+  getpdrstatus() {
+    return this.searchpdrstatusitems
+  }
+  getrawmat() {
+    return this.searchrawmatcategoryitems
+  }
+  getformulaproduct() {
+    return this.searchpdritems
+  }
 
 
   getitemcode1(): string {

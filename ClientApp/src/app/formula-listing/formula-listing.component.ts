@@ -44,8 +44,8 @@ export class FormulaListingComponent implements OnInit {
   t2formulacode: string = "";
   t2pdrnum: string = "";
   t2status: string = "";
-  customercustomname: string = "";
-  customname: string = "";
+  customercustomname: string = "All";
+  customname: string = "All";
    productDatefromfisrt:string = "";
 productDatetofisrt:string = "";
   loadcustomerdata: any;
@@ -128,6 +128,9 @@ createdbycustomer: string = "";
   wed: boolean = true;
   thur: boolean = true;
   fri: boolean = true;
+  customval: any;
+  loadcustomerdatacount: any;
+  customercustomname1: boolean = true;
   constructor(private http: HttpClient, private Datashare: DataShareServiceService) { }
   helloWorld() {
     alert('Hello world!');
@@ -232,7 +235,7 @@ createdbycustomer: string = "";
     this.formulanamecust = "";
     this.projectnamecust = "";
     this.createdbycust = "";
-    this.customname = "";
+    this.customname = "All";
   }
   cleardatageneric() {
     this.formulacodegene="";
@@ -254,7 +257,7 @@ createdbycustomer: string = "";
     this.formulanamecustomer = "";
     this. projectnamecustomer = "";
     this. createdbycustomer = "";
-    this.customercustomname = "";
+    this.customercustomname = "All";
   }
   clearstab() {
     this.t9stab = "";
@@ -373,6 +376,177 @@ createdbycustomer: string = "";
       this.loadprodata = loadpro
     })
   }
+  Clearback() {
+    this.formulacode = "";
+    this.pdrnum = "";
+    this.status = "";
+    this.formulaname = "";
+    this.projectname = "";
+    this.createdby = "";
+  
+  
+    this.t2formulacode = "";
+    this.t2pdrnum = "";
+    this.t2status = "";
+    this.t2formulaname = "";
+    this.t2projectname = "";
+  
+ 
+    this.t3productnum = "";
+    this.t3productname = "";
+    this.t3customername = "";
+    this.productDatefrom = "";
+    this.productDateto = "";
+  
+ 
+    this.formuacodecomp = "";
+
+    this.pdrnumcomp = "";
+    this.statusnumcomp = "";
+    this.formulanamecomp = "";
+    this.projectnamecomp = "";
+    this.createdbycomp = "";
+  
+  
+    this.formulacodecust = "";
+    this.projectnamecust = "";
+    this.statuscust = "";
+    this.formulanamecust = "";
+    this.projectnamecust = "";
+    this.createdbycust = "";
+    this.customname = "All";
+  
+  
+    this.formulacodegene = "";
+    this.pdrnumgene = "";
+    this.statusgene = "";
+    this.formulanamegene = "";
+    this.projectnamegene = "";
+    this.createdbygene = "";
+  
+  
+    this.labpage = "";
+    this.formulacodelab = "";
+    this.formulanamelab = "";
+  
+  
+    this.formulcodecustomer = "";
+    this.pdrnumcustomer = "";
+    this.statuccustomer = "";
+    this.formulanamecustomer = "";
+    this.projectnamecustomer = "";
+    this.createdbycustomer = "";
+    this.customercustomname = "All";
+  
+  
+    this.t9stab = "";
+    this.t9formulacodecust = "";
+    this.t9pdr = "";
+    this.t9labnb = "";
+    this.t9formulanamecust = "";
+    this.t9projectnamecust = "";
+    this.t9customername = "";
+    this.t10comp = "";
+    this.t10formulacodecust = "";
+    this.t10pdr = "";
+    this.t10pack = "";
+    this.t10formulanamecust = "";
+    this.t10productname = "";
+    this.t10customername = "";
+    var date = new Date();
+   
+
+    this.dayName = date.toLocaleString('en-us', { weekday: 'long' });
+    if (this.dayName == "Monday") {
+      this.mon = false;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayName == "Tuesday") {
+      this.mon = true;
+      this.tue = false;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayName == "Wednesday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = false;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayName == "Thursday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = false;
+      this.fri = true;
+    }
+    if (this.dayName == "Friday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = false;
+    }
+    var date = new Date();
+    let latest_date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
+
+    this.dayNamecom = date.toLocaleString('en-us', { weekday: 'long' });
+    if (this.dayNamecom == "Monday") {
+      this.mon = false;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Tuesday") {
+      this.mon = true;
+      this.tue = false;
+      this.wed = true;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Wednesday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = false;
+      this.thur = true;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Thursday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = false;
+      this.fri = true;
+    }
+    if (this.dayNamecom == "Friday") {
+      this.mon = true;
+      this.tue = true;
+      this.wed = true;
+      this.thur = true;
+      this.fri = false;
+    }
+    this.allproduct = "1";
+    this.activeproducts = "0";
+    this.inactiveproducts = "0";
+    this.pendingproducts = "0";
+    this.productDatefrom = new Date().toISOString().split('T')[0];
+    this.loadprodatacount = "";
+    this.productDateto = new Date().toISOString().split('T')[0];
+    this.checkedvalue = "all"
+    this.searchflag = "0";
+    this.productDatefromfisrt = "";
+    this.productDatetofisrt = "";
+    this.loadproduct(this.productDatefromfisrt, this.productDatetofisrt, this.checkedvalue, this.searchflag,).subscribe((loadpro) => {
+      console.warn("loadpro", loadpro)
+      this.loadprodata = loadpro
+    })
+  }
   changecolor(e) {
 
      if (e.target.value == "Monday") {
@@ -486,6 +660,19 @@ createdbycustomer: string = "";
     let params1 = new HttpParams().set('datefrom', datf).set('dateto', datt).set('checkvalue', checkvalue).set('searchflag', serachva).set('clientid', this.clientid);
     return this.http.get("https://formulalistingwebservice1.azurewebsites.net/ProLoad", { params: params1 })
   }
+  setcustomers(loadcustom: any) {
+    var i: any = 0;
+
+
+    for (let search of loadcustom) {
+      if (search.customername == "") {
+        search.customername = "All";
+        this.customercustomname1 = true;
+      }
+      i++;
+    }
+    this.customval = loadcustom;
+  }
   ngOnInit() {
     this.clientid = this.Datashare.getconnection();
     
@@ -493,6 +680,7 @@ createdbycustomer: string = "";
     this.searchflag = "0";
     if (this.allproduct == "1") {
       this.checkedvalue = "all";
+     
     }
 
     this.productDatefrom = new Date().toISOString().split('T')[0];
@@ -505,6 +693,7 @@ createdbycustomer: string = "";
       console.warn("loadcustomer", loadcust)
       this.loadcustom = loadcust
       this.loadprodatacount = this.loadcustom.length;
+     
     })
     this.loadgeneric().subscribe((loadgene) => {
       console.warn("loadgeneric", loadgene)
@@ -563,6 +752,8 @@ createdbycustomer: string = "";
     this.loadcustomername().subscribe((loadcustomer) => {
       console.warn("loadcustomer", loadcustomer)
       this.loadcustomerdata = loadcustomer
+      this.loadcustomerdatacount = this.loadcustomerdata.length;
+      this.setcustomers(this.loadcustomerdata);
     })
     this.loadstability().subscribe((loadstability) => {
       console.warn("loadstability", loadstability)
@@ -570,7 +761,7 @@ createdbycustomer: string = "";
       this.loadprodatacount = this.loadstabilitydata.length;
     })
     this.loadcompat().subscribe((loadcompat) => {
-      console.warn("loadstability", loadcompat)
+      console.warn("laodcomp", loadcompat)
       this.loadcompatdata = loadcompat
       this.loadprodatacount = this.loadcompatdata.length;
     })

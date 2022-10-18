@@ -340,7 +340,7 @@ export class NavMenuComponent {
       //  }
       //]
     },
-
+    
     {
       displayName: 'Suppliers',
       route: 'AddSupplier'
@@ -363,13 +363,8 @@ export class NavMenuComponent {
       ]
     }, {
       displayName: 'Global Search',
-
-      children: [
-        {
-          displayName: 'Global Search',
-
-        }
-      ]
+      route:'globalsearch'
+      
     },
     {
       displayName: 'Miscellaneous',
@@ -387,6 +382,111 @@ export class NavMenuComponent {
         {
           displayName: 'Formula Status',
           route: 'formulastatus'
+        },
+        {
+          displayName: 'CAS Lookup',
+          children: [
+            {
+              displayName: 'General',
+              route: 'Caslookup'
+            },
+            {
+              displayName: 'Physical Properties',
+              route: 'Caslookup'
+            },
+            {
+              displayName: 'Standards',
+              route: 'Caslookup'
+            },
+            {
+              displayName: 'EU Standards',
+              route: 'Caslookup'
+            },
+            {
+              displayName: 'WHMIS Classification',
+              route: 'Caslookup'
+            },
+            {
+              displayName: 'Hazards',
+              route: 'Caslookup'
+            },
+            {
+              displayName: 'Web Page',
+              route: 'Caslookup'
+            },
+
+
+
+          ]},
+        {
+          displayName: 'Safety Data Sheet',
+          children: [
+            {
+              displayName: 'Identification',
+              route: 'sds'
+            },
+            {
+              displayName: 'Hazards',
+              route: 'sds'
+            },
+            {
+              displayName: 'Ingredient',
+              route: 'sds'
+            },
+            {
+              displayName: 'First Aid',
+              route: 'sds'
+            },
+            {
+              displayName: 'Fire Fighting',
+              route: 'sds'
+            },
+            {
+              displayName: 'Accidental Realease',
+              route: 'sds'
+            },
+            {
+              displayName: 'Exposure Control',
+              route: 'sds'
+            },
+            {
+              displayName: 'Physical and Chemical Properties',
+              route: 'sds'
+            },
+            {
+              displayName: 'Stability and Reactivity',
+              route: 'sds'
+            },
+            {
+              displayName: 'Toxicology',
+              route: 'sds'
+            },
+            {
+              displayName: 'Ecology',
+              route: 'sds'
+            },
+            {
+              displayName: 'Disposal',
+              route: 'sds'
+            },
+            {
+              displayName: 'Transportation',
+              route: 'sds'
+            },
+            {
+              displayName: 'Regulatory Information',
+              route: 'sds'
+            },
+            {
+              displayName: 'Other Information',
+              route: 'sds'
+            },
+
+
+
+
+          ]
+        
         },
       ]
     }

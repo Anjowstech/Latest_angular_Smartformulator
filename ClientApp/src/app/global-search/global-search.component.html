@@ -1,0 +1,1534 @@
+<div style="background-color: #f6f5f1">
+  <div style="overflow-y:auto;overflow-x:hidden; height:88vh;width:100%">
+    <h2 style="font-family: Playfair Display;background-color: #f6f5f1;color: black;text-align:center">Global Search</h2>
+
+    <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ">
+      <ng-container ngbNavItem="1" style="margin-left:20px">
+        <a class="tabcolor tabbutto tabrowli textsize " ngbNavLink>Formulation</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngTemplateOutlet="innerTabset"></ng-container>
+          <ng-template #innerTabset class="nav-tabs">
+            <form class="form-inline" style="    background-color: #f6f5f1">
+              <label for="" style="margin-left:85px;font-size: medium;
+              font-family: Verdana;">Formula</label>
+              <input disabled type="text" [(ngModel)]="formulacode" #formua name="formulacode" style="margin-top: 10px;margin-left: 75px;" class="form-control" id="" size="60">
+            </form>
+            <form class="form-inline" style="    background-color: #f6f5f1">
+
+              <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Formula Name</label>
+              <input disabled type="text" [(ngModel)]="formulaname" #formulanam name="formulaname" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60">
+
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchformula()">Search</button>
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="clearsearch()">Clear</button>
+            </form>
+
+            <ngb-tabset>
+              <ngb-tab class="" title="Product details">
+                <ng-template ngbTabContent>
+                  <p style="font-weight:bold">Double Click to Select a Product</p>
+                  <div style="margin-left:1%;margin-top:1%; height:30rem; overflow-y: auto;background-color:white">
+                    <table class=" table table-bordered table-hover" style="background-color:white;width:98%">
+                      <thead>
+                        <tr>
+                          <th scope="col">Product # </th>
+                          <th scope="col">Product Name</th>
+                          <th scope="col">Prodcut Date</th>
+                          <th scope="col">PDR #</th>
+                          <th scope="col">Customer Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let ProductList_search of dataresultproductlist ; let i=index;"
+                            (click)=" setvalues(ProductList_search);addproduct();" #conten>
+                          <td>{{ProductList_search.ProductCode}}</td>
+                          <td>{{ProductList_search.ProductName}}</td>
+                          <td>{{ProductList_search.ProductDate}}</td>
+                          <td>{{ProductList_search.PDRNo}}</td>
+                          <td>{{ProductList_search.CusName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+
+              <ngb-tab title="Sample Details">
+                <ng-template ngbTabContent>
+                  <p style="font-weight:bold">Double Click to Select a Sample Details</p>
+                  <div style="margin-left:1%;margin-top:1%; height:30rem; overflow-y: auto;background-color:white">
+                    <table class=" table table-bordered table-hover" style="background-color:white;width:98%">
+                      <thead>
+                        <tr>
+                          <th scope="col">Submission #</th>
+                          <th scope="col">Submission Date</th>
+                          <th scope="col">PDR Status</th>
+                          <th scope="col">PDR #</th>
+                          <th scope="col">Customer Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let Submission_search of dataresultsearchSubmission ; let i=index;"
+                            (click)="setsamplevalues( Submission_search);addsample();" #conten>
+                          <td>{{Submission_search.SubmissionNo}}</td>
+                          <td>{{Submission_search.SubmissionDate}}</td>
+                          <td>{{Submission_search.PDRNo}}</td>
+                          <td>{{Submission_search.PDRStatus}}</td>
+                          <td>{{Submission_search.CusName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <h5 style="float:left;margin-top:10px;color:maroon">{{filterMetadata.count}} Record(s)</h5>
+
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="2">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Formula Impurities</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:85px;font-size: medium;
+              font-family: Verdana;">Formula</label>
+            <input disabled type="text" [(ngModel)]="Formulacode" #formua name="Formulacode" style="margin-top: 10px;margin-left: 75px;" class="form-control" id="" size="60">
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Formula Name</label>
+            <input disabled type="text" [(ngModel)]="Formulaname" #formulanam name="Formulaname" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchformulaimpurities()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="clearsearchimpurities()">Clear</button>
+          </form>
+          <p style="font-weight:bold">Details of all impurities in the formula (Double Click to open a Formula)</p>
+          <div style="margin-left:1%;margin-top:1%; height:30rem; overflow-y: auto;background-color:white">
+            <table class=" table table-bordered table-hover" style="background-color:white;width:98%">
+              <thead>
+                <tr>
+                  <th scope="col">Item #</th>
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Impurity</th>
+                  <th scope="col">ppm</th>
+                  <th scope="col">ppm %</th>
+                  <th scope="col">Usage %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Impurity_search of impurityload_data ; let i =index ;"
+                    (click)="setimpurityvalues( Impurity_search);addformulastatus();">
+
+                  <td class="tabledatasize">{{Impurity_search.blendcode}}</td>
+                  <td class="tabledatasize">{{Impurity_search.blendinci}}</td>
+                  <td class="tabledatasize">{{Impurity_search.blendname}}</td>
+                  <td class="tabledatasize">{{Impurity_search.ppm}}</td>
+                  <td class="tabledatasize">{{Impurity_search.ppmpercent}}</td>
+                  <td class="tabledatasize">{{Impurity_search.usage}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="3">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>RawMaterials</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">INCI Name(s)</label>
+            <input type="text" [(ngModel)]="INCIName" #INCINa name="INCIName" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchINCIName()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="clearINCIName()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Quantity (%)</th>
+                        <th scope="col">Supplier Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rawmatformula_search of dataresultLoadrawmatformulalist; let i=index;"
+                          (click)="setrawmatformulavalues(rawmatformula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{rawmatformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="fw-bold" style="font-weight:bold">Blend Formula Details ( Double click to Select a Formula )</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR  #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Blend Name</th>
+                        <th scope="col">Quantity (%)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rawmatblend_search of dataresultLoadrawmatblenddatalist;let i=index;"
+                          (click)="setrawmatblendvalues(rawmatblend_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{rawmatblend_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{rawmatblend_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{rawmatblend_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{rawmatblend_search.Description}}</td>
+                        <td class="tabledatasize">{{rawmatblend_search.BlendName}}</td>
+                        <td class="tabledatasize">{{rawmatblend_search.BlendInciformulaPercent}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab title="Supplier Details">
+              <ng-template ngbTabContent>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Item #</th>
+                        <th scope="col">Ingredient Cost $</th>
+                        <th scope="col">RM Lead Time</th>
+                        <th scope="col">Natural Index-ISO16128</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let supplier_search of dataresultLoadsupplierdatalist;let i=index;" (click)="  setsuppliervalues(supplier_search);" #conten>
+                        <td class="tabledatasize">{{supplier_search.SupplierName}}</td>
+                        <td class="tabledatasize">{{supplier_search.GeneralItemCode}}</td>
+                        <td class="tabledatasize">{{supplier_search.UnitCost}}</td>
+                        <td class="tabledatasize">{{supplier_search.RMLeadTime}}</td>
+                        <td class="tabledatasize">{{supplier_search.Naturalindex}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Approved Supplier Details">
+              <ng-template ngbTabContent>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Item #</th>
+                        <th scope="col">Ingredient Cost $</th>
+                        <th scope="col">RM Lead Time</th>
+                        <th scope="col">Natural Index-ISO16128</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Approvesupplier_search of dataresultLoadApprovesupplierdatalist;let i=index;" (click)="  setApprovesuppliervalues(Approvesupplier_search);" #conten>
+                        <td class="tabledatasize">{{Approvesupplier_search.name}}</td>
+                        <td class="tabledatasize">{{Approvesupplier_search.GeneralItemCode}}</td>
+                        <td class="tabledatasize">{{Approvesupplier_search.UnitCost}}</td>
+                        <td class="tabledatasize">{{Approvesupplier_search.RMLeadTime}}</td>
+                        <td class="tabledatasize">{{Approvesupplier_search.Naturalindex}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Productized Formulas">
+              <ng-template ngbTabContent>
+                <p class="fw-bold" style="font-weight:bold">Double click to Select a Product</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product #</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Qty (%)</th>
+                        <th scope="col">Supplier Name</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let productizedformula_search of dataresultLoadproductizedformulalist;let i=index;"
+                          (click)="setproductizedformulavalues(productizedformula_search);addproduct();" #conten>
+                        <td class="tabledatasize">{{productizedformula_search.ProductCode}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.ProductName}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.Customer}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{productizedformula_search.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Formula Naturalness">
+              <ng-template ngbTabContent>
+                <p class="fw-bold" style="font-weight:bold">Double click to Select a Formula</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Quantity (%)</th>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Natural %</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let formulanatural_search of dataresultLoadformulanaturallist;let i=index;"
+                          (click)="setformulanaturalvalues(formulanatural_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{formulanatural_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{formulanatural_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{formulanatural_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{formulanatural_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{formulanatural_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{formulanatural_search.SupplierName}}</td>
+                        <td class="tabledatasize">{{formulanatural_search.NaturalPerc}}</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+          </ngb-tabset>
+        </ng-template>
+
+      </ng-container>
+      <ng-container ngbNavItem="4">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Rawmaterials Trade Name</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Trade Name(s)</label>
+            <input type="text" [(ngModel)]="TradeName" #TradeNa name="TradeName" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchTradeName()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearTradeName()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Quantity (%)</th>
+                        <th scope="col">Supplier Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Tradeformula_search of dataresultLoadtradeformuladatalist"
+                          (click)="setTradeformulavalues(Tradeformula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{Tradeformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{Tradeformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{Tradeformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{Tradeformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{Tradeformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{Tradeformula_search.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="fw-bold" style="font-weight:bold">Blend Formula Details ( Double click to Select a Formula )</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR  #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Blend Name</th>
+                        <th scope="col">Quantity (%)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let tradeblend_search of dataresultLoadtradeblenddatalist;let i=index;"
+                          (click)="settradeblendvalues(tradeblend_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{tradeblend_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{tradeblend_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{tradeblend_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{tradeblend_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{tradeblend_search.BlendName}}</td>
+                        <td class="tabledatasize">{{tradeblend_search.QtyInPercentage}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab title="Supplier Details">
+              <ng-template ngbTabContent>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Ingredient Cost $</th>
+                        <th scope="col">Natural Index-ISO16128</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Tradesupplier_search of dataresultLoadtradesupplierdatalist;let i=index;"
+                          (click)="setTradesuppliervalues(Tradesupplier_search);" #conten>
+                        <td class="tabledatasize">{{Tradesupplier_search.name}}</td>
+                        <td class="tabledatasize">{{Tradesupplier_search.SupplierKey}}</td>
+                        <td class="tabledatasize">{{Tradesupplier_search.UnitCost}}</td>
+                        <td class="tabledatasize">{{Tradesupplier_search.NaturalIndex}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Rawmaterials Blend details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Blend</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Blend Item #</th>
+                        <th scope="col">Blend Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Quantity (%)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let tradeblendrawmat_search of dataresultLoadtradeblendrawmatdatalist; let i = index;"
+                          (click)="settradeblendrawmatvalues(tradeblendrawmat_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{tradeblendrawmat_search.BlendCode}}</td>
+                        <td class="tabledatasize">{{tradeblendrawmat_search.BlendName}}</td>
+                        <td class="tabledatasize">{{tradeblendrawmat_search.IngredientTradeName}}</td>
+                        <td class="tabledatasize">{{tradeblendrawmat_search.Supplier}}</td>
+                        <td class="tabledatasize">{{tradeblendrawmat_search.Supplier}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Productized Formulas">
+              <ng-template ngbTabContent>
+                <p class="fw-bold" style="font-weight:bold"> Double click to Select a Product</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Qty (%)</th>
+                        <th scope="col">Supplier Name</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let tradeproductizedformula_search of dataresultLoadtradeproductizedformulalist;let i=index;"
+                          (click)="settradeproductizedformulavalues(tradeproductizedformula_search);addproduct();" #conten>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.ProductCode}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.ProductName}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.Customer}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{tradeproductizedformula_search.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+          </ngb-tabset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="5">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Function Search </a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:85px;font-size: medium;
+              font-family: Verdana;">Function </label>
+            <input type="text" [(ngModel)]="FunctionCode" #FunctionCo name="FunctionCode" style="margin-top: 10px;margin-left: 75px;" class="form-control" id="" size="60" [disabled]="issearchform">
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Item #/INCI Name</label>
+            <input type="text" [(ngModel)]="FunctionName" #FunctionNa name="FunctionName" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchfunction()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearfunction()">Clear</button>
+          </form>
+          <p style="font-weight:bold">Double Click to Select a RawMaterial</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Item #</th>
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Ingredient Trade Name</th>
+                  <th scope="col">Supplier Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let function_search of dataresultLoadFunctionSearchlist"
+                    (click)="setfunctionvalues(function_search);addrawmat();" #conten>
+                  <td class="tabledatasize">{{function_search.ItemCode}}</td>
+                  <td class="tabledatasize">{{function_search.Description}}</td>
+                  <td class="tabledatasize">{{function_search.IngredientTradeName}}</td>
+                  <td class="tabledatasize">{{function_search.SupplierName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="6">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Impurity Search </a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">RM Item # </label>
+            <input type="text" [(ngModel)]="itemli" #iteml name="itemli" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">INCI Name</label>
+            <input type="text" [(ngModel)]="inciname" #incina name="inciname" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchincinameimpurity()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearsearchincinameimpurity()">Clear</button>
+          </form>
+          <p style="font-weight:bold">Raw Material-Where above impurity appears    (Double Click to select a raw material)</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Item #</th>
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">Trade Name</th>
+                  <th scope="col">ppm</th>
+                  <th scope="col">Supplier</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Impurityrawmat_search of dataresulLoadImpurityrawmatSearchlist"
+                    (click)="setImpurityrawmatvalues(Impurityrawmat_search);addrawmat();" #conten>
+                  <td class="tabledatasize">{{Impurityrawmat_search.BlendCode}}</td>
+                  <td class="tabledatasize">{{Impurityrawmat_search.BlendName}}</td>
+                  <td class="tabledatasize">{{Impurityrawmat_search.IngredientTradeName}}</td>
+                  <td class="tabledatasize">{{Impurityrawmat_search.ppm}}</td>
+                  <td class="tabledatasize">{{Impurityrawmat_search.SupplierName}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-weight:bold">Formulas - Where above selected RM appears (Select a Formula to view the impurity detail below)</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Formula #</th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">Customer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Impurityformula_search of dataresultLoadImpurityformulaSearchlist"
+                    (click)=" setImpurityformulavalues(Impurityformula_search);addformulastatus();" #conten>
+                  <td class="tabledatasize">{{Impurityformula_search.FormulaCode}}</td>
+                  <td class="tabledatasize">{{Impurityformula_search.FormulaName}}</td>
+                  <td class="tabledatasize">{{Impurityformula_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{Impurityformula_search.ProjectName}}</td>
+                  <td class="tabledatasize">{{Impurityformula_search.CusName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-weight:bold">Double of above selected formula containing selected impurity</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Impurity</th>
+                  <th scope="col">Item #</th>
+                  <th scope="col">INCI Name</th>
+                  <th scope="col">ppm</th>
+                  <th scope="col">ppm %</th>
+                  <th scope="col">usage %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Impurity_search of dataresultLoadImpuritySearchlist"
+                    (click)="setImpurityvalues(Impurity_search);" #conten>
+                  <td class="tabledatasize">{{Impurity_search.INCIName}}</td>
+                  <td class="tabledatasize">{{Impurity_search.GeneralItemCode}}</td>
+                  <td class="tabledatasize">{{Impurity_search.BlendINCIName}}</td>
+                  <td class="tabledatasize">{{Impurity_search.ppm}}</td>
+                  <td class="tabledatasize">{{Impurity_search.QtyInPercentage}}</td>
+                  <td class="tabledatasize">{{Impurity_search.Usage}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem="7">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Raw Material -By item #</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">RM Item # </label>
+            <input disabled type="text" [(ngModel)]="itemli" #iteml name="itemli" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">INCI Name</label>
+            <input disabled type="text" [(ngModel)]="inciname" #incina name="inciname" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="opensearchinciname()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearsearchinciname()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Quantity (%)</th>
+                        <th scope="col">Supplier Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let RMitemformula_search of dataresultLoadRMitemformuladatalist"
+                          (click)="setRMitemformulavalues(RMitemformula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{RMitemformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{RMitemformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{RMitemformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{RMitemformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{RMitemformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{RMitemformula_search.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="fw-bold" style="font-weight:bold">Blend Formula Details ( Double click to Select a Formula )</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR  #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Blend Name</th>
+                        <th scope="col">Quantity (%)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let RMitemblend_search of dataresultLoadRMitemblenddatalist;let i=index;"
+                          (click)="setRMitemblendvalues(RMitemblend_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{RMitemblend_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{RMitemblend_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{RMitemblend_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{RMitemblend_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{RMitemblend_search.BlendName}}</td>
+                        <td class="tabledatasize">{{RMitemblend_search.BlendInciformulaPercent}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab title="Supplier Details">
+              <ng-template ngbTabContent>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Supplier #</th>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Ingredient Cost $</th>
+                        <th scope="col">Natural Index-ISO16128</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let RMitemsupplier_search of dataresultLoadRMitemsupplierdatalist;let i=index;"
+                          (click)="setRMitemsuppliervalues(RMitemsupplier_search);" #conten>
+                        <td class="tabledatasize">{{RMitemsupplier_search.code}}</td>
+                        <td class="tabledatasize">{{RMitemsupplier_search.name}}</td>
+                        <td class="tabledatasize">{{RMitemsupplier_search.UnitCost}}</td>
+                        <td class="tabledatasize">{{RMitemsupplier_search.Naturalindex}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Rawmaterials Blend details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Blend</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Blend Item #</th>
+                        <th scope="col">Blend Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Quantity (%)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let RMitemblendrawmat_search of dataresultLoadRMitemblendrawmatdatalist; let i = index;"
+                          (click)="setRMitemblendrawmatvalues(RMitemblendrawmat_search);addrawmat();" #conten>
+                        <td class="tabledatasize">{{RMitemblendrawmat_search.BlendCode}}</td>
+                        <td class="tabledatasize">{{RMitemblendrawmat_search.BlendName}}</td>
+                        <td class="tabledatasize">{{RMitemblendrawmat_search.IngredientTradeName}}</td>
+                        <td class="tabledatasize">{{RMitemblendrawmat_search.Supplier}}</td>
+                        <td class="tabledatasize">{{RMitemblendrawmat_search.Percentage}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Productized Formulas">
+              <ng-template ngbTabContent>
+                <p class="fw-bold" style="font-weight:bold"> Double click to Select a Product</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Qty (%)</th>
+                        <th scope="col">Supplier Name</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let RMitemproductizedformula_search of dataresultLoadRMitemproductizedformulalist;let i=index;"
+                          (click)="setRMitemproductizedformulavalues(RMitemproductizedformula_search);addproduct();" #conten>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.ProductCode}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.ProductName}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.CusName}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{RMitemproductizedformula_searchs.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Formula Naturalness">
+              <ng-template ngbTabContent>
+                <p class="fw-bold" style="font-weight:bold">Double click to Select a Formula</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Quantity (%)</th>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Natural %</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let RMitemformulanatural_search of dataresultLoadRMitemformulanaturallist;let i=index;"
+                          (click)="setRMitemformulanaturalvalues(RMitemformulanatural_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.SupplierName}}</td>
+                        <td class="tabledatasize">{{RMitemformulanatural_search.NaturalPerc}}</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="8">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>CAS</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:85px;font-size: medium;
+              font-family: Verdana;">CAS No</label>
+            <input type="text" [(ngModel)]="CASno" #CAS name="CASno" style="margin-top: 10px;margin-left: 75px;" class="form-control" id="" size="60" [disabled]="issearchform">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchCAS()">Search</button>
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Description</label>
+            <input type="text" [(ngModel)]="Description" #Descrip name="Description" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchCAS()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="clearCAS()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab title="RawMaterial Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a RawMaterial</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item #</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Sub Category</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let CasRawmat_search of dataresultLoadCasRawmatlist; let i=index;"
+                          (click)="setCasRawmatvalues(CasRawmat_search);addrawmat();" #conten>
+                        <td class="tabledatasize">{{CasRawmat_search.ItemCode}}</td>
+                        <td class="tabledatasize">{{CasRawmat_search.Description}}</td>
+                        <td class="tabledatasize">{{CasRawmat_search.IngredientTradeName}}</td>
+                        <td class="tabledatasize">{{CasRawmat_search.CategoryName}}</td>
+                        <td class="tabledatasize">{{CasRawmat_search.SubCategoryName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Formula Code</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Sub Category</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let CasFormula_search of dataresultLoadCasFormulalist ; let i=index;"
+                          (click)="setCasFormulavalues(CasFormula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{CasFormula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{CasFormula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{CasFormula_search.Class}}</td>
+                        <td class="tabledatasize">{{CasFormula_search.SubClass}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="9">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Category</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Category</label>
+            <input disabled type="text" [(ngModel)]="Category" #Categ name="Category" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="OpenCategoryformula()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearCategory()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab class="" title="Sub Category Details">
+              <ng-template ngbTabContent>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">SubCategory Name</th>
+                        <th scope="col">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Categorysub_search of dataresultLoadCategorysublist ; let i=index;"
+                          (click)="setCategorysubvalues(Categorysub_search);" #conten>
+                        <td class="tabledatasize">{{Categorysub_search.SubCategoryName}}</td>
+                        <td class="tabledatasize">{{Categorysub_search.Description}}</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="RawMaterial Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a RawMaterial</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item #</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Categoryrawmat_search of dataresultLoadCategoryrawmatlist ; let i=index;"
+                          (click)="setCategoryrawmatvalues(Categoryrawmat_search);addrawmat();" #conten>
+                        <td class="tabledatasize">{{Categoryrawmat_search.ItemCode}}</td>
+                        <td class="tabledatasize">{{Categoryrawmat_search.Description}}</td>
+                        <td class="tabledatasize">{{Categoryrawmat_search.IngredientTradeName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Formula Code</th>
+                        <th scope="col">Formula Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let CategoryFormula_search of dataresultLoadCategoryFormulalist;let i=index;"
+                          (click)="setCategoryFormulavalues(CategoryFormula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{CategoryFormula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{CategoryFormula_search.Description}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="10">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Sub Category</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">SubCategory</label>
+            <input disabled type="text" [(ngModel)]="SubCategory" #SubCateg name="SubCategory" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="OpenSubCategoryformula()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearSubCategory()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab title="RawMaterial Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a RawMaterial</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item #</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let SubCategoryrawmat_search of dataresultLoadSubCategoryrawmatlist ; let i=index;"
+                          (click)="setSubCategoryrawmatvalues(SubCategoryrawmat_search);addrawmat();" #conten>
+                        <td class="tabledatasize">{{SubCategoryrawmat_search.ItemCode}}</td>
+                        <td class="tabledatasize">{{SubCategoryrawmat_search.Description}}</td>
+                        <td class="tabledatasize">{{SubCategoryrawmat_search.IngredientTradeName}}</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Formula Code</th>
+                        <th scope="col">Formula Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let SubCategoryFormula_search of dataresultLoadSubCategoryFormulalist;let i=index"
+                          (click)="setSubCategoryFormulavalues(SubCategoryFormula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{SubCategoryFormula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{SubCategoryFormula_search.Description}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="11">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Project </a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">PDR #</label>
+            <input disabled type="text" [(ngModel)]="PDRno" #PDR name="PDRno" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchProject()">Search</button>
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Project Name</label>
+            <input disabled type="text" [(ngModel)]="Projectname" #Projectna name="Projectname" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchProject()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearProject()">Clear</button>
+          </form>
+
+          <p style="font-weight:bold">Double Click to Select a Formula</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Formula Code</th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">Formula Status</th>
+                  <th scope="col">Submision Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Project_search of dataLoadProjectSearchlist let i=index ;"
+                    (click)="setProjectvalues(Project_search);addformulastatus();" #conten>
+                  <td class="tabledatasize">{{Project_search.FormulaCode}}</td>
+                  <td class="tabledatasize">{{Project_search.Description}}</td>
+                  <td class="tabledatasize">{{Project_search.Status}}</td>
+                  <td class="tabledatasize">{{Project_search.PDRStatus}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="12">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Customer</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Customer Code</label>
+            <input disabled type="text" [(ngModel)]="customercode" #customerco name="customercode" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="Opencustomer()">Search</button>
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Customer Name</label>
+            <input disabled type="text" [(ngModel)]="customername" #customerna name="customername" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="Opencustomer()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearcustomer()">Clear</button>
+          </form>
+          <p style="font-weight:bold">Double Click to Select a Project</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Customer_search of dataresultLoadCustomerSearchlist let i=index ;"
+                    (click)="setCustomervalues(Customer_search);addpdrstatus();" #conten>
+                  <td class="tabledatasize">{{Customer_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{Customer_search.ProjectName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="13">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Supplier</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;"> Supplier #</label>
+            <input disabled type="text" [(ngModel)]="SupplierCode" #SupplierCod name="SupplierCode" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="Searchsupplierpopup()">Search</button>
+
+          </form>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Supplier Name</label>
+            <input disabled type="text" [(ngModel)]="Suppliername" #Supplierna name="Suppliername" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="Searchsupplierpopup()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearSearchsupplier()">Clear</button>
+          </form>
+          <ngb-tabset>
+            <ngb-tab title="RawMaterial Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a RawMaterial</p>
+
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item #</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">Ingredient Cost $</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let supplierrawmat_search of dataresultLoadSupplierrawmatlist; let i=index;"
+                          (click)="setsupplierrawmatvalues(supplierrawmat_search);addrawmat(); " #conten>
+                        <td>{{ supplierrawmat_search.ItemCode}}</td>
+                        <td class="tabledatasize" style="width:17%">{{supplierrawmat_search.Description}}</td>
+                        <td class="tabledatasize" style="width:17%">{{supplierrawmat_search.IngredientTradeName}}</td>
+                        <td style="text-align:right" class="tabledatasize">{{supplierrawmat_search.UnitCost}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Quantity %</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let supplierformula_search of dataresultLoadSupplierformulalist; let i=index;"
+                          (click)="  setsupplierformulavalues(supplierformula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{supplierformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.Description}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.CusName}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.TradeName}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.INCIName}}</td>
+                        <td class="tabledatasize">{{supplierformula_search.QtyInPercentage}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="14">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Multiple Raw materials</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">INCI Name (s)</label>
+            <input disabled type="text" [(ngModel)]="formulaname" #formua name="formula" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchINCIName()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" clearINCIName()">Clear</button>
+          </form>
+          <p class="fw-bold" style="font-weight: bold;color:darkred;">Add multiple raw materials using search button.Format eg:Boric+Acid+Acetic+Acid+Glycerin </p>
+          <ngb-tabset>
+            <ngb-tab class="" title="Formula Details">
+              <ng-template ngbTabContent>
+                <p style="font-weight:bold">Double Click to Select a Formula</p>
+                <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+                  <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+                    <thead>
+                      <tr>
+                        <th scope="col">PDR #</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Formula #</th>
+                        <th scope="col">Formula Name</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Trade Name</th>
+                        <th scope="col">INCI Name</th>
+                        <th scope="col">Quantity %</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rawmatformula_search of dataresultLoadrawmatformulalist; let i=index;"
+                          (click)="setrawmatformulavalues(rawmatformula_search);addformulastatus();" #conten>
+                        <td class="tabledatasize">{{rawmatformula_search.PDRNo}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.ProjectName}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.FormulaCode}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.FormulaName}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.QtyInPercentage}}</td>
+                        <td class="tabledatasize">{{rawmatformula_search.SupplierName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="15">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Lab NoteBook #</a>
+        <ng-template ngbNavContent>
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">Lab NoteBook #-Page #</label>
+            <input disabled type="text" [(ngModel)]="LabNotebook" #LabNoteb name="LabNotebook" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="searchLabNotebook()">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="clearLabNotebook()">Clear</button>
+          </form>
+          <p style="font-weight:bold">Double Click to Select a Formula</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">Formula Code</th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Created By</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let LabNotebook_search of dataresultLoadLabNotebooklist; let i=index;"
+                    (click)="setLabNotebookvalues(LabNotebook_search);addformulastatus();" #conten>
+                  <td class="tabledatasize">{{LabNotebook_search.FormulaCode}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.Description}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.ProjectName}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.CusName}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.Status}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.UserName}}</td>
+                  <td class="tabledatasize">{{LabNotebook_search.AddedDT}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="16">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Status Wise - PDR</a>
+        <ng-template ngbNavContent>
+          <div class="form-inline" style="margin-top:1%">
+            <label class="label1" for="">Status</label>
+            <select id="inputStatus" class="form-control" style="width:45%" (click)="pdrstatusclick()" [(ngModel)]="PDRStatus" #PDRStat name="PDRStatus" value="">
+
+              <option>WIP-Initiated</option>
+              <option>WIP-Approved</option>
+              <option>WIP-Under Development</option>
+              <option>WIP-Primary Testing</option>
+              <option>WIP-Secondary Testing</option>
+            </select>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="ClearPDRStatus()">Clear</button>
+
+          </div>
+          <p class="fw-bold" style="font-weight:bold">Double click to Select a Project</p>
+
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">PDR Date </th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Assigned To</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pdrstatus_search of dataresultLoadPDRStatus"
+                    (click)="setpdrstatus(pdrstatus_search);addpdrstatus();" #conten>
+                  <td class="tabledatasize">{{pdrstatus_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{pdrstatus_search.ProjectName}}</td>
+                  <td class="tabledatasize">{{pdrstatus_search.PDRDate}}</td>
+                  <td class="tabledatasize">{{pdrstatus_search.CusName}}</td>
+                  <td class="tabledatasize">{{pdrstatus_search.Users}}</td>
+                  <td class="tabledatasize">{{pdrstatus_search.StartDate}}</td>
+                  <td class="tabledatasize">{{pdrstatus_search.CompletedDate}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="17">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Status Wise - Formula </a>
+        <ng-template ngbNavContent>
+          <div class="form-inline" style="padding-top:1%;">
+            <label class="label1" for="">Status</label>
+            <select style="width: 45%;" type="text" class="form-control" (click)="formulastatusclick()" [(ngModel)]="FormulaStatus" #FormulaStat name="FormulaStatus" value="">
+              <option>A-Active</option>
+              <option>I-Incomplete</option>
+              <option>N-Inactive</option>
+              <option>WIP-Project Initiated</option>
+              <option>WIP-Under Development</option>
+              <option>WIP-Primary Testing</option>
+              <option>WIP-Secondary Testing</option>
+              <option>WIP-QC Testing</option>
+              <option>WIP-QC finished</option>
+              <option>Formula Approved</option>
+              <option>Productized</option>
+              <option>Locked</option>
+
+            </select>
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearFormulaStatus()">Clear</button>
+
+          </div>
+          <p class="fw-bold" style="font-weight:bold">Double click to Select a Formula</p>
+
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">FormulaCode </th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">Lab NoteBook # </th>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">Chemist</th>
+                  <th scope="col">Created Date</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let formulastatus_search of dataresultLoadFormulaStatus; let i=index;"
+                    (click)="setformulastatus(formulastatus_search);addformulastatus();" #conten>
+                  <td class="tabledatasize">{{ formulastatus_search.FormulaCode}}</td>
+                  <td class="tabledatasize">{{ formulastatus_search.Description}}</td>
+                  <td class="tabledatasize">{{ formulastatus_search.LabRefNo}}</td>
+                  <td class="tabledatasize">{{ formulastatus_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{ formulastatus_search.ProjectName}}</td>
+                  <td class="tabledatasize">{{ formulastatus_search.SupercededBy}}</td>
+                  <td class="tabledatasize">{{ formulastatus_search.AddedDT}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="18">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Formulas- By Date Range </a>
+        <ng-template ngbNavContent>
+          <fieldset>
+            <form class="form-inline" style="background-color: #f6f5f1">
+              <label for="" style="margin-left:40px;font-size: medium;
+              font-family: Verdana;">Create Date</label>
+              <label for="" style="margin-left:40px;font-size: medium;
+              font-family: Verdana;">From</label>
+              <input type="date" value="{{FormulaFromDate}}" [(ngModel)]="FormulaFromDate" #FormulaFromDt name="FormulaFromDate" style="margin-top: 10px;margin-left: 20px;" class="form-control" id="" size="50">
+              <label for="" style="margin-left:10px;font-size: medium;
+              font-family: Verdana;">To</label>
+              <input type="date" value="{{FormulaToDate }}" [(ngModel)]="FormulaToDate" #FormulaToDt name="FormulaToDate" style="margin-top: 10px;margin-left: 20px;" class="form-control" id="" size="50">
+              <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)="LoadPDRDate()">Search</button>
+            </form>
+          </fieldset>
+          <p class="fw-bold" style="font-weight:bold">Double click to Select a Formula</p>
+
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">FormulaCode </th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">Lab NoteBook # </th>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">Created Date</th>
+                  <th scope="col">Chemist</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Natural %</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let formulabydate_search of dataresultLoadFormulabydatelist; let i=index;"
+                    (click)="setformulabydatevalues(formulabydate_search);addformulastatus();" #conten>
+                  <td class="tabledatasize">{{formulabydate_search.FormulaCode}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.Description}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.LabRefNo}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.ProjectName}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.AddedDT}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.SupercededBy}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.Status}}</td>
+                  <td class="tabledatasize">{{formulabydate_search.NaturalPerc}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem="19">
+        <a class="tabcolor tabbutto tabrowli textsize" ngbNavLink>Multiple Formulas</a>
+        <ng-template ngbNavContent>
+
+          <form class="form-inline" style="    background-color: #f6f5f1">
+
+            <label for="" style="margin-left:80px;font-size: medium;
+              font-family: Verdana;">KeyWord (s)</label>
+            <input disabled type="text" [(ngModel)]="formulaname" #formua name="formula" style="margin-top: 10px;margin-left: 35px;" class="form-control" id="" size="60" [disabled]="issearchform">
+
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;">Search</button>
+            <button type="submit" class="btn btn-primary buttoncolor " style="margin-left:10px;height:40px;" (click)=" ClearData()">Clear</button>
+          </form>
+          <p class="fw-bold" style="font-weight: bold;color:darkred;">Search Formula having these keywords.Format eg:Lotion+Creme+Shampoo </p>
+
+          <p class="fw-bold" style="font-weight:bold">Double click to Select a Formula</p>
+          <div style="margin-left:1%;margin-top:1%; height:350px; overflow-y: auto;background-color:white;">
+            <table class=" table table-hover table-bordered" style="margin-left: 10px; background-color: white" id="supplier table" width="98%">
+              <thead>
+                <tr>
+                  <th scope="col">FormulaCode </th>
+                  <th scope="col">Formula Name</th>
+                  <th scope="col">Category Name </th>
+                  <th scope="col">Customer Name</th>
+                  <th scope="col">PDR #</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">UserName</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let multipleformula_search of dataresultLoadmultipleFormulalist;let i=index;"
+                    (click)=" setmultipleformulavalues(multipleformula_search);addformulastatus();" #conten>
+                  <td class="tabledatasize">{{multipleformula_search.FormulaCode}}</td>
+                  <td class="tabledatasize">{{multipleformula_search.Description}}</td>
+                  <td class="tabledatasize">{{multipleformula_search.Class}}</td>
+                  <td class="tabledatasize">{{multipleformula_search.CusName}}</td>
+                  <td class="tabledatasize">{{multipleformula_search.PDRNo}}</td>
+                  <td class="tabledatasize">{{multipleformula_search.ProjectName}}</td>
+                  <td class="tabledatasize">{{multipleformula_search.username}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <div style="background-color: #f6f5f1;border:solid 0.1px darkgrey">
+
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%">Print Preview</button>
+    <button type="submit" class="btn btn-primary  buttoncolor" style="float:right;margin-right:10px;height:50px;margin-top:.5%" (click)="gotoback()">Back</button>
+
+
+
+  </div>
+</div>

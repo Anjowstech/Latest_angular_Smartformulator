@@ -32,7 +32,7 @@
           </button>
           <img [routerLink]="'/Home'" src="../assets/SMARTFORMULATOR.jpg " height="30" width="30" />
           <h1 [routerLink]="'/Home'" style="font-family: Playfair Display; font-size:25px;color:  #150485">SMART </h1>
-          <h1 [routerLink]="'/Home'" style="margin-right:30px;  font-family: Playfair Display;font-size:25px; color: firebrick"> Formulator</h1>
+          <h1 [routerLink]="'/Home'" style="margin-right:30px;  font-family: Playfair Display;font-size:25px; color: firebrick"> Formula</h1>
 
 
 
@@ -229,6 +229,30 @@
                                  (closed)="panelOpenState = false">
               <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
+                  <a style="margin-left:0px;font-size:larger">CAS Lookup</a>
+                </mat-panel-title>
+
+
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+
+                <a mat-list-item [routerLink]="'/Caslookup'">General </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Physical Properties </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Standards </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">EU Standards</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> WHMIS Classification </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Hazards </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Web Page </a>
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Suppliers</a>
                 </mat-panel-title>
@@ -295,6 +319,40 @@
                                  (closed)="panelOpenState = false">
               <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
                 <mat-panel-title>
+                  <a style="margin-left:0px;font-size:larger">Safety Data Sheet</a>
+                </mat-panel-title>
+
+
+
+              </mat-expansion-panel-header>
+              <mat-list>
+
+
+
+                <a mat-list-item [routerLink]="'/sds'">Identification </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Hazards</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Ingredient </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">First Aid</a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Fire Fighting </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Accidental Realease </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Exposure Control </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Physical and Chemical Properties</a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Stability and Reactivity </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Toxicology</a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Ecology </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Disposal </a>
+                <a mat-list-item [routerLink]="'/fetch-data'"> Transportation </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Regulatory Information </a>
+                <a mat-list-item [routerLink]="'/fetch-data'">Other Information </a>
+
+
+
+              </mat-list>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="mat-elevation-z5" style="color: black; border-bottom: solid; border-color: #403e3e; border-width: 1px;">
+                <mat-panel-title>
 
                   <a style="margin-left:0px;font-size:larger">Miscellaneous</a>
                 </mat-panel-title>
@@ -308,7 +366,9 @@
 
 
               </mat-list>
+
             </mat-expansion-panel>
+
 
 
 
